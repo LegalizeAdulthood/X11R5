@@ -1,0 +1,38 @@
+.\" $Header: atowc.3,v 1.2 90/12/30 03:15:13 morisaki Exp $
+.\" $Date: 90/12/30 03:15:13 $
+.\" Copyright 1990 by OMRON Corp.  All Rights Reserved.
+.TH WCHAR 3 "June, 1990"
+.SH NAME
+.B atowc, wctoa
+\-- wchar character operation functions 
+.SH SYNOPSIS
+.nf
+.B #include \f2<X11/wchar.h>
+.PP
+.B wchar atowc\f2(c)
+.B char \f2c;
+.PP
+.B char wctoa\f2(wc)
+.B wchar \f2wc;
+.SH DESCRIPTION
+The 2 functions operate on ASCII code set.
+.TP 15n
+.B atowc 
+put ascii code into ISO DIS 10646 area, and return it.
+if the c is control or null, return C0 PAD PAD PAD or WNULL.
+otherwise return 0x202020c. No check is done for ascii code.
+.TP
+.B wctoa
+pick ascii code from ISO DIS 10646 area. this is reverse of
+function atowc().  No check is done.
+.I wc
+is ascii wchar, i.e., 0x20202020<= wc <=0x2020207f, or C0 PAD PAD PAD,
+or WNULL
+.SH "SEE ALSO"
+isascii(3), isprint(3), ....
+wcscpy(3), wcscmp(3), ...
+.br
+Information Processing -- Programming Language C,
+ADDENDUM 3 Multibyte Support Extensions, SC22/WG14/N145R 1991-04-22
+.br
+ISO DIS 10646(UCS), 4 November 1990.

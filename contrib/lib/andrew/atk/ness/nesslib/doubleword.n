@@ -1,0 +1,38 @@
+-- Bind ESC-x-2 to find double words in text.  
+-- Each press of ESC-x-2 will search forward from the end of the current selection 
+-- for the next occurence of two duplicate words in a row  ("the the").
+-- The second of the words will be highlighted.
+
+-- To add this function to all text add the following to your ~/.atkinit
+--	load ness
+--	call ness-load <name of this file>
+
+-- To just use it in a document, insert a Ness inset (with ESC-tab-ness-CR),
+--  put a copy of this file within it and select DoMain from the Ness menu.
+
+marker alphabet := "qwertyuiopasdfghjklzxcvbnm"
+	~ "QWERTYUIOPASDFGHJKLZXCVBNM"
+
+
+function nextdouble(s)
+	marker t := ""
+	while TRUE do
+		s := token (finish(s), alphabet)
+		if s = "" then  return finish(base(s))  end if
+		if s = t then return s  end if
+		t := s
+	end while
+end function
+   
+function main()
+	setcurrentselection(defaulttext,
+		 nextdouble(currentselection(defaulttext)))
+	focus(defaulttext)
+end function
+
+extend "view:text"
+on keys "\ex2"
+	setcurrentselection(currentinset,
+		 nextdouble(currentselection(currentinset)))
+end keys
+end extend

@@ -1,0 +1,122 @@
+# @(#)textedit.po 1.3 90/11/06; SMI
+#
+domain "textedit"
+#
+msgid "Your file has been edited.\nDo you wish to discard these edits?"
+msgstr "内容が変更されています。\n変更内容を廃棄しますか？"
+#
+msgid "Cancel"
+msgstr "キャンセル"
+#
+msgid "Confirm"
+msgstr "確認"
+#
+msgid "(NONE)"
+msgstr "（なし）"
+#
+msgid "NO FILE"
+msgstr "NO FILE"
+#
+msgid "Text Editor"
+msgstr "テキストエディタ"
+#
+msgid "%s %s - %s%s, dir; %s"
+msgstr "%s %s - %s%s, dir; %s"
+#
+msgid "[CAPS] "
+msgstr "[CAPS] "
+#
+msgid " (read only)"
+msgstr "（書き込み不可）"
+#
+msgid " (edited)"
+msgstr "（変更）"
+#
+msgid "Text Editor"
+msgstr "テキストエディタ"
+#
+msgid "Cannot get default font.\n"
+msgstr "デフォルトのフォントをゲットできない。\n"
+#
+msgid " is not a valid option.\n"
+msgstr " は、正しいオプションではない。\n"
+#
+msgid "Unrecognized command line option."
+msgstr "コマンドラインのオプションとして認識できない。\n"
+#
+msgid "Too many files specified."
+msgstr "指定ファイル数が多すぎる。"
+#
+msgid "The file '%s' does not exist"
+msgstr "ファイル '%s' が無い。"
+#
+msgid "Please confirm creation of new\nfile for textedit."
+msgstr "新しいファイルを作成しますか？"
+#
+msgid "Cancel"
+msgstr "キャンセル"
+#
+msgid "Confirm"
+msgstr "確認"
+#
+msgid "Could not create new file."
+msgstr "ファイルを作成できない。"
+#
+msgid "The file '%s' is not a regular file"
+msgstr "ファイル '%s' は、通常のファイルではない。"
+#
+msgid "Please confirm creation of new\nfile for textedit."
+msgstr "新しいファイルを作成しますか？"
+#
+msgid "Continue"
+msgstr "続行"
+#
+msgid "Cancel"
+msgstr "キャンセル"
+#
+msgid "no file to edit"
+msgstr "編集するファイルが無い。"
+#
+msgid "File"
+msgstr "ファイル"
+#
+msgid "Cannot open file '"
+msgstr "オープンできない。ファイル名 '"
+#
+msgid "', exiting!\n"
+msgstr "', 終了します！\n"
+#
+msgid "Cannot create textsw, exiting!\n"
+msgstr "テキストサブウィンドウを作成できない！\n"
+#
+msgid "View"
+msgstr "表示"
+#
+msgid "Edit"
+msgstr "編集"
+#
+msgid "Find"
+msgstr "検索"
+#
+msgid "Signal catcher called recursively: "
+msgstr "Signal catcher called recursively: "
+#
+msgid "attempting Store to %s ... "
+msgstr "%s に保存中..."
+#
+msgid "failed!\nAttempting Store to %s ... "
+msgstr "失敗！\n %s に保存中..."
+#
+msgid "failed!\nAttempting Store to %s ... "
+msgstr "失敗！\n %s に保存中..."
+#
+msgid "failed!\nSorry, cannot save your edits: "
+msgstr "失敗！\n %s に保存中..."
+#
+msgid "finished; "
+msgstr "終了; "
+#
+msgid "aborting for post-mortem ...\n"
+msgstr "post-mortem のため、アボートします...\n"
+#
+

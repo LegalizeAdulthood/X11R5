@@ -1,0 +1,92 @@
+#
+# $Header: sjrc,v 1.1 91/09/28 10:26:48 nao Locked $
+#
+#	コントロール・イベント・キーのバインド変更/追加
+#command		modemask	keysym
+.key.right		v|c		f
+.key.left		v|c		b
+.key.forward		u|c		f
+.key.backward		u|c		b
+.key.syoukyo		f|c		d
+.key.kakuchou		u|c		o
+.key.syukusyou		u|c		i
+#.key.wrap		c		n
+#.key.wrapback		c		p
+.key.saihenkan		u|c		y
+.key.cancel		a|c		k
+.key.top		v|c		a
+.key.end		a|c		e
+.key.end		s		space
+
+#.key.henkan		i|c		t
+#.key.edit		u|c		w
+#.key.kettei		a|c		m
+#.key.flush		a|c		m
+#.key.toggle		o|c		g
+#.key.reconnect		a|c		r
+#.delkey		a|c		d
+
+#.key.start
+#.key.muhenkan
+#.key.kettei
+#.key.hira
+#.key.halpha
+#.key.zalpha
+#.key.hkata
+#.key.zkata
+#.key.code
+
+#	初期動作モード
+.InitialMode		unbuff.hira.direct
+
+#	code 入力時のデフォルトコード
+#.DefaultCode		jis
+
+#	入力モード切り替えで、無変換キーを押したときのモード
+.MuhenkanMode		halpha
+
+#	入力モード切り替えで、無変換キーを押したときのトグル動作
+.MuhenkanToggle		on
+
+#	モード表示文字列
+#.guide.hira		ひらがな
+#.guide.zkata		全カタカナ
+#.guide.hkata		半カタカナ
+#.guide.zalpha		ALPHA
+#.guide.halpha		alpha
+
+#	sj3serv のホスト名指定
+#.server		localhost
+
+#	ローマ字かな変換出来ないときベルを鳴らすか
+#.rkerrbell		on
+
+#	モード切り替えキーを押すと決定するか
+.FlushAfterConversion	off
+
+#	文節長学習機能を使用するか
+#.bstudy		on
+
+#	アルファベットを大文字に変換するか
+.AlphabetConversion	on
+
+#	文字消去時の動作（変換途中のローマ字を表示するか）
+.BackDisplay		on
+
+#	一括変換時の注目するセグメントの位置
+.BeginConversionLast	on
+
+#	変換モードから入力モードに戻るときの動作
+.FlushInConversion	on
+
+#	文節縮小時に１文字しかないときに前文節と合節するか
+.ShrinkAll		off
+
+#	文節拡張時に拡張部分のモード変換を行なうか
+.ExpandModeConversion	off
+
+#	文節縮小時に縮小部分のモード変換を行なうか
+.ShrinkModeConversion	off
+
+#	変換モードでの文字消去時の動作
+.DeleteChangeMode	off

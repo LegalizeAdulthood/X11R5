@@ -1,0 +1,51 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif 
+
+#if defined(sys_ps_aix12) || defined(sys_ps_aix11)
+CDEBUGFLAGS =
+#endif
+
+DOBJS = raster.do rastimg.do rasterv.do
+IHFILES = raster.ih rastimg.ih rasterv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicMultiObject(rasterv.do, rasterv.o rastvaux.o dispbox.o, ${BASEDIR}/lib/atk/libbasics.a,)
+
+DynamicObject(raster, ${BASEDIR}/lib/atk/libbasics.a,)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallLink(runapp, ${DESTDIR}/bin/raster)
+
+#ifdef ANDREW_MALLOC_ENV
+MALLOCLIB = $(BASEDIR)/lib/libmalloc.a
+#endif
+
+TLIBS = $(BASEDIR)/lib/atk/libframe.a \
+	$(BASEDIR)/lib/atk/libtext.a \
+	$(BASEDIR)/lib/atk/libsupviews.a \
+	$(BASEDIR)/lib/atk/libsupport.a \
+	$(BASEDIR)/lib/atk/libbasics.a \
+	$(BASEDIR)/lib/libclass.a \
+	$(MALLOCLIB) \
+	$(BASEDIR)/lib/liberrors.a \
+	$(UTILLIB)
+
+ClassTestProgramTarget(rasterviewtest, rastervt.o, $(TLIBS), ${BSDLIB})
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(raster.help rasters.help rstproc.help, ${DESTDIR}/help)
+InstallHelpAlias(raster, pictures)
+InstallHelpAlias(rstproc, rasterproc rasterprocs)
+
+MkdirTarget(${DESTDIR}/doc/atk/raster ${DESTDIR}/doc/atk/raster/raster)
+InstallDocs(raster.doc,${DESTDIR}/doc/atk/raster/raster)

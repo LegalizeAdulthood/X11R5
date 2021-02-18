@@ -1,0 +1,16 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 07/26/93
+last_modifier: ack@amt.media.mit.edu
+last_mod_date: 09/03/91
+mod_num: 5
+@end(header)
+@B(Using a Motif Widget)
+
+@button(Bulletin Board Dialog,Motif_Widget_Bulletin)
+@button(Dialogs in general,Motif_Widget_Dialog)
+@button(Form,Motif_Widget_Form)
+
+Ask a question, and add to the section!

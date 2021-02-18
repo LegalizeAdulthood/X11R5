@@ -1,0 +1,8 @@
+CDBUGFLAGS=-g
+        DEFINES = ExtensionDefines
+        DEPLIBS = $(DEPEXTENSIONLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(EXTENSIONLIB) $(XLIB)
+  SYS_LIBRARIES = 
+
+SimpleProgramTarget(scdisp)
+

@@ -1,0 +1,19 @@
+@begin(header)
+author: Mark S. Ackerman
+show_author: ShowNone
+author_organization: MIT Center for Coordination Science
+expiration_date: 12/31/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 06/23/91
+mod_num: 7
+@end(header)
+@b<Programming with X>
+
+Are you having trouble with
+@button(Xt toolkit in general,Prog_Xt)
+@button(The Athena widget set,Prog_Athena)
+@button(The Motif widget set,Prog_Motif)
+@button(The OpenLook widget set,Prog_OLWT)
+@button(XView,Prog_XView)
+@button(Other toolkits,Prog_Other_TK)
+@button(The Xlib level,Prog_Xlib)

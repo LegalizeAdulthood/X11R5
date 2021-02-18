@@ -1,0 +1,871 @@
+
+                                                             September, 1991
+
+   The following changes have been effected for Patchlevel 4 of xmail.
+
+  Many more bugs have been fixed, and the overall size of the resident image
+made even smaller, with the removal of the dependency on alloca and regex.c.
+I have also made changes necessary to effect operation under X11 Release 5,
+and linted the sources to remove as many lint complaints as is practical.
+
+I believe with this version I have eliminated the various and sundry program
+crashes at unexpected times and in wierd places.  The culprit was (of course)
+me, and violation of the rule: Don't feed your children dynamically allocated
+data with a fork, as it can often cause you to choke and die.
+
+I have made extensive changes to the way in which the editor is invoked during
+message composition and the manner in which the message is delivered to the
+sendmail daemon.  Users may now begin a message composition, and immediately
+continue processing available messages.  Message composition will no longer
+chew up cpu cycles and message delivery will no longer leave a defunct (i.e.
+zombie) process hanging around to consume available process slots.
+
+Like the previous version (1.3) of xmail, this version depends heavily on the
+installation of the application defaults file in the appropriate directory.
+The declaration of SetAlias() actions for To:,Cc:, and Bcc: translations no
+longer require the inclusion of the call to MenuPopup().  This means any 1.3
+version of the application defaults file MUST be replaced with the new copy.
+
+If you fail to install the new application defaults file, xmail will run, but
+only in a restricted fashion, and many of the documented features will not be
+present.  This is because many of the resource declarations have been moved
+from the source code into the defaults file.  Also with this version, the
+specification of colors and fonts are left to the choice of the user.  Some
+example declarations are included in the defaults file, but they are commented
+out, so as not to effect the choices made by the user.  This means if you fail
+to specify color requirements on a color system, xmail will come up in black
+and white (except for the National Semiconductor logo in the title bar %^).
+
+HelpText.c	- Made several small changes to better format the text in the
+		  help window popup.  Also added corrections for the latest
+		  set of enhancements and bug fixes.
+
+Imakefile	- Removed the definition for NO_WAIT3 as no longer necessary.
+		  Added several compiler options, to aid xmail specification.
+		  Define USE_DIRENT if readdir() uses <dirent.h> instead of
+		  <sys/dir.h>.  Define X_FACE and COMPFACE if you have the
+		  compface library installed and you want xmail to auto-
+		  matically display the X-Face: header, if found in a message.
+		  Define XPM if you have the Xpm version 3 library and want
+		  support for multi-colored icons.  Define LPT if you require
+		  att environment support for pseudo ports.  Define
+		  MAILBOX_DIRECTORY if your mail spool is located in other than
+		  the default /usr/spool/mail location.  (If not specified, the
+		  default will be used.)  Define DEFAULT_VISUAL if your copy of
+		  vi lies in some place other than /usr/ucb.  (If not specified,
+		  /usr/ucb/vi will be the default editor.)  Define
+		  DEFAULT_MAILER if your mail program is not the standard
+		  /usr/ucb/Mail.  CAUTION - Operation is NOT guaranteed with
+		  other mailers.
+
+		  Dependencies have been included for those files which need
+		  to know if a particular compile option has been specified or
+		  not.  The dependencies have been COMMENTED OUT, because the
+		  imake Makefile rule would force a rebuild of the Makefile
+		  unless you add an Imakefile dependency to the Makefile rule.
+		  If you want the source file dependencies enabled, you need to
+		  edit the created Makefile, and add Imakefile as the dependency
+		  to the Makefile target, to prevent rebuilding the Makefile.
+
+Mailwatch.c	- The mailhost variable was incorrectly referenced in tests for
+		  a NULL value.
+
+		  Added the definition for MAXHOSTNAMELEN if it is not defined.
+
+		  Replaced the attempt to determine the mail host name using
+		  sendmail with just the name of the current host.  This routine
+		  was bogus at best, and the change eliminates complaints from
+		  non-sendmail daemons that some sites are using.
+
+		  Added optional support for XPM formatted icons, if the user
+		  has libXpm.a (and desires multi-colored icons %^).  Thanks
+		  go to Herve Soulard <soulard@sor.inria.fr> for the suggestion
+		  and assistance.
+
+XMail.ad	- I have now commented out the color specifications in the
+		  application defaults file, in order to not enforce default
+		  colors on users who wish to use their own generic definitions.
+		  This means that if you 1) don't uncomment these definitions
+		  when you install the file, or 2) specify colors in your
+		  personal default resources file, xmail will execute in black
+		  and white on a color monitor.  I have also eliminated the
+		  definitions of buttonFont and helpFont in this file, but have
+		  included a definition for *Font:.  The definition for the
+		  editorCommand resource has also been commented out, which
+		  allows the program to utilize the default VISUAL definition
+		  in the user's .mailrc file, unless they add a specification
+		  for editorCommand to replace the default action.
+
+		  Added definitions for search forward and backward to the
+		  index window translations, to allow searching for multiple
+		  messages by author or subject.
+
+		  Removed declarations for MenuPopup action in the translations
+		  for To:, Cc:, and Bcc: windows when executing SetAliases().
+
+actions.c	- Change access to the "command_pattern" and "output_pattern"
+		  variables, in keeping with the correction of the global
+		  definitions of same.
+
+		  I found that I was mislead in my beliefs that the pipe (|)
+		  command was universal in Berkeley mail.  Instead, it is
+		  a unique feature of Sun's version of mail.  This version of
+		  xmail has an alternative method of printing a message, for
+		  those systems that are not Sun compatible.
+
+		  The main folder list is now sorted into alphabetical order.
+		  In the loop which checks each folder file for directory-ness,
+		  I changed the diropen() calls to use stat() instead.
+
+		  Aliases (which are also now sorted) are now placed in order
+		  from left to right, top to bottom.
+
+		  Both SetAliases and SetFolders now call XtPopupSpringLoaded,
+		  instead of having the MenuPopup call in their translation
+		  tables.  Menus are now only created if the list information
+		  truely exists.
+
+		  Added support for X11 Release 5.
+
+		  Folder button is now made insensitive while extracting the
+		  initial folders list, to show busy state, since the InputOnly
+		  busy cursor window does not map while the mouse button is
+		  depressed.
+
+callMail.c	- SYSV ioctl calls incorrectly reference an undefined variable
+		  "tty", which should have been "slave".
+
+		  Some systems did not like the test for return value from the
+		  ioctl calls.  The test(s) have been eliminated.
+
+		  Removed the duplicate inclusion of the <sgtty.h> file.
+
+		  Added the inclusion of signal.h, for those systems which do
+		  not already include it as part of the inclusion of param.h.
+
+		  Loop on the attempt to establish master/slave connections in
+		  case the first attempt(s) fail but more possibilities exist.
+
+		  Changed call arguments to callMail to eliminate mailargc as
+		  unnecessary.
+
+callbacks.c	- Changed the access to "command_pattern" and "output_pattern"
+		  variables, in keeping with the correction of the global
+		  definitions of same.
+
+		  Changed the way I handled message delivery.  Instead of
+		  forking a process to perform the delivery, I now access the
+		  sendmail daemon directly.  I also prepend a greater than (>)
+		  symbol to any line of text which begins with the mail keyword
+		  ``From '', to prevent mail from believing it is the start of
+		  a new message.  Also fixed the case of Forwarding to include
+		  the greater than symbol on the first line of the forwarded
+		  message, which also begins with the word 'From '.
+
+		  Fixed the routine which strips the actual addresses from the
+		  list of addressees (which might include full names as well)
+		  so that the sendmail command line is as brief as possible.  I
+		  have tested this with a wide variety of examples and line
+		  lengths, and no longer suffer from any core dumps.  This
+		  should resolve the problem some users have had with parsing
+		  aliases which included full name specifications.
+
+		  Also finding that the "~[a|A]" commands are only available
+		  in Sun's version of mail, I have implemented a mechanism to
+		  use a .[Ss]ignature file, if no signature can be found in the
+		  user's .mailrc file and a .[Ss]ignature file exists in their
+		  home directory.  This method allows a user to have both a
+		  lower case .signature as well as an uppercase .Signature file
+		  if they so desire.
+
+		  Removed the wait3() call for the mail child when terminating
+		  xmail.
+
+		  Removed the duplicate inclusion of the <sys/time.h> file.
+
+		  Removed the pointer declaration for the clock variable.
+
+		  Added support for tilde referenced record files.
+
+		  Changed the assumptions about .face file contents to include
+		  not adding the information if the user is also using the
+		  faces.sendmail script (as noted by its name in the environment
+		  definition for sendmail), and to insert the X-Face: header
+		  if the user's .face file does not contain it.
+
+		  Fixed a bug in the Reply routine which caused a segmentation
+		  violation if the Return-Path: header did not contain chevrons.
+
+		  Consolidated the functions which deliver the composition mail
+		  message to eliminate the need for global definitions of the
+		  header strings and the occasional crash caused by the delivery
+		  child having copies of those variables.
+
+		  Added code to ensure that all included or forwarded messages
+		  with mail keyword 'From ' at the beginning of a line have a
+		  preceeding greater-than symbol to eliminate false triggers.
+
+defs.h		- Added support for R5 portability issues.
+
+directory.c	- Sub-directory folder lists are now sorted alphabetically.
+
+		  In the loop which checked each folder file for directory-ness,
+		  I replaced the diropen() calls with stat() calls instead.
+
+		  To avoid problems later on with XtNameToWidget, folder names
+		  of directories which contain either a period or an asterisk
+		  do not cause generation a sub-menu.
+
+environs.c	- In building the aliases list, I had not taken into account
+		  the fact that GetMailrc() returns a NULL if no aliases were
+		  defined.
+		  Added expansion routines to mail variable requests to
+		  the inclusion of process environment definitions.
+
+		  Fixed a major bug in the alias parsing routines which could
+		  not handle an alias the decoded to a full name and address
+		  syntax as permitted by the RFC822 specifications.
+
+		  Added a call to qsort the alias list.
+
+		  Source'ing of files in the .mailrc file now received expanded
+		  environment variable definitions in filenames.
+
+global.h	- Added the declaration for the endEdits() signal handler.
+		  Also removed global declarations for message header variables
+		  which no longer require global definition, and eliminated the
+		  declarations for waitC and xtermC cursors.
+
+handler.c	- Fixed a bug which caused non-expert users with deleted
+		  messages in a folder to have to complete a Confirmation
+		  response when terminating xmail from the iconic position.
+		  (The question was moot, as being iconic made it already
+		  too late to ask for confirmation of the deletes.)
+
+		  Eliminated the static buffer for examining the contents of
+		  the title bar, when trying to determine if In_System_Folder.
+
+mail.c		- Changed the way in which I control the message composition.
+		  The previous (1.3) method was horribly wasteful of cpu cycles,
+		  and didn't allow the user to continue reading other mail
+		  messages until after the editing session concluded.  The new
+		  method ensures only one message composition at a time occurs,
+		  and allows immediate continuation of other xmail functions.
+
+		  Added an event handler to correct bug for warping of cursor
+		  to To: window when popping up the headers window transient.
+		  Users whose window manager decorates transients will now see
+		  the cursor in the To: window, instead of in the decoration.
+
+		  Eliminated the call to wait3().  It is no longer needed.
+
+		  Eliminated the full path xterm specification in the default
+		  edit command.  This because some users choose to install X11
+		  in a non-standard (/usr/bin/X11) location.
+
+		  Changed the way I handled fork failures, now reporting the
+		  cause of the failure when trying to start an edit session.
+
+parser.c	- Added code to eliminate bogus messages from the mail child,
+		  and to turn off a possible ``cmd'' definition in the .mailrc
+		  file, so as to be able to detect the inability to pipe a
+		  command to the printer.
+
+		  Added an additional error message parse when trying to copy,
+		  write, or save a file to a bogus address which returns the
+		  message "Not a directory".
+
+		  Added notation of file saved when using the write command.
+
+		  Moved the function which marks a 'P'reserved message to the
+		  parser routine, in case the user is not in their system
+		  folder.
+
+		  Changed the way I determine the mail prompt string from a
+		  static examination at first startup, to take what mail is
+		  actually giving me when the connection is established.  This
+		  eliminates the bug where some users declare a prompt string
+		  which translates differently than as declared (such as prompts
+		  with embedded quoted strings which do not include the quotes
+		  when mail echos the prompt).
+
+		  I now clear the In_Bogus_Mail_File flag if restarting the
+		  mail connection, so the title bar will be properly updated.
+
+regex.c		- This file has been eliminated, in favor of using the regexp
+		  routines.  You may safely delete this file from your sources.
+
+utils.c		- Modified writeTo() to not include X-Face header strings in
+		  the displayed message text, if the user sets the *No_X_Hdr
+		  resource to True or uses the -nx command line option, and an
+		  X-Face header is included in the incoming message.
+
+		  Replaced the previous mechanism for setting a wait cursor in
+		  the various windows with the FAQ'd example of creating an
+		  InputOnly window to prevent unwanted events while the program
+		  is busy.  Also fixed the problem of having the Cursor window
+		  Enter/LeaveNotify events force overwrite of the status info.
+
+windows.c	- Added a definition for Control_J to remove the extra text
+		  help window, for those workstation keyboards without a line-
+		  feed key.
+
+xmail.c		- Eliminated internally defined default fonts, allowing the
+		  user to specify the fonts in their personal resource file.
+
+		  Also added the command line/resource declaration for textFont
+		  in keeping with the definitions for buttonFont and helpFont.
+		  All three font specifications can now be obtained from the
+		  single generic declaration of *Font: in the resource file,
+		  or by using the command line option ``-fn'' or ``-font''.
+
+		  I now parse command line arguments in an effort to eliminate
+		  bogus borderwidth specifications (negative or beyond practical
+		  limits) in an effort to keep the application from becoming
+		  non-functional due to incorrect sizing operations.
+
+		  Increased size of mailargv vector by one to correct bug of
+		  not specifying mail program name as argv[0].  This fixes
+		  startup processing to not include header information because
+		  the '-N' flag was not being recognized.
+
+xmailregex.h	- This file is no longer required, as part of the replacement
+		  of regex routines with regexp functionality.
+
+xmailregexp.h	- This file replaces both xmailregex.h and regex.c as the means
+		  for parsing both command line and output messages.
+
+xmail.man	- Made several changes to reflect improvements for xmail 1.4.
+
+
+I'd like to thank all of the users who responded with bug fixes and suggestions
+for the previous (1.3) version of xmail.  The list below identifies those
+individuals who were first on their block to point out a failing of xmail 1.3.
+
+John Amanatides	<amana@allegra.att.com>
+	Requested support for tilde defined record variables, and that aliases
+	be presented in sorted order.
+
+James Carlson	<carlson@mrx.webo.dg.com>
+	Noted that the use of alloca calls in regex.c were highly unportable,
+	and that signal.h needed to be included in callMail.c for SIGKILL,
+	(for those sites that don't include signal.h as part of param.h).
+
+A. G. "Tony" Cohn	<agc@dcs.leeds.ac.uk>
+	Encouraged me to add a sort of the folder lists, especially for the
+	sub-levels.
+
+Donna Converse		<converse@expo.lcs.mit.edu>
+	Pointed to the correct method of utilizing XtCallActionProc to replace
+	the translation table declarations for MenuPopup actions.
+
+Pierre Corriveau	<piec%bnrmtl.UUCP@Larry.McRCIM.McGill.EDU>
+	Pointed out the lack of proper handling of message text lines that
+	began with the keyword ``From ''.
+
+Chris Crampton	<cmc@ecrc.de>
+	Suggested that path dependencies be removed from the xterm invocation
+	of the default visual editor.
+
+Richard Griffiths	<richard@xanth.b11.ingr.com>
+	Suggested several corrections to the SYSV compilation as a result of
+	his efforts at porting xmail to the Intergraph (Clipper) workstation.
+
+Nick Holloway	<alfie@cs.warwick.ac.uk>
+	Helped identify a major failure in the aliases routines that could not
+	handle an alias which decoded into the full name and address of the
+	recipient.
+
+Thierry Leconte	<Thierry.Leconte@irisa.fr>
+	Suggested a change to remove the X-Face header strings from the message
+	text prior to displaying the message in the text window.
+
+Casey Leedom	<casey@gauss.llnl.gov>
+	Suggested additional changes in the resource declarations to allow
+	user preferences more latitude in specifying fonts and colors.
+	He also noted some sites might not have a MAXHOSTNAMELEN definition,
+	as well as the duplicate inclusion of the time.h file.  Casey was also
+	the first person to provide me with the changes needed for R5.
+
+Dj Walker-Morgan	<dj@micromuse.co.uk>
+	Noted that environs.c aliases() could receive a NULL pointer when
+	asking for the alias list.
+
+John Nelson	<jpn@genrad.com>
+	Was the first to identify the inconsistent declarations for
+	command_pattern and output_pattern global variables.
+
+Ian Nixon	<nixon@asic.nsc.com>
+	Was the first user to point out the gross waste of cpu cycles
+	during the editor phase of the message composition process.
+
+Gerry Roston	<gerry@cs.cmu.edu>
+	Requested that support be included for .signature files, for those
+	sites that aren't using Sun mail.
+
+Arvind Sabharwal	<arvind@gmr.com>
+	Noted the bug about the print command only working in Sun environments.
+
+Brian V. Smith	<envbvs@epb2.lbl.gov>
+	Was first to note that some environments didn't like my test of the
+	ioctl return status.
+
+Herve Soulard	<soulard@sor.inria.fr>
+	Provided code examples and the suggestion that the mailbox icons would
+	look better if presented in XPixmap format.
+
+Markus Stumpf	<stumpf@dssystem1.informatik.tu-muenchen.de>
+	Encouraged me to remove the bogus ``sendmail -bv'' attempt to determine
+	the mail host identity.
+
+---------------------- end of changes for patchlevel 4 -----------------------
+
+                                                                 April, 1991
+
+   The following changes have been effected for Patchlevel 3 of xmail.
+
+  Many, many bugs have been fixed, and the overall size of the resident image
+has been cut almost in half.  I also believe I have correct all memory leaks.
+
+  Support is now provided for displaying the content of an X-Face: header, as
+a compile time option.  If you currently have the compface library routines
+provided by James Ashton, see the Imakefile and change the flags accordingly.
+The compface library routines are available from the Rich Burridge Archive
+Server, at <rb-archive-server@Aus.Sun.COM>.  Send the one word subject "Help"
+if you have never used this archive-server before.  These routines are
+also included as part of Rich Burridge's faces program, also available from
+that same address.
+
+
+Imakefile:	Eliminated R3 support and changed number and type of defines
+
+HelpText.c:	Modified some text and added information messages for commands
+
+Mailwatch.c:	Added support to display either user or mail host name in icon
+		Changing the icon tag also changes the application title for
+		window managers, for those cases when more than one copy of the
+		program being run.  Removed support for X11R[23].
+
+actions.c:	Removed support for X11R3.  Changed ``Send'' completion popup
+		to use callbacks instead of action routines.  Eliminated need
+		for DoAutograph() and DoDone() action routines.  Changed routine
+		SelectionNumber() to use greater-than mark as reference instead
+		of current insertion pointer, because forward/backward-page
+		et.al. messed with current insertion pointer location.  Added
+		support for WM_DELETE_WINDOW protocol requests to DoQuit().
+		Added information messages for each command button.  Message
+		content is triggered by enter/leave notify events, ala xrn.
+		Cleaned up error messages to use XtError().  Consolidated
+		various popup positioning routines into SetXY().  Changed
+		SetCursor() from XtActionProc to void and moved it to utils.c
+
+callMail.c:	Added (UNTESTED) support for non-BSD style communications.
+		The additional code was taken from the X11R4 sources for xterm.
+		Non-BSD routines are untested by the author, as I do not have
+		access to a System-V environment.  Eliminated hanging of the
+		parent (for approximately 15 seconds) on close of the slave
+		connection due to child terminated for lack of mail before
+		the parent could issue it's close statement.  Fixed the bug for
+		not displaying tabs in messages.
+
+callbacks.c:	Call the alias() extraction routine recursively, to accommodate
+		nested user aliases.  Also pass the recipient list to sendmail
+		on the command line, in lieu of the ``-t'' option, to eliminate
+		a bug which sometimes caused sendmail to think the author of
+		the message was actually one of the recipients.  Add the USENIX
+		X-Face: header to outgoing messages, if a ``.face'' file exists
+		in the user's home directory.  Corrected a bug because System-V
+		sprintf() does not return a pointer to the buffer.  Corrected
+		redundant usage of XtNameToWidget() calls.  Changed occurrences
+		for all of index() to strchr() to eliminate bug under SunOS_4+.
+		Changed search for author in incoming messages to use ``From:'',
+		``Return-Path:'', and finally ``From '' header fields.  Changed
+		control loop for confirms and ``Send'' completion popups so
+		that they will be displayed even if the parent is obscured.
+		Changed ``outfolder'' to work as documented in Mail man page.
+		Fixed Done routine to not create header files when aborting a
+		message composition.
+
+defs.h:		Eliminated some global variables and support for X11R3.  Added
+		declaration for editorCommand resource, and support for those
+		environments which do not include a wait3() system call.
+
+directory.c:	Changed define declaration to USE_DIRENT, because structure
+		dependency is not SUN_OS dependent.
+
+environs.c:	Changed occurrences of index() to strchr().  Added support for
+		braced and quoted environment variables.  Added recursive
+		parsing of the .mailrc file for ``source''d files.  Added
+		recursive parsing of the aliases for addresses, carbon, and
+		blind copies.  Merged the extraction of aliases and set options
+		from the mailrc file into one routine.  This routine now also
+		supports continuation lines, and returns the LAST occurrence of
+		the targeted set option.  This last point fixes a bug where the
+		user declared a prompt string more than once in the mailrc
+		file.  Mail would use the second one, while previous version of
+		xmail were looking for the first and hanging indefinitely.
+
+handler.c:	Added info_handler() to write command button window explanation
+		messages in the status window on enter/leave-notify events.
+		Fixed bug in placing marker for current message.  Changed all
+		occurrences of index() to strchr().  Fixed bug in index_handler
+		when the current message index went to zero due to a loss of
+		sync with the incoming text from Mail.  This would occur if the
+		user pressed the read next/previous message keys too rapidly.
+
+mail.c:		Added support for the editorCommand resource, ala xrn.  This
+		resource allows the user to specify an ``sprintf''-able string
+		which defines the editor to use when composing messages.  Users
+		must supply two ``%s'' entry points, one for the name of the
+		X display connection and one for the name of the edited file.
+		Fallback to the previous VISUAL methodology, if editorCommand
+		specification does not meet requirements.  Corrected a bug
+		which prevented the ``Send'' popup from appearing if the parent
+		shell was partially or totally obscured.  Made the ``Send''
+		popup reusable, instead of destroying and recreating it each
+		time.  Accommodated people who insist on setting a wide border.
+
+national.bm:	Resized the logo to a larger format, to better fit the titleBar.
+
+parser.c:	Corrected a bug for those cases when the mail process would
+		disappear unexpectedly.  Loss of connection no longer causes
+		a runaway condition.  Fixed a bug in the START process which
+		chewed up CPU seconds when started iconic.  Restored function-
+		ality for the no-autoprint option, which also fixed a bug of
+		occasionally seeing titlebar or status info in the text window
+		when issuing read previous/next commands in rapid fashion.
+
+revtable.h:	Used in un-compressing X-Face headers.
+
+utils.c:	Added support for proportionally spaced fonts, using routine
+		figureWidth().  Added support for X-Face headers on in-coming
+		messages.  If found, the X-Face will be displayed in the upper
+		right-hand corner of the text window.  Modified Bell() routine
+		to not replace message text in status window if previous text
+		was for an error.
+
+windows.c:	Moved a majority of the action translation tables to the XMail
+		class resource file, to allow the user more flexibility.
+
+xmail.c:	Changed the startup procedure to not start in the system folder
+		if starting iconic, to prevent ``newmail'' flag from being reset
+		before the user has opened the icon for the first time.  Added
+		separate font declarations for help, text, and button fonts.
+		Added resources and command line options for disabling the new
+		info feature and for specifying the editorCommand format string.
+		Fixed calculations for overall shell size if user has specified
+		a proportional font or wide borders, to keep xmail shell within
+		root window boundaries.
+
+The following persons have sent in suggestions, complaints, and/or patches
+which have contributed to the development of this patchlevel.  In most cases,
+I was able to respond directly to the submitter using the address indicated.
+In some cases, mail would bounce and I could not reach them with a thank-you.
+In any case, I wish to express my deepest gratitude to all for their interest
+and assistance.  If I have inadvertently managed to leave someone's name off
+of this list, please forgive me (and thanks again).
+
+Alan M. Baum	<abaum@amb.cs.gmr.com>
+	requested the ability to recursively parse an alias during ``Send''
+
+Dana A. Chee	<dana@thumper.bellcore.com>
+	one of many to request resources be moved to the application defaults
+
+Damian Chu	<dac@doc.imperial.ac.uk>
+	forced me (%^) to add WM_DELETE_WINDOW protocol support  (thanks)
+ 
+Ned Danieley	<ndd@sunbar.mc.duke.edu>
+Frank Peters	<fwp1@cc.msstate.edu>				and
+Thomas Oeser	<thomas%apgraph%ap542@ztivax.siemens.com>
+	identified problems (non-RFC822 compliance) with address parsing
+
+Norm Jacobs	<jacobs@mot.com>
+	provided suggested code patches for System-V socket connections
+
+Casey Leedom	<casey@gauss.llnl.gov>
+	identified bugs in the translation tables and suggested the addition
+	of the editorCommand resource specification
+	
+Steve Losen	<scl@virginia.edu>
+	identified bugs in the translation and regular expressions tables
+
+Andrew McRae	<andrew@megadata.mega.oz.au>			and
+Peter Morreale	<morreale@bierstadt.scd.ucar.edu>
+	identified the existence of memory leaks in patchlevel 2
+
+Frans Meulenbroeks <meulenbr@cst.philips.nl>
+	suggested the need to use the ``source'' command in .mailrc
+
+Marc H. Scholl	<scholl@inf.ethz.ch>
+	suggested changes in the ``outfolder'' variable interpretation
+
+Brian V. Smith	<envbvs@epb2.lbl.gov>
+	noted that the ``Send'' popup would not appear if the xmail parent
+	window (or icon) was obscured
+
+
+---------------------- end of changes for patchlevel 3 -----------------------
+
+                                                                August, 1990
+
+   The following changes have been effected for Patchlevel 2 of xmail.
+
+
+Imakefile:	Reordered R3 and R4 dependencies to allow for R4 make depend.
+
+HelpText.c:	Corrected some text and added help for text window key actions.
+
+Mailwatch.c:	Added option to start icon in reverse video.  Also added
+		option to display the username in the icon window, for those
+		times when xmail processes for more than one user are desired.
+
+actions.c:	Changed Newmail action to NOT automatically remove the
+		current folder list when changing to the system mail folder.
+		'Drop Folders' is now a separate action selectable within the
+		Newmail command menu.  Fixed SetFolders routine to not prepend
+		the home directory to folder names beginning with either a
+		dot (.) or foreword slash (/).  Also added a COMMIT option
+		to change of folder (when current folder has deleted mail)
+		or cancel of composed message.  Commit option is tailorable
+		by -e (expert) flag, 'Preserve' menu selection, and/or resource
+		specification.  Re-edit of the current message composition is
+		now supported within the 'Send' popup 'Deliver' sub-menu.
+		Deletions in the 'Send' popup text fields will no longer force
+		the cursor position to the end of the line.  Additional error
+		messages from the mail program are also trapped.  To better
+		support variations in 'Berkeley' mail, 'set no' commands are
+		no changed to 'unset' commands.  Both forms are also parsed.
+		To allow pasting of selected text within the various windows,
+		message indexing is now indicated by a preceding greater-
+		than symbol (>) instead of highlighting using the selection
+		mechanism.
+
+callbacks.c:	Mechanisms for delivering mail messages are now forked to a
+		child process if possible, instead of the previous synchronous
+		system calls.  Better support for file and folder recipients
+		to messages are also included.  Changes in folder or quitting
+		with a modified folder are now confirmed, unless the expert
+		flag has been specified.  Callbacks for re-editing message
+		composition and for dropping the current folders list are also
+		added.
+
+confirm.c:	This is a new routine which supplys the confirmation method.
+
+defs.h:		Changes to accommodate 'make depend' under X11R4 .vs. X11R3.
+		Added command line option flag: expert.
+
+directory.c:	Modified list display to be more box like, to help prevent
+		the menu from running off the bottom of the screen.
+
+environs.c:	Improved alias parsing routines to separate real people from
+		file and folder names as recipients of mail messages.  Also
+		expanded environment variables in GetMailEnv calls.
+
+globals.h:	Added definitions for new routines and flags.
+
+handler.c:	Removed widget privates dependencies in SystemFolder routine
+		by correctly calling XtGetValues for the label of the widget.
+
+icon.mail:	Modified bitmaps for both icons to allow for placing the
+		username under the mailbox, when requested.
+
+mail.c:		Added editMail routine to support re-edits of message text.
+
+parser.c:	Added ability to export the match function to other routines
+		for better handling of errors from mail.  Changed 'set no'
+		calls to 'unset's, for support of SONY NEWS OS mail program.
+		Changed message index highlighting to use the greater-than
+		symbol (>) instead.  Revert to default mail prompt of received
+		during startup, for case where user's .mailrc file fails to
+		parse before the intended prompt can be set.
+
+utils.c:	Changed message index selection highlighting to use symbol.
+
+windows.c:	Added new command menu options.  Provided for cut and paste
+		operations in File and text windows.  Added second help
+		window to text area for mapping of keyboard keys to command
+		actions.  Added keyboard cursor motion commands to the Index
+		and Text windows.  Added routine to parse the icon geometry.
+
+xmail.c:	Added support for new options: -e (expert), -iconic, and
+		-rv (reverse video on the icon).  Also default to no position
+		(0,0) for icon if not explicitly specified.
+
+xmail.man:	Many changes to document patchlevel 2 enhancements and fixes.
+
+xmailregex.h:	Added support for use outside of the parser routines.  Also
+		added additional error messages for users with problems in
+		their environment or .mailrc file.
+
+XMail.ad:	Changed the color specifications in the applications defaults
+		from names to hex values, to provide support when the server
+		fails to parse color names (a rare but annoying occurrence).
+		Added definitions for the new command menu buttons.
+
+
+Again, I'd like to thank the contributors of suggestions and actual patches.
+I'd also like to thank those persons who sent in complaints and suggestions.
+If I somehow managed to forget some of those persons, I hope they can
+forgive me.
+
+*) Jeff Dauber was first to request the ability to re-edit new messages.
+
+*) Mark Scholl was responsible for requesting the addition of a Confirmation
+   option.
+
+*) More illegal pointer combination fixes, the ParseIconGeometry() routine,
+   and the expansion of environment variables within the GetMailEnv() routine
+   were supplied by Christos Zoulas.
+
+*) Tom Dunigan and Peter Marshall both pointed out the error of my ways in
+   handling RFC822 addresses, and supplied much needed help in making the
+   corrections.
+
+*) Peter Marshal also initiated changes to allow a greater variety of editor
+   choices, including better support for the emacs invocation.  He was also
+   one of the first to complain about the delays during delivery of messages,
+   which drove the efforts to fork off those tasks.
+
+*) David Elliott suggested the no-default icon position, the missing paste
+   ability in the File window, and the need to support 'unset' versus 'set no'
+   construct in mail.
+
+*) Suggestions from Casey Leedom precipitated the revision of the Makefile
+   depends to provide better support for make depend under Sun and X11R4.
+
+*) Questions from John Meissen prompted modifications to the way the file
+   handlers are modified when calling mail and forking edit children.  He also
+   pointed out the probability of a MAIL environment variable pointing to
+   the intended mail spool and made suggestions for changing the code.
+
+---------------------- end of changes for patchlevel 2 -----------------------
+
+                                                                   May, 1990
+
+   The following changes have been effected for Patchlevel 1 of xmail.
+
+
+Imakefile:	Made improvements in dependencies and SunOS defines.
+		Removed requirement for linkage to system math library.
+
+HelpText.c:	Text revised and reformatted to better fit the help window
+
+Mailwatch.c:	Corrected illegal pointer combinations and added resources
+		to allow the user to specify the number of times to ring the
+		bell when new mail has arrived.  Fixed new mail bell to ring
+		only if flag is not already up.
+
+Mailwatch.h:	Eliminated warning for duplicate XtNfile definition
+
+actions.c:	Corrected illegal pointer combinations, added support for
+		improved index handler and Blind carbon copies.  Also added
+		support for .mailrc "printmail" definition, and improved error
+		messages when attempting to select non-existent or undefined
+		mail folders.  Used integer math instead of sqrt() function to
+		calculate box dimensions for aliases list.
+
+callMail.c:	Corrected attempts to write to read-only strings, and fixed
+		case where fork child dies for improper command arguments or
+		illegal or unfound image execution which tried to write error
+		messages to the xmail pipe instead of the terminal screen.
+		A dying child process now also terminates the xmail process.
+
+callbacks.c:	Added support for external sendmail function, improved index
+		handler, and mail variable 'alwaysignore' which is now used
+		to determine header levels for reply, forward, and printed
+		messages.  If recipient selection fails to find a value for
+		the <Return_Path:> to a message, the <From:> designate is now
+		used, to eliminate failures to provide a <To:> addressee.
+		Also fixed bug in replyalls which failed to pick up names from
+		the original To: field when preparing addresses for the reply.
+
+defs.h:		Changed TITLE definition to accommodate use of PATCHLEVEL.
+
+environs.c:	Alias support has been extended to include the word 'group'
+		when manually extracting mail aliases from the user's .mailrc
+		file.  Support has also been included for continuation lines.
+		Mechanisms to expand the MAILRC environment variable definition
+		have been eliminated, so that xmail behaves more like mail.
+		Corrected a bug in getMailEnv to return 'True' for variables
+		which have no additional value, such as 'hold' or 'autoprint'.
+		Changed strchr() calls to index().
+
+handler.c:	Function icon_handler() has been added to switch xmail to a
+		dummy mail folder whenever the application is iconified, and
+		to switch back to the previous folder on de-iconification.
+		Improved index_handler() to eliminate repaints of the index
+		window for every deletion or undeletion.  Also added code to
+		display as many new message headers as possible, to eliminate
+		unnecessary scrolling of the index window.
+
+mail.c:		Changed the fputs() to a write() to help eliminate i/o hanging,
+		added Blind Carbon Copy support to the sendMail function, and
+		added XMail class resources to the xterm message entry window.
+		Changed strrchr() call declarations to rindex().
+
+parser.c:	Eliminated multiple redraws of the index window during message
+		deletions, and corrected index message markers for 'N'ew,
+		'D'eleted, and undeleted mail messages.  Corrected a bug in the
+		delete processing to not reread entire message and corrected a
+		bug to erase index and text window datas if no current folder.
+
+utils.c:	Added use of PATCHLEVEL in determining TITLE version revision
+		and changed calls for strchr() to index().
+
+windows.c:	Changed name of "hold" button to "preserve", to better match
+		error message text when used incorrectly, eliminated making
+		the preserve button insensitive, to allow use of "set" menu
+		in any folder, added a "set" menu to the "preserve" command
+		button, to toggle mail variables, "alwaysignore", "autoprint",
+		and "hold", and corrected character processing in the file
+		window, to allow deletion and insertion within the line,
+		instead of always at the end.  Added use of PATCHLEVEL in
+		determining TITLE version revision
+
+xmail.c:	added support for the -iconic command line option, corrected
+		resource handling for iconGeometry, and improved default font
+		handling for minimum dimensions of the xmail application window.
+		Also fixed processing of geometry specifications for the top
+		level window.  Update the 'what' database string to reflect
+		current version.
+
+
+
+I would like to thank the many contributors of suggestions and actual patches.
+I would also like to thank those persons who sent in complaints, as they were
+often the predictors of the many other corrections and enhancements to xmail. 
+
+*) Message size tests in parser.c were extended to include support for DEC
+   mail return on size requests, to prevent core dumps under Ultrix UWS 2.2
+   thanks to patches from Dirk Grunwald <grunwald@foobar.Colorado.EDU>
+
+*) Corrections to Imakefile to eliminate the need to set SunOS dependency
+   flags manually were driven by suggestions from Casey Leedom
+   <casey@gauss.llnl.gov> and David Elliott <dce@smsc.sony.com>.
+
+*) The regular expressions definitions in xmailregex.h were corrected as a
+   result of suggestions from Casey Leedom.
+
+*) Suggestions from Casey Leedom, Mark Williams <msw@cpsc.UCalgary.CA>,
+   and Mark Scholl <scholl@inf.ethz.ch> helped identify a problem in the
+   communications links with mail.  writeMail() now uses a write instead
+   of fputs, and the connection parameters are set for APPEND instead of
+   non-blocking i/o, to eliminate run-away cpu cycles.
+
+*) Many, many illegal pointer combination errors were identified and corrected
+   by Christos Zoulas <christos@guillemin.EE.cornell.edu>
+
+*) Thanks go to Robert Viduya <robert@shangri-la.gatech.ude> for suggestions
+   and assistance in adding an icon handler to switch to a dummy mail folder
+   during iconification, to prevent collisions in mail if run from another
+   process while xmail is running.
+
+*) Support for an alternate sendmail function was provided after receiving
+   suggestions from Jim Blythe <jsblythe%uk.co.gec-mrc@nsfnet-relay.ac.uk>
+
+*) Blind carbon copy support and correction of several bugs were suggested
+   by Jeff Dauber <dauber@parns.nsc.com>
+
+*) Support for mail variables autoprint and hold were corrected thanks to
+   requests from Dwayne Lee <dwayne@asic.nsc.com>
+

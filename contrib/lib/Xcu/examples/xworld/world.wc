@@ -1,0 +1,16 @@
+#WLDL
+2
+
+6 XcuWlm
+0
+0
+0
+1
+
+  10 XcuCommand
+  2
+  5 label 16 (Good-bye, world!) 5 Local
+  4 name 4 (exit) 5 Local
+  0
+  0
+  0

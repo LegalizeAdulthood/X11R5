@@ -1,0 +1,42 @@
+LOCAL_LIBRARIES = $(XLIB)
+  SYS_LIBRARIES = -lmle
+
+           SRCS = \
+		InitProto.c \
+		PreedCallbk.c \
+		PreedNothing.c \
+		PreedPos.c \
+		ProcClient.c \
+		ProcExpose.c \
+		ProcIC.c \
+		ProcIM.c \
+		ProcProperty.c \
+		Reply.c \
+		StatusArea.c \
+		StatusCallbk.c \
+		StatusNothin.c \
+		Util.c \
+		dispatch.c \
+		main.c \
+		sun_jle.c
+
+           OBJS = \
+		InitProto.o \
+		PreedCallbk.o \
+		PreedNothing.o \
+		PreedPos.o \
+		ProcClient.o \
+		ProcExpose.o \
+		ProcIC.o \
+		ProcIM.o \
+		ProcProperty.o \
+		Reply.o \
+		StatusArea.o \
+		StatusCallbk.o \
+		StatusNothin.o \
+		Util.o \
+		dispatch.o \
+		main.o \
+		sun_jle.o
+
+ComplexProgramTarget(Kmf.J)

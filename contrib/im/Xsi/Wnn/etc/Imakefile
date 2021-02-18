@@ -1,0 +1,43 @@
+/*
+ * $Id: Imakefile,v 1.1 1991/09/09 22:37:32 ohm Exp $
+ */
+#include <Library.tmpl>
+
+       INCLUDES = -I$(WNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(WNNDEFINES)
+
+SRCS= strings.c \
+	sstrings.c \
+	bdic.c \
+	hindo.c \
+	gethinsi.c \
+	revdic.c \
+	pwd.c \
+	bcopy.c \
+	xutoj.c \
+	dic_atojis.c \
+	msg.c \
+	yincoding.c \
+	py_table.c \
+	zy_table.c
+
+OBJS= strings.o \
+	sstrings.o \
+	bdic.o \
+	hindo.o \
+	gethinsi.o \
+	revdic.o \
+	pwd.o \
+	bcopy.o \
+	xutoj.o \
+	dic_atojis.o \
+	msg.o \
+	yincoding.o \
+	py_table.o \
+	zy_table.o
+
+LibraryObjectRule()
+
+AllTarget($(OBJS))
+
+DependTarget()

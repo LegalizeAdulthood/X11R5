@@ -1,0 +1,50 @@
+Contents
+
+3.2 Operation
+
+3.2.1 Overview
+
+3.2.2 Environment Settings
+  (1) uum Key Layout
+  (2) Input Mode
+      (1) Romaji Input
+      (2) Hiragana Input
+      (3) Mode Switchings
+  (3) Standard Logical Key Setting Table
+      (1) Phonetic Input Mode
+      (2) Edit Mode
+      (3) Dictionary Mode
+  (4) Environment Settings for vi
+      (1) Wnn Key Bindings for vi Users
+      (2) Mode Switchings for vi
+  (5) Logical Key Setting Table for vi
+      (1) Phonetic Input Mode
+      (2) Edit Mode
+      (3) Dictionary Mode
+
+3.2.3 Operation
+  (1) Invoking uum
+  (2) Input of "Readings"
+  (3) Conversion
+  (4) Editing
+  (5) Confirmation
+  (6) Other Functions
+  (7) Conversion Example
+  (8) Dictionary Manipulation
+      (1) Dictionary Addition
+      (2) Dictionary Display
+      (3) Word Registration
+      (4) Word Search
+      (5) Parameter Change
+      (6) Save Frequencies
+      (7) Dictionary Information Display
+      (8) Change Accessory Vocabulary File
+      (9) Quit
+
+
+
+
+
+
+
+

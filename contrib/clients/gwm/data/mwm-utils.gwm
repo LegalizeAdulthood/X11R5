@@ -1,0 +1,295 @@
+; Various utilities used in standard profile
+; ==========================================
+
+;;File: utils.gwm -- General-purpose WOOL utilities
+;;Author: vincent@mirsa.inria.fr (Vincent BOUTHORS) -- Bull Research FRANCE
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+(: focus-in-menu-name-placed ())
+(: action-by-menu ())
+(: double-click-required ())
+(: while-opening ())
+
+(load "utils.gwm")
+
+; Teste si une propriete est presente dans une liste de proprietes
+(de got-property (atome liste)
+ (with (place (member atome liste))
+  (if place (= 0 (% place 2)))
+ )
+)
+
+(de property-of-wob (my-wob)
+ (with (wob my-wob)
+  wob-property
+ )
+)
+
+
+
+(: to-lower-case-list '(A "a" B "b" C "c" D "d" E "e" F "f" G "g" H "h"
+			I "i" J "j" K "k" L "l" M "m" N "n" O "o" P "p"
+			Q "q" R "r" S "s" T "t" U "u" V "v" W "w" X "X"
+			Y "y" Z "z" ))
+
+(df window-menu ()
+ (with (wob window)
+  wob-menu
+ )
+)
+
+
+(de mwm-iconify-window ()
+    (if lowerOnIconify (with (window window-icon) (lower-window)))
+    (if iconAutoPlace
+	(with (
+	       theWindow window
+	       wob (if window-group
+		       (with (window (# 0 window-group)) window-icon)
+		     window-icon)
+	       X (# 'X wob-property)
+	       Y (# 'Y wob-property)
+	       theIcon (if (and X Y) (get-icon-from-array X Y) t)
+	       icon-window-group (if (member theIcon (list-of-windows))
+				     (with (window theIcon) window-group)
+				   ())
+	       )
+	  (if (= theIcon ()) 
+	      (progn
+		(## 'X wob X)
+		(## 'Y wob Y)
+		(set-icon-of-array X Y wob)
+		(eval (+ '(move-window wob) (XY-to-xy X Y)))
+		(with (window theWindow)
+		  (iconify-window)
+		  )
+		)
+	    (= theIcon wob)
+	    (with (window theWindow)
+	      (iconify-window)
+	      )
+
+	    (member theWindow icon-window-group)
+	    (progn
+	      (with (window theWindow)
+		(iconify-window)
+		)
+	      )
+
+	    (with (thePlace (auto-get-place)
+			    X (# 0 thePlace)
+			    Y (# 1 thePlace)
+			    )
+	      (## 'X wob X)
+	      (## 'Y wob Y)
+	      (eval (+ '(move-window wob) (XY-to-xy X Y)))
+	      (set-icon-of-array X Y wob)
+	      (with (window theWindow)
+		(iconify-window)
+		)
+	      )
+	    )
+	  )
+      (progn (move-window window-icon (+ window-x window-client-x) 
+			  (+ window-y window-client-y))
+	     (iconify-window)
+	     )
+      )
+    )
+
+
+(de mwm-de-iconify-window ()
+ (with (X (# 'X window-property)
+	Y (# 'Y window-property)
+       )
+  (set-icon-of-array X Y ())
+  (iconify-window)
+  (raise-window)
+  (if (and (= 'explicit keyboardFocusPolicy) deiconifyKeyFocus) (set-focus))
+ )
+)
+
+
+
+(: delta moveThreshold)
+(: delta2 (* delta delta))
+
+(de deltabutton ()
+    (allow-event-processing)		; otherwise pointer state frozen
+    (if (and (> (current-event-code) 0)        ; last event received
+	     (< (current-event-modifier) 256)) ; is a buttonpress
+	(tag DELTABUTTON
+	     (: e-m (# (current-event-code) '(0 1 2 4)))
+	     (: e-x (current-event-x))
+	     (: e-y (current-event-y))
+	     (: m-p (current-mouse-position))
+	     (while (= (/ (# 2 m-p) 256) e-m) ; the button is still pressed
+	       (: dx (- (# 0 m-p) e-x))
+	       (: dy (- (# 1 m-p) e-y))
+	       (if (> (+ (* dx dx) (* dy dy)) delta2)
+		   (exit DELTABUTTON (list dx dy)))
+	       (: m-p (current-mouse-position)))
+	     ()))
+    )
+
+
+(df move-icon ()
+ (move-window)
+ (if iconAutoPlace
+ (with (
+        target.x  (+ window-x (/ window-width 2))
+        target.y  (+ window-y (/ window-height 2))
+        theCoords (xy-to-XY target.x target.y)
+        X         (# 0 theCoords)
+        Y         (# 1 theCoords)
+        theIcon   (get-icon-from-array X Y)
+       )
+  (if (or (= theIcon ()) (= theIcon window))
+   (progn
+    (eval (+ '(move-window) (XY-to-xy X Y)))
+    (set-icon-of-array (# 'X window) (# 'Y window) ())
+    (## 'X window X)
+    (## 'Y window Y)
+    (set-icon-of-array X Y window)
+   )
+   (with (theNeighbors (neighbors target.x target.y)
+          first        (# 0 theNeighbors)
+          first.X      (# 1 first)
+          first.Y      (# 2 first)
+          second       (# 1 theNeighbors)
+          second.X     (# 1 second)
+          second.Y     (# 2 second)
+         )
+    (if (not (# 0 first))
+     (progn
+      (eval (+ '(move-window) (XY-to-xy first.X first.Y)))
+      (set-icon-of-array (# 'X window) (# 'Y window) ())
+      (## 'X window first.X)
+      (## 'Y window first.Y)
+      (set-icon-of-array first.X first.Y window)
+     )
+     (not (# 0 second))
+     (progn
+      (eval (+ '(move-window) (XY-to-xy second.X second.Y)))
+      (set-icon-of-array (# 'X window) (# 'Y window) ())
+      (## 'X window second.X)
+      (## 'Y window second.Y)
+      (set-icon-of-array second.X second.Y window)
+     )
+     (progn
+      (eval (+ '(move-window)
+       (XY-to-xy (# 'X window) (# 'Y window) ))
+      )
+      (bell)
+     )
+    )
+   )
+  )
+ )
+ )
+)
+
+(: keyFocusList ())
+
+(df maintain-focus-in ()
+    (if (not (# 'got-focus wob))
+	(progn
+	  (send-user-event 'focus-in)
+	  (set-colormap-focus)
+	  (if focusAutoRaise (f.raise))
+	  (if (and autoKeyFocus (= keyboardFocusPolicy 'explicit)
+		   (= window-status 'window))
+	      (progn
+		(remove-kFL window)
+		(new-head-kFL window)))
+
+	  (if (and (= 'icon wob-status) completeIconNameOnFocusIn )
+	      ;; (not (# 'focus-in-menu-name-placed window)))
+	      (with (x (- wob-x
+			  (/ (- (width 
+				 (menu-wob (# 'focus-in-menu-name window)))
+				wob-width) 2))
+		       y (+ wob-y (- wob-height icon-bottom-bar-width) 4)
+		       )
+		(## 'focus-in-menu-name-placed window t)
+		(## 'icon-father (menu-wob
+				  (# 'focus-in-menu-name window)) window)
+		(if (< x 0)
+		    (: x 0))
+		(if (> (+ x (width (menu-wob
+				    (# 'focus-in-menu-name window))))
+		       screen-width)
+		    (: x (- screen-width
+			    (width (menu-wob
+				    (# 'focus-in-menu-name window))))))
+		(menu.move (# 'focus-in-menu-name window) x y)
+		(send-user-event 'focus-in (menu-wob
+					    (# 'focus-in-menu-name window)))
+		(pop-menu (# 'focus-in-menu-name window) 'here)
+		(with (grab-keyboard-also t) (grab-server window))
+		))
+	  (## 'got-focus window t)
+	  )))
+
+(df maintain-focus-out ()
+    (if (# 'got-focus wob)
+	(progn
+	  (## 'got-focus window ())
+	  (send-user-event 'focus-out)
+	  (if (# 'focus-in-menu-name-placed window)
+	      (progn
+		(unpop-menu (# 'focus-in-menu-name window))
+		(ungrab-server)
+		(## 'focus-in-menu-name-placed window ())
+		)))))
+
+(de head-kFL ()
+    (# 0 keyFocusList)
+    )
+
+(de remove-kFL (w)
+    (with (index (member w keyFocusList)
+		 )
+      (if index
+	  (: keyFocusList (+ (sublist 0 index keyFocusList)
+			     (sublist (+ index 1)
+				      (length keyFocusList) keyFocusList)
+			     )))))
+
+
+(de new-head-kFL (w)
+    (: keyFocusList (+ (list w) keyFocusList))
+    )
+
+(de obscured-by (w1 w2)
+    (with (window w1
+         w1l window-x
+         w1t window-y
+         w1r (+ window-width w1l)
+         w1b (+ window-height w1t)
+         window w2
+         w2l window-x
+         w2t window-y
+         w2r (+ window-width w2l)
+         w2b (+ window-height w2r))
+       (and (< w2l w1r)
+          (< w2t w1b)
+          (> w2b w1t)
+          (> w2r w1l))))
+
+(de pop-up-win strings
+(place-menu (# 0 strings)
+    (with (direction vertical
+           fsm (fsm-make (state-make (on (button any any) (delete-window))))
+         borderwidth 0)
+        (eval (+ '(menu-make)
+                (mapfor line (+ (sublist 1 (length strings) strings)
+                                (list "" "Click a button to delete"))
+                    (bar-make
+                     () (plug-make (active-label-make line)) () )))))
+(current-event-x)
+(current-event-y)))

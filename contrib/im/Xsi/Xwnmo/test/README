@@ -1,0 +1,107 @@
+/*
+ * $Id: README,v 1.1 1991/09/13 08:52:54 proj Exp $
+ */
+1. Environment for the test
+
+  0S : UniOS-B, UniOS-U, UniOS-Mach
+  Machine :
+     Can use X-Window (X11R4 or higher version).
+     Can use XWNMO.
+     Can use color bitmap display (for the color indication).
+
+ The test tool files should be put at proper place.
+
+2. The way of the test
+
+  Each function is tested by using XIM test tool. You should investigate 
+ the results of the test and check whether XIM acts rightly.
+
+  The testing procedure for each library function is shown as bellow.
+ [CR] means to hit return key.
+
+  2.1 Setting of the environment
+
+    2.1.1 Create or append to the file ".Xdefaults" as follows in the home
+          directory.
+
+          *xim.foreground:               yellow
+          *Xim.Background:               black
+          *xima.foreground:              white
+          *Xima.Background:              forestgreen
+          *ximb.foreground:              blue
+          *Ximb.Background:              red
+
+    2.1.2 Append the following to your file `.cshrc'.
+
+	(1) setenv LANG ja_JP.ujis
+        (2) setenv XMODIFIERS @im=_XWNMO
+        (3) setenv XIMLOGDIR (the DIRECTORY for locating your log file later)
+
+    2.1.3 Log file
+
+      The result of the testing is arranged into log files.
+     Some of the log files show like these:    
+
+          "tim.log?", "ticon.log?", "ticover.log?", "ticoff.log?",
+          "ticroot.log?"
+
+      (note) "?" means consecutive numbers.
+
+      Actual file arrangement shows as follows(In the case of the directory
+     of the log files is "$HOME/xim/test/log").
+
+        $HOME/xim/test/log ибибииибиб /logfile001/  ибибииибиб tim.log
+                               ив                       изибиб ticon.log1
+                               ив                       изибиб ticon.log2
+                               ив                       изибиб ticover.log1
+                               ив                       изибиб ticover.log2
+                               ив                       изибиб ticoff.log1
+                               ив                       изибиб ticoff.log2
+                               ив                       изибиб ticroot.log1
+                               ив                       ижибиб ticroot.log2
+                               изибиб /logfile002/  ибибииибиб tim.log
+                               ив                       изибиб ticon.log1
+                               ив                       изибиб ticover.log1
+                               ив                       изибиб ticover.log2
+                               ив                       изибиб ticover.log3
+                               ив                       изибиб ticoff.log1
+                                                        ижибиб ticroot.log1
+
+	(The "logfile001" is the name of sub-directory typed for putting
+	the log files in the first testing and the "logfile002" is for the
+	second testing. It is better to specify a meaningful sub-directory
+	name for the management of the results of testing.) 
+
+  2.2 The way of the compilation
+
+    Input commands as below.
+
+        (1) $ cd ./ [CR]
+        (2) $ make -k [CR]
+
+  2.3 The way to execute XIM test tool
+
+  (1) Execute xwnmo.
+
+  (2) Open window(kterm) to indicate the contents of this test.
+       (note) This window size has to be 80x24.
+
+  (3) Input commands as follows on the window just opened from step (2).
+
+	 $ cd ./ [CR]
+         $ ximtest logfile001 [CR]
+         (assume the sub-directory's name to locate log files is "logfile001".)
+
+  (4) The way of the test has two parts, auto test and manual test.
+     Auto test means the test program checks functions automaticly. Manual 
+     test means the user chooses command from  menu window and checks the
+     results.
+
+      In the case of the manual test, the input window (X11R5 XIM Test) and
+     the menu window (X11R5 XIM Menu) are used.
+
+
+
+
+
+

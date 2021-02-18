@@ -1,0 +1,45 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/sun/RCS/Imakefile,v 
+*** 1.1.1.1	1991/09/22 18:06:45
+--- 1.3	1991/09/22 18:09:12
+***************
+*** 8,18 ****
+  	sunKbd.c \
+  	sunMouse.c \
+  	sunUtils.c \
+! 	sunCG2C.c \
+! 	sunCG2M.c \
+! 	sunCG3C.c \
+! 	sunCG4C.c \
+! 	sunCG6C.c \
+  	sunKeyMap.c
+  
+  SRCS =	$(SRCS1) kbd_mode.c constype.c 
+--- 8,14 ----
+  	sunKbd.c \
+  	sunMouse.c \
+  	sunUtils.c \
+! 	sunCG8C.c \
+  	sunKeyMap.c
+  
+  SRCS =	$(SRCS1) kbd_mode.c constype.c 
+***************
+*** 26,36 ****
+  	sunKbd.o \
+  	sunMouse.o \
+  	sunUtils.o \
+! 	sunCG2C.o \
+! 	sunCG2M.o \
+! 	sunCG3C.o \
+! 	sunCG4C.o \
+! 	sunCG6C.o \
+  	sunKeyMap.o
+  
+     INCLUDES = -I. -I../mfb -I../mi -I../../include -I$(INCLUDESRC)
+--- 22,28 ----
+  	sunKbd.o \
+  	sunMouse.o \
+  	sunUtils.o \
+! 	sunCG8C.o \
+  	sunKeyMap.o
+  
+     INCLUDES = -I. -I../mfb -I../mi -I../../include -I$(INCLUDESRC)

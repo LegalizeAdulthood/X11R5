@@ -1,0 +1,45 @@
+Widget Creation Library Standard Action Routines
+------------------------------------------------
+
+All of the standard callback functions have action routine
+counterparts.  Actions can be invoked via the translation manager,
+which provides a powerful and flexible mechanism for invoking functions
+from the user interface.
+
+Below is the complete list of standard action routines, and their
+mapping to the standard Wc callback routines.  See the section
+on `Widget Creation Library Standard Callbacks' for details on
+the behaviors of the appropriate functions.
+
+    WcCreatePopupsACT		WcCreatePopupsCB
+    WcCreateChildrenACT		WcCreateChildrenCB
+    WcManageACT			WcManageCB
+    WcUnmanageACT		WcUnmanageCB
+    WcManageChildrenACT		WcManageChildrenCB
+    WcUnmanageChildrenACT	WcUnmanageChildrenCB
+    WcDestroyACT		WcDestroyCB
+    WcSetValueACT		WcSetValueCB
+    WcSetTypeValueACT		WcSetTypeValueCB
+    WcSetSensitiveACT		WcSetSensitiveCB
+    WcSetInsensitiveACT		WcSetInsensitiveCB
+    WcLoadResourceFileACT	WcLoadResourceFileCB
+    WcTraceACT			WcTraceCB
+    WcPopupACT			WcPopupCB
+    WcPopupGrabACT		WcPopupGrabCB
+    WcPopdownACT		WcPopdownCB
+    WcMapACT			WcMapCB
+    WcUnmapACT			WcUnamapCB
+    WcSystemACT			WcSystemCB
+    WcExitACT			WcExitCB
+
+All the standard action routines are registered with the translation
+manager by the WcRegisterWcActions function.  This function is called
+from WcWidgetCreation(), so applications usually never need to call
+WcRegisterWcActions.
+
+The file WcActions.c contains the implementations of all the action
+routines along with the function WcRegisterWcActions.  If your
+application wants to register mode actions, you should either use
+WcRegisterAction(), or better yet, copy WcRegisterWcActions and modify
+to register your applications functions.  Register your action
+functions before calling WcWidgetCreation.

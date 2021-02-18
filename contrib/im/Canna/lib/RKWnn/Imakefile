@@ -1,0 +1,20 @@
+   IROHAROOT = ../..
+
+        OBJS = RKwnn.o
+        SRCS = RKwnn.c
+
+  KINPUT2DIR = /work/kinput2/include
+
+#if !defined(UseInstalled)
+  JWNNINCDIR = /work/Wnn/include
+#else
+  JWNNINCDIR = $(DESTDIR)/usr/include/wnn
+#endif
+
+    INCLUDES = -I$(KINPUT2DIR) \
+		-I$(JWNNINCDIR) \
+		-I$(IROHAROOT)
+
+AllTarget($(OBJS))
+NormalLibraryObjectRule()
+DependTarget()

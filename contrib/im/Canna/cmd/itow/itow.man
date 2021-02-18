@@ -1,0 +1,29 @@
+.TH ITOW 1
+.SH "NAME"
+itow \- Convert Canna text-form dictionary into Wnn text-form dictionary
+.SH "SYNOPSIS"
+.B "itow [\-f \fIhinshidata\fP] [\fIirohajisho\fP] [\fIwnnjisho\fP]"
+.SH "DESCRIPTION"
+.PP
+itow converts the Canna text-form dictionary file into the Wnn 
+text-form dictionary.  If all dictionary files are omitted,
+this dictionary is input through the standard input.  In this case, the
+Wnn dictionary is output to the standard output.  If only one dictionary
+file is specified, it is regarded as the one of the Japanes Input System.
+In this case, the Wnn dictionary is output from the standard output.  
+.SH "OPTIONS"
+.IP "\-f \fIhinshidata\fP" 12
+The user can add new information about word-type correspondence
+between Wnn and Canna.  The following word-type
+correspondence information must be described in the \fIhinshidata\fP
+file.  Within one line, describe the Wnn word type name and the Canna
+word type while delimiting by a space(s)
+or tab.
+.sp
+.nf
+  Wnn word type       Canna word type
+.br
+  Adverb              #F04
+.fi
+.SH "SEE ALSO"
+.IP "wtoi(1)" 12

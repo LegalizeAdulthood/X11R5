@@ -1,0 +1,9 @@
+      SRCS = incl_trunc.c
+      OBJS = incl_trunc.o
+      CMDS = wlmInclMake wlmUpdate wlmUpdateCls
+   MANLIST = wlmInclMake.man wlmUpdate.man wlmUpdateCls.man
+
+ComplexProgramTarget(incl_trunc)
+InstallMultiple ($(CMDS),$(BINDIR)) 
+InstallMultipleMan($(MANLIST),$(MANDIR))
+

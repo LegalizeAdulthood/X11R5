@@ -1,0 +1,62 @@
+#
+# @(#)Imakefile 1.3 90/02/26 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=	canvas.h
+HDRSPRIVATE=	cnvs_impl.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP) -I$(TOOLDIR)
+
+OBJS =\
+	canvas.o\
+	cnvs_set.o\
+	cnvs_get.o\
+	cnvs_scrol.o\
+	cnvs_resze.o\
+	cnvs_view.o\
+	cnvs_input.o\
+	cnvs_data.o
+
+SRCS =\
+	canvas.c\
+	cnvs_set.c\
+	cnvs_get.c\
+	cnvs_scrol.c\
+	cnvs_resze.c\
+	cnvs_view.c\
+	cnvs_input.c\
+	cnvs_data.c
+
+all::
+
+#if DebugLibXvol && ProfileLibXvol
+DebuggedAndProfiledLibraryObjectRule()
+#else
+#if DebugLibXvol && ProfileLibXvol
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvol
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvol,$(OBJS))
+SubdirCompoundLibTarget(xview,$(OBJS))
+
+#  if ProfileLibXvol
+SubdirProfiledLibTarget(xvol,$(OBJS))
+#endif
+
+#if DebugLibXvol
+SubdirDebuggedLibTarget(xvol,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

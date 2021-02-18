@@ -1,0 +1,32 @@
+.\" $Header: /imports/wink/work/nk.R3.1/cmd/scripts/RCS/tonewdic.man,v 1.5 91/09/02 22:06:26 kubota Exp $ NEC;
+.if t .pn 1
+.TH TONEWDIC 1
+.SH "名前"
+tonewdic \- 旧辞書にユーザが登録した単語を新辞書の形式(テキスト形式)で出力
+.SH "形式"
+.B "tonewdic"
+.SH "説明"
+.PP
+EWS-UX/V R6.2 以前のシステム辞書にユーザが登録した単語を新しい辞書形式で
+標準出力に出力します。
+.SH "使用例"
+.IP (1) 4
+出力された結果をユーザのテキスト辞書として使用する。
+.sp
+.nf
+  % tonewdic > yamada.t
+  % mv yamada.t /usr/lib/iroha/dic/yamada/
+.fi
+/usr/lib/iroha/dic/yamada/dics.dir に yamada.t のエントリを追加する。
+.IP (2) 4
+出力された結果をユーザのバイナリ辞書として使用する。
+.sp
+.nf
+  % tonewdic > yamada.mwd
+  % mkbindic yamada.mwd  (バイナリ辞書の yamada.d が作成される)
+  % mv yamada.d /usr/lib/iroha/dic/yamada/
+.fi
+/usr/lib/iroha/dic/yamada/dics.dir に yamada.d のエントリを追加する。
+.SH "関連情報"
+.PP
+dumpolddic(1)

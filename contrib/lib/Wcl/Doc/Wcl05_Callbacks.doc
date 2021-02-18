@@ -1,0 +1,339 @@
+Widget Creation Library Standard Callbacks
+------------------------------------------
+
+The standard Wc callbacks are intended to map closely to existing Xt
+functions.  They simply provide XtCallbackProc wrappers to many
+commonly used Xt functions.  These wrapper procs perform argument
+parsing: e.g., converting strings to widgets using WcFullNameToWidget.
+
+Below is a complete list of callbacks which are registered by Wc
+whenever you call WcWidgetCreation.  The "arguments" below are
+prototypes of what one puts in a resouce file.  The terms mean:
+
+   parent       name of widget, full path or wildcarded.
+   child        name of child starting from the parent widget.
+   widget       see parent
+   resLHS       <widget path name>
+   resRHS       <any legal resource value>
+   resType	<any legal resource type, sich as Font or Pixel>
+
+    WcCreatePopupsCB     ( parent, child [, child] ... )
+    WcCreateChildrenCB   ( parent, child [, child] ... )
+    WcManageChildrenCB   ( parent, child [, child] ... )
+    WcUnmanageChildrenCB ( parent, child [, child] ... )
+
+    WcManageCB         ( widget [, widget] ... )
+    WcUnmanageCB       ( widget [, widget] ... )
+    WcDestroyCB        ( widget [, widget] ... )
+    WcSetSensitiveCB   ( widget [, widget] ... )
+    WcSetInsensitiveCB ( widget [, widget] ... )
+
+    WcPopupCB     ( widget )
+    WcPopupGrabCB ( widget )
+    WcPopdownCB   ( widget )
+    WcMapCB       ( widget )
+    WcUnmapCB     ( widget )
+
+    WcSetValueCB     ( resLHS: resRHS )
+    WcSetTypeValueCB ( resLHS: resType, resRHS )
+    
+    WcLoadResourceFileCB ( filename )
+    
+    WcSystemCB ( shell command line )
+    WcTraceCB  ( annotation )
+
+    WcExitCB ( exitValue )
+
+See the file WcCallb.c for the implementations of all of these standard
+callbacks.  These callbacks are registered together in the function
+WcRegisterWcCallbacks() which is at the bottom of the same source
+file.  Clients of Wc do not have to invoke WcRegisterWcCallbacks()
+directly, as it is called from WcWidgetCreation() in the WcCreate.c
+source file.
+
+
+Widget Naming in Callback Arguments
+-----------------------------------
+
+In all of these callbacks, the function WcFullNameToWidget is invoked
+to convert a string to a widget.  WcFullNameToWidget allows relative
+widget naming, relative to the widget which invoked the callback.  The
+special characters are presented in examples below:
+
+    this	means: `the widget which invoked this callback'
+    ^foobar	means: `a sibling widget named foobar'
+    ~foobar	means: `a child of the shell ancestor named foobar'
+    ~^foobar	means: `a sibling of the shell ancestor named foobar'
+
+The relative naming characters `^' and `~' are parsed left to right.
+
+In addition, normal wildcarding works as expected - as long as the
+final name component is a widget instance, and not a widget class
+name.  For example:
+
+    *foobar
+    *Table*XmRowColumn*foobar
+
+
+WcCreatePopupsCB( parent, child [, child] ... )
+WcCreateChildrenCB( parent, child [, child] ... )
+-------------------------------------------------
+
+These callbacks cause new widgets to be created.  The name of the parent
+can include wildcards, or can be a relative pathname from the widget
+invoking the callback.  The names of the children widgets must be
+single widget names, not pathnames.  For example:
+
+    *danger.callback:  WcCreateChildrenCB( *Panel, EmergencyControls)
+
+In this case, pressing a danger button creates a new tree of widgets
+providing emergency controls.  The new tree is rooted at the existing
+Panel widget.
+
+
+WcManageChildrenCB( parent, child [, child] ... )
+-------------------------------------------------
+
+This callback manages multiple children of a single parent.  It is a
+wrapper around XtManageChildren.  As with WcCreateChildrenCB, the
+parent name can include wildcards, or can be a relative pathname from
+the widget invoking the callback.  The names of the children widgets
+must be single widget names, not pathnames.  For example:
+
+    *new.activateCallback:  WcManageChildrenCB( *foo, one, two, three )
+
+
+WcUnmanageChildrenCB( parent, child [, child] ... )
+---------------------------------------------------
+
+Identical to WcManageChildrenCB, except that the child widgets are 
+unmanaged rather than managed via a call to XtUnmanageChildren.
+
+
+WcManageCB( widget [, widget] ... )
+-----------------------------------
+
+This callback takes a list of widget names, each of which
+can be wildcarded and/or relative widget pathname.  After
+the widget ID is resolved via the WcFullNameToWidget function,
+the widgets are managed using XtManageChild().
+
+
+WcUnmanageCB( widget [, widget] ... )
+-------------------------------------
+
+This callback is identical to WcManageCB, except that the
+widgets are unmanaged using XtUnmanageChild().
+
+
+WcDestroyCB( widget [, widget] ... )
+------------------------------------
+
+This callback allows widgets to be destroyed using XtDestroyWidget().
+
+
+WcSetSensitiveCB( widget [, widget] ... )
+-----------------------------------------
+
+This callback invokes XtSetSensitive( TRUE ) on each of the
+widgets named by the argument.
+
+
+WcSetInsensitiveCB( widget [, widget] ... )
+-------------------------------------------
+
+This callback is identical to WcSetSensitiveCB, but the widgets
+are made insensitive.
+
+
+WcPopupCB( widget )
+-------------------
+
+This callback invokes XtPopup() with the XtGrabKind set to
+XtGrabNonexclusive.  The widget must be a pop-up shell widget.
+
+
+WcPopupGrabCB( widget )
+-----------------------
+
+This callback invokes XtPopup() with the XtGrabKind set to
+XtGrabExclusive.  The widget must be a pop-up shell widget.
+
+
+WcPopdownCB( widget )
+---------------------
+
+This callback invokes XtPopdown().  The widget must be a pop-up shell
+widget.
+
+WcMapCB( widget )
+---------------------
+
+This callback invokes XtMapWidget().  The widget must be a shell
+widget.
+
+WcUnmapCB( widget )
+---------------------
+
+This callback invokes XtUnmapWidget().  The widget must be a shell
+widget.
+
+
+WcSetValueCB( resLHS: resRHS )
+------------------------------
+
+WcSetValueCB maps very closely to XtSetValues().  An augmented resource
+file syntax is accepted so you can cut and paste the arguments and
+names.  The widget path name can include wildcards, and it can also be
+a relative path from the invoking widget.  Real examples:
+
+  *push.activateCallback: WcSetValueCB( *push.activateCallback: WcExitCB(1) ), \
+                          WcSetValueCB( *push.labelString:      Goodbye! )
+
+  *fileMenu.wcCallback:   WcSetValueCB(*file.subMenuId: this)
+
+  *Pink.armCallback:	  WcSetValueCB( ^^drawing.background: Pink )
+
+
+WcSetTypeValueCB( resLHS: resType, resRHS )
+-------------------------------------------
+
+Don't use this callback unless you absolutely MUST.  The only time you
+need to use this callback is when you are setting a sub-resource on a
+widget.  For example, if you want to set the font of an Athena or
+Motif text widget.  WcSetValueCB will just complain that the widget does 
+not have a Font resource.
+You must specify the correct type of the resource.  Make an error, and you
+will very likely get a core dump.  Just like if you use XtSetValues.
+
+We hope to resolve problem in a future Wcl release. The widget class
+registration routine will provide necessary resource information, where
+needed.
+
+
+WcLoadResourceFileCB( filename )
+--------------------------------
+
+This callback loads specified resource file into application resource
+database. It allows resources to be loaded on as-needed basis, reducing the
+intitial resource file load overhead.  The file to load is specified as
+client data. The directory search for the file (should be) the same as
+for application class resource file.
+
+To prevent repeated loads of the same file, the callback keeps track of
+each filename.  Note that I do not allow a file to be re-loaded even if
+it is changed, or if a new file of the same name appears on the search
+path.  This was done for two reasons:  first, it makes the code more
+portable, as I don't have to depend upon various system calls.  Second,
+resources can't be un-written, so a user might get the wrong impression
+that a resource specification can be deleted, and the resource file
+re-loaded, and something will happen.  It just isn't so.
+
+
+WcSystemCB( shell command line )
+--------------------------------
+
+This callback passes the entire string argument to you standard shell
+using the system() C library function.  Append an ampersand if you want
+the shell to fork instead of blocking until complete.
+
+
+WcTraceCB( annotation )
+-----------------------
+
+This callback can be used to assist in interface debugging. The
+callback prints the invoking wiget pathname and a specified message on
+stdout.
+
+
+WcExitCB( exitValue )
+---------------------
+
+This callback converts the argument string into a base 10 integer, and
+passes the result to exit(), which of course terminates the
+application.
+
+
+
+WcSetTypeValueCB notes
+----------------------
+
+Somebody was reporting that they were having problems setting fonts on
+text widgets.  I happened to want to change fonts in an application I'm
+doing too.
+
+I tried using the WcSetValuesCB code which did not work, because the
+font on an XmText widget (and XawText too) is a sub-resource.  Since
+I try to make Wc a safe library (:^) I had always been checking the
+appropraite resource type and then invoking the converter registered
+by the widget.  The library did not need to know anything about the
+widgets, and core dumps were nicely avoided.
+
+Unfortunately, there is no way to query widgets for their sub-resources,
+and therefore the Wcl library cannot know what resource type is required.
+As we all know, widgets have a habit of dumping core when an inappropriate
+type is passed in to XtSetValue.  Well, I can't do anything about it for
+these sub resources!  If you specify something incorrectly in the resource
+file, it'll dump, exactly as when you do it in C code.
+
+Anyway, this is what now works using version 2.0 of Wcl:
+
+Mri.wcChildren:			msgWindow
+
+*msgWindow.wcClassName:         XmText
+*msgWindow.wcPopups:            msgFontMenu
+*msgWindow.fontList:            -adobe-times-bold-i-normal--14-140-*
+*msgWindow.value:               Here is an XmText which has a popup menu
+*msgWindow.translations:   #augment \n\
+                <Btn3Down>: MriPopupACT( *msgFontMenu )
+
+*msgFontMenu.WcConstructor:     XmCreatePopupMenu
+*msgFontMenu.WcChildren:        msgFont1, msgFont2, msgFont3
+
+*msgFont1.wcConstructor:        XmCreateCascadeButton
+*msgFont1.labelString:          courier bold oblique 10
+*msgFont1.fontList:             -adobe-courier-bold-o-normal--10-100-*
+*msgFont1.activateCallback:     WcSetTypeValueCB( \
+                                    *msgWindow.fontList: FontList,\
+                                        -adobe-courier-bold-o-normal--10-100-* )
+*msgFont2.wcConstructor:        XmCreateCascadeButton
+*msgFont2.labelString:          helvetica bold oblique 18
+*msgFont2.fontList:             -adobe-helvetica-bold-o-normal--18-180-*
+*msgFont2.activateCallback:     WcSetTypeValueCB( \
+                                    *msgWindow.fontList: FontList,\
+                                        *-helvetica-bold-o-*--18-*)
+*msgFont3.wcConstructor:        XmCreateCascadeButton
+*msgFont3.labelString:          courier bold oblique 10
+*msgFont3.fontList:             -adobe-courier-bold-o-normal--34-240-*
+*msgFont3.activateCallback:     WcSetTypeValueCB(       \
+                                    *msgWindow*fontList: FontList:      \
+                                        -adobe-courier-bold-o-normal--34-240-* )
+
+Notes:  It just so happens that XmText does rationally allow augmentation
+of its translations, so the translation specification:
+
+    *msgWindow.translations:   #augment \n\
+                <Btn3Down>: MriPopupACT( *msgFontMenu )
+
+predictably causes a pop-up menu to come up when Btn3 (the Menu button 
+typically) is pressed.
+
+Note that there is a new Wc resource defined: wcPopups.  This allows
+pop-up children to be added to any widget, composite or primitive.
+
+Note that there is a new callback: WcSetTypeValueCB.  This callback requires
+a resource type, which unfortunately must be specified as defined in the
+widget include files.  Xm.h, for example, has the following:
+
+	#define XmRFontList                "FontList"
+
+So, since the XmText Output Resource Set has the following:
+
+	XmNfontList	XmCFontList	XmFontList	fixed	CSG
+
+and we know ;^) that XmFontList has this special mapping to the define
+XmRFontList, we discover that the appropriate type to provide needs to
+be FontList.  Not Font, not font, not anything else.  Anything else
+will cause a core dump.  Just like in your C code.  Darn, I wish I
+could be more socially responsible, but that's life, folks!
+

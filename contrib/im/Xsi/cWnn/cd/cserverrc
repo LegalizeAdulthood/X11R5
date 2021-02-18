@@ -1,0 +1,39 @@
+;
+; $Id: cserverrc,v 1.1 1991/09/11 02:29:46 ohm Exp $
+;
+jserver_dir	/usr/local/lib/wnn/zh_CN/dic
+readfile	sys/basic.dic	
+readfile	sys/level_1.dic
+readfile	sys/level_2.dic
+;readfile	sys/computer.dic
+readfile	sys/WuBi.dic
+readfile	sys/QianMa.dic
+
+readfile	sys/full.con
+
+max_client	32
+max_sticky_env	10
+
+def_param 2  3  5   180 100 20  50  50  50  0   -50 -200 0  4  3  256 0
+;	  N  M  频  长  四  刚  优  值  组  个   数  英  记 开 闭 最  备
+
+;	N:  解析词组个数		   	变换规模参数
+;	M:  词组中词的最大个数
+
+;	频:  频度权值				词评价参数
+;	长:  词长度权值
+;	四:  四声正确度权值
+;	刚:  刚才用过权值
+;	优:  字典优先级权值
+
+;	值:  词评价均值权值			词组评价参数
+;	组:  词组长权值
+;	个:  词组中词个数权值
+
+;	数:  数字的频度				其他参数
+;	英:  英文字母的频度
+;	记:  记号的频度
+;	开:  开括弧的频度
+;	闭:  闭括弧的频度
+;	最:  最大候补个数
+;	备:  备用

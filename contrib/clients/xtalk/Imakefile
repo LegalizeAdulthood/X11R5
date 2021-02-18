@@ -1,0 +1,8 @@
+          SRCS = xtalk.c TalkSrc.c
+          OBJS = xtalk.o TalkSrc.o
+       DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+	
+
+AllTarget(xtalk)
+ComplexProgramTarget(xtalk)

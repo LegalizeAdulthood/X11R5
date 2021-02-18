@@ -1,0 +1,13 @@
+NAME	iso8859-1
+
+CODESET0
+    Length	1
+    GL
+    Encoding
+	iso8859-1	GL
+	sunolcursor-1   GL
+	sunolglyph-1    GL
+    Font
+	iso8859-1	GL
+	sunolcursor-1   GL 
+	sunolglyph-1    GL

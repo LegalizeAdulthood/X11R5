@@ -1,0 +1,60 @@
+.TH LCLOCK 1 "Release 4" "X Version 11"
+.SH NAME
+lclock \- display time of day
+.SH SYNOPSIS
+.B lclock
+[-option ...]
+.SH DESCRIPTION
+.I Clock
+simply displays the current time on an analog display
+.SH OPTIONS
+.TP 8
+.B \-bg \fIbackground color\fB
+choose a different color for the background.
+.TP 8
+.B \-minute \fIminute color\fB
+choose a different color for the minute hand of the clock.
+.TP 8
+.B \-hour \fIhour color\fB
+choose a different color for the hour hand of the clock.
+.TP 8
+.B \-backing \fI{ WhenMapped Always NotUseful }\fB
+selects an appropriate level of backing store.
+.TP 8
+.B \-geometry \fIgeometry\fB
+define the initial window geometry; see \fIX(1)\fP.
+.TP 8
+.B \-display \fIdisplay\fB
+specify the display to use; see \fIX(1)\fP.
+.TP 8
+.B \-bd \fIborder color\fB
+choose a different color for the window border.
+.TP 8
+.B \-bw \fIborder width\fB
+choose a different width for the window border.  As the Clock widget changes
+its border around quite a bit, this is most usefully set to zero.
+.SH COLORS
+Although the default colors for the Clock widget are black and white, the
+widget was designed in color; unfortunately, the toolkit makes specifying
+these colors in a device-independent manner difficult.  If you want to
+see the correct colors, add the following lines to your resource file:
+.sp 1
+Clock*Background: grey
+.br
+Clock*BorderColor: light blue
+.br
+Clock*hour: yellow
+.br
+Clock*minute: yellow
+.SH BUGS
+Should really be called \fBxclock\fR, but that name was already taken.
+.SH "SEE ALSO"
+X(1), X Toolkit documentation
+.SH COPYRIGHT
+Copyright 1989, Massachusetts Institute of Technology.
+Copyright 1990, Network Computing Devices, Inc.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHOR
+Keith Packard, MIT X Consortium
+Dave Lemke, Network Computing Devices, Inc

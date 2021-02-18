@@ -1,0 +1,47 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/cfb/RCS/Imakefile,v 
+*** 1.1	1991/09/22 02:40:37
+--- 1.2	1991/09/22 18:30:18
+***************
+*** 4,13 ****
+  	 cfbpntwin.c cfbmskbits.c cfbpixmap.c cfbbitblt.c \
+  	 cfbfillsp.c cfbsetsp.c cfbscrinit.c \
+  	 cfbgetsp.c cfbfillrct.c cfbtileodd.c \
+! 	 cfbcmap.c cfbzerarc.c cfbfillarc.c \
+  	 cfbtegblt.c cfbbstore.c \
+! 	 cfb8bit.c cfbteblt8.c cfbglblt8.c \
+!  	 cfbpush8.c cfbrctstp8.c cfbpolypnt.c \
+  	 cfbbres.c cfbline.c cfbhrzvert.c cfbbresd.c cfbimage.c
+  
+  OBJS =   cfbgc.o cfbwindow.o \
+--- 4,12 ----
+  	 cfbpntwin.c cfbmskbits.c cfbpixmap.c cfbbitblt.c \
+  	 cfbfillsp.c cfbsetsp.c cfbscrinit.c \
+  	 cfbgetsp.c cfbfillrct.c cfbtileodd.c \
+! 	 cfbcmap.c cfbfillarc.c \
+  	 cfbtegblt.c cfbbstore.c \
+!  	 cfbpolypnt.c \
+  	 cfbbres.c cfbline.c cfbhrzvert.c cfbbresd.c cfbimage.c
+  
+  OBJS =   cfbgc.o cfbwindow.o \
+***************
+*** 14,23 ****
+  	 cfbgetsp.o cfbfillrct.o cfbtileodd.o \
+  	 cfbfillsp.o cfbsetsp.o cfbscrinit.o \
+  	 cfbpntwin.o cfbmskbits.o cfbpixmap.o cfbbitblt.o \
+! 	 cfbcmap.o cfbzerarc.o cfbfillarc.o \
+  	 cfbtegblt.o cfbbstore.o \
+! 	 cfb8bit.o cfbteblt8.o cfbglblt8.o \
+!  	 cfbpush8.o cfbrctstp8.o cfbpolypnt.o \
+  	 cfbbres.o cfbline.o cfbhrzvert.o cfbbresd.o cfbimage.o cfbseg.o
+  
+     INCLUDES = -I. -I../mfb -I../mi -I../../include -I$(INCLUDESRC)
+--- 13,21 ----
+  	 cfbgetsp.o cfbfillrct.o cfbtileodd.o \
+  	 cfbfillsp.o cfbsetsp.o cfbscrinit.o \
+  	 cfbpntwin.o cfbmskbits.o cfbpixmap.o cfbbitblt.o \
+! 	 cfbcmap.o cfbfillarc.o \
+  	 cfbtegblt.o cfbbstore.o \
+!  	 cfbpolypnt.o \
+  	 cfbbres.o cfbline.o cfbhrzvert.o cfbbresd.o cfbimage.o cfbseg.o
+  
+     INCLUDES = -I. -I../mfb -I../mi -I../../include -I$(INCLUDESRC)

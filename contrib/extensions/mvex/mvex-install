@@ -1,0 +1,177 @@
+#!/bin/sh
+# $Header: /usr/local/src/video/release/mvex-r1/RCS/mvex-install,v 1.1
+1991/09/30 20:06:06 toddb Exp toddb $
+MvexRelease="MVEX release 1"
+  StartWith=
+
+#
+# Check for the tar file
+#
+cat <<EOF
+This shell script is intended to ease the installation of $MvexRelease
+into an existing X11 build environment.  You'll be asked a few
+questions and then installation will begin.  If you cooperate,
+then no one will get hurt :-)
+
+checking files...
+EOF
+
+if [ ! -d mvex-files ]
+then
+    echo "I can't find the mvex-files directory files in the currect"
+    echo "directory...  You must be in the wrong directory.  Change",
+    echo "directory to contrib/extensions/mvex, and run this script again."
+    exit 1
+fi
+
+#
+# Find out which server to use 
+#
+cat <<EOF
+
+Your X11 server sources are either release 4 (R4) or release 5 (R5)
+or somewhere in between.  Pike the one to which it is closest.
+
+
+EOF
+while :
+do
+    echo -n "What version of X11 are you using (r4 or r5): "
+    read version
+
+    case "$version" in
+    r4)	break;;
+    r5) break;;
+    *)	echo "Your answer must be r4 or r5";;
+    esac
+done
+
+#
+# Check that the diffs are present
+#
+if [ ! -d $version-diffs -o ! -f $version-difflist ]
+then
+    echo
+    echo "$version-diffs or $version-difflist is not present... you"
+    echo "must have forgotten to unpack it.  Put mvex-r1.tar.Z or"
+    echo "mvex-r1.tar in your current directory, and run this script again."
+    exit
+fi
+
+#
+# Check the directory tree.
+#
+cat <<EOF
+
+To install this extension, I need to know the path of the server
+sub-directory for your X11 tree.  On our system it is in
+/usr/local/src/x11r5/mit/server.  
+
+
+EOF
+
+while :
+do
+    echo -n "Where's your server directory (relative paths are ok): "
+    read serverDir
+    echo
+    if [ ! -d "$serverDir" ]
+    then
+	if [ -f "$serverDir" ]
+	then
+	    echo "Thats not a dirctory, its..."
+	    ls -ld "$serverDir"
+	else
+	    echo "$serverDir doesn't exist!  Try again."
+	fi
+	continue
+    fi
+
+    #
+    # check out the specified file
+    #
+    topMitDir=`(cd $serverDir/..; pwd)`
+	server="server "
+    extensions="extensions "
+       include="include "
+	   lib="lib "
+	 fonts="fonts "
+	 files=`ls -F $topMitDir`
+    for file in $files
+    do
+	case "$file" in
+	server/)	server=;;
+	extensions/)	extensions=;;
+	include/)	include=;;
+	lib/)		lib=;;
+	fonts/)		fonts=;;
+	esac
+    done
+
+    case "${server}x${extensions}x${include}x${lib}x${fonts}" in
+    xxxx)break;;
+    *)	echo "There seems to be a problem... assuming"
+	echo "that $topMitDir (which is $serverDir/..)"
+	echo "is the top level of the build tree, the following directories"
+	echo "are missing: $server$extensions$include$fonts$lib"
+	echo
+	echo -n "do you want to continue (y or n): "
+
+	read ans
+	case "$ans" in
+	y*)	break;;
+	*)	exit;;
+	esac
+	;;
+    esac
+done
+
+#
+# Install it
+#
+
+echo
+echo "I will put a new set of files"
+echo "in $topMitDir/extensions/mvex"
+echo -n "Hit return to continue or ^C to quit..."
+read prompt
+
+(cd mvex-files; tar cf - .) | (cd $topMitDir; tar xvf -)
+
+echo
+echo "I will put a set of $version patches (diffs)"
+echo "in $topMitDir/server"
+echo "right next to each file to be patched."
+echo -n "Hit return to continue or ^C to quit..."
+read prompt
+
+(cd $version-diffs; tar cf - .) | (cd $topMitDir; tar xvf -)
+
+echo
+echo "Now, I need to patch of the files."
+echo -n "Hit return to continue or ^C to quit..."
+read prompt
+
+(
+    cd $topMitDir
+    while read file
+    do
+	(set -x; patch $file < $file.diff)
+    done
+) < $version-difflist
+
+cat <<EOF
+
+The rest is up to you.  If you haven't built anything in the X11 tree,
+you should should read the X11 release notes that should be in
+$topMitDir/RELNOTES.TXT.  If you already have everything but mvex built,
+then the following commands should be sufficient.
+
+	cd $topMitDir
+	make -k Makefiles SUBDIRS="extensions server"
+        make -k includes                # very, very important
+        make -k depend
+        make -k
+
+If you have problems, be sure to let me know --- toddb@sail.labs.tek.com
+EOF

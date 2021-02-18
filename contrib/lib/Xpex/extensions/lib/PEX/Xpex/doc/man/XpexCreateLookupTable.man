@@ -1,0 +1,132 @@
+.\" $Header: XpexCreateLookupTable.man,v 2.4 91/09/11 16:04:25 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexCreateLookupTable 3PEX "$Revision: 2.4 $" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexCreateLookupTable, XpexCopyLookupTable, 
+XpexFreeLookupTable \- Manage the creation, freeing, 
+and copying of lookup table resources
+.SH "Synopsis"
+.nf
+XpexLookupTable XpexCreateLookupTable(dpy, drawable, table_type)
+.br
+	Display \fI*dpy\fP;
+.br
+	Drawable \fIdrawable\fP;
+.br
+	XpexTableType \fItable_type\fP;
+.sp
+void XpexCopyLookupTable(dpy, src_lut_id, dest_lut_id)
+.br
+	Display \fI*dpy\fP;
+.br
+	XpexLookupTable \fIsrc_lut_id\fP;
+.br
+	XpexLookupTable \fIdest_lut_id\fP;
+.sp
+void XpexFreeLookupTable(dpy, lut_id)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexLookupTable \fIlut_id\fP;
+.fi
+.SH "Arguments"
+.IP \fIdisplay\fP 1i
+Specifies a pointer to the Display structure; 
+returned from XOpenDisplay.
+.IP \fIdrawable\fP 
+Specifies the drawable.
+.IP \fItable_type\fP
+Specifies the type of lookup table that is to be created.
+.SH "Description"
+.\"Refer to PEX Protocol Specification Document, Section 4.1.
+\fIXpexCreateLookupTable\fP can generate 
+\fIBadIDChoice\fP, 
+\fIBadDrawable\fP,
+\fIBadValue\fP, 
+\fIBadAlloc\fP, and
+\fIBadLookupTable\fP errors.
+.sp
+\fIXpexCopyLookupTable\fP can generate
+\fIBadLookupTable\fP and 
+\fIBadMatch\fP errors.
+.sp
+\fIXpexFreeLookupTable\fP can generate a 
+\fIBadLookupTable\fP error.
+.SH "Structures"
+/* Definitions for table_type argument */
+.br
+#define Xpex_LineBundleLUT		1
+.br
+#define Xpex_MarkerBundleLUT	2
+.br
+#define Xpex_TextBundleLUT		3
+.br
+#define Xpex_InteriorBundleLUT	4
+.br
+#define Xpex_EdgeBundleLUT		5
+.br
+#define Xpex_PatternLUT			6
+.br
+#define Xpex_TextFontLUT		7
+.br
+#define Xpex_ColorLUT			8
+.br
+#define Xpex_ViewLUT			9
+.br
+#define Xpex_LightLUT			10
+.br
+#define Xpex_DepthCueLUT		11
+.br
+#define Xpex_ColorApproxLUT		12
+.br
+#define Xpex_MaxTableType		12
+.SH "Errors"
+.IP \fIBadIDChoice\fP 1i
+ID already in use or not in range assigned to client
+.IP \fIBadDrawable\fP 1i
+specified drawable resource ID is invalid
+.IP \fIBadValue\fP 1i
+table type value does not name a valid table type
+.IP \fIBadAlloc\fP 1i
+server failed to allocate the requested resource
+.IP \fIBadLookupTable\fP 1i
+table_type not supported by implementation
+.IP \fIBadLookupTable\fP 1i
+either src_lut_id or dest_lut_id is an invalid resource ID
+.IP \fIBadMatch\fP 1i
+src_lut_id and dest_lut_id must be the same type of lookup
+table
+.SH "Related Commands"
+XpexGetTableInfo,
+XpexGetPredefinedEntries,
+XpexGetDefinedIndices, 
+XpexGetTableEntry,
+XpexGetTableEntries, 
+XpexSetTableEntries,
+XpexDeleteTableEntries.
+.br

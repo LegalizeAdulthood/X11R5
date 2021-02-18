@@ -1,0 +1,101 @@
+関 数 名				機	能
+
+
+●通信関係のプリミティブ
+
+js_open			日本語マルチクライアントサーバの使用を開始する。
+js_close		日本語マルチクライアントサーバの使用を終了する。
+js_isconnect		カレントのサーバとコネクトしているかを判定する。
+
+
+●環境関係のプリミティブ
+
+js_connect		jserverに環境を作成する。
+js_disconnect		jserverの環境を消去する。
+js_env_list		jserver 中の全ての環境に関する情報を得る。
+
+
+●ファイル関係のプリミティブ
+
+js_file_read		サーバ側のファイルをアップロードする。
+js_file_write		サーバ側へファイルをダウンロードする。
+js_file_receive		クライアント側へファイルをダウンロードする。
+js_file_send		クライアント側のファイルをアップロードする。
+js_file_list		jserver中のファイルに関する情報を得る。
+js_file_list_all	jserver中の全てのファイルに関する情報を得る。
+js_file_info		ファイルの情報を調べる。
+js_file_discard		ファイルをjserver上からなくす。
+js_file_loaded		ファイルがjserver上にロードされているかを調べる
+js_file_loaded_local	ファイルがロードされているかを調べる。
+js_file_comment_set	ファイルのコメントを設定する。
+
+
+●辞書関係のプリミティブ
+
+js_dic_add		使用辞書を追加する。
+js_dic_delete		使用辞書を削除する。
+js_dic_list		使用中の辞書を得る。
+js_dic_list_all		使用中の全ての辞書を得る。
+js_dic_info		辞書情報の取り出し。
+js_dic_use		辞書を変換に参加させる(参加させない)の設定。
+
+
+●環境に対する辞書以外の設定のプリミティブ
+
+js_param_get		変換 parameter を取り出す。
+js_param_set		変換 parameter を設定する。
+js_fuzokugo_set		付属語ファイルを指定する。
+js_fuzokugo_get		付属語ファイルを取り出す。
+
+
+●辞書内の単語を操作するプリミティブ
+
+js_word_add		辞書に単語を登録する。
+js_word_delete		辞書から単語を削除する。
+js_word_search		辞書から単語を引く。
+js_word_search_by_env	環境で読みの単語を引く。
+js_word_info		辞書の単語に関する情報を得る。
+js_word_comment_set	辞書の単語にコメントを設定する。
+js_hindo_set		辞書の単語の頻度を設定する。
+
+
+●サーバ・ファイルシステム上のファイルに関するプリミティブ
+
+js_access		ファイルのアクセス権を調べる。
+js_mkdir		サーバの管理下にディレクトリを作成する。
+js_file_remove		サーバ・サイトのファイルを消去する。
+js_file_stat		ファイルの種類を調べる。
+js_dic_file_create	辞書ファイルをサーバ・サイトに作成する。
+js_hindo_file_create	辞書ファイルの頻度ファイルを作る。
+
+
+●クライアント・ファイルシステム上のファイルに関するプリミティブ
+
+js_dic_file_create_client 辞書ファイルをクライアント・サイトに作成する。
+js_hindo_file_create_client 辞書ファイルの頻度ファイルをクライアント・サ
+			イトに作成する。
+js_file_remove_client	クライアント・サイトのファイルを消去する。
+
+
+●変換関係のプリミティブ
+
+js_kanren		連文節変換を行う。
+js_kantan_dai		単文節変換で大文節変換を行う。
+js_kantan_sho		単文節変換で小文節変換を行う。
+js_kanzen_dai		単文節変換で大文節変換変換し全候補を得る。
+js_kanzen_sho		単文節変換で小文節変換変換し全候補を得る。
+
+
+●品詞関係のプリミティブ
+
+js_hinsi_name		品詞番号から品詞名を得る。
+js_hinsi_number		品詞名から品詞番号を得る。
+js_hinsi_list		品詞ノード名から品詞名の列を得る。
+
+
+●その他のプリミティブ
+
+js_version		サーバ、及び、ライブラリのバージョンを調べる。
+js_who			サーバの使用者を得る。
+js_kill			サーバを終了させる。
+

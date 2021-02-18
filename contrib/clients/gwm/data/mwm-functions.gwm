@@ -1,0 +1,221 @@
+
+;;File: mwm-functions.gwm --
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+; Description of mwm functions :
+; - 	f.function_name : the function
+; -	e.function_name : the validity field of the function
+;
+; e.function_name determines if an item is enable or not,
+; the function evaluation looks like : (if e.fctn (f.fctn))
+
+(df f.beep () (bell))
+(: e.beep t)
+
+(df f.circle_down () (circulate-windows-down))
+(: e.circle_down t)
+
+(df f.circle_up () (circulate-windows-up))
+(: e.circle_up t)
+
+(df f.eval args (eval (# 0 args)))
+(: e.eval t)
+
+(df f.focus_key ())
+(: e.focus_key t)
+
+(df f.identify ()
+    (pop-up-win "Version"
+                (+ "Name: " window-name)
+              (+ "Resource name: " window-client-name)
+              (+ "Resource class: " window-client-class)
+              (+ "Geometry: " (itoa (# 0 window-size))
+                 "x" (itoa (# 1 window-size))
+                 "+" (itoa window-x)
+                 "+" (itoa window-y))
+              (if window-is-shaped "Shaped" "Rectangular")))
+(: e.identify t)
+
+(df f.kill () 
+ (progn
+  (send-user-event 'depop)
+  (kill-window)
+ )
+)
+(: e.kill t)
+
+(df f.delete ()
+    (progn
+      (send-user-event 'depop)
+      (delete-window)))
+(: e.delete t)
+
+(df f.load (file)
+    (load file))
+(: e.load t)
+
+(df f.lower () (lower-window))
+(: e.lower t)
+
+(df f.maximize () (zoom))
+(: e.maximize '(not (# 'zoom window-property)))
+
+(df f.menu args 
+ (eval (+ '(menu.pop) args))
+)
+(: e.menu t)
+
+(df f.minimize () 
+ (progn 
+  (mwm-iconify-window)
+  (if (and (= keyboardFocusPolicy 'explicit) autoKeyFocus)
+   (set-focus-kFL)
+  )
+ )
+)
+(: e.minimize '(not (= window-status 'icon)))
+
+(df f.move ()
+ (if action-by-menu (warp-pointer (/ window-width 2) (/ window-height 2) window))
+ (with (cursor cross-cursor) 
+  (if (= window-status 'icon)
+   (move-icon)
+   (move-window)
+  )
+ )
+)
+(: e.move t)
+
+(df f.nop () )
+(: e.nop t)
+
+(df f.normalize ()
+	(if (= window-status 'icon)
+          (progn 
+	   (mwm-de-iconify-window)
+           (if (and (= keyboardFocusPolicy 'explicit) deiconifyKeyFocus)
+	    (set-focus window-window)
+	   )
+	  )
+          (zoom) ) )
+(: e.normalize '(or (= window-status 'icon) (# 'zoom window-property)))
+
+
+
+(df f.post_wmenu (button) 
+ (menu.pop (window-menu) button)
+)
+(: e.post_wmenu t)
+
+(df f.quit_mwm () (end))
+(: e.quit_mwm '(= window-status 'root))
+
+(df f.raise () 
+	(if
+	(not (= window 
+	  (with (l (list-of-windows 'stacking-order))
+		(# (- (length l) 1) l)
+	  ) ) )
+	(raise-window))
+)
+(: e.raise t)
+
+(df f.raise_lower ()
+    (with (win-unobscured t
+         might-obscure ())
+       (for w (list-of-windows 'stacking-order 'mapped)
+          (if (and might-obscure
+                   (obscured-by window w))
+              (: win-unobscured ()))
+          (if (= w window) (: might-obscure t))
+       (if win-unobscured
+         (lower-window)
+         (raise-window)))))
+(: e.raise_lower t)
+
+(df f.raise_move ()
+    (f.raise)
+    (f.move))
+(: e.raise_move t)
+
+(df f.refresh () (refresh))
+(: e.refresh t)
+
+(df f.refresh_win () (refresh window))
+(: e.refresh_win t)
+
+(df f.resize () (send-user-event 'resize-by-menu))
+(: e.resize '(= window-status 'window))
+
+(df f.restart () (restart))
+(: e.restart '(= window-status 'root))
+
+(df f.set_behavior ())
+(: e.set_behavior t)
+
+(df f.title ())
+(: e.title t)
+
+(df f.warpto (name)
+    (with (found-window () winlist (list-of-windows 'window 'mapped))
+        (for w winlist
+             (with (wob w)
+                   (if (and (not found-window)
+                            (match name window-name))
+                       (progn
+                         (: found-window t)
+                         (raise-window)
+                         (warp-pointer (/ window-width 2)
+                                       (/ window-height 2) w)))))))
+(: e.warpto t)
+
+(df f.exec args  (eval (+ '(!) args)) )
+(: e.exec t)
+
+(df f.exec-cut () (execute-string (+ "(? " cut-buffer ")")) )
+(: e.exec-cut t)
+
+
+(de f.pack_icons ()
+ (with (theIconList (list-of-windows 'icon 'mapped)
+        i 0 l (length theIconList)
+       )
+  (: icon-array (list-make (* nb-icons.w nb-icons.h)))
+  (while (< i l)
+   (with (thePlace (auto-get-place)
+          X (# 0 thePlace)
+          Y (# 1 thePlace)
+          thePixelPlace (XY-to-xy X Y)
+          x (# 0 thePixelPlace)
+          y (# 1 thePixelPlace)
+          theIcon (# i theIconList)
+         )
+    (set-icon-of-array X Y theIcon)
+    (move-window theIcon x y)
+    (## 'X theIcon X)
+    (## 'Y theIcon Y)
+   )
+   (: i (+ i 1))
+  )
+ )
+)
+(: e.pack_icons iconAutoPlace)
+
+(df f.info () (? "Window: " (window-client-name) "."
+                  (window-client-class) "."
+                  (window-name) "@"
+                  (window-machine-name) "\n")
+)
+(: e.info t)
+
+(df f.termcap () (progn (send-key-to-window "eval `resize`" alone)
+                        (send-key-to-window 0xff0d alone)
+                 )
+)
+
+(: e.termcap '(=  window-client-class "XTerm"))

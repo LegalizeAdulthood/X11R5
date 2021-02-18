@@ -1,0 +1,51 @@
+.TH "Ari" 1 "1 January 1991"
+.SH NAME
+Ari \- Athena Resource Interpreter
+.SH SYNOPSIS
+.B Ari \fIresource_file_name\fP [options]
+.SH DESCRIPTION
+.I Ari
+is a tool for developing MIT Athena widget set based user interfaces.  
+The look and
+feel of the user interface can be specified in one or more X resource
+files. Ari includes a complete Athena widget set.
+.SH OPTIONS
+.I Ari 
+accepts all of the standard 
+.I X
+toolkit command line options (see
+.I X(1))
+.SH FILES
+.IP /usr/lib/X11/app-defaults/A[0-9][0-9]*
+Example resource files.
+.IP .../Doc/*
+Documents describing the Widget Creation Library (Wcl), Ari, and Mri.
+The Doc directory is probably named ...contrib/Wcl/Doc within the X11
+source tree.
+.SH "ENVIRONMENT VARIABLES"
+.IP XUSERFILESEARCHPATH,XAPPLRESDIR,HOME,XENVIRONMENT
+Specifies the directory where to look for the initial resource file.
+.SH "SEE ALSO"
+.BI Ari (1),	
+.BI X (1)
+.SH AUTHORS
+Martin Brunecky at Auto-trol Technology, Denver (marbru@auto-trol.com)
+wrote the initial code and posted it to comp.windows.x with the title
+POOR MAN's UIL - WsXc.
+
+David E. Smyth (formerly of Jet Propulsion Labs, Pasadena) rewrote WsXc
+into it's present form - Wcl, adding Ari and Mri interpreters, providing
+numerous enhancements, examples, documentation and overall support.
+
+David Harrison of the UC Berkeley Electronics Research Lab
+(davidh@ic.Berkeley.EDU or ...!ucbvax!ucbcad!davidh) wrote a very
+useful Table widget.  Kee Hinckley (nazgul@alphalpa.com) wrote a
+version of Table which works with Motif.  The Table widget, in both its
+incarnations, is so usefull we've included it with this distribution.  
+Newer versions may be is separately available from archive sites. 
+
+Many people helped alot by providing bug fixes, enhancements, suggestions,
+and just plain feedback.  There are many who helped, including Andrew Peebles
+at MIPS, Randy Brown, Art Poley, Mike Yee of OSF, Richard Hesketh, Kaleb
+Keithley at JPL and Ron Newman at BBN.
+

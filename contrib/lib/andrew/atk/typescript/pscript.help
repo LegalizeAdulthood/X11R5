@@ -1,0 +1,54 @@
+\begindata{text,268624292}
+\textdsversion{12}
+\template{help}
+\chapter{\center{Pipescript:  Editor Interface to Pipes
+
+}}
+\section{What Pipescript is
+
+}\leftindent{
+Pipescript allows output to be piped on to a bitmap display.
+
+
+Pipescript displays its standard input in an editor window.  You can scroll 
+backwards and forwards, and copy pieces to the cut buffer to be pasted 
+elsewhere.
+
+}
+\section{Quick reference
+
+}\leftindent{
+\subsection{Syntax}
+
+
+pipescript [ -t title ]
+
+
+\subsection{Options}
+
+
+\bold{-t} The next argument is used as the title in the window headline.}
+
+
+\section{Warnings
+
+}\leftindent{
+Attempting to examine the history while output is being generated causes 
+non-intuitive behaviour.
+
+}
+\section{Related tools}  
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+\leftindent{
+\italic{typescript}
+
+}
+\leftindent{
+}
+
+
+\enddata{text,268624292}

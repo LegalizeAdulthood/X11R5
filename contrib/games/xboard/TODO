@@ -1,0 +1,12 @@
+2. add more gnuchess switches
+3. human-human playing
+4. xor piece while user moves it
+5. gray background for dark squares in 1-bit mode
+6. alternate promotion code
+7. positions assume that White is on move
+8. slow down TwoMachines mode
+9. manual position setup
+10. add time odds to record-file
+12. analog clocks, scoresheet text widget, jail
+13. -iconic doesn't work correctly
+14. indicator for force moves mode

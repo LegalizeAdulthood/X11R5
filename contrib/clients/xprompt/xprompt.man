@@ -1,0 +1,259 @@
+." SCCS_Id = "@(#)xprompt.man\tver 1.3 (91/09/28 14:23:32) brachman@cs.ubc.ca"
+." Copyright 1989, 1990, 1991 by
+." Barry Brachman and the University of British Columbia
+."
+." Permission to use, copy, modify, distribute, and sell this software and its
+." documentation for any purpose is hereby granted without fee, provided that
+." the above copyright notice appear in all copies and that both that
+." copyright notice and this permission notice appear in supporting
+." documentation, and that the name of U.B.C. not be used in advertising or
+." publicity pertaining to distribution of the software without specific,
+." written prior permission.  U.B.C. makes no representations about the
+." suitability of this software for any purpose.  It is provided "as is"
+." without express or implied warranty.
+."
+.TH XPROMPT 1 "29 January 1989"
+.SH NAME
+xprompt \- prompt a user for input
+.SH SYNOPSIS
+.B xprompt
+[ X toolkit options ] [-rlen number] [-ibw number]
+.ti +8
+[-grab] [-nograb] [-pfn fontname] [-rfn fontname]
+.ti +8
+[-re] [-nre] [-tf filename] [-w wordchars]
+.ti +8
+[-warp] [-nowarp]
+.ti +8
+-p prompt [-r reply] [-p prompt [-r reply]] ...
+.SH DESCRIPTION
+.I Xprompt
+pops up a window containing a prompt and an optional default reply.
+If more than one prompt argument is given, the cursor-down key and the return
+key select the next prompt and the cursor-up key selects the previous
+prompt.
+The program exits normally by typing <ctrl> D or
+pressing any mouse button inside the reply area of the window.
+The replies are printed to stdout, one per line.
+Most standard editing characters
+(e.g., Delete, Backspace, <ctrl> U, cursor movement)
+are available.
+These default key bindings may be changed.
+.PP
+.I Xprompt
+can be aborted by typing <ctrl> C.
+In this case, no output is generated and an exit code of
+1 is returned by the program.
+.PP
+The default is to position the window in the middle of the screen
+and to grab keyboard input so that the cursor need not be positioned
+inside the text area.
+If no height or width geometry is provided,
+.I xprompt
+will calculate it based on the length of the prompt, the reply length, and the
+fonts being used.
+If a height (or width) is provided it is interpreted in terms of
+the character height (or width) in the reply font.
+.SH OPTIONS
+The following command line flags are recognized:
+.TP 8
+.BI \-rlen " number"
+Specifies the maximum length of the reply.
+The default is 80 characters.
+.TP 8
+.BI \-ibw " number"
+Specifies the border width for the box bounding the text area.
+The default is 1.
+.TP 8
+.B \-nograb
+The cursor must be in the text portion of the window for
+input to be accepted.
+.TP 8
+.B \-grab
+The cursor may be anywhere but
+input is directed to the text area.
+.TP 8
+.BI \-r " reply"
+Insert
+.I reply
+into the text area as the default reply.
+.TP 8
+.BI \-pfn " fontname"
+Specifies the font to be used for the prompt string.
+.TP 8
+.BI \-rfn " fontname"
+Specifies the font to be used for the reply string.
+.TP 8
+.BI \-re
+After all prompts have been seen, the return key causes the program to
+exit normally (i.e., it becomes a synonym for <ctrl> D).
+.TP 8
+.BI \-nre
+The return key will not terminate the program.
+This is the default.
+.TP 8
+.BI \-tf " filename"
+Specifies a file containing text translations, one per line,
+to override the defaults.
+.I Xprompt
+recognizes the following functions in addition to those predefined:
+.RS 8
+.TP 4
+.BI abort()
+The program terminates and returns an exit status of 1.
+The default binding is Ctrl<Key>C.
+.TP 4
+.BI erase-line()
+Erases the entire reply.
+The default binding is Ctrl<Key>U.
+.TP 4
+.BI erase-word()
+By default, a word is considered to consist of one or more alphanumeric
+characters.
+Non-word characters following the cursor are deleted, then word characters
+are deleted up until the next non-word character or the end of line.
+There is no default binding.
+.TP 4
+.BI finish-prompt()
+All replies are printed and the program terminates with an exit status
+of 0.
+The default bindings are Ctrl<Key>D, <Btn1Down>, <Btn2Down>, and <Btn3Down>.
+.TP 4
+.BI next-prompt()
+The next prompt is displayed.
+The list of prompts is circular, so the first prompt is displayed after
+the last.
+The default bindings are Ctrl<Key>J, Ctrl<Key>M, <Key>Down, and <Key>Linefeed.
+.TP 4
+.BI next-prompt-or-finish()
+If all prompts have been seen and returnExit is TRUE, finish-prompt()
+will be called otherwise next-prompt() will be called.
+The default binding is <Key>Return.
+.TP 4
+.BI previous-prompt()
+The previous prompt is displayed.
+The last prompt is considered to be previous to the first.
+The default binding is <Key>Up.
+.RE
+The resource
+.B textTranslations
+may also be used to specify translations.
+.TP 8
+.BI \-w " wordchars"
+The string
+.B wordchars
+specifies the characters that make up a word for the purpose
+of the erase-word() function.
+The string is in a format similar to that used by the
+.IR tar (1)
+command:
+.RS 8
+.TP 4
+.BI a)
+A backslash followed by 1, 2, or 3 octal digits stands for the ASCII
+character corresponding to the octal value.  The value is limited to
+8 bits.
+.TP 4
+.BI b)
+A backslash followed by a non-octal digit character stands for the
+character.
+.TP 4
+.BI c)
+Other ASCII characters stand for themselves.
+.TP 4
+.BI d)
+The range of characters between two characters, <c1> and <c2>,
+is specified by a sequence of the form <c1>-<c2> when <c1> comes before
+<c2> in the ASCII character set.
+.RE
+The default is "a-zA-Z0-9".
+.TP 8
+.B \-warp
+Warp the cursor into the text area and return it to its original position
+before exiting.
+.TP 8
+.B \-nowarp
+Don't warp the cursor.
+This is the default.
+.SH X DEFAULTS
+The standard X toolkit options and resources are accepted.
+For example, the default font can be changed by the standard
+.I -fn fontname
+flag or by the resource
+.IR XPrompt*Font.
+In addition, the following resources are understood:
+.TP 8
+.B "Rlen (\fPclass\fB Integer)"
+Specifies the maximum length of the reply.
+.TP 8
+.B "insideborderWidth (\fPclass\fB BorderWidth)"
+Specifies the border width for the box bounding the text area.
+.TP 8
+.B "Grab (\fPclass\fB Boolean)"
+Specifies whether keyboard input should be focussed on the text area
+regardless of where the cursor is.
+.TP 8
+.B "replyFont (\fPclass\fB Font)"
+The font to use for the reply string, overriding
+XPrompt*Font.
+.TP 8
+.B "promptFont (\fPclass\fB Font)"
+The font to use for the prompt string, overriding
+XPrompt*Font.
+.TP 8
+.B "returnExit (\fPclass\fB Boolean)"
+Specifies whether the return key should allow normal termination if
+all prompts have been seen.
+.TP 8
+.B "textTranslations (\fPclass\fB String)"
+Text widget translations.
+.TP 8
+.B "textTranslationFile (\fPclass\fB String)"
+The name of a file containing text widget translations.
+.TP 8
+.B "Warp (\fPclass\fB Boolean)"
+Warp the cursor into the text area.
+.TP 8
+.B "wordChars (\fPclass\fB String)
+The set of character that make up a word for the purpose of
+the erase-word() function.
+.SH NOTE
+If
+.I xprompt
+is invoked from a Bourne shell script,
+the following hack can be used to quickly grab multi-reply output:
+.sp 2
+.in +4
+reply=`xprompt -p "Prompt1" -p "Prompt2" -p "Prompt3"`
+.br
+IFS="
+.br
+"
+.br
+set $reply
+.br
+echo "First reply is: $1"
+.br
+echo "Second reply is: $2"
+.br
+echo "Third reply is: $3"
+.in -4
+.SH EXIT STATUS
+On normal completion 0 is returned.
+If the program is aborted, 1 is returned.
+.SH SEE ALSO
+tar(1)
+.SH AUTHOR
+.nf
+Barry Brachman
+brachman@cs.ubc.ca
+Dept. of Computer Science
+University of British Columbia
+
+Valuable suggestions by Rick Morrison and Bob Mende.
+Conversion to X11R5 by Casey Leedom.
+.SH BUGS
+The reply is limited to a single line.
+The user is responsible for ensuring that a proper window size
+is chosen.
+

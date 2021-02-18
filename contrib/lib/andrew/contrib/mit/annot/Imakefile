@@ -1,0 +1,39 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+/* $Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/contrib/mit/annot/RCS/Imakefile,v 1.4 1991/09/25 23:26:19 mcinerny Exp $ */
+/* $ACIS:$ */
+/* $Source: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/contrib/mit/annot/RCS/Imakefile,v $ */
+
+#if !defined(lint) && !defined(LOCORE) && defined(RCS_HDRS)
+	char *sketch_ch_rcsid = "$Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/contrib/mit/annot/RCS/Imakefile,v 1.4 1991/09/25 23:26:19 mcinerny Exp $";
+#endif /* !defined(lint) && !defined(LOCORE) && defined(RCS_HDRS) */
+
+#ifdef DPS_ENV
+DOBJS = note.do icon.do ps.do noteview.do iconview.do psview.do dpstextv.do
+IHFILES = note.ih icon.ih ps.ih noteview.ih iconview.ih psview.ih dpstextv.ih
+#else /* DPS_ENV */
+DOBJS = note.do icon.do ps.do noteview.do iconview.do psview.do
+IHFILES = note.ih icon.ih ps.ih noteview.ih iconview.ih psview.ih
+#endif /* DPS_ENV */
+
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS), ${IHFILES})
+
+DependTarget()
+
+#ifdef DPS_ENV
+DPSCLIENTLIBS	= -ldps -lX11
+LOCALINCLUDES	= -I/usr/include/DPS -I/usr/include/X11
+
+DynamicMultiObject(dpstextv.do, dpstextv.o, ,${DPSCLIENTLIBS})
+DynamicMultiObject(psview.do, psview.o, ,-lX11)
+#endif /* DPS_ENV */
+
+NormalHelpRule()
+InstallDocs(psinset.help, ${DESTDIR}/help)
+InstallHelpAlias(psinset, ps-inset postscript postscript-inset)

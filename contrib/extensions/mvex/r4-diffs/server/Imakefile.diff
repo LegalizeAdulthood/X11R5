@@ -1,0 +1,98 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/RCS/Imakefile,v 
+*** 1.39.1.1	1991/09/22 21:41:47
+--- 1.41.1.1	1991/09/23 00:21:05
+***************
+*** 1,3 ****
+--- 1,4 ----
++ # $Header: /usr/local/src/video/release/mvex-r1/server/RCS/Imakefile,v 1.41.1.1 1991/09/23 00:21:05 toddb Exp $
+  /*
+   * Server Master Makefile
+   */
+***************
+*** 5,14 ****
+  #include <Server.tmpl>
+  
+  #ifdef XhpServer
+!       OTHEREXTS = $(EXTENSIONSRC)/server/xinput/libxinput.a
+! #else
+!       OTHEREXTS = /* nothing */
+  #endif
+       EXTENSIONS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a
+           EXTDIR = $(EXTENSIONSRC)/server
+      FONTUTILDIR = $(FONTSRC)/mkfontdir
+--- 6,17 ----
+  #include <Server.tmpl>
+  
+  #ifdef XhpServer
+!       XINPUTEXT = $(EXTENSIONSRC)/server/xinput/libxinput.a
+! #endif
+! #if BuildMvex
+!       VIDEOXEXT = $(EXTENSIONSRC)/mvex/server/libmvex.a
+  #endif
++       OTHEREXTS = $(XINPUTEXT) $(VIDEOXEXT)
+       EXTENSIONS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a
+           EXTDIR = $(EXTENSIONSRC)/server
+      FONTUTILDIR = $(FONTSRC)/mkfontdir
+***************
+*** 237,246 ****
+  #define need_ddx_cfb
+  #define need_ddx_sun
+  #define need_os_42bsd
+  SUNDIRS = dix ddx/snf ddx/mi ddx/mfb ddx/cfb ddx/sun os/4.2bsd
+  SUNOBJS = ddx/sun/sunInit.o $(FONTUTIL)
+! SUNLIBS = $(SUN) $(CFB) $(DIX) $(BSD) $(SNF) $(MFB) $(MI) $(EXTENSIONS)
+! SUNSYSLIBS = $(SYSLIBS) $(SUNWINDOWSLIBS)
+  XsunDIRS = $(SUNDIRS)
+  
+  ServerTarget(Xsun,$(EXTDIR) $(FONTUTILDIR) $(SUNDIRS),$(SUNOBJS),$(SUNLIBS),$(SUNSYSLIBS))
+--- 240,258 ----
+  #define need_ddx_cfb
+  #define need_ddx_sun
+  #define need_os_42bsd
++ 
++ #if BuildRasterOps
++ #define need_ddx_rasterops
++ SUNDIRS = dix ddx/snf ddx/mi ddx/mfb ddx/cfb ddx/sun os/4.2bsd ddx/rasterops
++      RO = ddx/rasterops/libro.a
++ SUNLIBS = $(SUN) $(CFB) $(DIX) $(BSD) $(SNF) $(MFB) $(MI) $(EXTENSIONS) $(MI) \
++ 	  $(RO)
++ #else
+  SUNDIRS = dix ddx/snf ddx/mi ddx/mfb ddx/cfb ddx/sun os/4.2bsd
++ SUNLIBS = $(SUN) $(CFB) $(DIX) $(BSD) $(SNF) $(MFB) $(MI) $(EXTENSIONS) $(MI)
++ #endif
+  SUNOBJS = ddx/sun/sunInit.o $(FONTUTIL)
+! SUNSYSLIBS = $(SYSLIBS) $(SUNWINDOWSLIBS) -lpixrect
+  XsunDIRS = $(SUNDIRS)
+  
+  ServerTarget(Xsun,$(EXTDIR) $(FONTUTILDIR) $(SUNDIRS),$(SUNOBJS),$(SUNLIBS),$(SUNSYSLIBS))
+***************
+*** 497,502 ****
+--- 509,519 ----
+  #else
+  #define dir_ddx_macII /**/
+  #endif
++ #ifdef need_ddx_rasterops
++ #define dir_ddx_rasterops ddx/rasterops
++ #else
++ #define dir_ddx_rasterops /**/
++ #endif
+  #ifdef need_ddx_sun
+  #define dir_ddx_sun ddx/sun
+  #else
+***************
+*** 508,514 ****
+  OUROS = dir_os_42bsd dir_os_bsdemul
+  DECDDX = dir_ddx_dec_lk201 dir_ddx_dec_qdss dir_ddx_dec_qvss dir_ddx_dec_mfbpmax dir_ddx_dec_cfbpmax
+  HPDDX = dir_ddx_hp
+! OTHERDDX = dir_ddx_apollo dir_ddx_apollo_apc dir_ddx_ibm dir_ddx_macII dir_ddx_sun dir_ddx_tek
+  
+  SUBDIRS = $(OURDIX) $(OURDDX) $(OUROS) $(DECDDX) $(HPDDX) $(OTHERDDX)
+  
+--- 525,531 ----
+  OUROS = dir_os_42bsd dir_os_bsdemul
+  DECDDX = dir_ddx_dec_lk201 dir_ddx_dec_qdss dir_ddx_dec_qvss dir_ddx_dec_mfbpmax dir_ddx_dec_cfbpmax
+  HPDDX = dir_ddx_hp
+! OTHERDDX = dir_ddx_apollo dir_ddx_apollo_apc dir_ddx_ibm dir_ddx_macII dir_ddx_sun dir_ddx_tek dir_ddx_rasterops
+  
+  SUBDIRS = $(OURDIX) $(OURDDX) $(OUROS) $(DECDDX) $(HPDDX) $(OTHERDDX)
+  

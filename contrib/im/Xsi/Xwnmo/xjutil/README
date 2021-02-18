@@ -1,0 +1,32 @@
+/*
+ * $Id: README,v 1.1 1991/09/13 09:02:50 proj Exp $
+ */
+		XJUTIL - Dictionary Utility Manager
+
+This directory contains XJUTIL's sources.
+
+XJUTIL is a dictionary utility manager operates dictionaries of Wnn.
+XJUTIL is executed by XWNMO automatically.
+
+Operasions of XJUTIL.
+	Add dictionary:
+	Output list of dictionaries:
+	Registry:
+	Search:
+	Change parameters:
+	Save Frequencies:
+	Output information of dictionaries:
+	Change Accessory Vocab:
+
+If you install manauls, the defult is english version.
+If your system is able to display japanese manaul(EUC), please
+change LOCALMAN from "man.en" to "man.ja" in Imakefile.
+
+[How to build XJUTIL]
+
+    Please see [How to build XWNMO] part of xwnmo/README.
+
+[How to use XWNMO]
+
+    If you compiles XWNMO with USING_XJUTIL define, XWNMO will execute
+    XJUTIL automatically. You don't do enything.

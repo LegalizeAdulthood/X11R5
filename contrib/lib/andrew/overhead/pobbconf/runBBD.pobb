@@ -1,0 +1,32 @@
+#!/bin/csh -f
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+%include pobbconfig.defs
+#
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+%ifdef pobb_RunMachines
+
+set nonomatch
+
+# Run queued BBD jobs.
+
+while (1)
+    if ( -d ?[BigLocalDir]/bbdjobs && -x ?[BBDaemonDir]/BBD ) then
+	cd ?[BigLocalDir]/bbdjobs
+	foreach Job ( `/bin/ls -rt .` )
+	    if ( -f ./$$Job && -x ?[BBDaemonDir]/BBD ) then
+		?[BBDaemonDir]/BBD $$Job
+		if ( $$status == 0 ) then
+		    rm -f $$Job
+		endif
+		rm -f core
+	    endif
+	end
+    endif
+    sleep 300
+end
+
+%endif pobb_RunMachines

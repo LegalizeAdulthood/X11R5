@@ -1,0 +1,90 @@
+.\" $Header: XpexFillAreaSet.man,v 2.4 91/09/11 16:02:45 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexFillAreaSet 3PEX "$Revision: 2.4 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexFillAreaSet, XpexFillAreaSet2D \-
+.SH "Synopsis"
+.nf
+void XpexFillAreaSet(dpy, shape, ignoreEdges, contourHint, 
+.br
+	vertexLists, numLists)
+.br
+	Display  *\fIdpy\fP;
+.br
+	XpexShape  \fIshape\fP;
+.br
+	XpexSwitch  \fIignoreEdges\fP;
+.br
+	XpexContour  \fIcontourHint\fP;
+.br
+	XpexListOfCoord3D  *\fIvertexLists\fP;
+.br
+	int  \fInumLists\fP;
+.sp
+void XpexFillAreaSet2D(dpy, shape, ignoreEdges, contourHint, 
+.br
+	vertexLists, numLists)
+.br
+	Display  *\fIdpy\fP;
+.br
+	XpexShape  \fIshape\fP;
+.br
+	XpexSwitch  \fIignoreEdges\fP;
+.br
+	XpexContour  \fIcontourHint\fP;
+.br
+	XpexListOfCoord2D	*\fIvertexLists\fP;
+.br
+	int  \fInumLists\fP;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIshape\fP 1i
+To be added 
+.IP \fIignoreEdges\fP 1i
+To be added 
+.IP \fIcontourHint\fP 1i
+To be added 
+.IP \fIvertexLists\fP 1i
+To be added 
+.IP \fInumLists\fP 1i
+To be added 
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 3.
+.SH "Structures"
+To be added 
+.SH "Errors"
+BadStructure, 
+BadRenderer, 
+BadFloatingPointFormat, 
+BadOutputCommand, 
+BadValue.
+.SH "Related Commands"
+XpexRenderOutputCmds, XpexStoreOutputCmds.

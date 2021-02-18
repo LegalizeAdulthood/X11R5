@@ -1,0 +1,15 @@
+#include "../../config.sh"
+
+       IROHAROOT = ../..
+      SOIROHAREV = 1
+        IROHASRC = $(IROHAROOT)/lib/iroha
+     DEPIROHALIB = $(IROHASRC)/libiroha.so.$(SOIROHAREV)
+        IROHALIB = -L$(IROHASRC) -liroha
+
+        INCLUDES = -I$(IROHAROOT)/include/iroha \
+			-I$(IROHAROOT)/include \
+			-I.
+   LOCAL_LDFLAGS = $(IROHALIB)
+            OBJS = irohastat.o
+            SRCS = irohastat.c
+ComplexProgramTarget(irohastat)

@@ -1,0 +1,197 @@
+;; A Sample profile for use with the twm emulator
+;;===============================================
+
+; This file is derived from the .profile.gwm distributed with gwm 1.4.1.30
+; The original file was written by Colas Nahaboo, BULL Research, France.
+;
+; Modifications [Dec 1989] for twm emulation by Arup Mukherjee 
+; (arup@grasp.cis.upenn.edu)
+;
+; Within the restrictions of the GWM copyright, you may do whatever you
+; want with this code. It would be nice, however, if my name were to remain 
+; in it somewhere.
+
+;;;;;;;;;;;;;;;;;;;; Menus of xterms, xloads, and emacsen ;;;;;;;;;;;;;;;;;;
+
+(setq xterm-list '(grip grasp linc seas grad1 grad2 upenn5.hep))
+(setq xload-list '(grip grasp linc seas grad1 grad2))
+(setq emacs-list '(grip grasp linc seas grad1 grad2 upenn5.hep))
+
+;;;;;;;;;;;;;;;;;;;;;;;;; Some Style Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq autoraise t)
+(setq look-3d t)
+(setq root-cursor (cursor-make "arrow3d"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Directory where twm bitmaps are located :
+
+(setq bitmaps-dir "")   ; bitmaps in the same directory as twmulator code
+
+
+;;;;;;;;;;;;;;;;;;;; Namespace Variables (Do not modify) ;;;;;;;;;;;;;;;;;;
+
+(if (not (= screen. (namespace-of 'border-foreground)))
+    (defname-in-screen-to () 
+      yellow blue green red dark-green
+      border-foreground border-background border-pixmap
+      menu-foreground menu-background 
+      title-foreground title-background
+      hilite-color 
+      twm-menu-foreground twm-menu-background twm-menu-hilite-color
+      twm-menu-shadow-color	twm-menu-border-color
+      twm-pop-item-font twm-pop-label-font twm-pop-item-height
+      icon-foreground icon-background icon-mgr-font
+      icon-mgr-foreground icon-mgr-background
+      icon-mgr-xpos icon-mgr-ypos
+
+; For the benefit of the twm-titled-win () frame type :
+
+      icon-pixmap resize-pixmap hilite-pixmap no-hilite-pixmap))
+
+; For the benefit of the twm icon manager
+
+(defname 'icon-mgr-menu screen.)
+(defname 'icon-mgr-wob screen.)
+(defname 'icon-mgr-dying-window screen. 0)
+(defname 'icon-mgr-xstickyness screen.)
+(defname 'icon-mgr-ystickyness screen.)
+(defname 'icon-mgr-max-width screen.)
+(defname 'icon-mgr-min-width screen.)
+(defname 'show-icon-mgr screen.)
+(defname 'iconify-by-unmapping screen.)
+(defname 'mgd-bar screen.)
+(defname 'menu-expr screen.)
+(defname 'setup-done screen.)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Colors ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(if (= screen-type 'color)
+    (progn
+      (: yellow     (color-make "yellow"))
+      (: blue       (color-make "blue"))
+      (: green      (color-make "green"))
+      (: dark-green (color-make "dark green"))
+      (: red        (color-make "red"))
+      (: darkgrey   (color-make "dark slate grey"))))
+
+;;;;;;;;;;;;;;;;; Screen Colors (choose from those declared above) ;;;;;;;;
+
+(if (not (= screen-type 'color))
+    (progn (setq border-foreground white)
+	   (setq border-background white)
+	   (setq title-foreground white)
+	   (setq title-background black)
+	   (setq hilite-color white)
+	   (setq icon-foreground white)
+	   (setq icon-background black)
+	   (setq icon-mgr-foreground white)
+	   (setq icon-mgr-background black)
+	   (setq icon-mgr-font (font-make "8x13"))
+	   (setq twm-menu-foreground white)
+	   (setq twm-menu-background black)
+	   (setq twm-menu-hilite-color white)
+	   (setq twm-menu-shadow-color black)
+	   (setq twm-menu-border-color white)
+	   (setq twm-pop-item-font 
+		(font-make "*-helvetica-medium-o-normal-*-140-*"))
+	   (setq twm-pop-label-font 
+		(font-make "*-times-bold-i-normal-*-180-*"))
+	   (setq twm-pop-item-height 8))
+  (progn (setq border-foreground  yellow)
+	 (setq border-background  yellow)
+	 (setq border-pixmap  nil)
+	 (setq title-foreground  white)
+	 (setq title-background  blue)
+	 (setq hilite-color  red)
+	 (setq icon-foreground  yellow)
+	 (setq icon-background  red)
+	 (setq icon-mgr-foreground  yellow)
+	 (setq icon-mgr-background  dark-green)
+	 (setq icon-mgr-font (font-make "8x13"))
+	 (setq twm-menu-foreground yellow)
+	 (setq twm-menu-background dark-green)
+	 (setq twm-menu-hilite-color green)
+	 (setq twm-menu-shadow-color black)
+	 (setq twm-menu-border-color yellow)
+	 (setq twm-pop-item-font 
+	       (font-make "*-helvetica-medium-o-normal-*-140-*"))
+	 (setq twm-pop-label-font 
+	       (font-make "*-times-bold-i-normal-*-180-*"))
+	 (setq twm-pop-item-height 8)))
+
+;;;;;;;;;;;;;;;;;;;;; TWM configuration variables;;;;;;;;;;;;;;;;;;;;;;;;
+
+(: twm-borderwidth 2)     ; Width of borders on windows of type twm-titled-win
+
+; Icon Manager config options :
+
+(setq icon-mgr-name "Icon Manager")             ; Name of icon manager window
+(setq icon-mgr-exclusions (list icon-mgr-name "xclock")) ; Don't manage these
+(setq icon-mgr-xpos screen-width)                        ; right edge
+(setq icon-mgr-ypos 300)                   
+(setq icon-mgr-max-width 300)            
+(setq icon-mgr-min-width 125)                   ; Ensure name is not trunc'd
+(setq show-icon-mgr t)                          ; Show icon-mgr on startup
+(setq iconify-by-unmapping t)	                ; Useful with icon-mgr
+
+; I could not come up with a reasonable way to specify where the icon manager
+; is to be placed. The supplied defaults for icon-mgr-x-pos and icon-mgr-y-pos
+; work fairly well if you like your icon-manager near the right-hand or 
+; bottom edge of the screen, and will make sure that the whole window is 
+; always visible. If you don't like this, feel free to define your own 
+; versions of these functions here. Note the the values of icon-mgr-xpos 
+; and icon-mgr-ypos contain the position of the top-left hand corner on
+; invocation of icon-mgr-x-pos and icon-mgr-y-pos.
+
+; With the default icon-mgr-x-pos () and icon-mgr-y-pos () functions,
+; if the right edge of the icon mgr is within xstickyness of the 
+; right edge or its bottom is within ystickyness of the bottom of the
+; screen the icon mgr window will move over to the correct edge.
+
+(setq icon-mgr-xstickyness screen-width)
+(setq icon-mgr-ystickyness 300)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Miscellaneous ;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(load "icon-groups-old")		; iconify groups as a whole
+
+; You can specify your own values for icon-pixmap, resize-pixmap,
+; hilite-pixmap, and no-hilite-pixmap as per the example :
+;
+;  (setq icon-pixmap 
+;        (pixmap-make title-background
+;               (+ bitmaps-dir "iconify.xbm")
+;		   title-foreground))
+
+; (load "emacs-mouse.gwm")     ; no use if you use GNU (!)
+
+
+;  this is an example of how to define new decorations
+
+(: no-frame.win (with (fsm window-fsm) (window-make ()()()()())))))
+(df no-frame () no-frame.win)
+
+; and how to set them
+
+(set-window XTerm  twm-titled-win)
+(set-window any    twm-titled-win)	; Any X Client
+(set-window Gwm    simple-win)		; Twm icon manager (Mandatory)
+(set-window XLoad  frame-win)            
+(set-window XClock no-frame)	         
+(set-window XBiff  no-frame)        
+(set-window menu   no-frame)
+
+(set-icon-window icon simple-icon)            ; Any icon
+;;(set-icon-window XTerm term-icon)	      ; XTERM icon (broken in 1.7)
+
+(set-placement any user-positioning)          ; place manually xterms
+(set-icon-placement any right-placement)
+(set-icon-placement XTerm right-placement)    ; place xterms icons on the right
+
+
+(setq resize-grid-style 4)
+(setq move-grid-style 4)
+
+	

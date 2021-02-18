@@ -1,0 +1,21 @@
+Mod files are used to make single index perturbations of a rule.
+
+All possible perturbations of a rule such that only one number is changed
+are listed.
+
+The file is then padded with null perturbations so that there is a factorable
+number of entries.
+
+The first number of the file is the number of entries.
+
+The second and third numbers are the number of columns and number of rows
+to use.
+
+The rest of the file are the perturbations.
+
+The names of the files are "reduct_spread", i.e., the number of possible
+states in the rule, underbar, the number of possible results that are
+reduced to the states via the rule.
+
+
+Thus, the lcr4 rule uses "4_10".

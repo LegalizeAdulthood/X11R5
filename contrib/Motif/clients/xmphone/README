@@ -1,0 +1,27 @@
+
+xmphone is a template for taking phone messages and sending them via e-mail.
+It was written using the Motif Widget Set.
+
+Notes
+=====
+Please feel free to send bug report/fixes and enhancements to me at the address
+below.
+
+Installation
+============
+
+If you have imake:
+	"xmkmf"
+	"make"
+
+If you don't have imake
+	Edit makefile.noimake and change the location of
+	the X11 headers and libraries (if necessary).
+	"make -f makefile.noimake"
+
+------------------------------------------------------------------------
+Richard Bingle                                      bingle@cs.purdue.edu
+Computer Science Department                     {backbone}!purdue!bingle
+Purdue University                                         (317) 494-0893
+West Lafayette, IN 47907
+

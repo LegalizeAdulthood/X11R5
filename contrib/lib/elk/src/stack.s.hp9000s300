@@ -1,0 +1,52 @@
+/* int stksize();
+ * int saveenv(char* envbuf);
+ * dead jmpenv(const char* envbuf, int retcode);
+ */
+	global	_stksize
+	global	_Special
+_stksize:
+	mov.l	_stkbase,%d0
+	sub.l	%sp,%d0
+	add.l	&120,%d0
+	rts
+
+	global	_saveenv
+_saveenv:
+	mov.l	4(%sp),%a0
+	mov.l	%a6,12(%a0)		/* save frame pointer of caller */
+	mov.l	(%sp)+,%a1		/* pop return address */
+	mov.l	%a1,4(%a0)		/* save pc of caller */
+	mov.l	%sp,8(%a0)
+	movm.l	&0xBCFC,40(%a0) 	/* XXX (shouldn't need this) XXX */
+	mov.l	%sp,%a2
+	mov.l	_stkbase,%a3
+	mov.l	%a0,%a4
+	add.l	&110,%a4
+rep1:	mov.l	(%a2)+,(%a4)+
+	cmp.l	%a3,%a2
+	bcc	rep1
+	mov.l	%a4,%d0 		/* New pointer */
+	sub.l	%a2,%d0 		/* Minus old pointer */
+	mov.l	%d0,(%a0)		/* is the relocation offset */
+	movm.l	40(%a0),&0xBCFC 	/* XXX (shouldn't need this) XXX */
+	mov.l	_Special,%d0
+	jmp	(%a1)
+
+	global	_jmpenv
+_jmpenv:
+	mov.l	8(%sp),%d0		/* return value */
+	mov.l	4(%sp),%a0		/* fetch buffer */
+
+	mov.l	8(%a0),%sp
+	mov.l	%sp,%a2
+	mov.l	_stkbase,%a3
+	mov.l	%a0,%a4
+	add.l	&110,%a4
+rep2:	mov.l	(%a4)+,(%a2)+
+	cmp.l	%a3,%a2
+	bcc	rep2
+	movm.l	40(%a0),&0xBCFC 	/* XXX (shouldn't need this) XXX */
+	mov.l	12(%a0),%a6		/* restore frame pointer */
+	mov.l	4(%a0),%a1		/* pc */
+	jmp	(%a1)
+

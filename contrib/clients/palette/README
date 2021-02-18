@@ -1,0 +1,83 @@
+WHAT IT IS
+
+palette - X11 color FG/BG palette selection tool
+
+Palette displays a list of the colors known to the standard colormap
+(as described in the rgb.txt file).  The user can change the bf/fg
+color combination with a text box to see how different combinations
+look.  The colors may be sent to stdout as "-bg color -fg color" for
+use on a command line.
+
+
+HOW TO INSTALL IT
+
+If you have imake, make the Makefile in the manner normal for your
+environment (typically via xmkmf).  Otherwise, use Makefile.STD.
+
+make install
+
+will build and iinstall it.  If you are using imake, you may have to
+type
+
+make install.man
+
+as well.
+
+
+STILL TO DO
+
+0) Widgetize the whole mess, or at least put it in a library
+   routine.
+1) Dynamic colors[] allocation, with dynamic width determination.
+2) Dynamic toplevel width determination, based on (1)? Based on
+   screen size?
+3) Local colormap.
+
+If you do any of this, please send me the diffs!  Likewise, I am
+open to suggestions - they may or may not make it, but you might
+as well try!
+
+
+AUTHOR
+
+Miles O'Neal
+Systems & Software Solutions, Inc.
+3641 Silver Leaf Lane
+Marietta, GA 30060-5889
+1-404-435-6049
+cs.utexas.edu!pensoft!meo
+meo@pencom.com
+
+
+ACKNOWLEDGEMENTS
+
+Charisse Castignoli (charisse@sware.com) - suggestions
+Nick Hennenfent (nick@sware.com) - suggestions & testing
+Ken Seefried (ken@sware.com) - suggestions
+
+Thanks to SecureWare for use of their system during off-hours for
+this development.
+
+
+COPYRIGHT 1990, 1991, Systems & Software Solutions, Inc, Marietta, GA
+
+Permission is hereby granted to use, copy, modify and/or distribute
+this software and supporting documentation, for any purpose and
+without fee, as long as this copyright notice and disclaimer are
+included in all such copies and derived works, and as long as
+neither the author's nor the copyright holder's name are used
+in publicity or distribution of said software and/or documentation
+without prior, written permission.
+
+This software is presented as is, with no warranties expressed or
+implied, including implied warranties of merchantability and
+fitness. In no event shall the author be liable for any special,
+direct, indirect or consequential damages whatsoever resulting
+from loss of use, data or profits, whether in an action of
+contract, negligence or other tortious action, arising out of
+or in connection with the use or performance of this software.
+In other words, you are on your own. If you don't like it, don't
+use it!
+
+S&SSi  3641 Silver Leaf Lane  Marietta, GA 30060-5889  1-404-435-6049
+meo@pencom.com                              cs.utexas.edu!pensoft!meo

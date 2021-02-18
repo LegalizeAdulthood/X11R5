@@ -1,0 +1,20 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/sun/RCS/sun.h,v 
+*** 1.5	1991/09/24 04:52:20
+--- 1.6	1991/09/24 04:54:04
+***************
+*** 203,209 ****
+      pointer 	  	fbPriv;	    /* Frame-buffer-dependent data */
+  } fbFd;
+  
+! extern Bool sunSupportsDepth8;
+  extern unsigned long sunGeneration;
+  
+  
+--- 203,209 ----
+      pointer 	  	fbPriv;	    /* Frame-buffer-dependent data */
+  } fbFd;
+  
+! extern Bool sunSupportsDepth24;
+  extern unsigned long sunGeneration;
+  
+  

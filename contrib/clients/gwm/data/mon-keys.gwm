@@ -1,0 +1,264 @@
+; =====================================================================
+; Mike Newton's (newton@gumby.cs.caltech.edu) keys
+; =====================================================================
+
+;; Mike Newton <newton@gumby.cs.caltech.edu> code to add gwm functions to
+;; function keys.  Another step in "No More Mice" (just why didn't they
+;; call the 'rats'?  Their tails sure look more like a rats tail....)
+
+;; 91.01.3  -- add in more changes from colas@mirsa.inria.fr, add
+;;             new functions (F5 - forced raise), clean up code, 
+;;             fixed comments, fix mon-relocate, added button back
+;;             in so everything is one place
+;;
+;; 91.01.02 -- colas@mirsa.inria.fr, extracted Fkey code from MON's
+;;	       .profile.gwm into a separate file "mon-keys.gwm"
+;;             mapped also F11 and F12 to F9 & F10 for keyboards with only 
+;; 	       10 Fkeys
+;; 90.12.28 -- newton@gumby.cs.caltech.edu, updated to 1.7b.  Added more Fkeys 
+;; 90.12.7  -- newton@gumby.cs.caltech.edu, original hacks.
+
+
+
+;; Current Keys/Buttons:
+;;             Button 1 (alone or w/ Alt) : raise or move
+;;             Button 3 (w/ Alt-Control)  : iconify or raise
+;;             F1 (alone)                 : choose next window
+;;             F2 (alone)                 : choose previous
+;;             F1 (w/ alt)                : circulate down (no focus change)
+;;             F2 (w/ alt)                : circulate up (no focus change)
+;;             F3 (alone)                 : open / close
+;;             F4 (various)               : change window sizes (not Emacs!)
+;;             F5 (alone)		  : raise 
+;;             F11 or F9 (alone, in root) : emergency -- map everything
+;;             F12 or F10 (alone)         : exec cut buffer, printing results
+;;	       
+
+;; 
+
+; ===================
+;  Utility Functions
+; ===================
+
+
+;;; mon-execute-string : 
+;; given N items, print N results, not just the last one:
+
+(defun mon-execute-string ()
+  (print "\n")
+  (print (execute-string
+	   (+ "(mapfor v (list "
+	      (cut-buffer)
+	      ") (print v) (print \"\\n\"))" )))
+  (print "\n"))
+
+
+;;; mon-window-chooser :
+;; pick a next window, raise it and such.
+
+;; WARNING: fails in a minor way if epoch "auto-raise-screen" is t !!!!!
+;; From colas@mirsa.inria.fr:
+;; 1) user presses F1
+;; 2) X server establishes a grab on press, to the benefit of the client having
+;;    grabbed F1, i.e. gwm
+;; 3) so epoch sees the cursor "leaving" its window into the "grab" realm
+;; 4) user releases key,  code below (on (keyrelease F1... ))) gets activated
+;; 5) your code move the cursor & focus, but epoch sees nothing
+;; 6) the grab is released, by the X server
+;; 7) epoch sees the cursor as coming back to its window from "grab" state
+;; 8)... but doesnt check the event queue to see that it immediately leaves it!
+;; 9) so it re-raises it screen
+;; 10) now it sees that cursor has left, but it's too late
+;; So, add the GWM_EXECUTE string...
+
+(de mon-window-chooser (n)
+  (with (cur-win (window)
+         all-win (list-of-windows 'mapped))
+    (with (num-wins (length all-win)
+	   cur-num (if (= window root-window) 0 (member cur-win all-win)))
+      ;; due to (% -1 4) == -1, we add in an extra num-wins:
+      (with (next (% (+ n num-wins cur-num) num-wins))
+        ;; From colas@mirsa.inria.fr to keep Epoch, with auto-raise-screen
+        ;; from re-raising the window -- see comments above
+        (if (and (= window-status 'window)
+		 (match "^epoch" window-client-name))
+	  (progn
+	    (window root-window)
+	    (set-x-property 
+	      "GWM_EXECUTE"
+	      (+ "(with (wob " (itoa (# next all-win)) ") (raise-window))" ))))
+	(window (# next all-win))
+	(if (= window-status 'icon)
+	    (window (window-icon))	;window-icon-window
+	  (raise-window))
+	(set-focus)
+	(warp-pointer 10 10 (window))))))	;this is gross, but i like it!!
+
+
+;;; mon-relocate :
+;; move a window, preferably onto the screen with a little room at the bottom
+;; for icons.
+
+;; explanation of the '36' (and 16) constants: we want the window to be
+;; just slightly off the bottom so that it does not overlap any of the
+;; icons (thin ones!) that i put there.  thus, if we are running programs
+;; with lots of output in the window, they dont have to do clipping as
+;; the windows dont overlap.  This speeds things considerably in old X11R3
+;; servers!
+
+(de mon-relocate ()
+    (with (dx (- screen-width  (+ window-x window-client-width 16))
+           dy (- screen-height (+ window-y window-client-height 36)))
+	 (if ( or (< dx 0) (< dy 0))
+	     (move-window (min window-x (+ dx window-x))
+			  (min window-y (+ dy window-y))))))
+
+
+;;; mon-change-size :
+;; Change size of current window.  note: emacs lies and returns 
+;; (76 64) for (window-size) when it really is 80 cols, 79 non-cont, 
+;; and 65 lines of text (one window) plus banner.
+
+
+(de mon-change-size ()
+    (with (x (# 0 window-size)
+	   y (# 1 window-size)
+	   w (window))				;needed for warp-pointer
+      (cond
+       ((not (member 'Emacs window-client-class))
+	(progn
+	  (cond
+	     ((= y 65) (window-size '(80 40)))
+	     ((= y 40) (window-size '(80 24)))
+	     ((= y 24) (window-size '(80 65)))
+	     (t (window-size '(80 65))))
+	  (mon-relocate)
+	  (warp-pointer 10 10 w)))		;this is gross, but i like it!!
+       ((member "Minibuffer" window-name)	;minibuffer
+	  ;;(window-size (list 76 (% (+ y 1) 8))) ;resize minibuffer
+	  (warp-pointer 10 10 w))		;this is gross, but i like it!!
+       (t					;emacs (epoch) window
+	(progn
+	  (window-size '(76 64))		;emacs should be like this
+	  (mon-relocate)
+	  (warp-pointer 10 10 w))))))		;this is gross, but i like it!!
+
+
+;;; mon-map-all :
+;; in emergency, put up everything:
+
+(de mon-map-all ()
+    (for x (+ (list-of-windows 'window) (list-of-windows 'icon))
+	 (map-window x)
+	 (raise-window x)))
+
+
+
+;;; mon-anti-window-state :
+;; close or open as appropriate
+
+(de mon-anti-window-state ()
+    (progn
+      (iconify-window)
+      (map-window)
+      (raise-window)
+      (warp-pointer 10 10 (window))))		;this is gross, but i like it!!
+
+;; 
+
+; ===========
+;  Behaviors
+; ===========
+
+(: root-behavior
+  (state-make
+    ;; press or release -- both seem to work
+    (on (keypress (key-make "F1") alone) (mon-window-chooser 1))
+    (on (keyrelease (key-make "F2") alone) (mon-window-chooser -1))
+    (on (keyrelease (key-make "F9") alone) (mon-map-all))
+    (on (keyrelease (key-make "F11") alone) (mon-map-all))
+    (on (keyrelease (key-make "F10") alone) (mon-execute-string))
+    (on (keyrelease (key-make "F12") alone) (mon-execute-string))
+    root-behavior))
+
+(setq root-grabs
+      (+ root-grabs
+	 ;; keypress??? not key ?? keyrelease?
+	 (list (keypress (key-make "F1") alone))
+	 (list (keypress (key-make "F2") alone))
+	 (list (keypress (key-make "F9") alone))
+	 (list (keypress (key-make "F10") alone))
+	 (list (keypress (key-make "F11") alone))
+	 (list (keypress (key-make "F12") alone))))
+
+
+(: standard-behavior
+   (state-make
+    (on (buttonpress 1 alone)
+	(if (deltabutton) (progn (raise-window)(move-window))
+	  (raise-window)))
+    (on (buttonpress 1 with-alt)
+	(if (deltabutton) (progn (raise-window)(move-window))
+	  (raise-window)))
+    (on (buttonrelease 3 (together with-alt with-control))
+	(progn (iconify-window) (raise-window)))
+    ;; i had keyreleases's here, but it works better with 'key'
+    (on (key (key-make "F1") with-alt) (circulate-windows-down))
+    (on (key (key-make "F2") with-alt) (circulate-windows-up))
+    (on (key (key-make "F1") alone) (mon-window-chooser 1))
+    (on (key (key-make "F2") alone) (mon-window-chooser -1))
+    (on (keyrelease  "F3" alone) (mon-anti-window-state))
+    (on (keyrelease (key-make "F4") alone) (mon-change-size))
+    (on (keyrelease "F5" alone) (raise-window))
+    (on (keyrelease (key-make "F9") alone) (mon-map-all))
+    (on (keyrelease (key-make "F11") alone) (mon-map-all))
+    (on (keyrelease (key-make "F12") alone) (mon-execute-string))
+    (on (keyrelease (key-make "F10") alone) (mon-execute-string))
+    standard-behavior))			; normal behavior
+
+(setq icon-grabs
+      (+ icon-grabs
+	 (list (keypress (key-make "F1") alone))
+	 (list (keypress (key-make "F2") alone))
+	 (list (keypress (key-make "F3") alone))
+	 (list (keypress (key-make "F9") alone))
+	 (list (keypress (key-make "F10") alone))
+	 (list (keypress (key-make "F11") alone))
+	 (list (keypress (key-make "F12") alone))))
+
+
+(setq window-grabs			; to trap the event for the windows
+      (+ window-grabs 
+	 (list (buttonpress 3 (together with-alt with-control)))
+	 (list (keypress (key-make "F1") alone))
+	 (list (keypress (key-make "F2") alone))
+	 (list (keypress (key-make "F3") alone))
+	 (list (keypress (key-make "F4") alone))
+	 (list (keypress (key-make "F5") alone))
+	 (list (keypress (key-make "F1") with-alt))
+	 (list (keypress (key-make "F2") with-alt))
+	 (list (keypress (key-make "F9") alone))
+	 (list (keypress (key-make "F10") alone))
+	 (list (keypress (key-make "F11") alone))
+	 (list (keypress (key-make "F12") alone))))
+
+
+;; An alternate method of key naming:
+
+;; (: CtrlAltF1 (key "F1" (together with-alt with-control))) ;
+;; (: standard-behavior (state-make
+;;     standard-behavior
+;;     (on CtrlAltF1 (execute-string (+ "(? " cut-buffer ")")))))
+
+
+;; An alternate way of doing multiple assignments:
+
+;; (: grabs (: root-grabs (: window-grabs (: icon-grabs
+;;     (+ visibility-grabs grabs)))))
+
+
+
+
+(reparse-standard-behaviors)		; register these changes
+
+(provide 'mon-keys)

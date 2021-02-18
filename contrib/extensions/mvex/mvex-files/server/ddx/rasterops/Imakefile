@@ -1,0 +1,14 @@
+#include <Server.tmpl>
+# $Header: /users/x11devel/x11r5/mit/server/RCS/Imakefile,v 1.3 1991/09/19 23:45:16 toddb Exp $
+
+    SRCS = roInit.c roSys.c
+    OBJS = roInit.o roSys.o
+INCLUDES = -I. -I../sun -I../mfb -I../mi -I../../include -I$(INCLUDESRC)
+LINTLIBS = ../../dix/llib-ldix.ln ../../os/4.2bsd/llib-los.ln \
+	      ../mfb/llib-lmfb.ln ../mi/llib-lmi.ln ../cfb/llib-lcfb.ln
+
+NormalLibraryObjectRule()
+
+NormalLibraryTarget(ro,$(OBJS))
+NormalLintTarget($(SRCS))
+DependTarget()

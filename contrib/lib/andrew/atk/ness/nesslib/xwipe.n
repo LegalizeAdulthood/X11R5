@@ -1,0 +1,82 @@
+\begindata{text, 270158236}
+\textdsversion{12}
+\template{default}
+--  xwipe.n
+
+--	Various erasure options added to the keyboard
+
+
+--	ESC-CTL-w deletes everything between selection and the 
+
+--		mark set with CTL-@ (or Insert key on RT)
+
+
+--	BACKSPACE checks the selection and if it is non-empty,
+
+--		deletes the selection;  but if empty, does a normal backspace
+
+
+extend \bold{"view:textview"}
+
+	\bold{on keys  "\\e"}	-- intercept ESC-CTL-w
+
+		marker at	-- the atMarker value
+
+		marker sel	-- the current selection value
+
+		at := currentmark(defaulttext)
+
+		sel := currentselection(defaulttext)
+
+
+		-- we don't know if -at- precedes -sel- 
+
+		--    or vice versa, so we test
+
+		if extent(at, sel) = "" then 
+
+				-- either -sel- and -at- are empty at the same 
+
+			--   place, or finish(sel) precedes start(at)
+
+			sel := extent(sel, at)
+
+		else
+
+			sel := extent(at, sel)
+
+		end if
+
+
+		-- select everything between mark and selection:
+
+		setcurrentselection(defaulttext, sel)
+
+
+		-- now call the Cut function directly
+
+		textview_zap_region(defaulttext)
+
+	end keys
+
+
+	\bold{on keys  "\\b"}		-- extend BACKSPACE
+
+		marker sel
+
+		sel := currentselection(defaulttext)
+
+		if sel = "" then
+
+			replace(previous(sel), "")
+
+		else
+
+			replace(sel, "")
+
+		end if
+
+	end keys
+
+end extend
+\enddata{text,270158236}

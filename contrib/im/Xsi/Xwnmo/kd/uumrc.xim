@@ -1,0 +1,11 @@
+;
+; $Id: uumrc.xim,v 1.1 1991/09/11 02:28:37 ohm Exp $
+;
+;;
+;;	For xwnmo (Wnn V4)
+
+setuumkey	@LIBDIR/@LANG/uumkey.xim
+setrkfile	@LIBDIR/@LANG/rk
+
+waking_up_no_henkan_mode
+send_ascii_char

@@ -1,0 +1,12 @@
+;
+; $Id: 3B_ZENASC,v 1.1 1991/09/09 22:40:00 ohm Exp $
+;
+;  ';\^
+(defvar a1 (list 1 2 3 4 5 6 7 8 9 0))
+(a1)	(tozenalpha (a1))
+(defvar a4 (list '\'' '\^' '\\' ';' ))
+(a4)	(tozenalpha (a4))
+(defvar a3 (list   @ [  : ] , . - ))
+(a3)	(tozenalpha (a3))
+(defvar a2 (list / ! '"' # $ % & '(' ')' = ~ | ` { + * } < > ? _ ))
+(a2)	(tozenalpha (a2))

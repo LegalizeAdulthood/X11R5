@@ -1,0 +1,35 @@
+module helloworld
+    version = 'v1.0'
+    names = case_sensitive
+
+procedure
+    button_selected();
+
+object
+    helloworld_main : XmRowColumn {
+    controls {
+        XmLabel our_label;
+        XmPushButton    our_button;
+    };
+    };
+
+object
+    our_button : XmPushButton {
+    arguments {
+        XmNlabelString = compound_string('Hello',separate=true) & 'World!';
+    };
+    callbacks {
+        XmNactivateCallback = procedure button_selected();
+    };
+    };
+
+object
+    our_label : XmLabel {
+    arguments {
+        XmNlabelString = compound_string('Press button once',separate=true) &
+                  compound_string('to change label;',separate=true) &
+                  'twice to exit.';
+    };
+    };
+
+end module;

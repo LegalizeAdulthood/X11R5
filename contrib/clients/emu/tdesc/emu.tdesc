@@ -1,0 +1,51 @@
+/* $Header: /usr3/Src/emu/tdesc/RCS/emu.tdesc,v 1.1 91/09/30 18:15:14 me Exp $ */
+
+/*
+ * Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+ *
+ *                        All Rights Reserved
+ *
+ * Permission to use, copy, modify, and distribute this software and its 
+ * documentation for any purpose and without fee is hereby granted, 
+ * provided that the above copyright notice appear in all copies and that
+ * both that copyright notice and this permission notice appear in 
+ * supporting documentation, and that the names of PCS or the authors not
+ * be used in advertising or publicity pertaining to distribution of the
+ * software without specific, written prior permission.  
+ * 
+ * PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ * ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+ * PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+ * OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+ * USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ * OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+ *
+ */
+
+/*
+ * Terminal emulator definition for the emu "emu" terminal.
+ *
+ * Author: Michael Elbel, Jordan Hubbard.
+ * Date: June 28th, 1990
+ * Description: This emulation supports an ideal terminal that can take
+ *		advantage of all of emu's advanced character manipulation
+ *		features while still remaining as simple to parse as possible.
+ *		If you want to use this emulation, you will also need to have
+ *		an entry for "emu" in your termcap file or terminfo database.
+ *		Currently, only a terminfo entry is provided though a termcap
+ *		entry could easily be done (if you make one, let us know).
+ *
+ * Revision History:
+ *
+ * $Log:	emu.tdesc,v $
+Revision 1.1  91/09/30  18:15:14  me
+Initial revision
+
+ *
+ */
+
+#include "emu-auxTrans"
+#include "emu-fluts"
+#include "emu-ops"
+#include "emu-rops"

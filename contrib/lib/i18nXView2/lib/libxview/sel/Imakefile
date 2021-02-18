@@ -1,0 +1,62 @@
+#
+# @(#)Imakefile 50.1 90/12/12 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=     selection.h sel_attrs.h sel_svc.h seln.h sel_compat.h
+HDRSPRIVATE=    sel_impl.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP)
+
+OBJS =\
+	selection.o\
+	sel_appl.o\
+	sel_clnt.o\
+	sel_common.o\
+	sel_policy.o\
+	sel_agent.o\
+	sel_compat.o\
+	sel_data.o
+
+SRCS =\
+	selection.c\
+	sel_appl.c\
+	sel_clnt.c\
+	sel_common.c\
+	sel_policy.c\
+	sel_agent.c\
+	sel_compat.c\
+	sel_data.c
+
+all::
+
+#if DebugLibXvin && ProfileLibXvin
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvin
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvin
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvin,$(OBJS))
+SubdirCompoundLibTarget(xview, $(OBJS)) 
+
+#if ProfileLibXvin
+SubdirProfiledLibTarget(xvin,$(OBJS))
+#endif
+
+#if DebugLibXvin
+SubdirDebuggedLibTarget(xvin,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

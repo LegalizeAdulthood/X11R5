@@ -1,0 +1,25 @@
+#define DoProfileLib ProfileLibDps
+#define DoDebugLib DebugLibDps
+#include "Library.tmpl"
+
+  DPS_INCLUDES = ../../include
+EXTRA_INCLUDES = -I${DPS_INCLUDES}
+ EXTRA_DEFINES = -DXENVIRONMENT
+
+SRCS = PSres.c
+
+OBJS = PSres.o
+
+LibraryObjectRule()
+
+NormalLibraryTarget(psres,$(OBJS))
+InstallLibrary(psres,$(USRLIBDIR))
+
+#if DebugLibDps
+DebuggedLibraryTarget(psres,$(OBJS))
+InstallLibrary(psres_d,$(USRLIBDIR))
+#endif
+#if ProfileLibDps
+ProfiledLibraryTarget(psres,$(OBJS))
+InstallLibrary(psres_p,$(USRLIBDIR))
+#endif

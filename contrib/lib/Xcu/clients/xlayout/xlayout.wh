@@ -1,0 +1,36 @@
+/*
+ * To customize this include file for non-Xcu widgets:
+ *  1) add an include file
+ *  2) add a TAG_CLASS_ENTRY
+ *
+ *  e.g., to add the Athena Label widget:
+ *    #include <X11/Xaw/Label.h>
+ *     TAG_CLASS_ENTRY(ww, "Label", labelWidgetClass) ;
+ */
+#include <X11/Xcu/WlmP.h>
+#include <X11/Xcu/Label.h>
+#include <X11/Xcu/Wlm.h>
+#include <X11/Xcu/Command.h>
+#include <X11/Xaw/Command.h>
+#include <X11/Xcu/Entry.h>
+#include <X11/Xcu/Bmgr.h>
+#include <X11/Xcu/Button.h>
+#include <X11/Xcu/Deck.h>
+#include <X11/Xcu/Tbl.h>
+
+void
+make_tag_class_list (ww)
+    XcuWlmWidget ww ;
+{
+TAG_CLASS_ENTRY(ww, "Command",     commandWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuLabel",    xcuLabelWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuWlm",      xcuWlmWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuCommand",  xcuCommandWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuEntry",    xcuEntryWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuBmgr",     xcuBmgrWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuButton",   xcuButtonWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuDeck",     xcuDeckWidgetClass) ;
+TAG_CLASS_ENTRY(ww, "XcuTbl",      xcuTblWidgetClass) ;
+return ;
+}
+

@@ -1,0 +1,202 @@
+.\" @(#)xgettext.man 1.2 91/10/01 SMI; from Sun
+.TH xgettext 1 "27 Sep 1990"
+.SH NAME
+xgettext \- extract gettext call strings from C programs
+.SH SYNOPSIS
+.B xgettext
+[
+.B \-ns
+]
+[
+.B \-a
+[
+.BI \-x " exclude-file"
+]\|]
+[
+.BI \-c " comment-tag"
+]
+[
+.BI \-d " default-domain"
+]
+[
+.BI \-m " prefix"
+]
+.if t .ti +.5i
+[
+.BI \-p " pathname"
+]
+.I filename
+\&.\|.\|.
+.br
+.B xgettext
+.B \-h
+.IX xgettext "" "\fLxgettext\fP \(em extract \fLgettext\fP call strings"
+.IX messages "extract gettext call strings" "" "extract \fLgettext\fP call strings"
+.SH DESCRIPTION
+.B xgettext
+is used to automate the creation of portable message files(
+.B .po
+).
+.I msgid 
+of
+.B gettext()
+function call in 
+.I filename
+will be written to the default output file
+.B messages.po.
+The default output file name can be changed by 
+.B -d
+option.
+.I msgid
+of
+.B dgettext()
+function call
+will be written to the output file whose name is 
+.I domainname
+.B ".po"
+where
+.I domainname
+is the first parameter to 
+.B dgettext()
+function call.
+.LP
+A
+.B .po
+file contains copies of "C" strings that are found in 
+ANSI C source code in
+.I filenames.
+The 
+.B .po
+file can be used as input to the 
+.BR msgfmt (1)
+utility, which will produce a binary form of the message file that can be 
+used by application during run-time.  
+.LP
+If 
+.I filenames 
+are given as 
+.I -, 
+.B xgettext
+will read from standard input.  
+.I -
+and
+.I filenames 
+cannot be used together.  For the default case,
+.B xgettext
+will create a 
+.B .po
+file in the current working directory, and the each entry is in the
+same order the strings are extracted from
+.I filenames.
+All duplicate 
+.I msgids
+will be written to the 
+.B .po
+file as comment.  When 
+.B -p
+option is specified, the 
+.B .po
+file will be created in the 
+.I pathename
+directory.  Identical filenames of
+.B .po
+files will be overwritten.   
+.LP
+When 
+.B -s 
+option is specified, the 
+.B .po
+will be sorted by msgid string, and all duplicated msgids will be
+removed.  All msgstr directives in
+.B .po
+file will be empty unless
+.B -m 
+option is used. 
+.SH OPTIONS
+.TP 10
+.BI \-a
+Extract all strings, not just those found in
+.BR gettext() ,
+and
+.B dgettext()
+calls.
+Only one 
+.B ".po"
+file will be created. 
+The output file name is 
+.BR messages.po
+unless specified by 
+.B -d
+option.
+.TP 10
+.BI \-c " comment-tag"
+Comment block beginning with
+.I comment-tag 
+as the first token of the comment block is added to the output
+.B ".po"
+file as 
+.I #
+delimited comments.
+.TP 10
+.BI \-m " prefix"
+Causes
+.B xgettext
+to fill in the msgstr
+with 
+.I prefix
+msgstr.  This is useful for debugging purposes.  To make msgstr
+identical to msgid, use NULL string for
+.I prefix.
+.TP 10
+.B \-n
+Add
+.I # 
+delimited line number comments to output file indicating
+the file name and the line number of the source file
+.I filename
+where each extracted string is encountered.
+.TP 10
+.BI \-d " default-domain"
+Rename the default output file from
+.BR messages.po
+to
+.IR default-domain
+.B .po.
+.TP 10
+.BI \-p " pathname"
+Specify the directory where the output files will be placed.
+This option overrides the current working 
+directory. 
+.TP 10
+.BI \-x " exclude-file"
+Specify a 
+.B .po
+file that contains a list of msgids that
+are not to be extracted from the input files.
+The format of
+.I exclude-file
+is identical to
+.B .po
+file.
+However, only 
+.I msgid
+directive line in
+.I exclude-file
+will be used. All other lines are simply ignored. 
+To use 
+.B -x
+option,
+.B -a
+option must also be specified.
+.TP 10
+.B \-s
+Generate output sorted by msgids with all duplicate msgids removed. 
+.TP 10
+.B \-h
+Print a help message on standard output.
+.SH "SEE ALSO"
+.BR msgfmt (1),
+.BR gettext (3),
+.BR dgettext (3),
+.BR textdomain (3),
+.BR bindtextdomain (3).

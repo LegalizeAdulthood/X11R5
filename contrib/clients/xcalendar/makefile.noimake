@@ -1,0 +1,31 @@
+PROGRAM = xcalendar
+XDIR = /usr/local/X11R5
+XLIBDIR = $(XDIR)/lib
+CFLAGS = -O -I$(XDIR)/include -DNOSTDHDRS
+
+LIBS = $(XLIBDIR)/libXaw.a $(XLIBDIR)/libXmu.a $(XLIBDIR)/libXt.a \
+       $(XLIBDIR)/libXext.a $(XLIBDIR)/libX11.a
+LIBFILES = larrow.xbm qmark.xbm quit.xbm rarrow.xbm xcalendar.hlp
+XCALENDAR_LIBDIR = $(XLIBDIR)/X11/$(PROGRAM)
+INSTALLDIR = $(XDIR)
+SRC = xcalendar.c dayeditor.c lists.c Date.c
+OBJ = xcalendar.o dayeditor.o lists.o Date.o
+
+$(PROGRAM): $(OBJ)
+	$(CC) $(CFLAGS) -o $(PROGRAM) $(OBJ) $(LIBS)
+
+XCalendar.ad: XCalendar.ad.sed
+	sed 's;%%XCALENDAR_LIBDIR%%;$(XCALENDAR_LIBDIR);'\
+	< $? \
+	> $@
+
+clean: 
+	rm -f $(OBJ) $(PROGRAM) *.s core XCalendar.ad
+
+install: $(PROGRAM) XCalendar.ad
+	install -c -s -m 0755 $(PROGRAM) $(INSTALLDIR)
+	install -c XCalendar.ad $(XLIBDIR)/X11/app-defaults/XCalendar
+	-mkdir $(XCALENDAR_LIBDIR)
+	for i in $(LIBFILES); do \
+		install -c $$i $(XCALENDAR_LIBDIR); \
+	done

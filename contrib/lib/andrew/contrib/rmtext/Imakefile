@@ -1,0 +1,17 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+DOBJS = rmtext.do rmtextv.do
+IHFILES = rmtext.ih rmtextv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallFile(rmtext.tpl, ${INSTINCFLAGS}, ${DESTDIR}/lib/tpls)
+
+DependTarget()
+InstallDocs(rmtext.help, $(DESTDIR)/help)

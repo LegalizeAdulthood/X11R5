@@ -1,0 +1,43 @@
+\begindata{text,268829448}
+\textdsversion{12}
+\template{help}
+\chapter{Preferences in CUI
+
+(Keyword: cui-preferences)}
+
+
+CUI itself does not read preferences files.  You can customize the behavior of 
+CUI by placing commands in the ~/.cuirc file as described in the 
+ \italic{cui-customization}  help file.  You can control whether you receive 
+blind carbon copies of mail that you send from the ~/.cuirc file, for example.
+
+
+See the \italic{ preferences}  help document for descriptions of Andrew 
+Message System preferences.
+
+
+\section{Related Tools}
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help document 
+for:\description{\italic{
+
+
+\leftindent{CUI
+
+cui-expert}}\leftindent{                  Expert-level commands in CUI
+
+\italic{cui-wizard}                 Wizard-level commands in CUI 
+
+\italic{cui-filtering}                How to do header filtering
+
+\italic{cui-classification}       Classifying messages with CUI 
+
+\italic{cui-edit}                      Using a text editor from within CUI
+
+\italic{cui-customization}      Customizing CUI via the .cuirc file
+
+\italic{cui-quickref}               Quick reference list of all CUI commands
+
+}}\enddata{text,268829448}

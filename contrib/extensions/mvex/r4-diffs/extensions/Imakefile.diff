@@ -1,0 +1,31 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 extensions/RCS/Imakefile,v 
+*** 1.4.1.1	1991/09/26 20:15:05
+--- 2.1.1.1	1991/09/23 00:23:23
+***************
+*** 1,10 ****
+  #define IHaveSubdirs
+  #define PassCDebugFlags
+  
+    IMAKE_DEFINES = ExtensionDefines
+  
+  #if BuildServer
+!   SERVERSUBDIRS = server
+  #endif
+          SUBDIRS = lib include test $(SERVERSUBDIRS)
+  
+--- 1,15 ----
++ # $Header: /usr/local/src/video/release/mvex-r1/extensions/RCS/Imakefile,v 2.1.1.1 1991/09/23 00:23:23 toddb Exp $
+  #define IHaveSubdirs
+  #define PassCDebugFlags
+  
++ #if BuildMvex
++            MVEX = mvex
++ #endif
++ 
+    IMAKE_DEFINES = ExtensionDefines
+  
+  #if BuildServer
+!   SERVERSUBDIRS = server $(MVEX)
+  #endif
+          SUBDIRS = lib include test $(SERVERSUBDIRS)
+  

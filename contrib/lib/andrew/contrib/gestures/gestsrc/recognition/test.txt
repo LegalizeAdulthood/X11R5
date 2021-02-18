@@ -1,0 +1,17 @@
+-----------------------------------------------------
+Testing as of Tue Jun 25 00:51:18 EDT 1991
+------- tt -t gdp.train -e gdp.test
+Reading training file gdp.train...117 gestures read
+Reading evaluation file gdp.test...-----------------------------------------------------
+Testing as of Tue Jun 25 00:56:02 EDT 1991
+------- tt -t gdp.train -e gdp.test
+Reading training file gdp.train...117 gestures read
+Reading evaluation file gdp.test...111 gestures read
+Evaluating gestures in file gdp.test
+111 tried, 0 wrong (0.0%)  RATE: 100.0%
+------- tt -t coleman.train -e coleman.test
+Reading training file coleman.train...170 gestures read
+Reading evaluation file coleman.test...224 gestures read
+Evaluating gestures in file coleman.test
+224 tried, 0 wrong (0.0%)  RATE: 100.0%
+-----------------------------------------------------

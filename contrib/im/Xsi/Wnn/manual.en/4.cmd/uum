@@ -1,0 +1,96 @@
+UUM(1)
+
+NAME
+    uum - Kana-To-Kanji conversion front-end processor
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/uum [-J|U|S] [-j|u|s] [-h|H] [-x|X]
+		[-k uumkey_file] [-c convert_key_file] [-r romkan_mode_file]
+		[-D host_name] [-n user_name]
+		[-l conversion_line_number]
+
+DESCRIPTION
+    Uum is a command which provides japanese input/output environment.
+    Once uum is executed, the initialization file is searched in the following 
+    order : 
+  	    (1) The file specified by the UUMRC C-Shell environment variable.
+  	    (2) $HOME/.uumrc
+  	    (3) /usr/local/lib/wnn/ja_JP/uumrc (default)
+
+    Uum is able to connect with jserver of other machine via the inter-net.
+    Then a charge of each machine becomes low.
+    If the connection with jserver failes, uum can be executed. Then uum
+    provides operations which need not connection with jserver. And When
+    the conversion key is pressed, uum attempts to connect with jserver if
+    it doesn't connect with jserver.
+
+    Uum accepts the following options:
+
+	-H  The input mode will be set to ON after the startup of uum.
+		(default).
+
+	-h  The input mode will be set to OFF after the startup of uum
+
+	-U  The code of pty side will be set UJIS. (default)
+
+	-J  The code of pty side will be set JIS. (default)
+
+	-S  The code of pty side will be set Shift-JIS. (default)
+
+	-u  The code of tty side will be set UJIS. (default)
+
+	-j  The code of tty side will be set JIS. (default)
+
+	-s  The code of tty side will be set Shift-JIS. (default)
+
+	-X  During uum startup, the flow control of tty is ON (default).
+
+	-x  During uum startup, the flow control of tty is OFF.
+
+	-k  uumkey_file 
+	    Specifies the key code definition file. By default, it is searched
+	    in the following order :
+  		(1) The filename indicated by setuumkey in the uumrc
+		    initialization file.
+  		(2) /usr/local/lib/wnn/ja_JP/uumkey
+	
+	-c  convert_key_file 
+	    Specifies the key code conversion file. By default, it is
+	    searched in the following order :
+  		(1) The filename indicated by setconvkey in the uumrc
+		    initialization file.
+  		(2) /usr/local/lib/wnn/ja_JP/cvt_key_tbl
+
+	-r  romkan_mode_file 
+	    Specifies the input mode definition file of the input automaton.
+	    If this is a directory name, "mode" file in it is refers.
+	    By default, it is searched in the following order :
+  		(1) The filename indicated by setrkfile in the uumrc 
+		    initialization file.
+  		(2) /usr/local/lib/wnn/ja_JP/rk/mode
+
+	-l  conversion_line_number
+	    Specifies the number of lines for the Kana-To-Kanji conversion. 
+	    (0 < conversion_line_number < window line-1).
+	    The default value is 1.
+
+	-D  host_name
+	    The user can select the jserver of another host by using this 
+	    option.  If no hostname is specified, the one specified by the
+	    environment variable JSERVER will be used. if it is not
+	    specifies, the alias "jserver" in /etc/hosts is searched.
+	    And if it is not specifies too, UNIX_domain will be used.
+
+	-n  user_name
+	    Specifies the user name for the client. The value in environment
+	    variable WNNUSER will be taken as the default value.  If WNNUSER 
+	    is not defined, the username of the current client will be taken.
+
+NOTE
+    During the startup of uum, one "pty" is required from the operating
+    system. If the "pty" is unable to be obtained, uum startup will fail.
+    Similarly, if the initialization file, input automaton definition files
+    and key code definition file are not read in, uum startup will also fail.
+
+SEE ALSO
+    jserver(1), uumrc(4), uumkey(4), cvt_ket_tbl(4), automaton(3)

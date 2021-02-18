@@ -1,0 +1,91 @@
+XPLI Architecture Document
+
+  1 Introduction
+
+  The xpli extension is not simply a protocol extension, but also
+introduces new screens and new devices to the server. Such an
+extension was never envisaged, as the DIX presumes that the
+critical functions for doing this are defined in the DDX layer.
+If you would like to add this extension to a product server, you
+will have to approach the vendor for cooperation on modifying the
+DDX.
+
+  2 Protocol
+
+  3 Device Backends
+
+  3.1 XPLI devices
+
+  The xpli extension is designed to support a wide variety of
+integrated display/digitizers. In the simplest case, this might
+consist of a digitizer attached via a serial port and read from
+/dev/tty<n>. In the complicated case, the digitizer may have its
+own device driver and place input streams in a shared memory
+buffer.
+
+  The xpli extension should be configured at the time of command
+line flag processing (i.e. the ProcessCommandLine call in main.c).
+This allows the xpli device and screen to be added to the DIX tables
+before InitOutput, InitExtension, and InitInput is called. In addition,
+this allows the extension to be configured via command line flags.
+
+  The xpli screen will be initialized by the InitOutput call. Likewise,
+the xpli input device will be initialized by the InitInput call. In
+between these two calls, main calls InitExtensions, which eventually
+calls the xpliInitExtension routine. The xpli device initialization routine
+will be called again by the DIX call to InitAndStartDevices (as
+described in the Porting Layer Definition document).
+
+  3.2 XPLI Configuration
+
+The xpli configuration routine, xpliProcessCommandArgs, is called from
+extProcessCommandArgs, which is called from ProcessCommandLine. It
+should remove any flags that it handles. ***Need to reprise the
+process of flag removal***.
+
+The xpli configuration routine uses command line flags to define the
+type of screen device and the type of digitizer and digitizer device.
+Generally, these devices will occur in indivisable pairs, so that
+it will be appropriate to use a single flag. However, a particular device,
+such as a Wacom, may be read by /dev/tty<n> or by an installed device
+driver, with the differences indicated by an auxiliary flag. Until
+more experience is gained, we leave it up to the extension implementer
+to define the flag set for the extension.
+
+Once the screen type is determined, the extension must see that it gets
+added to the DIX screen table and initialized. For a normal screen,
+this is done by calling AddScreen from the DDX layer InitOutput function.
+Since InitExtensions is called after InitOutput, one could call AddScreen
+from the xpli initialization function. However, this solution will
+not work if the xpli screen is the only one the server has, as the
+sample server checks screenInfo.numScreens after calling InitOutput
+and before calling InitExtension and blows up if InitOutput fails
+to supply a screen. Alternatively, one can modify the sample server
+DDX layer InitOutput function to accept additional screen nominations
+created at ProcessCommandLine time. The solution we would like to see
+here is that main be rewritten to call InitOutput, then InitExtensions,
+then InitInput before any checking is done of screeninfo.numScreens
+or for the default pointer and keyboard devices, and before any attempt
+is made to create scratch GCs, default stipples, or root windows.
+
+When the digitizer type and input method is determined, the DIX 
+AddInputDevice procedure must be called with the xpli device proc as
+a parameter. This procedure will eventually be called twice, once
+with a command of DEVICE_INIT, and once with a command of DEVICE_ON.
+The DEVICE_INIT phase should open the device if appropriate, and
+set the default input transformations. Normally, the initial input
+transformations will be the identity transform with inking off.
+However, there is nothing to prevent an extension writer from caching
+the transform values in a file, and initializing these values from
+the file.
+
+X11R5 eliminates the "other" device class, replacing it instead with
+the KeyClass, ButtonClass, ValuatorClass, FocusClass, KbdFeedbackClass,
+PtrFeedbackClass, StringFeedbackClass, BellFeedbackClass, LedFeedbackClass,
+IntegerFeedbackClass, PointerDevice, and KeyboardDevice. The xpli device
+must be the pointer device in a server without another pointer device.
+The xpli device must not be a pointer device in a server with a mouse
+and fixed assignment of mouse to one screen and pen to another.
+If the xinput extension is present, the xpli device may be a pointer device
+as well. The sample implementation here is for the fixed assignment of
+mouse to one screen and pen to the other.

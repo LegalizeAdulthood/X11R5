@@ -1,0 +1,45 @@
+.TH WTOI 1
+.SH "NAME"
+wtoi \- Convert a Wnn text-form dictionary (or dictionaries) into
+Canna text-form dictionaries
+.SH "SYNOPSIS"
+.B "wtoi [\-f \fIhinshidata\fP] [\fIwnnjisho\fP] [\fIirohajisho\fP]"
+.SH "DESCRIPTION"
+.PP
+wtoi converts a Wnn text-form dictionary file into Canna text-form
+dictionary file.  If all dictionary files
+are omitted, the Wnn dictionary data is input through the standard
+input.  In this case, the dictionary of the Japanes Input System is
+output from the standard output.  If one dictionary file is specified,
+it will be regarded as a Wnn dictionary.  At this time, Canna
+dictionary output to the standard output.
+.SH "OPTIONS"
+.IP "\-f \fIhinshidata\fP" 12
+The user can add new information about word-type correspondence
+between Wnn and Canna.  The following word-type correspondence
+information must be described in the \fIhinshidata\fP file.  Within 
+one line, describe the Wnn word type name and the Canna word type 
+while delimiting by a space(s) or tab.
+.sp
+.nf
+  Wnn word type       Canna word type
+.br
+  Adverb              #F04
+.fi
+.SH "EXAMPLE"
+.nf
+% wtoi -f tsuikahinshi kihon.u kihon.t
+.fi
+.sp
+Inputs word-type correspondence information from tsuikahinshi,
+then converts Wnn text-form dictionary kihon.u into the Canna
+text-form dictionary before output.
+.sp
+.nf
+% wtoi special.u | lpr
+.fi
+.sp
+Converts Wnn text-form dictionary special.u into Canna text-form
+dictionary, then outputs the result to the line printer.
+.SH "SEE ALSO"
+.IP "itow(1)" 12

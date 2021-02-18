@@ -1,0 +1,19 @@
+\begindata{text,268694856}
+\textdsversion{12}
+\template{help}
+\chapter{Motif: several different documents
+
+}
+If you are interested in seeing help on ATK Motif-style menus, scrollbars or 
+buttons, use \bold{Show Help on Selected Word} with one of the italicized 
+words to see those documents explicitly. 
+
+
+	 \italic{menubar 
+
+	scrollbar}  
+
+\italic{	pushbutton
+
+
+}\enddata{text,268694856}

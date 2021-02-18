@@ -1,0 +1,19 @@
+           SRCS = wlc.c CuStack.c CuGrow.c CuCopy_ds.c wlc.y wlc.l
+           OBJS = wlc.o CuStack.o CuGrow.o CuCopy_ds.o
+
+LOCAL_LIBRARIES = $(XTOOLLIB) $(XLIB)
+
+ComplexProgramTarget(wlc)
+
+wlc.o : wlc.lex.c wlc.y.c
+
+wlc.c : ;
+
+wlc.lex.c :	wlc.l
+	lex wlc.l
+	mv lex.yy.c wlc.lex.c
+
+wlc.y.c :	wlc.y
+	yacc wlc.y
+	mv y.tab.c wlc.y.c
+

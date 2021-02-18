@@ -1,0 +1,4 @@
+equal_rows ;
+c c s c s s
+^  ^ ^ c s c
+c  s s c s ^.

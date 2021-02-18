@@ -1,0 +1,96 @@
+\begindata{text, 268637144}
+\textdsversion{12}
+\template{help}
+\chapter{Customizing CUI
+
+(Keyword: cui-customizing)}
+
+
+\section{Using the ~/.cuirc file
+
+}
+You can put any CUI commands in the file ".cuirc" in your home directory (note 
+the presence of the dot in front of the filename) and they'll be executed 
+whenever you start up CUI.  You can separate the commands in the .cuirc file 
+by placing each one on a separate line or by putting semicolons between them. 
+ Typically, users set their CUI levels in .cuirc and also establish aliases, 
+like this
+
+
+set level wizard
+
+alias d delete
+
+alias p print
+
+alias t type
+
+
+\section{Sending yourself blind carbon copies of outgoing messages
+
+}
+You can cause CUI to send you blind carbon copies of messages that you send 
+with CUI by adding this line to your ~/cuirc file:
+
+
+\leftindent{set blind on}
+
+
+You can turn blind copies off again by changing that to
+
+
+\leftindent{set blind off}
+
+
+\section{Using command scripts like ckbb.cui
+
+}
+\leftindent{You can also write command scripts for CUI and run them with the 
+"source" command, which is available at level "expert".  One of the most 
+common uses of a script with CUI is to establish a file such as "ckbb.cui" in 
+your home directory which contains the "update" command followed by the names 
+of all the bboards you characteristically read.  Then you can type "source 
+~/ckbb.cui" at the CUI> prompt and CUI will present all the new messages on 
+the bboards listed in ckbb.cui.  
+
+
+However, when you run a script in CUI, script mode is automatically turned on, 
+which prevents the CUI READ> prompt from appearing.  That is the correct 
+procedure for many scripts, but not for ckbb.cui.  So you need to begin 
+ckbb.cui with the command "set script off" to turn script mode off again. 
+ After that, you can include your "update" command, like this
+
+
+set script off
+
+update official.andrew andrew.gripes andrew.ms announce
+
+
+and CUI will present the CUI READ> prompt after each new message. }
+
+
+\section{Related Tools}
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help document for:
+
+
+\italic{\leftindent{CUI}}\leftindent{
+
+}\description{\leftindent{\italic{cui-expert}                  Expert-level 
+commands in CUI
+
+\italic{cui-wizard}                 Wizard-level commands in CUI 
+
+\italic{cui-filtering}                How to do header filtering
+
+\italic{cui-classification}       Classifying messages with CUI 
+
+\italic{cui-edit}                      Using a text editor from within CUI
+
+\italic{cui-preferences}         Preferences that affect CUI
+
+\italic{cui-quickref}               Quick reference list of all CUI commands
+
+}}\enddata{text,268637144}

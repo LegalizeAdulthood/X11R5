@@ -1,0 +1,69 @@
+#ifndef GraphLibTmpl
+#define GraphLibTmpl YES
+#include "GraphLib.cf"
+
+GRAPHLIBDEFINES = @@CFLAGS@@
+DEFINES = $(GRAPHLIBDEFINES)
+MKDIRHIER = mkdirhier
+SOGLLIBREV = 0.5
+ALLINCLUDES = $(STD_INCLUDES) $(INCLUDES) $(TOP_INCLUDES) $(EXTRA_INCLUDES)
+/* Swap TOP_INCLUDES and INCLUDES so that include files are fetched
+   out of build tree before getting them out of the installed versions
+   (which may be behind in revision levels.)
+*/
+IMAKE_DEFINES = @@IMAKEDEF@@
+/* So that make Makefile works right.*/
+#ifndef GraphLibClientLibs
+#define GraphLibClientLibs @@LDOPTIONS@@ $(GLLIB) $(XLIB)
+#endif
+
+#ifndef GraphLibClientDepLibs
+#define GraphLibClientDepLibs 
+#endif
+
+#if BuildWithDebug
+CDEBUGFLAGS = -g
+#endif
+
+#if BuildSharedLibraries && HasSunOSSharedLibraries
+#define SharedLibGL 1
+#endif
+
+LIBSRC = $(TOP)/lib
+GLSRC = $(LIBSRC)/gl
+GLSUBSRC = $(LIBSRC)/glsub
+GLMENUSSRC = $(LIBSRC)/menus
+GLBUTTONSSRC = $(LIBSRC)/buttons
+
+DEPGLLIB = $(GLSRC)/libgl.a
+
+GLLIB = -L$(LIBSRC)/glall -lgl
+GLSUBLIB = /*-L$(GLSUBSRC) -lglsub*/
+GLMENULIB = /*-L$(GLMENUSSRC) -lglm*/
+GLBUTTONSLIB = 
+
+.SUFFIXES: .gl
+
+.gl.c:
+	$(TOP)/lib/bin/gltoc.pl $*.gl
+
+/*
+ * NormalSharedLibraryTarget - generate rules to create a shared library;
+ * build it into a different name so that the we don't hose people by having
+ * the library gone for long periods.
+ * Modified to deal with different orginization.
+ */
+#define GraphLibSharedLibraryTarget(libname,rev,solist)			@@\
+AllTarget(lib/**/libname.so.rev)					@@\
+									@@\
+lib/**/libname.so.rev:  solist						@@\
+	$(RM) $@~							@@\
+	($(LD) -o $@~ -assert pure-text solist)				@@\
+	$(RM) $@ 							@@\
+	$(MV) $@~ $@							@@\
+									@@\
+clean::									@@\
+	$(RM) lib/**/libname.so.rev
+
+
+#endif

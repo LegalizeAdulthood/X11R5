@@ -1,0 +1,18 @@
+;
+; $Id: 2A_CTRL,v 1.1 1991/09/09 22:39:25 ohm Exp $
+;
+(defvar esc (list '\033' '^X'))
+(defvar char (all))
+(defvar cont (list '^g'))
+
+(unless esc)'\x81'	(switch katakana)
+(unless esc)'\x82'	(switch zenkaku)
+(unless esc)'\x83'	(switch romkan)
+;(unless esc)'\x85'	(switch tcode)
+
+(if romkan)(unless quote)(esc)		(on esc)(off romkan)(esc)
+(if esc)(char)				(off esc)(on romkan)(char)
+
+(if romkan)q		(on quote)(off romkan)(off zenkaku)
+(if romkan)Q		(on quote)(off romkan)(on zenkaku)
+(if quote)(cont)	(off quote)(on romkan)

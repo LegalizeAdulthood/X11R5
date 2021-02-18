@@ -1,0 +1,51 @@
+\begindata{text,268715184}
+\textdsversion{12}
+\template{default}
+ 
+
+\chapter{FILLER}
+
+
+The \italic{filler} object and its companion \italic{fillerview} provide a 
+simple user interface for selecting an object to go into a newly-created 
+inset.  \italic{Filler} is a refinement of \italic{cel}; this document covers 
+only the functions it adds.
+
+
+
+\section{User Interface}
+
+
+
+Filler presents a list of possible objects both in its area on the screen and 
+in a menu.  In the former case, the user may click either mouse button on the 
+name of an object in order to select it, subject to the usual conventions for 
+making selections from a menu or list.  To avoid selecting something, you may 
+move the pointer away from all possible selections.
+
+
+The list of possible replacement objects is obtained from a preferences option 
+named "FillerInsets" and consists of a list of data object class names 
+separated by colons.  The default at the time of writing is:
+
+
+*.FillerInsets: 
+Ask...:box:text:raster:table:zip:fad:pshbttn:clock:timeoday:link
+
+
+The "Ask..." selection is special:  it prompts the user to type in the name of 
+an inset.
+
+
+
+Last updated: 
+ \
+\begindata{writestamp,268721088}
+Datastream version: 1
+%o %A, %Y at %u:%M
+andysans12
+649604015
+\enddata{writestamp,268721088}
+\view{writestampview,268721088,1,0,0}
+
+\enddata{text,268715184}

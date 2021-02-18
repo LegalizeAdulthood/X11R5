@@ -1,0 +1,71 @@
+.\" $Header: PEXtBuildT.man,v 1.0 91/10/04 17:02:02 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtBuildTran 3PEXt "January 16th, 1991"
+.SH NAME
+\fBPEXtBuildTran, PEXtBuildTran3\fP \(em create a transformation matrix a local transform structure element
+.sp 1
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Structure.h>
+.sp 1
+.ta .5i 2i
+void PEXtBuildTran (\fIfixed_x, fixed_y, shift_x, shift_y, angle, scale_x, scale_y, comp\fP)
+.nf
+	\fBPfloat\fP	\fIfixed_x, fixed_y,
+		shift_x, shift_y,
+		angle,
+		scale_x, scale_y\fP;
+	\fBPcompose_type\fP	\fIcomp\fP;
+.sp 1
+.fi
+void PEXtBuildTran3 (\fIfixed_x, fixed_y, fixed_z, shift_x, shift_y, shift_z,
+x_angle, y_angle, z_angle, scale_x, scale_y, scale_z, comp\fP)
+.br
+.nf
+.ta .5i 2i
+	\fBPfloat\fP	\fIfixed_x, fixed_y, fixed_z,
+		shift_x, shift_y, shift_z,
+		x_angle, y_angle, z_angle,
+		scale_x, scale_y, scale_z\fP;
+	\fBPcompose_type\fP	\fIcomp\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+These convenience procedures create a transformation matrix based on the given
+fixed point, shift vector, rotation angles and scale vector using the PHIGS
+functions \fBpbuild_tran_matrix\fP and \fBpbuild_tran_matrix3\fP.  The
+resulting matrix appears as a \fBSET LOCAL TRANSFORMATION\fP (or \fBSET
+LOCAL TRANSFORMATION 3\fP) structure element with
+the given \fIcomposition\fP in the currently open structure.  If the edit
+mode is set to \fIPINSERT\fP, the transformation element is inserted into 
+the currently open structure.  If the edit mode is set to \fIPREPLACE\fP,
+the transformation element replaces the element currently pointed to by the
+element pointer.
+.SH RETURN VALUE
+None
+.SH SEE ALSO
+\fBPEXtRotate(3)\fP
+.br
+\fBPEXtTranslate(3)\fP
+.br
+\fBPEXtNonUniformScale(3)\fP
+.br
+\fBpbuild_tran_matrix(3)\fP
+.br
+\fBpbuild_tran_matrix3(3)\fP
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

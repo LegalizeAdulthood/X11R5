@@ -1,0 +1,24 @@
+.\" $Header: /imports/wink/work/nk.R3.1/cmd/scripts/RCS/mkbindic.man,v 1.6 91/09/02 22:05:51 kubota Exp $ NEC;
+.if t .pn 1
+.TH MKBINDIC 1
+.SH "名前"
+mkbindic \- テキスト形式の辞書のバイナリ形式の辞書への変換
+.SH "形式"
+.B "mkbindic [\fIoptions\fP …] file"
+.SH "説明"
+.PP
+読みと単語の変換を定義したテキストファイルの辞書から，バイナリ形式の
+辞書を作成するコマンドです。
+.I options
+には，
+.IR cpp(1)
+に指定できるオプションが指定できます。
+.SH "使用例"
+.nf
+% mkbindic \-DKIGOU yamada.t
+.fi
+.sp
+yamada.t は，ソートされて整ったものに書き換えられ，バイナリ形式の辞書
+yamada.d が作成されます。
+.SH "関連情報"
+cpp(1), dicar(1)

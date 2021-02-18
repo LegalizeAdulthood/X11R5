@@ -1,0 +1,51 @@
+.TH IROHASERVER 1M
+.SH "名前"
+irohaserver \- かな漢字変換サーバ
+.SH "形式"
+.B "irohaserver [\-d] [\-l \fIn\fP] [\fIddpath\fP]"
+.SH "説明"
+.PP
+かな漢字変換サービスを提供します。通常 irohaserver(1M)はネットワーク上
+のすべてのユーザがアクセスすることが可能ですが，/etc/hosts.iroha ファイ
+ルにより，アクセスできるホスト，ユーザを制御することもできます。
+.PP
+irohaserver(1M) は起動すると即座にフォークしバックグラウンドプロセス
+となります。したがって``&''により明示的にバックグラウンドプロセスにす
+る必要はありません。
+.PP
+irohaserver(1M) は起動時に irohaserver(1M) の重複した起動を避けるためにロッ
+クファイル /tmp/.IROHALOCK を作成します。ロックファ
+イルは irohaserver(1M) 終了時に自動的に消去されますが，irohaserver(1M) が異
+常終了するなどの原因で irohaserver(1M) が動いていないにもかかわらずロッ
+クファイルが存在する場合には手動でロックファイルを削除して下さい。
+.PP
+irohaserver(1M) は起動時に /usr/local/lib/iroha/premountdics を調べてそこに
+記述してある辞書をあらかじめマウントしておきます。これによりプリマ
+ウントしてある辞書の使用要求がクライアントからあがってきたときに迅
+速に応じることが可能となります。
+.PP
+使用する辞書の指定はクライアントからの要求にしたがって辞書ディレ
+クトリの dics.dir ファイルを参照することにより決められます。 
+.SH "オプション"
+.IP "\fIddpath\fP" 12
+辞書の存在するディレクトリを指定します。
+.IP "\-l \fIn\fP" 12
+irohaserver(1M) のログを /tmp/iroha.log に出力します。n でログ
+のレベルを設定します。ログのレベルとして 1〜5 の数字を指定
+できます。
+.IP "\-d" 12
+irohaserver(1M) をデバッグモードで起動します。irohaserver(1M) はフォ
+アグランドプロセスとして実行され，ログレベル 5 のログが標準
+エラー出力に出力されます。
+.SH "関連ファイル"
+.IP "/tmp/.IROHALOCK" 36
+ロックファイル
+.IP "/usr/local/lib/iroha/dic/*/dics.dir" 36
+辞書目録
+.IP "/etc/hosts.iroha" 36
+アクセス制御ファイル
+.IP "/usr/local/lib/iroha/premountdics" 36
+プリマウント辞書リスト
+.SH "関連コマンド"
+.PP
+irohakill(1M), irohastat(1), irohacheck(1)

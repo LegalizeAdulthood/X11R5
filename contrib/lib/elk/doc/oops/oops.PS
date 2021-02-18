@@ -1,0 +1,2651 @@
+%!PS-Adobe-1.0
+%%Creator: kraftbus:net (Oliver Laumann, UNIX-AG, FR6035, +49.30.314.73388)
+%%Title: stdin (ditroff)
+%%CreationDate: Mon Aug  5 11:10:37 1991
+%%EndComments
+% lib/psdit.pro -- prolog for psdit (ditroff) files
+% Copyright (c) 1984, 1985 Adobe Systems Incorporated. All Rights Reserved.
+% last edit: shore Sat Nov 23 20:28:03 1985
+% RCSID: $Header: psdit.pro.roman8,v 1.2 89/11/17 14:42:54 cabo Exp $
+% modified for A4 paper by cabo@tub 88/10/02 14:12:13
+
+/$DITroff 160 dict def $DITroff begin
+
+/roman-8-dict 20 dict def	% Local storage
+/roman-8-mappings [
+8#260 /Adieresis
+8#265 /Aring
+8#276 /Aacute
+8#300 /Agrave
+8#311 /Acircumflex
+8#314 /Atilde
+8#321 /Ccedilla
+8#322 /Edieresis
+8#323 /Eacute
+8#324 /Egrave
+8#325 /Ecircumflex
+8#326 /Idieresis
+8#327 /Iacute
+8#330 /Igrave
+8#331 /Icircumflex
+8#332 /Ntilde
+8#333 /Odieresis
+8#334 /Oacute
+8#335 /Ograve
+8#336 /Ocircumflex
+8#337 /Otilde
+8#340 /Scaron
+8#342 /Udieresis
+8#344 /Uacute
+8#345 /Ugrave
+8#346 /Ydieresis
+8#347 /adieresis
+8#354 /aring
+8#355 /aacute
+8#356 /agrave
+8#357 /acircumflex
+8#360 /atilde
+8#362 /ccedilla
+8#363 /edieresis
+8#364 /eacute
+8#366 /egrave
+8#367 /ecircumflex
+8#374 /idieresis
+8#375 /iacute
+8#376 /igrave
+8#220 /icircumflex
+8#221 /ntilde
+8#222 /odieresis
+8#223 /oacute
+8#224 /ograve
+8#225 /ocircumflex
+8#226 /otilde
+8#227 /scaron
+8#230 /udieresis
+8#231 /uacute
+8#232 /ugrave
+8#233 /ucircumflex
+8#234 /ydieresis
+8#235 /Ucircumflex
+] def
+/AddRoman-8 {
+	roman-8-dict begin
+		/roman-8-mappings exch def
+		/newName exch def
+		/oldName exch def
+		/oldDict oldName findfont def
+		/newDict oldDict maxlength dict def
+		oldDict {
+			exch dup /FID ne
+			{
+				dup /Encoding eq
+				{
+					exch dup length array copy
+					newDict 3 1 roll put
+				}
+				{
+					exch newDict 3 1 roll put
+				} ifelse
+			}
+			{
+				pop pop
+			} ifelse
+		} forall
+		newDict /FontName newName put
+		0 2 roman-8-mappings length 1 sub {
+			dup
+			roman-8-mappings exch get
+			exch 1 add roman-8-mappings exch get
+			newDict /Encoding get 3 1 roll put
+		} for
+		newName newDict definefont pop
+	end
+} bind def
+
+/findfont-8 {
+	/ofnamestr exch def
+	/ofnmlg ofnamestr length def
+	/nfnamestr ofnmlg 2 add string def
+	ofnamestr (Symbol) eq
+	{ ofnamestr findfont } 
+	{
+	ofnamestr nfnamestr copy pop
+	nfnamestr ofnmlg (-8) putinterval
+	ofnamestr cvn nfnamestr cvn roman-8-mappings AddRoman-8
+	nfnamestr cvn findfont
+	}
+	ifelse
+} def
+
+/fontnum 1 def /fontsize 10 def /fontheight 10 def /fontslant 0 def
+/xi {0 72 11.7 mul translate 72 resolution div dup neg scale 0 0 moveto
+  /fontnum 1 def /fontsize 10 def /fontheight 10 def /fontslant 0 def F
+  /pagesave save def}def
+/PB{save /psv exch def currentpoint translate 
+  resolution 72 div dup neg scale 0 0 moveto}def
+/PE{psv restore}def
+/arctoobig 90 def /arctoosmall .05 def
+/m1 matrix def /m2 matrix def /m3 matrix def /oldmat matrix def
+/tan{dup sin exch cos div}def
+/point{resolution 72 div mul}def
+/dround	{transform round exch round exch itransform}def
+/xT{/devname exch def}def
+/xr{/mh exch def /my exch def /resolution exch def}def
+/xp{}def
+/xs{docsave restore end}def
+/xt{}def
+/xf{/fontname exch def /slotno exch def fontnames slotno get fontname eq not
+ {fonts slotno fontname findfont-8 put fontnames slotno fontname put}if}def
+/xH{/fontheight exch def F}def
+/xS{/fontslant exch def F}def
+/s{/fontsize exch def /fontheight fontsize def F}def
+/f{/fontnum exch def F}def
+/F{fontheight 0 le {/fontheight fontsize def}if
+   fonts fontnum get fontsize point 0 0 fontheight point neg 0 0 m1 astore
+   fontslant 0 ne{1 0 fontslant tan 1 0 0 m2 astore m3 concatmatrix}if
+   makefont setfont .04 fontsize point mul 0 dround pop setlinewidth}def
+/X{exch currentpoint exch pop moveto show}def
+/N{3 1 roll moveto show}def
+/Y{exch currentpoint pop exch moveto show}def
+/S{show}def
+/ditpush{}def/ditpop{}def
+/AX{3 -1 roll currentpoint exch pop moveto 0 exch ashow}def
+/AN{4 2 roll moveto 0 exch ashow}def
+/AY{3 -1 roll currentpoint pop exch moveto 0 exch ashow}def
+/AS{0 exch ashow}def
+/MX{currentpoint exch pop moveto}def
+/MY{currentpoint pop exch moveto}def
+/MXY{moveto}def
+/cb{pop}def	% action on unknown char -- nothing for now
+/n{}def/w{}def
+/p{pop showpage pagesave restore /pagesave save def}def
+/abspoint{currentpoint exch pop add exch currentpoint pop add exch}def
+/distance{dup mul exch dup mul add sqrt}def
+/dstroke{currentpoint stroke moveto}def
+/Dl{2 copy gsave rlineto stroke grestore rmoveto}def
+/arcellipse{/diamv exch def /diamh exch def oldmat currentmatrix pop
+ currentpoint translate 1 diamv diamh div scale /rad diamh 2 div def
+ currentpoint exch rad add exch rad -180 180 arc oldmat setmatrix}def
+/Dc{dup arcellipse dstroke}def
+/De{arcellipse dstroke}def
+/Da{/endv exch def /endh exch def /centerv exch def /centerh exch def
+ /cradius centerv centerv mul centerh centerh mul add sqrt def
+ /eradius endv endv mul endh endh mul add sqrt def
+ /endang endv endh atan def
+ /startang centerv neg centerh neg atan def
+ /sweep startang endang sub dup 0 lt{360 add}if def
+ sweep arctoobig gt
+ {/midang startang sweep 2 div sub def /midrad cradius eradius add 2 div def
+  /midh midang cos midrad mul def /midv midang sin midrad mul def
+  midh neg midv neg endh endv centerh centerv midh midv Da
+  currentpoint moveto Da}
+ {sweep arctoosmall ge
+  {/controldelt 1 sweep 2 div cos sub 3 sweep 2 div sin mul div 4 mul def
+  centerv neg controldelt mul centerh controldelt mul
+  endv neg controldelt mul centerh add endh add
+  endh controldelt mul centerv add endv add
+  centerh endh add centerv endv add rcurveto dstroke}
+ {centerh endh add centerv endv add rlineto dstroke}ifelse}ifelse}def
+
+/Barray 200 array def % 200 values in a wiggle
+/D~{mark}def
+/D~~{counttomark Barray exch 0 exch getinterval astore /Bcontrol exch def pop
+ /Blen Bcontrol length def Blen 4 ge Blen 2 mod 0 eq and
+ {Bcontrol 0 get Bcontrol 1 get abspoint /Ycont exch def /Xcont exch def
+  Bcontrol 0 2 copy get 2 mul put Bcontrol 1 2 copy get 2 mul put
+  Bcontrol Blen 2 sub 2 copy get 2 mul put
+  Bcontrol Blen 1 sub 2 copy get 2 mul put
+  /Ybi /Xbi currentpoint 3 1 roll def def 0 2 Blen 4 sub
+  {/i exch def
+   Bcontrol i get 3 div Bcontrol i 1 add get 3 div
+   Bcontrol i get 3 mul Bcontrol i 2 add get add 6 div
+   Bcontrol i 1 add get 3 mul Bcontrol i 3 add get add 6 div
+   /Xbi Xcont Bcontrol i 2 add get 2 div add def
+   /Ybi Ycont Bcontrol i 3 add get 2 div add def
+   /Xcont Xcont Bcontrol i 2 add get add def
+   /Ycont Ycont Bcontrol i 3 add get add def
+   Xbi currentpoint pop sub Ybi currentpoint exch pop sub rcurveto
+  }for dstroke}if}def
+end
+/ditstart{$DITroff begin
+ /nfonts 60 def			% NFONTS makedev/ditroff dependent!
+ /fonts[nfonts{0}repeat]def
+ /fontnames[nfonts{()}repeat]def
+/docsave save def
+}def
+
+% character outcalls
+/oc {/pswid exch def /cc exch def /name exch def
+   /ditwid pswid fontsize mul resolution mul 72000 div def
+   /ditsiz fontsize resolution mul 72 div def
+   ocprocs name known{ocprocs name get exec}{name cb}
+   ifelse}def
+/fractm [.65 0 0 .6 0 0] def
+/fraction
+ {/fden exch def /fnum exch def gsave /cf currentfont def
+  cf fractm makefont setfont 0 .3 dm 2 copy neg rmoveto
+  fnum show rmoveto currentfont cf setfont(\244)show setfont fden show 
+  grestore ditwid 0 rmoveto} def
+/oce {grestore ditwid 0 rmoveto}def
+/dm {ditsiz mul}def
+/ocprocs 50 dict def ocprocs begin
+(14){(1)(4)fraction}def
+(12){(1)(2)fraction}def
+(34){(3)(4)fraction}def
+(13){(1)(3)fraction}def
+(23){(2)(3)fraction}def
+(18){(1)(8)fraction}def
+(38){(3)(8)fraction}def
+(58){(5)(8)fraction}def
+(78){(7)(8)fraction}def
+(sr){gsave 0 .06 dm rmoveto(\326)show oce}def
+(is){gsave 0 .15 dm rmoveto(\362)show oce}def
+(->){gsave 0 .02 dm rmoveto(\256)show oce}def
+(<-){gsave 0 .02 dm rmoveto(\254)show oce}def
+(==){gsave 0 .05 dm rmoveto(\272)show oce}def
+end
+
+% an attempt at a PostScript FONT to implement ditroff special chars
+% this will enable us to 
+%	cache the little buggers
+%	generate faster, more compact PS out of psdit
+%	confuse everyone (including myself)!
+50 dict dup begin
+/FontType 3 def
+/FontName /DIThacks def
+/FontMatrix [.001 0 0 .001 0 0] def
+/FontBBox [-260 -260 900 900] def% a lie but ...
+/Encoding 256 array def
+0 1 255{Encoding exch /.notdef put}for
+Encoding
+ dup 8#040/space put %space
+ dup 8#110/rc put %right ceil
+ dup 8#111/lt put %left  top curl
+ dup 8#112/bv put %bold vert
+ dup 8#113/lk put %left  mid curl
+ dup 8#114/lb put %left  bot curl
+ dup 8#115/rt put %right top curl
+ dup 8#116/rk put %right mid curl
+ dup 8#117/rb put %right bot curl
+ dup 8#120/rf put %right floor
+ dup 8#121/lf put %left  floor
+ dup 8#122/lc put %left  ceil
+ dup 8#140/sq put %square
+ dup 8#141/bx put %box
+ dup 8#142/ci put %circle
+ dup 8#143/br put %box rule
+ dup 8#144/rn put %root extender
+ dup 8#145/vr put %vertical rule
+ dup 8#146/ob put %outline bullet
+ dup 8#147/bu put %bullet
+ dup 8#150/ru put %rule
+ dup 8#151/ul put %underline
+ pop
+/DITfd 100 dict def
+/BuildChar{0 begin
+ /cc exch def /fd exch def
+ /charname fd /Encoding get cc get def
+ /charwid fd /Metrics get charname get def
+ /charproc fd /CharProcs get charname get def
+ charwid 0 fd /FontBBox get aload pop setcachedevice
+ 2 setlinejoin 40 setlinewidth
+ newpath 0 0 moveto gsave charproc grestore
+ end}def
+/BuildChar load 0 DITfd put
+%/UniqueID 5 def
+/CharProcs 50 dict def
+CharProcs begin
+/space{}def
+/.notdef{}def
+/ru{500 0 rls}def
+/rn{0 840 moveto 500 0 rls}def
+/vr{0 800 moveto 0 -770 rls}def
+/bv{0 800 moveto 0 -1000 rls}def
+/br{0 750 moveto 0 -1000 rls}def
+/ul{0 -140 moveto 500 0 rls}def
+/ob{200 250 rmoveto currentpoint newpath 200 0 360 arc closepath stroke}def
+/bu{200 250 rmoveto currentpoint newpath 200 0 360 arc closepath fill}def
+/sq{80 0 rmoveto currentpoint dround newpath moveto
+    640 0 rlineto 0 640 rlineto -640 0 rlineto closepath stroke}def
+/bx{80 0 rmoveto currentpoint dround newpath moveto
+    640 0 rlineto 0 640 rlineto -640 0 rlineto closepath fill}def
+/ci{500 360 rmoveto currentpoint newpath 333 0 360 arc
+    50 setlinewidth stroke}def
+
+/lt{0 -200 moveto 0 550 rlineto currx 800 2cx s4 add exch s4 a4p stroke}def
+/lb{0 800 moveto 0 -550 rlineto currx -200 2cx s4 add exch s4 a4p stroke}def
+/rt{0 -200 moveto 0 550 rlineto currx 800 2cx s4 sub exch s4 a4p stroke}def
+/rb{0 800 moveto 0 -500 rlineto currx -200 2cx s4 sub exch s4 a4p stroke}def
+/lk{0 800 moveto 0 300 -300 300 s4 arcto pop pop 1000 sub
+    0 300 4 2 roll s4 a4p 0 -200 lineto stroke}def
+/rk{0 800 moveto 0 300 s2 300 s4 arcto pop pop 1000 sub
+    0 300 4 2 roll s4 a4p 0 -200 lineto stroke}def
+/lf{0 800 moveto 0 -1000 rlineto s4 0 rls}def
+/rf{0 800 moveto 0 -1000 rlineto s4 neg 0 rls}def
+/lc{0 -200 moveto 0 1000 rlineto s4 0 rls}def
+/rc{0 -200 moveto 0 1000 rlineto s4 neg 0 rls}def
+end
+
+/Metrics 50 dict def Metrics begin
+/.notdef 0 def
+/space 500 def
+/ru 500 def
+/br 0 def
+/lt 416 def
+/lb 416 def
+/rt 416 def
+/rb 416 def
+/lk 416 def
+/rk 416 def
+/rc 416 def
+/lc 416 def
+/rf 416 def
+/lf 416 def
+/bv 416 def
+/ob 350 def
+/bu 350 def
+/ci 750 def
+/bx 750 def
+/sq 750 def
+/rn 500 def
+/ul 500 def
+/vr 0 def
+end
+
+DITfd begin
+/s2 500 def /s4 250 def /s3 333 def
+/a4p{arcto pop pop pop pop}def
+/2cx{2 copy exch}def
+/rls{rlineto stroke}def
+/currx{currentpoint pop}def
+/dround{transform round exch round exch itransform} def
+end
+end
+/DIThacks exch definefont pop
+ditstart
+(psc)xT
+576 1 1 xr
+1(Times-Roman)xf 1 f
+2(Times-Italic)xf 2 f
+3(Times-Bold)xf 3 f
+4(Times-BoldItalic)xf 4 f
+5(Helvetica)xf 5 f
+6(Helvetica-Oblique)xf 6 f
+7(Helvetica-Bold)xf 7 f
+8(Helvetica-BoldOblique)xf 8 f
+9(Symbol)xf 9 f
+10(DIThacks)xf 10 f
+10 s
+1 f
+xi
+%%EndProlog
+5(Courier)xf 5 f
+1 f
+
+%%Page: 0 1
+5(Courier)xf 5 f
+10 s 0 xH 0 xS 5 f
+1 f
+3 f
+12 s
+1561 984(The)N
+11 s
+1743(OOPS)X
+12 s
+2008(Package)X
+2374(for)X
+2521(Elk)X
+2689(Scheme)X
+2 f
+10 s
+2019 1176(Oliver)N
+2244(Laumann)X
+2094 1608(ABSTRACT)N
+1 f
+11 s
+983 1824(The)N
+10 s
+1153(OOPS)X
+11 s
+1392(package)X
+1715(provides)X
+2053(a)X
+2127(minimal)X
+2458(set)X
+2591(of)X
+2699(tools)X
+2906(that)X
+3073(enables)X
+3371(a)X
+3444(Scheme)X
+843 1944(programmer)N
+1302(to)X
+1395(program)X
+1717(in)X
+1810(an)X
+1917(object)X
+2157(oriented)X
+2470(style.)X
+2705(The)X
+2866(functionality)X
+3342(of)X
+10 s
+3437(OOPS)X
+11 s
+3664(is)X
+843 2064(similar)N
+1117(to)X
+1214(that)X
+1375(of)X
+1476(packages)X
+1826(like)X
+10 s
+1984(CLOS)X
+11 s
+2215(and)X
+10 s
+2367(SCOOPS)X
+11 s
+2668(,)X
+2717(although)X
+3053(the)X
+3188(current)X
+3464(version)X
+843 2184(does)N
+1035(not)X
+1179(support)X
+1474(multiple)X
+1801(inheritance.)X
+2268(The)X
+2436(rest)X
+2594(of)X
+2698(this)X
+2857(memo)X
+3108(serves)X
+3357(as)X
+3460(a)X
+3529(refer-)X
+843 2304(ence)N
+1036(guide)X
+1264(to)X
+1365(the)X
+10 s
+1503(OOPS)X
+11 s
+1739(package;)X
+2084(the)X
+2224(reader)X
+2475(is)X
+2566(assumed)X
+2901(to)X
+3002(be)X
+3116(familiar)X
+3427(with)X
+3615(the)X
+843 2424(terminology)N
+1297(of)X
+1392(object)X
+1630(oriented)X
+1941(programming.)X
+10 s
+555 2808(August)N
+806(5,)X
+886(1991)X
+
+1 p
+%%Page: 1 2
+5(Courier)xf 5 f
+10 s 0 xH 0 xS 5 f
+1 f
+3 f
+12 s
+1561 984(The)N
+11 s
+1743(OOPS)X
+12 s
+2008(Package)X
+2374(for)X
+2521(Elk)X
+2689(Scheme)X
+2 f
+10 s
+2019 1176(Oliver)N
+2244(Laumann)X
+3 f
+11 s
+555 1560(1.)N
+665(Using)X
+10 s
+900(OOPS)X
+1 f
+11 s
+555 1708(Programs)N
+914(that)X
+1069(make)X
+1282(use)X
+1421(of)X
+1516(the)X
+10 s
+1644(OOPS)X
+11 s
+1870(package)X
+2180(should)X
+2437(include)X
+2719(the)X
+2849(line)X
+5 f
+10 s
+781 1888(\(require)N
+1213('oops\))X
+1 f
+11 s
+555 2068(Since)N
+782(this)X
+941(involves)X
+1271(autoloading)X
+1719(of)X
+1823(an)X
+1937(object)X
+2184(\256le,)X
+2350(it)X
+2430(may)X
+2612(be)X
+2725(desirable)X
+3073(to)X
+3172(dump)X
+3403(Scheme)X
+3712(after)X
+3903(the)X
+10 s
+555 2188(OOPS)N
+11 s
+781(package)X
+1091(has)X
+1230(been)X
+1418(loaded.)X
+3 f
+555 2428(2.)N
+665(De\256ning)X
+1005(Classes)X
+1 f
+695 2576(New)N
+890(classes)X
+1164(are)X
+1300(de\256ned)X
+1588(by)X
+1705(means)X
+1959(of)X
+2061(the)X
+5 f
+10 s
+2224(define-class)X
+1 f
+11 s
+2829(macro.)X
+3122(The)X
+3288(syntax)X
+3547(of)X
+5 f
+10 s
+3675(define-)X
+555 2696(class)N
+1 f
+11 s
+817(is)X
+5 f
+10 s
+781 2876(\(define-class)N
+2 f
+1453(class-name)X
+5 f
+1862(.)X
+2 f
+1958(options)X
+5 f
+2193(\))X
+1 f
+11 s
+555 3056(where)N
+2 f
+791(class-name)X
+1 f
+1208(is)X
+1289(a)X
+1350(symbol.)X
+2 f
+1676(options)X
+1 f
+1958(can)X
+2102(be)X
+2207(of)X
+2302(the)X
+2432(form)X
+5 f
+10 s
+781 3236(\(super-class)N
+2 f
+1405(class-name)X
+5 f
+1766(\))X
+1 f
+11 s
+555 3416(where)N
+2 f
+791(class-name)X
+1 f
+1208(is)X
+1289(the)X
+1419(name)X
+1632(of)X
+1727(the)X
+1857(super-class)X
+2269(\(a)X
+2359(symbol\),)X
+2692(or)X
+5 f
+10 s
+781 3596(\(class-vars)N
+1357(.)X
+2 f
+1453(var-specs)X
+5 f
+1761(\))X
+1 f
+11 s
+555 3776(or)N
+5 f
+10 s
+781 3956(\(instance-vars)N
+1501(.)X
+2 f
+1597(var-specs)X
+5 f
+1905(\))X
+1 f
+11 s
+555 4136(to)N
+651(specify)X
+932(the)X
+1067(class)X
+1265(variables)X
+1610(and)X
+1763(instance)X
+2078(variables)X
+2422(of)X
+2521(the)X
+2655(newly)X
+2896(de\256ned)X
+3181(class.)X
+3422(Each)X
+2 f
+3624(var-spec)X
+1 f
+3952(is)X
+555 4256(either)N
+778(a)X
+839(symbol)X
+1121(\(the)X
+1280(name)X
+1493(of)X
+1588(the)X
+1718(variable\))X
+2053(or)X
+2148(of)X
+2243(the)X
+2373(form)X
+5 f
+10 s
+781 4436(\()N
+2 f
+(symbol)S
+1104(initializer)X
+5 f
+1414(\).)X
+1 f
+11 s
+555 4616(Variables)N
+919(for)X
+1047(which)X
+1288(no)X
+1402(initializer)X
+1768(has)X
+1911(been)X
+2103(speci\256ed)X
+2442(are)X
+2575 0.3187(initialized)AX
+2956(to)X
+3051(the)X
+3185(empty)X
+3432(list.)X
+3611(The)X
+3774(initial-)X
+555 4736(izers)N
+776(for)X
+933(class)X
+1158(variables)X
+1530(are)X
+1691(evaluated)X
+2083 0.3409(immediately;)AX
+2605(initializers)X
+3033(for)X
+3189(instance)X
+3532(variables)X
+3904(are)X
+555 4856(evaluated)N
+917(each)X
+1102(time)X
+1284(an)X
+1391(instance)X
+1704(of)X
+1801(the)X
+1933(newly)X
+2172(de\256ned)X
+2455(class)X
+2650(is)X
+2732(created.)X
+3053(Evaluation)X
+3459(of)X
+3555(initializers)X
+3952(is)X
+555 4976(performed)N
+952(in)X
+1052(a)X
+1122(way)X
+1299(that)X
+1463(the)X
+1601(initializer)X
+1971(of)X
+2074(a)X
+2143(variable)X
+2457(can)X
+2609(reference)X
+2965(all)X
+3084(variables)X
+3432(appearing)X
+3809(at)X
+3903(the)X
+555 5096(left)N
+695(of)X
+790(the)X
+920(variable)X
+1226(being)X
+1444 0.3409(initialized;)AX
+1846(for)X
+1970(instance)X
+5 f
+10 s
+781 5276(\(define-class)N
+1453(foo)X
+1645(\(class-vars)X
+2221(\(a)X
+2365(10\))X
+2557(\(b)X
+2701(\(*)X
+2845(a)X
+2941(2\)\)\)\))X
+1 f
+11 s
+555 5456(would)N
+797 0.3542(initialize)AX
+1130(the)X
+1260(class)X
+1453(variable)X
+5 f
+10 s
+1785(b)X
+1 f
+11 s
+1855(to)X
+1946(20.)X
+695 5604(A)N
+781(class)X
+975(inherits)X
+1263(all)X
+1375(class)X
+1569(variables,)X
+1932(instance)X
+2244(variables,)X
+2607(and)X
+2757(methods)X
+3079(of)X
+3175(its)X
+3282(super-class.)X
+3739(When)X
+3972(a)X
+555 5724(class)N
+757(and)X
+915(its)X
+1030(super-class)X
+1451(each)X
+1643(have)X
+1840(an)X
+1954(instance)X
+2274(variable)X
+2589(with)X
+2777(the)X
+2916(same)X
+3127(name,)X
+3370(the)X
+3508(corresponding)X
+2 f
+555 5844(var-specs)N
+1 f
+925(must)X
+1131(either)X
+1366(both)X
+1556(have)X
+1755(no)X
+1876(initializer)X
+2249(or)X
+2355(initializers)X
+2762(with)X
+2952(the)X
+3093(same)X
+3307(value,)X
+3553(otherwise)X
+3928(an)X
+
+2 p
+%%Page: 2 3
+5(Courier)xf 5 f
+11 s 0 xH 0 xS 5 f
+1 f
+2210 408(-)N
+2261(2)X
+2327(-)X
+10 f
+555 456(h)N
+579(hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh)X
+1 f
+555 696(\252initializer)N
+956(mismatch\272)X
+1361(error)X
+1553(is)X
+1634(signaled)X
+1950(by)X
+5 f
+10 s
+2086(define-class)X
+1 f
+11 s
+(.)S
+695 844(Each)N
+903(instance)X
+1224(of)X
+1329(a)X
+1400(class)X
+1603(has)X
+1752(an)X
+1867(instance)X
+2188(variable)X
+2504(named)X
+5 f
+10 s
+2797(self)X
+1 f
+11 s
+(.)S
+3065(The)X
+3234(value)X
+3457(of)X
+5 f
+10 s
+3588(self)X
+1 f
+11 s
+3812(is)X
+3903(the)X
+555 964(instance)N
+873(with)X
+1059(respect)X
+1337(to)X
+1435(which)X
+5 f
+10 s
+1705(self)X
+1 f
+11 s
+1926(is)X
+2014(evaluated.)X
+5 f
+10 s
+2476(self)X
+1 f
+11 s
+2696(can)X
+2846(be)X
+2957(used)X
+3146(by)X
+3262(methods)X
+3589(as)X
+3690(the)X
+3826(argu-)X
+555 1084(ment)N
+754(to)X
+5 f
+10 s
+871(send)X
+1 f
+11 s
+1085(\(see)X
+1248(below\))X
+1514(to)X
+1605(invoke)X
+1867(another)X
+2153(method)X
+2440(within)X
+2688(the)X
+2818(current)X
+3089(instance.)X
+5 f
+10 s
+695 1232(define-class)N
+1 f
+11 s
+1301(does)X
+1492(not)X
+1635(have)X
+1831(a)X
+1900(meaningful)X
+2332(return)X
+2572(value,)X
+2814(instead)X
+3093(it)X
+3172(has)X
+3318(a)X
+3386(side-effect)X
+3786(on)X
+3903(the)X
+555 1352(environment)N
+1023(in)X
+1114(which)X
+1351(it)X
+1423(is)X
+1504(invoked.)X
+3 f
+555 1592(3.)N
+665(Creating)X
+1019(Instances)X
+1392(of)X
+1487(a)X
+1553(Class)X
+1 f
+695 1740(The)N
+855(macro)X
+5 f
+10 s
+1124(make-instance)X
+1 f
+11 s
+1771(is)X
+1853(used)X
+2037(to)X
+2129(create)X
+2362(an)X
+2468(instance)X
+2780(of)X
+2876(a)X
+2938(class;)X
+3157(it)X
+3230(returns)X
+3497(the)X
+3627(instance)X
+3938(as)X
+555 1860(its)N
+661(value.)X
+918(The)X
+1077(syntax)X
+1329(is)X
+5 f
+10 s
+781 2040(\(make-instance)N
+2 f
+1501(class)X
+5 f
+1709(.)X
+2 f
+1805(args)X
+5 f
+1947(\))X
+1 f
+11 s
+555 2220(where)N
+2 f
+791(class)X
+1 f
+989(is)X
+1070(the)X
+1200(class)X
+1393(of)X
+1488(which)X
+1725(an)X
+1830(instance)X
+2141(is)X
+2222(to)X
+2313(be)X
+2418(created.)X
+2738(Each)X
+2 f
+2936(arg)X
+1 f
+3080(of)X
+3175(the)X
+3305(form)X
+5 f
+10 s
+781 2400(\()N
+2 f
+(symbol)S
+1104(initializer)X
+5 f
+1414(\))X
+1 f
+11 s
+555 2580(where)N
+2 f
+800(symbol)X
+1 f
+1079(is)X
+1168(the)X
+1306(name)X
+1527(of)X
+1630(an)X
+1743(instance)X
+2062(variable)X
+2376(of)X
+2479(the)X
+2617(class,)X
+2840(is)X
+2929(used)X
+3120(to)X
+3219 0.3542(initialize)AX
+3560(the)X
+3698(speci\256ed)X
+555 2700(instance)N
+870(variable)X
+1180(in)X
+1275(the)X
+1409(newly)X
+1650(created)X
+1929(instance.)X
+2287(In)X
+2385(this)X
+2538(case)X
+2714(the)X
+2 f
+2847(initializer)X
+1 f
+3217(supersedes)X
+3622(any)X
+3774(initial-)X
+555 2820(izer)N
+711(speci\256ed)X
+1048(in)X
+1141(the)X
+1273(call)X
+1425(to)X
+5 f
+10 s
+1544(define-class)X
+1 f
+11 s
+(.)S
+2188(Thus)X
+2388(it)X
+2462(is)X
+2545(possible)X
+2858(to)X
+2950(have)X
+3139(instance)X
+3451(variables)X
+3792(with)X
+3972(a)X
+2 f
+555 2940(default)N
+824(initializer)X
+1 f
+1192(that)X
+1348(can)X
+1493(be)X
+1599(overridden)X
+2003(for)X
+2128(individual)X
+2509(instances.)X
+2898(The)X
+3057(initializers)X
+3453(are)X
+3582(evaluated)X
+3942(in)X
+555 3060(the)N
+685(current)X
+956(environment.)X
+5 f
+10 s
+695 3208(make-instance)N
+1 f
+11 s
+1366(initializes)X
+1758(the)X
+1913(newly)X
+2174(created)X
+2474(instance)X
+2809(by)X
+2943(invoking)X
+3303(the)X
+5 f
+10 s
+3483(initialize-)X
+555 3328(instance)N
+1 f
+11 s
+970(method)X
+1266(for)X
+1399(the)X
+1538(class)X
+1740(and)X
+1897(all)X
+2016(super-classes)X
+2509(in)X
+2608(super-class)X
+3028(to)X
+3127(sub-class)X
+3479(order.)X
+3738(That)X
+3930(is,)X
+555 3448(the)N
+5 f
+10 s
+726(initialize-instance)X
+1 f
+11 s
+1674(method)X
+1975(of)X
+2084(the)X
+2228(class)X
+2435(speci\256ed)X
+2784(in)X
+2889(the)X
+3033(call)X
+3197(to)X
+5 f
+10 s
+3328(make-instance)X
+1 f
+11 s
+(is)S
+5 f
+10 s
+555 3568(initialize-instance)N
+1 f
+11 s
+1517(methods.)X
+1910(The)X
+2097(arguments)X
+2514(passed)X
+2798(to)X
+2916(the)X
+5 f
+10 s
+3099(initialize-instance)X
+1 f
+11 s
+555 3688(method)N
+851(of)X
+954(a)X
+1023(class)X
+1224(are)X
+1361(those)X
+1577(arguments)X
+1974(of)X
+2077(the)X
+2215(call)X
+2373(to)X
+5 f
+10 s
+2498(make-instance)X
+1 f
+11 s
+3152(that)X
+3315(do)X
+3433(not)X
+3576(represent)X
+3928(an)X
+555 3808 0.3317(initialization)AN
+1027(form)X
+1221(for)X
+1345(an)X
+1450(instance)X
+1761(variable.)X
+2111(These)X
+2343(arguments)X
+2732(are)X
+2861(evaluated)X
+3221(in)X
+3312(the)X
+3442(current)X
+3713(environ-)X
+555 3928(ment.)N
+798(It)X
+874(is)X
+955(not)X
+1090(required)X
+1405(for)X
+1529(a)X
+1590(class)X
+1783(to)X
+1874(have)X
+2062(an)X
+5 f
+10 s
+2193(initialize-instance)X
+1 f
+11 s
+3127(method.)X
+695 4076(Consider)N
+1035(the)X
+1165(following)X
+1530(example:)X
+5 f
+10 s
+781 4256(\(require)N
+1213('oops\))X
+781 4424(\(define-class)N
+1453(c)X
+1549(\(instance-vars)X
+2269(a\)\))X
+781 4536(\(define-class)N
+1453(d)X
+1549(\(instance-vars)X
+2269(\(b)X
+2413(10\)\))X
+2653(\(super-class)X
+3277(c\)\))X
+781 4704(\(define-method)N
+1501(c)X
+1597(\(initialize-instance)X
+2605(.)X
+2701(args\))X
+877 4816(\(print)N
+1213(\(cons)X
+1501('c)X
+1645(args\)\)\))X
+781 4984(\(define-method)N
+1501(d)X
+1597(\(initialize-instance)X
+2605(.)X
+2701(args\))X
+877 5096(\(print)N
+1213(\(cons)X
+1501('d)X
+1645(args\)\)\))X
+1 f
+11 s
+555 5332(In)N
+650(this)X
+800(example)X
+1121(evaluation)X
+1511(of)X
+5 f
+10 s
+781 5512(\(define)N
+1165(x)X
+1261(99\))X
+781 5624(\(define)N
+1165(i)X
+1261(\(make-instance)X
+1981(d)X
+2077(\(a)X
+2221(20\))X
+2413('foo)X
+2653(\(b)X
+2797(x\))X
+2941(x\)\))X
+1 f
+11 s
+555 5804(would)N
+797(print)X
+
+3 p
+%%Page: 3 4
+5(Courier)xf 5 f
+11 s 0 xH 0 xS 5 f
+1 f
+2210 408(-)N
+2261(3)X
+2327(-)X
+10 f
+555 456(h)N
+579(hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh)X
+5 f
+10 s
+781 756(\(c)N
+925(foo)X
+1117(99\))X
+781 868(\(d)N
+925(foo)X
+1117(99\))X
+1 f
+11 s
+695 1076(Note)N
+901(that)X
+1069(\256rst)X
+1241(the)X
+5 f
+10 s
+1410(initialize-instance)X
+1 f
+11 s
+2357(method)X
+2656(of)X
+5 f
+10 s
+2789(c)X
+1 f
+11 s
+2871(is)X
+2964(invoked)X
+3282(and)X
+3443(then)X
+3629(that)X
+3796(of)X
+3903(the)X
+555 1196(class)N
+5 f
+10 s
+774(d)X
+1 f
+11 s
+(.)S
+888(The)X
+1047(instance)X
+1358(variables)X
+5 f
+10 s
+1724(a)X
+1 f
+11 s
+1794(and)X
+5 f
+10 s
+1969(b)X
+1 f
+11 s
+2039(would)X
+2281(be)X
+2386 0.3187(initialized)AX
+2763(to)X
+2854(20)X
+2964(and)X
+3113(99,)X
+3245(respectively.)X
+3 f
+555 1436(4.)N
+665(De\256ning)X
+1005(Methods)X
+1 f
+695 1584(A)N
+780(new)X
+948(method)X
+1235(can)X
+1379(be)X
+1484(de\256ned)X
+1765(by)X
+1875(means)X
+2122(of)X
+2217(the)X
+5 f
+10 s
+2373(define-method)X
+1 f
+11 s
+3019(macro.)X
+3305(The)X
+3464(syntax)X
+3716(is)X
+5 f
+10 s
+781 1764(\(define-method)N
+2 f
+1501(class)X
+1709(lambda-list)X
+5 f
+2121(.)X
+2 f
+2217(body)X
+5 f
+2373(\))X
+1 f
+11 s
+555 1944(where)N
+2 f
+800(class)X
+1 f
+1007(is)X
+1097(the)X
+1236(class)X
+1437(to)X
+1536(which)X
+1781(the)X
+1919(method)X
+2214(is)X
+2303(to)X
+2402(be)X
+2515(added,)X
+2 f
+2777(lambda-list)X
+1 f
+3209(is)X
+3298(a)X
+3367(list)X
+3506(specifying)X
+3903(the)X
+555 2064(method's)N
+905(name)X
+1118(and)X
+1267(formal)X
+1524(arguments)X
+1913(\(having)X
+2204(the)X
+2334(same)X
+2537(syntax)X
+2789(as)X
+2884(the)X
+3014(argument)X
+3369(of)X
+5 f
+10 s
+3490(define)X
+1 f
+11 s
+(\).)S
+5 f
+10 s
+695 2212(define-method)N
+1 f
+11 s
+1359(simply)X
+1640(creates)X
+1924(a)X
+2003(class-variable)X
+2527(with)X
+2724(the)X
+2872(name)X
+3103(of)X
+3216(the)X
+3363(method,)X
+3689(creates)X
+3972(a)X
+555 2332(lambda)N
+838(closure)X
+1115(using)X
+1329(the)X
+2 f
+1460(lambda-list)X
+1 f
+1885(and)X
+2035(the)X
+2 f
+2166(body)X
+1 f
+2360(forms,)X
+2610(and)X
+2760(binds)X
+2974(the)X
+3105(resulting)X
+3437(procedure)X
+3811(to)X
+3903(the)X
+555 2452(newly-created)N
+1083(variable.)X
+1441(When)X
+1680(a)X
+1748(message)X
+2075(with)X
+2261(the)X
+2398(name)X
+2618(of)X
+2720(the)X
+2857(method)X
+3151(is)X
+3239(sent)X
+3410(to)X
+3508(an)X
+3620(instance)X
+3938(of)X
+555 2572(the)N
+689(class,)X
+908(the)X
+1041(method)X
+1331(is)X
+1415(invoked,)X
+1746(and)X
+1898(the)X
+2 f
+2031(body)X
+1 f
+2227(is)X
+2311(evaluated)X
+2674(in)X
+2768(the)X
+2901(scope)X
+3126(of)X
+3224(the)X
+3357(instance)X
+3671(\(so)X
+3803(that)X
+3961(it)X
+555 2692(can)N
+699(access)X
+945(all)X
+1056(instance)X
+1367(and)X
+1516(class)X
+1709(variables\).)X
+3 f
+555 2932(5.)N
+665(Sending)X
+991(Messages)X
+1 f
+695 3080(A)N
+780(message)X
+1100(can)X
+1244(be)X
+1349(sent)X
+1513(to)X
+1604(an)X
+1709(instance)X
+2020(by)X
+2130(means)X
+2377(of)X
+2472(the)X
+2602(function)X
+5 f
+10 s
+2944(send)X
+1 f
+11 s
+(.)S
+3202(The)X
+3361(syntax)X
+3613(of)X
+5 f
+10 s
+3734(send)X
+1 f
+11 s
+3948(is)X
+5 f
+10 s
+781 3260(\(send)N
+2 f
+1069(instance)X
+1384(message)X
+5 f
+1704(.)X
+2 f
+1800(args)X
+5 f
+1942(\))X
+1 f
+11 s
+555 3440(where)N
+2 f
+804(instance)X
+1 f
+1133(is)X
+1227(the)X
+1370(instance)X
+1694(to)X
+1798(which)X
+2048(the)X
+2191(message)X
+2524(is)X
+2618(to)X
+2722(be)X
+2840(sent,)X
+2 f
+3039(method)X
+1 f
+3333(is)X
+3427(the)X
+3570(name)X
+3796(of)X
+3903(the)X
+555 3560(method)N
+844(to)X
+937(be)X
+1044(invoked)X
+1352(\(a)X
+1444(symbol\),)X
+1779(and)X
+2 f
+1930(args)X
+1 f
+2110(are)X
+2241(the)X
+2373(arguments)X
+2764(to)X
+2857(be)X
+2964(passed)X
+3221(to)X
+3313(the)X
+3444(method.)X
+3776(Exam-)X
+555 3680(ple:)N
+5 f
+10 s
+781 3860(\(define-class)N
+1453(c)X
+1549(\(instance-vars)X
+2269(a\))X
+2413(\(class-vars)X
+2989(\(b)X
+3133(10\)\)\))X
+781 4028(\(define-method)N
+1501(c)X
+1597(\(foo)X
+1837(x\))X
+877 4140(\(cons)N
+1165(\(set!)X
+1453(a)X
+1549(x\))X
+1693(b\)\))X
+2077(;)X
+2173(set!)X
+2413(returns)X
+2797(previous)X
+3229(value)X
+781 4308(\(define)N
+1165(i)X
+1261(\(make-instance)X
+1981(c)X
+2077(\(a)X
+2221(99\)\)\))X
+781 4532(\(send)N
+1069(i)X
+1165('foo)X
+1405(1\))X
+1 f
+1981(returns)X
+2244(\(99)X
+2371(.)X
+2411(10\))X
+5 f
+781 4644(\(send)N
+1069(i)X
+1165('foo)X
+1405(2\))X
+1 f
+1981(returns)X
+2244(\(1)X
+2331(.)X
+2371(10\))X
+11 s
+695 4852(When)N
+929(a)X
+992(message)X
+1314(is)X
+1397(sent)X
+1563(to)X
+1656(an)X
+1763(instance)X
+2076(for)X
+2202(which)X
+2441(no)X
+2553(method)X
+2842(has)X
+2983(been)X
+3172(de\256ned,)X
+3476(a)X
+3538(\252message)X
+3898(not)X
+555 4972(understood\272)N
+1007(error)X
+1199(is)X
+1280(signaled.)X
+695 5120(The)N
+865(function)X
+5 f
+10 s
+1218(send-if-handles)X
+1 f
+11 s
+1971(is)X
+2063(identical)X
+2401(to)X
+5 f
+10 s
+2529(send)X
+1 f
+11 s
+(,)S
+2776(except)X
+3039(that)X
+3205(it)X
+3288(returns)X
+3565(a)X
+3637(list)X
+3779(of)X
+3884(one)X
+555 5240(element,)N
+897(the)X
+1045(return)X
+1295(value)X
+1525(of)X
+1637(the)X
+1784(method,)X
+2110(or)X
+5 f
+10 s
+2248(#f)X
+1 f
+11 s
+2383(when)X
+2612(the)X
+2759(message)X
+3096(is)X
+3194(not)X
+3346(understood)X
+3776(by)X
+3903(the)X
+555 5360(instance.)N
+
+4 p
+%%Page: 4 5
+5(Courier)xf 5 f
+11 s 0 xH 0 xS 5 f
+1 f
+2210 408(-)N
+2261(4)X
+2327(-)X
+10 f
+555 456(h)N
+579(hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh)X
+3 f
+555 696(6.)N
+665(Evaluating)X
+1099(Expressions)X
+1571(within)X
+1833(an)X
+1948(Instance)X
+1 f
+695 844(The)N
+869(macro)X
+5 f
+10 s
+1152(with-instance)X
+1 f
+11 s
+1813(can)X
+1972(be)X
+2092(used)X
+2290(to)X
+2396(evaluate)X
+2727(expressions)X
+3174(within)X
+3437(the)X
+3582(scope)X
+3819(of)X
+3928(an)X
+555 964(instance.)N
+910(The)X
+1069(syntax)X
+1321(is)X
+5 f
+10 s
+781 1144(\(with-instance)N
+2 f
+1501(instance)X
+5 f
+1816(.)X
+2 f
+1912(body)X
+5 f
+2068(\).)X
+1 f
+11 s
+555 1324(The)N
+2 f
+720(body)X
+1 f
+919(forms)X
+1152(are)X
+1287(evaluated)X
+1652(in)X
+1748(the)X
+1883(same)X
+2091(environment)X
+2564(in)X
+2660(which)X
+2902(a)X
+2968(method)X
+3260(of)X
+2 f
+3360(instance)X
+1 f
+3681(would)X
+3928(be)X
+555 1444(evaluated,)N
+947(i.)X
+1009(e.)X
+1102(they)X
+1286(can)X
+1440(access)X
+1696(all)X
+1816(and)X
+1974(class)X
+2176(and)X
+2334(instance)X
+2654(variables)X
+3003(\(including)X
+5 f
+10 s
+3423(self)X
+1 f
+11 s
+(\).)S
+5 f
+10 s
+3771(with-)X
+555 1564(instance)N
+1 f
+11 s
+961(returns)X
+1227(the)X
+1357(value)X
+1570(of)X
+1665(the)X
+1795(last)X
+2 f
+1940(body)X
+1 f
+2133(form.)X
+2370(Example:)X
+5 f
+10 s
+781 1744(\(define-class)N
+1453(c)X
+1549(\(class-vars)X
+2125(\(x)X
+2269(5\)\))X
+2461(\(instance-vars)X
+3181(y\)\))X
+781 1912(\(define)N
+1165(i)X
+1261(\(make-instance)X
+1981(c)X
+2077(\(y)X
+2221(1\)\)\))X
+781 2080(\(define)N
+1165(x)X
+1261(10\))X
+781 2192(\(with-instance)N
+1501(i)X
+1597(\(cons)X
+1885(x)X
+1981(y\)\))X
+1 f
+2605(returns)X
+2868(\(5)X
+2955(.)X
+2995(1\))X
+3 f
+11 s
+555 2492(7.)N
+665(Setting)X
+951(Instance)X
+1290(and)X
+1454(Class)X
+1676(Variables)X
+1 f
+695 2640(Generally)N
+1078(class)X
+1285(and)X
+1448(instance)X
+1773(variables)X
+2127(are)X
+2270(manipulated)X
+2743(by)X
+2867(methods)X
+3201(or,)X
+3331(if)X
+3420(applicable,)X
+3840(from)X
+555 2760(within)N
+809(a)X
+5 f
+10 s
+902(with-instance)X
+1 f
+11 s
+1554(form.)X
+1797(In)X
+1898(addition,)X
+2238(values)X
+2491(can)X
+2641(be)X
+2751(assigned)X
+3081(to)X
+3177(class)X
+3375(and)X
+3529(instance)X
+3845(vari-)X
+555 2880(ables)N
+765(without)X
+1064(involving)X
+1432(a)X
+1500(message)X
+1827(send)X
+2017(by)X
+2134(means)X
+2387(of)X
+2488(the)X
+5 f
+10 s
+2650(instance-set!)X
+1 f
+11 s
+3324(macro.)X
+3616(The)X
+3781(syntax)X
+555 3000(of)N
+5 f
+10 s
+676(instance-set!)X
+1 f
+11 s
+1344(is)X
+5 f
+10 s
+781 3180(\(instance-set!)N
+2 f
+1501(instance)X
+1816(variable)X
+2131(value)X
+5 f
+2305(\))X
+1 f
+11 s
+555 3360(where)N
+2 f
+812(variable)X
+1 f
+1149(is)X
+1251(a)X
+1333(symbol,)X
+1658(the)X
+1808(name)X
+2041(of)X
+2156(the)X
+2306(class)X
+2519(or)X
+2634(instance)X
+2965(variable.)X
+5 f
+10 s
+3387(instance-set!)X
+1 f
+11 s
+555 3480(returns)N
+821(the)X
+951(previous)X
+1276(value)X
+1489(of)X
+1584(the)X
+1714(variable)X
+2020(\(like)X
+5 f
+10 s
+2230(set!)X
+1 f
+11 s
+(\).)S
+695 3628(Class)N
+917(variables)X
+1266(can)X
+1419(be)X
+1533(modi\256ed)X
+1878(without)X
+2179(involving)X
+2549(an)X
+2663(instance)X
+2983(of)X
+3087(the)X
+3226(class)X
+3427(by)X
+3545(means)X
+3800(of)X
+3903(the)X
+555 3748(macro)N
+5 f
+10 s
+823(class-set!)X
+1 f
+11 s
+(:)S
+5 f
+10 s
+781 3928(\(class-set!)N
+2 f
+1357(class)X
+1565(variable)X
+1880(value)X
+5 f
+2054(\).)X
+2 f
+11 s
+555 4108(variable)N
+1 f
+871(must)X
+1065(be)X
+1170(the)X
+1300(name)X
+1513(of)X
+1608(a)X
+1669(class)X
+1862(variable)X
+2168(of)X
+2 f
+2263(class)X
+1 f
+(.)S
+2505(Note)X
+2698(that)X
+2853(one)X
+3002(difference)X
+3380(between)X
+5 f
+10 s
+781 4288(\(instance-set!)N
+1501(i)X
+1597('var)X
+1837(x\))X
+1 f
+11 s
+555 4468(and)N
+5 f
+10 s
+781 4648(\(with-instance)N
+1501(i)X
+1597(\(set!)X
+1885(var)X
+2077(x\)\))X
+1 f
+11 s
+555 4828(is)N
+642(that)X
+803(in)X
+899(the)X
+1034(former)X
+1300(case)X
+5 f
+10 s
+1504(x)X
+1 f
+11 s
+1579(is)X
+1665(evaluated)X
+2030(in)X
+2126(the)X
+2261(current)X
+2537(environment)X
+3010(while)X
+3233(in)X
+3329(the)X
+3464(latter)X
+3673(case)X
+5 f
+10 s
+3877(x)X
+1 f
+11 s
+3952(is)X
+555 4948(evaluated)N
+915(within)X
+1163(the)X
+1293(scope)X
+1515(of)X
+1610(the)X
+1740(instance)X
+2051(\(here)X
+5 f
+10 s
+2279(x)X
+1 f
+11 s
+2349(might)X
+2578(be)X
+2683(a)X
+2744(class)X
+2937(or)X
+3032(instance)X
+3343(variable\).)X
+3 f
+555 5188(8.)N
+665(Obtaining)X
+1070(Information)X
+1551(about)X
+1788(Classes)X
+2083(and)X
+2247(Instances)X
+1 f
+695 5336(The)N
+866(function)X
+5 f
+10 s
+1220(class-name)X
+1 f
+11 s
+1734(returns)X
+2012(the)X
+2153(name)X
+2377(of)X
+2483(a)X
+2555(class)X
+2759(\(a)X
+2860(symbol\))X
+3182(or,)X
+3310(when)X
+3533(applied)X
+3826(to)X
+3928(an)X
+555 5456(instance,)N
+888(the)X
+1018(name)X
+1231(of)X
+1326(the)X
+1456(class)X
+1649(of)X
+1744(which)X
+1981(it)X
+2053(is)X
+2134(an)X
+2239(instance.)X
+695 5604(The)N
+859(predicate)X
+5 f
+10 s
+1235(method-known?)X
+1 f
+11 s
+1908(can)X
+2057(be)X
+2167(used)X
+2355(to)X
+2451(check)X
+2683(whether)X
+2993(a)X
+3058(method)X
+3349(of)X
+3448(a)X
+3513(given)X
+3735(name)X
+3952(is)X
+555 5724(known)N
+816(to)X
+907(a)X
+968(class.)X
+1205(The)X
+1364(syntax)X
+1616(is)X
+
+5 p
+%%Page: 5 6
+5(Courier)xf 5 f
+11 s 0 xH 0 xS 5 f
+2 f
+1 f
+2210 408(-)N
+2261(5)X
+2327(-)X
+10 f
+555 456(h)N
+579(hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh)X
+5 f
+10 s
+781 756(\(method-known?)N
+2 f
+1501(method)X
+1785(class)X
+5 f
+(\))S
+1 f
+11 s
+555 936(where)N
+2 f
+791(method)X
+1 f
+1072(is)X
+1153(a)X
+1214(symbol.)X
+695 1084(The)N
+860(type)X
+1040(predicates)X
+5 f
+10 s
+1450(class?)X
+1 f
+11 s
+1787(and)X
+5 f
+10 s
+1967(instance?)X
+1 f
+11 s
+2448(can)X
+2597(be)X
+2707(used)X
+2895(to)X
+2991(check)X
+3223(whether)X
+3533(an)X
+3643(object)X
+3886(is)X
+3972(a)X
+555 1204(class)N
+748(or)X
+843(an)X
+948(instance,)X
+1281(respectively.)X
+695 1352(The)N
+854(functions)X
+5 f
+10 s
+781 1532(\(check-class)N
+2 f
+1405(symbol)X
+1680(object)X
+5 f
+1876(\))X
+1 f
+11 s
+555 1712(and)N
+5 f
+10 s
+781 1892(\(check-instance)N
+2 f
+1549(symbol)X
+1824(object)X
+5 f
+2020(\))X
+1 f
+11 s
+555 2072(check)N
+786(whether)X
+2 f
+1095(object)X
+1 f
+1337(is)X
+1422(a)X
+1487(class)X
+1684(\(i.)X
+1775(e.)X
+1862(satis\256es)X
+2167(the)X
+2301(predicate)X
+5 f
+10 s
+2676(class?)X
+1 f
+11 s
+(\))S
+3019(or)X
+3118(an)X
+3227(instance,)X
+3563(respectively,)X
+555 2192(and,)N
+726(if)X
+802(not,)X
+959(signal)X
+1192(an)X
+1297(error;)X
+1514(in)X
+1605(this)X
+1755(case)X
+2 f
+1928(symbol)X
+1 f
+2199(is)X
+2280(used)X
+2463(as)X
+2558(the)X
+2688(\256rst)X
+2847(argument)X
+3202(to)X
+5 f
+10 s
+3319(error)X
+1 f
+11 s
+(.)S
+695 2340(The)N
+863(functions)X
+5 f
+10 s
+1247(describe-class)X
+1 f
+11 s
+1949(and)X
+5 f
+10 s
+2132(describe-instance)X
+1 f
+11 s
+2978(print)X
+3175(the)X
+3313(components)X
+3769(\(name,)X
+555 2460(class/instance)N
+1072(variables,)X
+1444(etc.\))X
+1630(of)X
+1735(a)X
+1806(class)X
+2009(or)X
+2114(instance,)X
+2457(respectively.)X
+2959(The)X
+3128(function)X
+5 f
+10 s
+3479(describe)X
+1 f
+11 s
+3894(has)X
+555 2580(been)N
+783(extended)X
+1163(in)X
+1293(way)X
+1500(that)X
+1694(when)X
+5 f
+10 s
+1971(\(feature?)X
+2490('oops\))X
+1 f
+11 s
+2839(is)X
+2959(true,)X
+5 f
+10 s
+3205(describe-class)X
+1 f
+11 s
+3938(or)X
+5 f
+10 s
+555 2700(describe-instance)N
+1 f
+11 s
+1397(are)X
+1530(called)X
+1767(when)X
+5 f
+10 s
+2009(describe)X
+1 f
+11 s
+2419(is)X
+2504(applied)X
+2790(to)X
+2885(an)X
+2994(object)X
+3235(that)X
+3393(satis\256es)X
+5 f
+10 s
+3723(class?)X
+1 f
+11 s
+555 2820(or)N
+5 f
+10 s
+676(instance?)X
+1 f
+11 s
+(,)S
+1152(respectively.)X
+
+6 p
+%%Page: 6 7
+5(Courier)xf 5 f
+11 s 0 xH 0 xS 5 f
+1 f
+2210 408(-)N
+2261(6)X
+2327(-)X
+10 f
+555 456(h)N
+579(hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh)X
+3 f
+13 s
+2155 984(Index)N
+555 1392(C)N
+1 f
+11 s
+555 1632(check-class,)N
+3 f
+12 s
+1006(5)X
+1 f
+11 s
+555 1752(check-instance,)N
+3 f
+12 s
+1124(5)X
+1 f
+11 s
+555 1872(class)N
+748(variables,)X
+1110(1)X
+555 1992(class-name,)N
+3 f
+12 s
+992(4)X
+1 f
+11 s
+555 2112(class-set!,)N
+3 f
+12 s
+928(4)X
+1 f
+11 s
+555 2232(class-vars,)N
+3 f
+12 s
+947(1)X
+1 f
+11 s
+555 2352(class?,)N
+3 f
+12 s
+811(5)X
+13 s
+555 2592(D)N
+1 f
+11 s
+555 2832(de\256ne-class,)N
+3 f
+12 s
+1016(1)X
+1 f
+11 s
+555 2952(de\256ne-method,)N
+3 f
+12 s
+1110(3)X
+1 f
+11 s
+555 3072(describe-class,)N
+3 f
+12 s
+1094(5)X
+1 f
+11 s
+555 3192(describe-instance,)N
+3 f
+12 s
+1212(5)X
+1 f
+11 s
+555 3312(describe,)N
+3 f
+12 s
+894(5)X
+13 s
+555 3552(I)N
+1 f
+11 s
+555 3792 0.1875(initialize-instance,)AN
+3 f
+12 s
+1230(2)X
+1 f
+11 s
+555 3912(initializers,)N
+973(1)X
+555 4032(instance)N
+866(variables,)X
+1228(1)X
+555 4152(instance-set!,)N
+3 f
+12 s
+1046(4)X
+1 f
+11 s
+555 4272(instance-vars,)N
+3 f
+12 s
+1065(1)X
+1 f
+11 s
+555 4392(instance?,)N
+3 f
+12 s
+929(5)X
+13 s
+555 4632(M)N
+1 f
+11 s
+555 4872(make-instance,)N
+3 f
+12 s
+1110(2)X
+1 f
+11 s
+555 4992(method-known?,)N
+3 f
+12 s
+1173(4)X
+13 s
+555 5232(O)N
+1 f
+11 s
+2399 1392(oops,)N
+2609(1)X
+3 f
+13 s
+2399 1632(S)N
+1 f
+11 s
+2399 1872(self,)N
+3 f
+12 s
+2572(2)X
+1 f
+11 s
+2399 1992(send-if-handles,)N
+3 f
+12 s
+2987(3)X
+1 f
+11 s
+2399 2112(send,)N
+2604(2,)X
+3 f
+12 s
+2694(3)X
+1 f
+11 s
+2399 2232(super-class,)N
+3 f
+12 s
+2835(1)X
+13 s
+2399 2472(W)N
+1 f
+11 s
+2399 2712(with-instance,)N
+3 f
+12 s
+2920(4)X
+
+7 p
+%%Page: 7 8
+5(Courier)xf 5 f
+12 s 0 xH 0 xS 5 f
+11 s
+1 f
+3 f
+13 s
+1886 984(Table)N
+2166(of)X
+2279(Contents)X
+1 f
+11 s
+555 1420(Using)N
+10 s
+785(OOPS)X
+11 s
+1019(..............................................................................................................................)X
+3967(1)X
+555 1568(De\256ning)N
+885(Classes)X
+1173(.......................................................................................................................)X
+3967(1)X
+555 1716(Creating)N
+881(Instances)X
+1230(of)X
+1325(a)X
+1386(Class)X
+1613(...................................................................................................)X
+3967(2)X
+555 1864(De\256ning)N
+885(Methods)X
+1217(.....................................................................................................................)X
+3967(3)X
+555 2012(Sending)N
+866(Messages)X
+1239(....................................................................................................................)X
+3967(3)X
+555 2160(Evaluating)N
+960(Expressions)X
+1407(within)X
+1655(an)X
+1760(Instance)X
+2075(..............................................................................)X
+3967(4)X
+555 2308(Setting)N
+828(Instance)X
+1143(and)X
+1292(Class)X
+1505(Variables)X
+1877(.......................................................................................)X
+3967(4)X
+555 2456(Obtaining)N
+930(Information)X
+1373(about)X
+1591(Classes)X
+1877(and)X
+2026(Instances)X
+2383(................................................................)X
+3967(4)X
+555 2604(Index)N
+777(.........................................................................................................................................)X
+3967(6)X
+
+8 p
+%%Trailer
+xt
+
+xs

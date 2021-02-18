@@ -1,0 +1,111 @@
+Copyright 1991 by David A. Curry
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that copyright
+notice and this permission notice appear in supporting documentation.  The
+author makes no representations about the suitability of this software for
+any purpose.  It is provided "as is" without express or implied warranty.
+
+------------------------------------------------------------------------
+
+This is XPostIt Version 3 for X11 Releases 4 and 5.  XPostIt allows you to
+create small notes to yourself in windows on the screen, and save them in
+disk files.  This is generally neater than having numerous real Post-it
+notes stuck all around the edges of your monitor.
+
+This release of XPostIt has the following changes over the version I made
+available when X11 Release 4 was released:
+
+	- Due to numerous requests, there are now widget actions and
+	  menu selections to map (show) and unmap (hide) all notes.
+	  Pressing CTRL-LeftMouseButton will map all notes; while
+	  pressing CTRL-MiddleMouseButton will unmap all notes.  You
+	  can change these bindings through the translation table, if
+	  you want to.
+
+	  There is no facility for mapping/unmapping a single note at
+	  a time, and I'm not really interested in adding one.  But I
+	  suppose I will consider nice, clean implementations of such
+	  if you send them to me.  You can always do this with a window
+	  manager, if you have to.
+
+	- There is a new button in each note, called "Title".  Pressing
+	  this button will bring up a dialog box, allowing you to set
+	  the title of your note.  This title is displayed in title
+	  bars and icons by the window manager.  The title is saved in
+	  the disk file for the note; old note files with no titles
+	  will still work, however they will be given a default title
+	  the first time they are saved.  The default title is
+	  "PostItNote #n".
+
+	  There is a problem with titles; at least the twm window
+	  manager does not update the icon name (but does update the
+	  title bar) when you change a title.  You can make it do so
+	  by unmapping all notes and then mapping them again.  My
+	  theory is that this is a bug or limitation in twm, not in
+	  XPostIt.  If you figure out a fix, let me know.
+
+	- Typing "q" or "Q" in the plaid window now exits XPostIt just
+	  as if you select "Exit" from the menu.
+
+	- The position-saving code for saving note positions now works
+	  correctly with twm.  I don't know about other window
+	  managers, but since twm is "standard", that's the one I'm
+	  going to support (so there :-).
+
+	- The postition-saving code should now work correctly with
+	  window managers that create virtual roots, like tvtwm.  I
+	  have not tested this, since I don't use tvtwm, but the patch
+	  came from a tvtwm user.
+
+	- The bug in which all notes would be lost if you exited the X
+	  server without exiting XPostIt first has been fixed.
+
+	- The class name is now "XPostit" instead of "Xpostit".  This
+	  is as it should be.  Note that this means you'll have to
+	  change any resources you've set.
+
+	- The font for labeling the buttons is slightly smaller now,
+	  to make all four buttons fit in the smallest note.
+
+	- A couple of compile-time nits for System V and GNU cc have
+	  been fixed (but not tested, since I use neither System V
+	  nor GNU software).
+
+	- There's now a version string in version.c, so you can tell
+	  me what version you're running when you send me fixes. :-)
+
+Building XPostIt is simple.  It comes with an Imakefile (one of the best
+parts about X), so you just say
+
+	% xmkmf
+	% make
+
+If you don't have xmkmf, then whoever installed your release of X screwed
+up.  You can get around this by saying
+
+	% imake -DUseInstalled -I<LIBDIR>/X11/config
+	% make
+
+where "<LIBDIR>" should point to wherever your X11 stuff is installed.  If
+you can't find imake, then once again whoever installed your release of X
+screwed up.  Please bug them, not me.
+
+You can install XPostIt by saying
+
+	% make install
+
+You can install the XPostIt manual page by saying
+
+	% make install.man
+
+Please send all bug reports, fixes, modifications, and features requests
+to me.  Please include the version string from version.c.  If you send
+diffs, please use "diff -c".
+
+Dave Curry
+Purdue University
+Engineering Computer Network
+West Lafayette, IN 47907
+davy@ecn.purdue.edu

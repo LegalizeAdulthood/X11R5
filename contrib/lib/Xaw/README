@@ -1,0 +1,84 @@
+                         Internationalization
+                                 of
+                          Athena Widget Set
+
+
+The i18n of Xaw(Xaw-i18n) is based on the original Xaw library, core
+distribution of X11R5 from MIT.  The Xaw-i18n consists all new widgets
+which should be added into the Athena Widget set.  A whole i18n'ed
+Athena Widget set is made of the original widgets and this Xaw-i18n parts.
+So the new extended widget set is compatible with X Consortium's core
+Athena Widget set.
+
+Actually the Xaw-i18n is twin of the original Athena widgets, i.e., each
+widget involving with Latin-1 string is modified to produce a new one
+being capable for multibyte(multilingual) string.  For example, the Label
+widget is modified to a new one LabelLocal widget which handles the
+multibyte string encoded in the locale of fontSet.
+
+The name for these new widgets is cohered a word "Locale" with the
+name of the original widget.  You can imagen very easily there are
+such new widgets: CommandLocale widget from Command widget, SmeBSBLocale
+object from SmeBSB object, and so on.  The exception is in Text widget,
+the name of the twin of Ascii text widget is Multi, such MultiText from
+AsciiText.
+
+Using MultiText widget you can easily to make a multilingual editor like
+xedit.  The file codeset of the MultiText is decided with the locale of
+fontSet, the inter-client communication codeset for such cut/paste operation
+is Compound Text Encoding.  The internal buffer of MultiText widget is
+encoded for multilingual, i.e., locale-independent.
+For example you can paste a Chinese string, encoded in the locale zh_CN.ugb,
+into the MultiText buffer, and you can also insert a Japanese string, encoded
+in the locale ja_JP.ujis, into the buffer.  The MultiText widget can be
+connected with the Input Method to input multibyte characters. One of such
+Input Method is xwnmo.
+
+All new widgets is listed as follows:
+
+	CommandLocale Widget
+        DialogLocale Widget
+	LabelLocale Widget
+	ListLocale Widget
+	MenuButtonLocale Widget
+	SmeBSBLocale Object
+        ToggleLocale Widget
+	MultiText Widget
+	MultiSource Object
+	MultiSink Object
+
+You can see easily where they are produced from. The following widgets
+are modified to match the new widget set:
+ 
+	AsciiSource Object
+	AsciiSink Object
+	Text Widget
+	TextSource Object
+	TextSink Object
+
+So you should define the compile directive to be -DXI18N to distinguash
+from the original Athena Widget set.
+
+All other widgets, not mensioned here, are still same as the original
+Athena Widget set.
+
+To build i18n-Xaw you should use the following commands:
+
+	% cd Xaw
+	% xmkmf <Topdir> <Curdir> (you may set Topdir and Curdir)
+	% make includes
+	% make depend
+	% make all
+
+After building, It can be installed in your local bin using:
+
+	% make install
+
+
+--It is very simple work,
+  however needs man's hands to do it at all.
+
+						Aug 26 1991
+						Hiroshi Kuribayashi
+						OMRON Coporation
+						kuri@nff.ncl.omron.co.jp

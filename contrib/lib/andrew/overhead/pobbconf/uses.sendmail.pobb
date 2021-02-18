@@ -1,0 +1,32 @@
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+%include pobbconfig.defs
+
+%ifdef	pobb_RunAMSDelivery
+FA	?[oldsendmail]	?[PackageHome]/$${sys}/oldsendmail    $${suidmode}
+FA	?[SendmailConfigDir]/sendmail.cf	?[PackageHome]/etc/sendmail.cf	$${textmode}
+F	?[SendmailConfigDir]/sendmail.fc
+
+FA	?[SendmailConfigDir]/ARPAnet.inhibit	?[PackageHome]/etc/ARPAnet.inhibit	$${textmode}
+
+%ifdef pobb_GetHostTable
+# Defining ``postoffice'' disables the public passwd and hosts/networks/gateways files.
+?[QuotedPercent]define	postoffice
+# that is, until 4/20/89, when each is disabled independently.
+?[QuotedPercent]define	hashosts
+?[QuotedPercent]define	hasnetworks
+?[QuotedPercent]define	hasgateways
+FA	/etc/hosts	?[IPFilePrefix]/hosts?[IPFileSuffix]	?[PostmasterName] wheel 644
+FA	/etc/networks	?[IPFilePrefix]/networks?[IPFileSuffix]	?[PostmasterName] wheel 644
+FA	/etc/gateways	?[IPFilePrefix]/gateways?[IPFileSuffix]	?[PostmasterName] wheel 644
+%endif pobb_GetHostTable
+
+FIA	?[DuplicateDB]/?[SentSuffix].dir	?[PackageHome]/null	?[PostmasterName] wheel 666
+FIA	?[DuplicateDB]/?[SentSuffix].pag	?[PackageHome]/null	?[PostmasterName] wheel 666
+
+%endif	pobb_RunAMSDelivery

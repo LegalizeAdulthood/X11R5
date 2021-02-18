@@ -1,0 +1,103 @@
+Vine was written by Dan Heller in Dec 1985 while at SRI International.
+The Port to X windows done on Friday March 9, 1990 by Dan Heller.
+This readme has been modified to provide for the latest additions.
+
+This program draws vines all over your computer.  If you're running X,
+it writes to the root window.  If you're running on a sun workstation,
+and *not* using X (e.g. compiled with -lpixrect) it writes directly to
+the frame buffer.
+
+"vines" are long stems with leaves on them.
+
+If you don't get the imakefile to work, try these.
+For any computer running X11:
+    % cc -DX11 vine.c -lX -lm -o vine
+For Sun's using pixrects:
+    % cc vine.c -lsunwindow -lpixrect -lm -o vine
+
+Here are the different command line options you can use:
+By default (e.g. no arguments), -e is used.
+
+    -e      vines grow along the edges of the screen (default; no arguments)
+    -c      vines grow from the center of the screen and spread *quickly*
+    -C      draws leaves in shades of green (default is to use monochrome)
+    -v N    grow N vines from the top of the screen (max: MAXFORKS, see below)
+    -h      program waits for <CR> in which all vines halt (see below)
+    -r      reverse video; black/white is inverted (no color -may be confusing)
+    -f      fall mode.  Used with -C -- shades of brown instead of green.
+    -D      degradee -- leaf colors fade from light to dark shades (use w/ -C)
+    -i [N]  interleaf black/white leaves 1 for each N (-N white/black)
+    -s N    max size of leaves (default: 2)
+    -d device  alternate display (X) or frame buffer (sun: default is /dev/fb)
+    -b N    probability of branching (max 40)
+    -l N    as N increases more leaves grow from each stem (max 35)
+    -R N    360/N different leaf rotations (default 45 degrees)
+For X only
+    -F      allow forking; off by default because X server gets confused
+For Sun's only:
+    -w      vines grow around each window on the screen (not icons; no color)
+
+For best effects try the following:
+
+Color displays:
+% vine -C -c -s3
+
+suns:
+% vine -w -i
+
+Experimentation with outrageous values gives other interesting effects, like:
+
+% vine -s10 -c
+
+Notes:
+
+The X version uses only the following Xlib calls:
+    XOpenDisplay()
+    XSetForeground()/XSetBackground()
+    XDrawLine()
+    XFillPolygon()
+    XCreateGC()
+    XAllocColor()
+    XSetErrorHandler() /* see below */
+    XFlush() /* not really necessary */
+
+Color vines are drawn in shades of green or brown depending on the -f switch.
+Shades of these colors are gotten from trying to allocate colors in the
+colormap of the root window.  If there are few colors available, then
+you'll get fewer shades.  On my sun running MWM, I got 140 colors.  I can't
+seem to figure out how to get the root window to *keep* the drawing on
+the window!  If you move windows around, the background gets repainted to
+whatever was there before the vines got written.
+
+Multiple vines grow simultaneously by using fork() and each vine is grown
+from its own process.  However, X gets really confused about this and
+eventually a protocol error occurs, thus the use of XSetErrorHandler().
+I dump core at the location of the protocol error for debugging purposes,
+but the only thing I can think of is that the separate processes are sending
+requests to the server at the  same time causing different GC/Window
+attribute values getting set while another process expects the values
+to be whatever it set them to first.
+
+As a result, I don't allow fork()'s in the "default" case.  That is,
+"edge" vines (-e) doesn't fork() unless you give the -F flag to allow
+forking.  You will probably see the problem here.  The other options
+(-v -c, etc) will fork anyway, and again, you'll see the problem.
+
+Don't try running in "sync" mode or you'll be watching forever... it's
+awfully slow.  I didn't provide a -sync flag, but you can uncomment
+the XSynchronize() line if you like.
+
+forks are cuaght using a SIGCHLD event handler.  If you're using
+VMS, then remove the #include for signal.h and the signal isn't
+used.
+
+MAX_FORKS is defined to limit the ability for the vines to runaway
+with the CPU and draw vines everywhere preventing you from getting
+control of your computer back.  If you're not careful, vines start
+growing on the desk top, the floor, furniture, everything.  Altho
+it's not common, "I heard some guy out in Jersey got it twice."
+
+Name the movie that the above quote was taken from and win a Pizza!
+
+The -h option is provided so that all forked processes can be
+terminated instantly by hitting "return".

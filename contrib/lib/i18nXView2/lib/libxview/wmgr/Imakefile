@@ -1,0 +1,48 @@
+#
+# @(#)Imakefile 1.3 90/02/26 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=     wmgr.h
+HDRSPRIVATE=    wmgr_decor.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP) -I$(TOOLDIR)
+
+OBJS =\
+	wmgr_rect.o wmgr_state.o wmgr_menu.o wmgr_decor.o
+
+SRCS =\
+	wmgr_rect.c wmgr_state.c wmgr_menu.c wmgr_decor.c
+
+all::
+
+#if DebugLibXvol && ProfileLibXvol
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvol
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvol
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvol,$(OBJS))
+SubdirCompoundLibTarget(xview,$(OBJS))
+
+#if ProfileLibXvol
+SubdirProfiledLibTarget(xvol,$(OBJS))
+#endif
+
+#if DebugLibXvol
+SubdirDebuggedLibTarget(xvol,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

@@ -1,0 +1,17 @@
+*output.labelString:	Write File
+*cellSizeInPixels:	30
+*pixmapWidthInCells:	20
+*pixmapHeightInCells:	20
+*getHelp.labelString:	Help
+*quit.labelString:	Quit
+*file.labelString:	File
+*fontList:	variable
+*helpBox.messageString:  To set bits, press or drag the first mouse button.\n\
+To clear bits, use the second mouse button.\n\
+To toggle bits, use the third mouse button.
+! The following used if the window manager titles the dialog.
+*helpBox.dialogTitle:  Help
+!
+*XmScrolledWindow.scrollingPolicy:  XmAUTOMATIC
+*XmScrolledWindow.width:  400
+*XmScrolledWindow.height:  400

@@ -1,0 +1,30 @@
+				GWM PLANNED ENHANCEMENTS:
+				#########################
+
+This is the list of the things we are adding, or planning to add, to GWM/WOOL.
+Mail us your wishes if they are not already on this list.
+
+				#########################
+
+Selection support
+
+Generic handling of property and selection contents
+
+send/receive ClientMessage
+
+I/O redirection
+
+Xerox ROOMS profile
+
+timeout
+
+more drawing primitives in pixmaps
+
+more debugging aids
+
+dynamically add/replace/remove a son of a menu or bar.
+
+hooks in wobs for move/resize/restack
+
+Object-oriented extensions to WOOL (classes, objects, methods)
+

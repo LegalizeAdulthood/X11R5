@@ -1,0 +1,8 @@
+;
+; $Id: wnnenvrc_QiR,v 1.1 1991/09/11 02:29:55 ohm Exp $
+;
+confirm1
+
+setdic	sys/QianMa.dic		-		1 1 0 - - 1
+
+setfuzokugo	sys/full.conR

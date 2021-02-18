@@ -1,0 +1,46 @@
+*** /usr/proj/xtrap/xtrapcode/ext_server.imake_r5	Mon Jul 15 07:50:36 1991
+--- /usr/proj/xtrap/X11R5/mit/extensions/server/Imakefile	Sat Jul 13 10:19:54 1991
+***************
+*** 1,6 ****
+  #include <Server.tmpl>
+  
+! #if BuildXInputExt || BuildPexExt || BuildXTrapExt
+  #define IHaveSubdirs
+  #endif
+  
+--- 1,6 ----
+  #include <Server.tmpl>
+  
+! #if BuildXInputExt || BuildPexExt
+  #define IHaveSubdirs
+  #endif
+  
+***************
+*** 10,18 ****
+  #if BuildPexExt
+    PEXDIRS = PEX
+  #endif
+- #if BuildXTrapExt
+-   XTRAPDIRS = xtrap
+- #endif
+  #if HasShm
+    SHMSRCS = shm.c
+    SHMOBJS = shm.o
+--- 10,15 ----
+***************
+*** 21,27 ****
+         OBJS = shape.o $(SHMOBJS) multibuf.o mitmisc.o xtest1di.o xtest1dd.o
+     INCLUDES = -I../include -I$(INCLUDESRC) -I$(SERVERSRC)/include
+     LINTLIBS = ../../server/dix/llib-ldix.ln ../../server/os/4.2bsd/llib-los.ln
+!         SUBDIRS = $(XINPUTDIRS) $(PEXDIRS) $(XTRAPDIRS)
+  
+  NormalLibraryObjectRule()
+  NormalLibraryTarget(ext,$(OBJS))
+--- 18,24 ----
+         OBJS = shape.o $(SHMOBJS) multibuf.o mitmisc.o xtest1di.o xtest1dd.o
+     INCLUDES = -I../include -I$(INCLUDESRC) -I$(SERVERSRC)/include
+     LINTLIBS = ../../server/dix/llib-ldix.ln ../../server/os/4.2bsd/llib-los.ln
+!         SUBDIRS = $(XINPUTDIRS) $(PEXDIRS)
+  
+  NormalLibraryObjectRule()
+  NormalLibraryTarget(ext,$(OBJS))

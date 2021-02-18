@@ -1,0 +1,33 @@
+.TH ICELL 1 "Release 4" "X Version 11"
+.SH NAME
+icell - Interactive one dimensional cellular automata
+.SH SYNOPSIS
+.ta 8n
+\fBicell layout_file\fP
+.SH DESCRIPTION
+The
+.I icell 
+does just about everything
+.I xcell does, but it also surrounds the area with an Xcu widget menu
+so that the options may be specified interactively.  Sorry, I don't have
+time to go into more detail, but you should be able to have fun fooling
+around with it.
+.SH FILES
+Rule and pick files are relative to the XtNdirectory resource.
+.sp
+Xcell also expects to find there a subdirectory named
+.B Mods
+which contains information for doing perturbations.
+.SH "SEE ALSO"
+icell(3X)
+.SH BUGS
+Not all the combinations of
+.I xcell
+parameters have been tested.
+Expect some weird behavior when straying from the beaten path.
+.SH COPYRIGHT
+Copyright 1990, Gene W. Dykes
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHORS
+Gene Dykes (Cornell University) gdykes@theory.tn.cornell.edu

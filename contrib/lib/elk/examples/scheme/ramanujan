@@ -1,0 +1,23 @@
+;;; -*-Scheme-*-
+
+(define (1/pi)
+  (define (step n)
+    (/ (* (fact (* 4 n)) (+ 1103 (* 26390 n)))
+       (* (expt (fact n) 4) (expt 396 (* 4 n)))))
+  (* (/ (sqrt 8) 9801)
+     (step 0)))
+
+(define (fact n)
+  (let f ((i n) (a 1))
+    (if (zero? i)
+	a
+	(f (- i 1) (* a i)))))
+
+(define (square x) (* x x))
+
+(define (expt b n)
+  (cond ((= n 0) 1)
+        ((even? n) (square (expt b (/ n 2))))
+        (else (* b (expt b (- n 1))))))
+
+(print (/ 1 (1/pi)))

@@ -1,0 +1,30 @@
+#include "../../config.sh"
+
+        IROHAROOT = ../..
+             OPTS =
+         LINTLIBS = ../RK/llib-lRK.ln
+
+         INCLUDES = -I../../server \
+		-I../RK \
+		-I../../include/iroha \
+		-I../../include \
+		-I.
+          DEFINES = -DEXTENSION -DUNIXCONN $(RKC_DEFINES)
+           HEADER = rkc.h
+             OBJS = rkc.o rkcConvert.o
+             SRCS = rkc.c rkcConvert.c $(HEADER)
+             OPTS =
+
+          LIBRARY = libRKC.a
+
+all:: $(LIBRARY)
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(RKC,$(OBJS))
+NormalLintTarget($(SRCS))
+LintLibraryTarget(RKC,$(SRCS))
+
+DependTarget()
+
+LinkFileList(includes,$(HEADER), \
+	$(IROHAROOT)/include,../lib/RKC)

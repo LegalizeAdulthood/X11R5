@@ -1,0 +1,39 @@
+It would be nice to be able to specify, at run-time (i.e., via your
+.Xdefaults file), what bitmaps to use for the rotating "leds".
+
+Need some way to have a file that is the directory for each cd.  It
+would contain the name of each track as well as the name of the cd.
+The user would click on a button and a form would pop up with as many
+lines to fill in as there are tracks, and a line for the name of the
+cd.  The hard part is getting xcdplayer to pull up the right file,
+when one already exists for a cd; you need some sort of unique id to
+associate with the file.  There is such an id on audio cd's but the
+SunOS driver doesn't provide any way to fetch this id.  A guy from
+Sony suggested making your own id by doing some sort of hashing
+together the duration of the tracks, how many tracks, and their order.
+That would work for 99.9% of all cd's except I have some cd's that are
+ambient/background stuff (e.g., a wildlife recording where a mike was
+set down next to a brook) that is 1 track that runs for exactly 60
+minutes.
+
+Need to be able to specify the order to play the tracks and to specify
+to not play some tracks.  The x cdplayer program by (I think) der
+Mouse has this.
+
+Need to be able to move around within a track; a true fast forward and
+reverse.  This currently doesn't seem possible.  In the earliest
+version the way I did the display in the top right that shows how much
+time has gone by for the current track was to use the ioctl that
+queries the drive and asks it how much it has played (or was it how
+much is left, I forget).  That ioctl quite often returned garbage; the
+struct would contain completely senseless values.  For a while I tried
+having it do another ioctl if it got obvious garbage but I'd also get
+"subtle" garbage; stuff that was garbage but wasn't obvious or easy to
+detect.  I ended up using der Mouse's scheme; do an ioctl several
+times a second (4 in my case) and ask it what track it's on.  If it's
+on the same track it was last time we checked, then update the time
+display if a second has gone by, otherwise update the track display
+and restart the time display.  Querying the drive 4 times a second
+doesn't seem to use much cpu time according to the output of "ps".
+
+Ditch the Athena widgets and redo the whole thing with the Tk widgets.

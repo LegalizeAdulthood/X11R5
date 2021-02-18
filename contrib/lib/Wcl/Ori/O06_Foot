@@ -1,0 +1,62 @@
+! This is a demonstration of the use of the footer widget and also
+! the Form.  This is patterned after the example in "Open Look at Unix"
+! by John David Miller.  It took me a long time to figure out how to add
+! something between the footer top and bottom--it turns out you don't!  It's
+! part of the top widget in the footer.  This example also uses a form
+! widget to attach the items in the footer panel.
+
+!*wcTrace:               True
+Ori.wcChildren:		foot
+Ori.title:		O06_Footer
+
+*threeD:		TRUE
+*background:		grey
+
+*foot.wcClass:		footerPanelWidgetClass
+*foot.wcChildren:	formTop,formBot
+
+*formTop.wcClass:	formWidgetClass
+*formTop.wcChildren:	topleft, topright, control
+
+*topleft.wcClass:	staticTextWidgetClass
+*topleft.gravity:	northwest
+*topleft.xVaryOffset:	TRUE
+*topleft.string:	myprog.c
+
+*topright.wcClass:	staticTextWidgetClass
+*topright.gravity:	northeast
+*topright.xAddWidth:	TRUE
+*topright.xAttachRight:	TRUE
+*topright.xRefName:	topleft
+*topright.xVaryOffset:	TRUE
+*topright.string:	[Modified]
+
+*control.wcClass:	controlAreaWidgetClass
+*control.layoutType:	fixedcols
+*control.yAddHeight:	TRUE
+*control.yRefName:	topleft
+*control.wcChildren:	quit
+
+*quit.wcClass:		oblongButtonGadgetClass
+*quit.select:		WcExitCB(1)
+
+
+*formBot.wcClass:	formWidgetClass
+*formBot.wcChildren:	botleft,botright
+
+*botleft.wcClass:	staticTextWidgetClass
+*botleft.gravity:	southwest
+*botleft.xVaryOffset:	TRUE
+*botleft.string:	Saving...
+
+*botright.wcClass:	staticTextWidgetClass
+*botright.gravity:	southeast
+*botright.xAddWidth:	TRUE
+*botright.xAttachRight:	TRUE
+*botright.xRefName:	botleft
+*botright.xVaryOffset:	TRUE
+*botright.string:	line 297
+
+
+
+

@@ -1,0 +1,2 @@
+#! /bin/sh
+exec xalarm -name xmemo -time +0 -nowarn ${1+"$@"}

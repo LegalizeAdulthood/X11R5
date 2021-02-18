@@ -1,0 +1,80 @@
+.\"
+.\"Copyright 1991 Sony Corporation
+.\"
+.\"Permission to use, copy, modify, distribute, and sell this software and its
+.\"documentation for any purpose is hereby granted without fee, provided that
+.\"the above copyright notice appear in all copies and that both that
+.\"copyright notice and this permission notice appear in supporting
+.\"documentation, and that the name of Sony not be used in advertising or
+.\"publicity pertaining to distribution of the software without specific,
+.\"written prior permission.  Sony makes no representations about the
+.\"suitability of this software for any purpose.  It is provided "as is"
+.\"without express or implied warranty.
+.\"
+.\"SONY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+.\"IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL SONY
+.\"BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\"WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+.\"OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+.\"CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\"Author: Noriyuki Hosoe, Sony Corporation
+.\"
+.TL
+辞書生成ツール makedict
+.RS
+.LP
+\fBmakedict\fP は、仮名漢字変換サーバ \fBsj3serv\fP で使用する辞書を
+作成するためのツールです。
+.sp
+このツールを使用することにより、エディタで編集された辞書を \fBsj3serv\fP で
+使用可能な形態に変換することが出来ます。
+.sp
+編集可能ファイルは、以下のような形式をしています。
+.RS
+.DS
+あ　　　　　　　　　　　亜　　　　　　　　　　　接頭１:
+あ　　　　　　　　　　　開　　　　　　　　　　　カ五２:
+あ　　　　　　　　　　　空　　　　　　　　　　　カ五４:
+あ　　　　　　　　　　　明　　　　　　　　　　　カ五２:
+あ　　　　　　　　　　　飽　　　　　　　　　　　カ五３:
+　　　　　　　　　　　　：
+.DE
+.RE
+それぞれのフィールドは以下の意味を持ちます。
+.RS
+.DS
+第１フィールド　　読み（全角ひらがな）
+第２フィールド　　目的の出力
+第３フィールド　　品詞の並び
+.DE
+.RE
+ここで各フィールド間は、１つ以上のスペースあるいはタブで区切られている
+必要があります。また各行は、読みでソートされていなければなりません。
+.sp
+第３フィールド（品詞のフィールド）には、別紙で定義されている品詞を記述します。
+.sp
+１つの熟語にたいして複数の品詞を指定するときには、以下のようにします。
+.RS
+.DS
+あい　　　　　　　　　　愛　　　　　　　　　　　代４:サ五５:
+あえ　　　　　　　　　　あえ　　　　　　　　　　ガ五３:一段１:
+あお　　　　　　　　　　青　　　　　　　　　　　代１:形１１:
+　　　　　　　　　　　　：
+.DE
+.RE
+なおこの辞書では、体言（名詞・副詞・連体詞など非活用のもの）については
+熟語そのままを、用言（動詞・形容詞・形容動詞など活用するもの）に
+関しては語幹のみを登録しなければなりません。
+.sp
+このような編集可能ファイルから \fBsj3serv\fP で使用可能な辞書を生成するには、
+\fBmakedict\fP を使用して以下のようにします。
+.RS
+.DS
+makedict \fIsrc_file_name\fP \fIdst_file_name\fP
+.DE
+.RE
+エラーがなく実行が終了したときには、\fIsrc_file_name\fP で指定された
+編集可能ファイルが変換され、\fIdst_file_name\fP で指定されたファイルに
+格納されています。
+.RE

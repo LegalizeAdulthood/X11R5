@@ -1,0 +1,85 @@
+.TH CAN 1
+.SH "名前"
+can \- 日本語入力フロントエンド
+.SH "形式"
+.B "can [shell]"
+.SH "説明"
+.LP
+.SM can
+は、
+.SM TTY
+ベースの日本語入出力環境を提供するコマンドです。
+.SM can
+は、
+.SM irohaserver
+のクライアントの1つであり、かな漢字変換部のインタフェースは
+.SM canna
+と統一的に提供するインタフェースを用いています。したがって、他の
+.SM canna
+クライアントと同じインタフェースで利用することが可能です。
+.LP
+環境変数
+.SM IROHAHOST
+によって
+.SM can
+が接続する
+.SM irohaserver 
+を指定することができます。
+.SM IROHAHOST
+に値が設定されていないときは、自ホストの
+.SM irohaserver
+に接続します。
+.SM can
+は
+.SM irohaserver
+と接続できてもできなくても起動します。しかし、接続できないときには、
+かな漢字変換を行えません。
+.LP
+.SM can
+を起動すると、新しいシェルが起動されます。
+.SM can
+は、
+引数
+.SM shell
+の値、環境変数
+.SM SHELL
+の値を順番に調べ、シェルが指定されているときに、そのシェルを起動します。
+引数でも環境変数で指定されていないときには、
+.SM /bin/csh
+を起動します。
+
+
+.SH "使用上の留意点"
+.LP
+.SM can
+は、
+端末が
+.SM TTY
+や漢字ターミナルでない場合、
+.SM pty
+が獲得できない場合には起動されません。
+また、漢字コードに対応していないシェルを起動した場合には、
+文字が正しく表示されないことがあります。
+.LP
+.SM SYSTEM V
+ではウィンドウサイズの変更に対応していません。
+
+.SH "関連情報"
+.BR "irohaserver(1)"
+
+.SH "著作権"
+.PP
+Copyright 1992 NEC Corporation, Tokyo, Japan.
+.PP
+This software is based on the original version of Wnn(uum) developed by
+Kyoto University Research Institute for Mathematical Sciences (KURIMS),
+OMRON TATEISI ELECTRONICS CO. and ASTEC, Inc.
+.sp
+Copyright
+Kyoto University Research Institute for Mathematical Sciences
+1987, 1988, 1989
+.sp
+Copyright OMRON TATEISI ELECTRONICS CO. 1987, 1988, 1989
+.sp
+Copyright ASTEC, Inc. 1987, 1988, 1989
+

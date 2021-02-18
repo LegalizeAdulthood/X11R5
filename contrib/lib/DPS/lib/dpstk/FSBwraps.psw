@@ -1,0 +1,352 @@
+/*
+ * FSBwraps.psw
+ *
+ * Copyright (C) 1991 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.  If any portion of this software is changed, it cannot be
+ * marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+ * its sole discretion, approves by a prior writing the quality of the
+ * resulting implementation.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */
+
+defineps _DPSFClearWindow(DPSContext ctxt)
+    1 setgray
+    0 0 2000 2000 rectfill
+endps
+
+defineps _DPSFPreviewString(DPSContext ctxt; char *font; float size;
+			  char *text; int height)
+    /font size selectfont
+    0 height neg 5 div itransform
+    exch pop 5 exch moveto
+    0 setgray
+    (text) show
+endps
+
+defineps _DPSFReclip(DPSContext ctxt)
+    initclip
+    initviewclip
+endps
+
+defineps _DPSFUndefineFont(DPSContext ctxt; char *font)
+    currentshared true setshared		% currentshared
+	{/font undefinefont} stopped 		% currentshared [font] stopped
+	{
+	    false setshared			% currentshared font
+	    {undefinefont} stopped {
+		pop
+	    } if
+	} if
+    setshared
+    % This next 2 vmreclaim makes the binobj server bug less likely to
+    % happen.  It should be removed when everyone has newer servers
+    2 vmreclaim
+endps
+
+defineps _DPSFDefineFontEnumFunctions(DPSContext ctxt)
+    $Adobe$DPS$Lib$Dict begin
+	/GetFontName {		% int GetFontName string
+	    $Adobe$DPS$Lib$Dict /FontDict get begin
+		dup maxItems div truncate cvi baseArray exch get
+		exch maxItems mod get
+	    end
+	} def
+	% (str) x y 	SafeBBox	 left bottom right top
+	/SafeBBox {
+	    3 copy				% (str) x y (str) x y
+	    newpath
+	    moveto				% (str) x y (str)
+	    {
+		mark exch false charpath flattenpath pathbbox
+	    } stopped {
+		cleartomark
+		3 -1 roll dup length dup	% x y (str) len len
+		1 le {
+		    pop
+		    % punt; we can't divide it any more
+		    0 0 moveto stringwidth pop 	% x y wx
+		    dup 2 index add exch 3 index add exch
+		} {
+		    2 copy			% x y (str) len (str) len
+		    2 idiv 			% x y (str) len (str) len/2
+		    0 exch			% x y (str) len (str) 0 len/2
+		    getinterval	dup		% x y (str) len (s1) (s1)
+		    5 index 5 index		% x y (str) len (s1) (s1) x y
+		    $Adobe$DPS$Lib$Dict /SafeBBox get exec
+					% x y (str) len (s1) l1 b1 r1 t1
+		    9 4 roll		% l1 b1 r1 t1 x y (str) len (s1)
+		    stringwidth			% ... x y (str) len wx wy
+		    5 -1 roll add exch		% ... x (str) len y+wy wx
+		    5 -1 roll add exch		% ... (str) len x+wx y+wy
+		    4 2 roll			% ... x+wx y+wy (str) len
+		    dup 2 idiv			% ... x+wx y+wy (str) len len/2
+		    exch 2 div ceiling cvi
+					% ... x+wx y+wy (str) len/2 ceil(len/2)
+		    getinterval			% ... x+wx y+wy (s2)
+		    3 1 roll 			% ... (s2) x+wx y+wy
+		    $Adobe$DPS$Lib$Dict /SafeBBox get exec
+						% l1 b1 r1 t1 l2 b2 r2 t2
+		    5 -1 roll 2 copy		% l1 b1 r1 l2 b2 r2 t2 t1 t2 t1
+		    gt {pop} {exch pop} ifelse	% l1 b1 r1 l2 b2 r2 t
+		    7 1 roll			% t l1 b1 r1 l2 b2 r2
+		    4 -1 roll 2 copy		% t l1 b1 l2 b2 r2 r1 r2 r1
+		    gt {pop} {exch pop} ifelse	% t l1 b1 l2 b2 r
+		    6 1 roll			% r t l1 b1 l2 b2
+		    3 -1 roll 2 copy		% r t l1 l2 b2 b1 b2 b1
+		    lt {pop} {exch pop} ifelse	% r t l1 l2 b
+		    5 1 roll			% b r t l1 l2
+		    2 copy			% b r t l1 l2 l1 l2
+		    lt {pop} {exch pop} ifelse	% b r t l
+		    4 1 roll			% l b r t
+		} ifelse
+	    } {					% mark (str) x y l b r t
+		8 -4 roll pop pop pop pop
+	    } ifelse
+	} def
+    end
+endps
+
+defineps _DPSFEnumFonts(DPSContext ctxt | int *count; int *totalLength)
+    $Adobe$DPS$Lib$Dict begin
+	/FontDict 5 dict def
+	FontDict begin
+	    /currentItem 0 def
+	    /maxItems 100 def
+	    /maxArrays 10 def
+	    /baseArray maxArrays array def
+	    /currentArray 0 def
+	    baseArray 0 maxItems array put
+	end
+
+	/AddFontName {		% string AddFontName -
+	    $Adobe$DPS$Lib$Dict /FontDict get begin
+		dup length string copy
+		1 {		% provides enclosing loop for exit
+		    currentItem maxItems eq
+		    {
+			/currentArray currentArray 1 add def
+			currentArray maxArrays eq {pop exit} if
+			baseArray currentArray maxItems array put
+			/currentItem 0 def
+		    } if
+		    baseArray currentArray get currentItem 3 -1 roll put
+		    /currentItem currentItem 1 add def
+		} repeat	% provides enclosing loop for exit
+	    end
+	} def
+
+	/CheckName {				% (%font%name) CheckName 
+						%	(name) true
+						%	false
+	    false exch				% keep the false here to return
+
+	    % Discard filenames containing "."
+	    (.) search {			% if
+		pop pop pop
+	    }{					% else
+		dup				% (%font%name) (%font%name)
+		(%font%) anchorsearch {		% if
+						% (%font%name) (name) (%font%)
+		    pop
+		    exch			% (name) (%font%name)
+		    mark exch			% (name) mark (%font%name)
+		    {(r) file} stopped {	% (name) mark
+			cleartomark		% (name)
+			pop			% File & font not available
+		    }{% else			% (name) mark file
+			closefile pop		% (name)
+			dup AddFontName		% Add font name to array
+			exch pop true 		% Replace false with true
+		    } ifelse
+		}{% else
+		    pop
+		} ifelse
+	    } ifelse
+	} def
+
+	/EnumFonts {
+	    3 dict begin
+		/$listString 256 string def
+		/countFonts 0 def
+		/totalLen 0 def
+
+		% Enumerate FontDirectory and report fonts
+		% not available as files.
+
+		SharedFontDirectory {		% forall
+		    pop				% /fontname
+		    $listString cvs		% (fontname)
+		    dup dup length 6 add string	% (fontname) (string)
+		    dup 0 (%font%) putinterval	% (fontname) (%font%      )
+		    dup 6 4 -1 roll putinterval	% (%font%fontname)
+		    mark exch
+		    {(r) file} stopped {
+			cleartomark 
+			dup AddFontName		% Add font name to array
+			/countFonts countFonts 1 add def
+			length 1 add totalLen add /totalLen exch def
+		    }{
+			closefile pop pop	% Discard -- will list later.
+		    } ifelse
+		} forall
+
+		% Enumerate %font% storage device, if available.
+		/filenameforall where {		% if
+		    pop
+		    (%font%*) {			% filenameforall
+			CheckName {
+			    /countFonts countFonts 1 add def
+			    length 1 add totalLen add /totalLen exch def
+			} if
+		    } $listString filenameforall
+		} if
+		totalLen countFonts
+	    end
+	} def	% End of EnumFonts
+
+	% NOW, actually do the font enumeration...
+	EnumFonts count totalLength
+    end
+
+    $Adobe$DPS$Lib$Dict /AddFontName undef
+    $Adobe$DPS$Lib$Dict /CheckName undef
+    $Adobe$DPS$Lib$Dict /EnumFonts undef
+endps
+
+defineps _DPSFGetAllFontNames(DPSContext ctxt; int fontCount; int arrLen |
+	char fontNames[arrLen])
+    $Adobe$DPS$Lib$Dict begin
+	0 1 fontCount 1 sub {
+	    GetFontName fontNames
+	    ( ) fontNames
+	} for
+    end
+endps
+
+defineps _DPSFGetFontName(DPSContext ctxt; int fontNum | char *fontName)
+    fontNum $Adobe$DPS$Lib$Dict /GetFontName get exec fontName
+endps
+
+defineps _DPSFGetFontInfo(DPSContext ctxt; int fontNum |
+			char *familyName; char *fullName; char *weight)
+
+    fontNum $Adobe$DPS$Lib$Dict /GetFontName get exec
+
+    dup dup			% fontname fontname fontname
+    SharedFontDirectory exch known exch	% fontname known fontname 
+    				% (leave fontname and known on stack
+				% for the duration of this call
+				% even though I don't list them in
+			    	% the comments)
+    findfont dup		% fontdir fontdir
+    /FontInfo known {		% fontdir bool
+	/FontInfo get dup dup	% fontinfo fontinfo fontinfo
+	/FamilyName known {	% fontinfo fontinfo bool
+	    /FamilyName get	% fontinfo (familyname)
+	} {
+	    pop ()
+	} ifelse
+	exch dup dup		% (familyname) fontinfo fontinfo fontinfo
+	/FullName known {	% (familyname) fontinfo fontinfo bool
+	    /FullName get	% (familyname) fontinfo (fullname)
+	} {
+	    pop ()
+	} ifelse
+	exch dup		% (familyname) (fullname) fontinfo fontinfo
+	/Weight known {		% (familyname) (fullname) fontinfo bool
+	    /Weight get		% (familyname) (fullname) (weight)
+	} {
+	    pop (Medium)
+	} ifelse
+    } {
+	pop () () ()
+    } ifelse			% (familyname) (fullname) (weight)
+    weight
+    fullName
+    familyName
+				% fontname known   still on the stack
+
+    not {			% undefine font if we just defined 
+				% it to get this information
+	currentshared true setshared
+	    exch 		% currentshared fontname
+	    {undefinefont} stopped	% currentshared [fontname] stopped
+	    {
+		false setshared		% currentshared fontname
+
+		{undefinefont} stopped {
+		    pop
+	        } if
+	    } if
+	setshared
+
+	% This next 2 vmreclaim makes the binobj server bug less likely to
+	% happen.  It should be removed when everyone has newer servers
+	2 vmreclaim
+    } {
+	pop
+    } ifelse
+endps
+
+defineps _DPSFShowText(DPSContext ctxt; char *text; char *font; float size;
+		       int x, y)
+    /font size selectfont
+    x y moveto
+    0 setgray
+    (text) show
+endps
+
+defineps _DPSFShowTextAndGetDimensions(DPSContext ctxt;
+				       char *text; char *font; float size;
+				       int x, y | 
+				       float *width, *left, *right,
+						*top, *bottom)
+    /font size selectfont
+    x y moveto
+    0 setgray
+    (text) show
+    (text) stringwidth pop width
+
+    (text) x y $Adobe$DPS$Lib$Dict /SafeBBox get exec
+    top right bottom left
+endps
+
+defineps _DPSFGetTextDimensions(DPSContext ctxt;
+				char *text; char *font; float size;
+				float x, y | 
+				float *width, *height,
+				*left, *right, *top, *bottom)
+    /font size selectfont
+    (text) stringwidth height width
+
+    (text) x y $Adobe$DPS$Lib$Dict /SafeBBox get exec
+    top right bottom left
+endps
+
+defineps _DPSFGetCTM(DPSContext ctx | float ctm[6], invctm[6])
+    matrix currentmatrix dup ctm matrix invertmatrix invctm
+endps

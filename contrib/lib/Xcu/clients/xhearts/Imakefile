@@ -1,0 +1,14 @@
+INCLUDES = $(XCUINCFLAG)
+
+BITMAPS = club.xbm diamond.xbm heart.xbm spade.xbm
+LOCAL_LIBRARIES = $(XCULIB) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+      SRCS = cplay.c cdiscard.c play.c init_x.c exchange.c initialize.c \
+             main.c deal.c
+      OBJS = cplay.o cdiscard.o play.o init_x.o exchange.o initialize.o \
+             main.o deal.o 
+
+ComplexProgramTarget(xhearts)
+InstallAppDefaults(XHearts)
+InstallMultiple($(BITMAPS),$(INCDIR)/bitmaps)
+

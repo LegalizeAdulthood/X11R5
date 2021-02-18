@@ -1,0 +1,31 @@
+#include "../Kinput2.conf"
+
+           INCLUDES = -I../include
+           KI2LIB = ../lib/libKi2.a
+
+#ifdef UseWnn
+#ifdef StrlenNeeded
+             DEFW = -DUSE_WNN -DNEED_Strlen
+#else
+             DEFW = -DUSE_WNN
+#endif
+             LIBW = $(WNNLIB)
+#endif
+#ifdef UseCanna
+             DEFI = -DUSE_IROHA
+             LIBI = $(CANNALIB)
+#endif
+#ifdef UseSj3
+             DEFS = -DUSE_SJ3
+             LIBS = $(SJ3LIB)
+#endif
+
+          DEPLIBS = $(KI2LIB) XawClientDepLibs
+  LOCAL_LIBRARIES = $(KI2LIB) $(LIBW) $(LIBI) $(LIBS) XawClientLibs
+          DEFINES = $(DEFW) $(DEFI) $(DEFS)
+             SRCS = kinput2.c
+             OBJS = kinput2.o
+
+ComplexProgramTarget(kinput2)
+InstallManPage(kinput2,$(MANDIR))
+InstallAppDefaults(Kinput2)

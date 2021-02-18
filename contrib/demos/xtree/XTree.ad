@@ -1,0 +1,26 @@
+*allowShellResize: true
+*Porthole.top: ChainTop
+*Porthole.left: ChainLeft
+*Porthole.bottom: ChainBottom
+*Porthole.right:  ChainRight
+*Porthole.resizable: on
+*Panner.top: ChainTop
+*Panner.left: ChainLeft
+*Panner.bottom: ChainTop
+*Panner.right:  ChainLeft
+*Panner.resizable: on
+*Porthole*Box.BorderWidth: 0
+*Porthole*Box.HSpace: 0
+*Porthole*Box.VSpace: 0
+*Paned*allowResize: true
+*buttonbox.quit.Translations: #override \n <Btn1Down>,<Btn1Up>: Quit() unset()
+*panner.Translations: #augment \n <Btn3Down>: CirculatePanner()
+*tree.Translations: #augment \n <Btn3Down>: CirculatePanner()
+
+*Font: -adobe-helvetica-bold-r-normal--*-120-*-*-*-*-iso*-*
+*quit.Label: Quit
+*Translations: #augment \n <Key>q: Quit()
+*buttonbox*ShapeStyle: oval
+*Form*Panner.Thickness: -1
+*Form.defaultDistance: 0
+*Form.BorderWidth: 0

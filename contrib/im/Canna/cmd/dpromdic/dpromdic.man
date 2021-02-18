@@ -1,0 +1,34 @@
+.TH DPROMDIC 1 
+.S HNAME
+dpromdic \- Convert the binary-form Romaji-to-Kana conversion table into the text-form table
+.SHSYNOPSYS
+.B dpromdic
+[
+.I file
+]
+.SH DESCRIPTION
+.PP
+.I Dpromdic
+converts the binary-form Romaji-to-Kana conversion table into the text-form table.  It then outputs the result to the standard output. 
+.PP
+After a dictionary table is converted into the binary dictionary by using
+.I mkromdic(1),
+dpromdic can returns it to the text-form table.
+.PP
+The contents converted into binary dictionary from the text dictionary by using 
+.I mkromdic(1)
+is sorted in alphabetical order of Romaji.  The comment lines are deleted in this table.
+.SH EXAMPL
+.nf
+.B
+% dpromdic test.rdic
+.B
+(The contents of romaji.rdic are output, in text form, to the
+.B
+standard output.)
+.B
+% dpromdic test.rdic > test1.rdef
+.B
+(Dictionary table romoji.rdef is created in text form.)
+.SH "SEE ALSO"
+mkromdic(1)

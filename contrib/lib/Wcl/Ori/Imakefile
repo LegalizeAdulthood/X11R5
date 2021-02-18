@@ -1,0 +1,25 @@
+#ifndef WcTopDir
+#define WcTopDir ..
+#endif
+
+#include "../Wc.tmpl"
+
+SRCS    = Ori.c
+OBJS    = Ori.o
+APPDEFS = O01_Hello O02_Goodbye O03_MButtSimp O04_MButton O05_SText O06_Foot \
+          O07_Abbrev O08_TextF O09_TableTextF O10_Checks O11_SLists \
+	  O12_SWin O13_Notice O14_Menu
+
+       INCLUDES  = -I$(TOP) $(XOLINC) $(X11INC)
+   SYS_LIBRARIES = -lm
+LOCAL_LIBRARIES  = $(SHRLIBDIR) $(XOPLIB)  $(WCLIB) $(XOLLIB) \
+                   $(X11LIBDIR) $(XMULIB)  $(XTOOLLIB) $(XLIB) 
+ 
+APPDEFS = O01_Hello O02_Goodbye O03_MButtSimp O04_MButton O05_SText O06_Foot \
+          O07_Abbrev O08_TextF O09_TableTextF O10_Checks O11_SLists \
+	  O12_SWin O13_Notice O14_Menu
+
+ComplexProgramTarget(Ori)
+
+MakeDirectories(install,$(INSTAPP)/ori)
+InstallMultipleFlags($(APPDEFS),$(INSTAPP)/ori,$(INSTAPPFLAGS))

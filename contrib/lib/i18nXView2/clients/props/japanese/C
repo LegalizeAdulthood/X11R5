@@ -1,0 +1,14 @@
+# @(#)C 1.2 90/12/12;SMI
+#
+# props locale configuration file for
+#	LC_MESSAGES="C"		-> written in English
+#	Basic_Locale="C"	-> when basic locale is English(C)
+#
+# Category_name=default_value,value:label[[,value:label]...]
+#
+input_language=C;C|±Ñ¸ì
+display_language=C;C|±Ñ¸ì
+#date_format=C;C|04/01/89
+time_format=C;C|08/31/90 21:30:30
+#unit_of_length=inch;inch|inch
+numeric_format=C;C|10,000.0

@@ -1,0 +1,56 @@
+."		"@(#)pend_structure.3PEXIM	1.3 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.pend_structure.3PEXIM
+."	
+.TH "END STRUCTURE" 3PEXIM "5-Jun-91"
+.SH NAME
+END STRUCTURE \- restores the attributes modified since the last call to \s-1BEGIN
+STRUCTURE\s+1
+.IX "Structures" "END STRUCTURE"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+pend_structure ( )
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine restores the values of any rendering attributes that have been changed
+since the last call to \s-1BEGIN STRUCTURE\s+1.
+.LP
+This routine does not affect server side structures created with the
+\s-1OPEN STRUCTURE(3PEXIM)\s+1 routine.  See the \s-1BEGIN STRUCTURE\s+1 call description
+for information on using this routine.
+.SS Execution
+Required state of renderer before execution: \s-1PEXIM_RENDERING\s+1.
+State of renderer after execution: Not changed.
+.SS Function Return
+\f3pend_structure\f1 returns an integer status.  A value of \s-1POK\s+1 indicates successful execution.
+.SH ERRORS
+.IP \s-1PEXIMERRN\s+1ot\s-1R\s+1endering
+Renderer is not rendering.
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "BEGIN STRUCTURE"
+.SM "OPEN RENDERER"
+.SM "BEGIN RENDERING"
+.fi

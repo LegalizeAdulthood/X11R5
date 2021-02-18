@@ -1,0 +1,13 @@
+#include <GraphLib.tmpl>
+INCLUDES = -I$(INCLUDESRC) -I$(TOP)
+DEPLIBS = GraphLibClientDepLibs
+LOCAL_LIBRARIES = $(GLSUBLIB) GraphLibClientLibs
+
+SRCS = glbtest.c
+OBJS = glbtest.o
+
+AllTarget(glbtest)
+SingleProgramTarget(glbtest,glbtest.o,$(LOCAL_LIBRARIES), /**/)
+DependTarget()
+
+

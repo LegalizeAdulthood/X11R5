@@ -1,0 +1,101 @@
+#!/bin/csh -f
+## ###################################################################### ##
+##         Copyright IBM Corporation 1988,1991 - All Rights Reserved      ##
+##        For full copyright information see:'andrew/config/COPYRITE'     ##
+## ###################################################################### ##
+
+# Script to convert normal object files into a dynamically loadable module.
+
+if (! $?ANDREWDIR) setenv ANDREWDIR /usr/andrew
+if ($#argv == 0) then
+    echo "usage: makedo [-o outfile] [-b bindir] [-d libdir] [-e entrypoint] [-g] files..."
+    echo "  -b overrides /usr/andrew/bin for finding dofix, dotest"
+    echo "  -d overrides ${ANDREWDIR}/lib for finding libcx.a"
+    echo "  -e overrides the default entry point"
+    echo "  -g causes .dog file to be generated for debugger use"
+    echo " -L<pathelt> adds specified path elt to dynamic link path"
+    exit 1
+endif
+set filelist
+set bindir="${ANDREWDIR}/bin"
+set libdir="${ANDREWDIR}/lib"
+# we rely on the foreach to pass the -L<pathelt> through as a
+# filelist element
+foreach file ($*)
+    if ($?outcoming) then
+        set outfile=$file
+	unset outcoming
+	continue
+    endif
+    if ($?bincoming) then
+        set bindir=$file
+	unset bincoming
+	continue
+    endif
+    if ($?libcoming) then
+	set libdir=$file
+	unset libcoming
+	continue
+    endif
+    if ($?entrypointcoming) then
+              set entrypoint=$file
+              unset entrypointcoming
+              continue
+    endif
+    switch ($file)
+    case -o:
+	set outcoming
+	breaksw
+    case -b:
+	set bincoming
+	breaksw
+    case -d:
+	set libcoming
+	breaksw
+    case -e:
+              set entrypointcoming
+	breaksw
+    case -g:
+	set gflag
+	breaksw
+    default:
+	if (! $?outfile) set outfile=$file
+        set filelist=($filelist $file)
+    endsw
+end
+if ($?outcoming) then
+    echo "makedo: missing argument to -o switch."
+    exit 1
+endif
+if ($?bincoming) then
+    echo "makedo: missing argument to -b switch."
+    exit 1
+endif
+if ($?libcoming) then
+    echo "makedo: missing argument to -d switch."
+    exit 1
+endif
+if ($?entrypointcoming) then
+    echo "makedo: missing argument to -e switch."
+    exit 1
+endif
+if (! $?filelist) then
+    echo "makedo: No object modules given."
+    exit 1
+endif
+if (! $?entrypoint) then
+    set entrypoint=${outfile:r}__GetClassInfo
+endif
+rm -f ${outfile:r}.do
+ld -T512 -H512 -o ${outfile:r}.do $filelist ${libdir}/libclass.a -e $entrypoint -lc
+set retcode=$status
+# Should we keep a version of the do file with debugging?
+if ($?gflag) cp ${outfile:r}.do ${outfile:r}.dog
+# Save space; call strip on the .do file to remove line number
+# information and debugging symbols
+strip ${outfile:r}.do
+# Testing here should be implemented.
+#if (! $retcode) then
+#    dotest $outfile
+#endif
+exit($retcode)

@@ -1,0 +1,46 @@
+.TH TEXTEROIDS 1 "1 October 1991" "Adobe Systems"
+.SH NAME
+texteroids \- test your mousing skills on spinning text
+.SH SYNOPSIS
+.B texteroids 
+[
+.B \-display \fIname\fR
+][
+.B \-fn \fIfont\fR
+][
+.B \-size \fIsize\fR
+][
+text_string
+]
+
+.SH DESCRIPTION
+.B texteroids
+spins the specified text string in a window.  If you click on the text with
+the mouse, the string splits up into individual letters, each of which you
+must then click on.
+
+.SH OPTIONS
+.TP
+.BI \-display " name"
+specifies the display on which to open a connection to the Display
+PostScript System. If no display is specified, the 
+DISPLAY environment variable is used.
+.TP
+.BI \-fn " font"
+specifies the PostScript font name to use.  The default is Times-Italic.
+.TP
+.BI \-size " size"
+specifies the size in points of the text.  The default is 36.
+.TP
+.BI text_string
+specifies the text to display.  If the text has spaces it must be enclosed in
+quotes.  The default is "Adobe".
+
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+PostScript and Display PostScript are registered trademarks of Adobe Systems
+Incorporated.
+.PP
+Copyright (c) 1990-1991 Adobe Systems Incorporated.  All rights reserved.
+

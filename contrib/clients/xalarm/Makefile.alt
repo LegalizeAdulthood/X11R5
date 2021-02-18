@@ -1,0 +1,86 @@
+# I use cc because gcc (gcc-1.37.1) make code 20 times larger.  Remove -lXext
+# if you don't have it; it's only used for button shapes which default to
+# rectangle anyway.
+CC	= cc
+CFLAGS	= -O
+LDFLAGS	= -lXaw -lXmu -lXt -lX11 -lXext
+
+
+# If your signal() returns int not void, then add -DSIGNALRETURNSINT here:
+# If you don't have gethostname() and you can't change the #define in alarm.c
+# to what ever it is on your system, add -DNOGETHOSTNAME here:
+DEFINES = 
+
+
+# My, is this complex!  These are the usual places for installation.
+PREFIX	=
+X11BIN	= ${PREFIX}/usr/bin/X11
+X11MAN	= ${PREFIX}/usr/man/mann
+X11AD	= ${PREFIX}/usr/lib/X11/app-defaults
+
+
+# Bits and bobs.
+MADE	= test
+STRIP	= /bin/strip
+CP	= /bin/cp
+RM	= /bin/rm -f
+TAGS	= etags -t
+LINT	= lint -hbxca
+
+
+OBJS	= alarm.o when.o warning.o times.o fns.o xalarm.o
+SRCS	= alarm.c when.c warning.c times.c fns.c xalarm.c
+
+# If your make complains about the && conditional sequences, you may have to do
+# them by hand or go hacking below...  The executables and man pages go in the
+# same directories as xalarm do.
+
+# Your machine may set PARALLEL_MAKE to something useful, like "&" on a
+# Sequent.  If not, you can define it when you make.
+
+all: xalarm
+
+xalarm: ${PARALLEL_MAKE} ${OBJS}
+	${CC} ${CFLAGS} -o xalarm ${OBJS} ${LDFLAGS}
+
+.c.o:
+	${CC} -c ${CFLAGS} ${DEFINES} $<
+
+install: all
+	${STRIP} xalarm
+	${CP} xalarm xmemo ${X11BIN}
+	${MADE} xfortune && ${CP} xfortune ${X11BIN}
+	${MADE} xyow && ${CP} xyow ${X11BIN}
+	${CP} XAlarm.ad ${X11AD}/XAlarm
+
+install.man:
+	${CP} xalarm.man ${X11MAN}/xalarm.n
+	${CP} man.man ${X11MAN}/xmemo.n
+	${MADE} xfortune && ${CP} man.man ${X11MAN}/xfortune.n
+	${MADE} xyow && ${CP} man.man ${X11MAN}/xyow.n
+
+# Just make sure, some shars come out with default permissions...
+# Make sure the resources are loaded so xalarm can be used before installed.
+config:
+	@chmod +x config.1st xmemo
+	@config.1st
+	@xrdb -merge XAlarm.ad
+	@xrdb -merge XAlarm.ad+
+
+tags:
+	${TAGS} ${SRCS}
+
+clean:
+	${RM} ${OBJS} xalarm xfortune xyow core *~ #*
+
+lint:
+	${LINT} ${SRCS}
+
+fns.h:
+	@config.1st
+
+alarm.o: xalarm.h patchlevel.h
+when.o: xalarm.h patchlevel.h
+warning.o: xalarm.h patchlevel.h
+fns.o: xalarm.h patchlevel.h fns.h
+xalarm.o: xalarm.h patchlevel.h

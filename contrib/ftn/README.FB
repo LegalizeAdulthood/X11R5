@@ -1,0 +1,60 @@
+
+        PEX FORTRAN BINDING Version 5R1
+
+This distribution contains Version 5R1 of PEX FORTRAN BINDING.
+This was developed and released by FUJITSU SHIZUOKA ENG. LTD. and 
+FUJITSU LTD.
+This distribution has been tested on the following systems.
+        FUJITSU S Family S-3 S-4,  SunOS4.1
+        FUJITSU A-station, SX/A E60
+        
+**Installation
+
+     Symbolic link ./f_binding to X-root-tree/extensions/lib/PEX/f_binding
+         Type "ln -s ./f_binding  X-root_tree/extensions/lib/PEX/f_binding"
+
+**Directories
+This distribution contains the following directories.
+
+        ./install_fortran_bind  Cshell script to install FORTRAN Binding
+        ./f_binding             programming source files and header files
+        ./f_binding/doc         document of FORTRAN Binding
+        
+-----------------------------------------------------------------------
+/*
+        Copyright FUJITSU SHIZUOKA ENG. LTD. 1990,1991       
+        Copyright FUJITSU LTD. 1990,1991     
+
+
+   Permission to use, copy, modify, and sell this software and its
+   documentation for any purpose is hereby granted without fee, provided
+   that the above copyright notice must appear in all copies and that both
+   that copyright notice and this permisson notice must appear in supporting
+   documentation.
+   
+   The name of FUJITSU SHIZUOKA ENG. LTD. and FUJITSU LTD. may not be used
+   in advertising or publicity pertaining to distribution of the software 
+   without specific, written prior permission.
+
+   FUJITSU SHIZUOKA ENG. LTD. and FUJITSU LTD. make no representations about
+   the suitability of this software for any purpose. It is provided "as is" 
+   without express or implied warranty.
+
+   FUJITSU SHIZUOKA ENG. LTD. and FUJITSU LTD. DISCLAIM ALL WARRANTIES 
+   WITH REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF
+   MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL FUJITSU SHIZUOKA ENG. LTD.
+   and FUJITSU LTD. BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL 
+   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR 
+   PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS 
+   ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF 
+   THIS SOFTWARE.
+
+   Author: Satoshi Kasai        FUJITSU SHIZUOKA ENG. LTD. 
+                                kasai@sel.fujitsu.co.jp
+
+           Tatsuro Aoyama       FUJITSU LTD. 
+                                aoyama@sysrap.cs.fujitsu.co.jp
+
+*/
+
+

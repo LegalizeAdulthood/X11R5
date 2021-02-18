@@ -1,0 +1,52 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                            THE SELFMOVING WIDGET                             %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+This directory contains a demo program using the Selfmoving widget with
+Athena widgets
+
+
+ROADMAP
+--------------------------------------------------------------------------------
+
+You will find in this directory:
+
+
+- Imakefile   : The imake file that will be used to compile the demo program
+                on a X11R5 site. 
+ 
+- aw_demo.c   : The demo program source file
+
+- aw_demo.dat : The resource file for the demo program
+
+
+                
+
+BUILDING INSTRUCTIONS
+--------------------------------------------------------------------------------
+
+If X11R5 is installed on your machine you should follow the instructions given
+in the README file in the Selfmoving directory.
+
+If X11R5 is not installed or you do not want to use Imake you shoud do the 
+following things:
+
+- copy aw_demo.c, aw_demo.dat, ../Se/SelfM.c, ../Se/SelfM.h, ../Se/SelfMP.h
+  in one directory and try to compile it
+
+
+WARNING: Before running the aw_demo program you should set the 
+         XENVIRONMENT variable to the full path of the aw_demo.dat resource
+         file.
+         Or at least run aw_demo with: aw_demo -g 300X300 for example
+
+
+--------------------------------------------------------------------------------
+
+                                                   Hubert Rechsteiner
+                                                   Doris Hirt
+                                                   Nicolas Repond
+     

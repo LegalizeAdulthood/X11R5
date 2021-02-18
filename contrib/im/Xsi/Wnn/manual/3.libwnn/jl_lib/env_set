@@ -1,0 +1,24 @@
+JL_ENV_SET( )
+
+名称
+
+	jl_env_get	バッファの環境を取り出す。
+	jl_env_set	バッファに対して環境をセットする。
+
+形式
+
+	#include "jllib.h"
+
+	struct wnn_env *
+	jl_env_get(buf)
+	struct wnn_buf *buf;	/* バッファ */
+
+	void
+	jl_env_set(buf, env)
+	struct wnn_buf *buf;	/* バッファ */
+	struct wnn_env *env;	/* 環境 */
+
+機能
+
+	jl_env_get は、バッファ buf の環境 env を取り出す。
+	jl_env_set は、バッファ buf に環境 env をセットする。

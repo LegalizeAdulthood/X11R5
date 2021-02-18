@@ -1,0 +1,41 @@
+(5) Confirmation
+
+When the Execute key is pressed, the mixed kana-kanji text from the conversion
+line is transferred to the cursor's original position on the screen, and the
+display of the conversion line at the bottom of the screen is cleared.
+Also, the same effect as pressing the Execute key and the Return key in sequence
+sequence is achieved by pressing the Return key only.
+Pressing the Execute key after entering a reading results in the same effect
+as entering the reading directly without using the conversion process.
+
+< Figure 2.3.2 >
+      
+
+
+
+
+
+(6) Other Functions
+
+  Keysym  (Command)| Function
+  -----------------+------------------------------------------------------------
+                ^U | Recall. After confirming a conversion, recalls the
+                   | immediately prior reading.
+  Up	        ^P | Recalls the previous history.
+	           | The character string in the conversion line can be
+                   | edited by cursor movements in the same way as at the
+                   | time of conversion.
+  Down	        ^N | Recalls the previous history.
+	           | The character string in the conversion line can be
+                   | edited by cursor movements in the same way as at the
+                   | time of conversion.
+                ^Y | Re-output at the cursor the characters deleted by the
+                   | previous "Delete|-->" or "^K" operation.
+           ^SP  ^@ | Turn on/off the connection to uum. Although it is possible
+                   | to detach from uum by the exit (^D) command, it is also
+                   | possible to temporarily break the connection with this key.
+                   | When this key is pressed once again, the cursor returns to
+                   | its position prior to conversion, and conversion operations
+                   | are once again possible.
+  -----------------+------------------------------------------------------------
+

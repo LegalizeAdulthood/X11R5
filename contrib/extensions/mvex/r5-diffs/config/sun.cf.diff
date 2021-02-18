@@ -1,0 +1,47 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 config/RCS/sun.cf,v 
+*** 2.2	1991/09/21 20:47:50
+--- 2.6	1991/09/24 06:17:49
+***************
+*** 18,24 ****
+  #define SetTtyGroup	  YES
+  #define HasPutenv	  YES
+  #define XsunServer	  YES		/* has color and mono support */
+! #define XsunMonoServer	  YES		/* monochrome only */
+  #define BuildPexExt	  XsunServer
+  
+  #ifdef sparc
+--- 18,24 ----
+  #define SetTtyGroup	  YES
+  #define HasPutenv	  YES
+  #define XsunServer	  YES		/* has color and mono support */
+! #define XsunMonoServer	  NO		/* monochrome only */
+  #define BuildPexExt	  XsunServer
+  
+  #ifdef sparc
+***************
+*** 44,49 ****
+--- 44,67 ----
+  #else
+  
+  #define AllocateLocalDefines -DINCLUDE_ALLOCA_H
++ 
++ #define ExtensionDefines -DSHAPE \
++                          -DMITSHM \
++                          -DMULTIBUFFER \
++                          -DMITMISC \
++                          -DVIDEOX \
++                          -DRASTEROPS \
++                          -DMVEX_RASTEROPS_TCP
++ /*
++  * These guide the building  of the Makefiles.
++  */
++ #define BuildPexClients		NO
++ #define BuildRasterOps          YES
++ #define BuildMvex               YES
++ #define BuildMvexRasterOps      YES
++ #undef BuildPexExt
++ #define BuildPexExt		NO
++ 
+  
+  #ifdef mc68000
+  #define DefaultCCOptions -f68881 -pipe

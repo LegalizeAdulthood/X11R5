@@ -1,0 +1,111 @@
+#	$Header: /usr/people/sam/tiff/tools/RCS/Makefile.apollo,v 1.8 91/08/23 17:09:34 sam Exp $
+#
+# TIFF Library Tools
+#
+# Copyright (c) 1988, 1989, 1990, 1991 Sam Leffler
+# Copyright (c) 1991 Silicon Graphics, Inc.
+# 
+# Permission to use, copy, modify, distribute, and sell this software and 
+# its documentation for any purpose is hereby granted without fee, provided
+# that (i) the above copyright notices and this permission notice appear in
+# all copies of the software and related documentation, and (ii) the names of
+# Sam Leffler and Silicon Graphics may not be used in any advertising or
+# publicity relating to the software without the specific, prior written
+# permission of Stanford and Silicon Graphics.
+# 
+# THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+# EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+# WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+# 
+# IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+# ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+# OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+# WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+# LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+# OF THIS SOFTWARE.
+#
+# the tools utilities will be installed in DESTDIR/bin
+DESTDIR=/progs/bit2bit/tiff
+INSTALL= /usr/bin/install
+
+PIXAR=	/usr/pixar
+IPATH=	-I../libtiff
+COPTS=	
+CFLAGS=	-O -A nansi ${COPTS} ${IPATH} -DUSE_VARARGS=1 -DUSE_PROTOTYPES=0
+#
+LIBTIFF=../libtiff/libtiff.a
+LIBS=	${LIBTIFF}
+SRCS=	fax2tiff.c pal2rgb.c picio2tiff.c pixargt.c \
+	ras2tiff.c gif2tiff.c \
+	tiff2bw.c tiff2ps.c tiffcmp.c tiffcp.c tiffdither.c \
+	tiffdump.c tiffinfo.c tiffmedian.c
+MACHALL=ras2tiff
+ALL=	tiffinfo tiffcmp tiffcp tiffdump tiffmedian \
+	tiff2ps tiff2bw tiffdither tiff2ps fax2tiff pal2rgb gif2tiff \
+	${MACHALL}
+
+all:	 ${ALL}
+
+tiffinfo: tiffinfo.c ${LIBTIFF}
+	${CC} -o tiffinfo ${CFLAGS} tiffinfo.c ${LIBS}
+tiffcmp:tiffcmp.c ${LIBTIFF}
+	${CC} -o tiffcmp ${CFLAGS} tiffcmp.c ${LIBS}
+tiffcp:	tiffcp.c ${LIBTIFF}
+	${CC} -o tiffcp ${CFLAGS} tiffcp.c ${LIBS}
+tiffdump: tiffdump.c
+	${CC} -o tiffdump ${CFLAGS} tiffdump.c
+tiffmedian: tiffmedian.c ${LIBTIFF}
+	${CC} -o tiffmedian ${CFLAGS} tiffmedian.c ${LIBS}
+tiff2ps: tiff2ps.c ${LIBTIFF}
+	${CC} -o tiff2ps ${CFLAGS} tiff2ps.c ${LIBS}
+# junky stuff...
+# convert RGB image to B&W
+tiff2bw: tiff2bw.c ${LIBTIFF}
+	${CC} -o tiff2bw ${CFLAGS} tiff2bw.c ${LIBS}
+# convert B&W image to bilevel w/ FS dithering
+tiffdither: tiffdither.c ${LIBTIFF}
+	${CC} -o tiffdither ${CFLAGS} tiffdither.c ${LIBS}
+# Group 3 FAX file converter
+fax2tiff: fax2tiff.c g3codes.h g32dtab.h ${LIBTIFF}
+	${CC} -o fax2tiff ${CFLAGS} fax2tiff.c ${LIBS}
+g3codes.h: mkg3tab.c ../libtiff/t4.h
+	${CC} -o mkg3tab ${CFLAGS} mkg3tab.c
+	./mkg3tab > g3codes.h
+g32dtab.h: mk2dtab.c
+	${CC} -o mk2dtab ${CFLAGS} mk2dtab.c
+	./mk2dtab > g32dtab.h
+# convert Palette image to RGB
+pal2rgb: pal2rgb.c ${LIBTIFF}
+	${CC} -o pal2rgb ${CFLAGS} pal2rgb.c ${LIBS}
+# GIF converter
+gif2tiff: gif2tiff.c ${LIBTIFF}
+	${CC} -o gif2tiff ${CFLAGS} gif2tiff.c ${LIBS} -lm
+# Sun rasterfile converter
+ras2tiff: ras2tiff.c ${LIBTIFF}
+	${CC} -o ras2tiff ${CFLAGS} ras2tiff.c ${LIBS}
+# Pixar/picio related programs
+picio2tiff: picio2tiff.c ${LIBTIFF}
+	${CC} -o picio2tiff ${CFLAGS} -I${PIXAR}/include picio2tiff.c \
+	    ${PIXAR}/host/lib/libpicio.a ${LIBS}
+pixargt: pixargt.c ${LIBTIFF}
+	${CC} -o pixargt ${CFLAGS} -I${PIXAR}/include pixargt.c \
+	    ${PIXAR}/host/lib/libchad.a \
+	    ${PIXAR}/host/lib/libpixar.a \
+	    ${PIXAR}/host/lib/libport.a \
+	    ${LIBS}
+
+install: all installh
+	@-mkdir $(DESTDIR)/bin
+	-for i in ${ALL}; do \
+		${INSTALL} -c -m 755 $$i ${DESTDIR}/bin/$$i; \
+	done
+
+installh:
+
+clean:
+	rm -f ${ALL} ${OBJS} *.bak core a.out \
+	    tiff2ps tiff2bw picio2tiff pixargt \
+	    g3codes.h mkg3tab g32dtab.h mk2dtab
+ 
+tags:	${SRCS}
+	${CTAGS} ${SRCS}

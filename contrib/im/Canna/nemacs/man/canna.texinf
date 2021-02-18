@@ -1,0 +1,792 @@
+\kanjifiletype=20
+\overfullrule=0pt
+\input texinfo @c -*-texinfo-*-
+@comment %**start of header
+@c canna.texinfo release 1.2 91-Sep-6
+@setfilename canna
+@settitle 『かんな/emacs』の手引
+@iftex
+@finalout
+@end iftex
+@comment %**@setchapternewpage odd
+@c      @smallbook
+@comment %**end of header
+
+@titlepage
+@sp 10
+@center @titlefont{『かんな／ｅｍａｃｓ』の手引}
+@sp 4
+@center 第３版
+@sp 1
+@center 1991年9月9日
+@sp 5
+@center 今　　　昭
+@sp 1
+@center 日本電気(株)
+@page
+
+@vskip 0pt plus 1filll
+Copyright 1991 NEC Corporation, Tokyo, Japan.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation, and that the name of NEC Corporation
+not be used in advertising or publicity pertaining to distribution
+of the software without specific, written prior permission.  NEC 
+Corporation makes no representations about the suitability of this
+software for any purpose.  It is provided "as is" without express
+or implied warranty.
+
+NEC CORPORATION DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN 
+NO EVENT SHALL NEC CORPORATION BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF 
+USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR 
+OTHER TORTUOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR 
+PERFORMANCE OF THIS SOFTWARE. 
+@end titlepage
+@synindex vr fn
+@parindent=0.0pt
+
+@c ========================================
+@node Top, 概説, (dir), (dir)
+
+@ifinfo
+『かんな/emacs』へようこそ。
+
+この info ファイルはスペースキーと@kbd{n}だけで全て通して読むことができ
+るようになっています。スペースキーを押し、ページスクロールした時に、もう
+それ以上スクロールできず、ベルがなる様な場合には@kbd{n}を押して下さい。
+次のセクションに進むことができます。@refill
+
+もちろんtexinfoの機能を使って目的の部分だけをツリー上のメニューからたどっ
+て読むこともできます。
+
+是非スペースキーと@kbd{n}を使って一度全体を通して読んでみて下さい。
+@end ifinfo
+
+@menu
+* Intro: 概説.		『かんな/emacs』とは？
+* Init: 初期設定.	『かんな/emacs』で日本語入力するための準備
+* Input: 漢字入力.	日本語入力のしかた
+* Others: その他.	その他特殊なことについて
+* Plus one: おまけ.	おまけ
+
+* Index: 索引.		索引
+@end menu
+
+@c %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@node 概説, 特徴, Top, Top
+@chapter 『かんな／ｅｍａｃｓ』とは？
+@c %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@c @dm @multiply@jintercharskip by 30@multiply@jasciikanjiskip by 30
+@cindex かんな[かんな]
+@cindex Nemacs
+@cindex irohaserver
+@cindex Canna
+@cindex いろは[いろは]
+@cindex Iroha
+@cindex クライアント[くらいあんと]
+
+『かんな/emacs』とは日本語入力システム『かんな』を組み込んだNemacsのこと
+であり、日本語を入力するための機能を追加したNemacsです。かな漢字変換はか
+な漢字変換サーバであるirohaserverと接続して行います。この意味では「『か
+んな/emacs』はirohaserverのクライアントである」と言えます。
+
+『かんな』はもともと開発者内では『いろは』と呼ばれていましたが、『いろは』
+という名前は商標関連で問題があり「かな漢字変換」の「かな」(仮名)の古い読
+み方である『かんな』を新しい名前としました。『かんな』を英語で表記する場
+合はCannaとつづります。
+
+@menu
+* Features: 特徴.	『かんな/emacs』の特徴
+* Config: 物件.		『かんな/emacs』を構成する物件
+@end menu
+
+@c ============================================================
+@node 特徴, 物件, 概説, 概説
+@section 『かんな/emacs』の特徴
+@cindex たまご[たまご]
+@cindex サーバクライアント方式[さーばくらいあんとほうしき]
+@cindex 再変換機能[さいへんかんきのう]
+@cindex カスタマイズ機能[かすたまいずきのう]
+@cindex ユーザインタフェース[ゆーざいんたふぇーす]
+@cindex TTY上のフロントエンド[TTYじょうのふろんとえんど]
+@cindex Xウィンドウ上のフロントエンド[Xうぃんどうじょうのふろんとえんど]
+@cindex Athena Widget
+@cindex カスタマイズファイル[かすたまいずふぁいる]
+
+『かんな/emacs』は次のような特徴を持っています。
+
+@enumerate
+@item
+『たまご』のようなユーザインタフェース
+
+『たまご』のようなユーザインタフェースがいいなら『たまご』を使えば良いと
+思われるでしょう。『かんな』のユーザインタフェースは『たまご』のものと良
+く似ているのですが、『かんな』が『たまご』と比べて大きく異なる点は、
+「『かんな』はemacs以外の環境でも使える」という事です。『かんな』はほと
+んど同じユーザインタフェースをTTY上のフロントエンド(can)、Ｘウィンドウ上
+のフロントエンド(kinput2)、Ｘウィンドウ上でAthena Widgetを用いて作成した
+プログラム、等の形で提供しています。
+
+すなわち、UNIXのほとんどすべての環境で『かんな』のユーザインタフェースが
+使えるのです。
+
+『かんな/emacs』は『かんな』ユーザインタフェースを提供するプログラムの１
+つとして準備されています。『かんな』を用いて日本語入力を行うプログラムは
+共通のカスタマイズファイルによってカスタマイズが行えるのはもとより、ほぼ
+共通のかな漢字変換操作を提供します。
+
+@item
+カスタマイズ機能
+
+機能のキーに対する割り当てや、ローマ字かな変換規則などがカスタマイズで
+きます。
+
+また、このとき用いるカスタマイズファイルは『かんな』の他のアプリケーショ
+ンで日本語入力を伴うものと共有されます。
+
+@item
+サーバクライアント方式。
+
+どのマシンで使うときも常に同一マシン上の同一の辞書を使えます。
+
+@item
+日本語入力のための付加機能
+
+入力した文字の字種変換によりローマ字やカタカナに変換する機能、入力した英
+単語のCASE(大文字、小文字)を変更する機能、記号入力機能、部首入力機能、１
+６進コード入力機能、かな漢字変換中に特定の文節の読みを修正し変換し直す機
+能、接続するサーバを変更する機能、単語登録削除機能、辞書マウントアンマウ
+ント機能等をユーザインタフェースの一端として提供します。
+
+@cindex 字種変換[じしゅへんかん]
+@cindex CASE変換[CASEへんかん]
+@cindex 記号入力[きごうにゅうりょく]
+@cindex 部首入力[ぶしゅにゅうりょく]
+@cindex 16進コード入力[16しんこーどにゅうりょく]
+@cindex 単語登録[たんごとうろく]
+@cindex 単語削除[たんごさくじょ]
+@cindex 辞書マウント[じしょまうんと]
+@cindex 辞書アンマウント[じしょあんまうんと]
+@item
+再変換機能
+
+間違って確定キーを押してしまっても一歩前になら戻れます。
+@end enumerate
+
+@c ============================================================
+@node 物件, 初期設定, 特徴, 概説
+@section 『かんな/emacs』を構成する物件
+
+『かんな/emacs』を構成する物件は次の通りです。
+
+@enumerate
+@item
+emacs (『かんな/emacs』本体)
+
+『かんな』ライブラリを組み込んだemacsです。いくつかの『かんな』ライブラ
+リ関数がemacs-lispから呼び出せるようにしてあります。『かんな/emacs』は日
+本語入力システム『かんな』がインストールされている環境で動作します。
+
+ベースとなっているemacsのバージョンは18.55で、nemacsのバージョンは3.3.2
+になっています。
+
+@item
+/usr/local/emacs/etc/DOC-18.55.××
+
+上記emacsに対応するドキュメントファイルです。
+
+@item
+/usr/local/emacs/lisp/iroha.@{el,elc@}
+
+emacsのキー入力を横取りして日本語入力にしてしまうプログラムです。lispで
+書かれたソース(@file{iroha.el})とコンパイルされたオブジェクト
+(@file{iroha.elc})があります。@refill
+@end enumerate
+@cindex iroha.el
+@cindex iroha.elc
+
+上記３つのファイルをemacsの18.55、nemacsの3.3.2が走っている環境に持って
+くれば『かんな/emacs』が使えることになります。
+
+@c ============================================================
+@node 初期設定, 漢字入力, 物件, Top
+@chapter 『かんな／ｅｍａｃｓ』で日本語入力するための準備
+
+『かんな/emacs』で日本語を入力するためには、@file{.emacs}ファイルにある
+程度の記述を加えなければなりません。基本的には次の記述を加えることになり
+ます。@refill
+
+@cindex .emacs
+@cindex iroha-initialize
+@example
+(if (fboundp 'iroha-initialize) ; 『かんな/emacs』であることを確認して
+   ;; 『かんな/emacs』 の場合だけ以下を実行します。
+   (progn
+    (load-library "iroha")
+    (iroha) ))
+@end example
+
+上記の設定をすると、『かんな/emacs』を利用するためのlispプログラムをロー
+ドし、『かんな』の初期化を行います。
+
+これ以外にも@file{.emacs}に記述しておくと便利な機能がありますが、それら
+については追って説明いたします。@refill
+
+『かんな/emacs』がインストールされている状態で、@file{.emacs}に上記の記
+述が存在すれば、『かんな/emacs』で日本語が入力できるようになります。@refill
+
+@c ============================================================
+@node 漢字入力, その他, 初期設定, Top
+@chapter 日本語の入力のしかた
+
+日本語入力モードになるには、@kbd{C-o}か@key{XFER}を押します。
+@file{.iroha}ファイルで、@refill
+
+@cindex C-c
+@cindex XFER
+@cindex .iroha
+@cindex JapaneseMode
+@cindex undefine
+@cindex NFER
+@cindex エスケープシーケンス[えすけーぷしーけんす]
+@cindex ファンクションキー[ふぁんくしょんきー]
+@example
+JapaneseMode undefine
+JapaneseMode C-e
+@end example
+
+のように指定するとemacsでも自動的に@kbd{C-e}がモード切り替えのキーになり
+ます。ただし、@key{XFER}は相変わらずモード切り替えキーとして有効です。@refill
+
+@example
+JapaneseMode undefine
+JapaneseMode NFER
+@end example
+
+のようにしても、『かんな/emacs』では@key{XFER}がモード切り替えキーとして
+機能するままであり、しかも@key{NFER}がモード切り替えキーになることはあり
+ません。@kbd{C-e}を指定したときと@key{NFER}を指定したときの違いは、
+@kbd{C-e}が１バイトキーなのに対し、@key{NFER}がエスケープシーケンスで構
+成されることです。エスケープシーケンスで構成されるキーに対する機能の割り
+当ては「ファンクションキーへの機能の割り当て」の項を参照して下さい。@refill
+
+このように、若干の例外はあるのですが、日本語の入力のしかたは『かんな』を
+使った他のアプリケーションなどの場合と同じです。日本語の入力の方法の詳細
+については、『かんな』に付属のドキュメントを参照して下さい。
+
+※注
+
+『かんな/emacs』では、他のアプリケーションでの日本語入力と違い、ある制限
+があります。それは、エスケープシーケンスを発生するキーに対して簡単には機
+能を割り当てられないことです。→「ファンクションキーへの機能の割り当て」
+
+@c ============================================================
+@node その他, Func key, 漢字入力, Top
+@chapter その他特殊なことについて
+
+@menu
+* Function Keys: Func key.	ファンクションキーへの機能の割り当て
+* Undo: アンドゥ.		アンドゥ
+* Region: 再変換.	 	リージョンの再変換.
+* Style: スタイル.		未確定文字列のスタイル
+* Specifying server::		かな漢字変換サーバの指定
+* Specifying customization::	カスタマイズファイルの指定
+* Functions::			『かんな/emacs』で使える機能
+* Summary: まとめ.		まとめ
+@end menu
+
+@c ============================================================
+@node Func key, アンドゥ, その他, その他
+@section ファンクションキーへの機能の割り当て
+
+「『かんな/emacs』で日本語入力するための準備」で説明した設定が
+@file{.emacs}に行われていれば、@key{F1}〜@key{F3}などのキーに以下の機能
+が設定されます。@refill
+
+@table @key
+@item F1
+記号入力
+@item F2
+１６進コード入力
+@item F3
+部首入力
+@item HELP
+ユーティリティ機能呼び出し
+@end table
+@cindex F1
+@cindex F2
+@cindex F3
+@cindex 記号入力[きごうにゅうりょく]
+@cindex 16進コード入力[16しんこーどにゅうりょく]
+@cindex 部首入力[ぶしゅにゅうりょく]
+@cindex ユーティリティ機能[ゆーてぃりてぃきのう]
+@cindex .iroha
+@cindex INS
+
+この割り当ては@file{.iroha}での記述と無関係に行われます。
+
+@file{.iroha}にてファンクションキーにある機能を割り当てても『かんな
+/emacs』では無視されてしまいます。というのは、emacsでのファンクションキー
+の使い方がちょっと変わっているためです。@refill
+
+それではファンクションキーにこれらのモードへの移行のための機能を割り当て
+るにはどのようにするのでしょうか？
+
+emacsではファンクションキーを押すと例えば@kbd{ESC [ 2 ~}のようなキーを発
+生します(@key{INS}キーの場合)。デフォルトでは@kbd{ESC [ (}すなわち、
+@kbd{M-[})が@code{backward-paragraph}にバインドされていますので、前の段
+落に移動して、``2~''が挿入されてしまうことになります。@refill
+
+「『かんな/emacs』で日本語入力するための準備」で示した処理を行っている場
+合には@kbd{M-[}と@code{backward-paragraph}のバインドを壊して、@kbd{ESC
+[ 2 ~}のような長いキーシーケンスに対して機能を割り当てることができるよう
+にしてあります。すなわち、@kbd{ESC [ 2 ~}に対して次のような処理で
+@code{iroha-kigou-mode}を割り当てています。@refill
+
+@cindex backward-paragraph
+@cindex iroha-kigou-mode
+@example
+(global-set-key "\e[2~" 'iroha-kigou-mode)
+@end example
+
+『かんな/emacs』ではこの方法で@key{F1}、@key{F2}、@key{F3}などにキーを割
+り当てていたのです。@key{F1}〜@key{F3}などのキーに対してこの設定を行いた
+くない場合には、emacsで『かんな』を起動する前に
+@var{iroha-do-keybind-for-functionkeys}という名前の変数に@code{nil}を代
+入しておいて下さい。例えば、@file{.emacs}の記述は次のようになることにな
+ります。@refill
+
+@cindex iroha-do-keybind-for-functionkeys
+@example
+(if (fboundp 'iroha-initialize) ; 『かんな/emacs』であることを確認して
+   ;; 『かんな/emacs』 の場合だけ以下を実行します。
+   (progn
+    (load-library "iroha")
+    (setq iroha-do-keybind-for-functionkeys nil)
+    (iroha) ))
+@end example
+
+@c ============================================================
+@node アンドゥ, 基本操作, Func key, その他
+@section アンドゥ
+@cindex アンドゥ
+
+@menu
+* Basic operations: 基本操作.	基本操作
+* Key binding: キー操作.	キーへのバインディング
+* Undo and iroha-undo::		undo と iroha-undo
+* Undo buffer: バッファ.	アンドゥバッファに入れる・入れない
+* Undo plus alpha: プラスα.	アンドゥ＋α
+@end menu
+
+@c ============================================================
+@node 基本操作, キー操作, アンドゥ, アンドゥ
+@subsection 基本操作
+
+『かんな/emacs』ではアンドゥ機能をサポートしています。直前に確定した部分
+をもう一度読みに戻すことができます。もう一度読みに戻すには次のようにしま
+す。
+
+@example
+M-x iroha-undo
+@end example
+@cindex iroha-undo
+
+@c ============================================================
+@node キー操作, Undo and iroha-undo, 基本操作, アンドゥ
+@subsection キーへのバインディング
+
+実はこの@code{iroha-undo}、普通の@code{undo}を含んでいます。すなわち、直
+前に確定した日本語の入力がない場合には普通の@code{undo}が行われます。し
+たがって、今まで@code{undo}がバインドされていたキーに@code{iroha-undo}を
+バインドすると便利に使えます。例えば@code{undo}を@kbd{C-_}に割り当ててい
+た人は @file{.emacs}ファイルにて次のように記述すると@code{undo}の代わり
+に@code{iroha-undo}を割り当てることができます。@refill
+
+@cindex undo
+@cindex C-_
+@example
+(global-set-key "\C-_" 'iroha-undo)
+@end example
+
+@c ============================================================
+@node Undo and iroha-undo, バッファ, キー操作, アンドゥ
+@subsection undo と iroha-undo
+@cindex C-k
+@cindex C-g
+
+さて、``直前に確定した日本語''とはどのくらい前までの入力のことを指すので
+しょうか？@refill
+
+@code{iroha-undo}は@kbd{C-o}などによって日本語入力モードを抜けてしまった
+時にアンドゥの情報を捨ててしまいます。したがって、日本語を入力して確定し
+た場合、日本語入力モードを抜けさえしなければ``直前に確定した日本語''とみ
+なされるわけです。@refill
+
+@code{undo}のキーに@code{iroha-undo}を割り当てると便利なようで不便なこと
+があります。例えば、日本語入力モードを抜けないで、@kbd{C-k}などの操作で
+行消去を行うことがありますが、このときウッカリ@kbd{C-_}などを打ってしま
+うもんであれば、行の復活の代わりにさっき確定した文字が読みに戻ってしまい
+ます。@refill
+
+本来であれば、@kbd{C-_}を打つまえに@kbd{C-o}を打つなどして日本語入力モー
+ドから抜ければ良かったのですが、ここは一発元に戻す方法があります。@refill
+
+本当は本来のアンドゥが行いたかった場合に@code{iroha-undo}が作動してしまっ
+た場合には@kbd{C-g C-_ C-_}と打って下さい。最初の@kbd{C-g}で読みを放棄し
+ます。実は読みを放棄した場合にも@code{iroha-undo}のための情報が失われるの
+です。この状態ではさっき入力した日本語までなくなってしまいますが、その次
+の@kbd{C-_}でそれが復活し、次の@kbd{C-_}が本来目的であったアンドゥとして
+機能します。@refill
+
+@c ============================================================
+@node バッファ, プラスα, Undo and iroha-undo, アンドゥ
+@subsection アンドゥバッファに入れる・入れない
+
+アンドゥを@kbd{C-_}などに割り当てて使っていると結構便利だったりするので
+すが、マルやテンを分けて入力した場合はあまりアンドゥが効果がない場合があ
+ります。例えば、次のように入力する場合です。@refill
+
+@example
+このようににゅうりょくするばあいです<xfer>。<return>
+@end example
+
+このように入力すると、
+
+@example
+子のように入力する場合です。
+@end example
+
+のように変換されてしまってから@kbd{C-_}と打っても、
+
+@example
+子のように入力する場合です|。|
+@end example
+@cindex iroha-save-undo-text-predicate
+
+となるだけで、寂しい思いをしてしまいます。
+
+「マルとかテンを分けて打つ癖がある僕も悪いけれどもマルやテンだったらアン
+ドゥバッファに入れなくてもいいんじゃないの？」と思うかたもいるでしょう。
+ご安心下さい。そういう場合にもちゃんと対応できるのです。
+
+そのからくりは、@code{iroha-save-undo-text-predicate}という変数です。
+
+@code{iroha-undo}は入力が確定した時にその確定した入力をアンドゥバッファ
+にとって置くかどうかを@code{iroha-save-undo-text-predicate}にお伺いして
+判断します。@code{iroha-save-undo-text-predicate}にはその判断を行うため
+の関数を代入しておきます。@code{iroha-save-undo-text-predicate}という変
+数に値が束縛されていなかったり、値が@code{nil}だった場合には無条件にバッ
+ファにセーブしておきます。@code{iroha-save-undo-text-predicate}は読みと
+読みを入力した時のローマ字テキストの２つの文字列を@code{car}と@code{cdr}
+に持つ２進木に対して適用されます。例えば、確定した文字列を表す読みが２バ
+イトより長い文字列でなければセーブしないということを指定するには次のよう
+に記述することになります。@refill
+
+@example
+(setq iroha-save-undo-text-predicate 
+   '(lambda (s) 
+      (> (length (car s)) 2) ))
+@end example
+
+これで、さっきの例で@kbd{C-_}を打つと、マルは飛ばされて次のようになりま
+す。@refill
+
+@example
+|このようににゅうりょくするばあいです|。
+@end example
+
+@c ============================================================
+@node プラスα, 再変換, バッファ, アンドゥ
+@subsection アンドゥ＋α
+
+「再変換機能というからには、読みに戻るのでは駄目で確定する直前に戻るのが
+本当じゃないの？」という気がしないでもありません。確定する直前に戻るのは
+ひじょ〜〜に大変ですが、それらしくはなんとかすることができます。
+
+それは、アンドゥしたテキストを変換した状態にすることです。アンドゥの後に
+何かを行いたい場合は、@var{iroha-undo-hook}という変数に関数を代入します。
+アンドゥの後に変換を行いたい場合には次のようにします。@refill
+
+@cindex iroha-undo-hook
+@example
+(setq iroha-undo-hook
+      '(lambda () (message "再変換します....")
+        (iroha-do-function iroha:*henkan*)) )
+@end example
+@cindex iroha:*henkan*
+@cindex iroha-do-function
+
+このようにしておくことにより、@code{iroha-undo}では「読みに戻します」と
+いうメッセージが出ていたものが「再変換します」というメッセージになり、先
+に確定した文字列が再変換されます。@refill
+
+@var{iroha:*henkan*}は「変換」を表す機能の番号です。
+@code{iroha-do-function}では『かんな』の色々な機能を直接実行することがで
+きます。どのような機能が存在するかは@file{iroha.el}のソースを参照して下
+さい。@refill
+
+@c ============================================================
+@node 再変換, スタイル, プラスα, その他
+@section リージョンの再変換
+@cindex iroha-henkan-region
+@cindex C-x space
+@cindex iroha-use-space-key-as-henkan-region
+
+Emacs上の任意のテキストを再変換する機能を付加しました。リージョンを引い
+て@kbd{M-x iroha-henkan-region}としても良いのですが、かな漢字変換用のマー
+クを設定して、ポイント(カーソル)位置を移動し、スペースバーを打つとマーク
+とポイントの間がかな漢字変換されます。スペースバーはマークの直後は再変換
+用のキーとして使われますが、日本語モードを抜けたり文字を挿入したりした後
+には通常の空白を入れるキーに戻ります。かな漢字変換用のマークを打つにはキー
+ボードより@kbd{C-x space}を入れることにより行えます。@refill
+
+スペースバーはいつでも空白の挿入として使いたいと言う場合には
+@code{(iroha)}を実行するまえに
+@code{iroha-use-space-key-as-henkan-region}に@code{nil}を代入しておいて
+ください。このことにより@kbd{C-x space}へのかな漢字変換用マークを行うバ
+インドも行われなくなります。@refill
+
+@c ============================================================
+@node スタイル, Specifying server, 再変換, その他
+@section 未確定文字列のスタイル
+
+未確定文字列に関する『かんな』のデフォルトのスタイルはアンダーラインを引
+くというものです。これに対して『かんな/emacs』では２本の縦棒で囲むという
+スタイルをとっていますが、やはりアンダーラインの方が良いと言うリクエスト
+にお答えすることができます。それには、@var{iroha-underline}という変数に
+非@code{nil}を代入します。例えば次のようになります。@refill
+
+@cindex アンダーライン[あんだーらいん]
+@cindex iroha-underline
+@example
+(setq iroha-underline t)
+@end example
+
+この変数の値の変更は、『かんな』のlispライブラリ(@file{iroha.el}または
+@file{iroha.elc})をロードする前に行わなければなりません。@refill
+
+@c ============================================================
+@node Specifying server, Specifying customization, スタイル, その他
+@section かな漢字変換サーバの指定
+
+『かんな』では通常かな漢字変換サーバは環境変数の@var{IROHAHOST}で指定し
+ますが、『かんな/emacs』ではそれに加えて@var{iroha-server}という変数にサー
+バ名を代入しておくことで指定することができます。@refill
+
+『かんな/emacs』での設定の方が環境変数による設定より優先します。
+
+@cindex IROHAHOST
+@cindex iroha-server
+@example
+(setq iroha-server "wink")
+@end example
+
+@c ============================================================
+@node Specifying customization, Functions, Specifying server, その他
+@section カスタマイズファイルの指定
+
+『かんな』では通常カスタマイズファイルは環境変数の@var{IROHAFILE}で指定
+しますが、『かんな/emacs』ではそれに加えて@var{iroha-file}という変数にファ
+イル名を代入しておくことで指定することができます。@refill
+
+『かんな/emacs』での設定の方が環境変数による設定より優先します。
+
+@cindex IROHAFILE
+@example
+(setq iroha-file (expand-file-name "~/.iroha-emacs"))
+@end example
+
+@c ============================================================
+@node Functions, まとめ, Specifying customization, その他
+@section 『かんな/emacs』で使える関数
+
+『かんな/emacs』で利用できる関数としては次のものがあります。
+
+@table @code
+@item iroha-bushu-mode
+@cindex iroha-bushu-mode
+@cindex 部首変換[ぶしゅへんかん]
+部首変換モード
+@item iroha-henkan-region
+@cindex iroha-henkan-region
+指定されたリージョンの文字を漢字に変換します
+@item iroha-hex-mode
+@cindex iroha-hex-mode
+@cindex 16進コード入力[16しんこーどにゅうりょく]
+１６進コード入力モード
+@item iroha-kigou-mode
+@cindex iroha-kigou-mode
+@cindex 記号入力[きごうにゅうりょく]
+記号入力モード
+@item iroha-reset
+@cindex iroha-reset
+@cindex 再起動[さいきどう]
+日本語入力システムの再起動
+@item iroha-toggle-japanese-mode
+@cindex iroha-toggle-japanese-mode
+アルファベットモードと日本語モードの切り替え
+@item iroha-touroku
+@cindex iroha-touroku
+@cindex 単語登録[たんごとうろく]
+単語登録
+@item iroha-touroku-region
+@cindex iroha-touroku-region
+リージョンで指定された単語を登録
+@item iroha-undo
+@cindex iroha-undo
+直前に確定した日本語入力を読みに戻す
+@item iroha-version
+@cindex iroha-version
+@cindex バージョン[ばーじょん]
+『かんな/emacs』のバージョンの表示
+@end table
+
+※注
+
+@code{iroha-touroku-region}を行う時マークとポイントが同じ位置であれば、
+ユーティリティモードに移行します。ユーティリティモードでは記号入力、16進
+コード入力、部首入力、サーバ操作、辞書操作、などが行えます。@refill
+
+@c ============================================================
+@node まとめ, おまけ, Functions, その他
+@section まとめ
+
+ここで説明した機能を使って@file{.emacs}の記述を行うとおおよそ次のように
+なります。@file{.emacs}の修正をするときの参考にして下さい。@refill
+
+@cindex .emacs
+@example
+(if (fboundp 'iroha-initialize) ; 『かんな/emacs』であることを確認して
+    ;;『かんな/emacs』の場合だけ以下を実行します。
+    (progn
+     (setq iroha-underline t)   ;アンダーラインスタイル
+
+     (load-library "iroha")     ;ライブラリのロード
+
+     (setq iroha-do-keybind-for-functionkeys t)
+     (setq iroha-server "wink") ;かな漢字変換サーバの指定
+     (setq iroha-file (expand-file-name "~/.iroha-emacs"))
+
+     (iroha) ;『かんな』の初期化
+
+     (global-set-key "\e[209z" 'iroha-japanese-mode) ;NFER
+     (global-set-key "\C-_" 'iroha-undo) ;アンドゥの設定
+     (setq iroha-save-undo-text-predicate ;アンドゥバッファへ入れる条件
+           '(lambda (s) (> (length (car s)) 2)) )
+     (setq iroha-undo-hook ;アンドゥ＋α
+           '(lambda () (message "再変換します....")
+                       (iroha-do-function iroha:*henkan*)) )
+    )) 
+@end example
+
+@c ============================================================
+@node おまけ, 連語学習, まとめ, Top
+@chapter おまけ
+
+あまりまともにサポートされていませんが、『かんな/emacs』でテスト的に採用
+されている機能として以下のものがあります。お試し下さい。
+
+@menu
+* Successive words: 連語学習.		連語学習
+* Ichitaro: 一太郎.			一太郎シミュレーション
+@end menu
+
+
+@c ============================================================
+@node 連語学習, 一太郎, おまけ, おまけ
+@section 連語学習
+@cindex 連語学習[れんごがくしゅう]
+
+『正式　版』の様な変換を行ったとき、『正式』と『版』を複合した『正式版』
+という単語を自動的に辞書に登録します。単語の登録はやみくもに行うと無秩序
+な結果になってしまいます。連語の辞書登録は次の条件で行われます。
+
+@enumerate
+@item
+連続２文節のうち、前の文節が１つの単語から構成される。
+@item
+前の文節の単語が１文字長であるか、後の文節の最初の単語が１文字長であ
+る。
+@end enumerate
+
+この条件で単語登録が行われ、後の文節の最初の単語と同じ文法で辞書に登録さ
+れます。例えば、『せいしきばんです』を変換すると『正式　番です』のように
+なります。この２文節目を変換し直して『正式　版です』を確定させますと、
+『正式版』が連語辞書に登録されます。
+
+連語学習は連語辞書の指定により活性化されます。連語辞書の指定は
+@file{.iroha}ファイルにて次のように行います。@refill
+
+@example
+rengodic  "rengo"
+@end example
+@cindex rengodic
+
+この場合 ``rengo'' で指定される辞書はテキスト形式の辞書(接尾辞が .t の辞
+書ファイル)でなければなりません。テキスト形式辞書の追加の方法については、
+『かんな』に付属するドキュメントを参照して下さい。
+
+※注
+@enumerate
+@item
+連語学習機能を指定しますと漢字の確定に若干の時間を要するようになります。
+@item
+@file{.iroha}でのrengodicの指定は他のアプリケーションプログラムが利用し
+ている『かんな』のバージョンによっては解釈されないでシンタックスエラーに
+なってしまう場合があります。rengodicの機能を使う場合には@file{.iroha}を 
+@file{.iroha-emacs}などの名前に変更し、先に説明しました@var{iroha-file}
+によるカスタマイズファイルの指定の機能を使って@file{.iroha-emacs}をカス
+タマイズファイルとして指定すると良いでしょう。@refill
+@end enumerate
+@cindex .iroha-emacs
+
+@c ============================================================
+@node 一太郎, 索引, 連語学習, おまけ
+@section 一太郎シミュレーション
+@cindex 一太郎[いちたろう]
+@cindex ATOK6
+@cindex gichitaro.el
+
+『かんな』のサンプルカスタマイズファイルの１つとして一太郎(ATOK6)シミュ
+レーションを行うものをつけました。gichitaro.el等と組み合わせてお使い下さ
+い。
+
+そのファイルは、
+
+@example
+$(CANNALIBDIR)/sample/just.iroha
+@end example
+@cindex $(CANNALIBDIR)
+@cindex just.iroha
+@cindex 文節伸ばし縮め[ぶんせつのばしちぢめ]
+@cindex カタカナ変換[かたかなへんかん]
+@cindex ローマ字変換[ろーまじへんかん]
+@cindex 半角変換[はんかくへんかん]
+@cindex ジャストシステム[じゃすとしすてむ]
+
+です。
+
+$(CANNALIBDIR)はデフォルトでは@file{/usr/local/lib/iroha}です。このファ
+イルを@file{$HOME/.iroha}にコピーし、必要であれば内容を修正してお使い下
+さい。@refill
+
+まだテスト段階ですがコントロールキーで操作を行うかぎり、文節伸ばし縮めの
+Look&Feelやカタカナ・ローマ字変換、半角変換等、かなりのところまで一太郎
+をシミュレートしています。
+
+ただしファンクションキーについてはemacsの泣き所で@key{F6}〜@key{F10}、カー
+ソルキーについてはemacs上ではうまくシミュレートできていません。@refill
+
+@node 索引, , 一太郎, Top
+@unnumbered 索引
+
+@printindex cp
+
+@contents
+@bye

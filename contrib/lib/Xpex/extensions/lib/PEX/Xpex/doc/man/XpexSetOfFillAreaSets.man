@@ -1,0 +1,119 @@
+.\" $Header: XpexSetOfFillAreaSets.man,v 1.3 91/09/11 16:04:51 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexSetOfFillAreaSets 3PEX "$Revision: 1.3 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexSetOfFillAreaSets \-
+.SH "Synopsis"
+.nf
+void
+XpexSetOfFillAreaSets(dpy, shape,
+.br
+	fas_attrs, vert_attrs, edge_attrs,
+.br
+	contour_hint, contours_all_1,
+.br
+	num_fas, num_verts, num_edges, num_contours,
+.br
+	per_fas_data, per_vert_data, per_edge_data, contours, length)
+.br
+	Display *dpy;
+.br
+	XpexShape shape;
+.br
+	XpexBitmaskShort fas_attrs;
+.br
+	XpexBitmaskShort vert_attrs;
+.br
+	XpexBitmaskShort edge_attrs;
+.br
+	XpexContour contour_hint;
+.br
+	XpexSwitch contours_all_1;
+.br
+	int num_fas;
+.br
+	int num_verts;
+.br
+	int num_edges;
+.br
+	int num_contours;
+.br
+	XpexArrayOfOptData *per_fas_data;
+.br
+	XpexArrayOfVertex *per_vert_data;
+.br
+	XpexSwitch *per_edge_data;
+.br
+	char *contours; /* ARRAYOfLISTOfLISTOfCARD16 */
+.br
+	int length;
+.fi
+.SH "Arguments"
+.IP \fIdisplay\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIfas_attrs\fP 1i
+To be added 
+.IP \fIvert_attrs\fP 1i
+To be added
+.IP \fIedge_attrs\fP 1i
+To be added
+.IP \fIcontour_hint\fP 1i
+To be added
+.IP \fIcontours_all_1\fP 1i
+To be added
+.IP \fInum_fas\fP 1i
+To be added 
+.IP \fInum_verts\fP 1i
+To be added 
+.IP \fInum_edges\fP 1i
+To be added 
+.IP \fInum_contours\fP 1i
+To be added 
+.IP \fIper_fas_data\fP 1i
+To be added 
+.IP \fIper_vert_data\fP 1i
+To be added 
+.IP \fIper_edge_data\fP 1i
+To be added 
+.IP \fIcontours\fP 1i
+To be added 
+.IP \fIlength\fP 1i
+To be added 
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 3.
+.SH "Structures"
+To be added 
+.SH "Errors"
+BadStructure, 
+BadRenderer, 
+BadFloatingPointFormat, 
+BadOutputCommand, 
+BadValue.
+.SH "Related Commands"
+XpexRenderOutputCmds, XpexStoreOutputCmds.

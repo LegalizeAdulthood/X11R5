@@ -1,0 +1,12 @@
+  This resource file represents a very basic application: a single
+  button which, when pressed, causes the application to exit.
+
+Cri.wcChildren:		command
+Cri.title:		C01_Hello
+
+*command.wcClass:	xcuCommandWidgetClass
+*command.label:		Click the left\nmouse button here
+*command.font:		-*-*-*-R-*-*-*-120-*-*-*-*-ISO8859-1
+*command.lineFactor:	2.0
+*command.callback:	WcExitCB
+*command.gravity:	w

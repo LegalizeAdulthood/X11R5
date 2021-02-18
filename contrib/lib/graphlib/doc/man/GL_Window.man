@@ -1,0 +1,74 @@
+.TH GL_Window 3GL "5Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Window \- Type to use to create generic windows.
+.SH SYNTAX
+(Window)GL_Create(GL_Window,
+.br
+		    <option>, [args,]
+.br
+		  ...,
+.br
+		  GL_Done);
+.SH ARGUMENTS
+.IP GL_Window 1i
+Type specifier for the GL_Create call
+.IP GL_Done 1i
+Mark to terminate variable arguments list.
+
+.SH DESCRIPTION
+This particular call creates a generic window.  It is the superclass for
+both the GL_Label type and the GL_StripChart type.  This type controls
+all of the options for generic window descriptions, it's position, size,
+background, etc.
+
+.SH OPTIONS
+
+.IP "GL_WinWidth, <int width>" 1i
+This specifies the width of the created window.  It default to 200 pixels.
+.IP "GL_WinHeight, <int height>" 1i
+This specifies the height of the created window. It also defaults to 200 
+pixels.
+.IP "GL_WinParent, <Window parent>" 1i
+This specifies the parent of the window to be created, this allows you to
+make a window a sub window of another one.  It defaults to the Root Window
+of the display and screen.
+.IP "GL_WinX, <int x>" 1i
+This specifies the x position of the window to be created. It defaults to 0.
+.IP "GL_WinY, <int y>" 1i
+This specifies the y position of the window to be created. It defaults to 0.
+.IP "GL_EventMask, <long eventmask>" 1i
+This specifies the event mask of the window. This defaults to ExposureMask |
+KeyPressMask| ButtonPressMask| StructureNotifyMask.  To handle any other
+events you need to manually set the EventMask.  It is expected in the next 
+version that this will be handled automatically upon setting of the handling
+functions.
+.IP "GL_OverrideRedirect, <Boolean override_redirect>" 1i
+This specifies if the window is supposed to be override redirect or not.
+Essentially an Override Redirect window will ignore the windowmanager.
+This should ONLY be used for menus and things like that. This defaults to
+False.
+.IP "GL_SaveUnder, <Boolean save_under>" 1i
+This specifies if the X server should save the contents of windows 
+obscured by this window.  As this option will use a lot of memory,
+its use is not reccomended, especially until R5 comes out because R4's 
+implementation of save unders is extremely wasteful. This defaults to False.
+.IP "GL_WindowBorderWidth, <int width>" 1i
+This specifies the width of the windows border.  This is usually overridden
+by the windowmanager.  This defaults to 0.
+.IP "GL_WinName, <char *name>" 1i
+This specifies the name that the window should have.  The window manager
+will often show the names of windows which are parented off of the root.
+This option have very little meaning if the window's parent is not the root.
+This defaults to NULL.
+.IP "GL_BackgroundPixel, <unsigned long pixel>" 1i
+This specifies what should be used for the background pixel of the window.
+This defaults to the default_background color.
+.IP "GL_PrimaryWindow" 1i
+This tells the window libraries that the window currently being created
+is to be consided the primary window of the application.  This option will
+cause the width, height, x and y positions of the window to be potentially
+overridded by command line options or resource values.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Label(3GL), GL_StripChart(3GL), GraphLib
+Programming Manual

@@ -1,0 +1,26 @@
+JS_DIC_LIST( )
+
+名称
+
+	js_dic_list	使用中の辞書情報を得る。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_dic_list(env,ret)
+	struct wnn_env *env;		/* 環境 */
+	struct wnn_ret_buf *ret;
+
+機能
+
+	環境 env で使用中の辞書情報を得る。
+	取り出す情報は、struct wnn_dic_info の各項目である。
+	ret->buf からの辞書の数だけ、struct wnn_dic_info の配列が返される。
+
+リターンバリュー
+
+	正常終了時には、使用中の辞書の数を返す。
+	異常終了時には、-1 を返す。
+

@@ -1,0 +1,118 @@
+\begindata{text,269601640}
+\textdsversion{12}
+\template{be2guide}
+\define{underline
+menu:[Font~1,Underline~41]
+attr:[Flags Underline Int Set]}
+\define{index
+menu:[Title,Index~91]
+attr:[FontFace Italic Int Set]}
+\define{indexi
+menu:[Title,InvisibleIndex~92]
+attr:[Script PreviousScriptMovement Point -2]
+attr:[FontFace Italic Int Set]}
+\formatnote{\chapter{Frame View}}\indexi{Frame view class}
+
+
+Frame view is a subclass of text view.  The class \italic{frameview} provides 
+the methods and class procedures for creating a frame view, and setting its 
+message line.  Messages appearing in the message line are managed by\italic{ 
+framemessage}.  Overrides are: 
+
+
+\leftindent{Update
+
+WantInputFocus
+
+LoseInputFocus
+
+PostMenus
+
+PostKeyState}
+
+
+\paragraph{Creating a frame view} \indexi{ \italic{frameview_Create}}
+
+\example{struct frameview_Create(messageLine)
+
+struct framemessage *messageLine;} 
+
+
+\leftindent{\bold{Class procedure description.  }\italic{frame_Create} creates 
+a frame view with a message line.  The message line is a frame message. 
+
+
+\bold{Return value.}  A pointer to the frame view. 
+
+}
+
+\paragraph{Setting a new message line for a frame view} 
+\indexi{ \italic{frameview_SetMessageLine}}
+
+\example{void frameview_SetMessageLine(frview, messageLine)
+
+struct frameview *frview;
+
+struct framemessage *messageLine;} 
+
+
+\leftindent{\bold{Method description.  }\italic{frameview_SetMessageLine} sets 
+a message line for a frame view. 
+
+
+}
+\paragraph{Getting the message line} \indexi{ \italic{frameview_GetMessageLine}}
+
+\example{struct framemessage *frameview_GetMessageLine(frview)
+
+struct frameview *frview;} 
+
+
+\leftindent{\bold{Method description.  }  \italic{frameview_GetMessageLine} 
+gets the message line for a frame view. 
+
+
+\bold{Return value.}  A pointer to a frame message.} 
+
+\begindata{bp,269975856}
+\enddata{bp,269975856}
+\view{bpv,269975856,89,0,0}
+\paragraph{Returning a message line} \indexi{ \italic{frameview_Return}}
+
+\example{void frameview_Return(self, key)
+
+struct frameview *self;
+
+long key;} 
+
+
+\leftindent{\bold{Method description.  }  Returns to a message line. 
+
+}
+
+\paragraph{Getting help} \indexi{ \italic{frameview_Help}}
+
+\example{void frameview_Help(self, key)
+
+struct frameview *self;
+
+long key;} 
+
+
+\leftindent{\bold{Method description.  }  Provides help on the message. 
+
+
+}
+\paragraph{Completing a message} \indexi{ \italic{frameview_Complete}}
+
+\example{void frameview_Complete(self, key)
+
+struct frameview *self;
+
+long key;} 
+
+
+\leftindent{\bold{Method description.  }  Completes a message.} 
+
+
+\enddata{text,269601640}

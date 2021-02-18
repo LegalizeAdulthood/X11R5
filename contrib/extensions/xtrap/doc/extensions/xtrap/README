@@ -1,0 +1,114 @@
+This is the third external distribution of XTrap (V3.2) and the first
+version available for MIT's X11 Release 5.  XTrap is an X Server 
+extension which facilitates the capturing of server protocol and synthesizing
+core input events.  Major bug fixes have been performed in this release
+especially in the area of supporting 64-bit word machines.
+Additionally, a sixth sample client (xtrapchar) has been added for
+exploring the alternate input capabilities of XTrap.
+
+Since this is a source code disribution you must perform a build operation
+once you have restored the files onto disk. The distribution is designed to
+be restored into a standard X distribution heirarchy as it comes from MIT *or*
+an installed DECwindows V2.0 (or later) on VMS.
+
+For X11R5 installations, the files are provided in the contrib tree. The 
+install.XTrap shell script located in contrib/extensions/server/xtrap/build 
+must be run to "link" all of the xtrap files into the core distribution tree 
+and apply the patches to Imakefiles, site.def, and miinitext.c necessary to 
+build XTrap into the mit server.
+
+It should be noted that the installation procedures differ for X11/R4, X11/R5,
+and VMS.  To ensure correct installation, please use the correct kit (files
+in extensions/server/xtrap/build).  Additionally VMS & native X11 kits contain
+different environment dependent sources, so if both platforms are desired,
+you must copy both kits.
+
+The following are the major changes from Version 3.1a:
+
+1) Build changes for X11R5.
+
+2) Corrected protocol alignment & padding problems with 64-bit word machines
+   while maintaining protocol compatibility between V3.1 clients/servers.
+
+3) Fixed XETrapGetVersion() and XETrapGetLastInpTime() requests.
+
+4) New xtrapchar client which converts ASCII character sequences into
+   X events.  Useful when exploring alternate input mechanisms to the server
+   and/or "remote keyboards".
+
+5) Removed non-XLib transport code.  Due to efficiency/reliability of the
+   XLib transport, the usefulness of this was effectively eliminated.  This
+   also removed nearly 40% of the code making XTrap much leaner and more
+   directly portable.  XESetStream() is no longer needed/available and
+   must be removed from your client(s).
+
+6) Added COLOR_REPLIES support for capturing the reply information from
+   AllocColor, AllocColorCells, AllocColorPlanes, and AllocNamedColor
+   requests.  This is particularly useful for client-less playback 
+   applications.  However, since our long term goal is to provide a 
+   general mechanism for capturing *all* replies, this support is
+   conditionally compiled and the default behavior is to have this
+   disabled.  This must be activated via -DCOLOR_REPLIES in the
+   XTrapDefines variable in site.def.
+
+7) Fixed SetCursorPosition behavior where extra event was being generated.
+
+8) Fixed infinite loop bug with multiple Trap Context's per client in
+   both XECreateTC & XEFreeTC.
+
+9) Fixed bug with relative timestamp calculations.
+
+10) Added library-side versioning in addition to server-side for client/server
+    backward compatibility.
+
+11) Changed file names to support systems which limit pathnames to less 
+    than 14 characters.
+
+12) Fixed bug in extension where terminating the XTrap client without first
+    performing an XEStopTrapRequest() could potentially either cause the
+    server to crash or cause subsequent clients to receive duplicate copies
+    of events/requests.
+
+13) Added GrabServer mode where XTrap disables all server Grab & Ungrab
+    requests.  The default is that server Grab & Ungrab's are *not*
+    disabled.
+
+If you encounter problems, have questions, etc. please contact one of
+the following via mail, phone, etc. at:
+
+        Dan Coutu                       Ken Miller
+	coutu@decvax.dec.com            kmiller@decvax.dec.com
+	603-881-0087                    603-881-1836
+	..!decwrl!decvax!coutu          ..!decwrl!decvax!kmiller
+
+or paper mail at:
+
+	Digital Equipment Corp.         Digital Equipment Corp.
+	Dan Coutu ZKO 3-3/V08           Ken Miller ZKO 2-3/R56
+	110 Spitbrook Rd.               110 Spitbrook Rd.
+	Nashua, NH 03062                Nashua, NH 03062
+
+Naturally email is preferred and will get the fastest response.
+
+
+To make the legal folk happy, please review the following:
+
+Copyright 1987, 1988, 1989, 1990, 1991 by Digital Equipment Corporation, 
+Maynard, MA
+
+Permission to use, copy, modify, and distribute this software and its 
+documentation for any purpose and without fee is hereby granted, 
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in 
+supporting documentation, and that the name of Digital not be
+used in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.  
+
+DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+DIGITAL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+SOFTWARE.
+

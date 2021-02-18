@@ -1,0 +1,33 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#else
+RESOLVER_LIB =
+#endif /* RESOLVER_ENV */
+
+LIBS =	${BASEDIR}/lib/libmail.a ${UTILLIB} ${PRSLIB} ${RESOLVER_LIB}
+
+DOCS = dlc.help
+
+NormalObjectRule()
+.SUFFIXES: .test
+.c.test:
+	$(RM) $@
+	$(CC) -I. ${LOCALINCLUDES} -DTESTINGONLYTESTING $(CFLAGS) $*.c ${DESTDIR}/lib/libmail.a ${UTILLIB} ${PRSLIB} ${RESOLVER_LIB} -o $*.test ${BSDLIB}
+	$(RM) $*.o
+clean::
+	${RM} *.test
+
+
+ProgramTarget(dlc,readalias.o dlc.o,${LIBS}, ${BSDLIB})
+InstallProgram(dlc, ${DESTDIR}/etc)
+InstallDocs($(DOCS), $(DESTDIR)/help)
+DependTarget()
+

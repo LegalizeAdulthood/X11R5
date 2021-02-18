@@ -1,0 +1,355 @@
+'\" t
+.\" $Header: PEXtRegCon.tbl,v 1.0 91/10/04 17:02:08 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtRegisterConverters 3PEXt "January 11th, 1991"
+.SH NAME
+\fBPEXtRegisterConverters\fP \(em a function that registers PEX resource
+converters with the X toolkit.
+.SH SYNOPSIS
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/StringDefs.h>
+.sp 1
+void PEXtRegisterConverters ()
+.SS
+Required PHIGS Operating States
+.br
+(*, *, *, *)
+.fi
+.SH DESCRIPTION
+\fBPEXtRegisterConverters\fP registers resource type converters for many PEX
+representation types.  To obtain the resource representation and class symbols
+for the conversions discussed below, prepend \fBPEXtR\fP and \fBPEXtC\fP,
+respectively, to the name listed.  The following resource conversions are
+added by \fBPEXtRegisterConverters\fP:
+.sp 1
+.br
+.TS
+c c c
+l l l.
+Name	C Data Type	Meaning
+\fBClipFlag\fP	\fBPclip_ind\fP	Clipping indicator
+\fBColorBundle\fP	\fBPcolr_rep\fP	Color table entry bundle
+\fBControlFlag\fP	\fBPctrl_flag\fP	Workstation update control flag
+\fBCullMode\fP	\fBPcull_mode\fP	Face culling mode
+\fBDeferralMode\fP	\fBPdefer_mode\fP	Workstation deferral mode
+\fBDistinguishMode\fP	\fBPdisting_mode\fP	Face distinguish mode
+\fBEdgeFlag\fP	\fBPedge_flag\fP	Edge flag indicator
+\fBGeneralColor\fP	\fBPgcolr\fP	Generalized color
+\fBGravity\fP	\fBint\fP	Gravity attribute
+\fBHLHSRMode\fP	\fBPint\fP	Hidden line, surface removal mode
+\fBInteriorStyle\fP	\fBPint\fP	Interior style
+\fBIntList\fP	\fBPint_list\fP	Integer list
+\fBLightSourceType\fP	\fBPint\fP	Light source type
+\fBLimit3\fP	\fBPlimit3\fP	3D coordinate space limits
+\fBLineType\fP	\fBPint\fP	Line type
+\fBModificationMode\fP	\fBPmod_mode\fP	Workstation modification mode
+\fBPoint\fP	\fBPpoint\fP	2D point coordinate
+\fBPoint3\fP	\fBPpoint3\fP	3D point coordinate
+\fBProjectionType\fP	\fBPproj_type\fP	Projection type
+\fBReflectanceEquation\fP	\fBPint\fP	Reflectance equation
+\fBResizePolicy\fP	\fBPEXtResizePolicy\fP	Workstation resize policy
+\fBShadingMethod\fP	\fBPint\fP	Shading method
+\fBTraversalPolicy\fP	\fBPEXtTraversalPolicy\fP	Workstation traversal policy
+\fBVector\fP	\fBPvec\fP	2D vector
+\fBVector3\fP	\fBPvec3\fP	3D vector
+\fBWorkstationType\fP	\fBPint\fP	Workstation type
+.TE
+.PP
+Converters are registered for converting string resources (\fBXtRString\fP,
+\fBXtCString\fP) to the resource types listed above.
+Keywords (shown in \fBbold\fP type) for the following resources are not case
+significant and white space is ignored.  The string to gravity converter
+is lifted from the Athena Widget set and should be compatible with that
+converter.  The formats for the resource specification
+attempt to follow the clear text encoding of a PHIGS
+archive file where possible.  The formats are described below.
+.br
+.HP
+\fBPEXtRClipFlag\fP (class \fBPEXtCClipFlag\fP)
+.TS
+c c
+l c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPIND_CLIP\fP	clip, true, yes, on, \fBPEXtDefaultClipFlag\fP
+\fBPIND_NO_CLIP\fP	noclip, false, no, off
+.TE
+.HP
+\fBPEXtRColorBundle\fP (class \fBPEXtCColorBundle\fP)
+.br
+Color bundles are first converted to general colors
+(\fBPEXtRGeneralColor\fP) and then the X, Y, and Z components of
+the general color are inserted into the color bundle.  The
+color model of the general color is used to assign the proper fields
+in the Pcolr_bundl union.  If the color model is
+type \fBPINDIRECT\fP, an error is generated.
+.HP
+\fBPEXtRControlFlag\fP (class \fBPEXtCControlFlag\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPFLAG_ALWAYS\fP	always
+\fBPFLAG_COND\fP	conditionally, \fBPEXtDefaultControlFlag\fP
+.TE
+.HP
+\fBPEXtRCullMode\fP (class \fBPEXtCCullMode\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPCULL_NONE\fP	none, \fBPEXtDefaultCullMode\fP
+\fBPCULL_BACKFACE\fP	back face
+\fBPCULL_FRONTFACE\fP	front face
+.TE
+.HP
+\fB
+PEXtRDeferralMode\fP (class \fBPEXtCDeferralMode\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPDEFER_ASAP\fP	asap, as soon as possible, \fBPEXtDefaultDeferralMode\fP
+\fBPDEFER_BNIG\fP	bnig, before next interaction globally
+\fBPDEFER_BNIL\fP	bnil, before next interaction locally
+\fBPDEFER_ASTI\fP	asti, at some time
+\fBPDEFER_WAIT\fP	wait, when application requests it
+.TE
+.HP
+\fB
+PEXtRDistinguishMode\fP (class \fBPEXtCDistinguishMode\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPDISTING_NO\fP	false, no, off, \fBPEXtDefaultDistinguishMode\fP
+\fBPDISTING_YES\fP	true, yes, on	
+.TE
+.HP
+\fB
+PEXtREdgeFlag\fP (class \fBPEXtCEdgeFlag\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPEDGE_OFF\fP	false, no, off, \fBPEXtDefaultEdgeFlag\fP
+\fBPEDGE_ON\fP	true, yes, on
+.TE
+.HP
+\fB
+PEXtRGeneralColor\fP (class \fBPEXtCGeneralColor\fP)
+.br
+X color specifications are converted to RGB color model specifications.
+This allows PHIGS colors to be specified via standard X toolkit methods
+and utilize named colors in the X11 color database.  See X(1) for a description
+of X color specifications.  Parameters to PHIGS
+color model specifications are floating point values in the range [0.0, 1.0].
+Parameters to indirect color specifications are indices into a workstation's
+color table.  For color model specifications, the color model name is given
+first followed by the necessary numeric arguments, each separated by commas.
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+Indirect color	\fBindirect\fP, \fIindex\fP
+RGB color	\fBrgb\fP, \fIr\fP, \fIg\fP, \fIb\fP
+HLS color	\fBhls\fP, \fIh\fP, \fIl\fP, \fIs\fP
+CIE color	\fBcie\fP, \fIc\fP, \fIi\fP, \fIe\fP
+HSV color	\fBhsv\fP, \fIh\fP, \fIs\fP, \fIv\fP
+\fBIndirect\fP, 1	\fBPEXtDefaultGeneralColor\fP
+.TE
+.HP
+\fB
+PEXtRGravity\fP (class \fBPEXtCGravity\fP)
+.TS
+c c
+l c.
+X Value	Resource Value(s)
+\fBNorthWestGravity\fP	northwest, \fBPEXtDefaultGravity\fP
+\fBNorthGravity\fP	north, top
+\fBNorthEastGravity\fP	northeast
+\fBWestGravity\fP	west, left
+\fBCenterGravity\fP	center
+\fBEastGravity\fP	east, right
+\fBSouthWestGravity\fP	southwest
+\fBSouthGravity\fP	south, bottom
+\fBSouthEastGravity\fP	southeast
+.TE
+.HP
+\fB
+PEXtRInteriorStyle\fP (class \fBPEXtCInteriorStyle\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPSTYLE_SOLID\fP	solid, \fBPEXtDefaultInteriorStyle\fP
+\fBPSTYLE_HOLLOW\fP	hollow
+\fBPSTYLE_EMPTY\fP	empty
+.TE
+.HP
+\fB
+PEXtRIntList\fP (class \fBPEXtCIntList\fP)
+.br
+Each pair of integers should be separated by a comma.  In addition,
+the value \fBnone\fP indicates an empty list (i.e. a list of zero
+elements).
+.HP
+\fB
+PEXtRLightSourceType\fP (class \fBPEXtCLightSourceType\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPLIGHT_AMBIENT\fP	ambient, \fBPEXtDefaultLightSourceType\fP
+\fBPLIGHT_DIRECTIONAL\fP	directional
+\fBPLIGHT_POSITIONAL\fP	positional
+\fBPLIGHT_SPOT\fP	spot
+.TE
+.HP
+\fB
+PEXtRLimit3\fP (class \fBPEXtCLimit3\fP)
+.br
+3D coordinate limits are specified as 6 comma-separated floating
+point values, grouped as 3 minima (x, y, z) and 3 maxima.  In
+addition, the value \fBPEXtDefaultClipLimits\fP returns coordinate
+limits spanning the entire NPC volume ([0.0, 1.0] along each axis).
+.HP
+\fB
+PEXtRLineType\fP (class \fBPEXtCLineType\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPLINE_SOLID\fP	solid, \fBPEXtDefaultLineType\fP
+\fBPLINE_DASH\fP	dash	
+\fBPLINE_DOT\fP	dot	
+\fBPLINE_DOT_DASH\fP	dot dash	
+.TE
+.HP
+\fB
+PEXtRModificationMode\fP (class \fBPEXtCModificationMode\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPMODE_NIVE\fP	nive, no immediate visual effect, \fBPEXtDefaultModificationMode\fP
+\fBPMODE_UWOR\fP	uwor, update without regeneration
+\fBPMODE_UQUM\fP	uqum, use quick update methods
+.TE
+.HP
+\fB
+PEXtRPoint\fP (class \fBPEXtCPoint\fP)
+.br
+2D coordinates are specified as two comma-separated floating
+point values.  In addition, the value \fBPEXtOrigin\fP specifies
+the origin.
+.HP
+\fB
+PEXtRPoint3\fP (class \fBPEXtCPoint3\fP)
+.br
+3D coordinates are specified as three comma-separated floating
+point values.  In addition, the value \fBPEXtOrigin\fP specifies
+the origin.
+.HP
+\fB
+PEXtRProjectionType\fP (class \fBPEXtCProjectionType\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resouve Values(s)
+\fBPTYPE_PARAL\fP	parallel, \fBPEXtDefaultProjectionType\fP
+\fBPTYPE_PERSPECT\fP	perspective	
+.TE
+.HP
+\fB
+PEXtRReflectanceEquation\fP (class \fBPEXtCReflectanceEquation\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPREFL_NONE\fP	none, \fBPEXtDefaultReflectanceEquation\fP
+\fBPREFL_AMBIENT\fP	ambient
+\fBPREFL_AMB_DIFF\fP	diffuse
+\fBPREFL_AMB_DIFF_SPEC\fP	specular
+.TE
+.HP
+\fB
+PEXtRResizePolicy\fP (class \fBPEXtCResizePolicy\fP)
+.br
+For a discussion of workstation resize policies, see \fBPEXtWorkstation\fP(3).
+.TS
+c c
+l c.
+PEXt Value	Resource Value(s)
+\fBPEXtResizeNone\fP	none, \fBPEXtDefaultResizePolicy\fP
+\fBPEXtResizeCallback\fP	callback
+\fBPEXtResizePorthole\fP	porthole
+\fBPEXtResizeContainer\fP	container
+.TE
+.HP
+\fB
+PEXtRShadingMethod\fP (class \fBPEXtCShadingMethod\fP)
+.TS
+c c
+l c.
+PHIGS Value	Resource Value(s)
+\fBPSD_NONE\fP	none, \fBPEXtDefaultShadingMethod\fP
+\fBPSD_COLOUR\fP	color	
+\fBPSD_DOT_PRODUCT\fP	dot product	
+\fBPSD_NORMAL\fP	normal	
+.TE
+.HP
+\fB
+PEXtRTraversalPolicy (class \fBPEXtTraversalPolicy\fP)
+.br
+For a discussion of workstation traversal policies, see
+\fBPEXtWorkstation\fP(3).
+.TS
+c c
+l c.
+PEXt Value	Resource Value(s)
+\fBPEXtTraverseNone\fP	none, \fBPEXtDefaultTraversalPolicy\fP
+\fBPEXtTraverseCallback\fP	callback
+\fBPEXtTraverseRedraw\fP	redraw
+.TE
+.HP
+\fB
+PEXtRVector\fP (class \fBPEXtCVector\fP)
+.br
+2D vectors are specified as two comma-separated vector
+components (x, y).  In addition, the two unit vectors in the X and
+Y directions can be specified as \fBPEXtUnitVectorX\fP and \fBPEXtUnitVectorY\fP,
+respectively.
+.HP
+\fB
+PEXtRVector3\fP (class \fBPEXtCVector3\fP)
+.br
+3D vectors are specified as three comma-separated vector
+components (x, y, z).  In addition, the three unit vectors in the X, Y
+and Z directions can be specified as \fBPEXtUnitVectorX\fP, \fBPEXtUnitVectorY\fP
+and \fBPEXtUnitVectorZ\fP, respectively.
+.SH SEE ALSO
+\fBPEXtInitialize(3)\fP
+.br
+\fBPEXtWorkstation\(3)\fP
+.br
+\fBXtSetTypeConverter(3)\fP
+.br
+\fBX(1)\fP
+.SH BUGS
+Space allocated for the integer array in \fBPEXtRIntList\fP resources must be
+freed by the application.
+.sp 1
+Conversions don't exist for all the data types in the PHIGS application
+programmer interface.
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

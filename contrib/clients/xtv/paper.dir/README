@@ -1,0 +1,7 @@
+This directory contains the following files:
+paper.tex : the LaTex version of the paper without figures.
+paper.ps : a postscript vesrion of the paper without figures.
+fig1.ps, fig2.ps, fig3.ps: The figures in postscript forms.
+(these figures were produced by the idraw program of stanford).
+PS: Type : uncompress * 
+    to uncompress the postscript files.

@@ -1,0 +1,983 @@
+*** VTPrsTbl.c	Fri Aug 23 14:11:21 1991
+--- clients/xterm/VTPrsTbl.c	Fri Aug 23 14:02:30 1991
+***************
+*** 2680,2688 ****
+  CASE_ESC_IGNORE,
+  /*	$		%		&		'	*/
+  CASE_ESC_IGNORE,
+  CASE_ESC_IGNORE,
+  CASE_ESC_IGNORE,
+- CASE_ESC_IGNORE,
+  /*	(		)		*		+	*/
+  CASE_ESC_IGNORE,
+  CASE_ESC_IGNORE,
+--- 2680,2688 ----
+  CASE_ESC_IGNORE,
+  /*	$		%		&		'	*/
+  CASE_ESC_IGNORE,
++ CASE_GSETS,
+  CASE_ESC_IGNORE,
+  CASE_ESC_IGNORE,
+  /*	(		)		*		+	*/
+  CASE_ESC_IGNORE,
+  CASE_ESC_IGNORE,
+***************
+*** 2699,2733 ****
+  CASE_GSETS,
+  CASE_GROUND_STATE,
+  /*	4		5		6		7	*/
+! CASE_GROUND_STATE,
+! CASE_GROUND_STATE,
+! CASE_GROUND_STATE,
+! CASE_GROUND_STATE,
+  /*	8		9		:		;	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+  /*	<		=		>		?	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+  /*	@		A		B		C	*/
+  CASE_GROUND_STATE,
+  CASE_GSETS,
+  CASE_GSETS,
+! CASE_GROUND_STATE,
+  /*	D		E		F		G	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+  /*	H		I		J		K	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+! CASE_GROUND_STATE,
+! CASE_GROUND_STATE,
+  /*	L		M		N		O	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+--- 2699,2733 ----
+  CASE_GSETS,
+  CASE_GROUND_STATE,
+  /*	4		5		6		7	*/
+! CASE_GSETS,
+! CASE_GSETS,
+! CASE_GSETS,
+! CASE_GSETS,
+  /*	8		9		:		;	*/
+  CASE_GROUND_STATE,
++ CASE_GSETS,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	<		=		>		?	*/
++ CASE_GSETS,
++ CASE_GSETS,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	@		A		B		C	*/
+  CASE_GROUND_STATE,
+  CASE_GSETS,
+  CASE_GSETS,
+! CASE_GSETS,
+  /*	D		E		F		G	*/
+  CASE_GROUND_STATE,
++ CASE_GSETS,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	H		I		J		K	*/
++ CASE_GSETS,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+! CASE_GSETS,
+  /*	L		M		N		O	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+***************
+*** 2735,2743 ****
+  CASE_GROUND_STATE,
+  /*	P		Q		R		S	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+  /*	T		U		V		W	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+--- 2735,2743 ----
+  CASE_GROUND_STATE,
+  /*	P		Q		R		S	*/
+  CASE_GROUND_STATE,
++ CASE_GSETS,
++ CASE_GSETS,
+  CASE_GROUND_STATE,
+  /*	T		U		V		W	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+***************
+*** 2745,2753 ****
+  CASE_GROUND_STATE,
+  /*	X		Y		Z		[	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+  /*	\		]		^		_	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+--- 2745,2753 ----
+  CASE_GROUND_STATE,
+  /*	X		Y		Z		[	*/
+  CASE_GROUND_STATE,
++ CASE_GSETS,
++ CASE_GSETS,
+  CASE_GROUND_STATE,
+  /*	\		]		^		_	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+***************
+*** 2754,2763 ****
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	`		a		b		c	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+- CASE_GROUND_STATE,
+  /*	d		e		f		g	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+--- 2754,2763 ----
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	`		a		b		c	*/
++ CASE_GSETS,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	d		e		f		g	*/
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+***************
+*** 2765,2771 ****
+  CASE_GROUND_STATE,
+  /*	h		i		j		k	*/
+  CASE_GROUND_STATE,
+! CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	l		m		n		o	*/
+--- 2765,2771 ----
+  CASE_GROUND_STATE,
+  /*	h		i		j		k	*/
+  CASE_GROUND_STATE,
+! CASE_GSETS,
+  CASE_GROUND_STATE,
+  CASE_GROUND_STATE,
+  /*	l		m		n		o	*/
+*** button.c	Fri Aug 23 14:11:21 1991
+--- clients/xterm/button.c	Fri Aug 23 14:02:31 1991
+***************
+*** 1354,1359 ****
+--- 1354,1360 ----
+      int *eol;
+  {
+  	register int i = 0;
++ 	register int j;
+  	register Char *ch = screen->buf[2 * (row + screen->topline)];
+  	Char attr;
+  	register int c;
+***************
+*** 1376,1388 ****
+  	        c = ch[i];
+  		if (c == 0)
+  			c = ' ';
+! 		else if(c < ' ') {
+! 			if(c == '\036')
+! 				c = '#'; /* char on screen is pound sterling */
+! 			else
+  				c += 0x5f; /* char is from DEC drawing set */
+! 		} else if(c == 0x7f)
+  			c = 0x5f;
+  		*lp++ = c;
+  	}
+  	return(lp);
+--- 1377,1392 ----
+  	        c = ch[i];
+  		if (c == 0)
+  			c = ' ';
+! 		else if(c < ' ')
+  			c += 0x5f; /* char is from DEC drawing set */
+! 		else if(c == 0x7f)
+  			c = 0x5f;
++ 		else if (c & 0x80) /* national conversion */
++ 			for (j = 0; j < MAXNATCHAR; j++)
++ 				if (VTdisptab[screen->natcharset][j] == c) {
++ 					c = VTdisptab[0][j];
++ 					break;
++ 				}
+  		*lp++ = c;
+  	}
+  	return(lp);
+*** charproc.c	Fri Aug 23 14:11:21 1991
+--- clients/xterm/charproc.c	Fri Aug 23 16:57:51 1991
+***************
+*** 126,131 ****
+--- 126,132 ----
+  #define XtNtiteInhibit "titeInhibit"
+  #define XtNvisualBell "visualBell"
+  #define XtNallowSendEvents "allowSendEvents"
++ #define XtNnationality "nationality"
+  
+  #define XtCAlwaysHighlight "AlwaysHighlight"
+  #define XtCAppcursorDefault "AppcursorDefault"
+***************
+*** 164,169 ****
+--- 165,171 ----
+  #define XtCTiteInhibit "TiteInhibit"
+  #define XtCVisualBell "VisualBell"
+  #define XtCAllowSendEvents "AllowSendEvents"
++ #define XtCNationality "Nationality"
+  
+  #define	doinput()		(bcnt-- > 0 ? *bptr++ : in_put())
+  
+***************
+*** 314,319 ****
+--- 316,322 ----
+      { "tek-reset",		HandleTekReset },
+      { "tek-copy",		HandleTekCopy },
+      { "visual-bell",		HandleVisualBell },
++     { "set-nationality",	HandleNationality },
+  };
+  
+  static XtResource resources[] = {
+***************
+*** 458,463 ****
+--- 461,469 ----
+  {XtNallowSendEvents, XtCAllowSendEvents, XtRBoolean, sizeof(Boolean),
+  	XtOffsetOf(XtermWidgetRec, screen.allowSendEvents),
+  	XtRBoolean, (caddr_t) &defaultFALSE},
++ {XtNnationality, XtCNationality, XtRString, sizeof(char *),
++ 	XtOffsetOf(XtermWidgetRec, misc.nationality),
++ 	XtRString, (caddr_t) "ascii"},
+  {"font1", "Font1", XtRString, sizeof(String),
+  	XtOffsetOf(XtermWidgetRec, screen.menu_font_names[fontMenu_font1]),
+  	XtRString, (caddr_t) NULL},
+***************
+*** 532,538 ****
+  	register int *parsestate = groundtable;
+  	register unsigned int c;
+  	register unsigned char *cp;
+! 	register int row, col, top, bot, scstype;
+  	extern int TrackMouse();
+  
+  	if(setjmp(vtjmpbuf))
+--- 538,544 ----
+  	register int *parsestate = groundtable;
+  	register unsigned int c;
+  	register unsigned char *cp;
+! 	register int row, col, top, bot, scstype, chset;
+  	extern int TrackMouse();
+  
+  	if(setjmp(vtjmpbuf))
+***************
+*** 951,958 ****
+  			break;
+  
+  		 case CASE_GSETS:
+! 			screen->gsets[scstype] = c;
+  			parsestate = groundtable;
+  			break;
+  
+  		 case CASE_DECSC:
+--- 957,1000 ----
+  			break;
+  
+  		 case CASE_GSETS:
+! 			if (!scs_2nd_char) {
+! 				switch (c) {
+! 				 case 'A': chset = UK;		break;
+! 				 case 'B': chset = ASCII;	break;
+! 				 case '0': chset = SPGR;	break;
+! 				 case '4': chset = DUTCH;	break;
+! 				 case 'C':
+! 				 case '5': chset = FINNISH;	break;
+! 				 case 'R':
+! 				 case 'Q': chset = FRENCH;	break;
+! 				 case '9': chset = FRE_CANADIAN;break;
+! 				 case 'K': chset = GERMAN;	break;
+! 				 case 'i': chset = HUNGARIAN;	break;
+! 				 case 'Y': chset = ITALIAN;	break;
+! 				 case 0x60: /* quoteleft */
+! 				 case 'E':
+! 				 case '6': chset = DAN_NOR;	break;
+! 				 case 'Z': chset = SPANISH;	break;
+! 				 case 'H':
+! 				 case '7': chset = SWEDISH;	break;
+! 				 case '=': chset = SWISS;	break;
+! 				 case '%': /* Some scs seq consist of 2 chars */
+! 					   if (!scs_2nd_char) {
+! 						scs_2nd_char = True;
+! 						continue;
+! 					   }
+! 				 default:  chset = screen->gsets[scstype];break;
+! 				}
+! 			}
+! 			else {
+! 				switch (c) {
+! 				 case '6': chset = PORTUGUESE;	break;
+! 				 default:  chset = screen->gsets[scstype];break;
+! 				}
+! 			}
+! 			screen->gsets[scstype] = chset;
+  			parsestate = groundtable;
++ 			scs_2nd_char = False;
+  			break;
+  
+  		case CASE_DECSC:
+***************
+*** 1350,1375 ****
+  	register int	len;
+  	register int	n;
+  	register int	next_col;
+  
+! 	switch (charset) {
+! 	case 'A':	/* United Kingdom set			*/
+  		for (s=buf; s<ptr; ++s)
+- 			if (*s == '#')
+- 				*s = '\036';	/* UK pound sign*/
+- 		break;
+- 
+- 	case 'B':	/* ASCII set				*/
+- 		break;
+- 
+- 	case '0':	/* special graphics (line drawing)	*/
+- 		for (s=buf; s<ptr; ++s)
+  			if (*s>=0x5f && *s<=0x7e)
+  				*s = *s == 0x5f ? 0x7f : *s - 0x5f;
+- 		break;
+- 
+- 	default:	/* any character sets we don't recognize*/
+- 		return;
+  	}
+  
+  	len = ptr - buf; 
+  	ptr = buf;
+--- 1392,1425 ----
+  	register int	len;
+  	register int	n;
+  	register int	next_col;
++ 	register int    charno;
+  
+! 	if (charset == SPGR) {	/* special graphics (line drawing)*/
+  		for (s=buf; s<ptr; ++s)
+  			if (*s>=0x5f && *s<=0x7e)
+  				*s = *s == 0x5f ? 0x7f : *s - 0x5f;
+  	}
++ 	else
++ 		for (s=buf; s<ptr; ++s) {
++ 			switch(*s) {
++ 			case 0x23: charno =  0; break;
++ 			case 0x24: charno =  1; break;
++ 			case 0x40: charno =  2; break;
++ 			case 0x5b: charno =  3; break;
++ 			case 0x5c: charno =  4; break;
++ 			case 0x5d: charno =  5; break;
++ 			case 0x5e: charno =  6; break;
++ 			case 0x5f: charno =  7; break;
++ 			case 0x60: charno =  8; break;
++ 			case 0x7b: charno =  9; break;
++ 			case 0x7c: charno = 10; break;
++ 			case 0x7d: charno = 11; break;
++ 			case 0x7e: charno = 12; break;
++ 			default:   charno = -1; break;
++ 			}
++ 			if (charno != -1)
++ 				*s = VTdisptab[charset][charno];
++ 		}
+  
+  	len = ptr - buf; 
+  	ptr = buf;
+***************
+*** 1472,1477 ****
+--- 1522,1542 ----
+  }
+  
+  /*
++  * install the default national character replacement set
++  */
++ default_charset()
++ {
++ 	register TScreen *screen = &term->screen;
++ 
++ 	screen->gsets[0] = 
++ 	screen->gsets[1] = 
++ 	screen->gsets[2] = 
++ 	screen->gsets[3] = screen->natcharset;
++ 	screen->curgl = 0;			/* G0 => GL.		*/
++ 	screen->curgr = 2;			/* G2 => GR.		*/
++ }
++ 
++ /*
+   * process ANSI modes set, reset
+   */
+  ansi_modes(termw, func)
+***************
+*** 1511,1522 ****
+  			break;
+  		case 2:			/* ANSI/VT52 mode		*/
+  			if (func == bitset) {
+! 				screen->gsets[0] =
+! 					screen->gsets[1] =
+! 					screen->gsets[2] =
+! 					screen->gsets[3] = 'B';
+! 				screen->curgl = 0;
+! 				screen->curgr = 2;
+  			}
+  			break;
+  		case 3:			/* DECCOLM			*/
+--- 1576,1582 ----
+  			break;
+  		case 2:			/* ANSI/VT52 mode		*/
+  			if (func == bitset) {
+! 				default_charset();
+  			}
+  			break;
+  		case 3:			/* DECCOLM			*/
+***************
+*** 2188,2193 ****
+--- 2248,2254 ----
+     new->screen.output_eight_bits = request->screen.output_eight_bits;
+     new->screen.allowSendEvents = request->screen.allowSendEvents;
+     new->misc.titeInhibit = request->misc.titeInhibit;
++    new->misc.nationality = request->misc.nationality;
+     for (i = fontMenu_font1; i <= fontMenu_lastBuiltin; i++) {
+         new->screen.menu_font_names[i] = request->screen.menu_font_names[i];
+     }
+***************
+*** 2264,2269 ****
+--- 2325,2331 ----
+  	int xpos, ypos, pr;
+  	XSizeHints		sizehints;
+  	int scrollbar_width;
++ 	int p_cnt = 1;
+  
+  	TabReset (term->tabs);
+  
+***************
+*** 2299,2304 ****
+--- 2361,2368 ----
+  			   screen->scrollWidget->core.width /* +
+  			   screen->scrollWidget->core.border_width */ : 0);
+  
++ 	HandleNationality(0, 0, &(term->misc.nationality), &p_cnt);
++ 
+  	/* set defaults */
+  	xpos = 1; ypos = 1; width = 80; height = 24;
+  	pr = XParseGeometry (term->misc.geo_metry, &xpos, &ypos,
+***************
+*** 2386,2397 ****
+  
+  	/* Reset variables used by ANSI emulation. */
+  
+! 	screen->gsets[0] = 'B';			/* ASCII_G		*/
+! 	screen->gsets[1] = 'B';
+! 	screen->gsets[2] = 'B';			/* DEC supplemental.	*/
+! 	screen->gsets[3] = 'B';
+! 	screen->curgl = 0;			/* G0 => GL.		*/
+! 	screen->curgr = 2;			/* G2 => GR.		*/
+  	screen->curss = 0;			/* No single shift.	*/
+  
+  	XDefineCursor(screen->display, VShellWindow, screen->pointer_cursor);
+--- 2450,2456 ----
+  
+  	/* Reset variables used by ANSI emulation. */
+  
+! 	default_charset();
+  	screen->curss = 0;			/* No single shift.	*/
+  
+  	XDefineCursor(screen->display, VShellWindow, screen->pointer_cursor);
+***************
+*** 2644,2655 ****
+  		term->keyboard.flags = NULL;
+  		update_appcursor();
+  		update_appkeypad();
+! 		screen->gsets[0] = 'B';
+! 		screen->gsets[1] = 'B';
+! 		screen->gsets[2] = 'B';
+! 		screen->gsets[3] = 'B';
+! 		screen->curgl = 0;
+! 		screen->curgr = 2;
+  		screen->curss = 0;
+  		FromAlternate(screen);
+  		ClearScreen(screen);
+--- 2703,2709 ----
+  		term->keyboard.flags = NULL;
+  		update_appcursor();
+  		update_appkeypad();
+! 		default_charset();
+  		screen->curss = 0;
+  		FromAlternate(screen);
+  		ClearScreen(screen);
+*** data.c	Fri Aug 23 14:11:22 1991
+--- clients/xterm/data.c	Fri Aug 23 14:02:35 1991
+***************
+*** 29,34 ****
+--- 29,67 ----
+  #include "data.h"
+  #include <setjmp.h>
+  
++ Boolean scs_2nd_char = False;
++ 
++ unsigned char VTdisptab[MAXNATION][MAXNATCHAR] = {
++  /* ascii */
++  {0x23, 0x24, 0x40, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x7B, 0x7C, 0x7D, 0x7E},
++  /* united kingdom */
++  {0xA3, 0x24, 0x40, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x7B, 0x7C, 0x7D, 0x7E},
++  /* dutch (same as ascii) */
++  {0x23, 0x24, 0x40, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F, 0x60, 0x7B, 0x7C, 0x7D, 0x7E},
++  /* finnish */
++  {0x23, 0x24, 0x40, 0xC4, 0xD6, 0xC5, 0xDC, 0x5F, 0xE9, 0xE4, 0xF6, 0xE5, 0xFC},
++  /* french/belgian */
++  {0xA3, 0x24, 0xE0, 0xB0, 0xE7, 0xA7, 0x5E, 0x5F, 0x60, 0xE9, 0xF9, 0xE8, 0x83},
++  /* french canadian */
++  {0x23, 0x24, 0xE0, 0xE2, 0xE7, 0xEA, 0xEE, 0x5F, 0xF4, 0xE9, 0xF9, 0xE8, 0xFB},
++  /* german */
++  {0x23, 0x24, 0xA7, 0xC4, 0xD6, 0xDC, 0x5E, 0x5F, 0x60, 0xE4, 0xF6, 0xFC, 0xDF},
++  /* hungarian */
++  {0x23, 0xA8, 0xC1, 0xC9, 0xD6, 0xDC, 0x5E, 0x5F, 0xE1, 0xE9, 0xF6, 0xFC, 0x83},
++  /* italian */
++  {0xA3, 0x24, 0xA7, 0xB0, 0xE7, 0xE9, 0x5E, 0x5F, 0xF9, 0xE0, 0xF2, 0xE8, 0xEC},
++  /* danish/norwegian */
++  {0x23, 0x24, 0x40, 0xC6, 0xD8, 0xC5, 0x5E, 0x5F, 0x60, 0xE6, 0xF8, 0xE5, 0x7E},
++  /* portuguese */
++  {0x23, 0x24, 0x40, 0xC3, 0xC7, 0xD5, 0x5E, 0x5F, 0x60, 0xE3, 0xE7, 0xF5, 0x7E},
++  /* spanish */
++  {0xA3, 0x24, 0xA7, 0xA1, 0xD1, 0xBF, 0x5E, 0x5F, 0x60, 0xB0, 0xF1, 0xE7, 0x7E},
++  /* swedish */
++  {0x23, 0x24, 0x40, 0xC4, 0xD6, 0xC5, 0x5E, 0x5F, 0x60, 0xE4, 0xF6, 0xE5, 0x7E},
++  /* swiss */
++  {0xF9, 0x24, 0xE0, 0xE9, 0xE7, 0xEA, 0xEE, 0xE8, 0xF4, 0xE4, 0xF6, 0xFC, 0xFB}
++ };
++ 
+  XPoint T_boxlarge[NBOX] = {
+  	{0, 0},
+  	{8, 0},
+*** data.h	Fri Aug 23 14:11:22 1991
+--- clients/xterm/data.h	Fri Aug 23 14:02:35 1991
+***************
+*** 24,29 ****
+--- 24,31 ----
+   * SOFTWARE.
+   */
+  
++ extern Boolean scs_2nd_char;
++ extern unsigned char VTdisptab[][MAXNATCHAR];
+  extern TekLink *TekRefresh;
+  extern XPoint T_box2[];
+  extern XPoint T_box3[];
+*** input.c	Fri Aug 23 14:11:22 1991
+--- clients/xterm/input.c	Fri Aug 23 14:02:35 1991
+***************
+*** 28,33 ****
+--- 28,34 ----
+  /* input.c */
+  
+  #include "ptyx.h"		/* gets Xt headers, too */
++ #include "data.h"
+  #include <X11/keysym.h>
+  #include <X11/DECkeysym.h>
+  #include <X11/Xutil.h>
+***************
+*** 73,79 ****
+  #define STRBUFSIZE 100
+  
+  	char strbuf[STRBUFSIZE];
+! 	register char *string;
+  	register int key = FALSE;
+  	int	pty	= screen->respond;
+  	int	nbytes;
+--- 74,80 ----
+  #define STRBUFSIZE 100
+  
+  	char strbuf[STRBUFSIZE];
+! 	register unsigned char *string;
+  	register int key = FALSE;
+  	int	pty	= screen->respond;
+  	int	nbytes;
+***************
+*** 82,87 ****
+--- 83,89 ----
+  	char	tmp[STRBUFSIZE];
+  	char	*bp = strbuf;
+  	int	count;
++ 	int	i;
+  	XEvent	ev;
+  
+  	count = XLookupString (event, tmp, STRBUFSIZE,
+***************
+*** 108,114 ****
+  	    }
+  	}
+  
+! 	string = &strbuf[0];
+  	reply.a_pintro = 0;
+  	reply.a_final = 0;
+  	reply.a_nparam = 0;
+--- 110,116 ----
+  	    }
+  	}
+  
+! 	string = (unsigned char *)&strbuf[0];
+  	reply.a_pintro = 0;
+  	reply.a_final = 0;
+  	reply.a_nparam = 0;
+***************
+*** 166,173 ****
+  		    else
+  		      unparseputc (033, pty);  /* escape */
+  		}
+! 		while (nbytes-- > 0)
+  			unparseputc(*string++, pty);
+  		key = TRUE;
+  	}
+  	if(key && !screen->TekEmu)
+--- 168,182 ----
+  		    else
+  		      unparseputc (033, pty);  /* escape */
+  		}
+! 		while (nbytes-- > 0) {
+! 		    if (*string & 0x80) /* national conversion */
+! 			for (i = 0; i < MAXNATCHAR; i++)
+! 			    if (VTdisptab[screen->natcharset][i] == *string) {
+! 				*string = VTdisptab[0][i];
+! 				break;
+! 			    }
+  		    unparseputc(*string++, pty);
++ 		}
+  		key = TRUE;
+  	}
+  	if(key && !screen->TekEmu)
+*** main.c	Fri Aug 23 14:11:22 1991
+--- clients/xterm/main.c	Fri Aug 23 14:27:11 1991
+***************
+*** 499,504 ****
+--- 499,505 ----
+  {"+mb",		"*marginBell",	XrmoptionNoArg,		(caddr_t) "off"},
+  {"-mc",		"*multiClickTime", XrmoptionSepArg,	(caddr_t) NULL},
+  {"-ms",		"*pointerColor",XrmoptionSepArg,	(caddr_t) NULL},
++ {"-nat", 	"*nationality",	XrmoptionSepArg,	(caddr_t) NULL},
+  {"-nb",		"*nMarginBell",	XrmoptionSepArg,	(caddr_t) NULL},
+  {"-rw",		"*reverseWrap",	XrmoptionNoArg,		(caddr_t) "on"},
+  {"+rw",		"*reverseWrap",	XrmoptionNoArg,		(caddr_t) "off"},
+***************
+*** 574,579 ****
+--- 575,581 ----
+  { "-/+mb",                 "turn on/off margin bell" },
+  { "-mc milliseconds",      "multiclick time in milliseconds" },
+  { "-ms color",             "pointer color" },
++ { "-nat nationality",      "select nationality according to the list below" },
+  { "-nb number",            "margin bell in characters from right end" },
+  { "-/+aw",                 "turn on/off auto wraparound" },
+  { "-/+rw",                 "turn on/off reverse wraparound" },
+***************
+*** 612,618 ****
+  "both normal and bold text (by doing overstriking).  The -e option, if given,",
+  "must be appear at the end of the command line, otherwise the user's default",
+  "shell will be started.  Options that start with a plus sign (+) restore the",
+! "default.",
+  NULL};
+  
+  static void Syntax (badOption)
+--- 614,622 ----
+  "both normal and bold text (by doing overstriking).  The -e option, if given,",
+  "must be appear at the end of the command line, otherwise the user's default",
+  "shell will be started.  Options that start with a plus sign (+) restore the",
+! "default. Nationality must be one of: ascii, north_american, uk, belgian,",
+! "british, danish, dutch, finnish, flemish, french, french_canadian, german,",
+! "hungarian, italian, norwegian, portuguese, spanish, swedish, swiss.",
+  NULL};
+  
+  static void Syntax (badOption)
+*** menu.c	Fri Aug 23 14:11:22 1991
+--- clients/xterm/menu.c	Fri Aug 23 14:02:36 1991
+***************
+*** 25,30 ****
+--- 25,31 ----
+  #include <stdio.h>
+  #include <signal.h>
+  
++ extern      default_charset();
+  extern void FindFontSelection();
+  
+  Arg menuArgs[2] = {{ XtNleftBitmap, (XtArgVal) 0 },
+***************
+*** 42,48 ****
+      do_tekmode(), do_vthide(), 
+      do_tektextlarge(), do_tektext2(), do_tektext3(), do_tektextsmall(), 
+      do_tekpage(), do_tekreset(), do_tekcopy(), do_vtshow(), do_vtmode(), 
+!     do_tekhide(), do_vtfont();
+  
+  
+  /*
+--- 43,49 ----
+      do_tekmode(), do_vthide(), 
+      do_tektextlarge(), do_tektext2(), do_tektext3(), do_tektextsmall(), 
+      do_tekpage(), do_tekreset(), do_tekcopy(), do_vtshow(), do_vtmode(), 
+!     do_tekhide(), do_vtfont(), do_natcharset();
+  
+  
+  /*
+***************
+*** 97,104 ****
+      { "font5",		do_vtfont, NULL },		/*  5 */
+      { "font6",		do_vtfont, NULL },		/*  6 */
+      { "fontescape",	do_vtfont, NULL },		/*  7 */
+!     { "fontsel",	do_vtfont, NULL }};		/*  8 */
+      /* this should match NMENUFONTS in ptyx.h */
+  
+  MenuEntry tekMenuEntries[] = {
+      { "tektextlarge",	do_tektextlarge, NULL },	/*  0 */
+--- 98,122 ----
+      { "font5",		do_vtfont, NULL },		/*  5 */
+      { "font6",		do_vtfont, NULL },		/*  6 */
+      { "fontescape",	do_vtfont, NULL },		/*  7 */
+!     { "fontsel",	do_vtfont, NULL },		/*  8 */
+      /* this should match NMENUFONTS in ptyx.h */
++     { "line1",		NULL, NULL },			/*  9 */
++     { "line2",		NULL, NULL },			/* 10 */
++     { "line3",		NULL, NULL },			/* 11 */
++     { "north american",	do_natcharset, NULL },		/* 12 */
++     { "british",	do_natcharset, NULL },		/* 13 */
++     { "dutch",		do_natcharset, NULL },		/* 14 */
++     { "finnish",	do_natcharset, NULL },		/* 15 */
++     { "french/belgian",	do_natcharset, NULL },		/* 16 */
++     { "french canadian",do_natcharset, NULL },		/* 17 */
++     { "german",		do_natcharset, NULL },		/* 18 */
++     { "hungarian",	do_natcharset, NULL },		/* 19 */
++     { "italian",	do_natcharset, NULL },		/* 20 */
++     { "norwegian/danish",do_natcharset, NULL },		/* 21 */
++     { "portuguese",	do_natcharset, NULL },		/* 22 */
++     { "spanish",	do_natcharset, NULL },		/* 23 */
++     { "swedish",	do_natcharset, NULL },		/* 24 */
++     { "swiss",		do_natcharset, NULL }};		/* 25 */
+  
+  MenuEntry tekMenuEntries[] = {
+      { "tektextlarge",	do_tektextlarge, NULL },	/*  0 */
+***************
+*** 195,206 ****
+  	if (!screen->fontMenu) {
+  	    screen->fontMenu = create_menu (term, toplevel, "fontMenu",
+  					    fontMenuEntries,
+! 					    NMENUFONTS);  
+  	    set_menu_font (True);
+  	    set_sensitivity (screen->fontMenu,
+  			     fontMenuEntries[fontMenu_fontescape].widget,
+  			     (screen->menu_font_names[fontMenu_fontescape]
+  			      ? TRUE : FALSE));
+  	}
+  	FindFontSelection (NULL, True);
+  	set_sensitivity (screen->fontMenu,
+--- 213,225 ----
+  	if (!screen->fontMenu) {
+  	    screen->fontMenu = create_menu (term, toplevel, "fontMenu",
+  					    fontMenuEntries,
+! 					    fontMenu_max);  
+  	    set_menu_font (True);
+  	    set_sensitivity (screen->fontMenu,
+  			     fontMenuEntries[fontMenu_fontescape].widget,
+  			     (screen->menu_font_names[fontMenu_fontescape]
+  			      ? TRUE : FALSE));
++ 	    set_natcharset (True);
+  	}
+  	FindFontSelection (NULL, True);
+  	set_sensitivity (screen->fontMenu,
+***************
+*** 701,706 ****
+--- 720,735 ----
+  }
+  
+  
++ static void do_natcharset (gw, closure, data)
++     Widget gw;
++     caddr_t closure, data;
++ {
++     int p_cnt = 1;
++ 
++     HandleNationality(0, 0, &((char *)closure), &p_cnt);
++ }
++ 
++ 
+  /*
+   * tek menu
+   */
+***************
+*** 1225,1228 ****
+--- 1254,1318 ----
+      do_tekcopy(w, NULL, NULL);
+  }
+  
++ /* ARGSUSED */
++ /*
++  * Handles input from the resource database, command line and menus
++  */
++ void HandleNationality(w, event, params, param_count)
++     Widget w;
++     XEvent *event;
++     String *params;
++     Cardinal *param_count;
++ {
++     static struct chset_tab {
++ 	char *name;
++ 	char  natcharset;
++     } nationalities[] = {
++ 	{ "ascii",	ASCII },
++ 	{ "north american",ASCII },
++ 	{ "north_american",ASCII },
++ 	{ "uk",		UK },
++ 	{ "british",	UK },
++ 	{ "belgian",	FRENCH },
++ 	{ "danish",	DAN_NOR },
++ 	{ "dutch",	DUTCH },
++ 	{ "finnish",	FINNISH },
++ 	{ "flemish",	FRENCH },
++ 	{ "french",	FRENCH },
++ 	{ "french/belgian",FRENCH },
++ 	{ "french canadian",FRE_CANADIAN },
++ 	{ "french_canadian",FRE_CANADIAN },
++ 	{ "german",	GERMAN },
++ 	{ "hungarian",	HUNGARIAN },
++ 	{ "italian",	ITALIAN },
++ 	{ "norwegian",	DAN_NOR },
++ 	{ "norwegian/danish",DAN_NOR },
++ 	{ "portuguese",	PORTUGUESE },
++ 	{ "spanish",	SPANISH },
++ 	{ "swedish",	SWEDISH },
++ 	{ "swiss",	SWISS },
++ 	{ NULL, 0 },
++     };
++ 
++     if (*param_count == 1) {
++ 	struct chset_tab *chset;
++ 
++ 	for (chset = nationalities; chset->name; chset++) {
++ 	    if (XmuCompareISOLatin1 (chset->name, params[0]) == 0) {
++ 		set_natcharset (False);
++ 		term->screen.natcharset = chset->natcharset;
++ 		set_natcharset (True);
++ 		default_charset();
++ 		return;
++ 	    }
++ 	}
++     }
++ 
++     /* Input not recognized, using default */
++     set_natcharset (False);
++     term->screen.natcharset = ASCII;
++     set_natcharset (True);
++     default_charset();
++     fprintf(stderr, "Warning: unknown nationality \"%s\"\n", *params);
++ }
+  
+*** menu.h	Fri Aug 23 14:11:22 1991
+--- clients/xterm/menu.h	Fri Aug 23 14:02:36 1991
+***************
+*** 24,29 ****
+--- 24,30 ----
+  extern MenuEntry fontMenuEntries[];
+  extern Arg menuArgs[];
+  
++ extern void HandleNationality();
+  extern void HandleAllowSends();
+  extern void HandleSetVisualBell();
+  extern void HandleLogging();
+***************
+*** 119,124 ****
+--- 120,143 ----
+  #define fontMenu_fontescape 7
+  #define fontMenu_fontsel 8
+  /* number of non-line items should match NMENUFONTS in ptyx.h */
++ #define fontMenu_line1  9
++ #define fontMenu_line2  10
++ #define fontMenu_line3  11
++ #define fontMenu_ascii 12
++ #define fontMenu_uk 13
++ #define fontMenu_dutch 14
++ #define fontMenu_finnish 15
++ #define fontMenu_french 16
++ #define fontMenu_french_canadian 17
++ #define fontMenu_german 18
++ #define fontMenu_hungarian 19
++ #define fontMenu_italian 20
++ #define fontMenu_norwegian 21
++ #define fontMenu_portuguese 22
++ #define fontMenu_spanish 23
++ #define fontMenu_swedish 24
++ #define fontMenu_swiss 25
++ #define fontMenu_max 26	/* Total number of entries in the extended fontMenu */
+  
+  
+  /*
+***************
+*** 298,301 ****
+--- 317,326 ----
+  #define set_menu_font(val) \
+    update_menu_item (term->screen.fontMenu, \
+  		    fontMenuEntries[term->screen.menu_font_number].widget, \
++ 		    (val))
++ 
++ #define set_natcharset(val) \
++   update_menu_item (term->screen.fontMenu, \
++ 		    fontMenuEntries[fontMenu_ascii + \
++ 		    term->screen.natcharset].widget, \
+  		    (val))
+*** ptyx.h	Fri Aug 23 14:11:23 1991
+--- clients/xterm/ptyx.h	Fri Aug 23 14:02:37 1991
+***************
+*** 292,297 ****
+--- 292,298 ----
+  	int		save_modes[19];	/* save dec private modes	*/
+  
+  	/* Improved VT100 emulation stuff.				*/
++ 	char		natcharset;	/* Current national char set	*/
+  	char		gsets[4];	/* G0 through G3.		*/
+  	char		curgl;		/* Current GL setting.		*/
+  	char		curgr;		/* Current GR setting.		*/
+***************
+*** 380,385 ****
+--- 381,387 ----
+      char *T_geometry;
+      char *f_n;
+      char *f_b;
++     char *nationality;
+      Boolean log_on;
+      Boolean login_shell;
+      Boolean re_verse;
+***************
+*** 473,478 ****
+--- 475,498 ----
+  #define SMOOTHSCROLL	0x10000	/* true if in smooth scroll mode */
+  #define IN132COLUMNS	0x20000	/* true if in 132 column mode */
+  
++ /* character sets */
++ #define ASCII		0
++ #define UK		1
++ #define DUTCH		2
++ #define FINNISH		3
++ #define FRENCH		4	/* french/belgian */
++ #define FRE_CANADIAN	5
++ #define GERMAN		6
++ #define HUNGARIAN	7
++ #define ITALIAN		8
++ #define DAN_NOR		9	/* danish/norwegian */
++ #define PORTUGUESE	10
++ #define SPANISH		11
++ #define SWEDISH		12
++ #define SWISS		13	/* swiss french and swiss german */
++ #define SPGR		20	/* special graphics */
++ #define MAXNATION	14	/* total no. of different national char sets */
++ #define MAXNATCHAR	13	/* total no. of characters in a national set */
+  
+  #define VWindow(screen)		(screen->fullVwin.window)
+  #define VShellWindow		term->core.parent->core.window

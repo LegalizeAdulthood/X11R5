@@ -1,0 +1,13 @@
+  I would like to thank Elmar Bartel and Bernie Schneck here at
+the TU for giving me some hints and helping me to make the code more
+secure.
+
+  Lotta thanks to Tim Theisen (tim@cs.wisc.edu or uwvax!tim) from the
+Department of Computer Sciences at the University of Wisconsin-Madison,
+for doing the alpha and beta testing, supplying me with some code,
+helping me with some design decisions and making the man-page look more
+technical and correcting my English grammer and spelling. (I'm German,
+as u can see from the signature ;-) ) Thank you!
+
+Markus Weber <weber@informatik.uni-kl.de>
+	for the bug-fix on file readability

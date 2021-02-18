@@ -1,0 +1,95 @@
+."		"@(#)pbegin_structure.3PEXIM	1.3 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.pbegin_structure.3PEXIM
+."	
+.TH "BEGIN STRUCTURE" 3PEXIM "5-Jun-91"
+.SH NAME
+BEGIN STRUCTURE \- Save rendering attributes to be restored later
+.IX "Structures" "BEGIN STRUCTURE"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+pbegin_structure ( s_id )
+Pint	s_id;		\fIStructure ID returned as part of pick path\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine saves the values of the rendering attributes defined in the
+current renderer's pipeline context.  Any
+attributes changed by output commands between calls to \s-1BEGIN STRUCTURE\s+1 and
+\s-1END STRUCTURE\s+1 are restored when \s-1END STRUCTURE\s+1 is called.
+.LP
+This allows
+applications to implement hierarchies of graphics objects, each one using its own
+rendering attributes.  Using \s-1BEGIN STRUCTURE\s+1 and \s-1END STRUCTURE\s+1 in
+this way is analogous to what happens when an \s-1EXECUTE STRUCTURE\s+1 element is
+encountered during non-immediate mode structure traversal.
+.LP
+This routine does not affect server side structures created with the
+\s-1OPEN STRUCTURE\s+1
+routine.  In fact, it does not affect \*(ph structures at all.  It's simply a way to
+change rendering attributes while rendering in immediate mode.
+The following example illustrates how an application might use this routine:
+.nf
+.ift \{
+\f5 \}
+pbegin_structure (s_id);   /* save the current values of the
+                           /* rendering pipeline attributes
+pset_dcue_ind (index);     /* set the depth cue index
+pset_linetype (linetype);  /* set the linetype
+ppolyline3 (point_list);   /* draw a polyline using the current
+                           /* values of the relevant attributes
+pend_structure ();         /* restore the attributes values to
+                           /* what they were when BEGIN STRUCTURE
+                           /* was called
+.ift \{
+\f1
+.fi
+.in
+\}
+.LP
+In this example, the values of the depth cue index and the linetype are changed while
+\*(px is in the process of rendering.  The polyline is drawn using the specified value
+of these and all other relevant attributes.
+.LP
+The values of the depth cue index and the linetype
+are reset to their original values by the call to
+\s-1END STRUCTURE\s+1.  Other pipeline context attributes were not affected by this
+series of calls.
+.SS C Input Parameters
+.IP \fIs_id\fP
+This structure \s-1ID\s+1 is returned as part of the Renderer pick path.
+.SS Execution
+Required state of renderer before execution: \s-1PEXIM_RENDERING\s+1.
+State of renderer after execution: Note changed.
+.SS Function Return
+\f3pbegin_structure\f1 returns an integer status.  A value of \s-1POK\s+1 indicates successful execution.
+.SH ERRORS
+.IP \s-1PEXIMERRN\s+1ot\s-1R\s+1endering
+Renderer is not rendering.
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "END STRUCTURE"
+.SM "OPEN RENDERER"
+.SM "BEGIN RENDERING"
+.fi

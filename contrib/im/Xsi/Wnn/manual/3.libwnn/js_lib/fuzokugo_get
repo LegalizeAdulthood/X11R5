@@ -1,0 +1,25 @@
+JS_FUZOKUGO_GET( )
+
+名称
+
+	js_fuzokugo_get		付属語ファイルのファイル番号を得る。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_fuzokugo_get(env)
+	struct wnn_env *env;		/* 環境 */
+
+機能
+
+	環境の付属語ファイルのファイル番号を得る。
+	もし、付属語ファイルがセットされていない場合には、エラーが返り、
+	wnn_errorno に WNN_FZK_FILE_NO_LOAD がセットされる。
+
+リターンバリュー
+
+	正常終了時には、ファイルID を返す。
+	異常終了時には、-1 を返す。
+

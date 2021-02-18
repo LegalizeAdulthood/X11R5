@@ -1,0 +1,19 @@
+;
+; $Id: wnnenvrc_R.rev,v 1.1 1991/09/09 22:39:09 ohm Exp $
+;
+confirm1
+setfuzokugo pubdic/full.fzk
+setdic pubdic/kihon.dic !@WNN_DIC_DIR/pubdic/kihon.frq 5 1 0 - - 1
+setdic pubdic/setsuji.dic !@WNN_DIC_DIR/pubdic/setsuji.frq 5 1 0 - - 1
+setdic pubdic/koyuu.dic !@WNN_DIC_DIR/pubdic/koyuu.frq 1 1 0 - - 1
+setdic pubdic/chimei.dic !@WNN_DIC_DIR/pubdic/chimei.frq 1 1 0 - - 1
+setdic pubdic/jinmei.dic !@WNN_DIC_DIR/pubdic/jinmei.frq  1 1 0 - - 1
+setdic pubdic/special.dic !@WNN_DIC_DIR/pubdic/special.frq  5 1 0 - - 1
+setdic pubdic/computer.dic !@WNN_DIC_DIR/pubdic/computer.frq 5 1 0 - - 1
+setdic pubdic/symbol.dic !@WNN_DIC_DIR/pubdic/symbol.frq 1 1 0 - - 1
+setdic pubdic/tankan.dic !@WNN_DIC_DIR/pubdic/tankan.frq  1 1 0 - - 1
+setdic pubdic/bio.dic !@WNN_DIC_DIR/pubdic/bio.frq  1 1 0 - - 1
+setdic !@WNN_DIC_DIR/private - 5 0 0 - - 1
+
+;;       N nsho hindo len jiri flag jisho sbn dbn_len sbn_cnt suuji kana eisuu kigou toji_kakko fuzokogo kaikakko
+setparam 2 10   2     45  1    80   5     1   50      -20     400   -10  100   -100  200        0        200

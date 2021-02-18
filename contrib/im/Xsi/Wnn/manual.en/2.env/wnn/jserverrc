@@ -1,0 +1,85 @@
+jserverrc(4)
+
+NAME
+    jserverrc  -  Server initialization file
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/jserverrc
+
+DESCRIPTION
+    During the startup of jserver, jserverrc is read as well as all the files 
+    defined in jserverrc (dictionaries and grammar files).
+
+    1. Dictionaries that are read during the startup of jserver
+	readfile  <dictionary_file_name> 
+	Read in dictionary_file_name.  All dictionaries and grammar files are
+	read  in during jserver startup and maintained until the termination
+	of jserver.
+
+    2. Maximum client allowed
+
+	max_client  <max_of_client>
+
+	This is the maximum number of clients (users) that are allowed to be 
+	connected at any one time.  Default value is 32.
+
+    3. Maximum environment
+
+	max_sticky_env  <max_of_sticky>
+
+	This is the maximum number of permanent environment allowed.  
+	A permanent environment remains in the server after the termination of
+	the front-end uum. This helps in reducing the startup time of each
+	client and repeated operations.  Default value is 10.
+
+    4. Path of dictionaries that are maintained by the server.
+
+	jserverdir <path>
+
+	This defines the path of dictionaries maintained by the jserver.
+	Usage frequency files and dictionaries of the user are also maintained
+	here. The default path is "/usr/local/lib/wnn/dic/".
+
+    5. The default parameters for Pinyin-Hanzi conversions. 
+
+	def_param  <parameter 0>   <parameter 1>   <parameter 2>  
+		<parameter 3>   <parameter 4>   <parameter 5>  
+		<parameter 6>   <parameter 7>   <parameter 8> 
+		<parameter 9>   <parameter 10>  <parameter 11>  
+		<parameter 12>  <parameter 13>  <parameter 14>  
+		<parameter 15>  <parameter 16> 
+
+	All parameters are integers. 
+	During conversion, server will perform the conversion evaluation based
+	on these parameter values. 
+
+		<parameter 0>  : number of phrase "n" to be assesed
+		<parameter 1>  : number of words "m" in phrase
+		<parameter 2>  : usage frequency weight
+		<parameter 3>  : word length weight 
+		<parameter 4>  : tone correctness weight
+		<parameter 5>  : last used weight
+		<parameter 6>  : dictionary priority weight
+		<parameter 7>  : average word assessment value weight
+		<parameter 8>  : phrase length weight
+		<parameter 9>  : number of words in phrase weight
+		<parameter 10> : usage frequency of numerals
+		<parameter 11> : usage frequency of alphabets
+		<parameter 12> : usage frequency of symbols
+		<parameter 13> : usage frequency of open parentheses
+		<parameter 14> : usage frequency of close parentheses
+		<parameter 15> : not used
+		<parameter 16> : not used
+
+	The following are the default values : 
+	     <2> <5> <10> <3> <50> <1> <128> <5> <1> <50> <10> <1>
+
+
+    6. Definition or phony grammatical category for alphabets 
+
+	set_giji_ascii <char> <char> ...
+
+	Alphabets, numerals and some defined characters can be classified as
+	phony type in the Kana-To-Kanji conversions and vice versa.
+	<char> can be represented  in hexadecimal, decimal, octal as well as 
+	enclosed between single quotations.

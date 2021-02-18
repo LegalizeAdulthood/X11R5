@@ -1,0 +1,27 @@
+;
+; $Id: 2B_WuBi,v 1.1 1991/09/11 02:30:51 ohm Exp $
+;
+(defvar str (list 	0 1 2 3 4 5 6 7 8 9 ? \
+		a b c d e f g h i j k l m n o p q r s t u v w x y z))
+
+(if strk0)(str)  (str)	'A'	
+'A'	(off strk0)(on strk1)
+(if strk1)(str)  (str)	'B'
+'B' 	(off strk1)(on strk2)
+(if strk2)(str)  (str)	'C'
+'C'	(off strk2)(on strk3)
+(if strk3)(str)  (str)	'D'
+'D'		'\x9E'	'T'
+'T'	(off strk1)(off strk2)(off strk3)(on strk0)
+
+(if strk1)'R'  '\x08''\x08'	  	'S'	; 'R': back_space
+(if strk2)'R'  '\x08'			'S'	; 
+(if strk3)'R'  '\x08'			'S'	;
+(if strk0)'R'  '\x08'
+(if strk3)'S'	(off strk3)(on strk2)
+(if strk2)'S'	(off strk2)(on strk1)
+(if strk1)'S'	(off strk1)(on strk0)
+
+(unless  strk0)'\x20'	'\x9E'	'T'	; 0x89: Tan Transfer
+						; 0x20: space key
+'\x9f'	'\x9f'		'T'			; 0x9f: Certification

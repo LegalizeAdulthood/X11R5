@@ -1,0 +1,6 @@
+0a1
+> XCOMM $XConsortium: Imakefile,v 1.13 91/07/16 23:10:30 gildea Exp $
+11c12
+<         SUBDIRS = $(SERVERSUBDIRS) lib include test xv
+---
+>         SUBDIRS = $(SERVERSUBDIRS) lib include test

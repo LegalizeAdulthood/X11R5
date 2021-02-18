@@ -1,0 +1,12 @@
+#
+# Imakefile -- to generate a Makefile for xtiff, use xmkmf(1X)
+#
+
+   SYS_LIBRARIES = -lm
+ LOCAL_LIBRARIES = XawClientLibs
+         DEPLIBS = XawClientDepLibs
+            TIFF = libtiff/libtiff
+ EXTRA_LIBRARIES = $(TIFF)/libtiff.a
+  EXTRA_INCLUDES = -I$(TIFF)
+
+SimpleProgramTarget(xtiff)

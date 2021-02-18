@@ -1,0 +1,829 @@
+ALL XVIEW BUGS FIXED SINCE OWN V2
+=================================
+
+Bug id  Cat.    Sub Cat.    Synopsis
+------  ----    --------    --------
+
+1065369 xview   cmdtool     cmdtool for displaying installation script fails to pop-up
+1021065 xview   cmdtool     shelltool/cmdtool leak file descriptors
+1050414 xview   cmdtool     cmdtool should use XV_USE_LOCALE in order to be I18N level 3
+1059064 xview   cmdtool     cmdtool dumps core on SVR4
+1061608 xview   cmdtool     Can not localize the messges in the cmdtool
+1063086 xview   cmdtool     more used inside a cmdtool doesn't respond to ctrl-c
+1064037 xview   cmdtool     su echoes password/cmdtool echoes
+1064718 xview   cmdtool     rlogin prints out your password on the screen
+1064807 xview   cmdtool     ^C doesn't work properly in ksh editing mode
+1037294 xview   cmdtool     Label in shelltool causes coredump
+1038875 xview   cmdtool     When cmdtool hits scroll buffer limit, user is buried w/ notifies
+1049815 xview   cmdtool     olwm borders get bigger and not the application
+1056927 xview   cmdtool     Cmdtool do not save all parameters when "Save workspace" is done
+1062559 xview   cmdtool     cmdtool repeats user input under jup_alpha1
+1064628 xview   cmdtool     cmdtool.c uses rindex, which is unavailable on SVr4
+1044244 xview   demo        wmgr_top, wmgr_bottom: these macros dont seem to work in xview application
+1053901 xview   demo        Xview demo Spider not found
+1056190 xview   demo        spider does not work in OW3.0BETA (April 02)
+1064706 xview   demo        OpenWindows V3 Beta spider doesn't work
+1033890 xview   doc         creating a selection is not documented
+1057959 xview   doc         Calling sequence for PANEL_NOTIFY_PROC
+1064040 xview   doc         cut/copy/paste/find do not work in textsw (Need to RTF problem)
+1065288 xview   doc         CE man pages are not being installed in $OPENWINHOME/man/man1
+1065298 xview   doc         xview man page is missing
+1025802 xview   doc         xv_set(frame, FRAME_ICON, icon, 0) doesn't work if frame is mapped
+1036427 xview   doc         MENU_GEN_PROC causes core dump
+1037433 xview   doc         MENU_GEN_PROCs not being called after menu is pinned
+1037474 xview   doc         scrollbar owner must be openwin or frame
+1037745 xview   doc         MENU_GEN_PIN_WINDOW creates a menu item
+1037998 xview   doc         Canvases shouldn't select for KeyRelease events by default
+1038503 xview   doc         PANEL_LIST PANEL_NOTIFY_PROC client_data arg is null for "Change" and "End Editi
+1038585 xview   doc         PANEL_ACCEPT_KEYSTROKE doesn't appear in the attribute summary or the index
+1038599 xview   doc         O'Reilly book doesn't mention PANEL_LIST_FONT attribute
+1039067 xview   doc         WIN_DESIRED_WIDTH, WIN_DESIRED_HEIGHT
+1040906 xview   doc         default canvas events are incorrect
+1041219 xview   doc         MENU_SELECTED incorrectly documented
+1041221 xview   doc         Need explanation of menu title as a menu item
+1041597 xview   doc         TEXTSW_IGNORE_LIMIT not documented satisfactorily
+1041641 xview   doc         XView Programming Manual: CANVAS_VIEWABLE_RECT documented poorly
+1041982 xview   doc         A button lying under the label of a scrolling list disappears
+1042383 xview   doc         PANEL_LIST_WIDTH returns 0 unless set.
+1042452 xview   doc         PANEL_GAUGE_WIDTH listed as Boolean attribute
+1042462 xview   doc         The attribute MENU_INVERT doesn't work as documented
+1042469 xview   doc         pageview manpage -psfile entry: format is messed up
+1042504 xview   doc         Page 296, refers to non-existant attrubtes: WIN_FOREGROUND and WIN_BACKGROUND
+1042739 xview   doc         typo in O'Reilly's XView programming manual
+1043229 xview   doc         The calling parameters for WIN_EVENT_PROC is not documented
+1043412 xview   doc         Typo on page 412, "... colors[0]" should be "... colors[n]"
+1043481 xview   doc         panel_default_handle_event() does not work for scrolling list
+1044119 xview   doc         PANEL_NEXT_COL attribute for panel items does not work.....
+1044966 xview   doc         xv_destroy vs xv_destroy_safe not described sufficiently
+1045499 xview   doc         Use notify_set_wait3_func instead of notify_interpose_wait3_func
+1045647 xview   doc         TEXTSW_FIRST is incorrectly listed as a "get" only attribute in the attribute su
+1045648 xview   doc         Attribute summary description of TEXTSW_FILE_CONTENTS is wrong
+1045737 xview   doc         f1 help without scrollbars
+1046085 xview   doc         Table 8-2 and the Textsw_action section of Appendix C are inconsistent
+1046544 xview   doc         TEXTSW_SUBMENU_EDIT,FILE,FIND,VIEW described as panel button menus
+1046797 xview   doc         The XVPM incorrectly describes the function of attr_make.
+1047708 xview   doc         XVPM should state explicitly that panel items require owner
+1047744 xview   doc         XV_KEY_DATA_REMOVE_PROC and XV_KEY_DATA_REMOVE don't appear in Appendix A
+1049436 xview   doc         Pinned menu package, the documentation is incorrect
+1050647 xview   doc         CMS_COLOR_COUNT description wrong
+1051566 xview   doc         xv_destroy of menu does not free all the memory
+1052279 xview   doc         PANEL_PAINT description is bogus
+1052871 xview   doc         document PANEL_BUSY
+1054072 xview   doc         DESTROY_SAVE_YOURSELF insufficiently documented
+1054073 xview   doc         None of the public Notifier procedures are explained in Appendix B
+1054791 xview   doc         WIN_BACKGROUND_PIXMAP not documented
+1055797 xview   doc         Delete PANEL_EVENT_DRAG_IN from Table D-1 in XView Programming Manual
+1056111 xview   doc         typo at the end of section 11.14 - "fonts," should be "fonts",
+1056113 xview   doc         typo (?) in the 1st example, section 11.4 - MENU should be MENUITEM
+1056217 xview   doc         typo - end of section 17.2.4 "defaults_set_character" should be "defaults_set_st
+1056313 xview   doc         Section 7.9.4 - return value of list_notify_proc should be int not void.
+1059118 xview   doc         PANEL_LIST_SELECT description needs to mention scrolling.
+1059449 xview   doc         PANEL_DROP_TARGET package calls dnd_done(), competes with SEL_REPLY_PROC.
+1062135 xview   doc         PANEL_NOTIFY_LEVEL possible values documented incorrectly in Attribute Summary
+1065471 xview   doc         XView man page is not up to date
+1029083 xview   doc         limit to the number of panel items that can be created
+1032705 xview   doc         notify_interpose_wait3_func doesn't work.
+1037079 xview   doc         example 4-6 in o'reilly's "XView Programmming Manual" contains bug
+1037277 xview   doc         Pinned subwindows have incomplete headers
+1037632 xview   doc         PANEL_LIST_CLIENT_DATAS is not gettable
+1038266 xview   doc         PANEL_ITEM_COLOR on scrolling list doesn't affect entire item
+1038661 xview   doc         o'reilly vol 7, table 2-1 is incomplete
+1038692 xview   doc         while processing and user presses left mouse, server grabbed
+1039803 xview   doc         iconedit warps cursor to draw window during startup
+1040010 xview   doc         PANEL_CHOOSE_ONE and PANEL_CHOOSE_NONE are not documented well
+1040140 xview   doc         need filetype(5) man page
+1041191 xview   doc         Notify interposition func return values unexplained
+1041545 xview   doc         CANVAS_NTH_VIEWS doesn't exist
+1042016 xview   doc         xv_get() of PANEL_LIST_WIDTH always return zero.
+1042616 xview   doc         No description of OL compliance for xview 2.0
+1042634 xview   doc         xv_get returns 0 for the attribute MENU_PIN_WINDOW in OW 2.0
+1042694 xview   doc         SERVER_IMAGE_COLORMAP is not documented well
+1042848 xview   doc         Document XV_DISPLAY and XV_SCREEN in Appendix A of XVPM
+1043005 xview   doc         XV_KEY_DATA_REMOVE not documented in XView Programming Manual
+1043007 xview   doc         API for XV_KEY_DATA_REMOVE_PROC is documented wrong
+1043203 xview   doc         Fix PANEL_DEFAULT_ITEM description
+1043378 xview   doc         SERVER_IMAGE_BITS is gettable
+1044063 xview   doc         incorrect info on pinned menus in XView Prog. Manual
+1044311 xview   doc         Canvas repaint proc not getting repaint events
+1044320 xview   doc         XVPM's description of message items is bogus
+1044508 xview   doc         xv_find of menu item is documented incorrectly.
+1044620 xview   doc         MENU_SELECTED_ITEM cannot be set with xv_set()
+1044679 xview   doc         SCROLLBAR_NORMALIZE_PROC and SCROLLBAR_COMPUTE_SCROLL_PROC are inadequately desc
+1044896 xview   doc         O'Reilly Vol. 7 example/demo, list_glyphs.c, dumps core.
+1045473 xview   doc         settin PANEL_PAINT to PANEL_NONE does not work.
+1045543 xview   doc         WIN_DYNAMIC_VISUAL can't create static visuals
+1045578 xview   doc         FRAME_SHOW_RESIZE_CORNER is not restricted to prop and cmd frames
+1045610 xview   doc         XVPM uses Server when it should be Xv_Server
+1045717 xview   doc         PANEL_CHOOSE_NONE has no visible effect.
+1046125 xview   doc         Table 8-2, EDITED_MEMORY Textsw_action attribute should be listed as type "(no v
+1046354 xview   doc         Page 486, FONT_DEFAULT_CHAR_WIDTH: typo - "valve" should be "value"
+1047056 xview   doc         PANEL_LIST_SCROLLBAR attribute is not documented
+1047094 xview   doc         PANEL_CHECK_BOX do not accept ATTR_LIST attribute
+1047445 xview   doc         discrepency in button notify proc return type.
+1047528 xview   doc         Documentation for WIN_DESIRED_{WIDTH,HEIGHT} is dubious at best
+1047993 xview   doc         PANEL_NOTIFY_STATUS attribute reference is opaque
+1048307 xview   doc         Documentation about layout procs should be removed from the XVPM
+1048834 xview   doc         can't rerun the program as mentioned in section 9.3 of XView Manual (O'Reilley)
+1048866 xview   doc         FRAME_*_COLOR attrs need to be removed from the XVPM
+1049161 xview   doc         if panel PANEL_VALUE_DISPLAY_LENGTH < 4, the underline is 4 long
+1049424 xview   doc         menu_return_value returns Xv_opaque
+1051920 xview   doc         MENU_COL_MAJOR default is true but XView manual says FALSE.
+1052446 xview   doc         PANEL_TEXT items do not handle display width correctly
+1054065 xview   doc         WIN_FRONT attr should be documented.
+1055528 xview   doc         FRAME_CLOSED_RECT does *not* ignore x, y positioning
+1055632 xview   doc         21.1.2 X Error Handling section needs to be elaborated.
+1055821 xview   doc         panel text/message labels use incorrect font if option -fn fixed is specified
+1056552 xview   doc         NUMERIC TEXT DISPLAY LENGTH
+1056585 xview   doc         WIN_NO_DECORATIONS should be renamed to WIN_TOP_LEVEL_NO_DECOR
+1056669 xview   doc         On Page 124 XView Programming Manual, the function "event_init(im)" is not right
+1056670 xview   doc         On Page 124 XView Programming Manual, the function "event_init(im)" is not right
+1056875 xview   doc         Precedence of command line options, Appendix E
+1061132 xview   doc         SCROLLBAR_NORMALIZE_PROC usage not documented
+1061258 xview   doc         PANEL_LABEL_WIDTH ignored unless PANEL_LABEL_STRING is set
+1013309 xview   doc         Tricky inheritance behaviour
+1021328 xview   doc         Xview program cannot change font in panel after panel is created.
+1038170 xview   doc         no mention of fact that textsw.h depends on sel_attrs.h
+1042299 xview   doc         No documentation on how to search between two panel lists
+1042364 xview   doc         CANVAS_MIN_PAINT_WIDTH differs from documentation
+1042456 xview   doc         openwin_split_init_proc is called inconsistently wrt documentation
+1045609 xview   doc         Frame footers are no longer managed by the window manager
+1048867 xview   doc         selecting buttons in FRAME_CMD panel closes frame
+1025142 xview   doc         Menu items start with 2 (instead of 1) when there is a title
+1036494 xview   doc         xv_rop should be documented in the XView manual
+1058444 xview   doc         PANEL_LIST_TITLE does not copy string
+1033331 xview   library     Core dump when executing "vi" in a TTY pane
+1036493 xview   library     inverse mode on monochrome does not work
+1037262 xview   library     PANEL_LABEL_WIDTH doesn't work
+1037542 xview   library     drag-n-drop fails when used on multiple screens.
+1039329 xview   library     filemgr may crash if you triple-click on an unselected item.
+1040148 xview   library     cmdtool crashes when split and then resize much smaller
+1040833 xview   library     a segmentation fault in panel_yield_kbd_focus()
+1040844 xview   library     xview notifier cannot handle fildes > 31
+1041443 xview   library     seg fault in binder on 386i color
+1041574 xview   library     panel buttons fail when multiple server connections are made
+1042665 xview   library     segmentation fault in function panel_fonthome
+1042937 xview   library     PANEL_SLIDER SEGVs when slider bar is moved - monochrome only.
+1044989 xview   library     CM crashes when repainting canvas after Multi-Browser is dismissed
+1045078 xview   library     Loading a file into a editor with edited text causes it to die
+1045316 xview   library     Quickly multiclicking SELECT generates an ACTION_MENU event
+1045626 xview   library     Can't specify different font for each panel item
+1045753 xview   library     application core dumps if text field is set inactive
+1047040 xview   library     $OPENWINHOME/include/xview/sun.h causes C++ errors
+1047260 xview   library     drag text field into scroll list causes app. core dump
+1047312 xview   library     If the "owner" of a help window is quit, using Help again will core dump.
+1047558 xview   library     App dumps if mouseless is on, and current object is destroyed.
+1047687 xview   library     termsw produces incorrect result with curses package.
+1048067 xview   library     Frame height (XV_HEIGHT) is  sometimes incorrect when using footers.
+1049146 xview   library     SEL_TYPES broken for nested, repeated requests
+1049190 xview   library     drop operation on a panel kills repaint behavior
+1049609 xview   library     target order for reply proc in dnd is wrong for INCR case
+1050332 xview   library     Mailtool crashes during normal use...
+1050627 xview   library     selection package does not handle local xfers correctly
+1050671 xview   library     mailtool dumped core when previewing menu buttons
+1050679 xview   library     Devguide 1.1 crashes with latest V3 build
+1050763 xview   library     selection package never resets X Error Handler
+1050837 xview   library     Creating canvas with XV_VISUAL_CLASS set to StaticGray dumps core
+1050918 xview   library     Setting WIN_DEPTH in the creation of a window causes a bus error.
+1051018 xview   library     XView header files and API are not ANSI-C compliant
+1051703 xview   library     PANEL_LIST items can trash memory and crash
+1051805 xview   library     textsw_insert fails on unterminated buffers
+1051902 xview   library     xview crashes when tnt applications holds selection
+1052471 xview   library     Setting FRAME_ICON to NULL crashes application
+1053745 xview   library     Some notices inaccessible with mouseless commands
+1054890 xview   library     Implicit commit dose't work in ttysw.
+1055015 xview   library     IM is needed on the canvas pkg which is made in FRAME_CMD
+1055213 xview   library     Setting the pin as the default on a pinnable menu causes a core dump.
+1056030 xview   library     V2 tools that have a menu over a panel can deadlock using V3 library
+1056096 xview   library     drag and drop between two textedit fails
+1056295 xview   library     printtool dumps core when panel list title is longer in a different locale
+1056825 xview   library     Drop onto TNT window is mistaken for drop over root window
+1056837 xview   library     post-beta tapetool crashes on startup in copy_va_to_av
+1056991 xview   library     text subwindow does not handle TEXT conversion
+1056993 xview   library     V2 dbxtool dumps core
+1057013 xview   library     Blocking selection requests fail to work
+1057842 xview   library     clicking on the "Mail File" button crashes mailtool
+1058025 xview   library     -WL option crashes tool
+1058051 xview   library     dbxtool will not run under apr_25 build
+1058269 xview   library     textsubwins blow core when using extras menu
+1058294 xview   library     Notice generated by a text field notify proc crashes with SEGV
+1058414 xview   library     Pressing the menu button over a panel puts up a "?" cursor and freezes server
+1058426 xview   library     textsw crashes when attempting to use the right function keys
+1058662 xview   library     Creating and showing multiple object-type notices crashes application
+1058760 xview   library     xv_create/xv_destory on the textsw will causes core dumps or X Error
+1058810 xview   library     Scrolling lists don't scroll...
+1059231 xview   library     Textedit crashes after repeated drag and drops
+1059366 xview   library     Dbxtool crashes with latest nightly build
+1059367 xview   library     WIN_BACKGROUND_COLOR is incorrect
+1059710 xview   library     perfmeter core dumps when running from remote machine.
+1059736 xview   library     xview generic package frees the memory of XV_NAME value and dump core
+1059811 xview   library     filemgr core dumps when renaming a directory
+1059986 xview   library     flying punchcard crashes textsw
+1060136 xview   library     xview dumps core when a panel list is destroyed with xv_destroy_safe()
+1060268 xview   library     Mouse up events for SELECT on notice backgrounds activate default button
+1060332 xview   library     textsw, middle mouse button does not work in conv on
+1060791 xview   library     Help windows displays ripped up garbage instead of magnifying glass
+1060877 xview   library     panel: 2ndary selection crash
+1060904 xview   library     help picture displays garbage
+1061221 xview   library     quick duplicate fails on dual headed system; application disappears
+1061253 xview   library     Mailtool crahses with a drag&drop
+1061867 xview   library     xbugtool crashes on every occasion when a store/load is made to the bug report.
+1061869 xview   library     PANEL_LIST_TITLE = nil will core dump in post-beta
+1061953 xview   library     Left func key events are not notified in panel pkg in conv on
+1061954 xview   library     Left func key events are not notified in ttysw pkg in conv on
+1061955 xview   library     Mouse events are not notified in ttysw pkg in conv on
+1061956 xview   library     Mouse events are not notified in panel pkg in conv on
+1062032 xview   library     text windows garble scrolling and clearing
+1062158 xview   library     Can't have more than one drop target per application.
+1062165 xview   library     Big glyphs are messed up in textsw's
+1062424 xview   library     olgx dies on mono displays
+1062661 xview   library     bcopy() indicated by Saber-C shows memory trashing in sel_agent.c
+1062724 xview   library     contool icon blink makes server leak memory big time
+1062840 xview   library     current xview insists on being in beep-along mode
+1062892 xview   library     xv_destroy of menu does not free memory
+1063070 xview   library     textsw, arrow key does not work while in input conversion mode
+1063098 xview   library     An application with both a TEXTSW and a PANEL_MULTINE_TEXT item causes X error.
+1063236 xview   library     panel, arrow key does not work while in input conversion mode
+1063293 xview   library     Default command in textedit notice is destructive
+1063993 xview   library     Large menus do not work.
+1064046 xview   library     Notifier errors from xv_destroy while inside notify_interpose_destroy_func
+1064217 xview   library     Use of bcopy, bzero, rindex, and index make xview uncompilable for svr4
+1064711 xview   library     sel_pkg.h has bad declaration for cmpatCtx
+1065079 xview   library     panel buttons with image menu items cause screen trash when pressed
+1065140 xview   library     Subwindow resizing broken
+1065320 xview   library     Compatibility: windows different sizes between V2 and V3.
+1065458 xview   library     Starting te3278 with the startte script causes a Xview warning and kills te3278
+1065894 xview   library     panel missing WIN_RESIZE events
+1065909 xview   library     WIN_DESIRED_XXX values reset in V3 (Simplify)
+1065911 xview   library     Certain window layouts obscure panels under V3 (Simplify)
+1065963 xview   library     garbage strings in some message files.  Some message files are not in the SCCS
+1066344 xview   library     Core dump in SimplifySQL when frame loses LEFT_FOOTER
+1066359 xview   library     attempt to access non-existent screen gives seg fault
+1066368 xview   library     xim and mltext include directories are created during installation
+1066433 xview   library     error in the ANSI C parameterization
+1066468 xview   library     textedit evaporates when doing a save-back to mailtool
+1066910 xview   library     Drag and drop make Vibrant View and File Manager exit
+1067487 xview   library     Selection service displays nonexistent text as selected
+1067569 xview   library     using xv_input_readevent in a loop can cause OpenWindows to hang.
+1067748 xview   library     New selection pkg exports functions that don't use sel prefix.
+1068019 xview   library     no KEY_LEFT(i) events of some function keys (L1, L5, L7) inside an xview appl.
+1068797 xview   library     dnd siteRects can be freed twice
+1023064 xview   library     fileview has blank patch when opened the first time
+1023568 xview   library     Simple program with "printf("\\r")" loop crashes cmdtool
+1026174 xview   library     link problems using libxvol/libxvin
+1026615 xview   library     Quick Move doesn't work between panel text items
+1031508 xview   library     xevent_to_event doesn't parse all keysyms; F1 always "Help"
+1031595 xview   library     Results of "find" not pending delete
+1032394 xview   library     Secondary get will insert garbage character
+1035902 xview   library     check boxes accept input outside of the check box region
+1036062 xview   library     Fixed font characters entered in text fields appear to be underlined.
+1036909 xview   library     Specifying WIN_DEPTH for FRAME_BASE kills XV_LABEL attribute.
+1037116 xview   library     Panel items are not informed of selection service cut
+1037737 xview   library     xv_get(frame, WIN_NOTIFY_EVENT_PROC) doesn't return the correct value.
+1037779 xview   library     starting textedit from filemgr causes excesive repaints
+1037941 xview   library     shelltool: Can't remap F1 key using .ttyswrc
+1038136 xview   library     Adding 1000 choices to a PANEL_LIST takes over an hour on a color 3/260
+1038175 xview   library     Panel package doesn't support control-H
+1038410 xview   library     canvas repaint proc is not always called on a resize event
+1038473 xview   library     Menus lose color when pinned
+1038559 xview   library     The value of XV_RECT for a FRAME_BASE is inconsistent
+1038937 xview   library     drawing bug on pop-up menus that have push-pins
+1039110 xview   library     Cannot set FRAME_ICON back to NULL
+1039167 xview   library     text items don't repaint correctly in extra_large scale
+1039178 xview   library     xview menus stay-up mode fails when near edge of screen
+1039193 xview   library     PANEL_SLIDER warps mouse incorrectly according to OpenLook.
+1039249 xview   library     popup windows are dismissed if null menu action is chosen.
+1039421 xview   library     text field word replacement when at end of field fails.
+1039424 xview   library     running in 2D on a color display crashes iconedit
+1039487 xview   library     multiple window repaint events on startup
+1039721 xview   library     Textedit scrollbar elevator gets weird look if non-default font used.
+1040048 xview   library     ACTION_STOP event not delivered when the stop key is pressed
+1040126 xview   library     Selection error "Please made a primary selection first." is bad grammar.
+1040415 xview   library     Termsw leaves files in /tmp.
+1040553 xview   library     Eliminate SunView dependencies in textsw
+1040554 xview   library     Remove SunView Dependencies from Term package
+1040776 xview   library     Need ability to enable continuous scrolling
+1040900 xview   library     cursor_copy is broken; results in an X error (BadCursor)
+1041215 xview   library     Crash in olgx library when rendering button with a glyph inside
+1041304 xview   library     Unpinning FRAME_CMD whose owner is XV_ROOT destroys FRAME_CMD
+1041327 xview   library     FRAME_DONE_PROC from 2nd generation FRAME_CMD not called
+1041338 xview   library     MENU_PARENT of item in MENU_GEN proc is sometimes 0
+1041464 xview   library     Scrolling list glyphs are inverted on some displays
+1041861 xview   library     Gauge/Slider ticks marks don't line up too well
+1041862 xview   library     Gauges appear in the wrong place and without tickmarks when first mapped
+1041920 xview   library     Typing meta-F in a text field causes a SEGV
+1042046 xview   library     Position of horz. PANEL_SLIDER label is wrong if PANEL_SHOW_VALUE is TRUE
+1042384 xview   library     Creating a PANEL_LIST with PANEL_LIST_SELECT 0, TRUE, generates inexplicable war
+1042460 xview   library     Can't modify a font in a pin-up menu
+1042619 xview   library     xv_create(owner, PANEL, ...) ignores WIN_BACKGROUND_COLOR attribute; xv_set work
+1042676 xview   library     If you paste (L8 Key) non-numeric text in a numeric field => segv
+1042705 xview   library     If you paste (L8 Key) text over a selection, next paste is selection
+1042773 xview   library     PANEL_LIST_WIDTH, -1 doesn't extend to edge on frame resize
+1042785 xview   library     pinned menu: when you change item on menu, the subframe for pinned menu expands
+1042910 xview   library     notify_interpose_destroy_func() does not work for text subwindows
+1043172 xview   library     xv_get(frame, XV_OWNER) sometimes returns the wrong owner
+1043348 xview   library     icon_load_svrim fails for 48x48 icons
+1043708 xview   library     sample program crashes after select a number of selections from panel list.
+1044032 xview   library     Large Subwindows in Large Frame display incorrectly
+1044050 xview   library     Server image data is destroyed after xv_set call
+1044070 xview   library     Bogus default menu selection in file manager is still displayed.
+1044131 xview   library     crashes when trying to create a slider with the PANEL_TICKS attr. set to 1.
+1044182 xview   library     Unable to receive events that were selected on other process' windows.
+1044313 xview   library     error in "selection_create" (seln_svc.h) C++ binding.
+1044471 xview   library     Cannot get WIN_MAP_NOTIFY events on a top level window
+1044583 xview   library     Shift-arrow keys yield number instead of shifted arrow keysym
+1044727 xview   library     XView doesn't set WM_CLASS or WM_CLIENT_MACHINE
+1044767 xview   library     xv_set of WIN_SET_FOCUS may cause other attrs to be ignored.
+1044911 xview   library     Max value of a slider is too small, it goes negative at 7,000,000
+1044970 xview   library     Scrolling lists core dump after deleting and selecting items
+1045067 xview   library     can not get handle to menu_parent when a submenu is generated in a specific way
+1045079 xview   library     <ctrl><return> no longer works in a text subwindow
+1045114 xview   library     menus have missing items when you use MENU_TITLE_ITEM
+1045236 xview   library     One window 1 pixel smaller than frame, other window extend to edge, X BadAlloc.
+1045327 xview   library     If PANEL_SLIDER_END_BOXES set TRUE, key up events in box make app dump core.
+1045573 xview   library     Null characters inserted in pasted text
+1045622 xview   library     xview include files use C++ reserved words which causes syntax errors.
+1045670 xview   library     $OPENWINHOME/include/xvps/pscanvas.h is not C++ compatible
+1045699 xview   library     horizontal sliders in xview cause core dump when displayed on mono screen
+1045702 xview   library     SERVER_IMAGE_X_BITS fails to work with odd size bitmaps.
+1045781 xview   library     "xview_selection_DEFINED" used in selection.h and sel_pkg.h
+1045810 xview   library     Spot help fails on a PANEL_BUTTON
+1046020 xview   library     XErrors may fake notifier into thinking there's input.
+1046080 xview   library     load of 48x48 icons in iconedit doesn't work
+1046083 xview   library     scrollable panel layout incorrect, not like other panel items
+1046128 xview   library     Non-exclusive menus calling wrong notify proc when item selected
+1046332 xview   library     PANEL_CHOICE_STACK chops of labels on rows after certain max width..
+1046427 xview   library     xv_cms_pkg is not in libxview.sa
+1046450 xview   library     cmdtool exits when ``edit'' menu is pinned.
+1046732 xview   library     menu's come up in the wrong place
+1046822 xview   library     defaults.h not compatible to ANSI-C and C++
+1046864 xview   library     XView does not set WM_COMMAND property properly
+1046917 xview   library     Textsw lose input focus when pointer is moved in and out of window
+1046998 xview   library     Dragging & dropping text selections is unreliable.
+1047010 xview   library     scrolling list jumps to the first (mouseless cursor) item
+1047162 xview   library     when server crashes, proceses go into tight loop
+1047180 xview   library     inconsistent bits displayed in text fields
+1047282 xview   library     non-blocking notices violate ICCCM
+1047315 xview   library     Help window label not updated when help is retreived from more than one file.
+1047482 xview   library     Panel layout is wrong in V3
+1047667 xview   library     application terminates when menu item "File Editor" is selected.
+1047909 xview   library     Slider label disappears when set (when layout vertical and show value)
+1047954 xview   library     Clicking select on menu button converts primary selection
+1048044 xview   library     PANEL_LABEL_WIDTH on buttons does not work; give wrong bounding box
+1048049 xview   library     core dump if you drag slider over the end boxes and release the slider
+1048055 xview   library     Canvases and control areas < 2 pixel apart draw in wrong size
+1048068 xview   library     FRAME_CMD_PUSHPIN_IN doesn't work with FRAME_DONE_PROC
+1048180 xview   library     server image package: source code has a bug in it.
+1048282 xview   library     memory leak using PANEL_LIST_FONT
+1048419 xview   library     Prgrammatically unpinning/pinning a FRAME_CMD will cause it to come up pinned.
+1048851 xview   library     displaying buttons with server_images causes olgx to memory trash
+1049253 xview   library     scrolling list scrollbar disappears
+1049396 xview   library     Incorrect placement of panel slider
+1049590 xview   library     cmdtool does not resize properly
+1049737 xview   library     pw_polygon2 not freeing memory
+1049965 xview   library     bringing up help from pulldown menu hangs server
+1050011 xview   library     panel <-> textsw selections broken
+1050479 xview   library     DnD code free's bogus data in dnd_send_drop
+1050489 xview   library     Footer disappears when window is resized.
+1050623 xview   library     selection package does not set format field for INCR targets
+1050624 xview   library     non-multiple conversions should be flagged as such
+1050705 xview   library     Can't use the Compose facility with mixed case characters.
+1050735 xview   library     WIN_CMD_LINE longer than 176 characters crashes application
+1050937 xview   library     color server images don't work with 256 colormap entries
+1051008 xview   library     Panel sliders and gauges are not dimmed when using PANEL_INACTIVE.
+1051170 xview   library     composed characters don't display correctly in panel items
+1051181 xview   library     inconsistent scrollbar elevator placement while dragging
+1051871 xview   library     XView errors about LC_CTYPE on start-up
+1051924 xview   library     Menu columns are reversed when MENU_GEN_PIN_WINDOW is used.
+1051925 xview   library     Creating a PANEL_LIST on an unmapped panel fails to hide the scrollbar
+1051995 xview   library     save workspace kills mailtool
+1052280 xview   library     Same address getting freed twice (apparently) when destroying a PANEL_LIST
+1052288 xview   library     Highlights from selects don't go away after changing property sheet
+1052416 xview   library     notices no longer warp the cursor
+1052458 xview   library     mailtool dumps core in response to "Save Workspace"
+1052470 xview   library     file is not saved to correct directory when inserting a file in textedit
+1052945 xview   library     vert scrollbar improperly displayed when bound to canvas (created w/ NULL owner)
+1053151 xview   library     Multiscreen application unable to create second canvas scrollbar
+1053239 xview   library     Save workspace saves illegal command lines
+1053280 xview   library     panel goes catatonic with certain sequence
+1053283 xview   library     Initiating Drag and Drop from within a drop site doesn't show accept cursor
+1053384 xview   library     a destroyed SELECTION_OWNER object still ends up calling back
+1053468 xview   library     PANEL_BUTTON font changes to default font after selecting
+1053616 xview   library     Removing split in folder pane causes file manager to show wrong info
+1053948 xview   library     Mailtool dies when doing an undo
+1054048 xview   library     Tool can have two seperate selections highlighted at once.
+1054152 xview   library     selection package doesn't use SERVER_ATOM or SERVER_ATOM_NAME
+1054592 xview   library     clicking back and forth between text fields hangs applications
+1054815 xview   library     Pulling down the scroll bar menu leaves dregs
+1054893 xview   library     Selecting panel text item should implicitly commit entered text
+1054953 xview   library     panel buttons core dump when displayed on mono screen
+1054968 xview   library     scrolling list inserts are slow when WIN_EXTEND_TO_EDGE is used for list width.
+1055012 xview   library     -WH/-help does not include I18N description
+1055145 xview   library     8-bit chrs above x7f not displayed correctly on non text subwindows
+1055531 xview   library     MENU_ACTION_ITEM_WCS does not work
+1055729 xview   library     alerts on a closed textedit don't show up
+1055941 xview   library     Program crashes if you drag from the read-only text field to scrolling list
+1056106 xview   library     PANEL_LIST scrollbar not visible
+1056255 xview   library     second base frame of app with two base frames does not scale
+1056283 xview   library     Scrollbar reduced to abbreviated version incorrectly displays cable and scrolls
+1056285 xview   library     Undersized scrollbar draws bottom anchor over elevator, then incomplete elevator
+1056286 xview   library     Abbreviated scrollbar drawn for area too small to include both scroll anchors
+1056287 xview   library     Minimum scrollbar not used in scrollable areas too small for abbreviated version
+1056494 xview   library     quitting compose window kills mailtool
+1056819 xview   library     X client crashes when terminating from xv_input_pending()
+1056907 xview   library     segmentation fault if DISPLAY not set on remote machine
+1057059 xview   library     clicking select in mailtool Files scrollbar effects scrolling list selections
+1057219 xview   library     PANEL_LIST's  label, title, scrollbar not grayed out when PANEL_LIST is inactive
+1057453 xview   library     when PANEL_INACTIVE is set to TRUE, only labels become inactive
+1057585 xview   library     Invalid multi-byte error checking is too strict.
+1057670 xview   library     Callback echoes preedit text incorrectly.
+1057671 xview   library     Callback echoes preedit text incorrectly.
+1057687 xview   library     XVPS include file pscan_ps.h is not correct, does not include psmacros.h
+1057721 xview   library     program exits when command frame unpinned
+1058021 xview   library     The selection pkg is not caching atoms or atom names.
+1058058 xview   library     A scrolling list's "edit menu" is lost if an event proc is used.
+1058068 xview   library     Get "invalid object" XView warning when using two Multiline Text fields.
+1058086 xview   library     Panel Text item does not handle mix English and European character string.
+1058112 xview   library     Can't interpose on top of a multiline text field.
+1058193 xview   library     panel notify proc for text item gets called with ACTION_DELETE_SELECTION
+1058591 xview   library     dismissing a notice can leave application locked
+1058599 xview   library     SERVER_IMAGE_X_BITS doesn't always work.
+1058607 xview   library     non-blocking notices warp the pointer
+1058626 xview   library     Setting window manager minimum size hints messes up window location
+1058821 xview   library     NOTICE_TRIGGER_EVENT not updated
+1059135 xview   library     Textsw predit draw callback does not handle backspace as partial update
+1059138 xview   library     Change callbacks to handle change in XIMPreEditCallbackStruct
+1059209 xview   library     "Save as..." pop-up comes up with directory field empty
+1059235 xview   library     Drag and drop text from textsw to text field hangs application
+1059360 xview   library     panel buttons that map to menu's don't set MENU_FIRST_EVENT
+1059365 xview   library     Rect for gauges not kept up to date
+1059498 xview   library     No way to set DROP_SITE_TARGET as DROP_SITE_DEFAULT.
+1059558 xview   library     PANEL_CARET_ITEM doesn't work for PANEL_NUMERIC_TEXT
+1059595 xview   library     Default item (Save) on File menu doesn't.
+1059740 xview   library     To automatically generate message files during each build
+1059797 xview   library     tapetool seg faults after quiting the frame menu. Destroy prob.
+1059825 xview   library     xv_destroying a PANEL_DROP_TARGET causes a core dump.
+1059826 xview   library     Setting PANEL_DROP_WIDTH/PANEL_DROP_HEIGHT on PANEL_DROP_TARGET gives wrong size
+1060329 xview   library     panel, implicit commit for input conversion is not implemented
+1060549 xview   library     Scrollable Panels Don't Scroll
+1060663 xview   library     destroying and recreating text windows can cause segv if edit menu is used
+1060685 xview   library     Repeatedly creating 2nd FRAME with TEXTSW crashes program
+1060717 xview   library     Adding a slider to control panel causes segmentation fault.
+1060858 xview   library     missing locale name to the locale command line option causes core dump
+1061281 xview   library     filemanager crashes if dnd from textedit dnd target to filemanager is tried
+1061519 xview   library     MENU_FEEDBACK item isn't highlighted, but it's notify proc is called
+1061599 xview   library     BadMatch when displaying two instances of a window, each on a different screen
+1061767 xview   library     Run away cmdtool, when invoked from rootmenu on an xdm controlled server
+1061809 xview   library     Textsw callback erases entire preedit text.
+1061831 xview   library     textedit: directory name is not filled in first time in file
+1062248 xview   library     Setting MENU_DEFAULT to 0 causes a core dump when the menu is pinned
+1062277 xview   library     The xview/sel_pkg.h include file won't compile with C++ (CC).
+1062489 xview   library     Undo in textsw menu, Mailtool dump core
+1062597 xview   library     Save Workspace writes bad color arguments to .openwin-init
+1062694 xview   library     NumLock does not work with XView clients
+1062705 xview   library     mailtool dumped core while composing a message - segmentation violation
+1062734 xview   library     spider does not work on current OW build
+1062993 xview   library     xv_setting CURSOR_XHOT on a DRAGDROP's DND_CURSOR causes an X error.
+1063237 xview   library     ttysw, arrow key does not work while in input conversion mode
+1063501 xview   library     Specifying an icon with -WI causes cmdtool to dump core
+1063516 xview   library     Program exits with X error after panel is destroyed in mouseless mode.
+1063644 xview   library     Same client selection transfers with new sel pkg broken
+1063689 xview   library     termsw preedit callbacks not set correctly
+1063980 xview   library     Content of the email I send out  from mailtool is always missing the last byte
+1064073 xview   library     Cannot clear the mod map with xmodmap
+1064095 xview   library     SERVER_IMAGE_BITMAP_FILE_WCS dose not work
+1064375 xview   library     Spurious beeps when running tool on SVR4
+1064680 xview   library     libxvps shared minor version number needs bumping
+1064686 xview   library     Calling dnd_send_drop() while frame is busy causes system to hang.
+1064693 xview   library     Bug in WIN_EXTEND_EDGE, PANEL extends past edge of window
+1064703 xview   library     pscanvas.h no longer includes pscan_ps.h
+1064753 xview   library     mailtool crashed after quitting comipose window
+1064792 xview   library     FRAME_WM_COMMAND_ARGC does not return correct value
+1064935 xview   library     LANG key, not activated  by default.
+1065149 xview   library     filemgr quits with protocol error after dismissing popup window
+1065438 xview   library     secondary sel's may not work
+1065462 xview   library     Compatibility: window_fit() does not fit height of window.
+1065910 xview   library     Can't paste from mailtool Compose header to its textsubwindow
+1066104 xview   library     In OWv3 3/4 of a graphic is cut off and some text is left out. Works in OWv2
+1066154 xview   library     fast typing in preedit => core dump in luc ('chinese' only)
+1066372 xview   library     Compose key does not illuminate
+1066651 xview   library     Selection pkg does not declare functions as Xv_private or Xv_public
+1066991 xview   library     notice_prompt() sticks onscreen when notifier started twice in main()
+1067460 xview   library     y with diaeresis does not display in textsw
+1067733 xview   library     drag and drop between mutli screen give wrong visual feedback.
+2001488 xview   library     textsw filters are broken
+1015109 xview   library     WIN_FONT is consumed by textsw init routines
+1015110 xview   library     window_set_avlist processes WIN_COLUMNS too early
+1015581 xview   library     WIN_ROWS and WIN_COLUMNS do not work
+1021848 xview   library     here to top scrolling does not work right in file manager
+1021886 xview   library     panel package doesn't understand ^H, but understand BS
+1022233 xview   library     Focus does not follow the cursor to Mail file: field in Mailtool.
+1024961 xview   library     secondary selection underline extends too far
+1026594 xview   library     PANEL_LIST's PANEL_NOTIFY_PROC called on button-down.
+1028072 xview   library     xv_set for scrolling lists has side effects
+1028476 xview   library     Dynamic keyboard remapping doesn't propagate to NeWS
+1029326 xview   library     PANEL_MESSAGE items come up active, even when created with PANEL_INACTIVE, TRUE
+1031066 xview   library     XView does not interoperate with xlsclients.
+1032800 xview   library     Color pixel alignment on window borders is off
+1033090 xview   library     Losing panel items in a zoomed scrollable panel
+1033537 xview   library     dynamic color used in subframes causes flash if cursor moves
+1035432 xview   library     PANEL_LIST should receive up events
+1035568 xview   library     menus do not appear near bottom of screen
+1035696 xview   library     text fields leave residual garbage on occasion when scrolled
+1035725 xview   library     The -sync command line option does not work.
+1035826 xview   library     Setting PANEL_CARET_ITEM on a hidden item displays caret
+1035900 xview   library     Read-only PANEL_NUMERIC_TEXT fields are not read-only
+1036274 xview   library     Insufficient include files within include files
+1036423 xview   library     The notifier does not know about Xlib's internal event queue.
+1036439 xview   library     tools with textsw die when the .text_extras_menu is not found
+1036502 xview   library     FRAME_PROPERTIES_PROC is broken
+1037180 xview   library     choice notification is broken
+1037712 xview   library     notify proc for NUMERIC_TEXT_ITEM getting called before notify string typed
+1038749 xview   library     stopsign cursor invisible on white shelltool window
+1039213 xview   library     xv_get( scrollbar, SCROLLBAR_MENU ) returns 0
+1039265 xview   library     slider leaves bit errors
+1039307 xview   library     Setting FRAME_CLOSED FALSE on an iconic frame may not open it
+1039496 xview   library     Canvas does not position correctly after frame resize
+1039670 xview   library     missing lower anchor or cable in abbreviated scrollbar
+1039826 xview   library     Xview error: message has no description
+1040444 xview   library     PANEL_LABEL_BOLD TRUE causes font to be ignored.
+1040445 xview   library     changing checks quickly leaves some in unusual state
+1040759 xview   library     panel text items paint themselves to death on GraphOn terminals
+1041058 xview   library     Selection library internal error
+1041130 xview   library     xv_input_readevent dumps core when NULL passed as window.
+1041151 xview   library     Subframes cannot be created as OverrideRedirect windows.
+1041244 xview   library     incorrect layout of choice items in menu
+1041312 xview   library     XV_HELP_DATA has no effect on pinned menus
+1041364 xview   library     OpenWindows 2 Iconedit grabs mouse on startup
+1041403 xview   library     wrong argument order in generic_data_free()
+1041447 xview   library     notifier errors are printed out in 386i props
+1041598 xview   library     need state info about pending select with toggle panel list
+1041599 xview   library     XV_HELP_DATA doesn't work for icons
+1041685 xview   library     Slider tick marks are not positioned correctly
+1041726 xview   library     ACTION_SELECT preview on buttons wrong for inactive items
+1041751 xview   library     pw_polygon_2 leaks memory
+1041815 xview   library     FRAME_DONE_PROC not called when FRAME_CMD is unpinned
+1041954 xview   library     <xview/openmenu.h> has ANSI C bug -- line 266 missing comma
+1042109 xview   library     iconedit draw window: rotation buttons change size with scale
+1042351 xview   library     text cut from cmdtool gets garbled
+1042541 xview   library     NOTIFY PROC for NUMERIC_TEXT items getting called twice on <CR>
+1042610 xview   library     panel widths get cut off when vertically aligning a number of them.
+1042659 xview   library     window.h doesn't include win_input.h
+1042712 xview   library     turning scrollbar off causes window to disappear
+1042741 xview   library     The -xrm command line option does not work.
+1042922 xview   library     xv_set(win, WIN_FRONT) generates XMapWindow instead of XMapRaised
+1042945 xview   library     DESELECT event is generated incorrectly in scrolling list
+1043193 xview   library     frame_get_rect() and frame_set_rect() are inconsistent
+1043269 xview   library     SCROLLBAR_COMPUTE_SCROLL_PROC is not propagated in a split
+1043285 xview   library     setting SCROLLBAR_VIEW_START past end of object is no-op
+1043491 xview   library     No notification on multiple select of choice stack item
+1043543 xview   library     multicolumn exclusive glyph menus paint improperly when pinned
+1043635 xview   library     resetting PANEL_DEFAULT_ITEM doesn't repaint panel
+1043939 xview   library     PANEL_EXTRA_PAINT_WIDTH/HEIGHT cause program to core dump at create time
+1044087 xview   library     a macro in <xview/frame.h> seems incorrect
+1044184 xview   library     when you move the panel, the scrollbar of PANEL_LIST does not relocate.
+1044242 xview   library     can set FRAME_SHOW_HEADER and FRAME_SHOW_RESIZE_CORNER to false at the same time
+1044443 xview   library     Help text for ttysw makes assumptions about OS.
+1044551 xview   library     Selection Transfer proc deletes wrong property
+1044559 xview   library     SELECT does not set input focus in a scrolling list
+1044568 xview   library     -font option on iconedit does not work with bigger fonts
+1044615 xview   library     GUI created by guide not the same when run from the program
+1044617 xview   library     MENU_PARENT on a menu item doesn't work until item is selected
+1044675 xview   library     PANEL_TEXT caret turd problems
+1044748 xview   library     action should be compared with ISO Latin 1 character set, not ascii
+1044807 xview   library     incorrect resizing when canvas shrunk to a small size
+1044898 xview   library     xv_set(frame, XV_X , ___, XV_Y , ___, NULL) doesn't work in some cases
+1045033 xview   library     List item operations core dump
+1045091 xview   library     text field turds are horrendous.
+1045273 xview   library     textsw's file->empty-document confirmation is too tall
+1045368 xview   library     PANEL_LIST does not get highlighted in mono screen under specific case
+1045492 xview   library     benign coding error in libxvin/sel/sel_agent.c
+1045599 xview   library     Menu occaisionally appears when scrolling during pointer button presses.
+1045605 xview   library     splitting views twice in a textsw crashes tool
+1045664 xview   library     Setting OpenWindows.SelectDisplaysMenu causes problems
+1045746 xview   library     Find key segmentation faults any tool with a text item
+1045773 xview   library     Setting a shelltool icon crashes the shelltool
+1045861 xview   library     CANVAS_RETAINED only works for xv_create()
+1045880 xview   library     Ctrl-Tab doesn't work to Replace \ > Field <\ 
+1045921 xview   library     core dumps with long WIN_CMD_LINE
+1046035 xview   library     Need a user settable timeout value for the old selection pkg.
+1046216 xview   library     xv_rop for icons fails on VGA frame buffers
+1046219 xview   library     XView fails to update its notion of the modmask if a user changes it.
+1046254 xview   library     Interaction between Scrollbars and PSCANVAS broken
+1046344 xview   library     Open Look DEFAULTACTION doesn't work in popup
+1046792 xview   library     Font error when accessing Help screen for shelltool
+1047173 xview   library     CNTRL-H does not work in mailtool but backspace does
+1047560 xview   library     XV_SHOW attribute does not work correctly in MENU_GEN_PROC
+1047923 xview   library     shared menu causes panel button to grey
+1048103 xview   library     shelltool does not recognize change in size
+1048291 xview   library     Iconified clock will freeze from improper repaint event
+1048303 xview   library     Selection service putting garbage into text subwindows
+1048499 xview   library     setting value of hidden text item causes painting
+1048779 xview   library     BadMatch when accessing panel buttons on multiple screens
+1048835 xview   library     width of canvas shrinks
+1048840 xview   library     Scrolling list items get scrolled off list
+1048933 xview   library     frame_set_rect on mapped window positions window incorrectly
+1049158 xview   library     save workspace fails with frame label larger than 23 chars
+1049249 xview   library     WIN_BORDER=TRUE on panel with PANEL_LIST messes up list border
+1049303 xview   library     PANEL_INACTIVE on panel items
+1049478 xview   library     Panel buttons only inherit panel fonts conditionally.
+1049587 xview   library     xview memory trash if collapsing more than 32 expose events
+1049969 xview   library     PANEL_LIST scrollbar painted when list not visible
+1050042 xview   library     mouse interactions with virtual kbd cause probs.
+1050377 xview   library     Resize corners on cmd frames not displayed
+1051015 xview   library     app does not exit when iconic
+1051219 xview   library     Icon placement wrong for 2nd baseframe when -WP option used
+1051230 xview   library     frame_get_rect on a closed, mapped frame returns bogus x,y values
+1051252 xview   library     Mouseless location cursor drawn when not in mouseless mode
+1051727 xview   library     ttyinit() in Open Windows 2.0 only searches through the first 64 ptys
+1051808 xview   library     Control panel with a scrolling list sometimes displays wrongly sized.
+1051809 xview   library     scrolling list painted wrong when '-Wx large' is used
+1052622 xview   library     linefeeds don't advance through text fields
+1052644 xview   library     Error when drawing panel items
+1052830 xview   library     button's don't track consistantly
+1053039 xview   library     xv_set PANEL_LABEL_WIDTH retrieved from xv_get gives different results
+1053231 xview   library     STOP key doesn't abort drag from File Manager
+1053233 xview   library     Dropping text on Workspace only causes as beep, not a Notice.
+1053249 xview   library     Dragging file into text field transfers contents instead of name.
+1053251 xview   library     Text Drag and Drop cursors aren't to spec.
+1053387 xview   library     Copy and paste to textedit adds garbage to window
+1053393 xview   library     selection data structures not freed when sel_req freed
+1053446 xview   library     You can't xv_get the font used in the ttysw
+1053670 xview   library     WIN_BORDER is a create only option
+1053685 xview   library     Popup is dismissed if no selection is made from a menu attached to a button
+1053982 xview   library     Down<R14> will not select abbrev. menu buttons in mouseless
+1053998 xview   library     RowStart<R7> and RowEnd<R13> advance focus from text items
+1054200 xview   library     placement of buttons on panel by specifying their coordinates causes overlapping
+1054230 xview   library     items won't appear if originally painted in scrolled off portion of the window
+1054758 xview   library     xlsclients does not display xview clients
+1054911 xview   library     Second tty subwindow won't display anything
+1054945 xview   library     Canvas and scrollbar get out of sync after a resize
+1055087 xview   library     help text for pulldown menu never gets display or is overwritten
+1055161 xview   library     DnD-site do not readjust to window if it is made smaller
+1055203 xview   library     Inconsistent button/abbreviated button behavior.
+1055583 xview   library     Pressing <FIND> can cause core dump in xbugtool
+1055647 xview   library     pinned menus don't handle mouse ups correctly
+1056024 xview   library     Drag and Drop fails when attempted across screens of the same server
+1056040 xview   library     XView usage message (-WH/-help) could not be localized
+1056282 xview   library     Scrollbars do not reduce gracefully when forced to be smaller than normal size.
+1056308 xview   library     X resource that gets set before xv_init() is cloberred
+1056396 xview   library     Dregs left in top cable anchor by proportion indicator
+1056554 xview   library     TEXTSW_CONTENTS does not work correctly
+1056620 xview   library     a vertical bar shows if pre-edit is longer than committed text
+1057829 xview   library     A split texteditor may crash when resized.
+1057914 xview   library     WM_COLORMAP_WINDOWS property grows without bound
+1057967 xview   library     FRAME_SHOW_FOOTER attr causes XView warning
+1058011 xview   library     XView warning messages produced from selection pkg.
+1058060 xview   library     XView doesn't store PANEL_MIN_VALUE_STRING for sliders and gauges.
+1058069 xview   library     horizontal sliders 's PANEL_MIN/MAX_TICK_STRING are not centered
+1058109 xview   library     unrelated error message appears when file referenced by TEXTSW_FILE doesnt exist
+1058122 xview   library     MENU_FEEDBACK set to false doesn't work for pinned menus.
+1058420 xview   library     common XView idioms cause redundant protocol requests
+1058593 xview   library     notices use suboptimal decoration hints
+1058602 xview   library     NOTICE_FONT cannot be specified for object type notices
+1058835 xview   library     drag and drop between two textedits usually fails
+1058943 xview   library     Scrolling lists have a behavior problem.
+1058960 xview   library     PANEL_CHOICE_STACK notify proc not called for already selected items.
+1059108 xview   library     PANEL_LIST_TITLE attribute should make copy of string passed
+1059364 xview   library     WIN_EXTEND_TO_EDGE does not calculate correct height
+1059858 xview   library     panel_list scrollbar disappears with multiple panels in cmd-frame
+1060242 xview   library     Secondary selection will not work in V2 XView, if V3 startup first.
+1060504 xview   library     XView apps read .Xdefaults instead of getting defaults from server
+1060561 xview   library     Some X bitmap files won't display correctly when used with SERVER_IMAGE
+1060631 xview   library     Directory: line sometimes has a bogus starter dir name
+1060714 xview   library     xv_get of SEL_FIRST_ITEM core dumps if no items present
+1060739 xview   library     Got into a state where getting errors for any drag-n-drop
+1060910 xview   library     <more> button in help window doesn't seem to do anything
+1061154 xview   library     Menu Button will not hide when it is unshown from the button's menu gen proc.
+1061367 xview   library     Server_image package breaks with some bitmap sizes using SERVER_IMAGE_X_BITS
+1061611 xview   library     help window does not need to have an input status region
+1062245 xview   library     xv_get of WIN_CMD_LINE may not work.
+1062346 xview   library     Can not get the help of textsw:editagain
+1062712 xview   library     Flying punchcard cursor in textedit does not display text.
+1062744 xview   library     Busy pointer not visiable in black windows.
+1062896 xview   library     filemgr returns ttysw-TCIOSPGRP: unexpected interrupt for shell script
+1063006 xview   library     problems with arithmetic traps in scrollbar calculations
+1063350 xview   library     d&d occurs by the ADJUST button in textsw while in conv on
+1063455 xview   library     destroying and recreating items in PANEL_NOTIFY_PROC redraws wrong
+1063500 xview   library     Scrolling list tries to DESELECT a DELETED item, returns garbage
+1065145 xview   library     composed characters in panel text items are positioned wrong
+1065190 xview   library     textsw, a primary selection string is erased when do conv off without any input
+1065767 xview   library     When a window is resized, AutoCAD's Graphics Window no longer works in OWv3
+1065832 xview   library     can't replace a primary selection text included the first character in a content
+1065867 xview   library     can't do word selection for the first charcter(code set1or2) in textsw contents
+1066770 xview   library     scrollbars don't vanish when parent panel is unmapped
+1066771 xview   library     mapped panels don't display scrollbars on scrolling lists
+1066788 xview   library     Selection requests between audiotool & mailtool sometimes do not complete.
+1067036 xview   library     I18NL4 textsw dumps core when TEXTSW_FILE(_WCS) is specified to NULL
+1067759 xview   library     wrong display of a pinned menu which was changed by a menu generating proc
+1068794 xview   library     dnd_dsdm.c/DndContactDSDM could trash siteRects
+2001817 xview   library     key board input is echoed twice in the termsw
+1033089 xview   library     filemgr clips the icon labels in "icon" mode
+1036411 xview   library     Scrolling lists should display question cursor on adjust click
+1039548 xview   library     abbreviated scrollbars behave strangely
+1039681 xview   library     Save Workspace saves invalid argument options to .openwin-init
+1040049 xview   library     Selection errors displayed on console
+1042262 xview   library     xv_get_sel thinks it's ``get_selection''
+1042823 xview   library     no resize corners on Help window with more than 10 lines
+1044142 xview   library     Default menu item should be first ACTIVE menu item.
+1044735 xview   library     Home/PgUp/PgDn/End disabled in openlook
+1049465 xview   library     Help doesn't work inside PANEL_NUMERIC_TEXT's text field
+1052484 xview   library     there are no c++ bindings for XViews xv_send_message
+1053933 xview   library     icon colors can be inconsistent if WorkSpace color is NULL
+1054906 xview   library     event_is_ascii() returns TRUE for ACTION_HELP
+1056503 xview   library     cursor does not warp with "clear log" notice  in textsw
+1058123 xview   library      WIN_GRAPHICS_EXPOSE events do not call CANVAS_REPAINT_PROC
+1063488 xview   library     Text:store does not contain directory name the first time
+1038164 xview   library     empty line in the bottom of a scrolled panel list
+1044947 xview   library     scrolling button on auto-scroll text field poitioned incorrectly
+1044980 xview   library     Control-H is ignored in mailtool's "Mail File" text item
+1056307 xview   other       convert_to_xview sed scripts incorrectly installed
+1059622 xview   other       attr_names is missing from lib/help directory
+1062524 xview   other       nightly olwm crashes on mono devices
+1064286 xview   other       The new variable in XView, xv_domain, causes strings not to be extracted
+1064385 xview   other       /usr/openwin/bin/xview is gone
+1068696 xview   other       Color Server_images as label images for buttons can fail to paint
+1039041 xview   other       snapshot doesn't correctly print when "scale" option set
+1053041 xview   other       You can not set a font for the whole appl. ( baseframe)
+1054012 xview   other       the redisplay of notice doesn't work as it should
+1058714 xview   other       header file defaults.h has bad prototype
+1060478 xview   other       xv_destroy_safe for textsw doesn't free all resources.
+1060857 xview   other       xgettext doesn't handle stdin correctly
+1060891 xview   other       libxvps won't build on SVr4
+1067996 xview   other       Header file <xview/sel_pkg.h> contains a variable definition instead of decln.
+1068671 xview   other       MENU_IMAGE won't take an 8 bit deep server image
+2001342 xview   other       libxview, libxvin and libxvol are static libraries only
+2001344 xview   other       libxvps is only available as static library
+1046721 xview   other       convert_to_Xdefaults shouldn't be using Keyboard.DeleteChar
+1051859 xview   other       Programs using libxvps will not run
+1052498 xview   other       Button not repaired after button preview
+1057787 xview   other       xbugtool core dumps on initiation
+1060431 xview   other       The pscanf C++ func prototype conflicts with CPS output.
+1060500 xview   other       print_attr_names doesn't build on SVR4
+1062064 xview   other       The example pgm: list_glyphs fails with a SEGV (no mapping at the fault address)
+1062104 xview   other       xview example panels/choices.c fails to properly interpret the "Numbers" input.
+1063531 xview   other       typo in convert_to_xview comment (MENU_ACTON_PROC->MENU_ACTION_PROC)
+1064221 xview   other       Slider core dumps when in a panel with non-control CMS
+1033975 xview   other       convert_to_Xdefaults doesn't convert SunView defaults correctly
+1045574 xview   other       Calendar Manager doesn't set proper appointment end time
+1025288 xview   performance Skeleton XView canvas repainted twice upon start-up
+1044697 xview   performance Scrolling list panel items leak memory
+1061762 xview   performance PANEL_TEXT item creation is much slower than in V2
+1064145 xview   performance data size of the library increases due to duplicate strings
+1034873 xview   performance Icon pkg still uses pixwin compatibility routines.
+1037371 xview   performance Cmdtool (scrollbar) paints unnecessarily
+1064677 xview   props       Hitting apply in props reverts *all* resources back to default values.
+1065095 xview   props       OLIT resource support is wrong.
+1058787 xview   props       Proptool dumps core if it can't allocate control colors for colormap
+1059808 xview   props       In the ICON category, "RESET" button is chpped off
+1059809 xview   props       Props generate the couple of  XView error on startup time
+1061433 xview   props       Workspace color property panel is broken with the nightly build.
+1064426 xview   props       New props is not quite compatible with V2 environment
+1064849 xview   props       SVR4 system Xdefaults doest not initialize OLIT resource specificaitons
+1045884 xview   props       Properties saves two WindowColor in Xdefaults
+1050190 xview   props       Toggling Workspace Props Color selection item leaves garbage
+1050488 xview   props       The props tool disappears when openwin is started with staticvis
+1057804 xview   props       All of props's text help is not avaiable for localization menu item.
+1059807 xview   props       Props does not need to have an IM
+1040998 xview   props       color property sheet has wrong window border
+1056633 xview   source      ANSI C complier (acc) on SunOS 4.1 can't compile scrollbar.h
+1057949 xview   source      include/xview/base.h declares func protos for (c)malloc() + free()
+1058221 xview   source      missing include file
+1061698 xview   source      Unable to translate "Voice", "Find Pair", and "Remove Pair" strings
+1045318 xview   source      panel_list_reply_proc and panel_list_seln_function used anywhere?
+1047124 xview   source      include/sun.h defined malloc as char * not malloc_t
+1049984 xview   source      include/xview/notice.h will not compile under C++
+1050044 xview   source      notice.h broken if I18N defined
+1050975 xview   source      syntax error in openmenu.h line 266
+1051637 xview   source      SCROLLABLE CANVAS
+1053034 xview   source      using 5bin/cc gets redeclaration of rusage
+1055142 xview   source      #include files don't work with C++
+1055610 xview   source      The "Useful conversion macros" in window.h don't cast their args correctly
+1058234 xview   source      Scrollbar does not scroll canvas page by page when it is not at page boundary.
+1059760 xview   source      base.h includes strings.h for svr4
+1060008 xview   source      Ancestor of scrollbar in Panel List is frame not the panel which owns the list.
+1060350 xview   source      xview/sel_svc.h: line 258, 259, and 260 should be joined
+1061665 xview   source      A process in XView runs out of file descriptors much earlier than the Unix limit
+1062995 xview   source      sel_pkg.h causes C++ compilation error
+1036440 xview   source      need changes for portability to other platforms
+1040386 xview   source      xview/defaults.h not compatible with C++
+1045989 xview   source      typo in header file textsw.h
+1046873 xview   source      C++ compatibility needs win_input.h and rect.h to be included in windows.h
+1046885 xview   source      filter.h uses keyword class and an undefined type STREAM
+1048246 xview   source      C++ declaration for textse_erase and frame_get/set_rect wrong
+1048830 xview   source      redeclaration of sprintf $OPENWINHOME/include/xview/sun.h /usr/5include/stdio.h
+1049402 xview   source      Incorrect C++ binding in $OPENWINHOME/include/xview/openmenu.h
+1053182 xview   source      unprefixed global function names cause problems in icon.c
+1053439 xview   source      xview include/xview/{sun.h, xv_c_types.h} conflict w/SunOS includes
+1053442 xview   source      xv_help_show() is undefined in the header files
+1054068 xview   source      including xview.h and seln.h gives a ROUNDUP macro redifinition warning
+1054142 xview   source      xview: notify.h declared Notify_event wrong as unsigned long
+1063567 xview   source      notify_enable_rpc_svc() not in xview/notify.h
+1063720 xview   source      ttysw.h #ifdefs out ttysw_input and friends
+1041134 xview   source      XView headers don't work correctly with GNU g++
+1046889 xview   source      textsw_get_from_defaults does not have a prototype; it is used in the textedit.c
+1046890 xview   source      xv_decode_drop of textedit.c demo does not have a prototype in headerfiles
+1051174 xview   source      openmenu.h contains bad prototype (for menu_find)
+1037514 xview   source      Prototypes in header files are not ANSI compliant
+1040747 xview   sv_xv_sel_svsv_xv_sel_svc and rpc can be used to gain access to system files.
+1058067 xview   sv_xv_sel_svsv_xv_sel_svc uses structure members obsolete in SVr4
+1052235 xview   sv_xv_sel_svld.so: Undefined symbol: _pf_ttext

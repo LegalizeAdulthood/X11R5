@@ -1,0 +1,43 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = 
+#endif /* LIBDL_ENV */
+#endif /* RESOLVER_ENV */
+
+OBJS = amsauth.o amsconf.o \
+	arpadate.o authret.o capture.o canon.o \
+	ckamsdel.o dropoff.o fwdvalid.o genid.o \
+	locname.o locnamex.o mailconf.o \
+	parseadd.o parsel.o parseutl.o parsey.o \
+	qmail.o rsearch.o scan822.o stats.o \
+	sysexits.o usysex.o valhost.o \
+	vmail.o
+
+NormalObjectRule()
+
+    TESTLIBS = ${BASEDIR}/lib/libmail.a ${UTILLIB} ${PRSLIB} ${RESOLVER_LIB}
+    TestingOnlyTestingRule(${TESTLIBS},${SYS_LIBS} ${BSDLIB})
+
+NormalYaccRule()
+NormalLexRule()
+
+parsel.o: parsey.h
+
+YaccWithHeader(parsey)
+
+LibraryTarget(libmail.a, $(OBJS))
+InstallLibrary(libmail.a, $(DESTDIR)/lib)
+
+DependTarget()

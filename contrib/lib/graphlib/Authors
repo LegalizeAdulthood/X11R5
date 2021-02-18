@@ -1,0 +1,7 @@
+Current Authors and responsibilities are as follows :
+Eric Anderson (ea08+@andrew.cmu.edu)
+	lib/gl, lib/glsub, lib/objects, lib/menus, clients/perfmon,
+	clients/glclock, examples/label
+Jeffrey Hutzelman (jh4o+@andrew.cmu.edu)
+	lib/buttons, lib/menus, examples/menus, examples/buttons
+

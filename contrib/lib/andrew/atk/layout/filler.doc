@@ -1,0 +1,51 @@
+\begindata{text,268919080}
+\textdsversion{12}
+\template{default}
+ 
+
+\chapter{FILLER}
+
+
+The \italic{filler} object and its companion \italic{fillerview} provide a 
+simple user interface for selecting an object to go into a newly-created 
+inset.  This file provides programmer documentation; the user interface is 
+described in the filler help file.
+
+
+
+\subsection{Filler}
+
+
+\italic{Filler} does not extend its base class, \italic{cel}.  Its only reason 
+for existence is to get fillerview started during initialization.
+
+
+
+
+\subsection{Fillerview}
+
+
+Fillerview provides a simple graphic interface which displays a list of 
+possible insets and allows the user to select one by clicking.  It extends its 
+base class, celview, as follows:
+
+
+\italic{fillerv_SetDataObjectByName}(self, dataname) fills in the inset with 
+the named data object.  If the first three letters of the name are "Ask" it 
+prompts for a name.  Although the filler remains present in the object 
+hierarchy, it is not visible in the view tree and functions only to provide 
+cel functions.
+
+
+
+Last updated: 
+ \
+\begindata{writestamp,268684776}
+Datastream version: 1
+%o %A, %Y at %u:%M
+andysans12
+655651149
+\enddata{writestamp,268684776}
+\view{writestampview,268684776,4,0,0}
+
+\enddata{text,268919080}

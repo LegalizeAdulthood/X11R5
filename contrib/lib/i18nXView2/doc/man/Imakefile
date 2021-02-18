@@ -1,0 +1,16 @@
+all::
+
+depend::
+
+InstallManPage(bindtextdomain,$(MANDIR))
+InstallManPage(cmdtool,$(MANDIR))
+InstallManPage(dgettext,$(MANDIR))
+InstallManPage(gettext,$(MANDIR))
+InstallManPage(msgfmt,$(MANDIR))
+InstallManPage(olwm,$(MANDIR))
+InstallManPage(props,$(MANDIR))
+InstallManPage(shelltool,$(MANDIR))
+InstallManPage(textdomain,$(MANDIR))
+InstallManPage(textedit,$(MANDIR))
+InstallManPage(xgettext,$(MANDIR))
+InstallManPage(xview,$(MANDIR))

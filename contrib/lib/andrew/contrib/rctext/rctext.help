@@ -1,0 +1,267 @@
+\begindata{text,982264}
+\textdsversion{12}
+\template{help}
+\define{italic
+menu:[Font,Italic]
+attr:[FontFace Italic Int Set]}
+\define{bold
+menu:[Font,Bold]
+attr:[FontFace Bold Int Set]}
+\define{chapter
+menu:[Title,Chapter]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{section
+menu:[Title,Section]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 2]}
+\define{subsection
+menu:[Title,Subsection]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{paragraph
+menu:[Title,Paragraph]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Italic Int Set]}
+\define{bigger
+menu:[Font,Bigger]
+attr:[FontSize PreviousFontSize Point 2]}
+\define{indent
+menu:[Region,Indent]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]}
+\define{typewriter
+menu:[Font,Typewriter]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]}
+\define{display
+menu:[Region,Display]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]
+attr:[Justification LeftJustified Point 0]}
+\define{example
+menu:[Region,Example]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]}
+\define{description
+menu:[Region,Description]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[Indent LeftEdge Inch -32768]}
+\define{quotation
+menu:[Region,Quotation]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]
+attr:[FontFace Italic Int Set]}
+\define{subscript
+menu:[Font,Subscript]
+attr:[Script PreviousScriptMovement Point 2]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{superscript
+menu:[Font,Superscript]
+attr:[Script PreviousScriptMovement Point -6]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{smaller
+menu:[Font,Smaller]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{heading
+menu:[Title,Heading]
+attr:[LeftMargin LeftMargin Inch -13107]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{majorheading
+menu:[Title,MajorHeading]
+attr:[Justification Centered Point 0]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{formatnote
+menu:[Region,FormatNote]
+attr:[Flags PassThru Int Set]}
+\define{subheading
+menu:[Title,Subheading]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{center
+menu:[Justify,Center]
+attr:[Justification Centered Point 0]}
+\define{flushleft
+menu:[Justify,FlushLeft]
+attr:[Justification LeftJustified Point 0]}
+\define{flushright
+menu:[Justify,FlushRight]
+attr:[Justification RightJustified Point 0]}
+\define{leftindent
+menu:[Region,LeftIndent]
+attr:[LeftMargin LeftMargin Inch 32768]}
+
+
+\chapter{\center{RCtext: An editing package for C Programmers}}
+
+
+\section{What RCtext is 
+
+}\leftindent{
+RCtext is an editing package for C programmers.  It provides an editing 
+interface similar to that used for text files in EZ, but shows the text of C 
+programs in a fixed-width font.  RCtext provides keybindings and menu features 
+to support indentation of C program code and uses styles specified in the 
+rctext template.
+
+
+\bold{Note:} An interactive diff package called ezdiff is now available for 
+comparing your RCtext files.  See the \italic{ez-diff} help document for 
+details.
+
+}
+\section{Starting RCtext}
+
+\leftindent{
+At the Typescript prompt, type "ez \italic{file}.c" or "ez\italic{ file}.h" 
+and press Enter.  Use of a .c or .h extension tells EZ to load the RCtext 
+editing package, according to specifications in the global initialization file 
+for EZ, /usr/local/lib/global.ezinit.  If you create your own .ezinit file, 
+you can override the global.ezinit file or add other file extensions that will 
+load the RCtext package.  You can also set various parameters of rctext, which 
+are listed in the section below, "Customizing RCtext in your .ezinit file." 
+ For details about initialization files, see the \italic{initfiles} help 
+document.
+
+}
+\section{How RCtext works}
+
+\leftindent{
+When a rctext dataobject (usually a normal C source file) is read in, a set of 
+styles are superimposed on it for the convenience of the programmer.  Comments 
+are put in italic and function names in function declarations are put in bold. 
+ None of these styles are actually written out with the code--they exist only 
+during editing.  
+
+
+RCtext adds these keybindings to those provided by EZ:
+
+
+\bold{The tab key.} Tab has three uses:
+
+\leftindent{
+ 1.) If there is a selected region, all the lines within that region will be 
+re-indented to what rctext considers the "correct" indentation.  
+
+
+2.) If there is no selected region and the text caret is positioned before any 
+text on the current line (within the initial whitespace), then the line will 
+be re-indented as above. 
+
+
+3.) If the text caret is positioned after some non-whitespace text on the 
+line, it will insert enough whitespace to move to the caret to the next tab 
+column.  Tab columns are positioned at multiples of four.  Any existing 
+whitespace at the caret position will be counted as if it were inserted (so 
+the tab key will skip over whitespace to the next tab column if it is sitting 
+on whitespace). }
+
+
+\bold{The Linefeed (^J) key.}   Linefeed does two things:  
+
+
+\leftindent{1.) It re-indents the current line, just in case it needs to be 
+fixed up (since sometimes the indentation after typing something is different 
+than without it, i.e., else). 
+
+
+2.) It inserts a newline, and then inserts the correct indentation for the new 
+line (moving the caret to that point).  }
+
+
+\bold{Note:} When the rctext package inserts whitespace, it automatically 
+inserts the correct combination of tab and space characters, replacing spaces 
+by tabs when possible without changing the look of the line.  (This applies 
+unless the rctext-use-tabs parameter is set to 0.  See below.)}
+
+
+\section{Pop-up Menu Meanings}
+
+\leftindent{
+In addition to the regular EZ menu options, RCtext supplies an additional 
+menu, the C-Text menu.  It contains the following options:
+
+\leftindent{
+\bold{Redo C Styles:}  Invokes the "Redo C Styles" function which will redo 
+the styles in the rctext dataobject that is displayed. 
+
+
+\bold{Indent line/region:}  Equivalent to pressing the tab key.
+
+
+\bold{Rename identifier:}  Prompts for identifier to replace and what to 
+replace it with, then replaces all occurrences in the selected region with the 
+desired string.
+
+ }}\section{
+
+Customizing RCtext in your .ezinit file}
+
+\leftindent{
+RCtext has several parameters controlling its behavior which you can set in 
+your own .ezinit file.  They are listed in bold with the default setting  in 
+italic:  
+
+
+\leftindent{\bold{rctext-brace-indent  \italic{0} }
+
+Controls indentation of braces at the start of a line.
+
+
+\bold{rctext-use-tabs\italic{  1}}
+
+If 0, don't use tabs for whitespace.
+
+
+\bold{rctext-cont-indent  2}    
+
+Controls indentation of continued single statements.
+
+
+\bold{\bold{rctext-level-indent}  \italic{4}}  
+
+Controls indentation of nested block statements.
+
+
+\bold{rctext-switch-label-undent \italic{4 } }
+
+Controls negative indent of switch labels.
+
+
+\bold{\bold{rctext-switch-level-indent}}\bold{ \italic{8}}  
+
+Controls indentation of statements within a switch.}
+
+
+You should put each of the parameters you want to change at the end of each 
+addfiletype to which it applies.  For example:
+
+
+\typewriter{\smaller{addfiletype .c rctext 
+"rctext-level-indent=2;rctext-use-tabs=0"}}}
+
+
+\section{Related Tools}
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{\italic{ez
+
+ez-diff       }  (An interactive diff package for EZ)\italic{
+
+initfiles
+
+mtext
+
+ltext}}
+
+
+\enddata{text,982264}

@@ -1,0 +1,36 @@
+.TH IROHACHECK 1
+.SH "NAME"
+irohacheck \- Display information about Canna
+.SH "SYNOPSIS"
+.B "irohacheck [\-v]"
+.SH "DESCRIPTION"
+.PP
+irohacheck displays the problems concerning use of Canna and the
+related information.  It examines the following items:
+.IP "-" 3
+Customize file to be used
+.IP "-" 3
+Romaji-to-Kana conversion dictionary to be used
+.IP "-" 3
+Destination to which the server is to be connected.  Is it connectable?
+.IP "-" 3
+Dictionaries to be mounted. Are they mountable?
+.IP "-" 3
+Syntax errors in the customize file
+.PP
+The problem(s) are displayed on the standard output if found.
+.SH "OPTIONS"
+.IP \-v 8
+Displays all the above information including items that contain no problem.
+.SH "FILES"
+.IP "/usr/local/lib/iroha/irohahost" 36
+Name of the host under which \fIirohaserver(1M)\fP is in operation.
+.SH "SEE ALSO"
+.br
+irohaserver(1M), irohakill(1M), irohastat(1)
+.SH "ENVIRONMENT"
+.IP "IROHAHOST" 12
+Specifies the name of the host under which \fIirohaserver(1M)\fP is in
+operation.
+.IP "IROHAFILE" 12
+Specifies the initialize file (.iroha).

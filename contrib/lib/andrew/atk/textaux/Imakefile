@@ -1,0 +1,26 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+DOBJS = contentv.do compchar.do
+IHFILES = contentv.ih compchar.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(cpchar.help, ${DESTDIR}/help)
+InstallHelpAlias(cpchar, compchar)
+InstallDocs(cntproc.help, ${DESTDIR}/help)
+InstallHelpAlias(cntproc, contentproc contentprocs)
+
+InstallFile(symbol.tpl, $(INSTINCFLAGS), ${DESTDIR}/lib/tpls)
+
+MkdirTarget(${DESTDIR}/doc/atk/text)
+
+InstallDocs(contentv.doc,${DESTDIR}/doc/atk/text)

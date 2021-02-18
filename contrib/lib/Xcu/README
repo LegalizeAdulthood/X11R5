@@ -1,0 +1,52 @@
+This is Version 1.6 of the Xcu Widget Set.
+The Xcu Widget Set is compatible with the R5 intrinsics.
+It requires the use of the MIT Xmu library.
+
+To Make:
+   0) follow the instructions in "config_file" (in this directory)
+   1) use "imake" to make a top level Makefile from the Imakefile.
+   2) make World
+
+If you are using Gcc, you will want the "-fwritable-strings" compile option.
+(Gcc also produces zillions of warnings.  Sorry.  I'll have most of them
+eliminated by the next release.  Don't specify "-Wall")
+
+There are some interesting programs in the "clients" directory you
+might like to try:
+
+	xhearts : the card game "hearts"
+	xcell   : colorful cellular automata
+	xlayout : layout previewer with many Xcu widget samples
+
+Until Xcu is installed, you will probably find it helpful to
+add wlmCompiler and clients/xlayout to your PATH environment variable.
+This gives you easy access to the programs "wlc" and "xlayout".
+
+There are some tutorial demo programs in the "examples" directory
+that show you the power of the Tbl and Wlm widgets.  These are not
+made by default.  You can either cd to the examples directory and
+do a "make" there or in the individual subdirectories.  Or, you
+can switch the comment between the two MAKE_SUBDIRS lines in the
+Imakefile before doing the imake.
+
+In the Readme.dir directory there are a bunch more README's.
+
+    widgets    : summary of the Xcu widgets
+    examples   : summary of the tutorial demos
+    clients    : summary of the Xcu clients available in this release
+    tbl        : a more detailed description of the tbl widget
+    roadmap    : what the subdirectories are
+    bugs       : how to get prompt attention if you find bugs
+
+Potscript versions of the documentation are available via anonymous FTP
+from 128.84.247.85 : pub/xcu.v1.6.ps.tar.Z.
+
+Thanks go to Kim Gillies for beta-testing the R5 version before it went out.
+Anybody using Gcc owes him a lot of thanks.
+
+Finally, thanks to John Forrest, there is a version of XcuWlm which
+allows popups and lots of other good stuff.  I hope to release it as
+Xcu version 2.0 someday.
+
+ -- gene  (gwd@graphics.cornell.edu)
+

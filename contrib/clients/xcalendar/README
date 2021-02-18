@@ -1,0 +1,42 @@
+
+XCalendar is a simple interactive calendar program with a notebook
+capability. It is built on the X Toolkit and the Athena Widgets.
+
+CREDITS:
+        Version 3.0
+        Authors: Roman J. Budzianowski - MIT Project Athena
+                      Copyright 1988 Massachusetts Institute of Technology
+	         Richard Bingle - Comp. Sci. Dept., Purdue University
+                      Copyright 1990 Purdue University
+	Contributions: 
+		Beth Chaney - Comp. Sci. Dept., Purdue University
+        Suggestions/Fixes:
+		Casey Leedom
+		Steve Green
+
+HISTORY:
+       The original xcalendar (written by Roman J. Budzianowski) could only
+       display one month at a time and allowed for no scrolling between months
+       or days.  Enhancements were made by myself and Beth Chaney to allow 
+       for scrolling.  A few bugs were also fixed.  These enhancements
+       (and some layout changes) were placed on export.lcs.mit.edu in September
+       of 1990 by Roman.  In the summer of 1991, Roman turned over support
+       and further development.
+
+BUG-REPORTS:
+        Bug-reports/fixes/enhancements should be sent to bingle@cs.purdue.edu
+
+INSTALLATION:
+        If you have imake:
+	        "xmkmf"
+	        "make"
+
+        If you don't have imake:
+	        "make -f makefile.noimake"
+
+------------------------------------------------------------------------
+Richard Bingle                                      bingle@cs.purdue.edu
+Computer Science Department                     {backbone}!purdue!bingle
+Purdue University                                         (317) 494-0893
+West Lafayette, IN 47907
+

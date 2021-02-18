@@ -1,0 +1,15 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 08/29/93
+last_modifier: ack@amt.media.mit.edu
+last_mod_date: 09/02/91
+mod_num: 3
+@end(header)
+@b(X Systems Administration)
+
+@button(Setting paths,Admin_Paths)
+@button(Compiler errors,Admin_Compiler)
+@button(Motif problems,Motif_Admin)
+

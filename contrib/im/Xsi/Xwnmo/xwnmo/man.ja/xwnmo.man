@@ -1,0 +1,305 @@
+.\"
+.\" $Id: xwnmo.man,v 1.1 1991/09/13 08:10:31 proj Exp $
+.\"
+.TH XWNMO 1 "Release 5" "X Version 11"
+.SH 名称
+xwnmo \- Ｘウィンドウ・インプットマネージャー
+.SH 形式
+.B xwnmo
+[\-\fIoption\fP ...]
+.SH 解説
+\fIxwnmo\fP は、Ｘウィンドウ・インプットメソッド用のインプット・マネージャー
+です。[\fIX Window System, Version 11 Input Method Specifications\fP] を
+ベースに作成されました。\fIxwnmo\fP は、Ｘウィンドウの複数のクライアントに
+対して、多国語の入力環境を提供します。クライアントは、ＸＩＭライブラリを
+使うことにより、\fIxwnmo\fPを使用できます。
+.PP
+変換のエンジンには、国際化されたＷｎｎを使用します。クライアントのランゲージ
+に応じて、変換サーバを選択します。
+.PP
+.TP 8
+\fIXwnmo\fP は、以下のインプットスタイルをサポートしています。
+( XIMPreeditArea | XIMStatusArea )
+.br
+( XIMPreeditPosition | XIMStatusArea )
+.br
+( XIMPreeditNothing | XIMStatusNothing )
+.br
+( XIMPreeditCallbacks | XIMStatusArea )
+.br
+( XIMPreeditArea | XIMStatusCallbacks )
+.br
+( XIMPreeditPosition | XIMStatusCallbacks )
+.br
+( XIMPreeditCallbacks | XIMStatusCallbacks )
+.PP
+ＸＩＭライブラリを使用し、\fIxwnmo\fPと接続をする場合、\fIXOpenIM\fP() 
+をコールする前に、モディファイアを\fI_XWNMO\fPにセットする必要があります。
+.TP 8
+具体的には、
+XSetLocaleModifiers("@im=_XWNMO");
+.br
+あるいは、
+.br
+環境変数
+\fBXMODIFIERS\fP=@im=_XWNMO
+セット後に、XSetLocaleModifiers("");です。
+.PP
+ＸＩＭライブラリの詳しい使用方法は、Ｘのドキュメントの１３章、あるいは、
+[\fIX Window System, Version 11 Input Method Specifications\fP]を参照
+して下さい。
+.PP
+.SH XML
+\fIInput Method Specifications\fP によると、インプットメソッドが使用する
+ロカールは、一つで固定です。従って、\fIxwnmo\fP は \fIXOpenIM\fP()
+が呼ばれた時のロカールによる言語環境を一つだけ作成します。
+そして、これを変更することはできません。
+.br
+しかし、libX11.a をコンパイル時に、
+.B XML
+をデファインすると、マルチ・ロカールの環境が使用できます。つまり、
+ロカールを切替えることにより、言語環境をダイナミックに変更することが
+可能になります。その使い方は以下の通りです。
+.PP
+.TP 8
+.B 環境の作成
+XOpenIM() の代わりに、\fIXmlOpenIM()\fP をコールします。そして、XIC の
+アーギュメント
+.B XNCurrentLanguage
+をセットし、\fIXCreateIC\fP() をコールします。そうすると、\fIxwnmo\fP は、
+できる限り多くの言語環境を作成し、XNCurrentLanguage で指定されたロカールを
+現在の言語環境とします。もし、XNCurrentLanguage をセットしなかった場合は、
+最初に作成した言語環境が、現在の環境となります。XNCurrentLanguage の書式は、
+.br
+.br
+current_language = \<language>'_'<territory>
+.br
+例: ja_JP
+.TP 8
+.B 環境の変更
+現在の言語環境を変更したい場合は、
+.B XNCurrentLanguage
+をセットし、\fIXSetICValues()\fP を呼びます。
+.PP
+\fIXwnmo\fP は、同時に、
+.B XML
+のクライアントと
+.B NON_XML
+のクライアントからの接続を許します。
+.PP
+.SH XJp
+\fIXwnmo\fPは、
+.B XJp
+のプロトコルをサポートすることができます。
+\fIXwnmo\fPをコンパイル時に、\fBXJP\fPをデファインすると、
+\fIXJp\fPのコミュニケーションキットのプロトコルをサポートします。
+また、\fBXJP\fPと\fBXJP_DIRECT\fPをデファインすると、
+\fIXJp\fPのダイレクトインタフェースのプロトコルをサポートします。
+.PP
+.SH SEP
+\fIXwnmo\fPは、
+.B SEP
+のプロトコルをサポートすることができます。
+\fIXwnmo\fPをコンパイル時に、\fBSEP\fPをデファインすると、
+\fBSEP\fPのプロトコルをサポートします。
+\fI_XipChangeSpot()\fP の関数を使用して下さい。関数の仕様は以下の通りです。
+.PP
+.TP 4
+int \fB_XipChangeSpot\fP(\fIic\fP, \fIspot_x\fP, \fIspot_y\fP)
+XIC ic;
+.br
+short spot_x, spot_y;
+.PP
+ic:		インプットコンテキストを指定
+.br
+spot_x, spot_y:	スポットの位置を指定
+.PP
+.SH オプション
+\fIXwnmo\fP は、以下のオプションを持っています。
+.TP 8
+.B \-D \fIサーバ名\fP
+変換サーバのマシン名を指定します。指定されない場合、まず、環境変数\fJSERVER\fP
+が参照されます。これが設定されていない場合、マシン名 "\fIjserver\fP" へ
+接続を試みます。もしこの接続が失敗した場合、ローカルのサーバへ
+接続を試みます。
+.TP 8
+.B \-n \fIユーザ名\fP
+Wnn の環境名として使用されるユーザ名を指定します。指定されない場合、
+まず、環境変数 \fIWNNUSER\fP が参照されます。これがセットされていない
+場合、プロセスのオーナ名が参照されます。
+.TP 8
+.B \-lc \fIランゲージ名\fP
+\fIRoot-mode\fP の言語環境の作成に参照される、ロカール名を指定します。
+指定されない場合、環境変数 \fILANG\fP が参照されます。これがセットされて
+いない場合、デフォルトは、\fIja_JP\fP です。
+ランゲージ名のフォーマットは
+.br
+.br
+langName = \<language>'_'<territory>
+.TP 8
+.B \-k \fIキーバインド定義ファイル名\fP
+\fIuumkeyファイル\fP のパス名を指定します。\fIuumkeyファイル\fP の詳しい
+説明は、Wnn のマニュアルを参照して下さい。
+.TP 8
+.B \-k \fIオートマトンファイル名\fP
+\fIオートマトンファイル\fP のパス名を指定します。デフォルトは、
+\fI/usr/local/lib/wnn/@LANG/rk/mode\fP です。\fIオートマトンファイル\fP
+の詳しい説明は、Wnn のマニュアル(mode)を参照して下さい。
+.TP 8
+.B \-F \fIファンクションキー変換テーブルファイル名\fP
+\fIファンクションキー変換テーブルファイル\fP のパス名を指定します。
+\fIファンクションキー変換テーブルファイル\fP には、Ｘのファンクションキーと
+Ｗｎｎのキーの関係が書かれています。
+デフォルトは、\fI/usr/local/lib/wnn/cvt_fun_tbl\fP です。
+\fIファンクションキー変換テーブルファイル\fP の詳しいの内容は、
+マニュアル(cvtfun)を見て下さい。
+.TP 8
+.B \-F \fIメタキー変換テーブルファイル名\fP
+\fIメタキー変換テーブルファイル\fP のパス名を指定します。
+\fIメタキー変換テーブルファイル\fP には、ＸのメタキーとＷｎｎのキーの
+関係が書かれています。
+デフォルトは、\fI/usr/local/lib/wnn/cvt_meta_tbl\fP です。
+\fIメタキー変換テーブルファイル\fP の詳しいの内容は、
+マニュアル(cvtmt)を見て下さい。
+.TP 8
+.B \-fs \fIフォント名リスト\fP
+フォント名のリストを指定します。このリストより、Root-mode のフォントセットが
+作成されます。デフォルトは、ロカールに依存します。リストの書式は、
+.br
+.br
+font-name-list = \<fontname>{','fontname}
+.TP 8
+.B \-geometry \fIジオメトリ\fP
+Xwnmo のウィンドウの位置と、サイズを指定します。\fIX(1)\fP を参照して下さい。
+.TP 8
+.B \-fg \fIカラー名\fP
+Xwnmo のウィンドウに書かれるテキストの色を指定します。デフォルトは、``black.''
+です。
+.TP 8
+.B \-bg \fIカラー名\fP
+Xwnmo のウィンドウのバックグラウンドの色を指定します。デフォルトは、``white.''
+です。
+.TP 8
+.B \-bd \fIカラー名\fP
+Xwnmo のウィンドウのボーダの色を指定します。デフォルトは、``black.'' です。
+.TP 8
+.B \-bw \fIピクセル値\fP
+Xwnmo のウィンドウの枠の幅を、ピクセル値で指定します。
+.TP 8
+.B \-display \fIディスプレイ名\fP
+接続する X server を指定します。\fIX(1)\fP を参照して下さい。
+.TP 8
+.B \-iconic
+このオプションを指定すると、\fIxwnmo\fP は、アイコンで起動するように、
+ウィンドウ・マネージャに要求します。
+.TP 8
+.B \#\fIジオメトリ\fP
+Xwnmo のアイコンウィンドウの位置と、サイズを指定します。通常は、リソース
+``\fI*iconGeometry\fP'' で指定します。
+.TP 8
+.B \-help
+このオプションを指定すると、\fIxwnmo\fP は、オプションの内容を表示します。
+.TP 8
+.B \-h
+このオプションを指定すると、\fIxwnmo\fP は、変換オンの状態で起動します。
+デフォルトは、変換オフの状態です。
+.TP 8
+.B \-H
+このオプションを指定すると、\fIxwnmo\fP は、変換オフの状態で起動します。
+デフォルトは、この状態です。
+.TP 8
+.B \-ju \fI辞書ユーティリティマネージャ名\fP
+辞書ユーティリティマネージャである。\fIxjutil\fP のパス名を指定します。
+デフォルトは、\fI/usr/bin/X11/xjutil\fP です。
+.SH リソース
+\fIXwnmo\fP は、以下のリソース名、および、リソースクラスを持っています。
+.TP 8
+.B "serverName (\fPクラス\fB ServerName)"
+変換サーバのマシン名を指定します。指定されない場合、まず、環境変数\fJSERVER\fP
+が参照されます。これが設定されていない場合、マシン名 "\fIjserver\fP" へ
+接続を試みます。もしこの接続が失敗した場合、ローカルのサーバへ
+接続を試みます。
+.TP 8
+.B "userName (\fPクラス\fB UserName)"
+Wnn の環境名として使用されるユーザ名を指定します。指定されない場合、
+まず、環境変数 \fIWNNUSER\fP が参照されます。これがセットされていない
+場合、プロセスのオーナ名が参照されます。
+.TP 8
+.B "ximrcName (\fPクラス\fB XimrcName)"
+\fIXwnmo\fP のスタートアップファイル \fIximrc-file\fP のパス名を指定します。
+指定されない場合、まず、\fI$HOME/.ximrc\fP が参照されます。もし、これが
+ないばあい、デフォルトは "/usr/local/lib/wnn/ximrc" です。
+\fIximrc-file\fP の詳しい内容は、\fIximrc-file\fP のマニュアルを参照して
+下さい。(man の名前は、ximrc です。)
+.TP 8
+.B "cvtfunName (\fPクラス\fB CvtfunName)"
+\fIファンクションキー変換テーブルファイル\fP の名前を指定します。
+\fIファンクションキー変換テーブルファイル\fPには、
+ＸのファンクションキーとＷｎｎのキーの関係が書かれています。
+デフォルトは、\fI/usr/local/lib/wnn/cvt_fun_tbl\fPです。
+\fIファンクションキー変換テーブルファイル\fP の詳しいの内容は、
+マニュアル(cvtfun)を見て下さい。
+.TP 8
+.B "cvtmetaName (\fPクラス\fB CvtmetaName)"
+\fIメタキー変換テーブルファイル\fP の名前を指定します。
+\fIメタキー変換テーブルファイル\\Pには、ＸのメタキーとＷｎｎのキーの
+関係が書かれています。
+デフォルトは、\fI/usr/local/lib/wnn/cvt_meta_tbl\fPです。
+\fIメタキー変換テーブルファイル\fP の詳しいの内容は、
+マニュアル(cvtmt)を見て下さい。
+.TP 8
+.B "foreground (\fPクラス\fB Foreground)"
+Xwnmo のウィンドウに書かれるテキストの色を指定します。デフォルトは、``black.''
+です。
+.TP 8
+.B "background (\fPクラス\fB Background)"
+Xwnmo のウィンドウにバックグラウンドの色を指定します。デフォルトは、``white.''
+です。
+.TP 8
+.B "borderColor (\fPクラス\fB BorderColor)"
+Xwnmo のウィンドウにボーダの色を指定します。デフォルトは、``black.'' です。
+.TP 8
+.B "display (\fPクラス\fB Display)"
+接続する X server を指定します。
+.TP 8
+.B "xjutilName (\fPクラス\fB XjutilName)"
+辞書ユーティリティマネージャである\fIxjutil\fP のパス名を指定します。
+デフォルトは、"/usr/bin/X11/xjutil" です。
+.TP 8
+.B "iconic (\fPクラス\fB Iconic)"
+このオプションを指定すると、\fIxwnmo\fP は、アイコンで起動するように、
+ウィンドウ・マネージャに要求します。
+.TP 8
+.B "geometry (\fPクラス\fB Geometry)"
+Xwnmo のウィンドウの位置と、サイズを指定します。
+.TP 8
+.B "iconGeometry (\fPクラス\fB IconGeometry)"
+Xwnmo のアイコンウィンドウの位置と、サイズを指定します。
+.TP 8
+.B "borderWidth (\fPクラス\fB BorderWidth)"
+Xwnmo のウィンドウの枠の幅を、ピクセル値で指定します。
+.TP 8
+.B "langName (\fPクラス\fB LangName)"
+\fIRoot-mode\fP の言語環境の作成に参照される、ランゲージ名を指定します。
+指定されない場合、環境変数 \fILANG\fP が参照されます。これがセットされて
+いない場合、デフォルトは、\fIja_JP\fP です。
+ランゲージ名のフォーマットは
+.br
+.br
+langName = \<language>'_'<territory>
+.TP 8
+.B \-fs \fIフォント名のリスト\fP
+フォント名のリストを指定します。このリストより、Root-mode のフォントセットが
+作成されます。デフォルトは、ロカールに依存します。リストの書式は、
+.br
+.br
+font-name-list = \<fontname>{','fontname}
+.SH 関連項目
+ximrc(4X), cvtfun(4X), cvtmt(4X)
+.br\fIWnn Manual\fP (in the Wnn source directory)
+.SH COPYRIGHT
+Copyright 1991 by OMRON Corporation
+.br
+Copyright 1991 by Massachusetts Institute of Technology
+.SH AUTHOR
+Seiji Kuwari (OMRON Corporation)

@@ -1,0 +1,12 @@
+RGBDBFILE = DefaultRGBDatabase
+
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+           SRCS = xcolors.c
+           OBJS = xcolors.o
+  SYS_LIBRARIES = -lm
+
+        DEFINES = -DRGB_TXT=\"$(RGBDBFILE).txt\"
+
+ComplexProgramTarget(xcolors)
+InstallAppDefaults(Xcolors)

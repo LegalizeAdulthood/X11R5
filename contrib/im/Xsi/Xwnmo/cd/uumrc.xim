@@ -1,0 +1,23 @@
+;
+; $Id: uumrc.xim,v 1.2 1991/09/12 07:48:50 ohm Exp $
+;
+;
+;	  Version 4.0	OMRON	90/4/27
+
+setenv		PZ	@LIBDIR/@LANG/wnnenvrc  
+setenv_R	PZ	@LIBDIR/@LANG/wnnenvrc_R
+
+setenv		W	@LIBDIR/@LANG/wnnenvrc_Wu
+setenv_R	W	@LIBDIR/@LANG/wnnenvrc_WuR
+setenv		Q	@LIBDIR/@LANG/wnnenvrc_Qi
+setenv_R	Q	@LIBDIR/@LANG/wnnenvrc_QiR
+
+setuumkey	@LIBDIR/@LANG/uumkey.xim
+setrkfile	@LIBDIR/@LANG/rk
+
+setmaxhistory	20
+
+waking_up_no_henkan_mode
+touroku_comment
+not_send_ascii_char
+simple_delete

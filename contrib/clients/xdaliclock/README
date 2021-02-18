@@ -1,0 +1,17 @@
+The xdaliclock program displays a digital clock; when a digit changes, it
+"melts" into its new shape.
+
+It can display in 12 or 24 hour modes, and displays the date when a mouse
+button is held down.  It has a large font built into it, but it can animate
+most other fonts that contain all of the digits.  It can also do some funky
+psychedelic colormap cycling, and use the "shape" extension so that the
+window is shaped like the digits.
+
+In the default configuration, this program is very network-intensive.  If it
+seems sluggish, try the "-memory high" option (see the man page).  It will
+take a little longer to start up, but will then go easy on the bandwidth.
+
+This program was inspired by the Alto/Macintosh programs of the same name,
+written by Steve Capps some time in the early eighties.  This implementation
+is Copyright (c) 1991 by Jamie Zawinski <jwz@lucid.com>.  Please let me know
+if you find any bugs or make any improvements.

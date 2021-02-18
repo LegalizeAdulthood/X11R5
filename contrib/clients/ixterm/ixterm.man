@@ -1,0 +1,171 @@
+.\" ixterm.man,v 1.0 91/08/23 knba
+.TH IXTERM 1 "Release 5" "X Version 11"
+.SH NAME
+ixterm \- international terminal emulator for X
+.SH SYNOPSIS
+.B ixterm
+[\-\fItoolkitoption\fP ...] [\-option ...]
+.SH DESCRIPTION
+The \fIixterm\fP program is an international terminal emulator for
+the X Window System.
+It provides DEC VT102 and Tektronix 4014 
+compatible terminals for programs that can't
+use the window system directly.
+.PP
+The only difference between \fIixterm\fP and the original \fIxterm\fP
+is that \fIixterm\fP provides several national character replacement
+sets (NRCs) in the DEC VT102 emulation. These sets may be reached either
+through the resource database, through the command line option,
+through designating character sets (SCS sequences) or through the
+extended font menu.
+.SH NATIONALITIES
+The following nationalities are supported:
+.PP
+North American, United Kingdom, Belgian, Danish, Dutch, Finnish, Flemish,
+French, French Canadian, German, Hungarian, Italian, Norwegian, Portuguese,
+Spanish, Swedish, Swiss.
+.PP
+.PP
+And they will select one of the following NRCs:
+.PP
+ASCII, United Kingdom, Finnish, French, French Canadian, German, Hungarian,
+Italian, Norwegian/Danish, Portuguese, Spanish, Swedish, Swiss.
+.SH OPTIONS
+The \fIixterm\fP terminal emulator 
+accepts all of the original \fIxterm\fP command line options as well as
+the option following:
+.TP 8
+.B \-nat \fInationality\fP
+This option selects nationality according to the list above.
+The default NRC is ASCII.
+.SH RESOURCES
+The program understands all of the original \fIxterm\fP resource names and
+classes as well as:
+.\".in +1in
+.TP 8
+.B "nationality (\fPclass\fB Nationality)"
+Selects nationality according to the list above.
+The default NRC is ASCII.
+.\".in -1in
+.sp
+.PP
+The resources that may be specified for the various menus are described in
+the documentation for the Athena \fBSimpleMenu\fP widget.  The name and classes
+of the entries in the \fIfontMenu\fP are listed below.
+.PP
+The \fIfontMenu\fP has the following entries:
+.\".in +1in
+.TP 8
+.B "fontdefault (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(d)\fP action.
+.TP 8
+.B "font1 (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(1)\fP action.
+.TP 8
+.B "font2 (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(2)\fP action.
+.TP 8
+.B "font3 (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(3)\fP action.
+.TP 8
+.B "font4 (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(4)\fP action.
+.TP 8
+.B "font5 (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(5)\fP action.
+.TP 8
+.B "font6 (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(6)\fP action.
+.TP 8
+.B "fontescape (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(e)\fP action.
+.TP 8
+.B "fontsel (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-vt-font(s)\fP action.
+.TP 8
+.B "line1 (\fPclass\fB SmeLine)"
+This is a separator.
+.TP 8
+.B "line2 (\fPclass\fB SmeLine)"
+This is a separator.
+.TP 8
+.B "line3 (\fPclass\fB SmeLine)"
+This is a separator.
+.TP 8
+.B "north american (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "british (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "dutch (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "finnish (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "french/belgian (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "french canadian (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "german (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "hungarian (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "italian (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "norwegian/danish (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "portuguese (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "spanish (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "swedish (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.TP 8
+.B "swiss (\fPclass\fB SmeBSB)"
+This entry invokes the \fBset-nationality(nat)\fP action.
+.\".in -1in
+.SH MENUS
+.PP
+.I IXterm
+has four menus, named
+.IR mainMenu ,
+.IR vtMenu ,
+.IR fontMenu ,
+and
+.IR tekMenu .
+The \fIfontMenu\fP is the only menu differing from the menus in \fIxterm\fP.
+In addition to setting the font, it also selects the nationality to be
+used in the VT102 window.
+.SH "SEE ALSO"
+xterm(1), X(1), pty(4), tty(4)
+.br
+\fIXterm Control Sequences\fP (in the \fIxterm\fP source directory)
+.br
+\fIIXterm Control Sequences\fP (in the \fIixterm\fP source directory)
+.SH BUGS
+.PP
+For those who use ISO fonts (as opposed to DEC fonts), problems
+will probably arise when using the characters `currency' and
+`diaresis' (french and hungarian only). A patch is provided to
+fix this problem: Run the command ``patch <ixterm_isopatch'' to
+make the necessary changes to the file data.c (\fIixterm\fP source directory).
+.SH COPYRIGHT
+Copyright 1989, Massachusetts Institute of Technology.
+.br
+Copyright 1991, Tandberg Data A/S
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHORS
+Extracted from \fIxterm\fP an rewritten by:
+.sp
+Kjetil Narum Bakken, Tandberg Data A/S, Norway

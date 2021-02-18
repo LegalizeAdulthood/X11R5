@@ -1,0 +1,75 @@
+#!/bin/sh
+# shell archiver
+# usage: echo_list_of_files_one_per_line | shar > shell_archive
+#    or: shar list_of_files > shell_archive
+# de-archive archive by executing it as a shell script (with .)
+# unshar de-archives only the modified ones, with a message
+
+TMP=/tmp/SHAR_$$
+
+case $0 in		## UNSHAR
+*unshar ) 
+    case $# in
+ 	0 ) echo "USAGE: unshar shar-file [files...]";exit 1;;
+	1) if test -f $1;then :;
+        	else echo "unshar: cannot open $1";exit 1
+     	   fi
+	   OLDWD=`pwd`
+	   mkdir $TMP; cd $TMP
+	   case $1 in
+	   */* ) sh $1;;
+	   *   ) sh $OLDWD/$1;;
+	   esac
+	   for FILE in `find . -print`; do
+	   if test -d $FILE
+	   then mkdir $OLDWD/$FILE 2>/dev/null
+	   else if cmp -s $FILE $OLDWD/$FILE; then :
+	      else echo unsharing $FILE;cp $FILE $OLDWD;fi
+	   fi
+	   done
+	   cd $OLDWD
+	   rm -rf $TMP
+	   echo "Finished unsharing $1";;
+
+	*) FILE=$1;shift
+	   if test -f $FILE;then :;
+	      else echo "unshar: cannot open $FILE";exit 1
+	   fi
+	   for i in $*; do echo unsharing $i
+	   awk '/END_OF_SHAR_FOR_'$i'/, /^END_OF_SHAR_FOR_'$i'/' < $FILE |/bin/sh
+	   done;;
+     esac;;
+
+			## SHAR
+*  ) case $# in
+     0)while : ; do
+	read FILE
+	case $FILE in
+	'' ) exit 0;;
+	esac
+	if test -d $FILE
+	then echo "mkdir $FILE 2>/dev/null"
+	else
+	  echo "cat > $FILE << \END_OF_SHAR_FOR_$FILE"
+	  cat $FILE
+	  echo "END_OF_SHAR_FOR_$FILE"
+	  case `ls -l $FILE` in ???x*)echo "chmod a+x $FILE";;esac
+	fi
+      done;;
+     *)while test -n "$1" ; do
+	FILE=$1
+	if test -d $FILE
+	then echo "mkdir $FILE 2>/dev/null"
+	else
+	  echo "cat > $FILE << \END_OF_SHAR_FOR_$FILE"
+	  cat $FILE
+	  echo "END_OF_SHAR_FOR_$FILE"
+	  case `ls -l $FILE` in ???x*)echo "chmod a+x $FILE";;esac
+	fi
+	shift
+      done;;
+    esac;;
+esac
+
+
+    

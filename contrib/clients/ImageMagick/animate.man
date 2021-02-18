@@ -1,0 +1,686 @@
+.ad l
+.nh
+.TH ANIMATE 1 "1 July 1991" "X Version 11"
+.SH NAME
+animate - display a sequence of images on any workstation running X
+.SH SYNOPSIS
+.B "animate" [ \fIoptions\fP ...] \fIfile\fP
+[ [ \fIoptions\fP ...] \fIfile\fP ...]
+.SH DESCRIPTION
+\fIAnimate\fP displays a sequence of images in the MIFF format on
+any workstation display running an X server.  \fIAnimate\fP first
+determines the hardware capabilities of the workstation.  If the number
+of unique colors in an image is less than or equal to the number the
+workstation can support, the image is displayed in an X window.
+Otherwise the number of colors in the image is first reduced to match
+the color resolution of the workstation before it is displayed.
+.PP
+This means that a continuous-tone 24 bits/pixel image can display on a
+8 bit pseudo-color device or monochrome device.  In most instances the
+reduced color image closely resembles the original.  Alternatively, a
+monochrome or pseudo-color image can display on a continuous-tone 24
+bits/pixels device.
+.PP
+To prevent colormap flashing, the use of a Standard Colormap or static
+visual is recommended.  Refer to the \fB-map\fP and \fB-visual\fP in
+\fBOPTIONS\fP.
+.SH EXAMPLES
+To animate a cockatoo image sequence while using the Standard Colormap
+"best", use:
+.PP
+     xstdcmap -best
+     animate -map best cockatoo.*
+.PP
+.PP
+width and 480 pixels in height and position the window at location
+(200,200), use:
+.PP
+     animate -geometry 640x480\+200\+200 cockatoo.*
+.PP
+To animate an image of a cockatoo without a border centered on a
+backdrop, use:
+.PP
+     animate -backdrop -borderwidth 0 cockatoo.*
+.SH OPTIONS
+.TP 5
+.B "-backdrop"
+display the image centered on a backdrop.
+
+This backdrop covers the entire workstation screen and is useful for
+hiding other X window activity while viewing the image sequence.   The color 
+of the backdrop is specified as the background color.  Refer to \fBX
+RESOURCES\fP for details.
+.TP 5
+.B "-clip \fI<width>x<height>{\+-}<x offset>{\+-}<y offset>\fP"
+preferred size and location of the clipped image.  See \fBX(1)\fP for details 
+about the geometry specification.
+
+Use clipping to apply image processing options, or display, only a
+particular area of an image.  
+
+The equivalent X resource for this option is \fBclipGeometry\fP
+(class \fBClipGeometry\fP).  See \fBX RESOURCES\fP for details.
+.TP 5
+.B "-colors \fIvalue\fP"
+preferred number of colors in the image.  
+
+The actual number of colors in the image may be less than your request,
+but never more.  Note, this is a color reduction option.  Images with
+less unique colors than specified with this option will remain unchanged.
+Refer to \fBCOLOR REDUCTION ALGORITHM\fP for more details.
+
+Note, options \fB-dither\fP and \fB-treedepth\fP affect the color reduction
+algorithm.
+.TP 5
+.B "-delay \fImilliseconds\fP"
+display the next image after pausing.
+
+This option is useful for regulating the display of the sequence of
+images.  \fImilliseconds\fP milliseconds must expire before the display of 
+the next image.  The default is to display each image without delay.
+.TP 5
+.B "-display \fIhost:display[.screen]\fP"
+specifies the X server to contact; see \fBX(1)\fP.
+.TP 5
+.B "-dither"
+apply Floyd/Steinberg error diffusion to the image.  
+
+The basic strategy of dithering is to trade intensity resolution for 
+spatial resolution by averaging the intensities of several neighboring 
+pixels.  Images which suffer from severe contouring when reducing colors 
+can be improved with this option.
+
+The \fB-colors\fP, \fB-gray\fP, or \fB-monochrome\fP option is required 
+for this option to take effect.
+.TP 5
+.B "-gamma \fIvalue\fP"
+level of gamma correction.  
+
+The same color image displayed on two different workstations may look
+different due to differences in the display monitor.  Use gamma
+correction to adjust for this color difference.  Reasonable values
+extend from 0.8 to 2.3.  
+.TP 5
+.B "-geometry \fI<width>x<height>{\+-}<x offset>{\+-}<y offset>\fP"
+preferred size and location of the image window.  See \fBX(1)\fP for details 
+about the geometry specification.  By default, the window size is the image 
+size and the location is choosen by you when it is mapped.
+
+If the specified image size is smaller than the actual image size, the
+image is first reduced to an integral of the specified image size with
+an antialias digital filter.  The image is then scaled to the exact
+specified image size with pixel replication.  If the specified image
+size is greater than the actual image size, the image is first enlarged
+to an integral of the specified image size with bilinear
+interpolation.  The image is then scaled to the exact specified image
+size with pixel replication.
+
+When displaying an image on an X server, the x and y offset in the
+geometry specification is relative to the root window.
+
+The equivalent X resource for this option is \fBimageGeometry\fP
+(class \fBImageGeometry\fP).  See \fBX RESOURCES\fP for details.
+.TP 5
+.B "-gray"
+transform the image to gray scale colors.  
+.TP 5
+.B "-map \fItype\fP"
+animate images using this Standard Colormap type.
+
+Choose from these Standard Colormap types:
+
+    default
+    best
+    red
+    green
+    blue
+    gray
+
+The X server must support the Standard Colormap you choose, otherwise an 
+error occurs.  See \fBxcmap(1)\fP for one way of creating Standard Colormaps.
+.TP 5
+.B "-monochrome"
+transform the image to black and white.
+
+Monochrome images can benefit from error diffusion.  Use \fB-dither\fP with
+this option to diffuse the error.
+.TP 5
+.B "-reflect"
+create a "mirror image" by reflecting the image scanlines.
+.TP 5
+.B "-rotate \fIdegrees\fP"
+apply Paeth image rotation to the image.
+.TP 5
+.B "-scale \fI<width factor>x<height factor>\fP"
+preferred size factors of the image.
+
+This option behaves like \fB-geometry\fP except the width and height values
+are relative instead of absolute.  The image size is multiplied by the
+width and height factors to obtain the final image dimensions.  If only
+one factor is specified, both the width and height factors assume the
+value.
+
+Factors may be fractional.  For example, a factor of 1.5 will increase the
+image size by one and one-half.
+
+The equivalent X resource for this option is \fBscaleGeometry\fP
+(class \fBScaleGeometry\fP).  See \fBX RESOURCES\fP for details.
+.TP 5
+.B "-treedepth \fIvalue\fP"
+Normally, this integer value is zero or one.  A zero or one tells
+\fIAnimate\fP to choose a optimal tree depth for the color reduction
+algorithm.  
+
+An optimal depth generally allows the best representation of the source
+image with the fastest computational speed and the least amount of
+memory.  However, the default depth is inappropriate for some images.
+To assure the best representation, try values between 2 and 8 for this
+parameter.  Refer to \fBCOLOR REDUCTION ALGORITHM\fP for more details.
+
+The \fB-colors\fP, \fB-gray\fP, or \fB-monochrome\fP option is required
+for this option to take effect.
+.TP 5
+.B "-visual \fItype\fP"
+animate images using this visual type.
+
+Choose from these visual classes:
+
+    StaticGray
+    GrayScale
+    StaticColor
+    PseudoColor
+    TrueColor
+    DirectColor
+    default
+    \fIvisual id\fP
+
+The X server must support the visual you choose, otherwise an error occurs.
+If a visual is not specified, the visual class that can display the most 
+simultaneous colors on the default screen is choosen.
+.PP
+In addition to those listed above, you can specify these standard X
+resources as command line options:  -background, -bordercolor,
+-borderwidth,  -font, -foreground, -iconGeometry, -iconic, -name, or -title.  
+See \fBX RESOURCES\fP for details.
+.PP
+Any option you specify on the command line remains in effect until it is
+explicitly changed by specifying the option again with a different effect.
+For example, to animate two images, the first with 32 colors and the
+second with only 16 colors, use:
+.PP
+     animate -colors 32 cockatoo.1 -colors 16 cockatoo.2
+.PP
+Change \fI-\fP to \fI\+\fP in any option above to reverse its effect.
+For example, specify \fB\+animate\fP to apply image transformations
+without viewing them on the X server.  Or, specify \fB\+dither\fP to not
+apply error diffusion to an image.
+.PP
+Specify \fIfile\fP as \fI-\fP for standard input or output.  If \fIfile\fP 
+has the extension \fB.Z\fP, the file is decoded with \fBuncompress\fP.  
+.SH BUTTONS
+.TP 5
+.B "1"
+Press and drag to select a command from a pop-up menu.  Choose from 
+these commands:
+
+    Play
+    Step
+    Repeat
+    Auto Reverse
+    Forward
+    Reverse
+    Image Info
+    Quit
+.SH KEYS
+.TP 5
+.B "0-9"
+Press to change the level of delay.  Refer to \fB-delay\fP for more 
+information.
+.TP 5
+.B "p"
+Press to animate the sequence of images.
+.TP 5
+.B "s"
+Press to display the next image in the sequence.
+.TP 5
+.B "."
+Press to continually display the sequence of images.
+.TP 5
+.B "a"
+Press to automatically reverse the sequence of images.
+.TP 5
+.B "f"
+Press to animate in the forward direction.
+.TP 5
+.B "r"
+Press to animate in the reverse direction.
+.TP 5
+.B "i"
+Press to display information about the image.  Press any key or button
+to erase the information.
+
+This information is printed: image name;  image size; and the total
+number of unique colors in the image.
+.TP 5
+.B "q"
+Press to discard all images and exit program.
+.SH "X RESOURCES"
+\fIAnimate\fP options can appear on the command line or in your X
+resource file.  Options on the command line supercede values specified
+in your X resource file.  See \fBX(1)\fP for more information on X
+resources.
+
+All \fIanimate\fP options have a corresponding X resource.  In addition,
+the \fIanimate\fP program uses the following X resources:
+.TP 5
+.B background (\fPclass\fB Background)
+Specifies the preferred color to use for the image window background.  The
+default is black.
+.TP 5
+.B borderColor (\fPclass\fB BorderColor)
+Specifies the preferred color to use for the image window border.  The
+default is white.
+.TP 5
+.B borderWidth (\fPclass\fB BorderWidth)
+Specifies the width in pixels of the image window border.  The default is 2.
+.TP 5
+.B font (\fPclass\fB Font)
+Specifies the name of the preferred font to use when displaying text 
+within the image window.  The default is 9x15, fixed, or 5x8 determined by
+the image window size.
+.TP 5
+.B foreground (\fPclass\fB Foreground)
+Specifies the preferred color to use for text within the image window.  The
+default is white.
+.TP 5
+.B iconGeometry (\fPclass\fB IconGeometry)
+Specifies the preferred size and position of the application when
+iconified.  It is not necessarily obeyed by all window managers.
+.TP 5
+.B iconic (\fPclass\fB Iconic)
+This resource indicates that you would prefer that the application's
+windows initially not be visible as if the windows had be immediately
+iconified by you.  Window managers may choose not to honor the
+application's request.
+.TP 5
+.B name (\fPclass\fB Name)
+This resource specifies the name under which resources for the
+application should be found.  This resource is useful in shell aliases to
+distinguish between invocations of an application, without resorting to
+creating links to alter the executable file name.  The default is the
+application name.
+.TP 5
+.B title (\fPclass\fB Title)
+This resource specifies the title to be used for the image window.  This
+information is sometimes used by a window manager to provide some sort
+of header identifying the window.  The default is the image file name.
+.SH "COLOR REDUCTION ALGORITHM"
+.PP
+This section describes how \fIAnimate\fP performs color reduction in an
+image.  To fully understand this section, you should have a knowledge
+of basic imaging techniques and the tree data structure and terminology.
+.PP
+For purposes of color allocation, an image is a set of \fIn\fP pixels,
+where each pixel is a point in RGB space.  RGB space is a 3-dimensional
+vector space, and each pixel, \fIp\d\s-3i\s0\u\fP,  is defined by an
+ordered triple of red, green, and blue coordinates, (\fIr\d\s-3i\s0\u,
+g\d\s-3i\s0\u, b\d\s-3i\s0\u\fP).
+.PP
+Each primary color component (red, green, or blue) represents an
+intensity which varies linearly from 0 to a maximum value,
+\fIc\d\s-3max\s0\u\fP, which corresponds to full saturation of that
+color.  Color allocation is defined over a domain consisting of the
+cube in RGB space with opposite vertices at (0,0,0) and
+(\fIc\d\s-3max\s0\u,c\d\s-3max\s0\u,c\d\s-3max\s0\u\fP).  \fIAnimate\fP
+requires \fIc\d\s-3max\s0\u = 255\fP.
+.PP
+The algorithm maps this domain onto a tree in which each node
+represents a cube within that domain.  In the following discussion,
+these cubes are defined by the coordinate of two opposite vertices: The
+vertex nearest the origin in RGB space and the vertex farthest from the
+origin.
+.PP
+The tree's root node represents the the entire domain, (0,0,0) through
+(\fIc\d\s-3max\s0\u,c\d\s-3max\s0\u,c\d\s-3max\s0\u\fP).  Each lower level in
+the tree is generated by subdividing one node's cube into eight smaller
+cubes of equal size.  This corresponds to bisecting the parent cube
+with planes passing through the midpoints of each edge.
+.PP
+The basic algorithm operates in three phases:  \fBClassification,
+Reduction\fP, and \fBAssignment\fP.  \fBClassification\fP builds a
+color description tree for the image.  \fBReduction\fP collapses the
+tree until the number it represents, at most, is the number of colors
+desired in the output image.  \fBAssignment\fP defines the output
+image's color map and sets each pixel's color by reclassification in
+the reduced tree.
+.PP
+\fBClassification\fP begins by initializing a color description tree of
+sufficient depth to represent each possible input color in a leaf.
+However, it is impractical to generate a fully-formed color description
+tree in the classification phase for realistic values of
+\fIc\d\s-3max\s0\u\fP.  If color components in the input image are
+quantized to \fIk\fP-bit precision, so that \fIc\d\s-3max\s0\u =
+2\u\s-3k\s0\d-1\fP, the tree would need \fIk\fP levels below the root
+node to allow representing each possible input color in a leaf.  This
+becomes prohibitive because the tree's total number of nodes is
+.PP
+        \fI\s+6\(*S\u\s-9 k\d\di=1\s0 8k\fP\s0\u
+.PP
+A complete tree would require 19,173,961 nodes for \fIk = 8,
+c\d\s-3max\s0\u = 255\fP.  Therefore, to avoid building a fully
+populated tree, \fIAnimate\fP: (1) Initializes data structures for
+nodes only as they are needed; (2) Chooses a maximum depth for the tree
+as a function of the desired number of colors in the output image
+(currently \fIlog\d\s-34\s0\u(colormap size)\+2\fP).  A tree of this
+depth generally allows the best representation of the source image with
+the fastest computational speed and the least amount of memory.
+However, the default depth is inappropriate for some images.
+Therefore, the caller can request a specific tree depth.
+.PP
+For each pixel in the input image, classification scans downward from
+the root of the color description tree.  At each level of the tree, it
+identifies the single node which represents a cube in RGB space
+containing the pixel's color.  It updates the following data for each
+such node:
+.TP 5
+.B n\d\s-31\s0\u:  
+Number of pixels whose color is contained in the RGB cube which this
+node represents;
+.TP 5
+.B n\d\s-32\s0\u:  
+Number of pixels whose color is not represented in a node at lower
+depth in the tree;  initially,  \fIn\d\s-32\s0\u = 0\fP for all nodes
+except leaves of the tree.
+.TP 5
+.B S\d\s-3r\s0\u, S\d\s-3g\s0\u, S\d\s-3b\s0\u:
+Sums of the red, green, and blue component values for all pixels not
+classified at a lower depth.  The combination of these sums and
+\fIn\d\s-32\s0\u\fP will ultimately characterize the mean color of a
+set of pixels represented by this node.
+.PP
+\fBReduction\fP repeatedly prunes the tree until the number of nodes with
+\fIn\d\s-32\s0\u  > 0\fP is less than or equal to the maximum number of colors
+allowed in the output image.  On any given iteration over the tree, it
+selects those nodes whose \fIn\d\s-31\s0\u\fP count is minimal for pruning and
+merges their color statistics upward.  It uses a pruning threshold,
+\fIn\d\s-3p\s0\u\fP, to govern node selection as follows:
+.PP
+  n\d\s-3p\s0\u = 0
+  while number of nodes with (n\d\s-32\s0\u > 0) > required maximum number of colors
+      prune all nodes such that n\d\s-31\s0\u <= n\d\s-3p\s0\u
+      Set n\d\s-3p\s0\u  to minimum n\d\s-31\s0\u  in remaining nodes
+.PP
+When a node to be pruned has offspring, the pruning procedure invokes
+itself recursively in order to prune the tree from the leaves upward.
+The values of \fIn\d\s-32\s0\u  S\d\s-3r\s0\u, S\d\s-3g\s0\u,\fP  and
+\fIS\d\s-3b\s0\u\fP in a node being pruned are always added to the
+corresponding data in that node's parent.  This retains the pruned
+node's color characteristics for later averaging.
+.PP
+For each node,  \fIn\d\s-32\s0\u\fP pixels exist for which that node
+represents the smallest volume in RGB space containing those pixel's
+colors.  When \fIn\d\s-32\s0\u  > 0\fP the node will uniquely define a
+color in the output image.  At the beginning of reduction,
+\fIn\d\s-32\s0\u = 0\fP  for all nodes except the leaves of the tree
+which represent colors present in the input image.
+.PP
+The other pixel count, \fIn\d\s-31\s0\u\fP,  indicates the total
+number of colors within the cubic volume which the node represents.
+This includes \fIn\d\s-31\s0\u - n\d\s-32\s0\u\fP pixels whose colors
+should be defined by nodes at a lower level in the tree.
+.PP
+\fBAssignment\fP generates the output image from the pruned tree.  The
+output image consists of two parts:  (1)  A color map, which is an
+array of color descriptions (RGB triples) for each color present in the
+output image; (2)  A pixel array, which represents each pixel as an
+index into the color map array.
+.PP
+First, the assignment phase makes one pass over the pruned color
+description tree to establish the image's color map.  For each node
+with \fIn\d\s-32\s0\u > 0\fP, it divides \fIS\d\s-3r\s0\u,
+S\d\s-3g\s0\u\fP, and \fPS\d\s-3b\s0\u\fP by \fIn\d\s-32\s0\u\fP.  This
+produces the mean color of all pixels that classify no lower than this
+node.  Each of these colors becomes an entry in the color map.
+.PP
+Finally, the assignment phase reclassifies each pixel in the pruned
+tree to identify the deepest node containing the pixel's color.  The
+pixel's value in the pixel array becomes the index of this node's mean
+color in the color map.
+.SH "MEASURING COLOR REDUCTION ERROR"
+.PP
+Depending on the image, the color reduction error may be obvious or
+invisible.  Images with high spatial frequencies (such as hair or
+grass) will show error much less than pictures with large smoothly
+shaded areas (such as faces).  This is because the high-frequency
+contour edges introduced by the color reduction process are masked by
+the high frequencies in the image.
+.PP
+To measure the difference between the original and color reduced images
+(the total color reduction error), \fIAnimate\fP sums over all pixels
+in an image the distance squared in RGB space between each original
+pixel value and its color reduced value. \fIAnimate\fP prints several error 
+measurements including the mean error per pixel, the normalized mean error,
+and the normalized maximum error.
+.PP
+The normalized error measurement can be used to compare images.  In
+general, the closer the mean error is to zero the more the quantized
+image resembles the source image.  Ideally, the error should be
+perceptually-based, since the human eye is the final judge of
+quantization quality.
+.PP
+These errors are measured and printed when \fB-verbose\fP and \fB-colors\fI 
+are specified on the command line:
+.TP 5
+.B mean error per pixel:  
+is the mean error for any single pixel in the image.
+.TP 5
+.B normalized mean square error:  
+is the normalized mean square quantization error for any single pixel in the
+image.  
+
+This distance measure is normalized to a range between 0 and 1.  It is
+independent of the range of red, green, and blue values in the image.
+.TP 5
+.B normalized maximum square error:  
+is the largest normalized square quantization error for any single
+pixel in the image.
+
+This distance measure is normalized to a range between 0 and 1.  It is
+independent of the range of red, green, and blue values in the image.
+.SH "MIFF FILE FORMAT"
+.PP
+The Machine Independent File Format is described in this section.
+.PP
+A MIFF image file consist of two sections.  The first section is
+composed of keywords describing the image in text form.  The next
+section is the binary image data.  The two sections are separated by a
+\fB:\fP character immediately followed by a \fInewline\fP.  Generally,
+the first section has a \fIform-feed\fP and \fInewline\fP proceeding
+the \fB:\fP character.   You can then list the image keywords with
+\fImore\fP, without printing the binary image that follows the \fB:\fP
+separator.
+.PP
+Each keyword must be separated by at least one space but can be
+separated with control characters such a \fIform-feed\fP or
+\fInewline\fP.
+.PP
+A list of valid keywords follows:
+.TP 5
+.B "class=\fIDirectClass | PseudoClass\fP"
+identifies the type of binary image stored within the file.  
+
+This keyword is optional.  If it is not specified, a \fIDirectClass\fP
+image format is assumed.  An explanation of \fIDirectClass\fP and
+\fIPseudoClass\fP image data follows this list.
+.TP 5
+.B "colors=\fIvalue\fP"
+specifies the number of colors in the image, and for pseudo-color
+images the size of the colormap.  
+
+This keyword is optional.  However, if a colormap size is not
+specified, a linear colormap is assumed for pseudo-color images.
+.TP 5
+.B "columns=\fIvalue\fP"
+is a required keyword and specifies the number of columns, or width in
+pixels, of the image.
+.TP 5
+.B "compression=\fIQEncoded | RunlengthEncoded\fP"
+identifies how the image stored within the file is compressed.
+
+This keyword is optional.  If it is not specified, the image is assumed
+to be uncompressed.  A detailed explanation of runlength-encoded and
+Q-coder image compression follows this list.
+.TP 5
+.B "id=\fIImageMagick\fP"
+is a required keyword and identifies this file as a MIFF image.  
+.TP 5
+.B "packets=\fIvalue\fP"
+specifies the number of compressed color packets in the image data section.  
+
+This keyword is optional, but recommended, for runlength-encoded image
+compression.  It is required for Q-encoded image compression.  A
+detailed explanation of image compression follows this list.
+.TP 5
+.B "rows=\fIvalue\fP"
+is a required keyword and specifies the number of rows, or height in pixels, 
+of the image.
+.TP 5
+.B "scene=\fIvalue\fP"
+is an optional keyword and is a reference number for sequencing of
+images.  
+
+This keyword is typically useful for animating a sequence of images.
+.PP
+Comments can be included in the keyword section.  Comments must begin with
+a \fB{\fP character and end with a \fI}\fP character.  
+.PP
+An example keyword section follows:
+.PP
+    {
+      Rendered via Dore by Sandy Hause.
+    }
+    id=ImageMagick
+    class=PseudoClass  colors=256
+    compression=RunlengthEncoded  packets=27601
+    columns=1280  rows=1024
+    scene=1
+    ^L
+    :
+.PP
+The binary image data that follows the keyword text is stored in one of 
+two binary classes as specified by the \fBclass\fP keyword: 
+\fIDirectClass\fP or \fIPseudoClass\fP.
+.PP
+Use the \fIDirectClass\fP class to store continuous-tone images.
+\fIDirectClass\fP requires that the image pixels immediately follow the
+keyword text and be stored as binary red, green, and blue intensity
+values.  The total number of pixels expected is equal to the number of pixel 
+columns times the number of pixel rows as specified by the \fBcolumns\fP and 
+\fBrows\fP keywords.
+.PP
+If the \fBcompression\fP keyword is not specified, a red, green, and blue byte 
+in that order is expected for each pixel of the image.
+.PP
+If \fBcompression\fP is \fIQEncoded\fP, each red, green, and blue byte
+intensity value is encoded using the Q-coder compression algorithm.
+Use the \fBpackets\fP keyword to specify the total number of Q-encoded
+packets that comprise the image.  Refer to "Sofware implementations of
+the Q-Coder", by Mitchell, J. L. and Pennebaker, W.B. (IBM Journal Res.
+Development, Volume 32, Number 6, November 1988, pages 753 - 774) for
+implementation specific details.
+.PP
+If \fBcompression\fP is \fIRunlengthEncoded\fP, each red, green, and
+blue byte intensity value is followed by a count byte. This value
+specifies the number of horizonally contiguous pixels in the image of
+that color.  The count (0-255) is one less than the actual number of
+contiguous pixels; thus a single packet can represent from 1 up to 256
+identical pixels.  The total number of pixels specified by the
+individual count bytes must add up to the number of pixel columns times
+the number of pixel rows as specified by the \fBcolumns\fP and
+\fBrows\fP keywords.  Use \fBpackets\fP to specify the total number of
+runlength-encoded packets that comprise the image.
+.PP
+Use the \fIPseudoClass\fP class to store pseudo-color images.
+\fIPseudoClass\fP requires that the image colormap and
+pseudo-color pixels immediately follow the keyword text.  The colormap
+is stored as contiguous red, green, and blue intensity values.  The
+number of intensity values expected is determined by the \fBcolors\fP
+keyword.  Note, an image colormap is restricted to at most 65535
+entries.  The binary pseudo-color image is stored as indexes into the
+colormap.  If the colormap size exceeds 256 entries, then each colormap
+index is two bytes each with the most-significant-byte first.  The
+total number of pixels expected is equal to the number of pixel columns
+times the number of pixel rows as specified by the \fBcolumns\fP and
+\fBrows\fP keywords.
+.PP
+If the \fBcompression\fP keyword is not specified, a colormap index is 
+expected for each pixel of the image.
+.PP
+If \fBcompression\fP is \fIQEncoded\fP, each colormap index is
+encoded using the Q-coder compression algorithm.  Use the \fBpackets\fP
+keyword to specify the total number of Q-encoded packets comprise the
+image.  Refer to "Sofware implementations of the Q-Coder", by Mitchell,
+J. L. and Pennebaker, W.B. (IBM Journal Res. Development, Volume 32,
+Number 6, November 1988, pages 753 - 774) for implementation specific
+details.
+.PP
+If \fBcompression\fP is \fIRunlengthEncoded\fP, each colormap index
+is followed by a count byte. This value  specifies the number of
+horizonally contiguous pixels in the image of that color.  The count
+(0-255) is one less than the actual number of contiguous pixels; thus a
+single packet can represent from 1 up to 256 identical pixels.  The
+total number of pixels specified by the individual count bytes must add
+up to the number of pixels expected in the image as specified by the
+\fBcolumns\fP and \fBrows\fP keywords.  Use \fBpackets\fP to specify the 
+total number of runlength-encoded packets that comprise the image.
+.SH FEATURES
+Although \fIAnimate\fP will display an image on a server with an immutable
+colormap, the image quality may suffer as compared to a server with a 
+read/write colormap.
+.PP
+\fIAnimate\fP memory requirements is proportionate to the area of the image.
+.PP
+\fIAnimate\fP does not complain when it encounters a keyword in an image file
+it does not understand.
+.SH ENVIRONMENT
+.TP 5
+.B DISPLAY
+To get the default host, display number, and screen.
+.SH SEE ALSO
+X(1), xcmap(1), import(1), XtoPS(1), more(1), compress(1)
+.SH COPYRIGHT
+Copyright 1991 E. I. du Pont de Nemours & Company                           
+.PP                                                                           
+Permission to use, copy, modify, distribute, and sell this software and    
+its documentation for any purpose is hereby granted without fee,           
+provided that the above copyright notice appear in all copies and that     
+both that copyright notice and this permission notice appear in            
+supporting documentation, and that the name of E. I. du Pont de Nemours     
+& Company not be used in advertising or publicity pertaining to            
+distribution of the software without specific, written prior               
+permission.  E. I. du Pont de Nemours & Company makes no representations    
+about the suitability of this software for any purpose.  It is provided    
+"as is" without express or implied warranty.                               
+.PP
+E. I. du Pont de Nemours & Company disclaims all warranties with regard
+to this software, including all implied warranties of merchantability
+and fitness, in no event shall E. I. du Pont de Nemours & Company be
+liable for any special, indirect or consequential damages or any
+damages whatsoever resulting from loss of use, data or profits, whether
+in an action of contract, negligence or other tortious action, arising
+out of or in connection with the use or performance of this software.      
+.SH ACKNOWLEDGEMENTS
+The MIT X Consortium for making network transparent graphics a reality.
+.PP
+Michael Halle, Spatial Imaging Group at MIT, for the initial
+implementation of Alan Paeth's image rotation algorithm.
+.PP
+David Pensak, E. I. du Pont de Nemours & Company, for providing a
+computing environment that made this program possible.
+.PP
+Paul Raveling, USC Information Sciences Institute, for the original
+idea of using space subdivision for the color reduction algorithm.
+With Paul's permission, the \fBCOLOR REDUCTION ALGORITHM\fP section is
+a adaptation from a document he wrote.
+.SH AUTHORS
+John Cristy, E.I. du Pont de Nemours & Company Incorporated

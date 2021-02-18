@@ -1,0 +1,114 @@
+WNNENVRC(4)
+
+NAME
+    wnnenvrc  -  Initialzation file for Kana-To-Kanji conversion environment
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/wnnenvrc (defualt)
+
+DESCRIPTION
+    Defines the conversion environment for the user. This file is defined in 
+    uumrc.
+
+    When the file is redefined, the latest version will be valid except setdic.
+    The maximum of setdic is 20.
+    Lines that start with a semicolon (;) are comments.
+
+    The following settings are specified in this file.
+
+	include <wnnenvrc_file> 
+	  Specifies the other wnnenvrc file.
+
+	setdic <dictionary_name>  <frequency_file_name> <dictionary_priority>
+	       <dictionary_is_readonly> <frequency_files_readonly>
+	       <dictionary_passwd_file_name>
+	       <frequency_file_passwd_file_name>
+	       <Kana-To-Kanji/Kanji-To-Kana>
+
+	    dictionary_name :
+		Specifies the dictionary filename.
+
+	    frequency_file_name :
+		Specifies the frequency file name of specified dictionary.
+		If it is "-", Internal frequency of dictionary will be used.
+
+	    dictionary_priority :
+		Specifies a priority of specified dictionary and is decimal
+		code.
+
+	    dictionary_is_readonly, frequency_files_readonly :
+		1: dictionary is read only
+		0: dictionary can be updated
+
+	    
+	    dictionary_passwd_file_name :
+		Specifies the password filename of the dictionary.
+
+
+	    frequency_file_passwd_file_name :
+		Specifies the password filename of the frequency file.
+
+	    Kana-To-Kanji/Kanji-To-Kana :
+		1: Kana-To-Kanji
+		0: Kanji-To-Kana
+
+	    The default is -  5 0 0  - - 0.
+
+	setfuzokugo <file_name>   
+	    Specifies the fuzokugo file.
+
+	setparam  <c0>  <c1>   <c2>   <c3>   <c4>   <c5>   <c6>   <c7>  <c8>  
+		  <c9>  <c10>  <c11>  <c12>  <c13>  <c14>  <c15>  <c16>  
+
+	    Specifies the parameter values for conversion. The parameters
+	    should  be integers.
+
+	confirm
+	    When the dictionaries set in "setdic" do not exist,
+	    the system confirms with the user on whether he wants to create
+	    each individual new dictionaries.
+
+	confirm1
+	    When the dictionaries set in "setdic" do not exist,
+	    the system only confirm once with the user to create all the new
+	    usage dictionaries.
+
+	create_without_confirm 
+	    When the dictionaries set in "setdic" do not exist, new
+	    dictionaries will be created automatically.
+
+	no_create 
+	    When the dictionaries set in "setdic" do not exist, new
+	    dictionaries will not be created automatically.
+
+ * Note
+	During path definition, the following abbreviations can be used.
+	(1) -		The value of environment variable HOME
+	(2) -username	The home directory of the username defined in /etc/passwd.
+	(3) @HOME	The value of environment variable HOME
+	(4) @LIBDIR	The path /usr/local/lib/wnn
+	(5) @USR	The value of environment variable LOGNAME
+
+    In top of include, the following abbreviations can be used :
+    ~, ~username, @HOME @LIBDIR
+	~ 		The value of environment variable HOME .
+	usrname 	The home directory for the user in "/etc/passwd".
+	@HOME 		The value of environment variable HOME .
+	@LIBDIR 	The path "/usr/local/lib/wnn".
+
+    In setdic, first @USR is the user name of uum (refer to uum(1)).
+
+EXAMPLE
+	setdic	usr/@USR/ud		-			8 0 0 - - 0
+	setdic	pubdic/pd-kihon.dic	usr/@USR/kihon.h	1 1 0 - - 0
+	setdic	pubdic/pd-tankan.dic	usr/@USR/tankan.h	1 1 0 - - 0
+
+
+CAUSION
+    The file name of Dictionaries or frequency files are in the machine of
+    jserver to which uum will connect. If the specified user dictionaries or
+    frequency files are not exist, these will be created in the machine of
+    jserver
+
+SEE ALSO
+	uum(1), jserver(1), uumrc(4), cvt_key_tbl(4)

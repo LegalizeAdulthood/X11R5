@@ -1,0 +1,572 @@
+; GWM: an exemple of a user customisation file for the standard profile
+; =====================================================================
+;; code indented by the amc-lisp package of epoch
+
+; How to add code to each window decoration
+;(setq opening
+;  (+ opening '((? "Decorating " window-status " " window-name "\n"))))
+
+;;=============================================================================
+;;                    Colas: My personal profile for gwm-1.7
+;;=============================================================================
+
+;; You may want to put this profile as "site-defs.gwm", and make users include
+;; it in their smaller profiles...
+
+;;=============================================================================
+;;                    general setup: menus, cursors
+;;=============================================================================
+
+					; global flags
+(setq confine-windows t)		; windows stay on screen
+					; cursors
+
+;; for me only: how to set the background pattern to a screen-dependent value
+
+(if (= (getenv "USER") "colas")		
+  (progn
+    (setq USER 'colas)
+    ;; (setq root-cursor  (cursor-make 2))
+    (with (background (color-make 'DeepPink)
+	foreground (color-make 'DeepPink4))
+      (setq cursor  (cursor-make "arrow3d-f" "arrow3d-m"))
+    )
+    (with (background (color-make 'HotPink)
+	foreground (color-make 'HotPink4))
+      (setq root-cursor  (cursor-make "arrow3d-f" "arrow3d-m"))
+    )
+        ;; (setq cursor root-cursor)
+    (if (> screen-depth 2)
+;;      (: screen-tile (pixmap-make (color-make "#aee")
+;;	  "grainy" (color-make "#7bb")))
+      (: screen-tile ())
+      (> screen-depth 1)
+      (: screen-tile (pixmap-make white "back" grey))
+      (: screen-tile (pixmap-make "back")))
+    
+    (set-threshold 1)
+    (set-acceleration 2 1)
+    (stack-print-level 1000)
+  )
+  ;; general code for non-me users
+  (progn
+    (setq USER 'other)
+    (stack-print-level 3)
+  )
+)
+
+					; menus colors & fonts
+
+(setq pop-label.font (font-make "*-helvetica-bold-o-normal--18-*"))
+(setq pop-item.font (font-make "*-helvetica-medium-r-normal--14-*"))
+(setq pop-item.background (color-make "pink"))
+(setq pop-item.foreground (color-make "NavyBlue"))
+(setq name-font (font-make "*-times-bold-r-normal--18-*"))
+
+; if you do not see the grid lines when moving/resizing, do a:
+; (setq grid-color (bitwise-xor (color-make "fore") (color-make "back")))
+; with fore and back being the predominant colors on your screen
+; do the same thing with invert-color if you have problems with menus
+
+;;=============================================================================
+;;                    general packages
+;;=============================================================================
+
+;;=============================================================================
+;; NOTE: put here all behavior (fsm) modifications, before loading decorations
+;;=============================================================================
+
+;; how to add a function (iconify on control-alt clik-right) to windows,
+;; and a delta functionality to raise/move windows on button 1:
+;; first, define what to do on these events
+
+(load 'deltabutton)
+
+(: standard-behavior
+   (state-make
+    (on (buttonpress 1 alone)
+	(if (deltabutton) (progn (raise-window)(move-window))
+	  (raise-window)))
+    (on (buttonpress 1 with-alt)
+	(if (deltabutton) (progn (raise-window)(move-window))
+	  (raise-window)))
+    (on (buttonrelease 3 (together with-alt with-control))
+	(progn (iconify-window) (raise-window)))
+    standard-behavior
+    ))
+
+;; second, "grab" these events to prevent them to go to the decorated 
+;; application
+
+(setq window-grabs 
+    (+ window-grabs 
+       (list (buttonpress 3 (together with-alt with-control)))))
+
+;; I also like to be able to do "Exec Cut" anywhere by Ctrl-Alt-F1
+;;================================================================
+;; first abbrev for the event
+(setq CtrlAltF1 (key "F1" (together with-alt with-control)))
+
+;; second, put the transition in the concerned behaviors
+(: standard-behavior (state-make	; for windows & icons
+    standard-behavior
+    (on CtrlAltF1 (execute-string (+ "(? " cut-buffer ")")))
+))
+(: root-behavior (state-make		; root window only
+    root-behavior
+    (on CtrlAltF1 (execute-string (+ "(? " cut-buffer ")")))
+))   
+
+(: window-grabs (+ window-grabs (list CtrlAltF1)))
+(: icon-grabs (+ icon-grabs (list CtrlAltF1)))
+(: root-grabs (+ root-grabs (list CtrlAltF1)))
+
+;; then register these changes
+(reparse-standard-behaviors)
+
+;; load misc little packages
+;;==========================
+
+(load 'float)				; to make sticky windows
+(load 'unconf-move)			; to allow control-moving out of screen
+(load 'suntools-keys)			; to add L7 for iconify
+(load 'move-opaque)			; to move windows in real time (NeXT)
+(load 'vscreen)				; qjb virtual screen
+(load 'mon-keys)			; M.Newton functions key bindings
+
+;;=============================================================================
+;;                    dvrooms
+;;=============================================================================
+
+(: dvroom.font (font-make "9x15"))
+(: dvroom.auto-add t)
+;(setq dvroom.icon-box t)
+(load 'dvrooms)
+
+;;=============================================================================
+;; NOTE: Now we can actually load decorations, the fsms have been updated
+;;=============================================================================
+
+;;=============================================================================
+;;                    simple-ed-win
+;;=============================================================================
+
+(: edit-keys.backspace "Delete")
+(: edit-keys.delete "Escape")
+
+;; My Bull Icon... comment out this code to get rid of my company's logo :-)
+
+(setq icon-pixmap 		; put the BULL logo in the upper left corner
+  (if (= screen-depth 1)
+	(pixmap-make white "bull_1" black "bull_2" white)
+      (= screen-depth 2)
+	(pixmap-make white "bull_1" darkgrey "bull_2" grey)
+      (pixmap-make white "bull_1" (color-make "DarkSlateBlue")
+			 "bull_2" (color-make "Green")))))
+
+;;=============================================================================
+;;                    icon groups
+;;=============================================================================
+
+;; I don't want to have only one icon for all my epoch screens!
+
+(setq icon-groups.excluded '(Emacs Xmh XRn MinibufferScreen))
+(load "icon-groups")		; iconify groups as a whole
+
+;;=============================================================================
+;;                    icons
+;;=============================================================================
+
+(setq simple-icon.legend ())		; no title under icons
+
+;; How to have different icon colors. as you can see, customize is quite
+;; flexible on how to specify arguments
+
+(customize simple-icon any Xman
+  background (color-make "MistyRose")
+)
+(customize simple-icon any Xedit
+  background (color-make "thistle2")
+)
+(customize simple-icon any Xdir
+  (background (color-make "LightSeaGreen"))
+)
+(customize simple-icon any Xls
+  (background (color-make "aquamarine1"))
+)
+(customize simple-icon any Emacs background (color-make "wheat1"))
+(customize simple-icon any MinibufferScreen
+  background (color-make "wheat1"))
+(customize simple-icon any Xmh
+  background (color-make "LightCyan2")
+  foreground (color-make "DeepPink2")
+)
+(customize simple-icon any XRn
+  background (color-make "aquamarine2")
+)
+(customize simple-icon any XPostit
+  background (color-make "Red")
+  foreground (color-make "Yellow")
+)
+
+;; note that you can specify a client by its class.name.windowname.machine
+
+(customize term-icon any XTerm.Console.Console.any
+  '(background (color-make "LightSkyBlue2"))
+)
+(customize term-icon any XTerm.xterm.any.avahi
+  background (color-make "PowderBlue")
+)
+(customize term-icon any XTerm
+  background (color-make "LightBlue2")
+)
+
+(customize term-icon any XTerm.hobbes
+  '(background (color-make "LightGoldenRod3"))
+)
+(customize simple-icon any Xmh.any.any.lemur
+  background (color-make "LightGoldenRod3")
+  foreground (color-make "MidnightBlue")
+)
+
+(set-icon XPostit (pixmap-load "plaid"))
+
+;;=============================================================================
+;;                    affectation of decorations to windows
+;;=============================================================================
+
+(set-window any simple-win)	; Any X Client
+
+;; how to fully customize decos: define a Lisp function to choose the
+;; deco for the client with full lisp power, then affect it as a deco to 
+;; clients
+
+(defun xterm-deco ()
+  (if (= window-client-name "test") 'test-win ; atoms
+    (= window-client-name "vb") "vb-term"     ; or strings are equivalent
+      'simple-ed-win			      ; means load file & execute func
+))
+
+(set-window XTerm xterm-deco)	; XTERM
+
+(set-window XLoad no-frame) ; XLOAD
+(set-window XPostit no-frame-no-borders)
+(set-window XCal no-frame-no-borders)
+(set-window XBiff no-frame-no-borders)
+
+;(set-window XClock frame-win)	; XCLOCK
+(set-window XClock no-frame)	; XCLOCK
+(set-window Clock frame-win)
+
+(set-window chaos no-frame)
+
+(set-icon-window any simple-icon) ; Any icon
+(set-window client no-frame-no-borders) ; xwud
+
+(set-icon-window XTerm term-icon)	; XTERM icon
+
+;;=============================================================================
+;;                    placements
+;;=============================================================================
+
+(set-placement XTerm user-positioning)  ; place manually xterms
+
+(if (not (= USER 'colas))		; people other than me like to have 
+					; interactive placement for all windows
+  (set-placement * user-positioning)
+)
+
+(set-icon-placement any rows.right-top.placement) ; place most icons on right
+
+; xloads, xclocks, etc goes on NE corner
+
+(set-placement XLoad.xload rows.top-right.placement) 
+(set-placement XPostit.xpostit.xpostit rows.top-right.placement) 
+(set-placement XClock rows.top-right.placement) 
+(set-placement XBiff rows.top-right.placement) 
+(set-placement XLogo rows.down-right.placement) 
+
+(set-icon-placement Gwm rows.down-right.placement) ; inactive dvrooms
+(set-window Gwm no-frame)
+(set-placement Gwm			; active dvrooms
+	       (lambda (f) (if (= window-name "rmgr")
+			         (if f
+				   (move-window
+				    (- screen-width 175)
+				    60)))))))))
+
+(set-placement XPostit.xpostit rows.top-right.placement)
+
+;; specify the ordering of icons
+
+(setq icon-order '(Xmh 10 XPostit 5 XRn 20 XClock 2 XBiff 1 XLoad 20
+		       XTerm 90 Emacs 200 XDvi 250))
+
+(rows.limits rows.right-top 'start 55 'separator 1 'sort sort-icons)
+(rows.limits rows.down-right 'start 100 'separator 1 'offset
+     (- screen-height 70))
+(rows.limits rows.down-left 'start 600 'separator 1 'offset 1)
+(rows.limits rows.top-right 'start 55 'end (/ screen-width 2) 'sort sort-icons)
+
+;; I want my local xload on the top right corner
+
+(set-placement XLoad.xloadlocal
+  (lambda (f) (if f (progn
+	(move-window (- screen-width window-width wob-borderwidth) 0)
+	(## 'update-placement window  ())
+)))))
+
+;;=============================================================================
+;;                    Misc Examples
+;;=============================================================================
+
+; have a list of machines for xterms and xload alphabetically sorted
+
+(setq xload-list (: xterm-list '(
+      mirsa avahi lemur koala
+      celeste rataxes columbo tom
+      jerry miracle 
+      aenegada capa
+      modja crios ploum milos rhea
+      babar  paprika trinidad bahia oural
+      tatoo almeria tsoris mbili bagheera falbala
+      oaxaca))))
+
+; I sort the list of machines alphabetically
+
+(sort xterm-list (lambdaq (atom1 atom2) (compare atom1 atom2)))
+
+;; Example on how to make a window start as iconic: 
+;; first, sets its window-starts-iconic to t,
+;; then return deco
+
+(defun no-frame-iconic ()
+    '(progn
+	(window-starts-iconic t)
+	(no-frame)))
+;; we use this for xdvi, which has no -iconic option
+(set-window XDvi no-frame-iconic)
+
+; how to affect a decoration by some other criterions:
+; example: set deco of xrn windows by size: small windows (popups) do not
+; have decos, big ones (height > 200) have
+
+(setq XRn-deco '(if (> window-height 200)
+    (progn
+      (require 'simple-win)		; we must load it if it wasn't here
+      (simple-win 'font small-font
+	'background (color-make "PaleGreen2")
+	'active.background (color-make "PaleGreen4")
+	'label.background (color-make "PaleGreen2")
+    ))
+    no-frame-no-borders			; no visible frame on popups
+))
+(set-window XRn XRn-deco)
+
+;; in fact, you can give customization argiments either to the function itself
+;; or like here by another call to customize...
+
+(set-window XTerm.xterm_Lpq simple-win)
+(customize simple-win any XTerm.xterm_Lpq font small-font
+	background (color-make "Yellow3")
+	active.background (color-make "Yellow1")
+	label.background (color-make "Yellow3")
+)))
+
+;;=============================================================================
+;;                    emacs windows: small-win is a  variant of simple-win
+;;=============================================================================
+
+;; first, we create the variant by calling the simple-win deco with a
+;; context as argument (think of it as a closure made with the simple-win
+;; deco + another environnement)
+
+(require 'simple-win)			; ensure simple-win func is defined
+(: small-win '(simple-win 'font small-font
+    'background (color-make "BurlyWood")
+    'active.background (color-make "orange4")
+    'label.background (color-make "BurlyWood")
+))
+
+;; then we can use it
+
+(set-window Emacs small-win)
+(set-window emacs (simple-win 'font small-font))
+(set-window Emacs.epoch.minibuffer no-frame)
+(set-window MinibufferScreen no-frame)
+
+;;=============================================================================
+;;                    xmh
+;;=============================================================================
+
+;; use xmh icon on my mailbox machine only: avahi
+;; note that since in window name, spaces, dots and * become _ to avoid
+;; fatal bugs to the X resource manager, we must specify the actual window
+;; name "xmh: inbox" by xmh:_inbox
+
+(if (= (getenv "USER") "colas")
+  (progn
+    (set-icon any Xmh.xmh.xmh:_inbox.avahi ())
+    (set-icon Xmh.xmh.xmh.avahi ())
+    (set-icon Xmh.xmh.any.avahi '(label-make window-icon-name small-font))
+    (set-icon Xmh (+ (getenv "HOME") "/bitmaps/nomail.bit"))
+))
+
+;;=============================================================================
+;;                    epoch placement
+;;=============================================================================
+
+;; this is a code to arrange my epoch window: make new epoch windows occupy
+;; vacant slots in the "Epoch-windows-list"
+;; Sample list is one to the left, and a cascade to the right
+
+(if (= USER 'colas) (progn
+    (setq Epoch-windows-list '(
+    ;; free (width height x-pixel-pos y-pixel-pos ordering-number)    
+	free (76 86 0 0 0)
+	free (76 86 570 0 1)
+	free (76 84 590 22 2)
+	free (76 82 610 44 3)
+	free (76 80 630 66 4)
+	free (76 78 650 88 5)
+	free (76 76 670 110 6)
+	free (76 74 690 132 7)
+    ))
+    
+    (set-placement Emacs.epoch 
+      (lambda (flag)
+	(if flag			; opening: seek free slot
+	  (if (not window-starts-iconic) ; then put window-id instead of free
+	    (place-epoch-window)
+	  )
+					; closing: put 'free in slot
+	  (with (e (member window Epoch-windows-list))
+	    (if e
+	      (replace-nth e Epoch-windows-list 'free)
+    )))))
+    
+;; search Epoch-windows-list for free slots, and move & resize window there
+    (defun place-epoch-window ()
+      (with (geometry (nth 'free Epoch-windows-list))
+	(if geometry
+	  (progn
+	    (move-window (nth 2 geometry) (nth 3 geometry))
+	    (setq window-size (sublist 0 2 geometry))
+	    (replace-nth (* 2 (nth 4 geometry)) Epoch-windows-list window)
+))))))
+
+;; Personal clients
+(if (= USER 'colas) (progn
+    (setq xlpwatch.color (color-make "bisque"))
+    (set-icon Tk.xlpwatch (pixmap-make xlpwatch.color "printer.xbm" black))
+    (set-window Tk.xlpwatch no-frame-no-borders)
+    (set-icon Tk.xlpwatch_#2 (pixmap-make xlpwatch.color "printer.xbm" black))
+    (set-window Tk.xlpwatch_#2 no-frame-no-borders)
+    (set-icon Tk.xlpwatch_#3 (pixmap-make xlpwatch.color "printer.xbm" black))
+    (set-window Tk.xlpwatch_#3 no-frame-no-borders)
+))
+
+(set-window XQuery.NewMail no-frame-no-borders)
+(set-placement XQuery.NewMail rows.left-top.placement)
+
+;;=============================================================================
+;; buttons for often done actions
+;; button creation must be done at screen-opening-time
+;;=============================================================================
+
+(if (= USER 'colas)
+  (progn
+    (setq screen-opening (+ screen-opening '(
+	  
+      ;; kill all my "new mail" windows
+	  (place-3d-button "kill-mails"
+	    black  'CadetBlue
+	    '(for window (list-of-windows) 
+	      (if (= window-client-name 'NewMail)(kill-window))
+	  ))
+	  
+      ;; show/hide my vital postit, determined by its size
+	  (place-3d-button "admin-post"
+	    black 'khaki
+	    '(for window (list-of-windows) 
+	      (if (and (= window-name 'PostItNote)
+		  (= window-width 515)(= window-height 191)
+		)
+		(if window-is-mapped (iconify-window)
+		  (progn (map-window)(raise-window))
+	  ))))
+	  
+      ;; toggle on/off all big postits
+	  (place-3d-button "Post Big"
+	    black 'thistle
+	    '(for window (list-of-windows) 
+	      (if (= window-name 'PostItNoteBig)
+		(if window-is-mapped (iconify-window)
+		  (progn (map-window)(raise-window))
+	  ))))
+	  
+      ;; toggle on/off all normal postits
+	  (place-3d-button "Post Norm"
+	    black 'khaki
+	    '(for window (list-of-windows) 
+	      (if (= window-name 'PostItNote)
+		(if window-is-mapped (iconify-window)
+		  (progn (map-window)(raise-window))
+	  ))))
+	  
+      ;; toggle on/off all small postits
+	  (place-3d-button "Post Small"
+	    black 'SpringGreen
+	    '(for window (list-of-windows) 
+	      (if (= window-name 'PostItNoteSmall)
+		(if window-is-mapped (iconify-window)
+		  (progn (map-window)(raise-window))
+	    )))
+	  )
+	  
+      ;; raise/lower/iconify (depending of button) all xterms
+	  (place-3d-button "XTerms"
+	    black 'LightBlue
+	    '(if (= 0 (current-event-modifier))
+	      (for window (list-of-windows 'window) 
+		(if (and (= window-client-class 'XTerm) window-is-mapped)
+		  (if (= 1 (current-event-code))
+		    (raise-window)
+		    (= 2 (current-event-code))
+		    (lower-window)
+		    (= 3 (current-event-code))
+		    (iconify-window)
+	      )))
+	      (for window (list-of-windows 'icon)
+		(if (and (= window-client-class 'XTerm) window-is-mapped)
+		  (if (= 1 (current-event-code))
+		    () ;; to be completed
+		    (= 2 (current-event-code))
+		    () ;; to be completed
+		    (= 3 (current-event-code))
+		    (iconify-window)
+	  )))))
+	  
+    )))
+    
+    (set-placement Gwm.button rows.right-down.placement)
+    (set-window Gwm.button no-frame-no-borders)
+))
+
+;;=============================================================================
+;; some little modifications after modules have been loaded
+;;=============================================================================
+;; a bit of hack. just to show it can be done.
+
+;; change font of first item of window menu
+(## 0 window-pop-items
+  (list 'with '(pop-item.font (font-make "*-helvetica-bold-r-normal--14-*"))
+    (# 0 window-pop-items)
+))
+
+(setq old-get-x-resource resource-get)
+;(defun resource-get (class name)
+;;  (? "GET [" class "] [" name "]\n")
+;  (old-get-x-resource class name)
+;)
+(setq reenter-on-opening ())

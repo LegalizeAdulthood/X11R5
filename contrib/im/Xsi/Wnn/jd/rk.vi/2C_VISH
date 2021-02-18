@@ -1,0 +1,12 @@
+;
+; $Id: 2C_VISH,v 1.1 1991/09/09 22:39:58 ohm Exp $
+;
+; vi sh-mode
+(defvar char (all))
+(defvar esc (list '^[' '^J' '^M' '\x7f'))
+;(defvar bs (list '^H'))
+(if viquote)(char)		(off viquote)(char)
+'^V'				(on viquote)'^V'
+(if vish)(esc)			(off vish)(on vimove)(esc)
+
+(if vish)(char)		(char)

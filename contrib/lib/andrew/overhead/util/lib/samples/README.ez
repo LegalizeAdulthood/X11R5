@@ -1,0 +1,40 @@
+\begindata{text,270004940}
+\textdsversion{12}
+\template{default}
+\define{definition
+menu:[Region~4,Definition~85]
+attr:[LeftMargin LeftMargin Cm 138717]
+attr:[RightMargin RightMargin Cm 138717]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{symbola
+menu:[Font~1,SymbolA~86]
+attr:[FontFamily symbola Int 0]}
+\define{realsmall
+menu:[Font~1,RealSmall~88]
+attr:[Script PreviousScriptMovement Point -4]
+attr:[FontSize PreviousFontSize Point -4]}
+\define{symbol
+menu:[Font~1,Symbol~84]
+attr:[FontFamily symbol Int 0]}
+\majorheading{Sample Preferences and Init Files}
+
+
+
+Included in this directory are copies of selected preferences and init files 
+submitted by various staff members of the Information Technology Center at 
+Carnegie Mellon.  These files will be installed into $DESTDIR/lib/samples. 
+ They are not intended to be used as is, but are provided as guidelines.  
+
+
+In order to set up a specific environment, you will need to copy all of one 
+user's files to your directory as .\{programname\}init, removing the user id 
+from the filename.  As an examples, you would want to copy mcinerny.atkinit to 
+$HOMEDIR/.atkinit. You will need to modify the path names and remove reference 
+to any features that are not supported at your site.  
+
+
+Have fun!
+
+
+\definition{
+}\enddata{text,270004940}

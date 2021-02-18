@@ -1,0 +1,70 @@
+\begindata{text,538404360}
+\textdsversion{12}
+\template{default}
+This directory contains several examples of Andrew Toolkit programming.
+
+
+The subdirectory ``atkbook'' is a tree of examples from Nathaniel Borenstein's 
+book, \italic{Multimedia Application Development with the Andrew Toolkit}.
+
+
+The remaining subdirectories, ``ex1'' through ``ex19,'' contain the ITC's 
+programmed sequence of tutorial examples in increasing order of complexity. 
+ Each example builds on the previous one.
+
+
+Although the ITC examples were verified to be working as of September 1991, 
+some of the documentation is out of date.  Please note the following changes:
+
+
+In 1989, file naming conventions at the ITC were changed to accomodate 
+filesystems with 14 character name limits, and filesystems which cannot 
+distinguish between upper- and lower-case characters in filenames.  As a 
+result:
+
+\leftindent{\description{1.  The filename suffix ``.H,'' formerly used to 
+denote a class header file, has become ``.ch'';
+
+2.  Long filenames have been abbreviated;
+
+3.  A feature has been added to class header files allowing one to specify the 
+mapping from the full class name to the abbreviation used for its filename.
+
+}}
+Here's an example of these changes have been applied.  Formerly, a file called 
+\typewriter{helloworldapp.H} would have contained the specification for the 
+class \typewriter{helloworldapp}, which is a subclass of 
+\typewriter{application}.  The class declaration for \typewriter{helloworldapp} 
+would have begun
+
+\leftindent{\typewriter{class helloworldapp : application}.}
+
+
+Change 1 caused the file to be renamed from \typewriter{helloworldapp.H} to 
+\typewriter{helloworldapp.ch}.
+
+
+Change 2 caused the file \typewriter{helloworldapp.ch} to be renamed again to 
+\typewriter{helloa.ch}.
+
+
+Change 3 caused the class declaration to change from
+
+\leftindent{\typewriter{class helloworldapp : application}}
+
+to
+
+\leftindent{\typewriter{class helloworldapp[helloa] : application[app]}}
+
+(Note that the application class's abbreviation is ``app.'')  Although its 
+filenames have been abbreviated, the classname remains ``helloworldapp'' and 
+its methods are still named ``helloworldapp_\italic{Name},'' just as the 
+application class's methods are still named ``application_\italic{Name}.''
+
+
+Finally, note that in some places, the documentation refers to files by full 
+pathname, usually beginning with ``/usr/andrew.''  Since the Andrew Toolkit 
+can be installed anywhere in your filesystem, you should replace 
+``/usr/andrew'' with the actual name of your ANDREWDIR.
+
+\enddata{text,538404360}

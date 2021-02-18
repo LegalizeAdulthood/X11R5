@@ -1,0 +1,205 @@
+.TH XLOGIN 1 "4 October 1991" "X Version 11"
+.SH NAME
+xlogin - login for X
+.SH SYNOPSIS
+.B "xlogin"
+[-debug]
+[-lines \fInum\fP]
+[-logout]
+[-motdFont \fIfont\fP]
+[-showMOTD Always|IfChanged]
+[-showVersion]
+[-sysFiles \fIfilelist\fP]
+[-timeOutAction login|logout]
+[-userFiles \fIfilelist\fP]
+[-version]
+.SH SUMMARY
+.PP
+The
+.I xlogin
+utility provides most of the functionality of the \fIlogin(1)\fP program
+that is not provided by \fIxdm(1)\fP. It supports motd, wtmp, utmp,
+lastlog, nologin and quota handling.
+.SH OPTIONS
+.PP
+.TP 8
+.B "-debug"
+(command line only) writes debugging information to stderr.
+.TP 8
+.B "-lines"
+specifies the number of lines of /etc/motd or /etc/nologin
+that are to be displayed.
+.TP 8
+.B "-logout"
+(command line only) only writes a logout entry to the wtmp file
+.TP 8
+.B "-motdFont"
+specifies the font to be used when displaying /etc/motd or /etc/nologin.
+.TP 8
+.B "-showMOTD"
+\fIAlways\fP causes /etc/motd to be displayed every time.
+\fIIfChanged\fP causes /etc/motd to be displayed only if something
+changed since your last login.
+The default is \fIIfChanged\fP.
+.TP 8
+.B "-showVersion"
+displays a line containing version-number, revision and patchlevel
+in the window.
+.TP 8
+.B "-sysFiles"
+is a colon seperated list of "motd" files
+.TP 8
+.B "-timeOutAction"
+(command line only) determines whether to \fIlogin\fP or \fIlogout\fP when the
+timeout has expired.
+The default is \fIlogout\fP.
+.TP 8
+.B "-userFiles"
+is a colon seperated list of "motd" files
+.TP 8
+.B "-version"
+(command line only) displays version-number, revision and patchlevel. Nothing else is
+performed if this option is specified.
+.SH DESCRIPTION
+.PP
+The \fIxlogin\fP 
+command is used after \fIxdm(1)\fP has validated the password and
+let the user log in. It should be called from within the Xstartup file
+(run setuid root) and again with the \-logout option from within
+the Xreset file. (see \fIxdm(1)\fP for more information on these files)
+.PP
+\fIXlogin\fP provides most of the functionality of the \fIlogin(1)\fP program
+that is not provided by \fIxdm(1)\fP.
+.ta \w'.\ \ 'u
+.br
+.PP
+\-	it checks whether the file /etc/nologin exists and displays its contents
+in a window.
+.br
+.PP
+\-	it checks the users quota and displays appropriate messages if exceeded.
+No login is permitted in this case.
+.br
+.PP
+\-	if login is permitted, it writes an entry to the utmp and wtmp
+file. If the file does not exist, none is created.
+.br
+.PP
+\-	if login is permitted, it writes an entry to /usr/adm/lastlog.
+If the file does not exist, none is created.
+.br
+.PP
+\-	it checks whether a $HOME/.hushlogin file exists. No message-of-the-day
+and no last login message is displayed in this case.
+.br
+.PP
+\-	if showMOTD (or the corresponding resource) is set to \fIIfChanged\fP,
+xlogin compares the last login time against the last change time of /etc/motd.
+/etc/motd is displayed only if it has been changed since the last login.
+If no last login file exists,
+it checks whether a $HOME/.Xlogin file exists and compares its
+last change time against that of the /etc/motd file. Xlogin displays the
+motd if the motd is newer and then touches the .Xlogin file. If no .Xlogin
+file exists /etc/motd is displayed every time.
+.br
+.PP
+Normally, the user clicks a button after reading the message of the day.
+The user is given 20 seconds plus 1 second per motd line to respond.
+If the user does not respond, he is logged out.
+If the \fItimeOutAction\fP is set to \fIlogin\fP the behavior is
+different:
+if nothing is to be displayed (i.e. no /etc/motd or /etc/nologin) the user
+is granted login automatically after 20 seconds. If there is something
+to display \fIxlogin\fP waits for a button click before proceeding.
+.br
+.PP
+If there is an entry for the X display in the /etc/ttys file,
+xlogin will also write a record in utmp.  The ttyname is
+derived from the display name.  If the display is local,
+the ttyname is "X" followed by the display number.  If
+the display is remote (i.e. an X terminal), then ttyname is
+the hostname of the display.  For example, the display name
+":0" maps to "X0", and the display name "ncd1.cs.wisc.edu:0"
+maps to "ncd1".
+.SH RETURN VALUE
+.PP
+If login is permitted \fIxlogin\fP returns 0 otherwise 1
+is returned.
+.SH ENVIRONMENT
+.PP
+.TP 8
+.B DISPLAY
+To get the name of the display.
+.TP 8
+.B USER
+To get the name of the user. (normally set by \fIxdm(1)\fP
+correctly.)
+.TP 8
+.B HOME
+To get the user's home directory. If not set, it is obtained from /etc/passwd.
+.PP
+.SH RESOURCES
+.PP
+.TP 8
+.B motdFont
+Specifies which font to use when displaying /etc/motd or /etc/nologin.
+.TP 8
+.B showVersion (boolean)
+If true, causes xlogin to display version-number, revision and patchlevel
+as the first line in the window.
+.TP 8
+.B showMOTD
+Can have the values Always or IfChanged. See explanation for the corresponding
+option.
+.TP 8
+.B lines
+Specified the number of lines of /etc/motd that should be displayed.
+.PP
+.SH EXAMPLES
+.PP
+in the file Xstartup:
+.PP
+	/usr/bin/X11/xlogin
+.PP
+.PP
+in the file Xreset:
+.PP
+	/usr/bin/X11/xlogin -logout
+.SH FILES
+.ta \w'/usr/adm/lastlog\ \ 'u
+/etc/utmp	login records
+.br
+/usr/adm/wtmp	accounting
+.br
+/usr/adm/lastlog	last logins
+.br
+/etc/motd	message-of-the-day
+.br
+/etc/nologin	stops login
+.br
+/etc/passwd	passwd file
+.br
+.../lib/X11/app-defaults/Xlogin	system resource file
+.br
+\&.hushlogin	makes xlogin much quieter
+.br
+\&.Xlogin	makes xlogin a bit quieter
+.br
+\&.Xdefaults	users resource file
+.SH WINDOW
+To display the contents of /etc/motd or /etc/nologin, a widget
+that is 80 characters wide is created.
+All other messages are boxes up to 80 characters in width.
+.SH BUGS
+The size of the motd window is based on the font metrics.
+However, the window is much too wide when using a proportionally spaced font.
+.SH SEE ALSO
+X(1), xdm(1), login(1), the CHANGES file
+.SH COPYRIGHT
+Copyright 1989, 1990, Technische Universit\(aet M\(uenchen (TUM).
+.SH AUTHOR
+Markus Stumpf, TU M\(uenchen
+  (stumpf@informatik.tu-muenchen.de)
+.SH CREDITS
+Tim Theisen
+  (tim@cs.wisc.edu, ...!uwvax!tim)

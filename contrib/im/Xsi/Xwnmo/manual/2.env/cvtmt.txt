@@ -1,0 +1,66 @@
+
+
+
+CVTMT(4)            UNIX Programmer's Manual             CVTMT(4)
+
+
+
+名称
+     cvtmt - Ｘウィンドウ・インプットマネージャー (xwnmo(1X)) 用
+     メタキー変換テーブル
+
+形式
+     //uussrr//llooccaall//lliibb//wwnnnn//ccvvtt__mmeettaa__ttbbll (( デフォルト ))
+
+解説
+     _X_L_o_o_k_u_p_S_t_r_i_n_g() で返されたメタキーのコード (_K_e_y_S_y_m) を、１バ
+     イトの文字 (_W_n_n _c_o_d_e) へ変換するためのテーブルです。
+
+     コーディンクフォーマット ::
+             [ _K_e_y_S_y_m-_e_n_t_r_y <space_character> _W_n_n-_c_o_d_e ]
+
+     セミコロン (;) で始まる行は、コメント行です。
+
+     コードの記述法
+             0??             ---> ８進数
+             0x?? or 0X??    ---> １６進数
+             ??              ---> １０進数
+
+サンプル
+     Left            0x9A
+     Up              0x99
+     Right           0x9B
+     Down            0x9C
+     F11             0x95
+     F12             0x96
+     F13             0x97
+     F14             0x98
+     minus           0x81
+     asciicircum     0x82
+     backslash       0x83
+
+注意
+     このテーブルにより変換されたコードは、オートマトンテーブルで
+     ある _2_A__C_T_R_L ( デフォルト ) で評価され、その後、 _u_u_m_k_e_y によ
+     り評価されます。
+
+関連項目
+     xwnmo(1X), 2A_CTRL(4_JT), uumkey(4_JT), cvtfun(4X)
+
+CCOOPPYYRRIIGGHHTT
+     Copyright 1991 by OMRON Corporation
+     Copyright 1991 by Massachusetts Institute of Technology
+
+AAUUTTHHOORR
+     Seiji Kuwari (OMRON Corporation)
+
+
+
+
+
+
+
+Printed 9/3/91              Release 5                           1
+
+
+

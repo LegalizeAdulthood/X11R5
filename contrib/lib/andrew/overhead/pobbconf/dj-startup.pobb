@@ -1,0 +1,22 @@
+#!/bin/csh -f
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+#
+%include pobbconfig.defs
+#
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+%ifdef pobb_DowJonesIn
+
+(setenv ANDREWDIR /usr/local : ?[SmallLocalDir]/dj ?[DJLocalDir] >/dev/null &)
+/bin/echo -n " dow-jones" > /dev/console
+
+%ifdef pobbenv_AFS
+/bin/echo -n " " > /dev/console
+?[SmallLocalDir]/reauth ?[ReauthSleepInterval] ?[DJUserName] $$1 >& /dev/console
+/bin/echo -n "reauth" > /dev/console
+%endif pobbenv_AFS
+
+%endif pobb_DowJonesIn

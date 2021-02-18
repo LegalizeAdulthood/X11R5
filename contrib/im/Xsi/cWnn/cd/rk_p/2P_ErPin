@@ -1,0 +1,271 @@
+;
+; $Id: 2P_ErPin,v 1.1 1991/09/11 02:31:01 ohm Exp $
+;
+(defvar A  	(list B C I D F G H   K L M N P     S U T W   Y Z V))
+(defvar AI  	(list B C I D   G H   K L M N P     S U T W     Z V))
+(defvar AN  	(list B C I D F G H   K L M N P   R S U T W   Y Z V)) ;ANG
+(defvar AO  	(list B C I D   G H   K L M N P   R S U T W   Y Z V))
+(defvar E  	(list B C I D   G H   K L M N     R S U T     Y Z V))
+(defvar EI  	(list B C   D F G H   K L M N P       U T W     Z V))
+(defvar EN  	(list B C I   F G H   K   M N P   R S U   W     Z V)) ;den;
+(defvar ENG  	(list B C I D F G H   K L M N P   R S U T W     Z V))
+(defvar I  	(list B C I D       J   L M N P Q R S U T   X Y Z V))
+(defvar IA  	(list       D       J   L       Q           X      )) ;nia;
+(defvar IAN  	(list B     D       J   L M N P Q       T   X      ))
+(defvar IANG  	(list               J   L   N   Q           X      ))
+(defvar IAO	(list B     D       J   L M N P Q       T   X      )) ;IE
+(defvar IN  	(list B             J   L M N P Q           X Y    ))
+(defvar ING  	(list B     D       J   L M N P Q       T   X Y    ))
+(defvar IONG  	(list               J           Q           X      ))
+(defvar IU	(list       D       J   L M N   Q           X      ))
+(defvar O  	(list B       F         L M   P           W   Y    ))
+(defvar ONG  	(list   C I D   G H   K L   N     R S   T     Y Z V))
+(defvar OU	(list   C I D F G H   K L M N P   R S U T     Y Z V))
+(defvar U  	(list B C I D F G H J K L M N P Q R S U T W X Y Z V))
+(defvar V  	(list                   L   N                      ))
+(defvar UA  	(list           G H   K           R   U           V)) ;chua;
+(defvar UAI  	(list     I     G H   K               U           V))
+(defvar UAN	(list   C I D   G H J K L   N   Q R S U T  X Y Z  V))
+(defvar UANG  	(list     I     G H   K               U           V))
+(defvar UE  	(list               J           Q           X Y    ))
+(defvar VE  	(list                   L   N                      ))
+(defvar UI  	(list   C I D   G H   K           R S U T       Z V))
+(defvar UN  	(list   C I D   G H J K L       Q R S U T   X Y Z V))
+(defvar UO  	(list   C I D   G H   K L   N     R S U T       Z V))
+(A)A	(A)aé¿
+(A)A1	(A)é°é¿
+(A)A2	(A)é¢é¿
+(A)A3	(A)é£é¿
+(A)A4	(A)é§é¿
+(AI)S	(AI)aié¿
+(AI)S1	(AI)é°ié¿
+(AI)S2	(AI)é¢ié¿
+(AI)S3	(AI)é£ié¿
+(AI)S4	(AI)é§ié¿
+(AN)F	(AN)ané¿
+(AN)F1	(AN)é°né¿
+(AN)F2	(AN)é¢né¿
+(AN)F3	(AN)é£né¿
+(AN)F4	(AN)é§né¿
+(AN)G	(AN)angé¿
+(AN)G1	(AN)é°ngé¿
+(AN)G2	(AN)é¢ngé¿
+(AN)G3	(AN)é£ngé¿
+(AN)G4	(AN)é§ngé¿
+(AO)D	(AO)aoé¿
+(AO)D1	(AO)é°oé¿
+(AO)D2	(AO)é¢oé¿
+(AO)D3	(AO)é£oé¿
+(AO)D4	(AO)é§oé¿
+(E)E	(E)eé¿
+(E)E1	(E)é•é¿
+(E)E2	(E)é¶é¿
+(E)E3	(E)éßé¿
+(E)E4	(E)é®é¿
+(EI)W	(EI)eié¿
+(EI)W1	(EI)é•ié¿
+(EI)W2	(EI)é¶ié¿
+(EI)W3	(EI)éßié¿
+(EI)W4	(EI)é®ié¿
+(EN)R	(EN)ené¿
+(EN)R1	(EN)é•né¿
+(EN)R2	(EN)é¶né¿
+(EN)R3	(EN)éßné¿
+(EN)R4	(EN)é®né¿
+(ENG)T	(ENG)engé¿
+(ENG)T1	(ENG)é•ngé¿
+(ENG)T2	(ENG)é¶ngé¿
+(ENG)T3	(ENG)éßngé¿
+(ENG)T4	(ENG)é®ngé¿
+(I)I	(I)ié¿
+(I)I1	(I)é©é¿
+(I)I2	(I)é™é¿
+(I)I3	(I)é´é¿
+(I)I4	(I)é¨é¿
+(IA)P	(IA)iaé¿
+(IA)P1	(IA)ié°é¿
+(IA)P2	(IA)ié¢é¿
+(IA)P3	(IA)ié£é¿
+(IA)P4	(IA)ié§é¿
+(IAN)H	(IAN)iané¿
+(IAN)H1	(IAN)ié°né¿
+(IAN)H2	(IAN)ié¢né¿
+(IAN)H3	(IAN)ié£né¿
+(IAN)H4	(IAN)ié§né¿
+(IANG)J	(IANG)iangé¿
+(IANG)J1	(IANG)ié°ngé¿
+(IANG)J2	(IANG)ié¢ngé¿
+(IANG)J3	(IANG)ié£ngé¿
+(IANG)J4	(IANG)ié§ngé¿
+(IAO)K	(IAO)iaoé¿
+(IAO)K1	(IAO)ié°oé¿
+(IAO)K2	(IAO)ié¢oé¿
+(IAO)K3	(IAO)ié£oé¿
+(IAO)K4	(IAO)ié§oé¿
+(IAO)L	(IAO)ieé¿
+(IAO)L1	(IAO)ié•é¿
+(IAO)L2	(IAO)ié¶é¿
+(IAO)L3	(IAO)iéßé¿
+(IAO)L4	(IAO)ié®é¿
+(IN)M	(IN)iné¿
+(IN)M1	(IN)é©né¿
+(IN)M2	(IN)é™né¿
+(IN)M3	(IN)é´né¿
+(IN)M4	(IN)é¨né¿
+(ING)N	(ING)ingé¿
+(ING)N1	(ING)é©ngé¿
+(ING)N2	(ING)é™ngé¿
+(ING)N3	(ING)é´ngé¿
+(ING)N4	(ING)é¨ngé¿
+(IONG)B	(IONG)iongé¿
+(IONG)B1	(IONG)ié≠ngé¿
+(IONG)B2	(IONG)iéÆngé¿
+(IONG)B3	(IONG)iéØngé¿
+(IONG)B4	(IONG)ié∞ngé¿
+(IU)Y	(IU)iué¿
+(IU)Y1	(IU)ié±é¿
+(IU)Y2	(IU)ié≤é¿
+(IU)Y3	(IU)ié≥é¿
+(IU)Y4	(IU)ié¥é¿
+(O)O	(O)oé¿
+(O)O1	(O)é≠é¿
+(O)O2	(O)éÆé¿
+(O)O3	(O)éØé¿
+(O)O4	(O)é∞é¿
+(ONG)B	(ONG)ongé¿
+(ONG)B1	(ONG)é≠ngé¿
+(ONG)B2	(ONG)éÆngé¿
+(ONG)B3	(ONG)éØngé¿
+(ONG)B4	(ONG)é∞ngé¿
+(OU)Q	(OU)oué¿
+(OU)Q1	(OU)é≠ué¿
+(OU)Q2	(OU)éÆué¿
+(OU)Q3	(OU)éØué¿
+(OU)Q4	(OU)é∞ué¿
+(U)U	(U)ué¿
+(U)U1	(U)é±é¿
+(U)U2	(U)é≤é¿
+(U)U3	(U)é≥é¿
+(U)U4	(U)é¥é¿
+(UA)P	(UA)uaé¿
+(UA)P1	(UA)ué°é¿
+(UA)P2	(UA)ué¢é¿
+(UA)P3	(UA)ué£é¿
+(UA)P4	(UA)ué§é¿
+(UAI)K	(UAI)uaié¿
+(UAI)K1	(UAI)ué°ié¿
+(UAI)K2	(UAI)ué¢ié¿
+(UAI)K3	(UAI)ué£ié¿
+(UAI)K4	(UAI)ué§ié¿
+(UAN)X	(UAN)uané¿
+(UAN)X1	(UAN)ué°né¿
+(UAN)X2	(UAN)ué¢né¿
+(UAN)X3	(UAN)ué£né¿
+(UAN)X4	(UAN)ué§né¿
+(UANG)J	(UANG)uangé¿
+(UANG)J1	(UANG)ué°ngé¿
+(UANG)J2	(UANG)ué¢ngé¿
+(UANG)J3	(UANG)ué£ngé¿
+(UANG)J4	(UANG)ué§ngé¿
+(UE)C	(UE)ueé¿
+(UE)C1	(UE)ué•é¿
+(UE)C2	(UE)ué¶é¿
+(UE)C3	(UE)uéßé¿
+(UE)C4	(UE)ué®é¿
+(UI)C	(UI)uié¿
+(UI)C1	(UI)ué©é¿
+(UI)C2	(UI)ué™é¿
+(UI)C3	(UI)ué´é¿
+(UI)C4	(UI)ué¨é¿
+(UN)Z	(UN)uné¿
+(UN)Z1	(UN)é±né¿
+(UN)Z2	(UN)é≤né¿
+(UN)Z3	(UN)é≥né¿
+(UN)Z4	(UN)é¥né¿
+(UO)O	(UO)uoé¿
+(UO)O1	(UO)ué≠é¿
+(UO)O2	(UO)uéÆé¿
+(UO)O3	(UO)uéØé¿
+(UO)O4	(UO)ué∞é¿
+(V)V	(V)éπé¿
+(V)V1	(V)éµé¿
+(V)V2	(V)é∂é¿
+(V)V3	(V)é∑é¿
+(V)V4	(V)é∏é¿
+(VE)C	(VE)éπeé¿
+(VE)C1	(VE)éπé•é¿
+(VE)C2	(VE)éπé¶é¿
+(VE)C3	(VE)éπéßé¿
+(VE)C4	(VE)éπé®é¿
+;	-------
+OA	aé¿
+OA1	é°é¿
+OA2	é¢é¿
+OA3	é£é¿
+OA4	é§é¿
+OS	aié¿
+OS1	é°ié¿
+OS2	é¢ié¿
+OS3	é£ié¿
+OS4	é§ié¿
+OF	ané¿
+OF1	é°né¿
+OF2	é¢né¿
+OF3	é£né¿
+OF4	é§né¿
+OG	angé¿
+OG1	é°ngé¿
+OG2	é¢ngé¿
+OG3	é£ngé¿
+OG4	é§ngé¿
+OD	aoé¿
+OD1	é°oé¿
+OD2	é¢oé¿
+OD3	é£oé¿
+OD4	é§oé¿
+OE	eé¿
+OE1	é•é¿
+OE2	é¶é¿
+OE3	éßé¿
+OE4	é®é¿
+OW	eié¿
+OW1	é•ié¿
+OW2	é¶ié¿
+OW3	éßié¿
+OW4	é®ié¿
+OR	ené¿
+OR1	é•né¿
+OR2	é¶né¿
+OR3	éßné¿
+OR4	é®né¿
+;OT	engé¿
+;OT1	é•ngé¿
+;OT2	é¶ngé¿
+;OT3	éßngé¿
+;OT4	é®ngé¿
+ER	eré¿
+ER1	é•ré¿
+ER2	é¶ré¿
+ER3	éßré¿
+ER4	é®ré¿
+OY	eré¿
+OY1	é•ré¿
+OY2	é¶ré¿
+OY3	éßré¿
+OY4	é®ré¿
+OO	oé¿
+OO1	é≠é¿
+OO2	éÆé¿
+OO3	éØé¿
+OO4	é∞é¿
+OQ	oué¿
+OQ1	é≠ué¿
+OQ2	éÆué¿
+OQ3	éØué¿
+OQ4	é∞ué¿
+;;;;		-----------Special PinYin-------------
+;HM	Hmé¿
+HN	Hngé¿
+NG' '	Ngé¿
+OM	Mé¿
+ON	Né¿

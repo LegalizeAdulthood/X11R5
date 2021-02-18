@@ -1,0 +1,338 @@
+# 
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard, David Betz and
+# Niels Mayer not be used in advertising or publicity pertaining to distribution
+# of the software without specific, written prior permission.  Hewlett-Packard,
+# David Betz and Niels Mayer makes no representations about the suitability of
+# this software and documentation for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+
+BUILDING WINTERP:
+================
+
+WINTERP and XLISP are designed to be very portable. I've received reports
+that the previous version, WINTERP 1.12, has compiled and run successfully
+on the following systems:
+	* HP9000s3xx (68030/68040) running HPUX 7.0, HPUX 6.5.
+	* HP9000s8xx (HP's PA-RISC) running HPUX 7.0, HPUX 3.1.
+	* HP9000s7xx (HP's PA-RISC 1.1) running HPUX 8.0
+	* Sun Sparc 2 running SunOS Release 4.1.1
+	* Data General AViiON (m88k, DG/UX 4.30, GNU C 1.37.23)
+	* DECStation 3100 running Ultrix.
+	* SGI 4D ("MIPS, SGI Unix, latest release (Cypress)")
+
+Since WINTERP 1.13 is just a minor patch release over version 1.12, I
+expect it to be just as portable as 1.12. Unfortunately, I have only had
+time to test WINTERP 1.13 on the following machines/configurations:
+	* HP9000s370 (68030) running HPUX 7.0 (Motif 1.0, Motif 1.1.3,
+	  Motif 1.1.1, HP UEDK Motif 1.1).
+	* HP9000s835 (HP's PA-RISC) running HPUX 8.0 and HP's UEDK Motif 1.1
+
+I've received reports that previous versions of WINTERP (v 1.01) have run
+on the following.
+	* IBM RS6000 AIX 3.1
+	* Sun 3 running SunOS 4.0.3
+	* MIPS (Mips RS2030)
+	* Intel System Vr3.2 v2.2 (using Intel X11R3 with Intel Motif v1.0.A and TWG/TCP v3.1)
+	* Apollo's 680xx machines.
+
+I believe that if your system can run X11, the Xtoolkit, and Motif, then
+you should be able to build and run WINTERP on it. I've tested WINTERP with
+Motif 1.0, 1.1, 1.1.1, 1.1.3, and HP UEDK 1.1. I expect that it will work
+with 1.1.4 and 1.1.5 unless some gratuitous API incompatibilities are
+thrown in (I've seen that happen with Motif 1.0.X patches...). Chances are,
+WINTERP will NOT work with Motif 1.2 without some changes to the source. I
+plan to put out future releases tracking Motif 1.2, 2.0, etc. Typically
+WINTERP will support Motif releases with an approx. 3 month delay (no
+promises though, I may be busy with other work).
+
+If you have problems compiling WINTERP on your machine, let me know about
+them by sending mail to mayer@hplabs.hp.com or hplabs!mayer. Obviously, I
+prefer it if the mail you send me details the problem precisely, or failing
+that, at least contains a copy of the error-output from compilation, link,
+or runtime.  Most preferred are portability patches, bugfixes, and
+improvements to the source. And be sure to tell me exactly what kind of
+hardware and operating system platform you are using, as well as the Motif
+version and patchlevel, etc.
+
+I've received a lot of mail from people whose problems stemmed from the
+fact that they had never compiled Motif applications on their machine
+before.  Please do not send me mail asking how to build your first Motif
+program because (1) I don't have the time to be a free Motif consultant;
+(2) My schedule is such that I may not be able to get back to you within a
+timeframe that you might consider "soon enough." Please remember that this
+is free software -- I try to support it as best I can, but you should look
+at it as unsupported, or at least erratically supported software.
+
+If you have a compilation problem, please, at least, make sure that Motif
+libraries (1.0 or 1.1) are installed on your machine.  Beyond that, at
+least take some time to verify that the errors you are seeing are not a
+result of mis-compilation. Typical problems include
+	* Using the wrong X or Motif headers;
+	* Having incompatible versions of the Xtoolkit and Motif
+	  headers/libraries. (see Make-file variable LIBS and INCLUDES);
+	* Having incorrect values for C pre-processor symbols
+	  (see Make-file variable DEFINES);
+	* Having incorrect C compiler flags (see CFLAGS).
+
+If you have not compiled a Motif program on your system, then you should
+try compiling an existing, known-working 10-50 line Motif C program.  You
+should be able to at least find a few Motif C examples in your vendor's
+distribution of Motif -- these can be especially useful because the
+Makefiles will tell you which Makefile variables need to be customized for
+your particular vendor's hardware and software., e.g.  DEFINES, CFLAGS,
+INCLUDES and LIBS.
+
+If you are using Motif source straight from OSF (rather than a
+vendor-supplied library), you should find such example programs in the
+Motif distribution. Alternately, take a look at the Imake configuration
+files to figure out which DEFINES, CFLAGS, and INCLUDES need to be set in
+WINTERP's Makefiles.
+
+Hints:
+
+	** Motif is not free nor public domain. Contact the OSF for
+	ordering info on the Motif toolkit. I will not and cannot send you
+	the Motif libraries -- Motif is licensed software. Sources are
+	available from OSF for $1000.00. The Motif binary distributions for
+	SUNS is available from Integrated Computer Systems. Motif headers and
+	libraries are included with HPUX, IBM's AIX, DEC's Ultrix, Data
+	General	DG/UX, and many others.
+
+	** You can compile WINTERP in a number of ways:
+
+        (1) The supposedly easiest technique is to use xmkmf, but this
+	requires that you have installed X11r4 xmkmf/imake on your system,
+	and that the X11r4 libs, headers, and configuration files are
+	disk-accessible (locally, or over a network). I haven't tested
+	building WINTERP with xmkmf because I have my vendor's X/Xt/Motif,
+	etc installed on my workstation and keep MIT's bits off in their
+	own space. If you have installed MIT's X11r4 core distribution,
+	then you may prefer using xmkmf -- let it handle whatever magic it
+	needs to compile portable X11 programs on your system.
+	Winterp's Imakefiles have been updated for X11r4, so I'd expect
+	this to work correctly.
+
+        (2) The Imake technique that I have tested is to place the WINTERP
+	distribution into the X11r4 source tree. Given X11r4 build tree
+	<path>X11r4, place the WINTERP distribution top-level
+	at <path>X11r4/contrib/clients/winterp-1.12. Then, while cd'd to
+	the WINTERP top-level directory, do 'make World' -- this will build
+	the binaries 'winterp' and 'wl' according to the vendor-specific
+	rules built into the Imake configuration files. If you don't have
+	the 'contrib' tree around, but do have the 'mit' tree, you can also
+	put it in <path>X11r4/mit/clients/winterp-1.12
+
+	Note that the above assumes that the X11r4 distribution has a
+	configuration file for your machine and operating system.  (see
+	<path>X11r4/mit/config/Imake.tmpl and <path>X11r4/mit/config/*.cf for
+	details). Note also that you don't actually need to have the 
+	X11r4 distribution installed on your machine -- use the script
+	<path>X11r4/mit/util/scripts/lndir.sh. The script creates a "shadow
+	link directory" which creates symbolic links pointing to source
+	files mounted on NFS, AFS, or RFA filesystems.
+
+        (3) If you don't want to bother with Imake at all
+	use Makefile.{generic,hpux,sparc} in directories {winterp,
+        winterp/src-server,winterp/src-server/xlisp,winterp/src-client}.
+        Makefile.sparc should work on a SunOS 4.?? Sparcstation, though I
+        haven't tested it. Makefile.gen is a generic template that can
+        be modified for other machines.
+
+	Makefile.hpux is for HPUX 7.0 s300 machines -- see comments in this
+	file for the (trivial) changes needed to compile on HP's s700 or
+	s800 machines. Note that I've only tested Makefile.hpux	on HPUX 7.0
+	s300 using HP Motif 1.0, HP Motif 1.1, OSF Motif 1.1, and OSF Motif
+	1.1.1; Makefile.hpux was only tested on s800 HPUX 7.0 with HP Motif
+	1.0 -- this is due to the fact that my workstation is a s300
+	and the s800 I can access is a shared system without enough
+	diskspace to handle building the needed X11r4 and OSF/Motif 1.1.1
+	libs.
+
+	Makefile.hpux8 has been tested on an HP9000s730, HP9000s835, and
+	HP9000s370 running HPUX	8.0. Note that src-server/Makefile.hpux8
+	produces a shared library version of the WINTERP binary. 
+
+	If you have some other kind of machine, copy all the
+	Makefile.gen files to Makefile.<machine> in each directory
+	{winterp,winterp/src-server,winterp/src-server/xlisp,
+	winterp/src-client}.
+	In each Make-file you will have to modify the Make variable
+	MAKEFILE, changing "Makefile.gen" to "Makefile.<machine>".
+	Additionally, you may have to modify the Make variables
+	INCLUDES, LIBS, DEFINES, and CFLAGS.
+
+	INCLUDES and LIBS default to values which work only if you have
+	Motif 1.1 or Motif 1.0 installed in the standard locations such
+	that 'cc' will find the headers, and such that the linker will find
+	the libraries. If that isn't the case, then you'll have to update
+	INCLUDES and LIBS so that they point to the appropriate headers and
+	libraries. See the comments in Makefile.{generic,hpux,sparc} for
+	details.
+
+	To determine the machine-specific values for DEFINES and CFLAGS
+	you may want to take a look at the X11r4 files
+	<path>X11r4/mit/config/README, <path>X11r4/mit/config/Imake.tmpl,
+	<path>X11r4/mit/config/*.cf, and <path>X11r4/mit/config/imakemdep.h.
+	Those files will tell you the compiler options flags to place in
+	CFLAGS and C preprocessor flags (-D) to place in DEFINES.  Again, see
+	the comments in Makefile.{generic,hpux,sparc} for details and hints.
+
+	For example, the file <path>X11r4/mit/config/ultrix.cf specifies the
+	following:
+		#ifdef MipsArchitecture
+		#define XmfbpmaxServer Xmfbpmax
+		#define XcfbpmaxServer Xcfbpmax
+		#define StandardDefines
+		#define DefaultCCOptions -Wf,-XNh2000 -Olimit 2000
+		#define ServerDefines StandardDefines ExtensionDefines -DXDMCP
+		#endif
+	The above tells you that you must update CFLAGS in each
+	Makefile.ultrix, with the value from "DefaultCCOptions" above.
+	
+	** If you are compiling WINTERP on a system that provides separate
+	SYSV and BSD compilation worlds, you may want to compile within the
+	BSD world. winterp.c and wl.c use a lot of BSD socket code that
+	isn't in vanilla SYSV. Merged systems like SUNOS and HPUX have no
+	problems with this. With Apollo or MIPS systems, use the BSD world.
+
+	** Compiling under SunOS: Use Makefile.sparc. Pay particular
+	attention to comments in
+	../src-server/Makefile.sparc and
+	../src-server/xlisp/Makefile.sparc.
+
+	** IBM AIX 3.1 hints:
+		(1) Use Makefile.gen in directory ../ ../src-server
+		../src-server/xlisp, ../src-client.
+
+		(2) Add -D_BSD compiler switch to DEFINES
+
+		(3) Link with libbsd.
+
+	** To interact with WINTERP, you must send it "Lisp Events" over 
+	a network socket using the WINTERP client program 'wl'. (Note that
+	the gnuemacs interface hides this ugliness while providing the ideal
+	interactive programming environment for writing Winterp-Lisp code.)
+	By default, WINTERP compiles with a server based on Unix Domain Sockets.
+	
+	If for some reason your machine or OS does not support Unix Domain
+	Sockets, you may turn off compilation of these features. Do this by
+	commenting out "#define WINTERP_WANT_UNIX_SERVER" in
+	../src-server/config.h and recompiling ../src-server/.
+
+	** WINTERP also has the capabilities of using a TCP/IP based socket
+	for communications to WINTERP's lisp eval server. By default this
+	functionality is not compiled into WINTERP because the TCP/IP
+	server is a security hole, and because the TCP/IP code had problems
+	porting to some machines. In order to enable the TCP/IP functionality,
+	you should uncomment "#define WINTERP_WANT_INET_SERVER" in 
+	../src-server/config.h.
+
+	Notes:
+
+		(1) Even with the TCP/IP server compiled-in, WINTERP will not
+		enable the feature unless resource "Winterp.enableInetServer"
+		is set to "true".
+
+		(2) The client for the TCP/IP eval server is 'wl-tcpip'
+		Compile this with
+		"make -f Makefile.{hpux,sparc,generic,...} wl-tcpip"
+		or with "cc -O -o wl-tcpip wl-tcpip.c"
+
+		(3) By default, the program 'wl-tcpip' attempts to connect
+		to the WINTERP server through your machine's loopback
+		address, which it assumes is 127.0.0.1. If that is not your
+		loopback address (isn't that IP adress standard??), then you
+		may have to specify 'localhost' or the hostname of your
+		machine. 'wl-tcpip' will be able to connect to the WINTERP
+		server more quickly if it can get an IP address without
+		having to do a gethostbyname().	That's why I hardcoded the
+		loopback address into wl-tcpip.c... (If this lookup is too
+		slow, and you are running 'winterp' and 'wl-tcpip' locally,
+		you may prefer using the Unix Domain Socket server mentioned
+		above.)
+
+			------------------------------
+
+On SunOS, if you get errors like :
+|
+|    Warning: Widget class VendorShell version mismatch:
+|      widget 11004 vs. intrinsics 11003.
+|
+then you will need to ensure that you are dynamically linking with the
+correct X11r4 libXt.a and libX11.a, rather than the outdated ones supplied
+by Sun. (In particular, make sure that you are using a libXt.a that has all
+18 MIT X consortium patches applied as well as the OSF-supplied patch).
+
+The following message may provide you with the hints for forcing use of the
+correct shared libriaries:
+
+| From: dbc@cs.brown.edu (Brook Conner)
+| Newsgroups: comp.windows.x
+| Subject: Re: Xwebster printing odd warnings
+| Message-ID: <69667@brunix.UUCP>
+| Date: 23 Mar 91 16:36:40 GMT
+| References: <JC.91Mar22022948@condor.bu.edu>
+| Sender: news@brunix.UUCP
+| Distribution: comp
+| Organization: Brown Computer Science Dept.
+| Lines: 43
+| 
+| In article <JC.91Mar22022948@condor.bu.edu>, jc@condor.bu.edu (James Cameron) writes:
+| |> 
+| |> Running SunOS 4.1.1 on SparcStation 2's and other fun things...  *8-)
+| |> 
+| |> 
+| |> I just got webster and Xwebster up and running (after a bit
+| |> of work) and I know seem to be getting some weird warning messages
+| |> from Xwebster.  (prelude - I have seen and used Xwebster on another
+| |> similiar system.)  Now, the warnings don't *seem* to do anything
+| |> at all, they are just a irritation...
+| |> 
+| |> Warning: Widget class VPanedWindow version mismatch:
+| |>   widget 11004 vs. intrinsics 11003.
+| [About a billion more such messages deleted (actually one per widget class)]
+| |> 
+| |> Suggestions anyone???
+| |> 
+| |> JC
+| |> 
+| [big sig deleted]
+| 
+| This happens because there are two versions of Xt running around on
+| the SPARC.  The version you should find in $OPENWINHOME/lib and
+| the version you should find in /usr/lib/X11 (i.e. MIT X11R4) 
+| disagree on a very minor version number. You're right -- these
+| messages don't seem to have any earthly effect on the code.
+| 
+| There are  two ways to fix this problem:
+| 1) Carefully set your LD_LIBRARY_PATH so that when you use apps built
+| 	using X11R4, you do not have $OPENWIHOME/lib in that path (which
+| 	is a bit of a pain if you use both Motif/Athena apps and XView apps,
+| 	which I do (since Sun's XGL only seems to be happy under olwm, but I
+| 	prefer Motif for my widgets))
+| 2) Get your sysadmin to fix it. We fixed it by making the copies of Xt in
+| 	$OPENWINHOME/lib be links to the MIT X11R4 versions.  This doesn't
+| 	seem to cause any problems, since XView doesn't use Xt.
+| 
+| Brook
+| - -- 
+| Brook Conner		| Klacktoveedsedstene
+| Brown Computer Graphics	| Fortune sez: Brook's Law -- Adding manpower to a late
+| dbc@cs.brown.edu     	|  	software project makes it later
+| uunet!brunix!dbc dbc@browncs.bitnet   Box 4013 Brown U Prov RI 02912
+
+
+-------------------------------------------------------------------------------
+	    Niels Mayer -- hplabs!mayer -- mayer@hplabs.hp.com
+		  Human-Computer Interaction Department
+		       Hewlett-Packard Laboratories
+			      Palo Alto, CA.
+				   *

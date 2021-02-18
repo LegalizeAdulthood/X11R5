@@ -1,0 +1,12 @@
+*** /home/X11R4/mit/lib/Xaw/Label.c	Fri Dec  8 17:35:56 1989
+--- Label.c	Fri Sep 20 13:42:44 1991
+***************
+*** 419,424 ****
+--- 419,425 ----
+      }
+  
+      if (curlw->label.foreground != newlw->label.foreground
++ 	|| curlw->core.background_pixel != newlw->core.background_pixel
+  	|| curlw->label.font->fid != newlw->label.font->fid) {
+  
+  	XtReleaseGC(new, curlw->label.normal_GC);

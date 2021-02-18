@@ -1,0 +1,104 @@
+! Copyright (C) 1990 Regents of the University of California.
+! Permission to use, copy, modify, distribute, and sell this software and
+! its documentation for any purpose is hereby granted without fee,
+! provided that the above copyright notice appear in all copies and that
+! both that copyright notice and this permission notice appear in
+! supporting documentation, and that the name of the University of
+! California not be used in advertising or publicity pertaining to
+! distribution of the software without specific, written prior
+! permission.  the University of California makes no representations
+! about the suitability of this software for any purpose.  It is provided
+! "as is" without express or implied warranty.
+
+*allowShellResize:			True
+*resizable:				True
+
+*Form.defaultDistance:			1
+*Form.internalHeight:			0
+*Form.internalWidth:			0
+*Form.borderWidth:			0
+
+*Label.internalHeight:			0
+*Label.internalWidth:			0
+*Label.borderWidth:			0
+*Label.top:				ChainTop
+*Label.bottom:				ChainTop
+*Label.left:				ChainLeft
+*Label.right:				ChainLeft
+
+*Toggle.borderWidth:			1
+*Toggle.top:				ChainTop
+*Toggle.bottom:				ChainTop
+*Toggle.left:				ChainLeft
+*Toggle.right:				ChainLeft
+
+*ledsLabel.horizDistance:		4
+*ledsLabel.fromHoriz:			logoLabel
+
+*trackButton.horizDistance:		4
+*trackButton.fromHoriz:			ledsLabel
+*trackButton.borderWidth:		2
+*trackButton.internalHeight:		4
+*trackButton.internalWidth:		4
+
+*timerLabel.borderWidth:		2
+*timerLabel.internalHeight:		4
+*timerLabel.internalWidth:		4
+*timerLabel.horizDistance:		2
+*timerLabel.fromHoriz:			trackButton
+*timerLabel.left:			ChainRight
+*timerLabel.right:			ChainRight
+
+*volumeScrollbar.fromHoriz:		logoLabel
+*volumeScrollbar.fromVert:		trackButton
+*volumeScrollbar.orientation:		horizontal
+*volumeScrollbar.length:		90
+*volumeScrollbar.right:			ChainRight
+*volumeScrollbar.left:			ChainRight
+
+*buttonsForm.fromVert:			logoForm
+*buttonsForm.borderWidth:		1
+
+*pauseButton.fromHoriz:			playButton
+*stopButton.fromHoriz:			pauseButton
+*rewButton.fromHoriz:			stopButton
+*ffButton.fromHoriz:			rewButton
+*ejectButton.fromHoriz:			ffButton
+
+*ffButton.radioGroup:			rewButton
+*stopButton.radioGroup:			playButton
+*ejectButton.radioGroup:		playButton
+
+*quitButton.fromVert:			playButton
+*cycleButton.fromVert:			playButton
+*cycleButton.fromHoriz:			quitButton
+*shuffleButton.fromVert:		playButton
+*shuffleButton.fromHoriz:		cycleButton
+
+*trackButton.translations:		#override \
+					<EnterWindow>:	highlight(Always) \n\
+					<LeaveWindow>:	unhighlight() \n\
+					<Btn1Down>:	set() notify() \n\
+					<Btn1Up>:	reset() notify()
+
+*playButton.translations:		<EnterWindow>:	highlight(Always) \n\
+					<LeaveWindow>:	unhighlight() \n\
+					<Btn1Down>:	set() notify()
+
+*stopButton.translations:		<EnterWindow>:	highlight(Always) \n\
+					<LeaveWindow>:	unhighlight() \n\
+					<Btn1Down>:	set() notify()
+
+*ejectButton.translations:		<EnterWindow>:	highlight(Always) \n\
+					<LeaveWindow>:	unhighlight() \n\
+					<Btn1Down>:	set() notify()
+
+*rewButton.translations:		<EnterWindow>:	highlight(Always) \n\
+					<LeaveWindow>:	unhighlight() \n\
+					<Btn1Down>:	set() notify() \n\
+					<Btn1Up>:	unset()
+
+*ffButton.translations:			<EnterWindow>:	highlight(Always) \n\
+					<LeaveWindow>:	unhighlight() \n\
+					<Btn1Down>:	set() notify() \n\
+					<Btn1Up>:	unset()

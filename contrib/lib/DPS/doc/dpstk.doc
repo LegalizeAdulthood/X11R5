@@ -1,0 +1,768 @@
+			DISPLAY POSTSCRIPT TOOLKIT
+
+Copyright (C) 1990, 1991 by Adobe Systems Incorporated.
+All rights reserved.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notices appear in all copies and that
+both those copyright notices and this permission notice appear in
+supporting documentation and that the name of Adobe Systems
+Incorporated not be used in advertising or publicity pertaining to
+distribution of the software without specific, written prior
+permission.  If any portion of this software is changed, it cannot be
+marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+its sole discretion, approves by a prior writing the quality of the
+resulting implementation.
+
+ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+
+PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+Incorporated registered in the U.S.A. and other countries.
+
+Author: Adobe Systems Incorporated
+
+--------------------------------------------------------------------------
+
+This document describes the contents of the Display PostScript toolkit,
+libdpstk.a.  The toolkit contains context sharing utilities, user object
+management, user path handling, file previewing, and a font selection panel.
+The font selection panel is described in a separate document, FontSB.doc.
+
+An application using libdpstk.a must link it in ahead of the DPS library
+libdps.a.  If the application uses the font selection panel, the library must
+be linked in ahead of the Motif library; an application that does not use the
+font selection panel does not need to link in Motif.  Applications that use
+the font panel must also link in the PostScript resource location library.
+The canonical link line includes
+	-ldpstk -ldps -lX11
+for applications that don't use the font panel and
+	-ldpstk -lpsres -lXm -lXt -ldps -lX11
+for applications that do.
+
+
+COMMON DEFINITIONS:
+
+The header file <DPS/dpsXcommon.h> contains definitions used by various
+pieces of the toolkit library.
+
+Status returns:
+	#define dps_status_success 0
+	#define dps_status_failure 1
+	#define dps_status_no_extension 2
+	#define dps_status_unregistered_context 3
+	#define dps_status_illegal_value 4
+	#define dps_status_postscript_error 5
+	#define dps_status_imaging_incomplete 6
+
+The type DPSPointer is used for generic pointers in the interfaces:
+	typedef char *DPSPointer;
+
+
+CONTEXT SHARING UTILITIES:
+
+These routines allow cooperating libraries to share DPS Contexts.  They also
+manage default DPS Contexts for code that does not want to worry about
+creating a context.  Code that uses these functions must include the header
+file <DPS/dpsXshare.h>; <DPS/dpsXshare.h> automatically includes
+<DPS/dpsXcommon.h>.
+
+extern void XDPSRegisterContext(DPSContext context,
+				Bool makeSharedContext);
+
+XDPSRegisterContext registers a DPS context with the context sharing
+mangager and enables manipulation of the context through the other
+routines here.  The makeSharedContext parameter establishes
+whether or not the context will be made the shared context for its
+display.  It does not destroy the previous shared context for the
+display, if any.
+
+extern DPSContext XDPSGetSharedContext(Display *display);
+
+XDPSGetSharedContext returns the shared context for its display.  If no
+shared context exists, it creates one.  XDPSGetSharedContext returns NULL
+if the display does not support the DPS extension.  The context is
+initially set to use the default colormap on the default screen with the
+default depth, but is not set to use any drawable.
+
+extern void XDPSDestroySharedContext(DPSContext context);
+
+XDPSDestroySharedContext destroys the shared context for a display; it also
+destroys the context's space.
+
+extern void XDPSUnregisterContext(DPSContext context);
+
+XDPSUnregisterContext frees the context information but doesn't destroy
+the context.
+
+extern void XDPSFreeDisplayInfo(Display *display);
+
+XDPSFreeDisplayInfo frees the stored display info for a display.
+
+extern int XDPSChainTextContext(DPSContext context,
+				Bool enable);
+
+XDPSChainTextContext either enables or disables a chained text context
+for a context.  The context must be registered.  The text context will
+be created automatically.  It can return dps_status_success or 
+dps_status_unregistered_context.
+
+extern int XDPSSetContextDepth(DPSContext context,
+			       Screen *screen,
+			       int depth);
+
+XDPSSetContextDepth sets a context for use with a particular screen 
+and depth.  It can return dps_status_success,
+dps_status_unregistered_context, or dps_status_illegal_value (if the screen
+is not on the context's display or the depth is not valid for that screen).
+
+extern int XDPSSetContextDrawable(DPSContext context,
+				  Drawable drawable,
+				  int height);
+
+XDPSSetContextDrawable sets a context for use with a particular
+drawable.  The origin is at the lower left corner.  It can return
+dps_status_success, dps_status_unregistered_context, or
+dps_status_illegal_value (if the height is less than 1).
+
+typedef struct {
+	Colormap colormap;
+	unsigned long red_max;
+	long red_mult;
+	unsigned long green_max;
+	long green_mult;
+	unsigned long blue_max;
+	long blue_mult;
+	unsigned long base_pixel;
+	unsigned long visualid;
+	unsigned long killid;
+} XDPSStandardColormap;
+
+extern int XDPSSetContextRGBMap(DPSContext context,
+				XDPSStandardColormap *map);
+
+XDPSSetContextRGBMap sets the RGB map for the context.  The colormap in the
+map structure must be appropriate for the current drawable and depth.  A
+colormap value of None is allowed when imaging into a pixmap, but the ramps
+must be set to the same values as will be used in the window that will
+ultimately show the pixmap.
+
+If the map parameter is NULL, the default rgb map for the default screen of
+the context's display is used; for more general behaviour use
+XDPSSetContextParameters.
+
+The XDPSStandardColormap structure is identical to the XStandardColormap
+structure except that it allows signed numbers for the multipliers.
+XDPSSetContextRGBMap can return dps_status_success or
+dps_status_unregistered_context.
+
+extern int XDPSSetContextGrayMap(DPSContext context,
+				 XDPSStandardColormap *map);
+
+XDPSSetContextGrayMap sets the gray map for the context.  The colormap in the
+map structure must be appropriate for the current drawable and depth.  A
+colormap value of None is allowed when imaging into a pixmap, but the ramp
+must be set to the same values as will be used in the window that will
+ultimately show the pixmap.
+
+If the map parameter is NULL, the default gray map for the default screen of
+the context's display is used; for more general behaviour use
+XDPSSetContextParameters.
+
+The gray ramp is based upon the base_pixel, red_max, and red_mult fields; all
+other _max and _mult fields are ignored.  XDPSSetContextGrayMap can return
+dps_status_success or dps_status_unregistered_context.
+
+#define XDPSContextScreenDepth		(1L<<0)
+#define XDPSContextDrawable		(1L<<1)
+#define XDPSContextRGBMap		(1L<<2)
+#define XDPSContextGrayMap		(1L<<3)
+
+extern int XDPSSetContextParameters(DPSContext context,
+				    Screen *screen,
+				    int depth,
+				    Drawable drawable,
+				    int height,
+				    XDPSStandardColormap *rgbMap,
+				    XDPSStandardColormap *grayMap,
+				    unsigned int flags);
+
+XDPSSetContextParameters sets any of the context parameters.  The flags
+should be a combination of XDPSContextScreenDepth, XDPSContextDrawable,
+XDPSContextRGBMap, and XDPSContextGrayMap.  XDPSSetContextParameters can
+return any value as described in XDPSSetContextScreenDepth,
+XDPSSetContextDrawable, XDPSSetContextRGBMap, and XDPSSetContextGrayMap.
+
+If the flags request setting a colormap and the corresponding map parameter
+is NULL, a default map is used.  If screen is not NULL, the default is the
+one set on the screen's root window.  If screen is NULL but drawable is not
+None, the default is the one set on the drawable's screen's root window.  If
+screen is NULL and drawable is None, the default is the one on the display's
+default root window.
+
+extern int XDPSPushContextParameters(DPSContext context,
+				     Screen *screen,
+				     int depth,
+				     Drawable drawable,
+				     int height,
+				     XDPSStandardColormap *rgbMap,
+				     XDPSStandardColormap *grayMap,
+				     unsigned int flags,
+				     DPSPointer *pushCookieReturn);
+
+extern int XDPSPopContextParameters(DPSPointer pushCookie);
+
+XDPSPushContextParameters is identical to XDPSSetContextParameters, but it
+can be undone by passing the returned pushCookieReturn to
+XDPSPopContextParameters.  It is up to the caller to make sure that push
+and pop are called in a stack-oriented fashion.  XDPSPushContextParameters
+can return the same values as XDPSSetContextParameters;
+XDPSPopContextParameters can return dps_status_success or
+dps_status_illegal_value;
+
+extern int XDPSCaptureContextGState(DPSContext context,
+				    DPSGState *gsReturn);
+
+XDPSCaptureContextGState captures the current graphics state as a gstate
+and returns a handle to this state.  DPSGState is an opaque type.  It is
+legal to set a DPSGState variable to 0 and to test it against 0, and no real
+DPSGstate will ever have the value 0.  XDPSCaptureContextGState can return
+dps_status_success or dps_status_unregistered_context.
+
+extern int XDPSUpdateContextGState(DPSContext context,
+				   DPSGState gs);
+
+XDPSUpdateContextGState updates the saved gstate to correspond to the current
+graphics state.  The previous setting of the gstate is no longer accessible.
+XDPSUpdateContextGState can return dps_status_success or
+dps_status_unregistered_context.
+
+extern int XDPSFreeContextGState(DPSContext context,
+				 DPSGState gs);
+
+XDPSFreeContextGState releases a gstate.  It can return dps_status_success or
+dps_status_unregistered_context.
+
+extern int XDPSSetContextGState(DPSContext context,
+				DPSGState gs);
+
+XDPSSetContextGState sets a context to a saved gstate.  It can return
+dps_status_success or dps_status_unregistered_context.
+
+extern int XDPSPushContextGState(DPSContext context,
+				 DPSGState gs,
+				 DPSPointer *pushCookieReturn);
+
+extern int XDPSPopContextGState(DPSPointer pushCookie);
+
+XDPSPushContextGState sets a context to a saved gstate, but it can be
+undone by passing the returned pushCookieReturn to XDPSPopContextGState.
+It is up to the caller to make sure that push and pop are called in a
+stack-oriented fashion.  XDPSPushContextGState can return dps_status_success
+or dps_status_unregistered_context.
+
+extern Bool XDPSExtensionPresent(Display *display);
+
+XDPSExtensionPresent returns whether or not the display supports the DPS
+extension.
+
+USAGE NOTES:
+
+Capturing the current state with XDPSCaptureContextGState and restoring it
+later with XDPSSetContextGState or XDPSPushContextGState is more
+efficient than setting the parameters each time.  However, each gstate
+consumes VM, so you should not capture a gstate unless you expect to be
+returning to it.  You should also free gstates that you know you will no
+longer be using (or recycle them for a new use with XDPSUpdateContextGState).
+
+The gstate operations use user objects, so an application that creates and
+destroys many gstates can end up slowly consuming VM resources even though
+the memory consumed by the gstates themselves is always reclaimed.  This
+consumption is very slow and likely to be noticed only by long-running
+applications that create and destroy many gstates.  See the usage notes in
+the section on user objects for how to avoid this problem.
+
+
+USER OBJECTS:
+
+These routines manage user objects.  They are recommended for any client that
+uses user objects, but they MUST be used on any context that also uses any of
+the gstate procedures described earlier.  This avoids conflicting user object
+allocations.  The definitions are in <DPS/dpsXshare.h>, and the context must
+have been registered with XDPSRegisterContext.
+
+The only difference between the procedures in each pair is whether or not the
+procedure takes a context explicitly or uses the current context.
+
+extern int PSDefineAsUserObj();
+extern int DPSDefineAsUserObj(DPSContext context);
+
+These procedures allocate a user object index and associate it with  whatever
+is on the top of the operand stack.  The return value is the user object index.
+
+
+extern void PSRedefineUserObj(int userObj);
+extern void DPSRedefineUserObj(DPSContext context, int userObj);
+
+These procedures break the association between the user object index and its
+current object.  They then associate the index with whatever is on top of the
+operand stack.
+
+
+extern void PSUndefineUserObj(int userObj);
+extern void DPSUndefineUserObj(DPSContext context, int userObj);
+
+These procedures break the association between the user object index and its
+current object.  Further uses of the index are not allowed, and future
+calls to DPSDefineAsUserObj may return this index with a new association.
+
+
+extern int PSReserveUserObjIndices(int number);
+extern int DPSReserveUserObjIndices(DPSContext context, int number);
+
+These procedures reserve a number of user object indices for an application's
+use.  They do not associate these indices with any objects.  The returned
+value is the first index reserved; if the returned value is f the application
+can use the indices f through f+number-1 freely.
+
+
+extern void PSReturnUserObjIndices(int start, int number);
+extern void DPSReturnUserObjIndices(DPSContext context, int start, int number);
+
+These routines return the user object indices start througth start+number-1
+to the user object pool.  These indices must have been previously reserved
+with PSReserveUserObjIndices or DPSReserveUserObjIndices.  It is permissible
+to return indices piecemeal; for example if DPSReserveUserObjIndices returned
+6 as the first index in a block of 5 you can return the indices by calling
+DPSReturnUserObjIndices twice, once with start=6 and number=2, and once with
+start=8 and number=3.
+
+
+USAGE NOTE:
+
+These procedures reclaim user object indices only if the indices are
+undefined in strictly the opposite order from that in which they were
+allocated.  For example, if "An" represents the nth user object allocation
+and "Fn" represents freeing the index allocated by operation An, this
+sequence will not consume user object memory:
+
+	A1 A2 A3 A4 A5 A6 F6 F5 F4 F3 F2 F1
+
+This sequence will:
+
+	A1 A2 A3 A4 A5 A6 F5 F4 F3 F2 F1
+
+Not freeing A6 prevents the user object indices allocated for A1-A5 from
+being recovered.
+
+This is of concern only for extremely long-running applications that use and
+free many user objects.
+
+
+USER PATHS:
+
+These routines provide efficient access to DPS user paths.  Code that uses
+these functions must include <DPS/dpsXuserpath.h>.
+
+typedef enum _DPSNumberFormat {
+    dps_float,
+    dps_long,
+    dps_short
+} DPSNumberFormat;
+
+typedef enum _DPSUserPathOp {
+    dps_setbbox,
+    dps_moveto,
+    dps_rmoveto,
+    dps_lineto,
+    dps_rlineto,
+    dps_curveto,
+    dps_rcurveto,
+    dps_arc,
+    dps_arcn,
+    dps_arct,
+    dps_closepath,
+    dps_ucache
+};
+
+typedef char DPSUserPathOp;
+
+typedef enum _DPSUserPathAction {
+    dps_uappend,
+    dps_ufill,
+    dps_ueofill,
+    dps_ustroke,
+    dps_ustrokepath,
+    dps_inufill,
+    dps_inueofill,
+    dps_inustroke,
+    dps_infill,
+    dps_ineofill,
+    dps_instroke,
+    dps_def,
+    dps_put,
+    dps_send
+} DPSUserPathAction;
+ 
+extern void PSDoUserPath(DPSPointer coords,
+			 int numCoords,
+			 DPSNumberFormat numType,
+			 DPSUserPathOp *ops,
+			 int numOp,
+			 DPSPointer bbox,
+
+			 DPSUserPathAction action);
+
+extern void DPSDoUserPath(DPSContext ctx,
+
+			  DPSPointer coords,
+			  int numCoords,
+			  DPSNumberFormat numType,
+			  DPSUserPathOp *ops,
+			  int numOp,
+			  DPSPointer bbox,
+
+			  DPSUserPathAction action);
+
+These two functions differ only in that PSDoUserPath uses the current context
+and DPSDoUserPath takes a context explicitly.
+
+The numType parameter describes the number format used in the coords and bbox
+parameters:
+	For floating point, long, or short values, use dps_float, dps_long,
+	or dps_short, respectively.
+
+	For 32-bit fixed point numbers, use dps_long plus the number of bits
+	in the fractional part.
+
+	For 16-bit fixed point numbers, use dps_short plus the number of bits
+	in the fractional part.
+ 
+The ops parameter points to a list of operations, as defined by the
+_DPSUserPathOp enumeration.  The numOp parameter gives the number of entries
+in this list.
+
+The coords parameter points to a list of coordinates for the operands.  Each
+operand takes the appropriate number of coordinates from the coords array:
+    dps_setbbox		none	(see below)
+    dps_moveto		2	(x, y)
+    dps_rmoveto		2	(dx, dy)
+    dps_lineto		2	(x, y)
+    dps_rlineto		2	(dx, dy)
+    dps_curveto		6	(x1, y1, x2, y2, x3, y3)
+    dps_rcurveto	6	(dx1, dy1, dx2, dy2, dx3, dy3)
+    dps_arc		5	(x, y, r, ang1, ang2)
+    dps_arcn		5	(x, y, r, ang1, ang2)
+    dps_arct		5	(x1, y1, x2, y2, r)
+    dps_closepath	none
+    dps_ucache		none
+
+The numCoords parameter gives the number of entries in the coords array.  The
+type of the entries in coords is defined by the numType parameter.
+
+The bbox parameter points to four numbers in the format defined by the
+numType parameter.  If the ops parameter includes a dps_setbbox operation,
+the coordinates for the operation come from the bbox parameter.  If the
+ops parameter does not include a dps_setbbox operation, DPSDoUserPath
+inserts one at the appropriate place, and again the coordinates for the
+operation come from the bbox parameter.
+
+The action parameter describes the PostScript language operator that will
+consume the created user path.  The special action dps_send pushes the user
+path onto the stack and leaves it there.
+
+Here is an example use of DPSDoUserPath:
+
+    static long coords[9] = {100, 100, 75, 0, 360
+			     100, 100,
+			     75, 0};
+    static DPSUserPathOp ops[3] = {dps_arc, dps_moveto, dps_rlineto};
+    static long bbox[4] = {25, 25, 175, 175};
+
+    DPSDoUserPath(ctxt, (DPSPointer) coords, 9, dps_long,
+		  ops, 3, (DPSPointer) bbox, dps_ustroke);
+
+
+This fragment draws a 75-unit circle centered around the point (100,100) and
+a radius from (100, 100) to (175, 100).
+
+To use the PostScript operators that test for path intersection, use
+PSHitUserPath or DPSHitUserPath.
+
+extern Bool PSHitUserPath(double x, double y,
+			  double radius,
+
+			  DPSPointer coords,
+			  int numCoords,
+			  DPSNumberFormat numType,
+			  DPSUserPathOp *ops,
+			  int numOp,
+			  DPSPointer bbox,
+
+			  DPSUserPathAction action);
+
+extern Bool DPSHitUserPath(DPSContext ctx,
+
+			   double x, double y,
+			   double radius,
+
+			   DPSPointer coords,
+			   int numCoords,
+			   DPSNumberFormat numType,
+			   DPSUserPathOp *ops,
+			   int numOp,
+			   DPSPointer bbox,
+
+			   DPSUserPathAction action);
+
+These two functions differ only in that PSHitUserPath uses the current context
+and DPSHitUserPath takes a context explicitly.
+
+In all cases, if radius is zero, DPSHitUserPath uses the x/y form of the
+specified operator.  If radius is nonzero, DPSHitUserPath constructs a
+circular user path centered on x and y with the specified radius and uses the
+aperture form of the specified operator.
+
+If the action is dps_ineofill, dps_infill, or dps_instroke, DPSHitUserPath
+ignores the parameters specifying the user path.  If the action parameter is
+dps_inueofill, dps_inufill, or dps_inustroke, DPSHitUserPath uses the
+parameters specifying the user path to define the user path being tested
+against.
+
+In all cases the resulting Boolean value is returned.
+
+Note that DPSHitUserPath with radius zero and dps_ineofill, dps_infill, or
+dps_instroke as the operator is semantically equivalent to DPSineofill,
+DPSinfill, or DPSinstroke.
+
+
+FILE PREVIEW UTILITIES:
+
+These utilies simplify previewing files into X drawables (windows or
+pixmaps).  Code that uses these functions must include the header file
+<DPS/dpsXpreview.h>; <DPS/dpsXpreview.h> automatically includes
+<DPS/dpsXcommon.h>.
+
+extern int XDPSImageFileIntoDrawable(DPSContext context,
+				     Screen *screen,
+				     Drawable dest,
+				     FILE *file,
+				     int drawableHeight,
+				     int drawableDepth,
+				     XRectangle *bbox,
+				     int xOffset,
+				     int yOffset,
+				     double pixelsPerPoint,
+				     Bool clear,
+				     Bool createMask,
+				     Bool waitForCompletion,
+				     Bool *doneFlag);
+
+XDPSImageFileIntoDrawable images a PostScript file into the dest drawable.
+
+The context parameter may be NULL, in which case the shared context for the
+display will be used.  If a real context is passed, it must be registered
+with XDPSRegisterContext.  
+
+The drawableHeight and drawableDepth must describe the drawable; the height
+is in X pixels.
+
+The bbox parameter describes the bounding box of the imaged area, in points.
+
+The imaging will be offset by the xOffset and yOffset values; these
+are in points.
+
+The pixelsPerPoint parameter defines a scale factor that will be used to
+image the PostScript file.
+
+If the clear parameter is True, the area defined by the bbox will be cleared
+to white before imaging.
+
+If createMask is True, the drawable must be 1 bit deep and it will end up as
+a mask suitable for use as an X clip mask:  every bit that the PostScript
+interpreter touches during imaging will be 1, and, if clear is also True,
+any untouched bits within the bbox will be 0.
+
+If waitForCompletion is True, XDPSImageFileIntoDrawable will wait for the
+imaging to be finished before returning.  If waitForCompletion parameter is
+False, XDPSImageFileIntoDrawable will wait for a time as specified by
+XDPSSetImagingTimeout before returning dps_status_imaging_incomplete.  When
+the imaging is complete, agents set up by XDPSImageFileIntoDrawable will set
+the variable pointed to by doneFlag to True.  The application must then call
+XDPSCheckImagingResults to find the results of the imaging.  The done flag
+can only change its status as a result of handling a status event from the
+DPS/X server. 
+
+Partial imaging may be stopped by destroying the context with
+DPSDestroySharedContext or both DPSDestroyContext and XDPSUnregisterContext.
+Doing anything with a context between the time XDPSImageFileIntoDrawable
+returns dps_status_imaging_incomplete and the time XDPSCheckImagingResults
+returns other than dps_status_imaging_incomplete will yield incorrect imaging
+results and leave the context in an undefined state.
+
+Using pass-through event delivery is highly recommended when using
+XDPSImageFileIntoDrawable with waitForCompletion false.  There may otherwise
+be substantial delays between when the done flag gets set and when the
+application gets the opportunity to test this flag.
+
+If the display does not support the DPS extension, the image area as
+determined by the bbox parameter will be filled with a 50% gray stipple
+pattern, or set to solid 1's if createMask is True.
+
+XDPSImageFileIntoDrawable can return dps_status_success,
+dps_status_unregistered_context, dps_status_no_extension,
+dps_status_illegal_value (if the screen is NULL, the drawable is None, the
+file is NULL, or the drawableHeight, drawableDepth, or pixelsPerPoint
+is less than or equal to 0), dps_status_postscript_error (if the
+PostScript file contains an error), or dps_status_imaging_incomplete (if
+waitForCompletion is False and the imaging is not finished within the
+timeout).
+
+extern int XDPSCheckImagingResults(DPSContext context, Screen *screen);
+
+XDPSCheckImagingResults checks the status of the imaging on the context.
+The context parameter may be NULL, in which case the shared context
+for the screen's display will be used.  If a real context is passed, it must
+be registered with XDPSRegisterContext.  XDPSCheckImagingResults can return
+dps_status_success (if the imaging is complete and successful),
+dps_status_imaging_incomplete (if the imaging is still continuing),
+dps_status_postscript_error (if the imaging is complete and the PostScript
+file contains an error), dps_status_illegal_value (if the context is not
+currently involved in previewing), or dps_status_unregistered_context.
+
+extern void XDPSSetImagingTimeout(int timeout,
+				  int maxDoublings);
+
+XDPSSetImagingTimeout determines how long XDPSImageFileIntoDrawable will
+wait before returning after an incomplete imaging, in milliseconds.
+XDPSImageFileIntoDrawable will start by waiting the timeout and will
+repeatedly double the wait until the imaging is complete or until
+maxDoublings have occurred.
+
+extern int XDPSCreatePixmapForEPSF(DPSContext context,
+				   Screen *screen,
+				   FILE *epsf,
+				   int depth,
+				   double pixelsPerPoint,
+				   Pixmap *p,
+				   XRectangle *pixelSize,
+				   XRectangle *bbox);
+
+XDPSCreatePixmapForEPSF creates a pixmap for use on the specified screen.
+The size of the pixmap is determined by reading the %%BoundingBox comment in
+the file, scaled by pixelsPerPoint.  The size of the pixmap is returned in
+pixelSize (x and y will be zero) and the bounding box (in points) is returned
+in bbox.
+
+The context parameter may be NULL, in which case the shared context for the
+display will be used.  If a real context is passed, it must be registered
+with XDPSRegisterContext. 
+
+XDPSCreatePixmapForEPSF can return dps_status_success,
+dps_status_no_extension (in which case it still returns an appropriate sized
+pixmap), dps_status_illegal_value (if the screen is NULL, the file is NULL,
+or the depth or pixelsPerPoint is less than or equal to 0), or
+dps_status_failure (if the specified file does not contain a %%BoundingBox
+comment).
+
+extern double XDPSPixelsPerPoint(Screen *screen)
+
+XDPSPixelsPerPoint returns the resolution of the specified screen; this can
+be passed to XDPSCreatePixmapForEPSF or XDPSImageFileIntoDrawable.  Note:
+If the server reports incorrect resolution information about the screen, as
+many servers currently do, this incorrect information will be propogated
+through XDPSPixelsPerPoint.
+
+
+XDPSImageFileIntoDrawable and XDPSCreatePixmapForEPSF can use
+application-supplied functions to read the PostScript file and to reset its
+position to the beginning.  The default functions are suitable for use with a
+file that contains a single EPSF image, but they can be replaced with
+functions that are suitable, for example, for an EPSF section embedded within
+a longer function.
+
+typedef void (*XDPSRewindFunction)(FILE *f,
+				   DPSPointer private);
+
+An XDPSRewindFunction should reposition the file (normally with fseek) to the
+beginning of the "interesting" section.  XDPSImageFileIntoDrawable and
+XDPSCreatePixmapForEPSF will call the rewind function before reading lines
+from the file (either to image them or to look for the bounding box comment).
+
+typedef char *(*XDPSGetsFunction)(char *buf,
+				  int n,
+				  FILE *f,
+				  DPSPointer private);
+
+An XDPSGetsFunction should return the next line of the file; it should
+mimic the behavior of the fgets function in all ways.  It may, however,
+return NULL before reaching the end of the file to indicate that the end of
+the "interesting" section has been reached.
+
+extern int XDPSSetFileFunctions(XDPSRewindFunction rewindFunction,
+				DPSPointer rewindPrivateData,
+				XDPSGetsFunction getsFunction,
+				DPSPointer getsPrivateData);
+
+XDPSSetFileFunctions defines the functions XDPSCreatePixmapForEPSF and
+XDPSImageFileIntoDrawable will use to reset the file to its beginning
+and to read the next line of the file.
+
+extern void XDPSFileRewindFunc(FILE *f,
+			       DPSPointer private);
+
+extern char *XDPSFileGetsFunc(char *buf,
+			      int n,
+			      FILE *f,
+			      DPSPointer private);
+
+XDPSFileRewindFunc and XDPSFileGetsFunc are the default rewind and gets
+functions, and are suitable for use when the EPSF file being previewed is
+a separate file.  They may be passed to XDPSSetFileFunctions to restore the
+default behavior after installing different functions.  The rewindPrivateData
+and getsPrivateData pointers should both be NULL.
+
+typedef struct {
+	long startPos;
+	int nestingLevel;
+	unsigned long binaryCount;
+	Bool continuedLine;
+} XDPSPosition;
+
+extern void XDPSEmbeddedEPSFRewindFunc(FILE *f,
+				       DPSPointer data);
+
+extern char *XDPSEmbeddedEPSFGetsFunc(char *buf,
+				      int n,
+				      FILE *f,
+				      DPSPointer data);
+
+
+XDPSEmbeddedEPSFRewindFunc and XDPSEmbeddedEPSFGetsFunc are rewind and gets
+functions that handle an EPSF file embedded within a longer file.  The
+rewindPrivateData and getsPrivateData pointers must both point to the same
+instance of an XDPSPosition structure in the call to XDPSSetFileFunctions.
+
+These procedures use the version 2.0 document structuring conventions
+%%BeginDocument and %%EndDocument to detect the end of the included file and
+to identify any subsidiary EPSF sections that are included within the EPSF
+being imaged.  Before calling XDPSCreatePixmapForEPSF or
+XDPSImageFileIntoDrawable, the startPos in the XDPSPosition structure must be
+set to the first character of the desired EPSF file (as found by, for
+example, ftell).  It must *not* include any initial %%BeginDocument comment
+for this EPSF file.  The nestingLevel, continuedLine, and binaryCount fields
+are used internally by the functions and should not be modified.  After
+calling XDPSImageFileIntoDrawable, startPos will have been modified to be the
+first character after the complete EPSF file, or -1 if the EPSF ended with
+end-of-file.
+
+

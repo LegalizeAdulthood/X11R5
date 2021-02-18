@@ -1,0 +1,640 @@
+; group windows into dvrooms
+;
+;;File: dvrooms.gwm
+;;Author: duanev@mcc.com (Duane Voth)
+;;Revision: 1.5 -- Nov 18 1990
+;
+; History:  1.0 -- Oct 18 1989	original
+;	    1.1 -- Oct 26 1989	windows are placed back on the screen (in
+;				iconic form) when a dvroom manager dies
+;	    1.2 -- Nov 21 1989	use gwm-quiet
+;	    1.3 -- Nov 22 1989  create rmgrs from wool (colas)
+;	    1.4 -- May 11 1990  use GWM_ROOM property to remeber room windows
+;	    1.5 -- Nov 18 1990  Philippe Kaplan (phk)
+;				act as icon boxes:
+;				  do (setq dvroom.icon-box t) before load
+;				exit bug fixed around line 190
+;
+; dvrooms.gwm must be loaded in the .profile.gwm before any set-window,
+; set-icon-window, set-placement, or set-icon-placement calls.  it should
+; also follow loading of icon-groups.gwm if used.  (this probably isn't
+; necessary but it seems to be programatically correct)
+;
+; to use rooms, the following can be added to your .profile.gwm:
+;
+; (defun screen-startup ()
+;    (setq count-of-windows-on-screen (length (list-of-windows)))
+;    (new-dvroom-manager "home")
+;    (new-dvroom-manager "lisp")
+;    (new-dvroom-manager "wysiwyg")
+;    (dvroom-reattach)
+;    (if (= 0 count-of-windows-on-screen)
+;          (! "/bin/sh" "-c" "$HOME/.xrc")))
+; 
+; (setq to-be-done-after-setup (+ to-be-done-after-setup '((screen-startup))))
+;
+; be sure also to attach add-to-dvroom and remove-from-dvroom to some unused
+; mouse button / keyboard modifier combinations.  Example:
+;
+; (: standard-behavior
+;   (state-make
+;         ....
+;       (on (buttonpress 1 with-control) (add-to-room))
+;       (on (buttonpress 3 with-control) (remove-from-room))
+;   ))
+; 
+;;=============================================================================
+;;                    1.5
+;;=============================================================================
+; New version of "dvrooms.gwm". Small changes produce big results:
+; 
+;  - You may open any number of rooms, instead of only one.
+;  - you can attach a window to several rooms.
+; 
+; Be carefull:
+; 
+;  - The notion of current-dvroom becomes "the last room openned" (add-to-room
+;  and remove-from-room use current-dvroom).
+; 
+; Since it changes the concept of rooms, we'd better speak about "icon boxes".
+; Note that you can again remove and add any window to/from any room, so
+; this is clever than icon-group.gwm.
+; 
+;      To enable this feature, put:
+; (setq dvroom.icon-box t)
+;      before
+; (load "dvrooms")
+; 
+; Put in your .profile.gwm some lines like:
+; 
+; (defun epoch-decos ()
+;   '(if (member "Minibuffer" window-name)
+;        (no-frame)
+;        (progn
+;          (if (and (boundp 'dvroom-managers) (find-dvroom-by-name "epoch"))
+;              (add-to-dvroom-group (find-dvroom-by-name "epoch") (wob))
+;              (set-x-property "GWM_ROOM" "epoch"))
+;          (simple-win))))
+; 
+; (set-window Emacs epoch-decos)
+; 
+; (set-icon-placement Gwm     rows.top-left.placement) ; set rooms placements
+; (set-placement      Gwm     rows.top-left.placement)
+; 
+; So every new epoch screen belongs to "epoch"'s room.
+
+;;=============================================================================
+;;                    code
+;;=============================================================================
+
+; global dvroom variables
+(setq dvroom-managers ())		; list of windows for dvroom managers
+(setq current-dvroom ())		; index into dvroom-managers of the current dvroom
+
+(defaults-to				; user-settable resources
+  dvroom.font (font-make "8x13")
+  dvroom.background white
+  dvroom.foreground black
+  dvroom.borderwidth borderwidth
+  dvroom.auto-add ()			; new windows added to current room?
+  dvroom.icon-box ()			; act as icon boxes
+  dvroom.x 0
+  dvroom.y 0
+  dvroom.name "Room #"
+  dvroom.rootmenupos 5			; where to place root menu items
+  dvroom.menupos 2			; where to place menu menu items
+  edit-keys.return "Return"
+  edit-keys.backspace "BackSpace"
+  edit-keys.delete "Delete"
+)
+
+(defaults-to dvroom.name.number 0)
+
+; save current iconify-window function
+(if (not (boundp 'pre-dvrooms-iconify-window))
+    (setq pre-dvrooms-iconify-window iconify-window))
+
+; add w to the list of windows managed by a dvroom-manager
+(defun add-to-dvroom-group (dvroom-manager w)
+ (if (not (member w (nth 'rgroup dvroom-manager)))
+   (progn
+     (with (wob w) (setq window-wm-state-icon
+			 (with (wob dvroom-manager) window-icon)))
+     (replace-nth 'rgroup dvroom-manager (+ (nth 'rgroup dvroom-manager) (list w))))))
+
+; remove w from the list of windows managed by a dvroom-manager
+;; be careful, the window might not exist anymore, if we get called on closing
+;; of an application!
+
+(defun remove-from-dvroom-group (dvroom-manager w)
+  (if (window-is-valid w)
+    (with (wob w) (setq window-wm-state-icon 0))
+  )
+  (with (slot (member w (nth 'rgroup dvroom-manager)))
+    (if slot (delete-nth slot (nth 'rgroup dvroom-manager)))))
+
+; a version of print that honors gwm-quiet
+(defun qprint args
+  (if (= gwm-quiet 0) (eval (+ '(print) args))))
+
+
+; open all windows in a dvroom
+; assumes "window" is the dvroom manager being opened
+(defun open-dvroom ()
+    (for window (nth 'rgroup window-window)
+	; map the window if it was mapped, else map the icon
+	(if (nth 'rgroup-state window)
+	    (map-window window)
+	    (map-window window-icon))))
+
+
+; close all windows in a dvroom
+; assumes "window" is the dvroom manager being closed
+(defun close-dvroom ()
+    (for window (nth 'rgroup window)
+	; save window state - is it a window or an icon
+	(replace-nth 'rgroup-state window window-is-mapped)
+	; remove both windows and icons from the screen
+	(if window-is-mapped (unmap-window window))
+	(if (window-icon?)
+	    (with (window window-icon)
+	      (if window-is-mapped (unmap-window window))))))
+
+
+; redefine iconify-window so we can do dvroom specific stuff
+(defun iconify-window ()
+    (if (= window-name "rmgr")
+	; (de)iconifing a dvroom manager
+	(if (= window-status 'window)
+
+	    ; iconifing (closing) a dvroom manager
+	    (progn
+		(close-dvroom)
+		(if (not dvroom.icon-box)
+		    (setq current-dvroom ()))
+		(pre-dvrooms-iconify-window)
+	    )
+	    
+	    ; deiconifing (opening) a dvroom manager
+	    (with (rmgr-index (member window-window dvroom-managers))
+
+		; close previous dvroom manager
+		(if (and current-dvroom (not dvroom.icon-box))
+		    (with (window (nth current-dvroom dvroom-managers))
+			(if (= window-status 'window)
+			    (iconify-window)	; recurse to close dvroom
+			)
+		    )
+		)
+
+		(if rmgr-index
+		    ; existing dvroom manager
+		    (open-dvroom)
+		    ; register a new dvroom manager
+		    (progn
+			; save window-window as the manager may be iconic and
+			; we need a consistent value in the dvroom-mgr list
+			(setq dvroom-managers
+				(+ dvroom-managers (list window-window)))
+			(setq rmgr-index (member window-window dvroom-managers))
+		    )
+		)
+
+		(setq current-dvroom rmgr-index)
+		(pre-dvrooms-iconify-window)
+	    )
+	)
+
+	; (de)iconifing other windows
+	(progn
+	    (pre-dvrooms-iconify-window)
+	)
+    )
+)
+
+
+(defun dvroom-icon-name (dvroom)
+  (with (window dvroom) window-icon-name))
+
+(defun find-dvroom-by-name (name)
+  (tag room-found
+    (for dvroom dvroom-managers
+      (if (= name (dvroom-icon-name dvroom))
+	(exit room-found dvroom)))))
+
+;; register a new dvroom manager -or- readd a window to a room
+;; (should be called when new windows become known to gwm (ie. via
+;; gwm global opening))
+;; assumes "window" is the new dvroom manager or window
+
+(defun add-dvroom-manager ()
+  (if (= window-name "rmgr")
+    (if (not (member window-window dvroom-managers))
+      (progn (qprint "new dvroom manager " window-icon-name "\n")
+	    ;; save window-window as the manager may be iconic and
+	    ;; we need a consistent value in the dvroom-mgr list
+	(setq dvroom-managers (+ dvroom-managers (list window-window)))))
+	;; else it's not a manager.  see if this window previously belonged to
+	;; a room and add a new manager if the named manager does not exist
+
+    (with (room-name (get-x-property "GWM_ROOM"))
+      (if (< 0 (length room-name))
+	(if (not (find-dvroom-by-name room-name))
+	  (new-dvroom-manager room-name))))
+    () 
+
+    ;; if dvroom.auto-add is true, then add to current dvroom if one exists
+    (if (and dvroom.auto-add (= (type current-dvroom) 'number))
+      (add-to-dvroom))
+  )
+)
+
+; add add-dvroom-manager to progn of funcs to eval when opening a new window
+; assumes dvroom.gwm is before the set-* calls in .profile.gwm
+(setq opening (+ opening '((add-dvroom-manager))))
+
+
+; reattach windows that have a GWM_ROOM property to the room managers
+
+(defun dvroom-reattach window-list
+  (for window (if window-list window-list (list-of-windows))
+    (with (room-name (get-x-property "GWM_ROOM"))
+      (if (<  0 (length room-name))
+	(for dvroom dvroom-managers
+	  (if (= room-name (dvroom-icon-name dvroom))
+	    (progn
+	      (add-to-dvroom-group dvroom window)
+	      (if (not (= dvroom current-dvroom))
+		(progn
+		  ; remove both window and icon from the screen
+		  (if window-is-mapped (unmap-window window))
+		  (if (window-icon?)
+		      (with (window window-icon)
+		        (if window-is-mapped (unmap-window window))))))
+	      (qprint "adding   <" window-name ">   to dvroom "
+				(dvroom-icon-name dvroom) "\n"))))))))
+
+
+; add a window to a dvroom
+; assumes "window" is the application window to add
+(defun add-to-dvroom ()
+    (with (window window-window)
+	(if (and (= (type current-dvroom) 'number)
+		 (not (= window-name "rmgr")))
+	    (with (dvroom-manager (nth current-dvroom dvroom-managers))
+		(if (not (member window (nth 'rgroup dvroom-manager)))
+		    (progn (add-to-dvroom-group dvroom-manager window)
+			   (set-x-property "GWM_ROOM"
+				(with (wob dvroom-manager) window-icon-name))
+			   ; give the user *some* kind of feed back
+			   (qprint "adding   <" window-name ">   to dvroom "
+				(dvroom-icon-name dvroom-manager) "\n")))))))
+
+
+; remove a window from a dvroom
+; assumes "window" is the application window to remove
+(defun remove-from-dvroom ()
+    (with (window window-window)
+	(if (= (type current-dvroom) 'number)
+	    (with (dvroom-manager (nth current-dvroom dvroom-managers))
+		(if (member window (nth 'rgroup dvroom-manager))
+		  (progn
+		    (set-x-property "GWM_ROOM" "")
+		    ; give the user *some* kind of feed back
+		    (qprint "removing <" window-name "> from dvroom "
+			(dvroom-icon-name dvroom-manager) "\n"))
+		  (qprint "not a dvroom member\n"))
+		(remove-from-dvroom-group dvroom-manager window)))))
+
+
+; if a normal window, remove it from any dvroom manager, but if a dvroom
+; manager and not current, make all of the dvrooms windows visible.
+; (this function needs to be called when an application exits (ie. via gwm
+; global closing) so that gwm won't try to operate on non-existant windows)
+; assumes "window" is the application window that is exiting
+(defun flush-dvroom-lists ()
+    (for dvroom-manager dvroom-managers
+	(remove-from-dvroom-group dvroom-manager window-window))
+    (with (index (member window-window dvroom-managers))
+	; if a dvroom manager
+	(if index 
+	    (progn
+		(if (= current-dvroom index)
+		    (setq current-dvroom ())
+		    (progn
+			(open-dvroom)
+			(if (> current-dvroom index)
+			    (setq current-dvroom (- current-dvroom 1)))))
+		(delete-nth index dvroom-managers)))))
+
+; add flush-dvroom-lists to progn of funcs to eval when closing an old window
+; assumes dvroom.gwm is loaded before the set-* calls in .profile.gwm
+(setq closing (+ closing '((flush-dvroom-lists))))
+
+
+; colas: create dvroom managers as placed menus
+(defun new-dvroom-manager args
+  (if (not (find-dvroom-by-name (# 0 args)))
+    (with (fsm window-fsm
+	       background dvroom.background foreground dvroom.foreground
+	       borderwidth dvroom.borderwidth
+	       direction vertical
+	       label-horizontal-margin 4 label-vertical-margin 2
+	       menu-min-width 30 menu-max-width 1000
+	       name (if args (# 0 args) (new-dvroom-manager-name))
+	       )
+      (setq wob 
+	    (with (icon-name name starts-iconic t)
+		  (place-menu
+		   'rmgr
+		   (menu-make
+		    (bar-make
+		     (with (fsm dvroom.fsm
+			        property (+ (list 'title name) property))
+			   (plug-make
+			    (label-make name dvroom.font)))))
+		   dvroom.x dvroom.y)))
+      (## 'title wob name)
+      (add-dvroom-manager))))
+
+
+; generates a new dvroom name
+(defun new-dvroom-manager-name ()
+  (setq dvroom.name.number (+ 1 dvroom.name.number))
+  (+ dvroom.name (itoa dvroom.name.number)))
+
+; editable plug fsm
+
+(setq dvroom.fsm
+  (fsm-make 
+    (: dvroom.edit-fsm.normal 
+      (state-make
+	(on (double-button any any) 
+	  (progn
+	    (set-focus wob)
+	    (wob-background dvroom.foreground)
+	    (with (foreground dvroom.background)
+	      (wob-tile 
+		(active-label-make
+		  (# 'title wob) dvroom.font))))
+	  dvroom.edit-fsm.editable)
+	(on (button any (together with-alt with-control))
+	  (progn
+	    (set-focus wob)
+	    (wob-background dvroom.foreground)
+	    (with (foreground dvroom.background)
+	      (wob-tile 
+		(active-label-make
+		  (# 'title wob) dvroom.font))))
+	  dvroom.edit-fsm.editable)
+	icon-behavior
+	standard-behavior
+    ))
+    (: dvroom.edit-fsm.editable
+      (state-make
+	(on (keypress (key-make edit-keys.return) any)
+	  (dvroom.edit-fsm.de-edit)
+	  dvroom.edit-fsm.normal)
+	(on (double-button any any)
+	  (dvroom.edit-fsm.de-edit)
+	  dvroom.edit-fsm.normal)
+	(on (keypress edit-keys.backspace any)
+	  (progn
+	    (## 'title wob 
+	      (if (: s (match "\\(.*\\)."
+		    (# 'title wob) 1))
+		s
+		(setq s "")))
+	    (with (foreground dvroom.background)
+	      (wob-tile (active-label-make s dvroom.font)))
+	))
+	(on (keypress edit-keys.delete any)
+	  (progn
+	    (## 'title wob (: s ""))
+	    (with (foreground dvroom.background)
+	      (wob-tile (active-label-make s dvroom.font)))
+	))
+	(on (keypress any any)
+	  (progn
+	    (## 'title wob 
+	      (: s (+ (# 'title wob) (last-key))))
+	    (with (foreground dvroom.background)
+	      (wob-tile (active-label-make s dvroom.font)))
+	))
+	(on focus-out
+	  (dvroom.edit-fsm.de-edit)
+	  dvroom.edit-fsm.normal)
+	icon-behavior
+	standard-behavior
+    ))
+))
+))
+
+(if (not (boundp 'update-icon))
+    (defun update-icon (update-icon.title)
+      (if (window-icon?)
+	  (send-user-event 'get-title (window-icon)))))
+
+(de dvroom.edit-fsm.de-edit ()
+    (wob-background dvroom.background)
+    (wob-tile (label-make (# 'title wob) dvroom.font))
+    (update-icon (# 'title wob)))
+
+;
+; find dvroom window belongs to
+;
+
+(defun find-window-in-any-dvroom (win)
+  (tag found-in-manager
+       (for dvr dvroom-managers
+	    (with (slot (member win (nth 'rgroup dvr)))
+		  (if slot (exit found-in-manager dvr))
+		  )
+	    )
+       )
+  )
+
+;
+; detach window from all room managers
+;
+
+(defun remove-window-from-all-dvroom (win)
+  (with (dvr (find-window-in-any-dvroom win))
+	(if dvr (remove-from-dvroom-group dvr win))
+	)
+  )
+
+;
+; automatic room attachment based upon name
+;
+
+(defun auto-window-attach (w)
+  (with (w-name (with (window w) (window-name)))
+	(with (d-name (match "\\(.*\\)::" w-name 1))
+	      (if (< 0 (length d-name))
+		  (with (dvr (find-dvroom-by-name d-name))
+			(if dvr
+	;;
+	;; by now, we've found a dvroom with the desired name
+	;; just in case, try to detach this window from it's dvroom
+	;; and attach it to the target dvroom
+	;;
+			    (progn
+			      (qprint "Auto-Add " w-name " to " d-name "\n" )
+			      (remove-window-from-all-dvroom w)
+			      (add-to-dvroom-group dvr w)
+			      (set-x-property "GWM_ROOM" d-name)
+			      )
+			  )
+			)
+		)
+	      )
+	)
+  )
+
+;
+; automatic room attachment for all windows
+;
+
+(defun magic-dvroom-attach ()
+  (for win (list-of-windows 'window)
+       (auto-window-attach win)
+       )
+  )
+
+;
+; unmap all windows/icon that belong to a room
+;
+
+(defun dvroom-remapping ()
+  (for win (list-of-windows 'window)
+       (with (dvr (find-window-in-any-dvroom win))
+	     (if dvr
+		 (with (window win)
+		       (if window-is-mapped (unmap-window win))
+		       (if (window-icon?)
+			   (with (window window-icon)
+				 (if window-is-mapped (unmap-window window-icon))
+				 )
+			 )
+		       )
+	       )
+	     )
+       )
+  )
+
+;
+; Next dvroom number
+;
+
+(defun increment-dvroom ()
+  (with (room-leng (length dvroom-managers))
+	(if (> room-leng 0)
+	    (if current-dvroom
+		(with (room (+ current-dvroom 1))
+		      (if (= room (length dvroom-managers))
+			  0
+			room
+			)
+		      )
+	      0
+	      )
+	  ()
+	  )
+	)
+  )
+
+;
+; Previous dvroom number
+;
+
+(defun decrement-dvroom ()
+  (with (room-leng (length dvroom-managers))
+	(if (> room-leng 0)
+	    (if current-dvroom
+		(with (room (- current-dvroom 1))
+		      (if (< room 0)
+			  (- room-leng 1)
+			room
+			)
+		      )
+	      (- room-leng 1)
+	      )
+	  ()
+	  )
+	)
+  )
+
+;
+; Close current Room
+;
+
+(defun close-current-dvroom ()
+  (if current-dvroom
+      (with (window (# current-dvroom dvroom-managers))
+	    (progn
+	      (close-dvroom)
+	      (setq current-dvroom ())
+	      (pre-dvrooms-iconify-window)
+	      )
+	    )
+    )
+  )
+
+;
+; Open dvroom by number
+;
+
+(defun open-room-number (room)
+  (if room
+      (progn
+	(close-current-dvroom)
+	(with (window (# room dvroom-managers))
+	      (progn
+		(open-dvroom)
+		(setq current-dvroom room)
+		(with (window window-icon)
+		      (pre-dvrooms-iconify-window)
+		      )
+		)
+	      )
+	)
+    )
+  )
+
+;
+; Open next room
+;
+
+(defun roll-rooms-up ()
+  (open-room-number (increment-dvroom))
+  )
+
+;
+; Open previous room
+;
+
+(defun roll-rooms-down ()
+  (open-room-number (decrement-dvroom))
+  )
+
+;; adds the "add to room" and "remove from room" menu items in the
+;; window menu, "New dvroom" in the root menu
+
+(if (eq window-pop-items icon-pop-items)
+    (setq window-pop-equals-icon-pop t)
+  (setq window-pop-equals-icon-pop ()))
+
+(insert-at '(item-make "New dvroom" (new-dvroom-manager))
+	   root-pop-items
+	   dvroom.rootmenupos)
+(insert-at '(multi-item-make 
+	     "Room: "
+	     ()
+	     ("Add" (add-to-dvroom))
+	     ("Remove" (remove-from-dvroom)))
+	   window-pop-items
+	   dvroom.menupos)
+
+(if window-pop-equals-icon-pop
+    (setq icon-pop-items window-pop-items))

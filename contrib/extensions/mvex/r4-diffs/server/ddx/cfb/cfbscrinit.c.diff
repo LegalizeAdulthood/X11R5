@@ -1,0 +1,86 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/cfb/RCS/cfbscrinit.c,v 
+*** 1.5.1.1	1991/09/22 02:35:30
+--- 1.5.1.4	1991/09/23 01:10:01
+***************
+*** 61,74 ****
+  
+  static VisualRec visuals[] = {
+  /* vid  class        bpRGB cmpE nplan rMask gMask bMask oRed oGreen oBlue */
+  #ifndef STATIC_COLOR
+!     0,  PseudoColor, _BP,  1<<PSZ,   PSZ,  0,   0,   0,   0,   0,   0,
+!     0,  DirectColor, _BP, _CE,       PSZ,  _RM, _GM, _BM, _RS, _GS, _BS,
+!     0,  GrayScale,   _BP,  1<<PSZ,   PSZ,  0,   0,   0,   0,   0,   0,
+!     0,  StaticGray,  _BP,  1<<PSZ,   PSZ,  0,   0,   0,   0,   0,   0,
+  #endif
+!     0,  StaticColor, _BP,  1<<PSZ,   PSZ,  _RM, _GM, _BM, _RS, _GS, _BS,
+!     0,  TrueColor,   _BP, _CE,       PSZ,  _RM, _GM, _BM, _RS, _GS, _BS
+  };
+  
+  #define	NUMVISUALS	((sizeof visuals)/(sizeof visuals[0]))
+--- 61,75 ----
+  
+  static VisualRec visuals[] = {
+  /* vid  class        bpRGB cmpE nplan rMask gMask bMask oRed oGreen oBlue */
++     0,  TrueColor,   _BP, _CE,   PSZ,  _RM, _GM,  _BM,  _RS, _GS,   _BS,
+  #ifndef STATIC_COLOR
+!     0,  PseudoColor, _BP, _CE,   PSZ,  0,   0,    0,    0,   0,     0,
+!     0,  DirectColor, _BP, _CE,   PSZ,  _RM, _GM,  _BM,  _RS, _GS,   _BS,
+!     0,  GrayScale,   _BP, _CE,   PSZ,  0,   0,    0,    0,   0,     0,
+!     0,  StaticGray,  _BP, _CE,   PSZ,  0,   0,    0,    0,   0,     0,
+  #endif
+!     0,  StaticColor, _BP, _CE,   PSZ,  _RM, _GM,  _BM,  _RS, _GS,   _BS,
+!     0,  TrueColor,   _BP, _CE,   PSZ,  _RM, _GM,  _BM,  _RS, _GS,   _BS
+  };
+  
+  #define	NUMVISUALS	((sizeof visuals)/(sizeof visuals[0]))
+***************
+*** 78,84 ****
+  static DepthRec depths[] = {
+  /* depth	numVid		vids */
+      1,		0,		NULL,
+!     8,		NUMVISUALS,	VIDs
+  };
+  
+  #define NUMDEPTHS	((sizeof depths)/(sizeof depths[0]))
+--- 79,85 ----
+  static DepthRec depths[] = {
+  /* depth	numVid		vids */
+      1,		0,		NULL,
+!    24,		NUMVISUALS,	VIDs
+  };
+  
+  #define NUMDEPTHS	((sizeof depths)/(sizeof depths[0]))
+***************
+*** 141,147 ****
+      pScreen->numDepths = NUMDEPTHS;
+      pScreen->allowedDepths = depths;
+  
+!     pScreen->rootDepth = 8;
+      pScreen->minInstalledCmaps = 1;
+      pScreen->maxInstalledCmaps = 1;
+      pScreen->backingStoreSupport = Always;
+--- 142,148 ----
+      pScreen->numDepths = NUMDEPTHS;
+      pScreen->allowedDepths = depths;
+  
+!     pScreen->rootDepth = 24;
+      pScreen->minInstalledCmaps = 1;
+      pScreen->maxInstalledCmaps = 1;
+      pScreen->backingStoreSupport = Always;
+***************
+*** 158,164 ****
+      if (!pPixmap)
+  	return FALSE;
+      pPixmap->drawable.type = DRAWABLE_PIXMAP;
+!     pPixmap->drawable.depth = 8;
+      pPixmap->drawable.pScreen = pScreen;
+      pPixmap->drawable.serialNumber = 0;
+      pPixmap->drawable.x = 0;
+--- 159,165 ----
+      if (!pPixmap)
+  	return FALSE;
+      pPixmap->drawable.type = DRAWABLE_PIXMAP;
+!     pPixmap->drawable.depth = 24;
+      pPixmap->drawable.pScreen = pScreen;
+      pPixmap->drawable.serialNumber = 0;
+      pPixmap->drawable.x = 0;

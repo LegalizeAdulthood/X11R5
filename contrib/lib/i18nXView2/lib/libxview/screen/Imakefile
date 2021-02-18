@@ -1,0 +1,59 @@
+#
+# @(#)Imakefile 1.3 90/02/26 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=	screen.h
+HDRSPRIVATE=	scrn_impl.h scrn_vis.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP)
+
+OBJS =\
+	screen.o\
+	scrn_get.o\
+	scrn_lyout.o\
+	scrn_cms.o\
+	scrn_vis.o\
+	scrn_data.o
+
+SRCS =\
+	screen.c\
+	scrn_get.c\
+	scrn_lyout.c\
+	scrn_cms.c\
+	scrn_vis.c\
+	scrn_data.c
+	
+
+all::
+
+#if DebugLibXvin && ProfileLibXvin
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvin
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvin
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvin,$(OBJS))
+SubdirCompoundLibTarget(xview, $(OBJS)) 
+
+#if ProfileLibXvin
+SubdirProfiledLibTarget(xvin,$(OBJS))
+#endif
+
+#if DebugLibXvin
+SubdirDebuggedLibTarget(xvin,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

@@ -1,0 +1,20 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:38:11 ohm Exp $
+/**/#
+INSTALLFLAGS = $(INSTINCFLAGS)
+
+HEADERS = jllib.h \
+	jslib.h \
+	rk_spclval.h \
+	wnnerror.h
+
+all::
+
+instlib:: install
+
+InstallMultipleDest(install, $(HEADERS),$(JWNNINCDIR))
+
+depend::
+
+clean::
+

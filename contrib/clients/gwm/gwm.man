@@ -1,0 +1,303 @@
+.TH GWM 1 "Release 4" "X Version 11"
+.SH NAME
+gwm \- Generic Window Manager for the X Window System
+.SH SYNOPSIS
+.B gwm
+[
+.BI \-f " filename"
+]
+[
+.BI \-p " path"
+]
+[
+.BI \-d " display"
+]
+[
+.BI \-x " screens"
+]
+[
+.B \-1DstqmFia?
+]
+.SH DESCRIPTION
+The
+.I GWM
+command is a window manager client application of the X11 window
+server specified in the
+.I display
+argument (or the
+.I DISPLAY
+shell
+variable if no argument is given), extensible via a built-in
+.I lisp
+interpreter,
+.I WOOL
+(Window Object Oriented Lisp) used to build
+.B Wobs
+(Window OBjects) which are used to decorate the windows of the other X11
+applications running on the display.
+.I GWM
+tries to enforce the ICCCM conventions to communicate between X11 clients
+and thus should be compatible with any well-behaved X11 application.
+.TP 15
+.BI \-f " filename"
+Names an alternate file as a
+.I GWM
+startup file.
+Default is
+.B .gwmrc.gwm
+(note that the
+.B ".gwm"
+extension is
+optional, as for any
+.I WOOL
+file).
+.IP
+For instance, to use the
+.I Motif
+emulation package, type
+.IR "gwm \-f mwm \-1"
+, and to use the
+.I Twm
+emulation package, type
+.IR "gwm \-f twm" .
+.TP 15
+.BI \-p " path"
+Gives the path to be searched for
+.I WOOL
+or bitmap
+files when loaded, including the startup file. Overrides the setting by the
+environment variable
+.BR GWMPATH .
+Defaults to
+.IR ".:$HOME:$HOME/gwm:GWMDIR" ,
+where
+.I GWMDIR
+is the local directory
+where
+.I GWM
+is installed (normally,
+.IR /usr/lib/X11/gwm ).
+.IP
+You can append or prepend a path to the current path by preceding the path
+given as argument to the 
+.I "\-p"
+option by
+.I "+"
+(for appending) or
+.I "\-"
+(for prepending). For instance, if you want to search the directory
+.I "/usr/local/gwm"
+before the standard ones (including your homedir),
+just say:
+.IR "\-p \-/usr/local/gwm" .
+.TP 15
+.BI \-d " display"
+Specifies the name of the display whose windows must be
+managed, such as
+.IR "unix:0" .
+The
+.I "\-d"
+is optional, you can type
+.IR "gwm unix:0" .
+.TP 15
+.BI \-x " screens"
+Do not manage the screens given in the comma-separated
+list of numbers, as in:
+.IR "\-x\ 2,5,3" .
+Normally,
+.I GWM
+manages
+.B all
+the screens of the given display.
+.TP 15
+.B \-1
+Manages only the given screen, e.g.
+.I "gwm \-1 foo:0.2"
+manages
+only the third screen of the display number
+.I "0"
+on the
+.I "foo"
+machine. Same as defining the GWM\_MONOSCREEN shell variable.
+.TP 15
+.B \-D
+Enables debugging mode for
+.I WOOL
+files. In this version the only
+effect of debug mode is to continue reading a file after a
+.I WOOL
+error occurred. Default behavior is to abort reading a file after an error.
+Thus, if you modified your profile and introduced an error,
+.I GWM
+will
+refuse to complete execution, use
+.I "gwm \-D"
+to run it anyway.
+.TP 15
+.B \-s
+Synchronize X calls, useful for debugging but slower.
+.TP 15
+.B \-t
+Turns tracing on, as if you had done the call
+.I "(trace t)"
+in
+your profile.
+.TP 15
+.B \-q
+(Quiet) Does not print startup banner, and sets the
+.I WOOL
+.I "gwm-quiet"
+variable to 1.
+.TP 15
+.B \-m
+Maps all toplevel windows already on screen. Useful after
+unmapping some windows by accident.
+.TP 15
+.B \-F
+Does not freeze the server during pop-up menus, move and resize of
+the windows, which is the default behavior.
+.TP 15
+.B \-i
+Disables the setting of input focus by
+.I GWM
+.RI ( "set-focus"
+has no effects, except
+.IR "(set-focus ())" ,
+which resets the focus to
+PointerRoot) on a window, keypresses go to the window under the cursor. Very
+useful to debug profiles with only one screen.
+.TP 15
+.B \-a
+Asynchronously handle moves and resizes, do not cancel a
+move or a resize operation if the user released the button before the grid
+appeared, which is the default behavior.
+.TP 15
+.B \-?
+This, or any invalid option lists the available options and shows the
+default path defined at compile time by your local installer.
+.LP
+On startup,
+.I GWM
+interprets its profile to build wobs describing how to
+decorate user windows, which we will call
+.BR Clients .
+Then it creates
+.B Windows
+around each client window on the screens attached to the
+managed display. A Window is made of 4 (optional)
+.B Bars
+on the 4 sides of the window.  Each of these bars is made of a variable
+number of
+.BR Plugs ,
+the most primitive wobs.
+.B Menus
+can then be
+made with a list of bars. To each of these objects is associated a
+.B fsm
+(\fBF\fPinite \fBS\fPtate \fBM\fPachine) describing their behavior
+in terms of
+.I WOOL
+code triggered by X or
+.I WOOL
+events.
+.LP
+When
+.I GWM
+wants to decorate a window, it calls the user-defined
+.I WOOL
+function
+.I "describe-window"
+which must return a list of two window
+descriptions (one for the window itself, and one for its icon) made by the
+.I "window-make"
+.I WOOL
+primitive describing the window. To build these
+descriptions the user can query the client window for any X11 properties and
+use the X11 Resource Manager to decide how to decorate it.
+.LP
+The screens must also be described by such a description that
+.I GWM
+will find
+by calling the user-defined
+.I WOOL
+function
+.I "describe-screen"
+for each
+managed screen.
+.LP
+A full description of
+.I GWM
+is beyond the scope of this manual page.  See the
+.I "GWM Manual"
+for a comprehensive description of all the facilities provided by
+.BR GWM .
+.SH FILES
+.nf
+ $HOME/.gwmrc.gwm
+ $HOME/gwm/.gwmrc.gwm
+ /usr/lib/X11/gwm/.gwmrc.gwm
+.fi
+.SH "ENVIRONMENT VARIABLES"
+.IP "DISPLAY" 8
+This variable is used to determine which X server to use.
+.IP "HOME" 8
+Used to locate
+.IR .gwmrc.gwm .
+.IP "GWMPATH" 8
+Used to override default
+.I GWM
+path of
+.IR ".:$HOME:$HOME/gwm:GWMDIR" .
+.IP "GWM\_MONOSCREEN" 8
+Tells gwm to manage only one screen. This (or 
+.IR \-1 )
+option is required to run the Motif emulation package.
+.SH "SEE ALSO"
+X(1), Xserver(1), xdm(1), xrdb(1)
+.SH COPYRIGHT
+.nf
+Copyright 1989 GROUPE BULL
+Copyright 1989 Massachusetts Institute of Technology
+.fi
+.LP
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of GROUPE BULL not be used in advertising
+or publicity pertaining to distribution of the software without specific,
+written prior permission.  GROUPE BULL makes no representations about the
+suitability of this software for any purpose.  It is provided ``as is''
+without express or implied warranty.
+.LP
+GROUPE BULL disclaims all warranties with regard to this software,
+including all implied warranties of merchantability and fitness,
+in no event shall GROUPE BULL be liable for any special,
+indirect or consequential damages or any damages
+whatsoever resulting from loss of use, data or profits,
+whether in an action of contract, negligence or other tortious
+action, arising out of or in connection with the use 
+or performance of this software.
+.SH AUTHOR
+.nf
+Colas Nahaboo.
+colas@mirsa.inria.fr
+
+KOALA Project
+BULL Research c/o INRIA
+2004 route des Lucioles
+06565 Valbonne Cedex
+FRANCE
+.fi
+.SH "GWM INTEREST ELECTRONIC MAILING LISTS"
+.TP
+.I gwm@mirsa.inria.fr
+For questions to gwm maintainer, and for requests to be added to or
+removed from the other mailing lists.
+.TP
+.I gwm-bugs@mirsa.inria.fr
+To report bugs to all users registered on this list.
+.TP
+.I gwm-talk@mirsa.inria.fr
+General comments, discussion, etc. All mails posted to this address
+will be redispatched to every member of this list.

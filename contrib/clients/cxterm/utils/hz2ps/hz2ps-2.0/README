@@ -1,0 +1,42 @@
+6 June 1991						hz2ps (README)
+
+The program "hz2ps" converts a hanzi (GB/BIG5) file to PostScript.
+
+Hz2ps 2.0 is an significantly improved version of hz2ps 1.0, which was
+released back in 1989. The bugs which limit the number of pages that can be
+printed have been fixed. It now accepts both GB (HGB) and BIG5 files.
+Style files used in v1.0 are no longer supported; instead various
+options can now be more conveniently specified in the command line.
+Please see the man page "hz2ps.1" for details.
+
+Let $HZ be the directory containing the font files.
+To install hz2ps:
+
+1. mv hz2ps.pro $HZ
+2. setenv HZDIR $HZ
+3. make hz2ps
+
+As far as the author knows, as of today, there is only one easily
+accessible but copyrighted "FanTi" bitmap font file on the network.
+It is the font file "chinese.16" provided by Hong Kong University
+(available on the ftp site ahkcus.org, for example).
+Also supplied in this package is a utility program called "hku2hz", which
+can convert "chinese.16" into the format used by "hz2ps".
+
+Suppose $HZ contains the file "chinese.16".
+To install and use hku2hz:
+
+1. make hku2hz
+2. hku2hz chinese.16 hku-ch16
+
+Examples:
+
+To print a GB file:
+
+% hz2ps foo.gb | lpr
+
+To print a BIG file:
+
+% hz2ps -big -hf hku-ch16 10 1 -hbm 16 foo.big | lpr
+
+

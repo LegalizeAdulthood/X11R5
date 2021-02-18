@@ -1,0 +1,35 @@
+.TH GL_SetTimeOut 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_SetTimeOut \- Setup a function to be called regularly
+.SH SYNTAX
+void GL_SetTimeOut(atimeout,atimeoutfunc,assocwindow)
+.br
+	struct timeval *atimeout;
+.br
+	VPTF atimeoutfunc;
+.br
+	Window assocwindow;
+.SH ARGUMENTS
+.IP atimeout 1i
+The timeout value to be used in the manner of a struct timeval, see 
+/usr/include/sys/time.h, gettimeofday(2).  The code will attempt to
+call your code as close to the specified timeout as possible, if it 
+ever misses a call, it will immediately call the code, and then
+procede to make calls back at the specified interval.  The timeval
+may go away after this call.
+.IP atimeoutfunc 1i
+This is the function which is to be called using the interval specified
+in atimeout. The timeout function will be called with a single argument,
+which is the associated window. Setting a timeout function of NULL will
+disable the timeout functions.
+.IP assocwindow 1i
+This is the window that the timeout function is associated with.
+
+.SH FEATURES?
+.PP
+There can only be a single timeout function active at any one time
+
+.SH "SEE ALSO"
+GL_GetDataList(3GL),GL_Search_DataList(3GL),gettimeofday(2), 
+GraphLib Programming Manual
+

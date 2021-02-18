@@ -1,0 +1,17 @@
+# $XConsortium: Imakefile,v 1.22 91/03/24 18:10:05 rws Exp $
+
+HEADERS = Xv.h Xvlib.h
+
+INSTALLFLAGS = $(INSTINCFLAGS)
+
+all:: includes
+
+BuildIncludes($(HEADERS),extensions,..)
+InstallMultiple($(HEADERS),$(INCDIR)/extensions)
+
+depend::
+
+#ifdef IHaveSubdirs
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+#endif

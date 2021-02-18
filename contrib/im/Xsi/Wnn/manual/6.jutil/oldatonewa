@@ -1,0 +1,14 @@
+OLDATONEWA
+
+名称
+
+	oldatonewa	───	旧形式の EUC 辞書を新形式の EUC 辞書に変換する
+
+形式
+
+	oldatonewa
+
+機能説明
+
+	oldatonewaは、標準入力の旧形式の EUC 形式辞書を新形式の EUC 形式辞書に
+	変換して、標準出力に出力する。

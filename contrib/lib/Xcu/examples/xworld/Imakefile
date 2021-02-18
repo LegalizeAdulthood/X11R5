@@ -1,0 +1,13 @@
+       INCLUDES = $(XCUINCFLAG)
+           SRCS = world.c
+LOCAL_LIBRARIES = $(XCULIB) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+AllTarget(world world.wc)
+SingleProgramTarget(world,world.o,$(LOCAL_LIBRARIES),)
+
+all:: world.wc
+
+world.wc : world.wl
+	wlc world
+
+DependTarget()

@@ -1,0 +1,19 @@
+;
+; $Id: 2A_CTRL,v 1.1 1991/09/11 02:31:33 ohm Exp $
+;
+(defvar pf1 (list '\x81') )
+(defvar pf2 (list '\x82') )
+(defvar pf3 (list '\x83') )
+(defvar pf5 (list '\x85'))
+
+(unless ZY)(pf1)	(on ZY)(off BX)(off ASCII)(off GONG_NENG)
+(if ZY)(if ZHUYIN)(pf1)	(off ZHUYIN)(on ZHUYIN)
+
+(unless BX)(pf2)		(on BX)(off ZY)(off ASCII)(off GONG_NENG)
+(if BX)(if CANGJIE)(pf2)	(off CANGJIE)(on CANGJIE)
+
+(unless ASCII)(pf3)		(on ASCII)(off ZY)(off BX)(off GONG_NENG)
+(if ASCII)(if ban_jiao)(pf3)	(off ban_jiao)(on quan_jiao)
+(if ASCII)(if quan_jiao)(pf3)	(off quan_jiao)(on ban_jiao)
+
+(pf5)   (switch GONG_NENG)      H

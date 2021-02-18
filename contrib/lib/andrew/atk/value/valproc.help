@@ -1,0 +1,21 @@
+\begindata{text,269139440}
+\textdsversion{12}
+\template{help}
+\chapter{Listprocs for Value (etextv, mtextv)
+
+}
+
+"etextview-return-cmd" 	"Handle enter key"	"\\015"
+
+"etextview-cancel-cmd"	"Handle ^G"	 "\\007"
+
+"etextview-clear-cmd"	"Handle ^U"	 "\\025"
+
+
+"metextview-return-cmd"	"Handle menter key"	"\\015"
+
+"metextview-cancel-cmd"	"Handle ^G	 "\\007"
+
+"metextview-clear-cmd"	"Handle ^U"	 "\\025"
+
+\enddata{text,269139440}

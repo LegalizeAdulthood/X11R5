@@ -1,0 +1,55 @@
+.TH HINDOUP 1
+.SH NAME
+hindoup \- Merge the frequency information collected from a few system dictionaries
+.SH SYNOPSYS
+.B hindoup \-n
+.I newdic
+.B \-o
+.I olddic
+[
+.B \-w
+[
+.I "dic-file"
+]
+]
+.SH DESCRIPTION
+.PP
+.I hindoup
+merges the frequency information collected from a few system dictionaries.  It sequentially adds the frequency information about the words within the previously used dictionary 
+.I olddic,
+to the words within the new dictionary
+.I newdic.
+.PP
+After merging, the result is output under the new dictionary name 
+.I newdic
+under /tmp.  After creating the dictionary, copy /tmp/newdic to the proper directory.
+
+.TP
+Note: 
+If two or more dictionaries are contained in 
+.I newdic
+and 
+.I olddic,
+use of
+.I hindoup(1)
+requires that they be placed in the same order in these two.  If the order and/or the 
+number of dictionaries is different, use 
+.I dicar(1) to perform the merging, dictionary by dictionary.  The dictionary order can be examined using 
+.I dicar(1)
+or
+.I dpbindic(1).
+.SH OPTION
+.B \-w
+[
+.I "dic-file"
+]
+Overwrites the new dictionary with the frequency information.  If 
+.I dic-file
+is specified, the result will be output to the specified file.
+.SH EXAMPLES
+.PP
+Frequency information about the dictionary file iroha.d.old is merged into the file /tmp/iroha.d to create the dictionary.  Copy the resulting file under /usr/lib/iroha/dic to add the dictionaryh to the system.
+.PP
+The frequency information about the dictionary file iroha.d.old is merged into the dictionary file iroha.d.  In this case, iroha.d is overwritten.  Warn that the new dictionary may thus be lost if a trouble such as machine failure occurs.  
+.SH "SEE ALSAO"
+dicar(1), dpbindic(1)

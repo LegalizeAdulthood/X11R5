@@ -1,0 +1,70 @@
+#!/bin/sh
+# shell script to help building GWM
+# necessary for the buggy BSD make
+
+# usage: gwm_util function args...
+
+set -x
+
+case $1 in
+
+latex)
+    while grep -s 'Rerun to get cross-references right' $2.log
+    do latex $2.tex;done
+    ;;
+
+install)	# install bin-dir lib-dir
+    if test -f /bin/install -o -f /usr/bin/install
+        then INSTALL='install -c'
+	else INSTALL='cp'
+    fi
+    if test ! -f .rootdir
+    then echo "please create this directory with the \"make dir\" command!"
+	exit 1
+    fi
+    mv $2/gwm $2/gwm.old
+    $INSTALL gwm $2
+    mkdir $3
+    cd `cat .rootdir`/data
+    for ff in .*.gwm *.gwm *.xbm *.xpm
+    do
+	$INSTALL $ff $3
+    done
+    ;;
+
+dir)		# dir dirname
+    if test -z "$2";then echo "USAGE: make DIR=mach dir";exit 1;fi
+    mkdir ../$2 ../$2/xpm
+    pwd >../$2/.rootdir
+    echo  $2 >../$2/.dir
+    if test ! -f Make/Make.$2;then cp Make.TEMPLATE Make/Make.$2;fi
+    ln Make/Make.$2 .dbxinit .gdbinit `cat FILES` ../$2
+    (cd xpm; ln `cat FILES` ../../$2/xpm)
+    ln Makefile.noXtree ../$2/Makefile
+    echo "Now, go in ../$2 and edit Make.$2."
+    ;;
+
+sdir)		# sdir dirname
+    if test -z "$2";then echo "USAGE: make DIR=mach sdir";exit 1;fi
+    case "$2" in */*);;*)DIR=../$2;;esac
+    mkdir $2 $2/xpm
+    pwd >$2/.rootdir
+    echo  `basename $2`>$2/.dir
+    if test ! -f Make/Make.`basename $2`
+    then cp Make.TEMPLATE Make/Make.`basename $2`
+    fi
+    Pwd=`pwd`
+    ln -s $Pwd $2/SRC
+    ln -s $Pwd/xpm $2/xpm/SRC
+    cd $2
+    for i in Make/Make.`basename $2` .dbxinit .gdbinit `cat $Pwd/FILES`
+    do ln -s SRC/$i .;done
+    cp Makefile.noXtree Makefile
+    cd xpm
+    for i in `cat $Pwd/xpm/FILES`
+    do ln -s SRC/$i .;done
+    cd $Pwd
+    echo "Now, go in $2 and edit Make.`basename $2`."
+    ;;
+
+esac

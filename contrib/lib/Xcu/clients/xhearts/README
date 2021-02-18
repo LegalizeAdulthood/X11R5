@@ -1,0 +1,33 @@
+To quickly play a game to see how xhearts works, simply do the following:
+(I'm assuming you know how to play "hearts")
+
+    1) Edit the file "players" so that the 2nd line is the same as $DISPLAY
+
+    2) ./xhearts
+
+For multi-human games, please see the manual.  BUT, it may not work.
+It didn't use to do this, but after patching up a couple "unrelated"
+bugs, the program here gives "Bad Font" errors when multiple displays
+are used.  Unfortunately, it looks as though I'll have no time in the
+foreseeable future to track this bug down.  I've looked into it a bit,
+but I couldn't make any headway.  I'd certainly be very beholden to
+anybody who fixed this!
+
+The following are potentially useful .Xdefaults or XHearts.ad entries:
+
+    xhearts.wlm:		(LIBDIR/hearts)
+    xhearts*font:		timR18
+    *bitmapFilePath:		(if the four suit bitmaps installed 
+				 in other than INCDIR/bitmaps)
+    xhearts.logFile		(any pathname)
+
+If you would like to help me improve the computer strategy, please
+set the log file active, either with the resource or the -log flag.
+Then, if you see the computer do something dumb, you can mail me the
+last few hundred lines of the log file along with an explanation of
+why you think my program is a bozo.  On very, very rare occasions,
+the computer may actually make an illegal play.  Needless to say,
+I am especially interested in these.  You will know this happened
+if the cards from the previous trick are still visible when it is
+your play.
+

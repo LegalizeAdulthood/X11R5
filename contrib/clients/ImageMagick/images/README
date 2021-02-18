@@ -1,0 +1,5 @@
+All images except swan.miff was rendered with rayshade 4.0.  I created
+the table image script by combining the pool.ray and teapot.ray from
+the rayshade distribution.  I also created the DNA script.  The
+aquarium image was rendered from a script written by kilian@cray.com
+and Jerome A. Farm.

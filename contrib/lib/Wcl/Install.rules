@@ -1,0 +1,408 @@
+/**/###########################################################################
+/**/# Imake rules for building and installing libraries, programs, 
+/**/# apps-defaults, and other data files.  Unlike Imake.rules, these
+/**/# rules allow files to be installed anywhere.
+/**/#
+/**/# These rules *override* rules of the same name defined in Imake.rules!!
+/**/#
+/**/# New variables:
+/**/#	INSTBIN		default to $BINDIR - programs installed here
+/**/#	INSTMAN		default to $MANDIR - man pages installed here
+/**/#	INSTAPP		default to $XAPPLOADDIR - apps-defaults files go here
+/**/#
+/**/# David E. Smyth: Install.rules Wed Jan  2 07:12:10 PST 1991
+
+/*
+ * Warning, when defining rules: make sure you don't include both a trailing
+ * backslash and double ampersand backslash or else you will get an extra
+ * backslash in the Makefile.
+ *
+ * These macros are defined for the various templates and Imakefiles:
+ *
+ *      UninstalledComplexProgramTarget          (program)
+ *      UninstalledComplexProgramTarget_1        (program,locallib,syslib)
+ *      UninstalledComplexProgramTarget_2        (program,locallib,syslib)
+ *      UninstalledComplexProgramTarget_3        (program,locallib,syslib)
+ *	InstallProgram                           (program,dest)
+ *      ComplexProgramTarget                     (program)
+ *      ComplexProgramTarget_1                   (program,locallib,syslib)
+ *      ComplexProgramTarget_2                   (program,locallib,syslib)
+ *      ComplexProgramTarget_3                   (program,locallib,syslib)
+ *      InstallAppDefaults                       (class)
+ *
+ * The following rules are identical to those of MIT X11R4, they are used
+ * as I had no time to adjust for the new (better) style in X11R5.
+ * Besides, usefullness of shared libraries in Wcl....
+ * Martin Brunecky, 10/05/91
+ * 
+ *      InstallSharedLibrary                     (libname,rev,dest)
+ *      SharedLibraryObjectRule                  () 
+ *      SharedAndDebuggedLibraryObjectRule       ()
+ *      NormalSharedLibraryTarget                (libname,rev,solist,salist)
+ */
+
+/*
+ * UninstalledComplexProgramTarget - generate rules for compiling and linking 
+ * program specified by $(OBJS) and $(SRCS), and generating dependencies.  
+ * It should only be used in Imakefiles that describe a single program.
+ */
+#ifdef UninstalledComplexProgramTarget
+#undef UninstalledComplexProgramTarget
+#endif
+#define	UninstalledComplexProgramTarget(program)			@@\
+        PROGRAM = program						@@\
+									@@\
+AllTarget(program)							@@\
+									@@\
+program: $(OBJS) $(DEPLIBS)						@@\
+	RemoveTargetProgram($@)						@@\
+	$(CC) -o $@ $(OBJS) $(LDOPTIONS) $(LOCAL_LIBRARIES) $(LDLIBS) $(EXTRA_LOAD_FLAGS) @@\
+									@@\
+SaberProgramTarget(program,$(SRCS),$(OBJS),$(LOCAL_LIBRARIES), /**/)	@@\
+									@@\
+DependTarget()								@@\
+LintTarget()								@@\
+									@@\
+clean::									@@\
+	$(RM) $(PROGRAM)
+/* UninstalledComplexProgramTarget */
+
+
+/*
+ * UninstalledComplexProgramTarget_1 - generate rules for compiling and linking
+ * program specified by $(OBJS1) and $(SRCS1), and generating dependencies for
+ * it and any programs described by $(SRCS2) and $(SRCS3).  It should be used 
+ * to build the primary program in Imakefiles that describe multiple programs.
+ */
+#ifdef UninstalledComplexProgramTarget_1
+#undef UninstalledComplexProgramTarget_1
+#endif
+#define	UninstalledComplexProgramTarget_1(program,locallib,syslib)	@@\
+            OBJS = $(OBJS1) $(OBJS2) $(OBJS3)				@@\
+            SRCS = $(SRCS1) $(SRCS2) $(SRCS3)				@@\
+									@@\
+AllTarget($(PROGRAMS))							@@\
+									@@\
+program: $(OBJS1) $(DEPLIBS1)						@@\
+	RemoveTargetProgram($@)						@@\
+	$(CC) -o $@ $(LDOPTIONS) $(OBJS1) locallib $(LDLIBS) syslib $(EXTRA_LOAD_FLAGS) @@\
+									@@\
+SaberProgramTarget(program,$(SRCS1),$(OBJS1),locallib,syslib)		@@\
+									@@\
+DependTarget()								@@\
+LintTarget()								@@\
+									@@\
+clean::									@@\
+	$(RM) $(PROGRAMS)
+/* UninstalledComplexProgramTarget_1 */
+
+
+/*
+ * UninstalledComplexProgramTarget_2 - generate rules for compiling and linking
+ * program specified by $(OBJS2) and $(SRCS2).  It should be used to build the 
+ * second program in Imakefiles describing more than one program.
+ */
+#ifdef UninstalledComplexProgramTarget_2
+#undef UninstalledComplexProgramTarget_2
+#endif
+#define	UninstalledComplexProgramTarget_2(program,locallib,syslib)	@@\
+program: $(OBJS2) $(DEPLIBS2)						@@\
+	RemoveTargetProgram($@)						@@\
+	$(CC) -o $@ $(LDOPTIONS) $(OBJS2) locallib $(LDLIBS) syslib $(EXTRA_LOAD_FLAGS) @@\
+									@@\
+SaberProgramTarget(program,$(SRCS2),$(OBJS2),locallib,syslib)
+/* UninstalledComplexProgramTarget_2 */
+
+
+/*
+ * UninstalledComplexProgramTarget_3 - generate rules for compiling and linking
+ * program specified by $(OBJS3) and $(SRCS3) and installing the program and
+ * man page.  It should be used to build the third program in Imakefiles 
+ * describing more than one program.
+ */
+#ifdef UninstalledComplexProgramTarget_3
+#undef UninstalledComplexProgramTarget_3
+#endif
+#define	UninstalledComplexProgramTarget_3(program,locallib,syslib)	@@\
+program: $(OBJS3) $(DEPLIBS3)						@@\
+	RemoveTargetProgram($@)						@@\
+	$(CC) -o $@ $(LDOPTIONS) $(OBJS3) locallib $(LDLIBS) syslib $(EXTRA_LOAD_FLAGS) @@\
+									@@\
+SaberProgramTarget(program,$(SRCS3),$(OBJS3),locallib,syslib)
+/* UninstalledComplexProgramTarget_3 */
+
+
+/*
+ * InstallProgram - generate rules to install an executable program using any
+ * special install flags set in $(INSTALLFLAGS).  If shared libraries are used,
+ * then the program is re-linked.
+ */
+#ifdef InstallProgram
+#undef InstallProgram
+#endif
+#ifdef  HasSharedLibraries
+#define HasSomeSharedLibraries YES
+#else
+#define HasSomeSharedLibraries NO
+#endif
+#if HasSunOSSharedLibraries || HasSomeSharedLibraries
+#define InstallProgram(program,dest)                                    @@\
+install::								@@\
+	RemoveTargetProgram(program)					@@\
+									@@\
+InstallProgramWithFlags(program,dest, /**/)
+#else
+#define InstallProgram(program,dest)                                    @@\
+InstallProgramWithFlags(program,dest, /**/)
+#endif
+/* InstallProgram */
+
+
+/*
+ * ComplexProgramTarget - generate rules for compiling and linking the 
+ * program specified by $(OBJS) and $(SRCS), installing the program and its
+ * man page, and generating dependencies.  It should only be used in 
+ * Imakefiles that describe a single program.
+ */
+#ifdef ComplexProgramTarget
+#undef ComplexProgramTarget
+#endif
+#define	ComplexProgramTarget(program)					@@\
+UninstalledComplexProgramTarget(program)				@@\
+InstallProgram(program,$(INSTBIN))					@@\
+InstallManPage(program,$(INSTMAN))
+/* ComplexProgramTarget */
+
+
+/*
+ * ComplexProgramTarget_1 - generate rules for compiling and linking the
+ * program specified by $(OBJS1) and $(SRCS1), installing the program and its
+ * man page, and generating dependencies for it and any programs described
+ * by $(SRCS2) and $(SRCS3).  It should be used to build the primary 
+ * program in Imakefiles that describe multiple programs.
+ */
+#ifdef ComplexProgramTarget_1
+#undef ComplexProgramTarget_1
+#endif
+#define	ComplexProgramTarget_1(program,locallib,syslib)			@@\
+UninstalledComplexProgramTarget_1(program,locallib,syslib)		@@\
+InstallProgram(program,$(INSTBIN))					@@\
+InstallManPage(program,$(INSTMAN))
+/* ComplexProgramTarget_1 */
+
+
+/*
+ * ComplexProgramTarget_2 - generate rules for compiling and linking the
+ * program specified by $(OBJS2) and $(SRCS2) and installing the program and
+ * man page.  It should be used to build the second program in Imakefiles 
+ * describing more than one program.
+ */
+#ifdef ComplexProgramTarget_2
+#undef ComplexProgramTarget_2
+#endif
+#define	ComplexProgramTarget_2(program,locallib,syslib)			@@\
+UninstalledComplexProgramTarget_2(program,locallib,syslib)		@@\
+InstallProgram(program,$(INSTBIN))					@@\
+InstallManPage(program,$(INSTMAN))
+/* ComplexProgramTarget_2 */
+
+
+/*
+ * ComplexProgramTarget_3 - generate rules for compiling and linking the
+ * program specified by $(OBJS3) and $(SRCS3) and installing the program and
+ * man page.  It should be used to build the third program in Imakefiles 
+ * describing more than one program.
+ */
+#ifdef ComplexProgramTarget_3
+#undef ComplexProgramTarget_3
+#endif
+#define	ComplexProgramTarget_3(program,locallib,syslib)			@@\
+UninstalledComplexProgramTarget_3(program,locallib,syslib)		@@\
+InstallProgram(program,$(INSTBIN))					@@\
+InstallManPage(program,$(INSTMAN))
+/* ComplexProgramTarget_3 */
+
+
+
+/*
+ * InstallAppDefaults - generate rules to install appliation default files 
+ * if the InstallAppDefFiles configuration parameter is set.
+ */
+#ifdef InstallAppDefaults
+#undef InstallAppDefaults
+#endif
+#if InstallAppDefFiles
+#define	InstallAppDefaults(class)					@@\
+install:: class.ad							@@\
+	$(INSTALL) -c $(INSTAPPFLAGS) class.ad $(INSTAPP)/class
+#else
+#define	InstallAppDefaults(class)
+#endif /* InstallAppDefFiles */
+/* InstallAppDefaults */
+
+
+#if PreR5
+ /* do nothing */
+#else
+
+/*
+ *  MIT X11R4 rules for shareable libraries. Only used because I did not
+ *  have time enough to make my Imake templates both ways            
+ *
+ *      InstallSharedLibrary                     (libname,rev,dest)
+ *      SharedLibraryObjectRule                  () 
+ *      SharedAndDebuggedLibraryObjectRule       ()
+ *      NormalSharedLibraryTarget                (libname,rev,solist,salist)
+ */
+
+/*
+ * InstallSharedLibrary - generate rules to install the shared library.
+ */
+#ifndef InstallSharedLibrary
+#define InstallSharedLibrary(libname,rev,dest)                          @@\
+install:: lib/**/libname.so.rev                                         @@\
+        $(INSTALL) -c $(INSTLIBFLAGS) lib/**/libname.so.rev dest        @@\
+
+#endif /* InstallSharedLibrary */
+
+
+/*
+ * InstallSharedLibraryData - generate rules to install the shared library data
+ */
+#ifndef InstallSharedLibraryData
+#define InstallSharedLibraryData(libname,rev,dest)                      @@\
+install:: lib/**/libname.sa.rev                                         @@\
+        $(INSTALL) -c $(INSTLIBFLAGS) lib/**/libname.sa.rev dest
+
+#endif /* InstallSharedLibraryData */
+
+
+
+/*
+ * SharedLibraryObjectRule - generate make rules to build shared and "normal"
+ * object files.
+ */
+#ifndef SharedLibraryObjectRule
+#define SharedLibraryObjectRule()                                       @@\
+all::                                                                   @@\
+        @if [ ! -d shared ]; then mkdir shared; else exit 0; fi         @@\
+                                                                        @@\
+.c.o:                                                                   @@\
+        $(RM) $@ shared/$@                                              @@\
+        $(CC) -pic -c $(SHAREDCODEDEF) $(SHLIBDEF) $(CFLAGS) $*.c       @@\
+        $(MV) $*.o shared/$*.o                                          @@\
+        $(CC) -c $(SHLIBDEF) $(CFLAGS) $*.c                             @@\
+                                                                        @@\
+clean::                                                                 @@\
+        -@if [ -d shared ]; then echo " $(RM) shared/?*.o"; \           @@\
+                $(RM) shared/?*.o; else exit 0; fi                      @@\
+
+#endif /* SharedLibraryObjectRule */
+
+
+/*
+ * SharedAndDebuggedLibraryObjectRule - generate make rules to build shared,
+ * debuggable, and "normal" object files.
+ */
+#ifndef SharedAndDebuggedLibraryObjectRule
+#define SharedAndDebuggedLibraryObjectRule()                            @@\
+all::                                                                   @@\
+        @if [ ! -d shared ]; then mkdir shared; else exit 0; fi         @@\
+        @if [ ! -d debugger ]; then mkdir debugger; else exit 0; fi     @@\
+                                                                        @@\
+.c.o:                                                                   @@\
+        $(RM) $@ shared/$@ debugger/$@                                  @@\
+        $(CC) -pic -c $(SHAREDCODEDEF) $(SHLIBDEF) $(CFLAGS) $*.c       @@\
+        $(MV) $*.o shared/$*.o                                          @@\
+        $(CC) -g -c $(SHLIBDEF) $(CFLAGS) $*.c                          @@\
+        $(MV) $*.o debugger/$*.o                                        @@\
+        $(CC) -c $(SHLIBDEF) $(CFLAGS) $*.c                             @@\
+                                                                        @@\
+clean::                                                                 @@\
+        -@if [ -d shared ]; then echo " $(RM) shared/?*.o"; \   @@\
+                $(RM) shared/?*.o; else exit 0; fi                      @@\
+        -@if [ -d debugger ]; then echo "       $(RM) debugger/?*.o"; \ @@\
+                $(RM) debugger/?*.o; else exit 0; fi                    @@\
+
+#endif /* SharedAndDebuggedLibraryObjectRule */
+
+/*
+ * SpecialSharedAndDebuggedObjectRule - generate rules to compile a file
+ * with special flags and to make shared and debuggable versions.
+ */
+#ifndef SpecialSharedAndDebuggedObjectRule
+#define SpecialSharedAndDebuggedObjectRule(objs,depends,options)        @@\
+all::                                                                   @@\
+        @if [ ! -d shared ]; then mkdir shared; else exit 0; fi         @@\
+        @if [ ! -d debugger ]; then mkdir debugger; else exit 0; fi     @@\
+                                                                        @@\
+objs:   depends                                                         @@\
+        $(RM) $@ shared/$@ debugger/$@                                  @@\
+        $(CC) -pic -c $(SHAREDCODEDEF) $(SHLIBDEF) $(CFLAGS) options $*.c @@\
+        $(MV) $*.o shared/$*.o                                          @@\
+        $(CC) -g -c $(SHLIBDEF) $(CFLAGS) options $*.c                  @@\
+        $(MV) $*.o debugger/$*.o                                        @@\
+        $(CC) -c $(SHLIBDEF) $(CFLAGS) options $*.c
+#endif /* SpecialDebuggedAndProfiledObjectRule */
+
+
+/*
+ * SpecialSharedObjectRule - generate rules to compile a file
+ * with special flags and to make shared and debuggable versions.
+ */
+#ifndef SpecialSharedObjectRule
+#define SpecialSharedObjectRule(objs,depends,options)                   @@\
+all::                                                                   @@\
+        @if [ ! -d shared ]; then mkdir shared; else exit 0; fi         @@\
+                                                                        @@\
+objs:   depends                                                         @@\
+        $(RM) $@ shared/$@                                              @@\
+        $(CC) -pic -c $(SHAREDCODEDEF) $(SHLIBDEF) $(CFLAGS) options $*.c @@\
+        $(MV) $*.o shared/$*.o                                          @@\
+        $(CC) -c $(SHLIBDEF) $(CFLAGS) options $*.c
+#endif /* SpecialDebuggedAndProfiledObjectRule */
+
+
+/*
+ * NormalSharedLibraryTarget - generate rules to create a shared library;
+ * build it into a different name so that the we don't hose people by having
+ * the library gone for long periods.
+ */
+#ifndef NormalSharedLibraryTarget
+#define NormalSharedLibraryTarget(libname,rev,solist)                   @@\
+AllTarget(lib/**/libname.so.rev)                                        @@\
+                                                                        @@\
+lib/**/libname.so.rev:  solist                                          @@\
+        $(RM) $@~                                                       @@\
+        (cd shared; $(LD) -o ../$@~ -assert pure-text solist)           @@\
+        $(RM) $@                                                        @@\
+        $(MV) $@~ $@                                                    @@\
+                                                                        @@\
+clean::                                                                 @@\
+        $(RM) lib/**/libname.so.rev
+
+#endif
+
+/*
+ * NormalSharedLibraryDataTarget - generate rules to create shlib data file;
+ * build it into a different name so that the we don't hose people by having
+ * the library gone for long periods.
+ */
+#ifndef NormalSharedLibraryDataTarget
+#define NormalSharedLibraryDataTarget(libname,rev,salist)               @@\
+AllTarget(lib/**/libname.sa.rev)                                        @@\
+                                                                        @@\
+lib/**/libname.sa.rev:  salist                                          @@\
+        $(RM) $@                                                        @@\
+        $(AR) $@ salist                                                 @@\
+        $(RANLIB) $@                                                    @@\
+                                                                        @@\
+clean::                                                                 @@\
+        $(RM) lib/**/libname.sa.rev
+
+#endif /* NormalSharedLibraryTarget */
+
+
+
+
+#endif /* not PreR5 */

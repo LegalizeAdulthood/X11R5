@@ -1,0 +1,386 @@
+; ======================================================================
+; 			BAR PACKAGE
+; ======================================================================
+
+
+; =========
+; Utilities
+; =========
+
+; Pixmap list creation 
+
+(de pixmap-list-make (file-name suffixes make)
+    (with (res ())
+	  (for i suffixes
+	       (setq res (+ res
+			    (list ((eval make)  (+ file-name i))))))
+	  res))
+
+(setq suffixes.9. '( ".tl" ".t" ".tr"  ".l"  "."   ".r" ".bl" ".b" ".br"))
+(setq suffixes.8. '( ".tl" ".t" ".tr"  ".l"        ".r" ".bl" ".b" ".br"))
+(setq suffixes.3-vertical.   '( ".t" "." ".b"))
+(setq suffixes.3-horizontal. '( ".l" "." ".r"))
+
+(setq suffixes.9_ '( "_tl" "_t" "_tr"  "_l"  "_"   "_r" "_bl" "_b" "_br"))
+(setq suffixes.8_ '( "_tl" "_t" "_tr"  "_l"        "_r" "_bl" "_b" "_br"))
+(setq suffixes.3-vertical_   '( "_t" "_" "_b"))
+(setq suffixes.3-horizontal_ '( "_l" "_" "_r"))
+
+
+
+; Does a list contains an item ?
+		
+(de contains-item (gwm.list gwm.item)
+    (if (not gwm.list) 			; empty list
+	()
+	(if (= gwm.item (# 0 gwm.list))	; it's first item
+	    t
+	    (contains-item 		; otherwise recursion
+		(sublist 1 (- (length gwm.list) 1) gwm.list)
+		gwm.item)
+	)))
+
+
+; =============
+; Some defaults
+; =============
+
+(setq bar.default-pixmap (label-make "X"))
+
+
+
+; =============
+; Main function 	bar.make
+; =============
+
+; Context:
+; 	bar.plugs
+; 	bar.focus-sensitive		t or ()  change aspect if focus in ?
+; 	bar.borderwidth		borderwidth default 0
+; 	borderpixel
+; 	bordertile
+; 	plug-separator
+; 	menu
+; 	cursor
+; 	property			(appended for intern usage)
+; 	bar-min-width			(may be increased)
+; 	bar-max-width			(may be decreased)
+; 	bar.size-adjust-on		'plugs (default) or 'pixmap 
+; 
+(de bar.make()
+    (with(
+	  bar.appearance-make (default bar.appearance-make 
+				  bar.color-appearance-make)
+	  bar.focus-sensitive (default bar.focus-sensitive t)
+	  fsm (if bar.focus-sensitive 
+		  bar.focus-sensitive-fsm
+		  bar.focus-insensitive-fsm)
+	  bar.size-adjust-on (default bar.size-adjust-on 'plugs)
+	  
+	  
+	  ; ---------------------------------------------------
+	  ; And we duplicate some variable wich may be modified 
+	  ; by bar.appearance-make to avoid border effects
+	  ; ---------------------------------------------------
+	  borderwidth (default bar.borderwidth 0)	
+	  property 	(default property ())		
+	  bar-min-width (max 1(default bar-min-width 1))
+	  bar-max-width (default bar-max-width 100)	
+	  bar.plugs 	(default bar.plugs ())		
+	 )
+	 (if (boundp 'bar.thickness) 
+	     (progn 
+		    (setq bar-min-width bar.thickness)
+		    (setq bar-max-width bar.thickness)))
+	 (bar.appearance-make)		
+	 
+	 ; border effect on property, bar-min-width, and bar-max-width
+	 (setq property (+ property (list 'initializer bar.initializer)))
+	 
+	 (eval (+ '(bar-make) bar.plugs))))
+
+
+
+(setq bar.focus-sensitive-behaviour
+    (state-make
+	(on (user-event 'initialize)
+	    (eval (# 'initializer wob-property)))
+	(on (user-event 'focus-in)
+	    (eval (# 'active-drawer wob-property)))
+	(on (user-event 'focus-out)
+	    (eval (# 'normal-drawer wob-property)))))
+(setq bar.focus-sensitive-fsm (fsm-make bar.focus-sensitive-behaviour))
+
+(setq bar.focus-insensitive-behaviour
+    (state-make
+	(on (user-event 'initialize)
+	    (eval (# 'initializer wob-property)))))
+(setq bar.focus-insensitive-fsm (fsm-make bar.focus-insensitive-behaviour))
+
+(setq bar.initializer 
+    '(eval (# 'normal-drawer wob-property)))
+
+
+
+
+; ====================
+; Appearance functions
+; ====================
+; 
+; All these functions override some context variables
+; but doesn't retrun any value
+
+
+; Appareance described by color
+; -----------------------------
+; 
+; Context:
+; 	bar.normal-color
+; 	bar.active-color	if bar.focus-sensitive is true
+; Border effects on context variable: 
+;	property
+; 
+(de bar.color-appearance-make()
+    (with (
+	   bar.normal-color (default bar.normal-color background)
+	   bar.active-color (default bar.active-color foreground)
+	  )
+	  ; BORDER EFFECTS
+	  (setq property
+		(+ (list 'normal-drawer
+			 (list 'wob-background bar.normal-color))
+		   (if bar.focus-sensitive
+		       (list 'active-drawer
+			     (list 'wob-background bar.active-color))
+		       ())
+		   property
+		))))
+
+
+; Appareance described by pixmap
+; ------------------------------
+; 
+; Context
+; 	bar.normal-pixmap
+; 	bar.active-pixmap	if bar.focus-sensitive is true
+;	bar.orientation		'vertical  or  'horizontal (default) 
+; Border effects on context variables:
+;	property
+; 	bar-min-width	(only increase)
+; 	bar-max-width	(only decrease)
+; 	borderwidth  	(set to 0)
+; 
+(de bar.pixmap-appearance-make()
+    (with (
+	   bar.normal-pixmap (default bar.normal-pixmap bar.default-pixmap)
+	   bar.active-pixmap (default bar.active-pixmap bar.default-pixmap)
+	   bar.orientation   (default bar.orientation 'horizontal)
+	   thickness (if (= 'horizontal bar.orientation)
+			 (height bar.normal-pixmap)
+			 (width bar.normal-pixmap))
+	  )
+	  ; BORDER EFFECTS
+	  (setq borderwidth 0)
+	  (setq property
+		(+ (list 'normal-drawer
+			 (list 'wob-tile bar.normal-pixmap))
+		   (if bar.focus-sensitive
+		       (list 'active-drawer
+			     (list 'wob-tile bar.active-pixmap))
+		       ())
+		   property		   
+		))
+	  (if (= 'pixmap bar.size-adjust-on)
+	      (progn
+		    (setq bar-min-width (max bar-min-width thickness))
+		    (setq bar-max-width (min bar-max-width thickness))))
+    ))
+
+
+; Appareance described by 3 pixmap (a stretchable center and 2 borders)
+; --------------------------------
+; 
+; Context:
+; 	bar.normal-pixmap-list
+; 	bar.active-pixmap-list
+; 	bar.focus-sensitive
+; Border effect on:
+; 	property
+; 	bar-min-width
+; 	bar-max-width
+; 	bar.plugs
+; 
+(de bar.3-pixmaps-appearance-make ()
+    (with (
+	   ; context treatment
+	   bar.normal-pixmap-list
+	   (if (and (boundp 'bar.normal-pixmap-list)
+		    (= 3 (length bar.normal-pixmap-list)))
+	       bar.normal-pixmap-list
+	       (progn
+		     (? "Warning: bar.normal-pixmap-list incorrect, "
+			bar.normal-pixmap-list "\n")
+		     bar.default-normal-pixmap-list))
+	   
+	   bar.active-pixmap-list
+	   (if bar.focus-sensitive
+	       (if (and (boundp 'bar.active-pixmap-list)
+			(= 3 (length bar.active-pixmap-list)))
+		   bar.active-pixmap-list
+		   (progn
+			 (? "Warning: bar.active-pixmap-list incorrect, "
+			    bar.active-pixmap-list "\n")
+			 bar.normal-pixmap-list)))
+	   
+	   ; intern variables
+	   bar.normal-pixmap (# 1 bar.normal-pixmap-list)
+	   bar.active-pixmap (# 1 bar.active-pixmap-list)
+	  ) 
+	  ; BORDER EFFECTS
+	  (setq bar.plugs
+		(+ 
+		   ; A plug for the first edge
+		   (with (
+			  normal-pixmap (# 0 bar.normal-pixmap-list)
+			  active-pixmap (if bar.focus-sensitive
+					    (# 0 bar.active-pixmap-list)
+					    ())
+			 )
+			 (list (bar.plug-make)))
+		   
+		   ; The plugs of user
+		   bar.plugs
+		   
+		   ; If necessary a space to make sure that 
+		   ; the last plug will be on the right (or bottom)
+
+		   (if (member () bar.plugs)  ; (contains-item bar.plugs ())
+		       ()
+		       '(()))
+		   
+		   ; A plug for the last edge
+		   (with (
+			  normal-pixmap (# 2 bar.normal-pixmap-list)
+			  active-pixmap (if bar.focus-sensitive
+					    (# 2 bar.active-pixmap-list)
+					    ())
+			 )
+			 (list (bar.plug-make)))
+		))
+	  (bar.pixmap-appearance-make)
+    )))
+
+
+
+(setq bar.default-normal-pixmap-list 
+    (list bar.default-pixmap bar.default-pixmap bar.default-pixmap))
+
+; Context:
+; 	bar.focus-sensitive
+; 	normal-pixmap
+; 	active-pixmap
+(de bar.plug-make ()
+    (with (
+	   fsm bar.plug-fsm
+	   borderwidth 0
+	   property (if bar.focus-sensitive
+			(list
+			     'normal-drawer
+			     (list 'wob-tile normal-pixmap)
+			     'active-drawer
+			     (list 'wob-tile active-pixmap)
+			)
+			())
+	  )
+	  (plug-make normal-pixmap)
+    ))
+  
+(setq bar.plug-behaviour
+    (state-make		     
+	(on (user-event 'focus-out) (eval (# 'normal-drawer wob-property)))
+	(on (user-event 'focus-in) (eval (# 'active-drawer wob-property)))))
+
+(setq bar.plug-fsm (fsm-make bar.plug-behaviour))
+
+
+
+
+; Appareance described by the prefix name of 3 pixmap 
+; ---------------------------------------------------
+; (a stretchable center and 2 borders)
+; 
+; Context:
+; 	bar.normal-pixmap-file-name
+; 	bar.active-pixmap-file-name
+; 	bar.orientation		'vertical or 'horizontal
+; 	bar.suffixes		for instance: '( "_l"  "_"  "_r")
+; 	bar.pixmap-make		default: pixmap-make
+; 	bar.focus-sensitive
+; Border effect on:
+; 	property
+; 	bar-min-width
+; 	bar-max-width
+; 	bar.plugs
+; 
+(de bar.3-pixmap-files-appearance-make ()
+    (with (
+	   bar.normal-pixmap-file-name (default bar.normal-pixmap-file-name 
+					   "default")
+	   bar.active-pixmap-file-name (default bar.active-pixmap-file-name 
+					   "default")
+	   bar.orientation (default bar.orientation 'horizontal)
+	   bar.suffixes (default bar.suffixes
+			    (if (= 'vertical bar.orientation)
+				suffixes.3-vertical_
+				suffixes.3-horizontal_ ))
+	   bar.pixmap-make (default bar.pixmap-make pixmap-make)
+	   
+	   ; local variables
+	   bar.normal-pixmap-list (pixmap-list-make
+				      bar.normal-pixmap-file-name
+				      bar.suffixes
+				      bar.pixmap-make)
+	   bar.active-pixmap-list (if bar.focus-sensitive
+				      (pixmap-list-make
+					  bar.active-pixmap-file-name
+					  bar.suffixes
+					  bar.pixmap-make)
+				      ())
+	  )
+	  (bar.3-pixmaps-appearance-make)
+    ))
+
+
+; Appareance described by the prefix name of 3 pixmap 
+; ---------------------------------------------------
+; (a stretchable center and 2 borders)
+; As bar.3-pixmap-files-appearance-make	but use paxmap-make and other suffixes
+;           ^                                    ^
+;           |                                    |
+; 
+; Context:
+; 	bar.normal-pixmap-file-name
+; 	bar.active-pixmap-file-name
+; 	bar.orientation		'vertical or 'horizontal
+; 	bar.suffixes		default: '( ".l"  "."  ".r")
+; 	bar.focus-sensitive
+; Border effect on:
+; 	property
+; 	bar-min-width
+; 	bar-max-width
+; 	bar.plugs
+; 
+(de bar.3-paxmap-files-appearance-make ()
+    (with (
+	   bar.orientation (default bar.orientation 'horizontal)
+	   bar.suffixes (default bar.suffixes
+			    (if (= 'vertical bar.orientation)
+				suffixes.3-vertical.
+				suffixes.3-horizontal. ))
+	   bar.pixmap-make paxmap-make
+	  )
+	  (bar.3-pixmap-files-appearance-make)))
+	
+; ======================================================================
+
+(provide 'vb-bar)

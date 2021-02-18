@@ -1,0 +1,136 @@
+#!/bin/sh
+# $Id: gwm.shar,v 1.57 1991/10/04 13:37:58 colas Exp $
+
+usage='Usage:	rx <remhost> <X-command> [<args>]
+	rxterm <remhost> [<args>]
+	rxload <remhost> [<args>]
+	rxcmdtool <remhost> [<args>]
+
+Executes <X-command> on <remhost> and redirects its standard and error output 
+to the file $HOME/.rx.log on <remhost>.
+The connection to <remhost> terminates as soon as <X-command> is launched, not
+when <X-command> terminates.
+The user should have permission to use rsh from the current host to <remhost>
+and to execute X clients on <remhost>.  See rsh, xhost.
+'
+
+[ $# = 0 ] && { echo "$usage" >&2; exit 1; }
+case $1 in
+  -* )
+    echo "$usage" >&2; exit 1;;
+esac
+
+remhost=$1; shift; comm="$*"
+
+case $0 in
+  *rxload )
+    comm="xload $comm"
+    ;;
+  *rxterm )
+    case $comm in
+      *-e* )
+	# Extract the entry name of the command to execute
+	name=`echo $comm | sed 's/.*-e[ 	]*\([^ 	]*\).*/\1/'`
+	if [ -z "$name" ]
+        then
+	    echo "missing command name for -e switch"
+	    exit 1
+	fi
+        name=`basename $name`@$remhost        # Ex: emacs@mirsa
+	;;
+      * )
+        # Just the machine name
+        name=$remhost
+	;;
+    esac
+    # Always login shell!
+    comm="xterm -ls -T $name $comm"
+    ;;
+   *rxcmdtool )
+    case $comm in
+      *-e* )
+	# Extract the entry name of the command to execute
+	name=`echo $comm | sed 's/.*-e[ 	]*\([^ 	]*\).*/\1/'`
+	if [ -z "$name" ]
+        then
+	    echo "missing command name for -e switch"
+	    exit 1
+	fi
+        name=`basename $name`@$remhost        # Ex: emacs@mirsa
+	;;
+      * )
+        # Just the machine name
+        name=$remhost
+	;;
+    esac
+    # Always login shell!
+    comm="cmdtool -label $name $comm"
+    ;;
+esac
+
+# Current Host
+hostname=${HOSTNAME-`hostname || /usr/5bin/uname -n 2> /dev/null`} 
+
+[ -z "$DISPLAY" ] && DISPLAY=unix:0 	# Default for DISPLAY
+IFS=:
+set $DISPLAY
+IFS=' 	
+'
+xhostname=$1 xscreen=$2
+if [ -z "$xscreen" ]
+then
+	xscreen=$xhostname
+	xhostname=$hostname
+fi
+[ "$xhostname" = unix ] && xhostname=$hostname
+
+case $remhost in
+  *.*.* )
+    # May be a different domain: we have to find the full name of the xhostname
+    # Search for the name server, then N.I.S, then /etc/hosts
+    oldpath=$PATH
+    PATH=/usr/etc:/usr/ucb:/etc:/bin:/usr/bin:/usr/etc/yp
+    host=`(nslookup $xhostname) 2> /dev/null | \
+		sed -n 's/Name:[         ]*\(.*\)/\1/p'`
+    if [ -z "$host" ]
+    then
+	host=`(ypmatch $xhostname hosts) 2> /dev/null | \
+		sed -n 's/[^ 	]*[ 	]*\([^ 	]*\).*/\1/p'`
+    fi
+    if [ -z "$host" ]
+    then
+	host=`sed -n /$xhostname/'s/[^ 	]*[ 	]*\([^ 	]*\).*/\1/p' \
+		/etc/hosts`
+    fi
+    xhostname=$host
+    PATH=$oldpath
+esac
+
+# For efficiency, use of unix:0 for local clients
+if [ "$xhostname" = "$remhost" ]
+then
+    DISPLAY=unix:$xscreen
+else
+    DISPLAY=$xhostname:$xscreen
+fi
+
+# Rshd  open one file-descriptor (number 7 often) and does'nt terminate
+# before it is closed!!!!
+
+# List of variables to export through rsh if they are defined
+vars='PATH DISPLAY XENVIRONMENT XAPPLRESDIR PRINTER LD_LIBRARY_PATH OPENWINHOME GUIDEHOME'
+env= var= val=
+for var in $vars
+do
+    eval val=\$$var
+    [ -n "$val" ] &&  env="${env}$var=$val;export $var;"
+done
+
+xhost +$remhost  > /dev/null
+
+# Using rsh even localy permits to unattach the xcommand from the 
+# current tty if any
+exec rsh $remhost -n "exec sh -c \"	$env $comm < /dev/null > .rx.log 2>&1 \
+			3>&1 4>&1 5>&1 6>&1 7>&1 8>&1 9>&1 \
+			3>&- 4>&- 5>&- 6>&- 7>&- 8>&- 9>&- &\" "
+

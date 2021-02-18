@@ -1,0 +1,24 @@
+#!/bin/sh 
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+
+%include pobbconfig.defs
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+%ifdef pobb_GetHostTable
+cd /usr/tmp
+umask 022
+AUTH='?[CronAuth]'
+export AUTH
+HOME='?[PostmasterHome]'
+export HOME
+PATH='?[CronPath]'
+export PATH
+SHELL='/bin/csh'
+export SHELL
+USER='?[PostmasterName]'
+export USER
+/bin/su ?[PostmasterName] `cat ?[PMPasswordFile]` -c "?[BBDaemonDir]/gettables >& ?[TempLog]/gettables.log &" > /dev/console
+%endif pobb_GetHostTable

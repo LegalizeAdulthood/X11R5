@@ -1,0 +1,27 @@
+;
+; $Id: uumrc.rev,v 1.1 1991/09/09 22:38:59 ohm Exp $
+;
+;;
+;;	default uumrc
+;;	For uum (Wnn V4)
+
+setconvenv	@LIBDIR/@LANG/wnnenvrc.rev
+setkankanaenv	@LIBDIR/@LANG/wnnenvrc_R.rev
+
+setjishopath    @LIBDIR/@LANG/dic/pubdic/
+sethindopath    @LIBDIR/@LANG/dic/usr/@USR/
+
+setuumkey	@LIBDIR/@LANG/uumkey
+setrkfile	@LIBDIR/@LANG/rk
+
+setconvkey      	@LIBDIR/cvt_key_tbl
+;setconvkey      ST*	@LIBDIR/cvt_key_tbl.ST
+;setconvkey      gmw*	@LIBDIR/cvt_key_tbl.gm
+;setconvkey      gmw16*	@LIBDIR/cvt_key_tbl.gm
+;setconvkey      gmw24*	@LIBDIR/cvt_key_tbl.gm
+;setconvkey      kterm*	@LIBDIR/cvt_key_tbl.kt
+;setconvkey      xterm*	@LIBDIR/cvt_key_tbl.kt
+
+waking_up_no_henkan_mode
+;flow_control_on
+;send_ascii_char

@@ -1,0 +1,34 @@
+/**/#
+/**/# $Id: Imakefile,v 1.3 1991/09/12 11:57:55 proj Exp $
+/**/#
+       INCLUDES = -I$(WNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(WNNDEFINES)
+   INSTPGMFLAGS = $(INSTBINFLAGS) -o $(WNNOWNER)
+
+LOCAL_ETCSRCS= $(WNNETCSRC)/strings.c $(WNNETCSRC)/sstrings.c \
+	       $(WNNETCSRC)/bdic.c $(WNNETCSRC)/gethinsi.c \
+	       $(WNNETCSRC)/pwd.c $(WNNETCSRC)/dic_atojis.c
+LOCAL_ETCOBJS= $(WNNETCSRC)/strings.o $(WNNETCSRC)/sstrings.o \
+	       $(WNNETCSRC)/bdic.o $(WNNETCSRC)/gethinsi.o \
+	       $(WNNETCSRC)/pwd.o $(WNNETCSRC)/dic_atojis.o
+SRCS= atof.c $(LOCAL_ETCSRCS)
+OBJS= atof.o $(LOCAL_ETCOBJS)
+
+AllTarget(atof)
+SingleProgramTarget(atof,$(OBJS),,)
+
+instclient:: install
+
+InstallProgram(atof,$(JWNNBINDIR))
+
+install::
+	strip $(DESTDIR)$(JWNNBINDIR)/atof
+
+
+$(LOCAL_ETCOBJS) : $(LOCAL_ETCSRCS)
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	cd $(WNNETCSRC); echo "making all in $(WNNETCSRC)"; \
+	$(MAKE) 'CDEBUGFLAGS=$(CDEBUGFLAGS)' $(MFLAGS)
+
+DependTarget()
+

@@ -1,0 +1,42 @@
+/** Emu Resources **/
+
+Emu.font:			8x13
+Emu.boldFont:			8x13bold
+Emu*input:			True
+Emu*termType:			xterm
+Emu*screen.WrapAround:		True
+Emu*screen.CursorBlinking:	True
+Emu*screen.BlinkWOFocus:	False
+Emu*screen.BlinkInterval:	400
+Emu*screen.CursorHeight:	3
+Emu*screen.CursorWidth:		0
+Emu.geometry:			80x24
+*term.screen.geometry:		80x24
+
+Mwm*Emu*focusAutoRaise:		True
+
+#define DEBUG D CB_STR_TYPE @ bs OP_INSERT C
+/* Slurp in the OP code defines - these are mandatory! */
+#include "xt_ops.h"
+
+/*
+ * Add any additional soft parsers you'd like to have available below.
+ * Note that since the toolkit only reads in things from XAppDefault files
+ * as it needs to, you can add as many emulations here as you'd like without
+ * making emu gratuitously bigger.
+ */
+
+/* Define a xterm */
+#include "xterm.tdesc"
+
+/* Define a simple vt220 */
+#include "vt220.tdesc"
+
+/* 
+ * Define a "emu" simple emu terminal this needs only to be included
+ * if you haven't activated semu as hard parser.
+ */
+/* #include "emu.tdesc" */
+
+/* Suck user interface specific resources + global grot */
+#include "global.tdesc"

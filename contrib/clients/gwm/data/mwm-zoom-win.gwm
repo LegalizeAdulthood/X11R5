@@ -1,0 +1,51 @@
+;;File: mwm-zoom-win.gwm --
+;;Author: Frederic Charton
+;;Revision: 1.0 -- Sep 12 1989
+
+; Zoom on the window
+(df zoom () 
+    (if (= 'icon wob-status) (mwm-de-iconify-window) )
+    (if (= (# 'zoom-button window) ())
+      (with (button ()
+             button-to-find 'zoom)
+            (send-user-event 'find-button)
+            (## 'zoom-button window button)))
+    (with 
+	(
+      wob (# 'zoom-button window)
+	zoomed (# 'zoom window)
+	old-pos (# 'pos window) )
+
+	(if zoomed
+	 (progn
+	  (: xpm (# 'pushed-pixmap wob))
+	  (## 'pushed-pixmap wob (# 'pixmap wob))
+	  (## 'pixmap wob xpm)
+	  (: xpm (# 'activepushed-pixmap wob))
+	  (## 'activepushed-pixmap wob (# 'activepixmap wob))
+	  (## 'activepixmap wob xpm)
+        (wob-tile (# 'activepixmap wob))
+
+	  (## 'zoom window ())
+	  (move-window (# 0 old-pos) (# 1 old-pos))
+	  (resize-window (# 2 old-pos) (# 3 old-pos))
+	 )
+
+	 (progn
+	  (: xpm (# 'pixmap wob))
+	  (## 'pixmap wob (# 'pushed-pixmap wob))
+	  (## 'pushed-pixmap wob xpm)
+	  (: xpm (# 'activepixmap wob))
+	  (## 'activepixmap wob (# 'activepushed-pixmap wob))
+	  (## 'activepushed-pixmap wob xpm)
+        (wob-tile (# 'activepixmap wob))
+
+	  (## 'zoom window t)
+	  (## 'pos window (list window-x window-y window-width window-height))
+	  (move-window 0 0)
+	  (resize-window screen-width screen-height)
+	 )
+    	)
+   )
+)
+

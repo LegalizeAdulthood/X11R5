@@ -1,0 +1,21 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+DIRS = $(DESTDIR)/doc/inprogram \
+	$(DESTDIR)/doc/inprogram/vui \
+	$(DESTDIR)/doc/inprogram/vui/help
+
+/* The number of subdirectories is historical, and may eventually be
+ changed, but it is highly dependent upon a PC diskette distribution which is
+ more work to change than a normal UNIX distribution */
+
+DOCS = *.hlp
+
+MkdirTarget($(DIRS))
+
+InstallMultiple($(DOCS), $(INSTINCFLAGS), $(DESTDIR)/doc/inprogram/vui/help/)
+
+
+

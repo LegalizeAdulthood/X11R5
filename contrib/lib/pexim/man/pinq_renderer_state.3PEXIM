@@ -1,0 +1,79 @@
+."		"@(#)pinq_renderer_state.3PEXIM	1.3 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.pinq_renderer_state.3PEXIM
+."	
+.TH "INQUIRE RENDERER STATE" 3PEXIM "11-June-91"
+.SH NAME
+INQUIRE RENDERER STATE \- returns the state of the \s-1PEX\s+1 renderer
+.IX "Inquiry" "INQUIRE RENDERER STATE"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+pinq_renderer_state ( *curr_wkid, *state, *curr_struct)
+Pint	*curr_wkid;		\fIOUT \s-1ID\s+1 of current Renderer\fP
+Pint	*state;			\fIOUT State of current Renderer\fP
+Pint	*curr_struct;		\fIOUT \s-1ID\s+1 of current structure\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine returns the \s-1ID\s+1 of the current renderer, the state of
+the current renderer, and the \s-1ID\s+1 of the current structure.  See \f6pexim chapter\f1
+for information of allowed renderer state transitions. 
+.SS C Output Parameters
+.IP \fIcurr_wkid\fP
+Application programs assign renderer \s-1ID\s+1s when creating the renderer
+with
+the \s-1OPEN RENDERER\s+1 routine.  A renderer becomes the current renderer upon
+creation or when specified as an argument to the \s-1BEGIN RENDERING\s+1 routine.
+Calling the \s-1CLOSE RENDERER\s+1 routine sets the value of the current renderer
+ID to \s-1PEXIM_NO_WKID\s+1.
+.IP \fIstate\fP
+The current renderer state can be one of the following:
+.RS
+.IP \s-1PEXIM_IDLE\s+1
+The renderer is not rendering.  The renderer state is set to \s-1PEXIM_IDLE\s+1
+by the \s-1OPEN RENDERER, END RENDERING\s+1, and \s-1CLOSE STRUCTURE\s+1 routines.
+.IP \s-1PEXIM_RENDERING\s+1
+The current renderer is rendering.  The renderer state is set to
+\s-1PEXIM_RENDERING\s+1 by the \s-1BEGIN RENDERING\s+1 and the \s-1RESUME RENDERING\s+1 routines.
+.IP \s-1PEXIM_STRUCTURE\s+1
+In this state the renderer does not execute each output command (\s-1OC\s+1), but
+stores these s\-1OC\s+1s in a server side structure.  The renderer state is set to
+\s-1PEXIM_STRUCTURE\s+1 by the \s-1OPEN STRUCTURE\s+1 routine.
+.IP \s-1PEXIM_PAUSED\s+1
+The renderer is not rendering, but all X resources remain allocated.  The renderer state is set
+to \s-1PEXIM_PAUSED\s+1 by the \s-1PAUSE RENDERER\s+1 routine.  Use the \s-1RESUME RENDERING\s+1
+routine to begin again rendering in the paused renderer.
+.RE  
+.IP \fIcurr_struct\fP
+The current structure \s-1ID\s+1 identifies the server side structure created with
+the \s-1OPEN STRUCTURE\s+1 routine.
+.SS Function Return
+\f3pinq_renderer_state\f1 returns an integer status.  A value of\s-1 POK\s+1 indicates successful execution.
+.SH ERRORS
+None
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "OPEN RENDERER"
+.SM "OPEN STRUCTURE"
+.fi

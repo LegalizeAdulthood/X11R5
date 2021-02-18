@@ -1,0 +1,164 @@
+%{
+/* Copyright 1989 GROUPE BULL -- See licence conditions in file COPYRIGHT
+ * Copyright 1989 Massachusetts Institute of Technology
+ */
+/***************************\
+* 			    *
+*  Yacc grammar for Wool   *
+* 			    *
+\***************************/
+
+#include <stdio.h>
+#include <ctype.h>
+#ifdef SYSV
+#include <string.h>
+#else /* SYSV */
+#include <strings.h>
+#endif /* SYSV */
+#include "EXTERN.h"
+#include "wool.h"
+#include "wl_atom.h"
+#include "wl_coll.h"
+#include "wl_list.h"
+#include "INTERN.h"
+#include "yacc.h"
+
+%}
+
+%union{
+    WOOL_OBJECT wool_object;
+    WOOL_Collection wool_collection;
+}
+
+%type <wool_object> s_expression main_s_exp 
+%type <wool_collection> list_of_s_expressions
+
+%token  END_OF_FILE 	/* MUST be the first token! */
+%token  STRING NON_CLOSED_STRING QUOTECHAR
+%token  NUMBER HEX_NUMBER LEFTPAR RIGHTPAR LEFTBRA RIGHTBRA
+%token  NAME 
+
+%start main_s_exp 
+
+%%
+main_s_exp	: s_expression
+			{$$ = wool_read_expr = $1;
+			 YYACCEPT;}
+		| /* empty */ RIGHTPAR main_s_exp
+			{$$ = wool_read_expr = $2;
+			 YYACCEPT;}
+		| /* empty */ END_OF_FILE
+			{$$ = wool_read_expr = NULL;
+			 YYACCEPT;}
+		;
+
+s_expression	: LEFTPAR list_of_s_expressions RIGHTPAR
+			{$$ = (WOOL_OBJECT) WLList_make($2);}
+		| LEFTBRA list_of_s_expressions RIGHTBRA
+			{$$ = WLCollection_progn($2);}
+		| NAME
+			{$$ = (WOOL_OBJECT) wool_atom(yytext);}
+		| NUMBER
+			{$$ = (WOOL_OBJECT) 
+			   WLNumber_make((Num) atoi(yytext));}
+		| HEX_NUMBER
+			{int num;
+			 sscanf(yytext+2,"%x",&num);
+			 $$ = (WOOL_OBJECT) WLNumber_make((Num) num);}
+		| STRING
+			{$$ = (WOOL_OBJECT)
+			    WLString_make(strip_string(yytext));}
+		| QUOTECHAR s_expression
+			{$$ = (WOOL_OBJECT) WLQuotedExpr_make($2);}
+		| NON_CLOSED_STRING
+		   {$$ = NIL;
+		    yyerror("Non closed string");}
+		| LEFTPAR list_of_s_expressions END_OF_FILE
+			{$$ = NIL;
+			yyerror("Lacking \")\" at the end of file!");}
+		| error 
+			 {$$ = NIL;}
+		;
+
+list_of_s_expressions : list_of_s_expressions s_expression
+			{$$ = WLCollection_add($1, $2);}
+		| /* empty */
+			{$$ = WLCollection_make();}
+		;
+
+
+%%
+
+#include "lex.yy.c"	/* lexical created by lex */
+
+yyerror(s)
+char *s;
+{
+    wool_error(SYNTAX_ERROR, s);
+}
+
+/*
+ * Some routines to deal with strings:
+ */
+
+/*
+ * strip_string strips strings from \, ", etc... 
+ * copies string raw_string to string stripped_string
+ */
+
+static char *stripped_string;
+static int   stripped_string_limit;
+
+char *strip_string(raw_string)
+char *raw_string;
+{
+    register char  *p, *q, c;
+    int num;
+
+    if (strlen(raw_string) > stripped_string_limit) {
+	stripped_string_limit = strlen(raw_string);
+	stripped_string = (char *)
+	    Realloc(stripped_string, stripped_string_limit);
+    }
+    for (p = raw_string + 1, q = stripped_string; *p; p++, q++) {
+	switch (*p) {
+	case '"':
+	    *q = '\0';
+	    break;
+	case '\\':
+	    switch (*(++p)) {
+	    case '\n':
+		q--;
+		break;
+	    case 'n':
+		*q = '\n';
+		break;
+	    case 'r':
+		*q = '\r';
+		break;
+	    case 't':
+		*q = '\t';
+		break;
+	    case 'e':
+		*q = '\033';
+		break;
+	    case 'x':
+		sscanf(++p,"%2x",&num);
+		*q = num;
+		p++;
+		break;
+	    default:
+		if ((*p <= '9') && (*p >= '0')) {
+		    *q = (char)
+			(*p - '0') * 64 + (*(++p) - '0') * 8 + *(++p) - '0';
+		} else {
+		    *q = *p;
+		}
+	    }
+	    break;
+	default:
+	    *q = *p;
+	}
+    }
+    return stripped_string;
+}

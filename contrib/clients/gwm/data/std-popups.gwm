@@ -1,0 +1,239 @@
+; STANDARD GWM PROFILE
+; ====================
+
+;;File: std-popups.gwm -- the GWM standard pop-up menus
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.4 -- June 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+; Pop-ups
+; =======
+
+(defname 'pop-item.font screen. (font-make "9x15"))
+(defname 'pop-item.height screen. 18)
+(defname 'pop-label.font screen. (font-make "9x15"))
+(defname 'pop-label.foreground screen. white)
+(defname 'pop-label.background screen. black)
+(defname 'pop-item.foreground screen. black)
+(defname 'pop-item.background screen. white)
+
+;; triggers action of item
+
+(defun std-popups.trigger (multi)
+  (with (calling-wob (with (wob wob-parent)
+	(if multi (with (wob wob-parent) wob-parent)
+	  wob-parent))
+    )
+    (setq std-popups.action
+      (# 'action wob-property))
+    (wob wob-parent)
+    (if multi (wob wob-parent))
+    (send-user-event 'depop wob t)
+    (wob calling-wob)
+    (eval std-popups.action)
+))
+
+;; fsm for normal items (bars)
+
+(setq std-popups.fsm
+  (fsm-make 
+    (: closed (state-make 
+	(on enter-window (wob-invert) opened)
+	(on (buttonrelease any any) (std-popups.trigger ()))
+    ))
+    (: opened (state-make
+	(on (buttonrelease any any)
+	  (std-popups.trigger ())
+	  closed)
+	(on enter-window (wob-invert))
+	(on leave-window (wob-invert))))))
+
+;; fsm for multi-items (plugs in bar)
+
+(setq std-popups.multi-fsm
+  (fsm-make 
+    (: closed 
+      (state-make 
+	(on enter-window (wob-invert) opened)
+	(on (buttonrelease any any) (std-popups.trigger t))
+    ))
+    (: opened
+      (state-make
+	(on (buttonrelease any any)
+	  (std-popups.trigger t)
+	  closed)
+	(on enter-window (wob-invert))
+	(on leave-window (wob-invert))))))
+
+;; fsm for the menu itself
+
+(: pop-fsm 
+  (fsm-make 
+    (setq initial (state-make
+	(on enter-window-not-from-grab		; init menu colors
+	  (: invert-color (bitwise-xor pop-item.foreground
+	      pop-item.background))
+	  realized			; then go in normal mode
+	  )
+	(on (buttonrelease any any)	; ButRel before menu appeared 
+	  (progn			; then call default action
+	    (with (calling-wob wob-parent Menu wob)
+	      (setq std-popups.action
+		(# 'action wob-property))
+	      (wob wob-parent)
+	      (send-user-event 'depop Menu t)
+	      (wob calling-wob)
+	      (eval std-popups.action))
+	  )
+	  waiting-for-enter-window	; must trap the actual menu map
+	)
+	(on (user-event 'depop) (unpop-menu) initial)      
+    ))
+    (setq realized (state-make
+	(on (buttonrelease any any)	; ButRel outside of menu, quit
+	  (unpop-menu)
+	  initial)
+	(on (user-event 'depop) (unpop-menu) initial)      
+    ))
+    (setq waiting-for-enter-window (state-make
+	(on enter-window-not-from-grab () initial)
+    ))
+))
+
+;; creates a plug of a menu
+
+(de menu-plug-make (label)
+  (if
+    (# (type label) string-types)
+    (plug-make (label-make label))
+
+    (= 'pixmap (type label))
+    (plug-make label)
+
+    (= 'list (type label))
+    (plug-make (eval label))
+
+    (trigger-error "Bad menu item declaration")
+))
+
+;; creates an item of a menu
+
+(df item-make (label action)
+  (with (fsm std-popups.fsm property (+ (list 'action action) property)
+      borderwidth 1 borderpixel pop-label.background
+      background pop-item.background
+      foreground pop-item.foreground
+    )		       
+    (bar-make
+      ()
+      (with (borderwidth 0 fsm () font pop-item.font
+	  bar-min-width pop-item.height)
+	(menu-plug-make label) 
+      )
+      ()))
+)
+
+;; creates an item of a menu composed of a list of buttons
+;; list-of-buttons is a list of pairs (string action)
+;; or insensitive labels (as strings)
+
+(df multi-item-make list-of-buttons
+  (with (
+      fsm ()
+      borderwidth 0 borderpixel pop-label.background
+      background pop-item.background
+      foreground pop-item.foreground
+    )		       
+    (eval (+ '(bar-make)
+	(with (
+	    borderwidth 1
+	    fsm std-popups.multi-fsm
+	    font pop-item.font
+	    bar-min-width pop-item.height
+	  )
+	  (mapfor button list-of-buttons
+	    (if (and (= 'list (type button))
+		(= (length button) 2))
+	      (with (
+		  label (# 0 button)
+		  action (# 1 button)
+		  property (+ (list 'action action) property)
+		)
+		(if label
+		  (menu-plug-make label)))
+	      (if button
+		(with (fsm () borderwidth 0)
+		  (menu-plug-make button)))
+)))))))
+
+;; creates an inactive label
+
+(df pop-label-make (label)
+  (with (fsm () borderwidth 1 borderpixel pop-label.background
+      background pop-label.background
+      foreground pop-label.foreground) 
+    (bar-make
+      (with (borderwidth 0 font pop-label.font) 
+	(menu-plug-make label)))))
+
+;; sets default action of a menu (triggered if didn't have time to appear)
+
+(defun menu-default-action (Menu action)
+  (## 'action (menu-wob Menu) action))
+
+(defun menu-default-item (Menu item)
+  (## 'default-item (menu-wob Menu) item))
+
+;; now we build the default list of items used after reading the user profile
+;; to build the actual menus, so that packages can add items to this list
+;; use the insert-at function to add items where you want
+
+(defaults-to root-pop-items
+  '((pop-label-make "Gwm")
+    (item-make "Xloads..." (std-pop-menu xload-pop))
+    (item-make "Xterms..." (std-pop-menu xterm-pop))
+    (item-make "refresh" (refresh))
+    (item-make "Exec cut" 
+	       (execute-string (+ "(? " cut-buffer " \"\\n\")")))
+    (item-make 
+     "Wool infos" (progn
+		    (hashinfo)(gcinfo)
+		    (wlcfinfo)(meminfo)))
+    (item-make "pack icons" (rows.pack))
+    (item-make "restart" (restart))
+    (item-make "End" (end))
+    ))
+
+(defaults-to window-pop-items
+  '((item-make "iconify" (iconify-window))
+    (item-make "Exec cut" 
+	       (execute-string (+ "(? " cut-buffer " \"\\n\")")))
+    (item-make "client info" (print-window-info))
+    (item-make "redecorate" (re-decorate-window))
+    (item-make "kill" (if (not (delete-window))
+			  (kill-window)))
+    ))
+
+(defaults-to icon-pop-items window-pop-items)
+
+;; utilities:
+
+(defun menu-make-from-list (l)
+  (with (fsm pop-fsm menu ())
+    (eval (+ '(menu-make) l))))
+
+;; popping a menu with default item under cursor
+
+(defun std-pop-menu args
+  (pop-menu (# 0 args)
+    (# 'default-item (if args (menu-wob (# 0 args))
+	(menu-wob wob-menu)
+)))))
+
+;; name of the "wrap-up" module to be called after .profile reading to 
+;; actually build menus 
+
+(setq menu.builder "def-menus.gwm")
+

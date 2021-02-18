@@ -1,0 +1,25 @@
+*** /usr/proj/xtrap/xtrapcode/miinitext.c_r5	Mon Jul 15 07:50:38 1991
+--- /usr/proj/xtrap/X11R5/mit/server/ddx/mi/miinitext.c	Wed Aug 15 08:42:38 1990
+***************
+*** 50,58 ****
+  #ifdef XIDLE
+  extern void XIdleExtensionInit();
+  #endif
+- #ifdef XTRAP
+- extern void DEC_XTRAPInit();
+- #endif
+  
+  /*ARGSUSED*/
+  void
+--- 50,55 ----
+***************
+*** 86,93 ****
+  #endif
+  #ifdef XIDLE
+      XIdleExtensionInit();
+- #endif
+- #ifdef XTRAP
+-     DEC_XTRAPInit();
+  #endif
+  }
+--- 83,87 ----

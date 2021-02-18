@@ -1,0 +1,158 @@
+.\" $Header: /n/lacey/usr/local/src/video/MVEX/doc/lib/RCS/events,v 1.9 1991/09/26 04:54:34 toddb Exp $
+\&
+.sp 1
+.ce 3
+\s+1\fBSection 5\fP\s-1
+
+\s+1\fBEvents\fP\s-1
+.sp 2
+.nr H1 8
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.LP
+.XS
+Section 5: Events
+.XE
+.LP
+For each event type,
+a corresponding structure is declared in
+.Pn <X11/MVEX/MVEXlib.h >.
+In each event, the type member is set to the MVEX event base plus the
+event type constant name that uniquely identifies it.
+For example, when the X server reports a
+.PN MVEXSync
+event to a client application, the client receives a
+.PN MVEXSyncEvent
+structure with the type member set to
+.PN MVEX
+.PN event
+.PN base
++
+.PN MVEXSync .
+The event base is obtained by calling
+.PN XQueryExtension
+or
+.PN MVEXBaseEvent .
+The display, send_event, and serial members are set as defined in Xlib.
+.LP
+The event constant names are:
+.PN MVEXViolation ,
+.PN MVEXSync ,
+.PN MVEXOverride ,
+.PN MVEXRequest.
+.LP
+There is one new Error code defined by MVEX, 
+.PN BadVideo .
+The error code
+of the XErrorEvent will have a value of 
+.PN MVEX
+.PN error
+.PN base
++
+.PN  BadVideo .
+The error base is obtained by calling
+.PN XQueryExtension
+or
+.PN MVEXBaseError .
+.SH 2 MVEXViolationEvent
+.IN "MVEXViolationEvent" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+typedef struct {
+	int type;		/* of event */
+	unsigned long serial;	/* # of last request processed by server */
+	Bool send_event;	/* true if this came from a SendEvent request */
+	Display *display;	/* Display the event was read from */
+	Window window;		/* window on which video constraints were violated */
+	VideoIO vid;		/* VideoIO whose video constraints were violated */
+	Time time;		/* current server time */
+	unsigned long action_mask;	/* MVEXScaleViolation      (1L << 0)
+				/* MVEXPlacementViolation */
+				/* MVEXClipViolation */
+				/* MVEXOverlapViolation */
+				/* MVEXHueViolation */
+				/* MVEXSaturationViolation */
+				/* MVEXContrastViolation */
+				/* MVEXBrightnessViolation */
+	int state;		/* MVEXViolationSuccess, 
+				 * MVEXViolationFail, or
+				 * MVEXViolationSubset */
+} MVEXViolationEvent;
+.DE
+.SH 2 MVEXSetupEvent
+.IN "MVEXSetupEvent" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+typedef struct {
+	int type;		/* of event */
+	unsigned long serial;	/* # of last request processed by server */
+	Bool send_event;	/* true if this came from a SendEvent request */
+	Display *display;	/* Display the event was read from */
+	Drawable window;	/* unused */
+	VideoIO vid;		/* vid on which Render/Capture was requested */
+	Atom	port;		/* port setup changed */
+	Time	time;		/* current server time */
+	Bool	frames_available; /* true if frames can be read */
+	Bool	timecodes_available; /* true if timecodes can be read */
+	Bool	frame_accurate; /* true if requests are frame accurate */
+} MVEXSetupEvent;
+.bp
+.DE
+.SH 2 MVEXSyncEvent
+.IN "MVEXSyncEvent" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+typedef struct {
+	int type;		/* of event */
+	unsigned long serial;	/* # of last request processed by server */
+	Bool send_event;	/* true if this came from a SendEvent request */
+	Display *display;	/* Display the event was read from */
+	Drawable drawable;	/* drawable on which Render/Capture was requested */
+	VideoIO vid;		/* vid on which Render/Capture was requested */
+	Time time;		/* current server time */
+	int state;		/* MVEXSyncAcquired or MVEXSyncLost */
+} MVEXSyncEvent;
+.DE
+.SH 2 MVEXOverrideEvent
+.IN "MVEXOverrideEvent" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+typedef struct {
+	int type;		/* of event */
+	unsigned long serial;	/* # of last request processed by server */
+	Bool send_event;	/* true if this came from a SendEvent request */
+	Display *display;	/* Display the event was read from */
+	Drawable drawable;	/* drawable on which Override was selected */
+	VideoIO vid;		/* vid on which Render/Capture was requested */
+	VideoIO override_id;	/* vid in overriding request */
+	Time	time;		/* current server time */
+	int	state;		/* Reason for override */
+} MVEXOverrideEvent;
+
+.DE
+.SH 2 MVEXRequestEvent
+.IN "MVEXRequestEvent" "" "@DEF@"
+.Ds 0
+.TA .5i 3i
+.ta .5i 3i
+typedef struct {
+	int type;		/* of event */
+	unsigned long serial;	/* # of last request processed by server */
+	Bool send_event;	/* true if this came from a SendEvent request */
+	Display *display;	/* Display the event was read from */
+	Window	window;		/* unused */
+	XID src;
+	XID dst;
+	Bool	redirect;
+	int	request;	/* MVEXRender or MVEXCapture */
+	Time	time;		/* current server time */
+} MVEXRequestEvent;
+.DE
+.bp

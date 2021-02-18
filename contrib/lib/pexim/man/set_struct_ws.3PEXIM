@@ -1,0 +1,64 @@
+."		"@(#)set_struct_ws.3PEXIM	1.3 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.set_struct_ws.3PEXIM
+."	
+.TH "SET STRUCTURE WORKSTATION" 3PEXIM "11-June-91"
+.SH NAME
+SET STRUCTURE WORKSTATION \- specify the server on which to store the structure
+.IX "Structure" "SET STRUCTURE WORKSTATION"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+pset_struct_ws ( wkid )
+Pint	wkid;		\fIRenderer ID given by application\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+Use this routine to specify the server where the current structure is to be stored.
+This routine allows you to create a cashe of structures on servers where the structures
+will be traversed.  This reduces network traffic the occurs because the Central Structure
+Store resides on only one server.  This routine is not used for immediate mode rendering.
+See Chapter One for more information on structure cashing.
+.SS C Input Parameters
+.IP \fIwkid\fP
+This is the \s-1ID\s+1 by which the application identifies the
+Renderer.  The application specifies the \s-1ID\s+1 when it opens the Renderer
+(using \s-1OPEN RENDERER\s+1).  A renderer \s-1ID\s+1 is synonymous with
+a workstation identifer and is passed to other \s-1PHIGS\s+1 workstation
+routines to set views or lights.
+.SS Execution
+Required state of specified Renderer before execution: \s-1PEXIM_IDLE\s+1
+.br
+Specified Renderer's state after execution: unchanged
+.SS Function Return
+\f3pset_struct_ws\f1 returns a integer status.  A value of \s-1POK\s+1 indicates successful
+execution.
+.SH ERRORS
+.IP \s-1PEXIMERRB\s+1ad\s-1WKID\s+1
+Specified renderer is not open.
+.IP \s-1PEXIMERRN\s+1ot\s-1I\s+1dle
+renderer is not Idle
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "OPEN STRUCTURE"
+.fi

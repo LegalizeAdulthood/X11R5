@@ -1,0 +1,29 @@
+! We can't surround this by "#ifdef COLOR ... #endif" and have it in
+! .../lib/X11/app-defaults/XAlarm because stuff in there is not pre-processed
+! with cpp like wot xrdb does.  Now why is that...?
+
+! If you want colour, you have to stick this in your ~/.xresources file (where
+! you can surround it with #ifdefs).
+
+#ifdef COLOR
+XAlarm*background:			LightYellow
+XAlarm*foreground:			IndianRed
+XAlarm*Command.background:		IndianRed
+XAlarm*Command.foreground:		LightYellow
+#endif
+
+! If you want a smaller button box in the alarm window, uncomment & try these
+! for size in your ~/.xresources file:
+
+!XAlarm.alarm.buttonbox.snooze1.fromVert:	quit
+! This will vary depending on the button labels & font...
+!XAlarm.alarm.buttonbox.snooze1.horizDistance:	-100
+!XAlarm.alarm.buttonbox.snooze5.fromVert:	quit
+!XAlarm.alarm.buttonbox.snooze15.fromVert:	quit
+!XAlarm.alarm.buttonbox.snoozetime.fromHoriz:	snooze
+
+! If you want the button box next to the alarm window, uncomment & try this:
+
+!XAlarm.alarm.message.fromHoriz:		buttonbox
+! This will vary depending on the button labels & font...
+!XAlarm.alarm.message.vertDistance:		-56

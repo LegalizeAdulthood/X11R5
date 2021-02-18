@@ -1,0 +1,300 @@
+		*************************************************
+		*	Chapter 7	CWNN FILE MANAGMENT	*
+		*************************************************
+
+
+
+
+
+   7.1  OVERVIEW    
+   =============
+
+	In cWnn system, the server plays an important role in managing the different 
+resources and files.
+	The files to be read in during cserver startup, as well as when requested by 
+certain client, are shown as follows :
+ 	
+	(1) Dictionary files
+	(2) Usage frequency files 
+	(3) Grammar files 
+	(4) Pinyin error tolerance files 
+
+ The above cWnn files are explained in this chapter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 7-1 -
+
+   7.2  DICTIONARY FILES    
+   =====================
+
+	Dictionary is classified into two categories : (1) Text format
+						       (2) Binary format
+	Text format  dictionary can be read  but binary format dictionary cannot be 
+read.  The text  dictionary is converted  to binary format using the "atod" utility 
+(please refer to  Section 4.6).  Only the binary format dictionary is used  by cWnn 
+system.  However, the binary form  of dictionary can be converted back to text form 
+using the  "dtoa" utility (please refer to Section 4.7).  The number of words which 
+can be stored in a dictioanry is between 0 to 65535. 
+
+
+1. Dictionary in Text Format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The format  of the text dictionary  is  shown  below.  The  first  two lines  can be 
+omitted.  However, the text dictionary obtained from "dtoa" has the following format.
+
+  	 +-------------------------------------------------------+
+	 |  \comment	Comment <CR>				 |
+	 |  \total	Total frequency <CR>			 |
+	 | Pinyin	word	Cixing 		Frequency <CR>	 |
+	 | Pinyin	word	Cixing		Frequency <CR>	 |
+	 | Pinyin	word	Cixing		Frequency <CR>	 |
+	 |  :	         :	  :		    :		 |
+	 |  :	         :	  :		    :		 |
+	 |  :	         :	  :		    :		 |
+	 |							 |
+ 	 | (EOF)						 |
+	 +-------------------------------------------------------+
+
+ * Comment		: Comments can be added in a dictionary
+ * Total frequency	: This is the total usage frequency for all the conversion 
+			  performed using this dictionary. 
+ * Pinyin		: For the  Pinyin-Hanzi  conversion dictionary, the Pinyin 
+			  here refers to the pronunciation for each word.
+			  For Bianma dictionary, the Pinyin refers to the code for 
+			  each word.  
+			  The maximum length for Pinyin is 256 characters.
+ * Word			: Each word should not exceed 256 characters.  
+			  If  a space, carriage return or other special characters 
+			  need to be added in the word, it can be done by appending 
+			  them in octal after "\0".
+			  If characters other than "0" is appended after the "\", 
+			  it will refer to the character itself.
+			  For example, "\\" refers to "\" itself.
+
+
+					- 7-2 -
+ * Cixing		: Refers to the part of speech defined in the grammar file, 
+			  such  as noun and pronoun.  For details, please refer to 
+			  grammar files explained in 7.4.
+ * Frequency		: The frequency of usage for each word.
+			  In the  text  format  dictionary,  the  range  value  of 
+			  frequency is between 0 and 2400.
+
+
+2. Dictionary in Binary Format
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is the dictionary used by the cWnn system.  While reading in a file, the server is 
+able to determine if the file is a dictionary via the binary format.  Once a dictionary 
+is  accessed by the server,  its  contents may be  changed.  During the  termination of 
+server, the updated dictionary will be written back to the file.
+
+All  the words  in the dictionary  have serial numbers.  The serial numbers are for the
+purpose of matching between the words in the dictionary and the usage frequency file.
+
+
+3. System Dictionary and User Dictionary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+System  dictionary  refers to  the  dictionary  provided by the system itself.  For the 
+Pinyin input and Zhuyin input environment, the following dictionary files are used :
+
+	/usr/local/lib/wnn/zh_CN/dic/sys/level-1.dic
+        /usr/local/lib/wnn/zh_CN/dic/sys/level-2.dic
+        /usr/local/lib/wnn/zh_CN/dic/sys/basic-1.dic
+        /usr/local/lib/wnn/zh_CN/dic/sys/basic-2.dic
+
+User dictionary refers to dictionary that is created by the user.  The user is able to 
+add  or delete his own words into or from the dictionary.  The dictionary structure is 
+similar to that of the system  dictionary.  The user  dictionary has the standard path 
+"/usr/local/lib/wnn/zh_CN/dic/usr/@USR/ud".
+
+"ud" is the standard filename for user dictionary.
+Both system  and user dictionaries can  be added or removed through the setting of the 
+system environment.  Please refer to chapter 5 for details.
+
+
+4. Logical Dictionary and Dictionary Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In the cWnn system, several clients are connected to one server, and all the resources 
+managed by the server are used by the different clients.  Each dictionary file may have 
+several  different  usage frequency  files.  Hence, we  may say that there are several 
+dictionaries existing logically. 
+In  addition, a dictionary  can be  used for reverse conversion,  such as Pinyin-Hanzi 
+conversion and  Hanzi-Pinyin conversion.  Hence, there are two dictionaries logically.
+For details, please refer to "wnnstat" in Section 4.6.
+
+					- 7-3 -
+
+   7.3  USAGE FREQUENCY FILES   
+   ==========================
+
+	Usage frequency files are attached to dictionaries.  In every dictionary, there 
+exists  information  on each  word's  usage frequency.  This information represents the 
+standard usage frequency for each word in the dictionary.  The standard usage frequency 
+is obtained from statistical results by analying large amount of Chinese articles.  
+Since the usage frequency information is included in the text form of dictionary, there 
+is no explicit system usage frequency file.
+
+	Note that the standard usage frequency defined by the system may not be suitable 
+for all users (client).  Hence, besides the standard frequency, the server will create a 
+user usage frequency file  for each user.  The initial  file is a  copy of the standard 
+file, and  it is created when  the user executes the client for the first time.  As the 
+system  is being  used by the user,  the usage  frequency of each  word will be changed 
+according  to how  often a word is being  used.  Therefore, this user frequency file is 
+accustomed to the individual user.  During the termination of the server or environment, 
+the user usage frequency file will be updated.  This file will be read in by the server 
+when the same user activates the client again, instead of creating a new frequency file.
+ 
+	The  usage  frequency of each word in the dictionary  plays a part in the Hanzi 
+conversion.  Hence, the weight  for usage frequency can be changed to adjsut its impact 
+on the conversion process so as to obtain a  more  accurate conversion result.   In the 
+conversion  evaluation,  there is a  "last used"  information which also resides in the 
+usage frequency file.
+
+	The standard path for the usage frequency file is 
+ "/usr/local/lib/wnn/zh_CN/dic/usr/@USR/dictionary_name.h".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 7-4 -
+
+   7.4  GRAMMAR FILES AND CIXING FILES    
+   ===================================
+
+	The definition of the grammar files and Cixing file are dependent of the system.
+Substantial knowledge on Chinese grammar and the Pinyin-Hanzi conversion process of this 
+system  are required to understand them.  We will now give only some necessary and brief 
+explanations.
+
+
+1. Cixing File
+~~~~~~~~~~~~~~
+Cixing file  defines a  set of  grammatical attributes,  which is based  upon to define 
+Chinese grammar.  The grammatical attributes of all the words in the dictionary must be 
+in this set.
+
+Standard path : /usr/local/lib/wnn/zh_CN/dic/cixing.data
+
+The Cixing  file is intepreted line by line.  Whatever that comes after a semicolon ";"
+in a line is regarded as comments, and a  backslash "\" means it will be continued on 
+the following line.
+
+The Cixing file is divided into three portions :
+
+
+<Table-c-7.1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 7-5 -
+2. Grammar Files
+~~~~~~~~~~~~~~~~
+Based on  the  defined set of Cixing, the grammar  files define a grammar for Chinese.  
+The text format of the grammar files is readable but the binary format cannot be read.  
+The  conversion  from  readable  grammar files to  binary format is through the "atoc" 
+utility (refer to Section 4.8).  Only this binary form of grammar file can be used by 
+the server.
+
+Standard path : /usr/local/lib/wnn/zh_CN/dic/full.con
+
+When the server reads the binary form of grammar file, it is able to determine whether 
+it is a grammar file.  Two or more grammar files can be managed by the server.  
+Different user environment can make use of different grammar files, and a user is also 
+able to change the grammar file dynamically.
+
+For related grammar file in text form, please refer to  "CWNN APPLICATION DEVELOPMENT
+MANUAL".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 7-6 -

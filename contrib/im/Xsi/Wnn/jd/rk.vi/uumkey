@@ -1,0 +1,41 @@
+;
+; $Id: uumkey,v 1.1 1991/09/09 22:40:05 ohm Exp $
+;
+;; uumkey For VI-mode
+
+include	@LIBDIR/uumkey
+
+unset	yank_e 
+yank 				^Y
+;;
+unset	quote
+;unset	quote_e
+quote_e				^V
+
+unset	kuten_e
+kuten 				^]
+kuten_e 			0x97
+;;
+unset	jis
+unset	jis_e
+jis_e				0x98
+jis				^_
+unset	sainyuuryoku_e
+sainyuuryoku 			^U
+;;;
+unset	touroku
+unset	touroku_e
+touroku_e 			0x95
+touroku 			^T
+unset	jisho_utility_e
+jisho_utility_e			0x84 0x96
+
+unset	redraw_line
+kana_henkan			^C
+romaji_henkan			^R
+romaji_nobi_henkan		^R
+
+;sakujo_kouho			^X
+;toggle_send_ascii_char		^X
+;pop_send_ascii_char		^X
+quote_send_ascii_char		^X

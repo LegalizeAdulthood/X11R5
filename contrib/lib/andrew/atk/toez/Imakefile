@@ -1,0 +1,26 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+DOBJS = toeza.do
+IHFILES = toeza.ih
+OBJS = readscrb.o
+
+NormalObjectRule()
+NormalATKRule()
+
+LibraryTarget(libtoez.a, $(OBJS))
+InstallLibrary(libtoez.a, ${DESTDIR}/lib/atk)
+
+DynamicMultiObject(toeza.do, toeza.o readscrb.o,,)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallLink(runapp, ${DESTDIR}/bin/toez)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(toez.help, ${DESTDIR}/help)
+InstallHelpAlias(toez, abe bea 2ez)

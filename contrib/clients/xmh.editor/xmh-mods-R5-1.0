@@ -1,0 +1,2665 @@
+diff -c3 ../xmh/Imakefile ./Imakefile
+*** ../xmh/Imakefile	Mon Jul 22 13:57:23 1991
+--- ./Imakefile	Thu Sep  5 22:07:48 1991
+***************
+*** 2,16 ****
+          DEPLIBS = XawClientDepLibs
+  LOCAL_LIBRARIES = XawClientLibs
+  
+      XMH_BITMAPS = black6 box6
+             SRCS = bbox.c command.c compfuncs.c folder.c init.c main.c \
+                    menu.c mlist.c msg.c pick.c popup.c screen.c toc.c \
+                    tocfuncs.c tocutil.c tsource.c util.c viewfuncs.c \
+!                   miscfuncs.c
+             OBJS = bbox.o command.o compfuncs.o folder.o init.o main.o \
+                    menu.o mlist.o msg.o pick.o popup.o screen.o toc.o \
+                    tocfuncs.o tocutil.o tsource.o util.o viewfuncs.o \
+!                   miscfuncs.o
+  
+  
+  ComplexProgramTarget(xmh)
+--- 2,17 ----
+          DEPLIBS = XawClientDepLibs
+  LOCAL_LIBRARIES = XawClientLibs
+  
++         DEFINES = -DANNOTATE -DEDITOR -DFCC -DAPPEND -DFIX $(NDEFINES)
+      XMH_BITMAPS = black6 box6
+             SRCS = bbox.c command.c compfuncs.c folder.c init.c main.c \
+                    menu.c mlist.c msg.c pick.c popup.c screen.c toc.c \
+                    tocfuncs.c tocutil.c tsource.c util.c viewfuncs.c \
+!                   miscfuncs.c editor.c
+             OBJS = bbox.o command.o compfuncs.o folder.o init.o main.o \
+                    menu.o mlist.o msg.o pick.o popup.o screen.o toc.o \
+                    tocfuncs.o tocutil.o tsource.o util.o viewfuncs.o \
+!                   miscfuncs.o editor.o
+  
+  
+  ComplexProgramTarget(xmh)
+diff -c3 ../xmh/Patchlevel ./Patchlevel
+*** ../xmh/Patchlevel	Thu Sep  5 20:37:16 1991
+--- ./Patchlevel	Sat Aug  3 13:09:30 1991
+***************
+*** 0 ****
+--- 1 ----
++ Xmh.sei.mods patch.0
+diff -c3 ../xmh/README_MODS ./README_MODS
+*** ../xmh/README_MODS	Thu Sep  5 20:34:56 1991
+--- ./README_MODS	Sun Sep 15 10:15:06 1991
+***************
+*** 0 ****
+--- 1,169 ----
++ Copyright (c) 1991 by Carnegie Mellon University, Pittsburgh, PA.  The
++ Software Engineering Institute (SEI) is a federally funded research and
++ development center established and operated by Carnegie Mellon University
++ (CMU).  Sponsored by the U.S.  Department of Defense under contract
++ F19628-90-C-0003, the SEI is supported by the services and defense agencies,
++ with the U.S. Air Force as the executive contracting agent.
++ 
++ Permission to use, copy, modify, distribute, or sell this software and its
++ documentation for any purpose and without fee is hereby granted, provided that
++ the above copyright notice appear in all copies and that both that copyright
++ notice and this permission notice appear in supporting documentation.
++ Further, the names Software Engineering Institute or Carnegie Mellon
++ University may not be used in advertising or publicity pertaining to
++ distribution of the software without specific, written prior permission.  CMU
++ makes no claims or representations about the suitability of this software for
++ any purpose.  This software is provided "as is" and no warranty, express or
++ implied, is made by the SEI or CMU, as to the accuracy and functioning of the
++ program and related program material, nor shall the fact of distribution
++ constitute any such warranty.  No responsibility is assumed by the SEI or CMU
++ in connection herewith.
++ 
++ All C source changes are controlled by compilation switches. The modified
++ Imakefile has all switches turned on. Imakefile, xmh.man and Xmh.ad are also
++ modified.
++ 
++ Xmh has been tested and used at the SEI with all compilation switches on.
++ There has been very limited testing of a version built by applying only a
++ subset of the changes.
++ 
++ Comments and problems with these modifications can be mailed to
++ xmh-bugs@sei.cmu.edu. 
++ 
++ Installation:
++ 
++ 1) Apply the differences in the directory to be modified
++ 			
++ 	patch < xmh-mods-1.0
++ 
++ 2) Modify Imakefile to set the defines desired.
++ 
++ 	a) All of the following switches, EDITOR, ANNOTATE, APPEND, FCC, and
++ 	FIX are enabled in Imakefile.
++ 
++ 	Other switches
++ 
++ 		-DSYSV_SIGNAL 
++ 			System V signal handling requires that the routine that
++ 			catches the signal reset the signal handler. The
++ 			correct action is taken if either SYSV or SYSV_SIGNAL 
++ 			is defined.  One of these is required if the
++ 			confirmation box never appears or appears only the
++ 			first time after the user exits the external editor.
++ 
++ 		-DNEED_STRSTR 
++ 			if strstr is not in libc (Sun 4.0.3 and Ultrix 3.1)
++ 
++ 	b) There is a gnu xmh.el file available from ftp.sei.cmu.edu in
++ 	pub/xmh. If that file is available then add "#define GNU" statement 
++ 	that is commented out in editor.c. See the comments in that file
++ 	for futher documentation.  xmh.el  defines functions to prompt for 
++ 	a folder and message to insert in the current composition or to 
++ 	insert the current message.
++ 
++ 3) xmkmf
++ 
++ 4) Make the editor
++ 
++ 5) Install the modified Xmh.ad as Xmh or apply the differences for Xmh.ad to
++ your existing Xmh resource file.  There are new resources for EDITOR and
++ APPEND.
++ 
++ ------------------------------------------------------------------------------
++ 
++ EDITOR:
++ 
++ Permit the use of an external editor. The syntax is like xrn's
++ 
++ Xmh.editorCommand:      	gnu -i -w 80x35+100+20 %s
++ 
++ app_resources.editorCommand is a sprintf'able string with a %s where the
++ file name should be placed.  The result should be a command that
++ handles all editing and windowing.
++ 
++ Examples are:
++ 
++ emacsclient %s
++ xterm -e vi %s
++ xterm -e microEmacs %s
++ 
++ The default is the internal editor, but
++ 
++ Xmh.editorCommand:      	internal
++ 
++ or
++ 
++ Xmh.editorCommand:      	
++ 
++ also selects the internal editor in case the application resource file defines
++ the resource to be an external editor.  Concurrent compositions are permitted.
++ 
++ The Xmh.ad file has the additional entries
++ 
++ Xmh*editagain.Label:		Edit Again
++ Xmh*editcancel.Label:		Cancel
++ Xmh*editsave.Label:		Save Message
++ Xmh*editsend.Label:		Send
++ 
++ for the mail dialog box that appears when editing is complete. If the
++ message has not been modified then only the first two options appear.
++ 
++ ------------------------------------------------------------------------------
++ 
++ ANNOTATE:  
++ 
++ Support MH annotations. The resource
++ 
++ Xmh.annotateMsg:		true
++ 
++ will use "anno" for annotations for "forwards" and "replies".
++ 
++ ------------------------------------------------------------------------------
++ 
++ APPEND:
++ 
++ Append a message to a file.  The code was adapted from xrn.
++ The last file name used is the default for the next call of APPEND.
++ 
++ 
++ The Xmh.ad file has
++ 
++ Xmh*append.Label:		Append
++ 
++ There are two routines called from the predefined menus,
++ 
++ 	DoAppend
++ 	DoAppendView
++ 
++ and two routines that could appear in the application-specific resource
++ file.
++ 
++ 	XmhAppend
++ 	XmhAppendView
++ ------------------------------------------------------------------------------
++ 
++ FCC:
++ 
++ Update the toc scan if the folder is a target of an fcc. This is
++ primarily for those that do an Fcc +inbox as it avoids a rescan.  The
++ modifications also avoid doing a push on a send if you have an Fcc: +inbox.
++ The fcc entry can be overwritten by an inc if the send is delayed.
++ 
++ The implementation is pretty straight forward. xmh already updates the display
++ on a refile. "fcc" is implemented as a refile so most of the code was there.
++ There is one complication. If the user has an error and the MH send routine
++ fails, then only in the -push case is the message is returned to the sender.
++ Since the automatic action is to remove the draft, we modified MsgSend to
++ return a status (0 -- OK, -1 failure) and use that status to control removal
++ of the message. The status is not checked if the internal editor is used.  In
++ case of error, there will be a PopUpNotice during the send and the user has
++ the option to save or edit the message.
++ 
++ ------------------------------------------------------------------------------
++ 
++ FIX:
++ 
++ Remove draft messages that generate errors on scan. Mail composition
++ fails if a poorly formed draft is left in the +drafts folder. The routine
++ cleandrafts removes drafts on which scan reports fatal errors.
++ 
+diff -c3 ../xmh/Xmh.ad ./Xmh.ad
+*** ../xmh/Xmh.ad	Tue Jul 23 18:15:29 1991
+--- ./Xmh.ad	Thu Sep  5 20:22:29 1991
+***************
+*** 36,41 ****
+--- 36,42 ----
+  *useAsComp.Label:		Use as Composition
+  *commit.Label:			Commit Changes
+  *print.Label:			Print
++ *append.Label:			Append
+  *pack.Label:			Pack Folder
+  *sort.Label:			Sort Folder
+  *rescan.Label:			Rescan Folder
+***************
+*** 50,56 ****
+--- 51,62 ----
+  *reset.Label:			New Headers
+  *insert.Label:			Insert
+  *optionMenu*reverse.Label:	Read in Reverse
++ *editagain.Label:		Edit Again
++ *editcancel.Label:		Cancel
++ *editsave.Label:		Save Message
++ *editsend.Label:		Send
+  
++ 
+  Xmh.notice.Dialog.Text.BorderWidth: 0
+  Xmh.notice.Dialog.Text.TextSink.Font: -*-courier-bold-r-*--*-120-*-*-*-*-iso8859-1
+  Xmh.notice.Dialog.confirm.Label:Acknowledged
+***************
+*** 155,160 ****
+--- 161,168 ----
+  	<Btn1Down>,<Btn1Up>:	XmhSaveView()unset()\n
+  *viewButtons.print.Translations:#override\n\
+  	<Btn1Down>,<Btn1Up>:	XmhPrintView()unset()\n
++ *viewButtons.append.Translations:#override\n\
++ 	<Btn1Down>,<Btn1Up>:	XmhAppendView()unset()\n
+  *viewButtons.delete.Translations:#override\n\
+  	<Btn1Down>,<Btn1Up>:	XmhViewMarkDelete()unset()\n
+  
+diff -c3 ../xmh/actions.h ./actions.h
+*** ../xmh/actions.h	Wed Jul 17 21:22:33 1991
+--- ./actions.h	Sun Sep 15 10:15:06 1991
+***************
+*** 67,72 ****
+--- 67,76 ----
+  extern void	XmhForceRescan();
+  extern void	XmhViewNextMessage();
+  extern void	XmhViewPreviousMessage();
++ #ifdef APPEND
++ extern void     XmhAppend();
++ extern void     XmhAppendView();
++ #endif /* APPEND */
+  extern void	XmhMarkDelete();
+  extern void	XmhMarkMove();
+  extern void	XmhMarkCopy();
+diff -c3 ../xmh/command.c ./command.c
+*** ../xmh/command.c	Tue Jul 16 20:34:55 1991
+--- ./command.c	Thu Sep  5 22:25:42 1991
+***************
+*** 130,137 ****
+--- 130,146 ----
+  }
+  
+  
++ #ifdef EDITOR
++ extern void catch_sigchld();
++ int Do_pid;
++ 
++ int childdone;		/* Gets nonzero when the child process
++ 				   finishes. */
++ #else
+  static int childdone;		/* Gets nonzero when the child process
+  				   finishes. */
++ #endif /* EDITOR */
++ 
+  /* ARGSUSED */
+  static void
+  ChildDone(n)
+***************
+*** 155,161 ****
+--- 164,172 ----
+      XtAppContext appCtx = XtWidgetToApplicationContext(toplevel);
+      int return_status;
+      int old_stdin, old_stdout, old_stderr;
++ #ifndef EDITOR
+      int pid;
++ #endif /* EDITOR */
+      fd_set readfds, fds;
+      Boolean output_to_pipe = False;
+      CommandStatus status = XtNew(CommandStatusRec);
+***************
+*** 218,240 ****
+--- 229,275 ----
+      status->lastInput = lastInput;
+      status->error_buffer = NULL;
+      status->error_buf_size = 0;
++ #ifndef EDITOR
+      (void) signal(SIGCHLD, ChildDone);
+      pid = vfork();
++ #else
++ #if defined(SYSV) || defined(SYSV_SIGNAL)
++     (void) signal(SIGCHLD, catch_sigchld);
++ #endif
++     Do_pid = vfork();
++ #endif /* EDITOR */
+      if (inputfd != -1) {
++ #ifdef EDITOR
++ 	if (Do_pid != 0) dup2(old_stdin,  fileno(stdin));
++ #else
+  	if (pid != 0) dup2(old_stdin,  fileno(stdin));
++ #endif /* EDITOR */
+  	close(old_stdin);
+      }
+      if (outputfd != -1) {
++ #ifdef EDITOR
++ 	if (Do_pid != 0) dup2(old_stdout, fileno(stdout));
++ #else
+  	if (pid != 0) dup2(old_stdout, fileno(stdout));
++ #endif /* EDITOR */
+  	close(old_stdout);
+      }
+      if (status->error_pipe[0]) {
++ #ifdef EDITOR
++ 	if (Do_pid != 0) dup2(old_stderr, fileno(stderr));
++ #else
+  	if (pid != 0) dup2(old_stderr, fileno(stderr));
++ #endif /* EDITOR */
+  	close(old_stderr);
+      }
+  
++ #ifdef EDITOR
++     if (Do_pid == -1) Punt("Couldn't fork!");
++     if (Do_pid) {			/* We're the parent process. */
++ #else
+      if (pid == -1) Punt("Couldn't fork!");
+      if (pid) {			/* We're the parent process. */
++ #endif /* EDITOR */
+  	XEvent typeAheadQueue[TYPEAHEADSIZE], *eventP = typeAheadQueue;
+  	XEvent *altQueue = NULL;
+  	int type_ahead_count = 0, alt_queue_size = 0, alt_queue_count = 0;
+***************
+*** 244,251 ****
+--- 279,291 ----
+  	    num_fds = status->output_pipe[0]+1;
+  	if (status->error_pipe[0] >= num_fds)
+  	    num_fds = status->error_pipe[0]+1;
++ #ifdef EDITOR
++ 	status->child_pid = Do_pid;
++ 	DEBUG1( " pid=%d ", Do_pid )
++ #else
+  	status->child_pid = pid;
+  	DEBUG1( " pid=%d ", pid )
++ #endif /* EDITOR */
+  	subProcessRunning = True;
+  	while (!childdone) {
+  	    while (!(XtAppPending(app) & XtIMXEvent)) {
+***************
+*** 321,327 ****
+--- 361,369 ----
+  		XtDispatchEvent(eventP);
+  	    }
+  	}
++ #ifndef EDITOR
+  	(void) wait(0);
++ #endif /* EDITOR */
+  
+  	DEBUG("done\n")
+  	subProcessRunning = False;
+diff -c3 ../xmh/compfuncs.c ./compfuncs.c
+*** ../xmh/compfuncs.c	Fri Oct  6 15:02:29 1989
+--- ./compfuncs.c	Sun Sep 15 10:13:24 1991
+***************
+*** 85,92 ****
+--- 85,107 ----
+      Scrn scrn = ScrnFromWidget(w);
+      if (scrn->msg == NULL) return;
+      if (MsgChanged(scrn->msg) || ! MsgGetReapable(scrn->msg)) {
++ #ifdef EDITOR
++ #ifdef FCC       
++ 	if(MsgSend(scrn->msg,False)== 0)
++ 	    MsgSetReapable(scrn->msg);
++ #else
++ 	MsgSend(scrn->msg,False);
++ 	MsgSetReapable(scrn->msg);
++ #endif /* FCC */
++ #else
++ #ifdef FCC       
++ 	if(MsgSend(scrn->msg)== 0)
++ 	    MsgSetReapable(scrn->msg);
++ #else
+  	MsgSend(scrn->msg);
+  	MsgSetReapable(scrn->msg);
++ #endif /* FCC */
++ #endif /* EDITOR */
+      }
+  }
+  
+***************
+*** 104,110 ****
+--- 119,129 ----
+      DEBUG("XmhSave\n")
+      if (scrn->msg == NULL) return;
+      MsgSetPermanent(scrn->msg);
++ #ifdef EDITOR
++     if (MsgSaveChanges(scrn->msg,False))
++ #else
+      if (MsgSaveChanges(scrn->msg))
++ #endif /* EDITOR */
+  	MsgClearReapable(scrn->msg);
+  }
+  
+***************
+*** 121,126 ****
+      msg = TocMakeNewMsg(DraftsFolder);
+      MsgLoadForward(scrn, msg, mlist);
+      MsgSetTemporary(msg);
+!     MsgSetScrnForComp(msg, scrn);
+!     MapScrn(scrn);
+  }
+--- 140,156 ----
+      msg = TocMakeNewMsg(DraftsFolder);
+      MsgLoadForward(scrn, msg, mlist);
+      MsgSetTemporary(msg);
+! #ifdef ANNOTATE
+!     MsgSetAnnotation(msg,(Msg)0,mlist, "Forwarded:");
+! #endif /* ANNOTATE */
+! #ifdef EDITOR
+!     if(app_resources.editorCommand)
+! 	(void) compose_editor(msg,(Msg)0,(Widget)0);
+!     else{
+! #endif /* EDITOR */
+! 	MsgSetScrnForComp(msg, scrn);
+! 	MapScrn(scrn);
+! #ifdef EDITOR
+!     }
+! #endif /* EDITOR */
+  }
+diff -c3 ../xmh/editor.c ./editor.c
+*** ../xmh/editor.c	Thu Sep  5 20:34:56 1991
+--- ./editor.c	Sun Sep 15 10:15:06 1991
+***************
+*** 0 ****
+--- 1,429 ----
++ /* 
++ 
++ Copyright (c) 1991 by Carnegie Mellon University, Pittsburgh, PA.  The
++ Software Engineering Institute (SEI) is a federally funded research and
++ development center established and operated by Carnegie Mellon University
++ (CMU).  Sponsored by the U.S.  Department of Defense under contract
++ F19628-90-C-0003, the SEI is supported by the services and defense agencies,
++ with the U.S. Air Force as the executive contracting agent.
++ 
++ Permission to use, copy, modify, distribute, or sell this software and its
++ documentation for any purpose and without fee is hereby granted, provided that
++ the above copyright notice appear in all copies and that both that copyright
++ notice and this permission notice appear in supporting documentation.
++ Further, the names Software Engineering Institute or Carnegie Mellon
++ University may not be used in advertising or publicity pertaining to
++ distribution of the software without specific, written prior permission.  CMU
++ makes no claims or representations about the suitability of this software for
++ any purpose.  This software is provided "as is" and no warranty, express or
++ implied, is made by the SEI or CMU, as to the accuracy and functioning of the
++ program and related program material, nor shall the fact of distribution
++ constitute any such warranty.  No responsibility is assumed by the SEI or CMU
++ in connection herewith.
++ 
++ */
++ 
++ #include "xmh.h"
++ #ifdef EDITOR
++ #include <X11/Xos.h>
++ #include "bboxint.h"
++ #include "tocintrnl.h"
++ #include <X11/Xaw/Cardinals.h>
++ #include <ctype.h>
++ #include <stdio.h>
++ #include <errno.h>
++ #include <sys/stat.h>
++ #include <signal.h>
++ #include <errno.h>
++ 
++ #ifdef macII
++ #define vfork() fork()
++ #endif /* macII */
++ 
++ #if defined(SYSV) && !defined(hpux)
++ #define vfork() fork()
++ #endif /* SYSV and not hpux */
++ 
++ /* define GNU if the custom lisp code for message insert is desired */
++ /* see README_MODS for access to xmh.el */
++ /* #define GNU "gnu" */
++ 
++ 
++ #define errmsg(a) ((a < sys_nerr) ? sys_errlist[a] : "unknown error")
++ extern int errno, sys_nerr;
++ extern char *sys_errlist[];
++ 
++ /* create a lisp file that defines or loads lisp functions that inserts
++ current message or prompt for folder and message number. This depends on
++ finding xmh.el or xmh.elc in the GNU load-path */
++ 
++ #ifdef GNU
++ static char *putgnu(file,folder)
++ char *file,*folder;
++ {
++     char *getenv();
++     static char filename[512];
++     FILE *F;
++     char *home;
++ 
++     home = getenv("HOME");
++     if (home == 0)
++ 	return 0;
++     sprintf(filename,"%s/.xmh_com",home);
++     if(F = fopen(filename,"w")){
++ 	if(file)
++ 	    fprintf(F,
++ 		"(define-key global-map \"\\^C\\^Y\" \'xmh-insert-reply)\n");
++ 	fprintf(F,
++ 		"(define-key global-map \"\\^C\\^I\" \'xmh-insert-message)\n");
++ 	fprintf(F,"(autoload \'xmh-insert-message \"xmh\" nil t)\n");
++ 	if(file)
++ 	    fprintf(F,"(autoload \'xmh-load-reply \"xmh\" nil t)\n");
++ 	if(folder)
++ 	    fprintf(F,"(setq xmh-sent-from-folder \"+%s\")\n",folder);
++ 	if(file){
++ 	    fprintf(F,"(defun xmh-insert-reply()\n");
++ 	    fprintf(F,"\"Insert message for reply for forward\"\n");
++ 	    fprintf(F,"(interactive)\n");
++ 	    fprintf(F,"(xmh-load-reply \"%s\")\n)\n",file);
++ 	}
++     } 
++     fclose(F);
++     return filename;
++ }
++ #endif /* GNU */
++ 
++ void Cleanup(mess_list)
++ Message_list *mess_list;
++ {
++     mess_list->action = Not_Used;
++     mess_list->message = NULL;
++     XtFree(mess_list->command);
++     XtFree(mess_list->FileName);
++ }
++ 
++ 
++ void EditRemoveMsg(msg)
++      Msg msg;
++ {
++     msg->num_scrns = 0;
++     if(msg->source)
++ 	XtDestroyWidget(msg->source);
++     msg->source = NULL;
++     if (msg->temporary) {
++ 	(void) unlink(MsgFileName(msg));
++ 	TocRemoveMsg(msg->toc, msg);
++ 	MsgFree(msg);
++     }		
++ }
++ 
++ /* ARGSUSED */
++ void SendHandler(widget, client_data, call_data)
++ Widget widget;
++ caddr_t client_data;
++ caddr_t call_data;
++ {
++     
++     Message_list *mess_list;
++     mess_list = (Message_list *) client_data;
++ #ifdef FCC
++     if(MsgSend(mess_list->message,True) == 0)
++ #else
++     MsgSend(mess_list->message,True);
++ #endif /* FCC */
++ 	EditRemoveMsg(mess_list->message);
++     Cleanup(mess_list);
++ }
++ 
++ 
++ int MAXLIST = 50;
++ 
++ Message_list MList[50];
++ 
++ void
++     DummyCall()
++ {
++ }
++ 
++ /* called either on initial editor or from edit again */
++ void
++ call_editor(buffer,msg,filename,origtime,called_from)
++ char * buffer;
++ Msg msg;
++ char * filename;
++ long origtime;
++ Widget called_from;
++ {
++     int M,i,maxdesc,forkpid;
++     char *argv[20];
++     char *p;
++     char *strtok();
++     for(M = 0 ; M < MAXLIST; M++)
++ 	if(MList[M].action  == Not_Used)
++ 	    break;
++     if(M >= MAXLIST) {
++ 	PopupError((Widget)NULL,"Too many concurrent compositions");
++ 	return;
++     }
++     MList[M].action = Editing;
++     MList[M].message = msg;
++     MList[M].FileName = XtNewString(filename); 
++     MList[M].lasttime = origtime;
++     MList[M].command = XtNewString(buffer);
++     MList[M].called_from = called_from;
++     if ((forkpid = vfork()) == 0) {
++ 	maxdesc = getdtablesize();
++ 	for (i = 3; i < maxdesc; i++) {
++ 	    (void) close(i);
++ 	}
++ 	i = 0;
++ 	p = strtok(buffer," \t");
++ 	/* use argv form  rather than
++ 	    (void) execvp("/bin/csh", "csh", "-f", "-c", buffer, 0)
++ 	    The latter generates the process number of the shell and makes it
++ 	    impossible to kill editor later. This approach generates the
++ 	    process number of the editor or xterm */
++ 
++ 	while(p){
++ 	    argv[i++] = p;
++ 	    p = strtok((char *)0," \t");
++ 	}
++ 	argv[i] = 0;
++ 
++ 	execvp(argv[0],argv);
++ 	(void) fprintf(stderr, "execl of %s failed\n", buffer);
++ 	(void) _exit(127);
++     }
++     if (forkpid < 0) {
++ 	char error_buffer[512];
++ 	sprintf(error_buffer, "Can not execute editor (%s)",
++ 	    	errmsg(errno));
++ 	XtFree(MList[i].FileName);
++ 	XtFree(MList[i].command); 
++ 	PopupError((Widget)NULL,error_buffer);
++     } else {
++ 	MList[M].process_number = forkpid;
++     }
++ }
++ 
++ 
++ /* ARGSUSED */
++ void ReEditHandler(widget, client_data, call_data)
++ Widget widget;
++ caddr_t client_data;
++ caddr_t call_data;
++ {
++     Message_list *mess_list;
++     mess_list = (Message_list *) client_data;
++     (void)call_editor(mess_list->command,
++ 		      mess_list->message,mess_list->FileName,
++ 		      mess_list->lasttime,mess_list->called_from);
++     Cleanup(mess_list);
++ }
++ 
++ 
++ /* ARGSUSED */
++ void CancelHandler(widget, client_data, call_data)
++ Widget widget;
++ caddr_t client_data;
++ caddr_t call_data;
++ {
++     Message_list *mess_list;
++     mess_list = (Message_list *) client_data;
++     EditRemoveMsg(mess_list->message);
++     Cleanup(mess_list);
++ }
++ 
++ /* ARGSUSED */
++ void SaveHandler(widget, client_data, call_data)
++ Widget widget;
++ caddr_t client_data;
++ caddr_t call_data;
++ {
++     Message_list *mess_list;
++     mess_list = (Message_list *) client_data;
++ 
++     MsgSetPermanent(mess_list->message);
++     if (MsgSaveChanges(mess_list->message,True))
++ 	MsgClearReapable(mess_list->message);
++     Cleanup(mess_list);
++ 
++ }
++ 
++ void kill_editors()
++ {
++     int i;
++     (void) signal(SIGCHLD, SIG_DFL);
++     for(i = 0; i< MAXLIST; i++)
++ 	if(MList[i].action == Editing){
++ 	    kill(MList[i].process_number,SIGKILL);
++ 	}
++ }
++ 
++ /* defined  in command.c */
++ 
++ extern childdone;
++ extern Do_pid;
++ 
++ int Do_Mail ;
++ 
++ /* do as little as possible here. Set flags so that we can do the
++ work from the main loop so as to avoid recursion in the signal handler*/
++ 
++ extern int outchannel;
++ 
++ /*ARGSUSED*/
++ void
++ catch_sigchld(signo)
++ int signo;
++ {
++     
++     int forkpid,i;
++ 
++     if (signo != SIGCHLD) {
++ #if defined(SYSV) || defined(SYSV_SIGNAL)
++ 	signal(SIGCHLD,  catch_sigchld);
++ #endif
++ 	return;
++ 	/* whoops! */
++     }
++ 
++     forkpid = wait((int *)NULL);
++ 
++ #if defined(SYSV) || defined(SYSV_SIGNAL)
++     signal(SIGCHLD,  catch_sigchld);
++ #endif
++ 
++ /* This is from one of the routines in command.c. Just set the flag and 
++ return */
++     if (forkpid == Do_pid){
++ 	childdone++;
++ 	return;
++     }
++ /* should be an editor exiting */
++     for(i = 0 ; i < MAXLIST; i++)
++ 	if(MList[i].process_number == forkpid){
++ 	    MList[i].action = Send;
++ 	    Do_Mail = True;
++ 	    /* this breaks out of the wait_for_X_event call in the main loop */
++ 	    write(outchannel,"1",1);
++ 	    return;
++ 	}
++     return;
++ }
++ 
++ /* Called from mail loop if there is processing to be done. */
++ void
++ Process_Mail()
++ {
++     
++     int i;
++ 
++      if (app_resources.block_events_on_busy) 
++ 	 ShowBusyCursor();
++     Do_Mail = 0;
++     for(i = 0 ; i < MAXLIST; i++)
++ 	if(MList[i].action == Send){
++ 	    if(MList[i].message){
++ 		MList[i].action = Select;
++ 		(void)PopupMail(&MList[i]);
++ 	    }
++ 	    else{
++ 		MList[i].action = Not_Used;
++ 		PopupError((Widget)NULL,"Message pointer NULL");
++ 	    }
++ 	}
++      if (app_resources.block_events_on_busy) 
++ 	 UnshowBusyCursor();
++     return;
++ }
++ 
++ 
++ /* initial setup */
++ void
++ SetUpProcessList()
++ 
++ {
++     int i;
++ 
++     Do_Mail = False;
++     for(i = 0; i< MAXLIST; i++){
++ 	 MList[i].message = NULL;
++ 	 MList[i].action = Not_Used;
++      }
++ /* used by editor as well as process called by command.c routines */
++     signal(SIGCHLD,  catch_sigchld);
++ }
++ 
++ 
++ /* assocmsg is non-nil if this is a reply or forward */
++ 
++ void compose_editor(msg,assocmsg,called_from)
++ Msg msg,assocmsg;
++ Widget called_from;
++ {
++     struct stat originalBuf;
++     char FileName[512];
++     char buffer[512];
++ 
++     if (app_resources.editorCommand != 0) {
++ 	strcpy(FileName,MsgFileName(msg));
++ 	if (stat(FileName, &originalBuf) == -1) {
++ 	    PopupError((Widget)NULL,"Cannot stat the draft file");
++ 	    return;
++ 	}
++ 	
++ 	/*
++ 	 * app_resources.editorCommand is a sprintf'able string with a %s where the
++ 	 * file name should be placed.  The result should be a command that
++ 	 * handles all editing and windowing.
++ 	 *
++ 	 * Examples are:
++ 	 *
++ 	 *   emacsclient %s
++ 	 *   xterm -e vi %s
++ 	 *   xterm -e microEmacs %s
++ 	 *
++ 	 */
++ 
++ #ifdef GNU
++ /* we generate a lisp file with autoloads for xmh.el as well as
++ the bindings for yank current message and insert message */
++ 	if (app_resources.useMHE ||
++ 	    !strncmp(app_resources.editorCommand,GNU,strlen(GNU))){
++ 	    char *q,*p;
++ 	    char buf[512];
++ 	    char buf2[512];
++ 	    char *strpbrk();
++ 	    char *folder;
++ 	    Scrn scrn;
++ 	    
++ 	    if (called_from){
++ 		scrn = ScrnFromWidget(called_from);
++ 		if(scrn->toc)
++ 		    folder = scrn->toc->foldername;
++ 		else
++ 		    folder = 0;
++ 	    }
++ 	    else
++ 		folder = 0;
++ 	    if(assocmsg)
++ 		p = putgnu(MsgFileName(assocmsg),folder);
++ 	    else
++ 		p = putgnu((char *)0,folder);
++ 	    strcpy(buf, app_resources.editorCommand);
++ 	    q = strpbrk(buf," \t");
++ 	    *q++ = '\0';
++ 	    sprintf(buf2, "%s -l %%s %s", buf, q);
++ 	    (void) sprintf(buffer, buf2, p,FileName);
++ 	}
++ 	else
++ #endif /* GNU */
++ 	    (void) sprintf(buffer, app_resources.editorCommand, FileName);
++ 	(void) call_editor(buffer,msg,FileName, originalBuf.st_mtime,
++ 			   called_from);
++ 	return;
++     }
++ }
++ 
++ #endif /* EDITOR */
+diff -c3 ../xmh/externs.h ./externs.h
+*** ../xmh/externs.h	Mon Jul 22 21:30:14 1991
+--- ./externs.h	Sun Sep 15 10:15:06 1991
+***************
+*** 48,53 ****
+--- 48,67 ----
+  
+  extern void 	DoResetCompose		(/* Widget, XtPointer, XtPointer */);
+  
++ #ifdef EDITOR
++         /* from editor.c */
++ 
++ extern void     SendHandler         (/* Widget, caddr_t, caddr_t */);
++ extern void     CancelHandler       (/* Widget, caddr_t, caddr_t */);
++ extern void     ReEditHandler       (/* Widget, caddr_t, caddr_t */);
++ extern void     SaveHandler         (/* Widget, caddr_t, caddr_t */);
++ extern void     kill_editors        ();
++ extern void     compose_editor      (/* Msg, Msg, Widget */);
++ extern void     SetUpProcessList    ();
++ extern void     Process_Mail        ();
++ extern void     Cleanup             ( /* Message_list */  );
++ #endif /* EDITOR */
++ 
+  	/* from folder.c */
+  
+  extern void	DoClose			(/* Widget, XtPointer, XtPointer */);
+***************
+*** 70,78 ****
+--- 84,99 ----
+  	/* from msg.c */
+  
+  extern Widget   CreateFileSource	(/* Widget, String, Boolean */);
++ #ifdef APPEND
++ extern void     AppendMessage           (/* String, String */);
++ #endif /* APPEND */
+  
+  	/* from popup.c */
+  
++ #ifdef EDITOR
++ extern void     PopupMail               (/* Message_list */);
++ extern void	PopupPromptDefault	(/* String, String, XtCallbackProc */);
++ #endif /* EDITOR */
+  extern void	DestroyPopup	(/* Widget, XtPointer, XtPointer */);
+  extern void	WMDeletePopup	(/* Widget, XEvent* */);
+  extern void	PopupPrompt	(/* Widget, String, XtCallbackProc */);
+***************
+*** 91,96 ****
+--- 112,120 ----
+  extern void	DestroyScrn		(/* Scrn */);
+  extern void	MapScrn			(/* Scrn */);
+  extern Scrn	ScrnFromWidget		(/* Widget */);
++ #ifdef FCC
++ extern Msg TUAppendToc                   (/* Toc, String */);
++ #endif /* FCC */
+  
+  	/* from tocfuncs.c */
+  
+***************
+*** 112,117 ****
+--- 136,145 ----
+  extern void	DoForward		(/* Widget, XtPointer, XtPointer */);
+  extern void	DoTocUseAsComp		(/* Widget, XtPointer, XtPointer */);
+  extern void	DoPrint			(/* Widget, XtPointer, XtPointer */);
++ #ifdef APPEND
++ extern void	DoAppendView		(/* Widget, XtPointer, XtPointer */);
++ extern void	DoAppend		(/* Widget, XtPointer, XtPointer */);
++ #endif /* APPEND */
+  extern void	DoPickMessages		(/* Widget, XtPointer, XtPointer */);
+  extern void	DoSelectSequence	(/* Widget, XtPointer, XtPointer */);
+  extern void	DoOpenSeq		(/* Widget, XtPointer, XtPointer */);
+diff -c3 ../xmh/folder.c ./folder.c
+*** ../xmh/folder.c	Sat Jul 20 20:46:55 1991
+--- ./folder.c	Sun Sep 15 10:13:26 1991
+***************
+*** 106,111 ****
+--- 106,114 ----
+  	XtUnmapWidget(scrn->parent);
+  	XtDestroyApplicationContext
+  	    (XtWidgetToApplicationContext(scrn->parent));
++ #ifdef EDITOR
++ 	(void) kill_editors();
++ #endif /* EDITOR */
+  	exit(0);
+  #endif
+      }
+***************
+*** 189,201 ****
+      XtPointer	client_data;
+      XtPointer	call_data;
+  {
+!     Scrn        scrn = NewCompScrn();
+      Msg		msg = TocMakeNewMsg(DraftsFolder);
+      MsgLoadComposition(msg);
+      MsgSetTemporary(msg);
+      MsgSetReapable(msg);
+!     MsgSetScrnForComp(msg, scrn);
+!     MapScrn(scrn);
+  }
+  
+     
+--- 192,219 ----
+      XtPointer	client_data;
+      XtPointer	call_data;
+  {
+!     Scrn        scrn;
+!     Scrn        vscrn;
+      Msg		msg = TocMakeNewMsg(DraftsFolder);
+      MsgLoadComposition(msg);
+      MsgSetTemporary(msg);
+      MsgSetReapable(msg);
+! #ifdef ANNOTATE
+!     MsgSetAnnotation(msg,(Msg)0,(MsgList)0,(char *)0);
+! #endif /* ANNOTATE */
+! #ifdef EDITOR
+!     if(app_resources.editorCommand){
+! 	vscrn = ScrnFromWidget(widget);
+! 	(void) compose_editor(msg,(Msg)0,vscrn->widget);
+!     }
+!     else{
+! #endif /* EDITOR */
+! 	scrn = NewCompScrn();
+! 	MsgSetScrnForComp(msg, scrn);
+! 	MapScrn(scrn);
+! #ifdef EDITOR
+!     }
+! #endif /* EDITOR */
+  }
+  
+     
+diff -c3 ../xmh/globals.h ./globals.h
+*** ../xmh/globals.h	Thu Jul 18 21:04:08 1991
+--- ./globals.h	Sun Sep 15 10:15:06 1991
+***************
+*** 40,45 ****
+--- 40,50 ----
+  ext Atom	wm_save_yourself;	/* see ICCCM on session management */
+  ext Atom	protocolList[2];	/* contains the two above */
+  
++ #ifdef ANNOTATE
++ ext Msg AnnotateAssocMsg;
++ ext MsgList AnnotateMsgList;
++ ext char * AnnotateField;
++ #endif /* ANNOTATE */
+  ext struct _resources {
+      Boolean	debug;
+      char	*mail_path;		/* mh's mail directory. */
+***************
+*** 63,68 ****
+--- 68,80 ----
+      char	*view_geometry;
+      char	*comp_geometry;
+      char	*pick_geometry;
++ #ifdef EDITOR
++     char	*editorCommand;
++     Boolean     *useMHE;
++ #endif /* EDITOR */
++ #ifdef ANNOTATE
++     Boolean     annotateMsg;
++ #endif /* ANNOTATE */
+      int		toc_percentage;		/* % of toc and view used by toc */
+      Boolean	new_mail_check;		/* should xmh check for new mail? */
+      Boolean	make_checkpoints;       /* should xmh save edits in progress?*/
+diff -c3 ../xmh/init.c ./init.c
+*** ../xmh/init.c	Tue Jul 23 17:43:22 1991
+--- ./init.c	Sun Sep 15 10:15:05 1991
+***************
+*** 108,113 ****
+--- 108,123 ----
+  
+      {"checkNewMail", "CheckNewMail", XtRBoolean, sizeof(Boolean),
+  	 Offset(new_mail_check), XtRImmediate, (XtPointer)True},
++ #ifdef EDITOR
++     {"editorCommand", "EditorCommand", XtRString, sizeof(char *),
++ 	 Offset(editorCommand), XtRString, NULL},
++     {"useMHE", "UseMHE", XtRBoolean, sizeof(Boolean),
++ 	 Offset(useMHE), XtRImmediate, (XtPointer)False},
++ #endif /* EDITOR */
++ #ifdef ANNOTATE
++     {"annotateMsg", "AnnotateMsg", XtRBoolean, sizeof(Boolean),
++ 	 Offset(annotateMsg), XtRImmediate, (XtPointer)False},
++ #endif /* ANNOTATE */
+      {"mailInterval", "Interval", XtRInt, sizeof(int),
+  	 Offset(mail_interval), XtRImmediate, (XtPointer)-1},
+      {"makeCheckpoints", "MakeCheckpoints", XtRBoolean, sizeof(Boolean),
+***************
+*** 253,258 ****
+--- 263,269 ----
+      char str[500], str2[500], *ptr;
+      Scrn scrn;
+      XtAppContext app;
++     char * strchr();
+      static XtActionsRec actions[] = {
+  
+  	/* general Xmh action procedures */
+***************
+*** 288,293 ****
+--- 299,308 ----
+  
+  	/* actions upon the currently selected message(s) */
+  
++ #ifdef APPEND
++ 	{"XmhAppend",                   XmhAppend},
++ 	{"XmhAppendView",               XmhAppendView},
++ #endif /* APPEND */
+  	{"XmhViewNextMessage",		XmhViewNextMessage},
+  	{"XmhViewPreviousMessage",	XmhViewPreviousMessage},
+  	{"XmhMarkDelete",		XmhMarkDelete},
+***************
+*** 372,377 ****
+--- 387,399 ----
+  	XtAddEventHandler(toplevel, StructureNotifyMask, False,
+  			  PopupAppDefaultsWarning, NULL);
+  
++ #ifdef EDITOR
++     if (app_resources.editorCommand && (
++ 	strspn(app_resources.editorCommand," ") ==
++ 	    strlen(app_resources.editorCommand) ||
++ 		strncmp(app_resources.editorCommand, "internal", 8) == 0))
++ 	    app_resources.editorCommand = 0;
++ #endif /* EDITOR */
+      if (app_resources.mail_waiting_flag) app_resources.new_mail_check = True;
+      if (app_resources.mail_interval == -1)
+  	app_resources.mail_interval = app_resources.check_frequency;
+diff -c3 ../xmh/main.c ./main.c
+*** ../xmh/main.c	Mon Jul 22 21:50:35 1991
+--- ./main.c	Sun Sep 15 10:13:04 1991
+***************
+*** 90,101 ****
+--- 90,121 ----
+  Boolean ExitLoop = FALSE;
+  #endif
+  
++ #ifdef EDITOR
++ extern int Do_Mail;
++ int inchannel, outchannel;
++ static void EditProcessDone() {
++     char buf[10];
++     if(Do_Mail){
++       read(inchannel,buf,1);
++       (void)Process_Mail();
++     }
++ }
++ #endif /* EDITOR */
++ 
+  main(argc, argv)
+  int argc;
+  char **argv;
+  {
+      XtAppContext appCtx;
++ #ifdef EDITOR
++     int sv[2];
+  
++     (void) SetUpProcessList();
++     pipe (sv);
++     inchannel = sv[0];
++     outchannel = sv[1];
++ #endif /* EDITOR */
++ 
+      InitializeWorld(argc, argv);
+      subProcessRunning = False;
+      appCtx = XtWidgetToApplicationContext(toplevel);
+***************
+*** 121,126 ****
+--- 141,150 ----
+      }
+  
+      lastInput.win = -1;		/* nothing mapped yet */
++ #ifdef EDITOR
++     XtAppAddInput(XtWidgetToApplicationContext(toplevel),
++                 inchannel, XtInputReadMask, EditProcessDone, NULL);
++ #endif /*  EDITOR */
+  #ifdef DEBUG_CLEANUP
+      while (!ExitLoop) {
+  #else
+diff -c3 ../xmh/msg.c ./msg.c
+*** ../xmh/msg.c	Wed Jul 24 20:30:48 1991
+--- ./msg.c	Fri Sep  6 00:33:44 1991
+***************
+*** 31,36 ****
+--- 31,42 ----
+  
+  #include "xmh.h"
+  #include "tocintrnl.h"
++ #ifdef ANNOTATE
++ #include <sys/stat.h>
++ #endif /* ANNOTATE */
++ #ifdef FCC
++ extern char *strstr();
++ #endif /* FCC */
+  
+  static int SetScrn();
+  
+***************
+*** 221,230 ****
+--- 227,249 ----
+  /* Save any changes to a message.  Also calls the toc routine to update the
+     scanline for this msg.  Returns True if saved, false otherwise. */
+  
++ #ifdef EDITOR
++ MsgSaveChanges(msg,ExtEditor)
++ Msg msg;
++ int ExtEditor;
++ #else
+  MsgSaveChanges(msg)
+  Msg msg;
++ #endif /* EDITOR */
+  {
+      int i;
++ #ifdef EDITOR
++     if(ExtEditor){
++ 	    if (!msg->temporary)
++ 		TocMsgChanged(msg->toc, msg);
++ 	    return True;
++ 	}
++ #endif /* EDITOR */
+      if (msg->source) {
+  	if (XawAsciiSave(msg->source)) {
+  	    for (i=0; i < (int) msg->num_scrns; i++)
+***************
+*** 652,658 ****
+--- 671,754 ----
+    XtSetValues(msg->source, args, (Cardinal) 1);
+  
+  }
++ #ifdef FCC
++ #include <ctype.h>
+  
++ /* get the scan line for the current message to insert in the toc's that
++ are on the fcc list */
++ 
++ char *MsgDraftScan(msg)
++ Msg msg;
++ {
++ 
++     char tmp1[512], tmp2[512];
++     char *p,*q;
++     char **argv;
++ 
++     argv = MakeArgv(3);
++     argv[0] = "scan";
++     sprintf(tmp1,"+%s",msg->toc->foldername);
++     argv[1] = tmp1;
++     sprintf(tmp2,"%d",msg->msgid);
++     argv[2] = tmp2;
++     p = DoCommandToString(argv);
++     XtFree((char *) argv);
++     if (p == NULL){
++ 	return NULL;
++     }
++     if(strncmp(p,"scan",4) == 0){
++ 	XtFree(p);
++ 	return NULL;
++     }
++     if(q = index(p,'*'))
++ 	*q = ' ';
++     sprintf(tmp1,"%s\n",p);
++     XtFree(p);
++     return XtNewString(tmp1);
++ }
++ 
++ /* append the scan of the msg to the toc of folders on the fcc list */
++ 
++ void MsgFccScan(ptr,msg)
++ Msg msg;
++ char *ptr;
++ {
++     char *q,*s;
++     Toc toc;
++     char * strpbrk();
++     char *scan;
++ 
++     q =ptr +4; /* skip by fcc: */
++     q = q + strspn(q," \t");
++     s = q;
++     while(s != 0 && *s != '\0' && (isalpha(*s) || *s == '+')){
++ 	/* find end of token */
++ 	q = strpbrk(q," \n\t");
++ 	if(q != 0){
++ 	    *q++ = '\0';
++ 	    q = q + strspn(q," \t");
++ 	}
++ 	if (*s == '+')
++ 	    s++;
++ 	if((toc = TocGetNamed(s)) && toc->scrn){
++ 	    scan = MsgDraftScan(msg);
++ 	    if(scan != NULL){
++ 		TocStopUpdate(toc);
++ 		(void) TUAppendToc(toc, scan);
++ 		toc->haschanged = TRUE;
++ 		toc->needscachesave = TRUE;
++ 		toc->needsrepaint = TRUE;
++ 		TocStartUpdate(toc);
++ 		XFlush(XtDisplay(toc->scrn[0]->parent));
++ 	    }
++ 	}
++ 	if(q == 0)	
++ 	    break;
++ 	s = q;
++     }
++ }
++ #endif /* FCC */
++ 
+  /* Send (i.e., mail) the given message as is.  First break it up into lines,
+     and copy it to a new file in the process.  The new file is one of 10
+     possible draft files; we rotate amoung the 10 so that the user can have up
+***************
+*** 661,675 ****
+--- 757,797 ----
+     prefix.  Also, these should stay in an area private to the user for
+     security.) */
+  
++ #ifdef EDITOR
++ #ifdef FCC
++ int MsgSend(msg,ExtEditor)
++ #else
++ void MsgSend(msg,ExtEditor)
++ #endif /* FCC */
++ Msg msg;
++ int ExtEditor;
++ #else
++ #ifdef FCC
++ int MsgSend(msg)
++ #else
+  void MsgSend(msg)
++ #endif /* FCC */
+  Msg msg;
++ #endif /* EDITOR */
+  {
+      FILEPTR from;
+      FILEPTR to;
+      int     p, c, l, inheader, sendwidth, sendbreakwidth;
++ #ifdef FCC
++     int retvalue;
++     int inboxfcc;
++ #endif /* FCC */
+      char   *ptr, *ptr2, **argv, str[100];
+      static sendcount = -1;
++ #ifdef EDITOR
++     (void) MsgSaveChanges(msg,ExtEditor);
++ #else
+      (void) MsgSaveChanges(msg);
++ #endif /* EDITOR */
++ #ifdef ANNOTATE
++     if (app_resources.annotateMsg != 0)
++ 	DoAnnotate(msg);
++ #endif /* ANNOTATE */
+      from = FOpenAndCheck(MsgFileName(msg), "r");
+      sendcount = (sendcount + 1) % 10;
+      (void) sprintf(str, "%s%d", xmhDraftFile, sendcount);
+***************
+*** 677,682 ****
+--- 799,809 ----
+      sendwidth = app_resources.send_line_width;
+      sendbreakwidth = app_resources.break_send_line_width;
+      inheader = TRUE;
++ #ifdef FCC
++ /* An fcc to inbox can be lost, if the send is done in background,
++ is delayed and the user does an inc for new mail */
++     inboxfcc = FALSE;
++ #endif /* FCC */
+      while (ptr = ReadLine(from)) {
+  	if (inheader) {
+  	    if (strncmpIgnoringCase(ptr, "sendwidth:", 10) == 0) {
+***************
+*** 683,688 ****
+--- 810,822 ----
+  		if (atoi(ptr+10) > 0) sendwidth = atoi(ptr+10);
+  		continue;
+  	    }
++ #ifdef FCC
++ 	    if (strncmpIgnoringCase(ptr, "fcc:", 4) == 0) {
++ 		MsgFccScan(ptr,msg);
++ 		if(strstr(ptr,"inbox")!= (char *)0)
++ 		    inboxfcc++;
++ 	    }
++ #endif /* FCC */
+  	    if (strncmpIgnoringCase(ptr, "sendbreakwidth:", 15) == 0) {
+  		if (atoi(ptr+15) > 0) sendbreakwidth = atoi(ptr+15);
+  		continue;
+***************
+*** 731,736 ****
+--- 865,886 ----
+      }
+      (void) myfclose(from);
+      (void) myfclose(to);
++ #ifdef FCC
++     if(inboxfcc){
++ 	argv = MakeArgv(2);
++ 	argv[0] = "send";
++ 	argv[1] = str;
++     }
++     else{
++ 	argv = MakeArgv(3);
++ 	argv[0] = "send";
++ 	argv[1] = "-push";
++ 	argv[2] = str;
++     }
++     retvalue =  DoCommand(argv, (char * )NULL, (char *) NULL);
++     XtFree((char *) argv);
++     return retvalue;
++ #else
+      argv = MakeArgv(3);
+      argv[0] = "send";
+      argv[1] = "-push";
+***************
+*** 737,742 ****
+--- 887,893 ----
+      argv[2] = str;
+      DoCommand(argv, (char *) NULL, (char *) NULL);
+      XtFree((char *) argv);
++ #endif /* FCC */
+  }
+  
+  
+***************
+*** 894,904 ****
+--- 1045,1077 ----
+      TocSetCacheValid(msg->toc);
+  }
+  
++ 
++ #ifdef ANNOTATE
++ void AnnotateXtFree(msg)
++ Msg msg;
++ {
++     int j;
++ 
++     if(msg->annotate){
++ 	for(j = 0;j < msg->numannotate; j++){
++ 	    XtFree(msg->annotate[j].foldername);
++ 	}
++ 	XtFree((String)msg->annotate);
++ 	if(msg->annotatefield)
++ 	    XtFree((String)msg->annotatefield);
++     }
++ }
++ #endif /* ANNOTATE */
++ 
+  /* Free the storage being used by the given msg. */
+  
+  void MsgFree(msg)
+  Msg msg;
+  {
++ #ifdef ANNOTATE
++     if(msg->annotate != NULL)
++ 	AnnotateXtFree(msg);
++ #endif /* ANNOTATE */
+      XtFree(msg->buf);
+      XtFree((char *)msg);
+  }
+***************
+*** 972,975 ****
+--- 1145,1305 ----
+    return(XtCreateWidget("textSource", asciiSrcObjectClass, w, 
+  			arglist, num_args));
+  }
++ #ifdef ANNOTATE
++ /* set up the annotation entries in msg. We keep copies of values
++ rather than pointers messages to avoid having to replace pointers 
++ when messages are freed. The latter can happen when there are two
++ or more concurrent drafts. In that situation, the draft folder is
++ rescaned and the message pointers changed */
++ 
++ MsgSetAnnotation(msg,assocmsg,assoclist,field)
++ Msg msg,assocmsg;
++ MsgList assoclist;
++ char *field;
++ {
++     if (!assocmsg && !assoclist){
++ 	msg->annotate = NULL;
++ 	if(msg->annotate != NULL)
++ 	    (void) AnnotateXtFree(msg);
++ 	msg->numannotate = 0;
++ 	return;
++     }
++     if(assocmsg){
++ 	if(msg->annotate != NULL)
++ 	    (void) AnnotateXtFree(msg);
++ 	msg->annotate = (Annotate)XtCalloc( (Cardinal)1, sizeof(AnnotateRec));
++ 	msg->numannotate = 1;
++ 	    msg->annotate[0].foldername =
++ 		XtNewString(assocmsg->toc->foldername);    
++ 	    msg->annotate[0].msgid = assocmsg->msgid;
++     }
++     else if(assoclist){
++ 	int i;
++ 	
++ 	if(msg->annotate != NULL)
++ 	    (void) AnnotateXtFree(msg);
++ 	msg->annotate = (Annotate)XtCalloc( (Cardinal) assoclist->nummsgs,
++ 		  sizeof(AnnotateRec));
++ 	msg->numannotate = assoclist->nummsgs;
++ 	for(i = 0; i<assoclist->nummsgs;i++){
++ 	    msg->annotate[i].foldername =
++ 		XtNewString(assoclist->msglist[i]->toc->foldername);
++ 	    msg->annotate[i].msgid = assoclist->msglist[i]->msgid;
++ 	}
++     }
++     msg->annotatefield = XtNewString(field);
++ }
++ 
++ /* parse message and write annotations */
++ 
++ /* used to parse mail message to pick out to:,cc; and fcc:  fields for
++ annotations */
++ 
++ static char * fieldfill(t, line,file,offset)
++ char *t;
++ char *line;
++ FILE *file;
++ int offset;
++ {
++     char *s,*ptr;
++ 
++     ptr = line;
++     while(ptr){
++ 	for(ptr = line+offset; *ptr == ' ' || *ptr == '\t'; ptr++);
++ 	for(s = ptr+strlen(ptr) - 1; s>= ptr && 
++ 	    (*s == ' ' || *s == '\t'); s--);
++ 	*++s = '\0';
++ 	if(*t == '\0')
++ 	    strcat(t,ptr);
++ 	else{
++ 	    strcat(t," ");
++ 	    strcat(t,ptr);
++ 	}
++ 	offset = 0;
++ 	ptr = ReadLine(file);
++ 	if (ptr && (*ptr != ' ' && *ptr != '\t' ))
++ 	    break;
++     }
++     return(ptr);
++ }
++ 
++ void annotateFields(msg)
++ Msg msg;
++ {
++     FILEPTR from;
++     char *p,  *ptr, *ptr2,**argv;
++     char tmp2[512];
++     char tmp1[512];
++     char *TO;
++     struct stat statbuf;
++     int i,readit,l;
++ 
++     from = FOpenAndCheck(MsgFileName(msg), "r");
++     if(fstat(fileno(from),&statbuf)){
++ 	char str[256];
++ 	(void) sprintf(str, "Cannot fstat \"%s/%d\"!",
++ 			   msg->toc->foldername, msg->msgid);
++ 	PopupError((Widget)NULL,str);
++ 	return;
++     }
++     i = statbuf.st_size;
++     TO  = XtMalloc((unsigned)i);
++     *TO = '"';
++     p = TO+1;
++     *p = '\0';
++     ptr = ReadLine(from);
++     while (ptr){
++ 	readit =1;
++ 	if (strncmpIgnoringCase(ptr, "to:",3)== 0){
++ 	    ptr = fieldfill(p,ptr,from,3);
++ 	    readit =0;
++ 	}
++ 	else if (strncmpIgnoringCase(ptr, "fcc:",4)== 0){
++ 	    ptr = fieldfill(p,ptr,from,4);
++ 	    readit =0;
++ 	    }
++ 	else if (strncmpIgnoringCase(ptr, "cc:",3)== 0){
++ 	    ptr = fieldfill(p, ptr,from,3);
++ 	    readit =0;
++ 	    }
++ 	else {
++ 	    for (l = 0, ptr2 = ptr ; *ptr2 && !l ; ptr2++)
++ 		l = (*ptr2 != ' ' && *ptr2 != '\t' && *ptr != '-');
++ 	    if (l==0) 
++ 		break;
++ 	}
++ 	if(*ptr == '\0')
++ 	    break;
++ 	if(readit)
++ 	    ptr = ReadLine(from);
++     }
++     (void) myfclose(from);
++     strcat(TO,"\"");
++     argv= MakeArgv(7);
++     for(i =0; i < msg->numannotate; i++){
++ 	argv[0] = "anno";
++ 	sprintf(tmp1,"+%s",msg->annotate[i].foldername);
++ 	argv[1] = tmp1;
++ 	sprintf(tmp2,"%d",msg->annotate[i].msgid);
++ 	argv[2] = tmp2;
++ 	argv[3] = "-component";
++ 	argv[4] =  msg->annotatefield;
++ 	argv[5] = "-text";
++ 	argv[6] = TO;
++ 	DoCommand(argv,(char *)NULL, (char *) NULL);
++     }
++     XtFree((char *) argv);
++     XtFree(TO);
++ }
++ 
++ 
++ 
++ DoAnnotate(msg)
++ Msg msg;
++ {
++     if(msg->annotatefield &&(msg-> numannotate > 0))
++ 	annotateFields(msg);
++ }
++ 
++ #endif /* ANNOTATE */
+  
+diff -c3 ../xmh/msg.h ./msg.h
+*** ../xmh/msg.h	Thu Jul 20 21:15:02 1989
+--- ./msg.h	Thu Sep  5 21:20:43 1991
+***************
+*** 48,54 ****
+--- 48,58 ----
+  extern int MsgChanged();
+  extern void MsgSetCallOnChange();
+  extern void MsgClearCallOnChange();
++ #ifdef FCC
++ extern int MsgSend();
++ #else
+  extern void MsgSend();
++ #endif /* FCC */
+  extern void MsgLoadComposition();
+  extern void MsgLoadReply();
+  extern void MsgLoadForward();
+diff -c3 ../xmh/popup.c ./popup.c
+*** ../xmh/popup.c	Tue Jul 23 17:43:55 1991
+--- ./popup.c	Sun Sep 15 10:15:05 1991
+***************
+*** 29,34 ****
+--- 29,41 ----
+  #include "xmh.h"
+  #include <X11/Xaw/Cardinals.h>
+  
++ #if defined(APPEND) || defined(EDITOR)
++ #include <errno.h>
++ #include <sys/stat.h>
++ extern int errno;
++ int RetVal;
++ #endif /* APPEND || EDITOR */
++ 
+  typedef struct _PopupStatus {
+  	Widget popup;		/* order of fields same as CommandStatusRec */
+  	struct _LastInput lastInput;
+***************
+*** 324,329 ****
+--- 331,337 ----
+      Position x, y;
+      Arg args[3];
+      char command[65], label[128];
++     char * strstr();
+  
+      if (popup_status == (PopupStatus)NULL) {
+  	popup_status = XtNew(PopupStatusRec);
+***************
+*** 347,353 ****
+  		       popup_status->shell_command,
+  		       ((len > 88) ? "[truncated]" : ""));
+      }
+- 
+      DeterminePopupPosition(&x, &y, &transientFor);
+      XtSetArg( args[0], XtNallowShellResize, True );
+      XtSetArg( args[1], XtNinput, True );
+--- 355,360 ----
+***************
+*** 355,361 ****
+      popup_status->popup = XtCreatePopupShell(XmhNnotice,
+  			     transientShellWidgetClass, toplevel, args, THREE);
+      PositionThePopup(popup_status->popup, x, y);
+- 
+      XtSetArg( args[0], XtNlabel, label );
+      XtSetArg( args[1], XtNvalue, message );
+      dialog = XtCreateManagedWidget(XmhNdialog, dialogWidgetClass,
+--- 362,367 ----
+***************
+*** 501,503 ****
+--- 507,663 ----
+  	fprintf(stderr, ptr);
+      }
+  }
++ 
++ #ifdef APPEND
++ /*ARGSUSED*/
++ void DestroyPrompt(widget, client_data, call_data)
++     Widget		widget;		/* unused */
++     XtPointer		client_data;    /* unused */
++     XtPointer		call_data;	/* unused */
++ {
++     Widget		popup = (Widget) client_data;
++     RetVal = 0;
++     XtPopdown(popup);
++     XtDestroyWidget(popup);
++ }
++ 
++ void PopupPromptDefault(transientFor,question,deflt, okayCallback)
++     Widget	transientFor;
++     String		question;		/* the prompting string */
++     String		deflt;		/* the initial value */
++     XtCallbackProc	okayCallback;		/* CreateFolder() */
++ {
++     Arg			args[4];
++     Widget		popup;
++     Widget		dialog;
++     Widget		value;
++     Position		x, y;
++     Boolean		positioned;
++ 
++ 
++     static XtTranslations PromptTextTranslations = NULL;
++ 
++     DeterminePopupPosition(&x, &y, (Widget*)NULL);
++     XtSetArg(args[0], XtNallowShellResize, True);
++     XtSetArg(args[1], XtNinput, True);
++     XtSetArg(args[2], XtNtransientFor, transientFor);
++     popup = XtCreatePopupShell(XmhNprompt, transientShellWidgetClass, toplevel,
++ 			       args, THREE);
++     positioned = PositionThePopup(popup, x, y);
++ 
++     XtSetArg(args[0], XtNlabel, question);
++     if(deflt)
++ 	XtSetArg(args[1], XtNvalue, deflt);
++     else
++ 	XtSetArg(args[1], XtNvalue, "");
++     dialog = XtCreateManagedWidget(XmhNdialog, dialogWidgetClass, popup, args,
++ 				   TWO);
++     XtSetArg(args[0], XtNresizable, True);
++     XtSetValues( XtNameToWidget(dialog, "label"), args, ONE);
++     value = XtNameToWidget(dialog, XmhNvalue);
++     XtSetValues( value, args, ONE);
++     if (! PromptTextTranslations)
++ 	PromptTextTranslations = XtParseTranslationTable
++ 	    ("<Key>Return: XmhPromptOkayAction()\n\
++               Ctrl<Key>R:  no-op(RingBell)\n\
++               Ctrl<Key>S:  no-op(RingBell)\n");
++     XtOverrideTranslations(value, PromptTextTranslations);
++     XawDialogAddButton(dialog, XmhNokay, okayCallback, (XtPointer) dialog);
++     XawDialogAddButton(dialog, "cancel", DestroyPrompt, (XtPointer) popup);
++     TheUsual(popup);
++     InsureVisibility(popup, dialog, x, y, !positioned, False);
++     XtPopup(popup, XtGrabNone);
++ }
++ #endif /* APPEND */
++ 
++ #ifdef EDITOR
++ #include "tocintrnl.h"
++ 
++ void PopupMail(mess_list)
++ Message_list *mess_list;
++ {
++     Widget transientFor;
++     Widget	popup,button;
++     Widget	dialog;
++     Position	x, y;
++     int st;
++     char tmp[100];
++     char *ptr;
++     struct stat buf;
++     char *rindex();
++     Arg args[3];
++ 
++     static XtCallbackRec callbacks[] = {
++ 	{DestroyPopup,		(XtPointer) NULL},
++ 	{(XtCallbackProc) NULL,	(XtPointer) NULL}
++     };
++ 
++     static XtCallbackRec extracallbacks[] = {
++ 	{(XtCallbackProc) NULL,	(XtPointer) NULL},
++ 	{(XtCallbackProc) NULL,	(XtPointer) NULL}
++     };
++ 
++     if(stat(mess_list->FileName, &buf) == -1) {
++ 	PopupError((Widget)NULL,"Cannot stat the draft file");
++ 	(void) Cleanup(mess_list);
++     }
++     ptr = rindex(mess_list->FileName,'/');
++     ++ptr;
++     st = 1;
++     if (mess_list-> lasttime == buf.st_mtime){
++ 	st = 0;
++ 	sprintf(tmp,"Message not changed\nSelect Action: draft # %s",ptr);
++     }
++     if (buf.st_size == 0){
++ 	st = 0;
++ 	sprintf(tmp,"Message empty\nSelect Action: draft # %s",ptr);
++     }
++     if(st){
++ 	sprintf(tmp,"Select Action: draft # %s",ptr);
++     }
++     DeterminePopupPosition(&x, &y,&transientFor);
++     XtSetArg( args[0], XtNallowShellResize, True );
++     XtSetArg( args[1], XtNinput, True );
++     XtSetArg( args[2], XtNtransientFor, transientFor);
++     popup = XtCreatePopupShell("confirm", transientShellWidgetClass,
++ 	toplevel, args, THREE);
++     PositionThePopup(popup, x, y); 
++ 
++     XtSetArg(args[0], XtNlabel, tmp);
++     dialog = XtCreateManagedWidget("dialog", dialogWidgetClass, popup, args,
++ 				   ONE);
++ 
++     callbacks[0].closure = (XtPointer) popup;
++     XtSetArg(args[0], XtNcallback, callbacks);
++     if(st){
++ 	button = XtCreateManagedWidget("editsend", commandWidgetClass, dialog, 
++ 				   args, ONE);
++ 	extracallbacks[0].callback = (XtCallbackProc) SendHandler;
++ 	extracallbacks[0].closure = (XtPointer) mess_list;
++ 	XtAddCallbacks(button, XtNcallback, extracallbacks);
++     }
++ 
++     extracallbacks[0].callback = (XtCallbackProc) CancelHandler;
++     extracallbacks[0].closure = (XtPointer) mess_list;
++     button = XtCreateManagedWidget("editcancel", commandWidgetClass, dialog, 
++ 				   args, ONE);
++     XtAddCallbacks(button, XtNcallback, extracallbacks);
++ 
++     button = XtCreateManagedWidget("editagain", commandWidgetClass, dialog, 
++ 				   args, ONE);
++     extracallbacks[0].callback = (XtCallbackProc) ReEditHandler;
++     extracallbacks[0].closure = (XtPointer) mess_list;
++     XtAddCallbacks(button, XtNcallback, extracallbacks);
++ 
++     if(st){
++ 	button = XtCreateManagedWidget("editsave", commandWidgetClass, dialog, 
++ 				       args, ONE);
++ 	extracallbacks[0].callback = (XtCallbackProc) SaveHandler;
++ 	extracallbacks[0].closure = (XtPointer) mess_list;
++ 	XtAddCallbacks(button, XtNcallback, extracallbacks);
++     }
++     TheUsual(popup);
++     InsureVisibility(popup, dialog, x, y, False, False); 
++     XtPopup(popup, XtGrabNone);
++ }
++ #endif /* EDITOR */
+diff -c3 ../xmh/screen.c ./screen.c
+*** ../xmh/screen.c	Mon Jul 22 21:24:44 1991
+--- ./screen.c	Sun Sep 15 10:15:05 1991
+***************
+*** 59,64 ****
+--- 59,67 ----
+      {"forward",			DoForward},
+      {"useAsComp",		DoTocUseAsComp},
+      {"print",			DoPrint},
++ #ifdef APPEND
++     {"append",			DoAppend},
++ #endif /* APPEND */
+  };
+  
+  XmhMenuEntryRec	sequenceMenu[] = {
+***************
+*** 78,83 ****
+--- 81,89 ----
+      {"edit",			DoEditView},
+      {"save",			DoSaveView},
+      {"print",			DoPrintView},
++ #ifdef APPEND
++     {"append",			DoAppendView},
++ #endif /* APPEND */
+  };
+  
+  XmhMenuEntryRec	optionMenu[] = {
+***************
+*** 114,119 ****
+--- 120,129 ----
+      BBoxAddButton(buttonbox, "save", commandWidgetClass, False);
+      BBoxAddButton(buttonbox, "print", commandWidgetClass, True);
+      BBoxAddButton(buttonbox, "delete", commandWidgetClass, True);
++ #ifdef APPEND
++     BBoxAddButton(buttonbox, "append", commandWidgetClass, True);
++ #endif /* APPEND */
++ 
+  }
+      
+  
+diff -c3 ../xmh/toc.c ./toc.c
+*** ../xmh/toc.c	Tue Jul 23 16:27:02 1991
+--- ./toc.c	Sun Sep 15 10:15:06 1991
+***************
+*** 754,759 ****
+--- 754,762 ----
+      msg = TUAppendToc(toc, "####  empty\n");
+      if (FileExists(MsgFileName(msg))) {
+  	if (looping++) Punt( "Cannot correct scan file" );
++ #ifdef FIX
++ 	cleandrafts();
++ #endif /* FIX */
+          DEBUG2("**** FOLDER %s WAS INVALID; msg %d already existed!\n",
+  	       toc->foldername, msg->msgid);
+  	TocForceRescan(toc);
+diff -c3 ../xmh/tocfuncs.c ./tocfuncs.c
+*** ../xmh/tocfuncs.c	Wed Jul 17 21:29:40 1991
+--- ./tocfuncs.c	Sun Sep 15 10:15:06 1991
+***************
+*** 249,255 ****
+      if (toc == NULL) return;
+      mlist = CurMsgListOrCurMsg(toc);
+      if (mlist->nummsgs) {
+! 	vscrn = NewCompScrn();
+  	if (DraftsFolder == toc) {
+  	    msg = mlist->msglist[0];
+  	} else {
+--- 249,257 ----
+      if (toc == NULL) return;
+      mlist = CurMsgListOrCurMsg(toc);
+      if (mlist->nummsgs) {
+! #ifndef EDITOR
+!         vscrn = NewCompScrn();
+! #endif /* EDITOR */
+  	if (DraftsFolder == toc) {
+  	    msg = mlist->msglist[0];
+  	} else {
+***************
+*** 257,265 ****
+  	    MsgLoadCopy(msg, mlist->msglist[0]);
+  	    MsgSetTemporary(msg);
+  	}
+! 	MsgSetScrnForComp(msg, vscrn);
+! 	MapScrn(vscrn);
+      }
+      FreeMsgList(mlist);
+  }
+  
+--- 259,279 ----
+  	    MsgLoadCopy(msg, mlist->msglist[0]);
+  	    MsgSetTemporary(msg);
+  	}
+! #ifdef ANNOTATE
+! 	MsgSetAnnotation(msg,(Msg)0,(MsgList)0,(char *)0);
+! #endif /* ANNOTATE */
+! #ifdef EDITOR
+! 	if(app_resources.editorCommand)
+! 	    (void)compose_editor(msg,(Msg)0,scrn->widget);
+! 	else{
+! 	    vscrn = NewCompScrn();
+! #endif /* EDITOR */
+! 	    MsgSetScrnForComp(msg, vscrn);
+! 	    MapScrn(vscrn);
+! #ifdef EDITOR
+      }
++ #endif /* EDITOR */
++     }
+      FreeMsgList(mlist);
+  }
+  
+***************
+*** 523,529 ****
+--- 537,578 ----
+  }
+  
+  
++ #ifdef APPEND
++ 
+  /*ARGSUSED*/
++ void DoAppend(w,client_data,call_data)
++     Widget      w; /* unused */
++     XtPointer	client_data;
++     XtPointer	call_data; /* unused */
++ {
++     Scrn	scrn = (Scrn) client_data;
++     char *filename,*ptr;
++     int i;
++     Toc toc;
++     MsgList mlist;
++     char *PromptforFile();
++ 
++     if((toc = scrn->toc) == NULL) 
++ 	return;
++     mlist = CurMsgListOrCurMsg(toc);
++     if (mlist->nummsgs){
++ 	if(filename = PromptforFile(scrn->parent)){
++ 	    for(i= 0; i < mlist->nummsgs; i++){
++ 		ptr = MsgFileName( mlist->msglist[i] ) ;
++ 		AppendMessage(filename,ptr);
++ 	    }
++ 	}
++     }
++     else {
++ 	PopupNotice( "print: no messages selected.", 
++ 		    (XtCallbackProc) NULL, (XtPointer) NULL);
++     }
++     FreeMsgList(mlist);
++ }
++ 
++ #endif /* APPEND */
++ 
++ /*ARGSUSED*/
+  void DoPrint(w, client_data, call_data)
+      Widget	w;
+      XtPointer	client_data;
+***************
+*** 734,747 ****
+      if (toc == NULL) return;
+      mlist = CurMsgListOrCurMsg(toc);
+      if (mlist->nummsgs) {
+! 	nscrn = NewCompScrn();
+! 	ScreenSetAssocMsg(nscrn, mlist->msglist[0]);
+  	msg = TocMakeNewMsg(DraftsFolder);
+  	MsgSetTemporary(msg);
+  	MsgLoadReply(msg, mlist->msglist[0]);
+! 	MsgSetScrnForComp(msg, nscrn);
+! 	MapScrn(nscrn);
+      }
+      FreeMsgList(mlist);
+  }
+      
+--- 783,811 ----
+      if (toc == NULL) return;
+      mlist = CurMsgListOrCurMsg(toc);
+      if (mlist->nummsgs) {
+! #ifdef EDITOR
+! 	if(!app_resources.editorCommand){
+! 	    nscrn = NewCompScrn();
+! 	    ScreenSetAssocMsg(nscrn, mlist->msglist[0]);
+! 	}
+! #endif /* EDITOR */
+  	msg = TocMakeNewMsg(DraftsFolder);
+  	MsgSetTemporary(msg);
+  	MsgLoadReply(msg, mlist->msglist[0]);
+! #ifdef ANNOTATE
+! 	MsgSetAnnotation(msg,mlist->msglist[0],(MsgList)0,"Replied:");
+! #endif /* ANNOTATE */
+! #ifdef EDITOR
+! 	if(app_resources.editorCommand)
+! 	    (void) compose_editor(msg,mlist->msglist[0],scrn->widget);
+! 	else{
+! #endif /* EDITOR */
+! 	    MsgSetScrnForComp(msg, nscrn);
+! 	    MapScrn(nscrn);
+      }
++ #ifdef EDITOR
++ 	}
++ #endif /* EDITOR */
+      FreeMsgList(mlist);
+  }
+      
+***************
+*** 1064,1066 ****
+--- 1128,1143 ----
+  	DoDeleteSeq(w, (XtPointer) scrn, (XtPointer) NULL);
+  }
+  
++ #ifdef APPEND
++ /* ARGSUSED */
++ void XmhAppend(w,event,params,num_params)
++     Widget	w;		/* unused */
++     XEvent	*event;		/* unused */
++     String	*params;	/* unused */
++     Cardinal	*num_params;	/* unused */
++ {
++ 
++     Scrn scrn = ScrnFromWidget(w);
++     DoAppend(w,(XtPointer) scrn, (XtPointer) NULL);
++ }
++ #endif /* APPEND */
+diff -c3 ../xmh/tocintrnl.h ./tocintrnl.h
+*** ../xmh/tocintrnl.h	Sun Jul 14 18:54:10 1991
+--- ./tocintrnl.h	Thu Sep  5 17:30:59 1991
+***************
+*** 36,41 ****
+--- 36,48 ----
+      unknown, valid, invalid
+  } ValidType;
+  
++ #ifdef ANNOTATE
++ typedef struct _AnnotateRec{
++     char *foldername;
++     int msgid;
++ } AnnotateRec,*Annotate;
++ #endif /* ANNOTATE */
++ 
+  typedef struct _MsgRec {
+      Toc		toc;		/* Which toc this message is in. */
+      Toc		desttoc;	/* Folder to copy or move to (NULL if none) */
+***************
+*** 55,61 ****
+--- 62,90 ----
+      unsigned	reapable:1;	/* True iff we don't need to keep this
+  				   composition around */
+      unsigned	unused:2;
++ #ifdef ANNOTATE
++     int         numannotate;
++     Annotate    annotate;       /* messages to annotate */
++     char        *annotatefield; /* field name to annotate */
++ #endif /* ANNOTATE */
+  } MsgRec;
++ 
++ #ifdef EDITOR
++ typedef enum {
++  Not_Used,Send,Editing,Select
++ } Message_Action;
++ 
++ typedef struct _Message_list {
++     int process_number;
++     Message_Action action;
++     Msg message;
++     char *FileName;              /* path to draft */
++     long lasttime;               /* last modification time */
++     char *command;               /* editor command */
++     Widget called_from;          /* widget to attach mail action popup */
++ } Message_list;
++ 
++ #endif /* EDITOR */
+  
+  typedef struct _TocRec {
+     Scrn		*scrn;		/* Scrns containing this table of contents. */
+diff -c3 ../xmh/tocutil.c ./tocutil.c
+*** ../xmh/tocutil.c	Wed Jul 31 01:10:36 1991
+--- ./tocutil.c	Fri Sep  6 00:33:52 1991
+***************
+*** 36,41 ****
+--- 36,46 ----
+  extern long lseek();
+  #endif
+  
++ #ifdef APPEND
++ #include <sys/stat.h>
++ extern int RetVal;
++ #endif /* APPEND */
++ 
+  Toc TUMalloc()
+  {
+      Toc toc;
+***************
+*** 360,365 ****
+--- 365,374 ----
+  				    ((msg1)->temporary || (msg2)->temporary ||\
+  				     strcmp((msg1)->buf, (msg2)->buf) == 0))
+  
++ #ifdef EDITOR
++ extern int MAXLIST;
++ extern Message_list MList[];
++ #endif /* EDITOR */
+  void TULoadTocFile(toc)
+    Toc toc;
+  {
+***************
+*** 415,420 ****
+--- 424,432 ----
+  	msg->fate = Fignore;
+  	msg->desttoc = NULL;
+  	msg->visible = TRUE;
++ #ifdef ANNOTATE
++ 	msg->annotate = NULL;
++ #endif /* ANNOTATE */
+  	if (toc->nummsgs >= maxmsgs) {
+  	    maxmsgs += 100;
+  	    toc->msgs = (Msg *) XtRealloc((char *) toc->msgs,
+***************
+*** 424,430 ****
+--- 436,458 ----
+  	if (i < orignummsgs) {
+  	    origmsgs[i]->buf[MARKPOS] = ' ';
+  	    if (SeemsIdentical(origmsgs[i], msg))
++ #ifdef ANNOTATE
++ 		{
++ 	/* only here where there are concurrent drafts being composed and 
++ 	   a second scan of the draft folder occurs */
++ 		if(origmsgs[i]->annotate){
++ 		    msg->annotate = origmsgs[i]->annotate;
++ 		    /* set to NULL  so we don't free the value */
++ 		    origmsgs[i]->annotate = NULL;
++ 		    msg->numannotate = origmsgs[i]->numannotate;
++ 		    msg->annotatefield = origmsgs[i]->annotatefield;
++ 		    origmsgs[i]->annotatefield = NULL;
++ 		}
++ #endif /* ANNOTATE */
+  		MsgSetFate(msg, origmsgs[i]->fate, origmsgs[i]->desttoc);
++ #ifdef ANNOTATE
++ 	    }
++ #endif /* ANNOTATE */
+  	}
+      }
+      toc->length = toc->origlength = toc->lastPos = position;
+***************
+*** 439,444 ****
+--- 467,487 ----
+  				     toc->scrn[0]->tocwidget,
+  				     args, (Cardinal) 1);
+      }
++ #ifdef EDITOR
++     if(strcmp(toc->foldername,app_resources.drafts_folder_name)==0){
++ 	for(i = 0; i< MAXLIST; i++)
++ 	    if(MList[i].message!= NULL && MList[i].message->toc == toc){
++ 		Msg m;
++ 		m = MList[i].message;
++ 		for (j=0 ; j<toc->nummsgs ; j++) {
++ 		    if(SeemsIdentical(m,toc->msgs[j])){
++ 			toc->msgs[j]->temporary = m->temporary;
++ 			MList[i].message = toc->msgs[j];
++ 		    }
++ 		}
++ 	    }
++     }
++ #endif /* EDITOR */
+      for (i=0 ; i<numScrns ; i++) {
+  	msg = scrnList[i]->msg;
+  	if (msg && msg->toc == toc) {
+***************
+*** 590,596 ****
+    char *ptr;
+  {
+      Msg msg;
+!     int msgid, i;
+  
+      TUGetFullFolderInfo(toc);
+      if (toc->validity != valid)
+--- 633,639 ----
+    char *ptr;
+  {
+      Msg msg;
+!     int msgid;
+  
+      TUGetFullFolderInfo(toc);
+      if (toc->validity != valid)
+***************
+*** 617,622 ****
+--- 660,668 ----
+      msg->changed = TRUE;
+      msg->fate = Fignore;
+      msg->desttoc = NULL;
++ #ifdef ANNOTATE
++     msg->annotate = NULL;
++ #endif /* ANNOTATE */
+      if (toc->viewedseq == toc->seqlist[0]) {
+  	msg->visible = TRUE;
+  	toc->lastPos += msg->length;
+***************
+*** 629,631 ****
+--- 675,815 ----
+      TUSaveTocFile(toc);
+      return msg;
+  }
++ 
++ #ifdef APPEND
++ /* append message - filename messagepath to filename */
++ void
++ AppendMessage(filename, messagepath)
++ char *filename;
++ char *messagepath;
++ {
++     char inputbuf[BUFSIZ];
++     int error = 0;
++     FILE *fpart, *fpsave;
++     char mode[2], string[256];
++     int c;
++     struct stat buf;
++ 
++     if ((fpart = fopen(messagepath, "r")) == NULL) {
++ 	PopupError((Widget)NULL,"Could not open message file for reading");
++ 	return;
++     }
++ 
++     if (stat(filename, &buf) == 0) {
++ 	(void) strcpy(mode, "a");
++     } else {
++ 	(void) strcpy(mode, "w");
++     }
++     
++     if ((fpsave = fopen(filename, mode)) == NULL) {
++ 	(void) fclose(fpart);	
++ 	sprintf(string,"Could not open file for writing: %s",filename);
++ 	PopupError((Widget)NULL,string);
++ 	return;
++     }
++ 	while (c = fread(inputbuf, sizeof(char), BUFSIZ, fpart)) {
++ 	    if (! fwrite(inputbuf, sizeof(char), c, fpsave)) {
++ 		error++;
++ 		goto finished;
++ 	    }
++ 	}
++ 
++     if (fprintf(fpsave, "\n\n") == EOF) {
++ 	error++;
++ 	goto finished;
++     }
++ 
++ finished:
++     (void) fclose(fpart);
++ 
++     if (fclose(fpsave) == EOF) {
++ 	error++;
++     }
++     if(error)
++ 	PopupError((Widget)NULL,"Error on writing file");
++ }
++ 
++ 
++ static char * LastFile = 0;
++ 
++ /* Save name for next call to append, set return flag */
++ /*ARGSUSED*/
++ void AppendFile(w, client_data, call_data)
++     Widget	w; /* okay button of the dialog widget */
++     XtPointer	client_data; /* the dialog widget */
++     XtPointer	call_data;
++ {
++     
++     register int i;
++     Widget dialog = (Widget) client_data;
++     char *name;
++     name = XawDialogGetValueString(dialog);
++     if(LastFile)
++ 	XtFree(LastFile);
++     for (i=0 ; name[i] > ' ' ; i++) ;
++     name[i] = '\0';
++     LastFile = XtNewString(name);
++     RetVal = 1;
++     DestroyPopup(w, (XtPointer) XtParent(dialog), (XtPointer) NULL);
++ }
++ 
++ char * PromptforFile(w)
++ Widget w;
++ {
++     XEvent ev;
++ 
++     RetVal = -1;
++     if(LastFile)
++ 	(void) PopupPromptDefault(w,"Append to file:",LastFile, AppendFile);
++     else
++ 	(void)PopupPromptDefault(w,"Append to file:",(char *)0, AppendFile);
++ 
++     for(;;) {
++ 	XtNextEvent(&ev);
++ 	(void) XtDispatchEvent(&ev);
++ 	if (RetVal ==  1) 
++ 	    return LastFile;
++ 	else if (RetVal == 0)
++ 	    return NULL;
++     }
++ }
++ #endif /* APPEND */
++ 
++ #ifdef FIX
++ #include <stdio.h>
++ cleandrafts()
++ {
++  FILE *fp;
++  char buf[512];
++  char *ptr,*p;
++  int i;
++  int foundone;
++  char * strstr();
++ 
++  p = tmpnam((char *)NULL);
++  while(1){
++ /* scan shows finds first  error. We repeat until all found */
++      foundone = 0;
++      sprintf(buf, "scan +%s > %s 2>&1",app_resources.drafts_folder_name,p);
++      system(buf);
++      fp = fopen(p,"r");
++      if(fp == NULL)
++ 	 break;
++      while(fgets(buf,512,fp)!= NULL){
++ 	 if(strncmp(buf,"scan: message ",14)== 0){
++ 	     ptr = buf + 14;
++ 	     i = atoi(ptr);
++ 	     if(i > 0 && strstr(buf,"empty") != (String)NULL){
++ 		 sprintf(buf, "rmm +%s %d",app_resources.drafts_folder_name,i);
++ 		 foundone = 1;
++ 		 system(buf);
++ 	     }
++ 	 }
++      }
++      fclose(fp);
++      if(!foundone)
++ 	 break;
++  }
++  unlink(p);
++ }
++ #endif /* FIX */
+diff -c3 ../xmh/util.c ./util.c
+*** ../xmh/util.c	Thu Jul 11 18:56:30 1991
+--- ./util.c	Thu Sep  5 21:20:36 1991
+***************
+*** 529,531 ****
+--- 529,549 ----
+      XRecolorCursor(XtDisplay(widget), cursor, &colors[0], &colors[1]);
+  }
+  
++ #if defined( FCC) && defined(NEED_STRSTR)
++ char * strstr(s1, s2)
++ register char *s1, *s2;
++ {
++     register int n = strlen(s2);
++     char *rs = (*s1) ? 0 : s2;
++ 
++     while (*s1)
++     {   if (strncmp(s2,s1,n) == 0L)
++ 	{   rs = s1;
++ 	    break;
++ 	}
++ 	++s1;
++     }
++     return(rs);
++ }
++ 
++ #endif /* FCC */
+diff -c3 ../xmh/viewfuncs.c ./viewfuncs.c
+*** ../xmh/viewfuncs.c	Wed Jul 17 21:26:53 1991
+--- ./viewfuncs.c	Sun Sep 15 10:15:06 1991
+***************
+*** 79,86 ****
+      msg = TocMakeNewMsg(DraftsFolder);
+      MsgSetTemporary(msg);
+      MsgLoadReply(msg, scrn->msg);
+!     MsgSetScrnForComp(msg, nscrn);
+!     MapScrn(nscrn);
+  }
+  
+  
+--- 79,98 ----
+      msg = TocMakeNewMsg(DraftsFolder);
+      MsgSetTemporary(msg);
+      MsgLoadReply(msg, scrn->msg);
+! #ifdef ANNOTATE
+!     MsgSetAnnotation(msg,scrn->msg,(MsgList)0,"Replied:");
+! #endif /*  ANNOTATE */
+! #ifdef EDITOR
+!     if(app_resources.editorCommand)
+! 	(void)compose_editor(msg,scrn->msg,scrn->widget);
+!     else{
+! #endif /*  EDITOR */
+! 	MsgSetScrnForComp(msg, nscrn);
+! 	MapScrn(nscrn);
+! #ifdef EDITOR
+!     }
+! #endif /*  EDITOR */
+! 
+  }
+  
+  
+***************
+*** 135,141 ****
+--- 147,155 ----
+      Scrn	nscrn;
+  
+      if (scrn->msg == NULL) return;
++ #ifndef EDITOR
+      nscrn = NewCompScrn();
++ #endif /* EDITOR */
+      if (MsgGetToc(scrn->msg) == DraftsFolder)
+  	msg = scrn->msg;
+      else {
+***************
+*** 143,150 ****
+  	MsgLoadCopy(msg, scrn->msg);
+  	MsgSetTemporary(msg);
+      }
+!     MsgSetScrnForComp(msg, nscrn);
+!     MapScrn(nscrn);
+  }
+      
+  
+--- 157,176 ----
+  	MsgLoadCopy(msg, scrn->msg);
+  	MsgSetTemporary(msg);
+      }
+! #ifdef ANNOTATE
+!     MsgSetAnnotation(msg,(Msg)0,(MsgList)0,(char *)0);
+! #endif /* ANNOTATE */
+! #ifdef EDITOR
+!     if(app_resources.editorCommand)
+! 	(void)compose_editor(msg,(Msg)0,scrn->widget);
+!     else{
+! 	nscrn = NewCompScrn();
+! #endif /* EDITOR */
+! 	MsgSetScrnForComp(msg, nscrn);
+! 	MapScrn(nscrn);
+! #ifdef EDITOR
+!     }
+! #endif /* EDITOR */
+  }
+      
+  
+***************
+*** 171,179 ****
+--- 197,211 ----
+      XtTranslations editTranslations = scrn->edit_translations;
+  
+      if (scrn->msg == NULL) return;
++ #ifdef EDITOR
++     if (MsgSaveChanges(scrn->msg,False)) {
++ #else
++     if (MsgSaveChanges(scrn->msg)) {
++ #endif /* EDITOR */
+      XtSetArg(args[0], XtNtranslations, editTranslations);
+      XtSetValues(scrn->viewwidget, args, (Cardinal) 1);
+      MsgSetEditable(scrn->msg);
++     }
+  }
+  
+  
+***************
+*** 200,206 ****
+--- 232,242 ----
+      Arg		args[2];
+  
+      if (scrn->msg == NULL) return;
++ #ifdef EDITOR
++     if (MsgSaveChanges(scrn->msg,False)) {
++ #else
+      if (MsgSaveChanges(scrn->msg)) {
++ #endif /* EDITOR */
+  	XtSetArg(args[0], XtNtranslations, scrn->read_translations);
+  	XtSetValues(scrn->viewwidget, args, (Cardinal) 1);
+  	MsgClearEditable(scrn->msg);
+***************
+*** 268,271 ****
+--- 304,340 ----
+      MsgSetFate(scrn->msg, Fdelete, (Toc)NULL);
+  }
+  
++ #ifdef APPEND
++ /*ARGSUSED*/
++ void DoAppendView(w,client_data,call_data)
++     Widget      w;           /* unused */
++     XtPointer	client_data; /* unused */
++     XtPointer	call_data;
++ {
++     Scrn	scrn = (Scrn) client_data;
++     char *filename;
++     char *ptr;
++     char *PromptforFile();
+  
++     if(scrn->msg == NULL) return;
++ 
++     if(filename = PromptforFile(scrn->parent)){
++ 	ptr = MsgFileName( scrn->msg ) ;
++ 	(void)AppendMessage(filename,ptr);
++     }
++ }
++ 
++ /*ARGSUSED*/
++ void  XmhAppendView(w,event,params,num_params)
++     Widget	w;		/* unused */
++     XEvent	*event;		/* unused */
++     String	*params;	/* unused */
++     Cardinal	*num_params;	/* unused */
++ {
++ 
++     Scrn scrn = ScrnFromWidget(w);
++     DoAppendView(w,(XtPointer)scrn, (XtPointer) NULL);
++ 
++ }
++ 
++ #endif /* APPEND */
+diff -c3 ../xmh/xmh.man ./xmh.man
+*** ../xmh/xmh.man	Thu Aug  1 01:21:00 1991
+--- ./xmh.man	Fri Sep  6 00:41:21 1991
+***************
+*** 384,389 ****
+--- 384,394 ----
+  the \fIenscript\fR(1) command, but this can be customized with the \fIxmh\fP
+  application-specific resource \fBPrintCommand\fR.
+  The corresponding action is \fBXmhPrint()\fR.
++ .B Append
++ Append the selected messages, or the current message if none are selected
++ to a file. A file is created if it does not exist. If the file exists,
++ then the messages are added at the end. 
++ The action procedure corresponding to this command is \fBXmhAppend()\fR.
+  
+  .SS SEQUENCE COMMANDS
+  The \fISequence\fR command menu contains commands pertaining to
+***************
+*** 466,471 ****
+--- 471,481 ----
+  the \fIenscript\fR(1) command, but this can be customized with the 
+  application-specific resource \fBPrintCommand\fR.
+  The corresponding action procedure is \fBXmhPrintView()\fR.
++ .B Append
++ Append the viewed message
++ to a file. A file is created if it does not exist. If the file exists,
++ then the messages are added at the end. 
++ The action procedure corresponding to this command is \fBXmhAppendView\fR.
+  .TP 18
+  .B Delete
+  Marks the viewed message for deletion.
+***************
+*** 576,588 ****
+  .fi
+  
+  .SH TEXT EDITING COMMANDS
+! All of the text editing commands are actually defined by the Text widget
+! in the Athena Widget Set.
+! The commands may be bound to different keys than the defaults
+! described below through the X Toolkit Intrinsics key re-binding mechanisms.
+! See the X Toolkit Intrinsics and the Athena Widget Set documentation for 
+! more details.
+  
+  Whenever you are asked to enter any text, you will be using a standard
+  text editing interface.  Various control and meta keystroke combinations
+  are bound to a somewhat Emacs-like set of commands.  In addition, the
+--- 586,614 ----
+  .fi
+  
+  .SH TEXT EDITING COMMANDS
+! Xmh has its own internal editor or can use the editor specified by the
+! EditorCommand resource such as 
+  
++ .nf
++ 
++ 	Xmh.EditorCommand:      gnu -i %s
++ or
++ 	Xmh.EditorCommand:      xterm -e vi  %s
++ .fi
++ 
++ If the default editor has been set to an external editor such as gnu,
++ the following will reset it to the internal editor.
++ .nf
++ 
++ 	Xmh.EditorCommand:      
++ .fi
++ 
++ The text editing commands for the internal editor are actually defined by the
++ Text widget in the Athena Widget Set.  The commands may be bound to different
++ keys than the defaults described below through the X Toolkit Intrinsics key
++ re-binding mechanisms.  See the X Toolkit Intrinsics and the Athena Widget Set
++ documentation for more details.
++ 
+  Whenever you are asked to enter any text, you will be using a standard
+  text editing interface.  Various control and meta keystroke combinations
+  are bound to a somewhat Emacs-like set of commands.  In addition, the
+***************
+*** 969,974 ****
+--- 995,1006 ----
+  .PP
+  The following resources are defined:
+  .TP 8
++ .B AnnotateMsg
++ Use the MH anno command to annotate messages for replies and forwards.  The
++ default is false. While the MH message is written with the annotation
++ information, the file is not reread and hence the message view
++ does not contain the annotations until that message is viewed a second time.
++ .TP 8
+  .B banner
+  A short string that is the default label of the folder, Table of Contents,
+  and view.  The default is "xmh    MIT X Consortium    R5".
+***************
+*** 1056,1061 ****
+--- 1088,1107 ----
+  The folder used for message drafts.  Default is ``drafts''.
+  .PP
+  .TP 8
++ .B editorCommand
++ The editor to use for mail composition. The Default is the internal editor.
++ For GNU emacs use
++ .nf
++ 
++ 	Xmh.EditorCommand:      gnu -i %s
++ 
++ or for vi
++ 
++ 	Xmh.EditorCommand:      xterm -e vi  %s
++ 
++ .fi
++ .PP
++ .TP 8
+  .B geometry
+  Default geometry to use.  Default is none.
+  .PP
+***************
+*** 1499,1501 ****
+--- 1545,1549 ----
+  Terry Weissman, formerly of Digital Western Research Laboratory
+  .br
+  Donna Converse, MIT X Consortium
++ .br
++ use of external editor added by Bob Ellison, CMU (SEI)

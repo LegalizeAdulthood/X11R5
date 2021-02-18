@@ -1,0 +1,118 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:32:04 ohm Exp $
+/**/#
+       INCLUDES = -I$(CWNNINCLUDESRC)
+        DEFINES = $(CWNNDEFINES) $(CWNNLANGDEF)
+   INSTALLFLAGS = $(INSTBINFLAGS) -o $(WNNOWNER)
+    HINSIDEFINE = -DHINSIDATA_FILE=\"/zh_CN/cixing.data\"
+
+LINKS = atod.c atorev.c dic_head.c dtoa.c sort.c ujisf.c \
+    utilbdic.c wddel.c wdreg.c wnnkill.c wnnstat.c wnntouch.c \
+    oldatonewa.c
+
+SRC1= $(CWNNETCSRC)/bdic.c
+OBJ1= bdic.o
+SRC2= $(CWNNETCSRC)/strings.c
+OBJ2= strings.o
+SRC3= $(CWNNETCSRC)/sstrings.c
+OBJ3= sstrings.o
+SRCGETHINSI= $(CWNNETCSRC)/gethinsi.c
+OBJGETHINSI= gethinsi.o
+SRC5= $(CWNNETCSRC)/revdic.c
+OBJ5= revdic.o
+SRC6= $(CWNNETCSRC)/hindo.c
+OBJ6= hindo.o
+SRC7= $(CWNNETCSRC)/pwd.c
+OBJ7= pwd.o
+SRC8= $(CWNNETCSRC)/bcopy.c
+OBJ8= bcopy.o
+SRC9= $(CWNNETCSRC)/dic_atojis.c
+OBJ9= dic_atojis.o
+SRC10= $(CWNNETCSRC)/xutoj.c
+OBJ10= xutoj.o
+YINCODESRC = $(CWNNETCSRC)/yincoding.c $(CWNNETCSRC)/py_table.c $(CWNNETCSRC)/zy_table.c
+YINCODEOBJ = yincoding.o py_table.o zy_table.o
+LOCAL_ETCSRCS1= $(SRC1) $(SRC2) $(SRC3) $(SRCGETHINSI) $(SRC5) \
+	  $(SRC6) $(SRC7) $(SRC8) $(SRC9) $(YINCODESRC)
+LOCAL_ETCOBJS1= $(OBJ1) $(OBJ2) $(OBJ3) $(OBJGETHINSI) $(OBJ5) \
+	  $(OBJ6) $(OBJ7) $(OBJ8) $(OBJ9) $(YINCODEOBJ)
+LOCAL_ETCSRCS2= $(SRC1) $(SRC2) $(SRC3) $(SRCGETHINSI) \
+	  $(SRC6) $(SRC7) $(SRC8) $(SRC9)
+LOCAL_ETCOBJS2= $(OBJ1) $(OBJ2) $(OBJ3) $(OBJGETHINSI) \
+	  $(OBJ6) $(OBJ7) $(OBJ8) $(OBJ9)
+
+SRCATOD= atod.c ujisf.c dic_head.c atorev.c $(LOCAL_ETCSRCS1)
+OBJATOD= atod.o ujisf.o dic_head.o atorev.o $(LOCAL_ETCOBJS1)
+SRCDTOA= dtoa.c ujisf.c dic_head.c $(LOCAL_ETCSRCS1)
+OBJDTOA= dtoa.o ujisf.o dic_head.o $(LOCAL_ETCOBJS1)
+SRCTOUCH= wnntouch.c $(SRC1) $(SRC2) $(SRC3) $(SRCGETHINSI) $(SRC7) $(SRC8) $(SRC9)
+OBJTOUCH= wnntouch.o $(OBJ1) $(OBJ2) $(OBJ3) $(OBJGETHINSI) $(OBJ7) $(OBJ8) $(OBJ9)
+SRCSTAT= wnnstat.c $(SRC2) $(SRC3) $(SRC8) $(SRC10)
+OBJSTAT= wnnstat.o $(OBJ2) $(OBJ3) $(OBJ8) $(OBJ10)
+SRCKILL= wnnkill.c $(SRC2) $(SRC3) $(SRC10)
+OBJKILL= wnnkill.o $(OBJ2) $(OBJ3) $(OBJ10)
+SRCSORT= sort.c ujisf.c $(LOCAL_ETCSRCS2) $(YINCODESRC)
+OBJSORT= sort.o ujisf.o $(LOCAL_ETCOBJS2) $(YINCODEOBJ)
+SRCOLDTONEW= oldatonewa.c $(LOCAL_ETCSRCS2)
+OBJOLDTONEW= oldatonewa.o $(LOCAL_ETCOBJS2)
+SRCWDDEL= wddel.c $(SRC2) $(SRC3) $(SRC10)
+OBJWDDEL= wddel.o $(OBJ2) $(OBJ3) $(OBJ10)
+SRCWDREG= wdreg.c ujisf.c $(SRC1) $(SRC2) $(SRC3) $(SRCGETHINSI) $(SRC7) \
+	  $(SRC9) $(SRC10) $(YINCODESRC)
+OBJWDREG= wdreg.o ujisf.o $(OBJ1) $(OBJ2) $(OBJ3) $(OBJGETHINSI) $(OBJ7) \
+	  $(OBJ9) $(OBJ10) $(YINCODEOBJ)
+SRCS= $(SRCATOD) $(SRCDTOA) $(SRCTOUCH) $(SRCSTAT) \
+      $(SRCKILL) $(SRCSORT) $(SRCWDDEL) $(SRCWDREG)
+OBJS= $(OBJATOD) $(OBJDTOA) $(OBJTOUCH) $(OBJSTAT) \
+      $(OBJKILL) $(OBJSORT) $(OBJWDDEL) $(OBJWDREG)
+
+PROGRAMS = dicsort oldatonewa atod dtoa wnnstat wnnkill wnntouch \
+	wddel wdreg
+
+AllTarget($(PROGRAMS))
+SingleProgramTarget(dicsort,$(OBJSORT),,)
+SingleProgramTarget(oldatonewa,$(OBJOLDTONEW),,)
+SingleProgramTarget(atod,$(OBJATOD),,)
+SingleProgramTarget(dtoa,$(OBJDTOA),,)
+SingleProgramTarget(wnnstat,$(OBJSTAT),$(CWNNJLIB),)
+SingleProgramTarget(wnnkill,$(OBJKILL),$(CWNNJLIB),)
+SingleProgramTarget(wnntouch,$(OBJTOUCH),,)
+SingleProgramTarget(wddel,$(OBJWDDEL),$(CWNNJLIB),)
+SingleProgramTarget(wdreg,$(OBJWDREG),$(CWNNJLIB),)
+
+includes:: $(LINKS)
+
+LinkSourceFile(atod.c,$(WNNJUTILSRC))
+LinkSourceFile(atorev.c,$(WNNJUTILSRC))
+LinkSourceFile(dic_head.c,$(WNNJUTILSRC))
+LinkSourceFile(dtoa.c,$(WNNJUTILSRC))
+LinkSourceFile(oldatonewa.c,$(WNNJUTILSRC))
+LinkSourceFile(sort.c,$(WNNJUTILSRC))
+LinkSourceFile(ujisf.c,$(WNNJUTILSRC))
+LinkSourceFile(utilbdic.c,$(WNNJUTILSRC))
+LinkSourceFile(wddel.c,$(WNNJUTILSRC))
+LinkSourceFile(wdreg.c,$(WNNJUTILSRC))
+LinkSourceFile(wnnkill.c,$(WNNJUTILSRC))
+LinkSourceFile(wnnstat.c,$(WNNJUTILSRC))
+LinkSourceFile(wnntouch.c,$(WNNJUTILSRC))
+
+instclient:: install
+
+InstallMultiple($(PROGRAMS),$(CWNNBINDIR))
+
+WnnSpecialObjectRule($(OBJ1),$(SRC1),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ2),$(SRC2),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ3),$(SRC3),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJGETHINSI),$(SRCGETHINSI),$(CWNNETCSRC),$(HINSIDEFINE))
+WnnSpecialObjectRule($(OBJ5),$(SRC5),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ6),$(SRC6),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ7),$(SRC7),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ8),$(SRC8),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ9),$(SRC9),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ10),$(SRC10),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(YINCODEOBJ),$(YINCODESRC),$(CWNNETCSRC),)
+
+DependTarget()
+
+clean::
+	$(RM) $(LINKS)

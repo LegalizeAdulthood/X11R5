@@ -1,0 +1,34 @@
+JS_DIC_FILE_CREATE_CLIENT( )
+
+名称
+
+	js_dic_file_create_client	クライアント・サイトに辞書ファイルの
+					作成を行う。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_dic_file_create_client(env,fn,type,comment,passwd, hpasswd)
+	struct wnn_env *env;	/* 環境 */
+	char 	*fn;		/* 辞書ファイル */
+	int type;		/* 辞書の種類  */
+	w_char  *comment;	/* コメント */
+	char 	*passwd;	/* 辞書のパスワード */
+	char 	*hpasswd;	/* 頻度ファイルのパスワード */
+
+機能
+
+	fnで 指定した辞書ファイルを作成をする。
+	辞書ファイル名の最大文字数は、100文字である。
+	コメントの comment 最大文字数は、1024文字である。
+	辞書のパスワード passwd と頻度ファイル hpasswd のパスワードの最大文字数
+	は、16文字である。
+	辞書の種類は、登録可能形式、または、逆引き形式でなくてはならない。
+	
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

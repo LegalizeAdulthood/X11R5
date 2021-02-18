@@ -1,0 +1,61 @@
+emu*geometry: 80x24
+emu*font: 7x14
+emu*boldFont: 7x14b
+emu*termType:		simple
+emu*input: True
+emu*screen.WrapAround: True
+emu*screen.InsertMode: False
+emu*screen.CursorFg: blue
+emu*screen.CursorBg: yellow
+emu*screen.CursorBlinking: True
+emu*screen.BlinkWOFocus: False
+emu*screen.Interval: 400
+emu*screen.CursorHeight: 3
+emu*screen.CursorWidth: 0
+emu*screen.selectionInverse: False
+
+/* Slurp in the OP code defines */
+#include "/usr/src/local/emu/include/xt_ops.h"
+
+/* Application Cursor Keys */
+emu*term.simple-auxTrans-3: \
+	:<Key>Left:	key-input("- l -")\n\
+	:<Key>Right:	key-input("- r -")\n\
+	:<Key>Down:	key-input("- d -")\n\
+	:<Key>Up:	key-input("- u -")\n\
+	
+/* Normal Cursor Keys */
+emu*term.simple-auxTrans-4: \
+	:<Key>Left:	call-canvas(5, "", x, -1)\n\
+	:<Key>Right:	call-canvas(5, "", x, 1)\n\
+	:<Key>Down:	call-canvas(7, "", y, 1)\n\
+	:<Key>Up:	call-canvas(7, "", y, -1)\n\
+
+emu*term.simple-flut-1: \
+	 0-94 : 33 \n\
+
+*term.emu-motion-word:          \
+        ALPHA -2 -1
+
+emu*screen.Translations: #override \n\
+	:<Key>#:	key-input("This is the ugliest Text I could think of")\n\
+	~Shift <Key>Left:	call-canvas(5, "", x, -1)\n\
+	~Shift <Key>Right:	call-canvas(5, "", x, 1)\n\
+	~Shift <Key>Down:	call-canvas(7, "", y, 1)\n\
+	~Shift <Key>Up:	call-canvas(7, "", y, -1)\n\
+	<Key>BackSpace: call-canvas(5, "", x, -1)\
+			key-input(" ")\
+			call-canvas(5, "", x, -1)\n\
+	:<Key>Return:	call-canvas(3, "", x, 0)\
+			call-canvas(7, "", y, 1)\n\
+	<Key>F2:	call-canvas(30, "", a, 4)\n\
+	<Key>F3:	call-canvas(31, "", b, 15)\n\
+	<Key>F4:	call-canvas(46, "", a, 5, b, 0)\n\
+	<Key>F5:	call-canvas(46, "", a, -5, b, 0)\n\
+	<Key>F6:	call-canvas(46, "", a, 1, b, 0)\n\
+	<Key>F7:	call-canvas(46, "", a, -1, b, 0)\n\
+	<Key>F8:	call-canvas(45, "", a, 1, b, 0)\n\
+	\
+	<Key>F10:	call-parser(99, "", a, 1, b, 0)\n\
+
+Mwm*emu*focusAutoRaise:	True

@@ -1,0 +1,196 @@
+.\" $Header: XpexGetStructureInfo.man,v 2.6 91/09/11 16:04:18 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexGetStructureInfo 3PEX "$Revision: 2.6 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexGetStructureInfo, XpexGetElementInfo, XpexGetStructuresInNetwork, XpexGetAncestors, XpexGetDescendants, XpexFetchElements \- Inquire attributes and other information about structures
+.SH "Synopsis"
+.nf
+Status 
+XpexGetStructureInfo(dpy, s_id, info)
+.br
+    Display  *dpy;
+.br
+    XpexStructure  s_id;
+.br
+    XpexStructureInfo  *info; /* RETURN */
+.sp
+Status 
+XpexGetElementInfo(dpy, s_id, range, elem_info, count)
+.br
+    Display  *dpy;
+.br
+    XpexStructure  s_id;
+.br
+    XpexElementRange  *range;
+.br
+    XpexElementInfo  *elem_info[]; /* RETURN */
+.br
+    int  *count; /* RETURN */
+.sp
+Status 
+XpexGetStructuresInNetwork(dpy, s_id, which, count)
+.br
+	Display  *dpy;
+.br
+	XpexStructure  s_id;
+.br
+	int  which;
+.br
+	XpexStructure *s_ids; /* RETURN */
+.br
+	int  *count; /* RETURN */
+.sp
+Status 
+XpexGetAncestors(dpy, s_id, path_order, path_depth, paths, num_paths)
+.br
+	Display  *dpy;
+.br
+	XpexStructure  s_id;
+.br
+	int  path_order;
+.br
+	int  path_depth;
+.br
+	XpexListOfElementRef *paths; /* RETURN */
+.br
+	int  *num_paths;	/* RETURN */
+.sp
+Status
+XpexGetDescendants(dpy, s_id, path_order, path_depth, paths, num_paths)
+.br
+	Display  *dpy;
+.br
+	XpexStructure  s_id;
+.br
+	int  path_order;
+.br
+	int  path_depth;
+.br
+	XpexListOfElementRef *paths; /* RETURN */
+.br
+	int  *num_paths; /* RETURN */
+.sp
+Status 
+XpexFetchElements(dpy, s_id, range, elements, num_elements)
+.br
+	Display  *dpy;
+.br
+	XpexStructure  s_id;
+.br
+	XpexElementRange  *range;
+.br
+	char  **elements; /* RETURN */
+.br
+	int  *num_elements; /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIs_id\fP 1i
+To be added
+.IP \fIinfo\fP 1i	
+To be added
+.IP \fIwhich\fP 1i	
+To be added
+.IP \fIids\fP 1i	
+To be added
+.IP \fIrange\fP 1i	
+To be added
+.IP \fIelem_info\fP 1i	
+To be added
+.IP \fIpath_order\fP 1i	
+To be added
+.IP \fIpath_depth\fP 1i	
+To be added
+.IP \fIpaths\fP 1i	
+To be added
+.IP \fIelements\fP 1i	
+To be added
+.IP \fInum_elements\fP 1i	
+To be added
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 7.2.
+.SH "Structures"
+typedef struct {
+.br
+	int  editing_mode;
+.br
+	int  element_ptr;
+.br
+	int  num_elements;
+.br
+	int  total_length;
+.br
+	int  has_refs;
+.br
+} XpexStructureInfo;
+.sp
+typedef struct {
+.br
+	XpexElementPos  pos1;
+.br
+	XpexElementPos  pos2;
+.br
+} XpexElementRange;
+.sp
+typedef struct {
+.br
+	int whence;
+.br
+	int offset;
+.br
+} XpexElementPos;
+.sp
+typedef struct {
+.br
+	int element_type;
+.br
+	int length;
+.br
+} XpexElementInfo;
+.sp
+typedef struct {
+.br
+	int  count;
+.br
+	XpexElementRef  *elem_refs;
+.br
+} XpexListOfElementRef;
+.sp
+typedef struct {
+.br
+	XpexStructure  s_id;
+.br
+	int  offset;
+.br
+} XpexElementRef;
+.SH "Errors"
+Structure, FloatingPointFormat, Value
+.SH "Related Commands"
+To be added 

@@ -1,0 +1,5 @@
+The contents of this directory has been moved to contrib/clients/xcrtca.
+The ca100 program has been renamed xcrtca to reflect support of
+the Tektronics j17.
+
+					dave sternlicht

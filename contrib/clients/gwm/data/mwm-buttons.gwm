@@ -1,0 +1,344 @@
+;;File: mwm-buttons.gwm -- 
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 19189
+;;State: Exp
+;;GWM Version: 1.4
+
+
+
+; Drawing of the shadows :
+; ----------------------
+(de draw-shadow (theTile x1 y1 x2 y2 topSC bottomSC)
+ (with (foreground topSC)
+  (draw-line theTile x1 y1 x2 y1)
+  (draw-line theTile x1 y1 x1 y2 )
+ )
+ (with (foreground bottomSC)
+  (draw-line theTile x2 y2 x2 y1 )
+  (draw-line theTile x1 y2 x2 y2 )
+ )
+ theTile
+)
+
+
+; The FSM of buttons :
+; ------------------
+(: button.fsm
+ (fsm-make 
+  ;-----------------------------------------------------------NORMAL
+  (: normal (state-make 
+	(on (user-event 'focus-in) (: wob-tile (# 'activepixmap wob)) )
+	(on (user-event 'focus-out) (: wob-tile (# 'pixmap wob)) )
+      (on (user-event 'find-button)
+          (if (= button-to-find (# 'button-name wob))
+              (: button wob)))
+	(on (double-button 1 alone) 
+		(if (and (# 'is-button-menu wob) wMenuButtonClick2) ()))
+	(on (buttonpress any any)
+	 (with (cerx (current-event-relative-x) 
+		cery (current-event-relative-y))
+	 (do-binding-button (current-event-code) 
+		(current-event-modifier) 'press '(frame))
+	 (if (= (current-event-code) (# 'button-to-press wob))
+		(send-user-event 'press wob)
+	 ))
+	)
+	(on (user-event 'press) 
+	 (progn
+	   (: wob-tile (draw-shadow 
+		wob-pixmap
+		0 0 (- wob-width 1) (- wob-height 1)
+		clientActiveBottomShadowColor clientActiveTopShadowColor
+	   ))
+	   (send-user-event 'goto-pushed wob)
+	   (if (and (> cerx 0)
+		    (> cery 0)
+		    (< cerx wob-width)
+		    (< cery wob-height)
+	       )
+		(eval (# 'press-action wob))
+		(eval (# 'bad-press-action wob))
+	   )
+	  )
+	)
+	(on (buttonrelease any any)
+	 (with (cerx (current-event-relative-x) 
+		cery (current-event-relative-y))
+	 (do-binding-button (current-event-code) 
+		(current-event-modifier) 'release '(frame))
+	 (if  (= (current-event-code) (# 'button-to-press wob))
+		(send-user-event 'release wob)
+	 ))
+	)
+	(on (user-event 'release) 
+	 (progn
+	   (: wob-tile (draw-shadow 
+		wob-pixmap
+		0 0 (- wob-width 1) (- wob-height 1)
+		clientActiveTopShadowColor clientActiveBottomShadowColor
+	   ))
+	   (send-user-event 'goto-normal wob)
+	   (if (and (> cerx 0)
+		    (> cery 0)
+		    (< cerx wob-width)
+		    (< cery wob-height)
+	       )
+		(eval (# 'release-action wob))
+		(eval (# 'bad-release-action wob))
+	   )
+	  )
+	)
+	(on (user-event 'goto-pushed) () pushed)
+	(on (user-event 'depop) 
+	 (if (# 'menu-son wob) (send-user-event 'depop (# 'menu-son wob))))
+   ))
+   ;-----------------------------------------------------------PUSHED
+   (: pushed (state-make
+      (on (user-event 'find-button)
+          (if (= button-to-find (# 'button-name wob))
+              (: button wob)))
+	(on (buttonrelease any any)
+	 (with (cerx (current-event-relative-x) 
+		cery (current-event-relative-y))
+	 (do-binding-button (current-event-code) 
+		(current-event-modifier) 'release '(frame))
+	 (if  (= (current-event-code) (# 'button-to-press wob))
+		(send-user-event 'release wob)
+	 ))
+	)
+	(on (user-event 'release) 
+	 (progn
+	   (: wob-tile (draw-shadow 
+		wob-pixmap
+		0 0 (- wob-width 1) (- wob-height 1)
+		clientActiveTopShadowColor clientActiveBottomShadowColor
+	   ))
+	   (send-user-event 'goto-normal wob)
+	   (if (and (> cerx 0)
+		    (> cery 0)
+		    (< cerx wob-width)
+		    (< cery wob-height)
+	       )
+		(eval (# 'release-action wob))
+		(eval (# 'bad-release-action wob))
+	   )
+	  )
+	)
+	(on (user-event 'goto-normal) () normal)
+	(on (user-event 'button-release)
+	   (: wob-tile (draw-shadow 
+		wob-pixmap
+		0 0 (- wob-width 1) (- wob-height 1)
+		clientActiveTopShadowColor clientActiveBottomShadowColor
+	   ))	normal 
+	)
+	(on (user-event 'depop) 
+	 (if (# 'menu-son wob) (send-user-event 'depop (# 'menu-son wob))))
+	)
+    )
+ )
+)
+
+(de button.draw-pixmap (pixmap mode)
+; mode : t = active / ()
+(draw-shadow
+ (:  button.pix
+ (with (background (if mode clientActiveBackground clientBackground))
+       (foreground (if mode clientActiveForeground clientForeground))
+  (pixmap-make pixmap)
+ ))
+ 0 0 (- (width button.pix) 1) (- (height button.pix) 1)
+(if mode clientActiveTopShadowColor clientTopShadowColor)
+(if mode clientActiveBottomShadowColor clientBottomShadowColor) )
+)
+
+
+; BUTTON.MAKE :
+; ===========
+; button.button-to-press : mouse button to use
+; button.pixmap : button's pixmap
+; button.press-action 
+; button.release-action
+(de button.make ()
+ (with (
+	fsm button.fsm
+	borderwidth 0
+	property (+ (list 
+		       'button-to-press button.button-to-press 
+		       'press-action    button.press-action
+		       'bad-press-action button.bad-press-action
+		       'release-action  button.release-action
+		       'bad-release-action button.bad-release-action
+		       'pixmap		button.pixmap
+		       'activepixmap	button.activepixmap
+		       'already-popped  ()
+                     'button-name     button.name
+		 ) property)
+       )
+  (plug-make button.pixmap)
+ )
+)
+
+
+; Drawing of the buttons :
+; ----------------------
+(de button.draw (x1 y1 x2 y2 mode)
+; mode : t = active / () 
+(draw-shadow
+	(draw-shadow 
+	 (with (foreground (if mode clientActiveBackground clientBackground))
+	 (pixmap-make button.size button.size)
+ 	 )
+	x2 y2 x1 y1
+	(if mode clientActiveBottomShadowColor clientBottomShadowColor)
+	(if mode clientActiveTopShadowColor clientTopShadowColor) )
+ 0 0 (- button.size 1) (- button.size 1)
+(if mode clientActiveTopShadowColor clientTopShadowColor)
+(if mode clientActiveBottomShadowColor clientBottomShadowColor) )
+)
+
+
+(with (font clientFontList)
+	(: button.size (+ 4 (height "A"))))
+
+
+
+(: menu-activate-by-wob ())
+
+;==================================================================
+; THE MWM-LIKE BUTTONS
+;==================================================================
+
+; BUTTON-OF-MENU :
+; ==============
+(: button-of-menu
+ (with (
+	property '(is-button-menu t)
+	button.button-to-press 1
+        button.pixmap (button.draw
+			(/ button.size 5) (- (/ button.size 2) 2)
+			(/ (* 4 button.size) 5) (+ (/ button.size 2) 2)
+			() )
+        button.activepixmap (button.draw
+			(/ button.size 5) (- (/ button.size 2) 2)
+			(/ (* 4 button.size) 5) (+ (/ button.size 2) 2)
+			t )
+	button.press-action 
+		'(with (theMenuWob (menu-wob (window-menu)))
+			(if (# 'already-popped wob-property)
+			(progn 
+		    	 (send-user-event 'unselect-item 
+				(# (current-valid-item  theMenuWob) 
+					(valid-items  theMenuWob)))
+                    	 (send-user-event 'activate-menu  theMenuWob)
+			)
+			(progn
+			 (## 'already-popped wob t)
+			 (with (x wob-x y (+ wob-y wob-height))
+			  (if (> (+ y (height theMenuWob)) screen-height)
+			    (: y (- wob-y (height theMenuWob))))
+			  (if (> (+ x (width theMenuWob)) screen-width)
+			    (: x (- screen-width (width theMenuWob))))
+			  (move-window theMenuWob x y)
+			  (menu.pop (window-menu) 1 'here)
+			 )
+			)
+		 ))
+	button.release-action
+		(if wMenuButtonClick
+		'(with (theMenuWob (menu-wob (window-menu)))
+		    (with (wob  theMenuWob)
+			(## 'current-valid-item wob 0))
+		    (send-user-event 'goto-activable  theMenuWob)
+		    (send-user-event 'select-item 
+			(# 0 (valid-items  theMenuWob)) )
+		 )
+		'(with (theMenuWob (menu-wob (window-menu)))
+                    (send-user-event 'goto-activable  theMenuWob)
+		    (send-user-event 'unselect-item 
+			(# (current-valid-item  theMenuWob) 
+				(valid-items  theMenuWob)))
+		    (send-user-event 'depop  wob)
+		 )
+		)
+	button.bad-release-action
+		'(with (theMenuWob (menu-wob (window-menu)))
+                    (send-user-event 'goto-activable  theMenuWob)
+		    (send-user-event 'unselect-item 
+			(# (current-valid-item  theMenuWob) 
+				(valid-items  theMenuWob)))
+		    (send-user-event 'depop  theMenuWob)
+		 )
+	button.bad-press-action
+		'(with (theMenuWob (menu-wob (window-menu)))
+		    (send-user-event 'unselect-item 
+			(# (current-valid-item  theMenuWob) 
+				(valid-items  theMenuWob)))
+                    (send-user-event 'activate-menu  theMenuWob)
+		 )
+      button.name 'menu
+       )
+ (button.make)
+ )
+)
+
+; BUTTON-ICONIFY :
+; ==============
+(: button-iconify
+ (with (
+	property ()
+	coord (/ (- button.size 4) 2)
+	button.button-to-press 1
+	button.pixmap (button.draw
+			coord coord (+ coord 4) (+ coord 4)
+			() )
+        button.activepixmap (button.draw
+			coord coord (+ coord 4) (+ coord 4)
+			t )
+	button.press-action ()
+	button.bad-press-action ()
+	button.release-action '(f.minimize)
+	button.bad-release-action ()
+      button.name 'iconify
+       )
+ (button.make)
+ )
+)
+
+; BUTTON-ZOOM :
+; ===========
+(: button-zoom
+ (with (
+	property (list
+		  'pushed-pixmap 
+                        (button.draw
+                        (- button.size 6) (- button.size 6)
+                        5 5
+                        () )
+		  'activepushed-pixmap
+                        (button.draw
+                        (- button.size 6) (- button.size 6)
+                        5 5
+                        t )
+		 )
+	button.button-to-press 1
+	button.pixmap (button.draw
+			5 5
+			(- button.size 6) (- button.size 6)
+			() )
+	button.activepixmap (button.draw
+			5 5
+			(- button.size 6) (- button.size 6)
+			t )
+	button.press-action ()
+	button.bad-press-action ()
+	button.release-action '(zoom)
+	button.bad-release-action ()
+      button.name 'zoom
+       )
+ (button.make)
+ )
+)
+
+

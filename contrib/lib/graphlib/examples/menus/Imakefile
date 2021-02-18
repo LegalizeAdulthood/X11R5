@@ -1,0 +1,14 @@
+#include <GraphLib.tmpl>
+INCLUDES = -I$(INCLUDESRC) -I$(TOP)
+DEPLIBS = GraphLibClientDepLibs
+LOCAL_LIBRARIES = GraphLibClientLibs
+
+SRCS = menus.c
+OBJS = menus.o
+PROG = menus
+
+AllTarget($(PROG))
+
+SingleProgramTarget(menus,menus.o,$(LOCAL_LIBRARIES), /**/ )
+DependTarget()
+

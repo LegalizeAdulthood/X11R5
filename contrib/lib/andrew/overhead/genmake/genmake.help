@@ -1,0 +1,85 @@
+\begindata{text,268761740}
+\textdsversion{12}
+\template{help}
+\chapter{Genmake: Generate Makefile from Imakefile
+
+}
+\section{What genmake is
+
+}\leftindent{
+Genmake is a c-shell script that can be used to facilitate transforming an 
+Imakefile into a Makefile.
+
+}
+\section{Starting genmake
+
+}\leftindent{
+To use genmake, simply 'cd' into the directory where the Imakefile is and 
+type:
+
+
+\example{genmake}
+
+
+Alternatively you can supply the path of the directory where the Imakefile is, 
+on the command line - the generated Makefile will be created in that directory 
+- not the current working directory. 
+
+
+\example{genmake ~/foo/bar}
+
+
+}\section{Warnings
+
+}\leftindent{
+The Imakefile is system-independent, but Makefiles generated from Imakefiles 
+can very easily be system-dependent - so don't assume that if you generated a 
+Makefile on and RT that you can use the same Makefile on a Sun or a Vax. 
+
+}
+\section{How genmake works}
+
+\leftindent{
+Genmake Figures out the relative path between your current working directory 
+(or path supplied on command line) and the top-level Andrew source directory 
+(under which is the configuration directory which determines what a Makefile 
+should look like exists).
+
+
+After figuring out this relative path, genmake passes it on to the program 
+Imake which is used as a pre-processor for the Imakefile to turn the Imakefile 
+into a Makefile.  This final command looks like (all one line):
+
+
+\example{\smaller{$\{IMAKE\} -T imake.tmpl -I$\{REL\} -I$\{REL\}/config -s 
+Makefile -DTOPDIR=$\{REL\}}}
+
+
+Where:
+
+
+\description{\bold{$IMAKE} is the location of the Imake program at your site
+
+
+\bold{$REL} is the relative path between the cwd (or supplied path) and the 
+directory under which the configuration information is kept.}
+
+}
+\section{Program Author}
+
+\leftindent{
+Adam Stoller}
+
+
+\section{Related tools}  
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{\italic{imake}
+
+\italic{make
+
+}}\enddata{text,268761740}

@@ -1,0 +1,71 @@
+.\"
+.\"Copyright 1991 Sony Corporation
+.\"
+.\"Permission to use, copy, modify, distribute, and sell this software and its
+.\"documentation for any purpose is hereby granted without fee, provided that
+.\"the above copyright notice appear in all copies and that both that
+.\"copyright notice and this permission notice appear in supporting
+.\"documentation, and that the name of Sony not be used in advertising or
+.\"publicity pertaining to distribution of the software without specific,
+.\"written prior permission.  Sony makes no representations about the
+.\"suitability of this software for any purpose.  It is provided "as is"
+.\"without express or implied warranty.
+.\"
+.\"SONY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+.\"IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL SONY
+.\"BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\"WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+.\"OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+.\"CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\"Author: Noriyuki Hosoe, Sony Corporation
+.\"
+.\"
+.\" $Header: sj3serv.1,v 1.1 91/09/04 23:05:14 root Locked $ SONY;
+.\"
+.\"	
+.\" Server of Japanese input frontent processor
+.TH SJ3SERV 1 "October 1990"
+.SH 名称
+sj3serv \- 仮名漢字変換サーバ
+.SH 形式
+.B sj3serv
+[ \fB\-f\fP filename ]
+.SH 解説
+\fIsj3serv\fP は、ソケットを使用したプロセス間通信により仮名漢字変換を
+行なう、仮名漢字変換サーバです。
+.SH オプション
+.TP
+.BI \-f " filename"
+このオプションは、\fIsj3serv\fP の読み込むセットアップファイルを指定します。
+.br
+\fIsj3serv\fP はデフォルトではセットアップファイル
+‘/usr/sony/lib/sj3/serverrc’を読み込みますが、
+このオプションが指定されたときにはかわりに
+コマンドラインで指定されたセットアップファイルを読み込みます。
+.br
+.SH 関連ファイル
+.PD 0
+.TP \w'\ \ \ \ user/\fIusername\fP/private.dic'u+2n
+/usr/sony/lib/sj3/serverrc
+デフォルト仮名変換サーバ セットアップファイル
+.TP
+/usr/sony/dict/sj3/
+かな漢字変換サーバ デフォルト辞書ディレクトリ
+.TP
+    sj3main.dic
+仮名漢字変換メイン辞書
+.TP
+    user/\fIusername\fP/private.dic
+仮名漢字変換ユーザ辞書
+.TP
+    user/\fIusername\fP/study.dat
+仮名漢字変換学習ファイル
+
+.SH 関連事項
+sj3(1), sj3lib(3) 
+
+.SH バグ
+変換ルーチン内での辞書の識別には、辞書ファイルの inode 番号を
+使用しています。コピーなどにより辞書ファイルの inode 番号が
+変更されると、文節学習データは失われます。

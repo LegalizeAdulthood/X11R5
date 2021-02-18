@@ -1,0 +1,60 @@
+\begindata{text,269386836}
+\textdsversion{12}
+\template{help}
+\define{title
+menu:[Title]
+attr:[FontFace Italic Int Set]}
+\chapter{Preferences tutorial}
+
+
+\section{Changing Your Preferences
+
+}
+Changing your preferences is as simple as editing and saving your preferences. 
+ To do this, type
+
+
+\typewriter{\leftindent{ez preferences}}
+
+
+in your Typescript window and press Enter.  
+
+
+When the EZ window appears with your preferences file in it, you can type in 
+the new line you want to add, or change the value of an existing preference. 
+ For example, add the following line to your preferences file:
+
+
+ez.bodyfont: AndySans10
+
+
+Save the file and quit the EZ window you are running.  Now, start EZ again by 
+typing
+
+
+\typewriter{\leftindent{ez preferences}}
+
+
+You should notice that the letters in the EZ window are different from what 
+they were before.  To change them back, you can either remove the preference 
+entirely, or simply put a # mark in front of it, like
+
+
+# ez.bodyfont: AndySans10
+
+
+The # mark tells EZ not to read that preference.  You can also use # marks to 
+add reminders to yourself about what preferences are for, as in:
+
+
+# I added this just for the preferences tutorial
+
+ez.bodyfont: AndySans10
+
+
+You can now experiment will lots of different preferences listed in the 
+ \italic{preferences } help file.  Once you have edited and saved your 
+preferences file, any new processes you call up, such as EZ, will use the new 
+preferences that are relevant to them.  Thus, it is possible to have several 
+EZ windows with different type fonts.  \
+\enddata{text,269386836}

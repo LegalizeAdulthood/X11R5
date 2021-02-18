@@ -1,0 +1,42 @@
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+HEADERS = \
+	Bmgr.h \
+	BmgrP.h \
+	BmgrR.h \
+	Button.h \
+	ButtonI.h \
+	ButtonP.h \
+	Command.h \
+	CommandI.h \
+	CommandP.h \
+	Deck.h \
+	DeckP.h \
+	Entry.h \
+	EntryP.h \
+	EntryI.h \
+	FloatR.h \
+	GravityR.h \
+	JustifyR.h \
+	Label.h \
+	LabelP.h \
+	ProcedureR.h \
+	Rc.h \
+	RcP.h \
+	ResizePR.h \
+	Simple.h \
+	SimpleI.h \
+	SimpleP.h \
+	SimpleR.h \
+	SunR.h \
+	Tbl.h \
+	TblP.h \
+	Wlm.h \
+	WlmP.h
+
+AllTarget()
+
+InstallMultiple($(HEADERS),$(INCDIR)/Xcu)
+
+DependTarget()
+

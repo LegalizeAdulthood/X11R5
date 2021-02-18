@@ -1,0 +1,50 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif 
+
+IHFILES		=	butter.ih \
+			butterv.ih \
+			champ.ih \
+			chimp.ih \
+			chimpv.ih \
+			chomp.ih \
+			chompv.ih \
+			enode.ih \
+			enodev.ih \
+			chlist.ih \
+			chlistv.ih \
+			month.ih \
+			monthv.ih 
+
+CHUMPOBJS	= 	chump.o match.o read.o
+
+CHAMPOBJS	= 	champ.o match.o read.o
+
+LIBS		=	${UTILLIB}
+
+DOBJS		=	butter.do butterv.do champ.do chimp.do \
+			chimpv.do chomp.do chompv.do \
+			enode.do enodev.do chlist.do chlistv.do \
+			month.do monthv.do
+
+NormalObjectRule()
+NormalATKRule()
+
+ProgramTarget(chump, ${CHUMPOBJS}, ${LIBS}, ${NETLIBS} ${BSDLIB})
+DynamicMultiObject(champ.do, ${CHAMPOBJS}, ${LIBS},${NETLIBS} ${BSDLIB})
+DynamicMultiObject(monthv.do, monthv.o, $(UTILLIB), ${BSDLIB})
+DynamicObject(chlist, , ${SUPLIBS})
+
+InstallProgram(chump, ${DESTDIR}/bin)
+InstallClassFiles($(DOBJS), $(IHFILES))
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(champ.help chimp.help evnts.help calndrs.help chump.help, ${DESTDIR}/help)
+InstallHelpAlias(evnts, champ-events-file champfile)
+InstallHelpAlias(calndrs, champ-calendars hebrewcalendar)

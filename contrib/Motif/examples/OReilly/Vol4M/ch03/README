@@ -1,0 +1,6 @@
+xrowcolumn	simple XmRowColumn containing PushButtons
+xform	simple XmForm containing PushButtons
+xmainwindow	simple XmMainWindow, with menu bar, File menu containing quit, Help button, and Help dialog box.
+
+Ex3-6	Example 3-6 from book:  passing a number to a callback through client_data
+Ex3-7	Example 3-7 from book:  passing a structure to a callback through client_data

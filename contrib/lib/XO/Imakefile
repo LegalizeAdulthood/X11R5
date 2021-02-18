@@ -1,0 +1,12 @@
+INCL_BASE = -I/usr/include
+STD_INCLUDES = $(INCL_BASE) $(INCL_BASE)/X11 $(INCL_BASE)/Xaw $(INCL_BASE)/Xmu\
+	$(INCL_BASE)/Xt $(INCL_BASE)/X11/Xaw $(INCL_BASE)/X11/Xmu \
+	$(INCL_BASE)/X11/Xt
+
+COLORFILE = -DCOLORFILE=\"/usr/lib/X11/rgb.txt\"
+CFLAGS = $(CDEBUGFLAGS) $(CCOPTIONS) $(ALLDEFINES) $(COLORFILE)
+
+
+LIBOBJS = XOColorNames.o XOCancBtn.o XOQuitBtn.o XOHelpBtn.o XOIcon.o
+
+NormalLibraryTarget(XO,$(LIBOBJS))

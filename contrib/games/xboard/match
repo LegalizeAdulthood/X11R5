@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# match -- play a series of games using xboard as a referee
+#
+
+case $# in
+8) COUNT=0; HOST1=$2 ; HOST2=$4 ; LENGTH=$6 ; MODE=$8 ;;
+*) echo "Usage: match -host1 host -host2 host -length \
+games -mode (Init | Position | Opening)" ; exit
+esac
+
+while (:)
+do
+    if (test $COUNT -eq $LENGTH)
+    then
+        break
+    else
+        COUNT=`echo $COUNT | awk '{print $0 + 1}'`
+        MODULO=`echo $COUNT | awk '{print $0 % 2}'`
+        if (test $MODULO -eq 0)
+        then
+            xboard -iconic -firstHost $HOST1 -secondHost $HOST2 \
+                -matchMode $MODE -saveGameFile match.game.$COUNT \
+                -savePositionFile match.position.$COUNT
+        else
+            xboard -iconic -firstHost $HOST2 -secondHost $HOST1 \
+                -matchMode $MODE -saveGameFile match.game.$COUNT \
+                -savePositionFile match.position.$COUNT
+        fi
+    fi
+done

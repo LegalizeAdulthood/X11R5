@@ -1,0 +1,396 @@
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+NNAAMMEE
+     xwnmo - Input Manager of the X Window System Version 11
+
+SSYYNNOOPPSSIISS
+     xxwwnnmmoo [-_o_p_t_i_o_n ...]
+
+DDEESSCCRRIIPPTTIIOONN
+     The _x_w_n_m_o is a input manager for Input Method of X Window
+     System.  It is based on [_X _W_i_n_d_o_w _S_y_s_t_e_m, _V_e_r_s_i_o_n _1_1 _I_n_p_u_t
+     _M_e_t_h_o_d _S_p_e_c_i_f_i_c_a_t_i_o_n_s].  It provides a multi-language input
+     evironment for multiple clients in the X Window System Ver-
+     sion 11. Clients can connect to it by using XIM library.
+
+     The conversion engine _x_w_n_m_o use is the internationalized
+     Wnn. It selects conversion server in accordance with
+     language of clients.
+
+     _X_w_n_m_o supports the following inputstyles:
+             ( XIMPreeditArea | XIMStatusArea )
+             ( XIMPreeditPosition | XIMStatusArea )
+             ( XIMPreeditNothing | XIMStatusNothing )
+             ( XIMPreeditCallbacks | XIMStatusArea )
+             ( XIMPreeditArea | XIMStatusCallbacks )
+             ( XIMPreeditPosition | XIMStatusCallbacks )
+             ( XIMPreeditCallbacks | XIMStatusCallbacks )
+
+     If you attmpt to connect _x_w_n_m_o by using XIM library, You
+     must set modifiers __X_W_N_M_O.
+
+     Concretely,
+             XSetLocaleModifiers("@im=_XWNMO");
+             or
+             set environment XXMMOODDIIFFIIEERRSS=@im=_XWNMO and XSetLo-
+             caleModifiers("");.
+
+
+XXMMLL
+     According to _I_n_p_u_t _M_e_t_h_o_d _S_p_e_c_i_f_i_c_a_t_i_o_n_s, the locale which
+     input method use is only one and static locale. Thence _x_w_n_m_o
+     provides only one languange environment which depends on the
+     current locale of _X_O_p_e_n_I_M(). And you could not change this
+     environment.  But if libX11.a was compiled with XXMMLL define,
+     clients can use multi locale environment. In other words,
+     you can cange current languange environment on the fly by
+     changing current locale. The way to use its environment is
+     the following:
+
+     CCrreeaattiinngg eennvviittoonnmmeenntt
+             Call _X_m_l_O_p_e_n_I_M() instead of XOpenIM() ,set
+             XXNNCCuurrrreennttLLaanngguuaaggee argument of XIC and call
+             _X_C_r_e_a_t_e_I_C(). So _x_w_n_m_o attempts to create as many
+             language environment as possible and set current
+
+
+
+Printed 9/3/91              Release 5                           1
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+             environment to the locale setted XNCurrentLanguage.
+             If you don't set XNCurrentLanguage current environ-
+             ment is the first environment _x_w_n_m_o created.  A syn-
+             tax of XNCurrentLanguage follows.
+             current_language = <language>'_'<territory>
+
+     CChhaannggiinngg eennvviittoonnmmeenntt
+             If you want to change current languange environment,
+             set XXNNCCuurrrreennttLLaanngguuaaggee argument and call _X_S_e_t_-
+             _I_C_V_a_l_u_e_s().
+
+     _X_w_n_m_o accept that XXMMLL clients and NNOONN__XXMMLL cleints connect
+     _x_w_n_m_o at the same time.
+
+XXJJpp
+     _X_w_n_m_o is able to support XJp protocol. If You compile _x_w_n_m_o
+     with XXJJPP define, it supports "Communication Kit" part of XJp
+     protocol.  And if You compile _x_w_n_m_o with XXJJPP and XXJJPP__DDIIRREECCTT
+     define, it supports "Direct Interface" part of XJp protocol.
+
+OOPPTTIIOONNSS
+     _X_w_n_m_o accepts the following options:
+
+     --DD _s_e_r_v_e_r-_n_a_m_e
+             This option specifies the machine name of conversion
+             server.  The default is NULL.
+
+     --nn _u_s_e_r-_n_a_m_e
+             This option specifies the user name which is used as
+             env-name of Wnn.  If this isn't set, first _W_N_N_U_S_E_R
+             environment is referred. And if it isn't set, the
+             user name of process is referred.
+
+     --llcc _l_o_c_a_l_e-_n_a_m_e
+             This option specifies the _l_o_c_a_l_e _n_a_m_e which is
+             referred as the language environment of _R_o_o_t-_m_o_d_e.
+             If this isn't set, first _L_A_N_G environment is
+             referred. And if it isn't set, the default is _j_a__J_P.
+
+     --kk _u_u_m_k_e_y-_f_i_l_e-_n_a_m_e
+             This option specifies the path name of _u_u_m_k_e_y-_f_i_l_e.
+             For feather about _u_u_m_k_e_y-_f_i_l_e, please see Wnn
+             namual.
+
+     --rr _r_o_m_k_a_n-_f_i_l_e-_n_a_m_e
+             This option specifies the directory name of _r_o_m_k_a_n-
+             _f_i_l_e. For feather about _r_o_m_k_a_n-_f_i_l_e, please see Wnn
+             namual.
+
+     --FF _c_o_n_v_e_r_t-_f_u_n_c_t_i_o_n-_f_i_l_e-_n_a_m_e
+             This option specifies the path name of _c_o_n_v_e_r_t-
+             _f_u_n_c_t_i_o_n-_f_i_l_e. The _c_o_n_v_e_r_t-_f_u_n_c_t_i_o_n-_f_i_l_e contains
+
+
+
+Printed 9/3/91              Release 5                           2
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+             the relation between function keys of X and keys of
+             Wnn. The default is
+             "/usr/local/lib/wnn/cvt_fun_tbl".  For feather about
+             _c_o_n_v_e_r_t-_f_u_n_c_t_i_o_n-_f_i_l_e, please see the manaul of
+             cvtfun.
+
+     --MM _c_o_n_v_e_r_t-_m_e_t_a-_f_i_l_e-_n_a_m_e
+             This option specifies the path name of _c_o_n_v_e_r_t-
+             _m_e_t_a-_f_i_l_e. The _c_o_n_v_e_r_t-_m_e_t_a-_f_i_l_e contains the rela-
+             tion between meta keys of X and keys of Wnn. The
+             default is "/usr/local/lib/wnn/cvt_meta_tbl".  For
+             feather about _c_o_n_v_e_r_t-_m_e_t_a-_f_i_l_e, please see the
+             manaul of cvt_mt.
+
+     --ffss _f_o_n_t-_n_a_m_e-_l_i_s_t
+             This option specifies the list of font name. The
+             fontset of Root-mode is created from this list. The
+             default is depend on the locale.  A syntax of this
+             list follows.
+             font-name-list = <fontname>{','fontname}
+
+     --ggeeoommeettrryy _g_e_o_m_e_t_r_y
+             This option specifies the preferred size and posi-
+             tion of the xwnmo window; see _X(_1)
+
+     --ffgg _c_o_l_o_r
+             This option specifies the color to use for display-
+             ing text of the xwnmo window. The default is
+             ``black.''
+
+     --bbgg _c_o_l_o_r
+             This option specifies the color to use for the back-
+             ground of the xwnmo window.  The default is
+             ``white.''
+
+     --bbdd _c_o_l_o_r
+             This option specifies the color to use for the
+             border of the xwnmo window.  The default is
+             ``black.''
+
+     --bbww _n_u_m_b_e_r
+             This option specifies the width in pixels of the
+             border surrounding the xwnmo window.
+
+     --ddiissppllaayy _d_i_s_p_l_a_y
+             This option specifies the X server to connect; see
+             _X(_1).
+
+     --iiccoonniicc This option indicates that _x_w_n_m_o should ask the win-
+             dow manager to start it as an icon rather than as
+             the normal window.
+
+
+
+
+Printed 9/3/91              Release 5                           3
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+     ##_g_e_o_m   This option specifies the preferred position of the
+             icon window.  It is shorthand for specifying the
+             ``*_i_c_o_n_G_e_o_m_e_t_r_y'' resource.
+
+     --hheellpp   This causes _x_w_n_m_o to print out a verbose message
+             describing its options.
+
+     --hh      This causes _x_w_n_m_o to wake up in convertion _o_n mode.
+             The default is off mode.
+
+     --HH      This causes _x_w_n_m_o to wake up in convertion _o_f_f mode.
+
+     --jjuu _x_j_t_u_i_l-_n_a_m_e
+             This option specifies the path name of _x_j_u_t_i_l which
+             is _t_h_e _d_i_c_t_i_o_n_a_r_y _u_t_i_l_i_t_y _m_a_n_a_g_e_r.  The default is
+             "/usr/bin/X11/xjutil".
+
+RREESSOOUURRCCEESS
+     _X_w_n_m_o accepts the following resource names and classes:
+
+     sseerrvveerrNNaammee ((class SSeerrvveerrNNaammee))
+             Specifies the machine name of conversion server.
+             The default is NULL.
+
+     uusseerrNNaammee ((class UUsseerrNNaammee))
+             Specifies the user name which is used as env-name of
+             Wnn.  If this isn't set, first _W_N_N_U_S_E_R environment
+             is referred. And if it isn't set, the user name of
+             process is referred.
+
+     xxiimmrrccNNaammee ((class XXiimmrrccNNaammee))
+             Specifies the path name of _x_i_m_r_c-_f_i_l_e which is a
+             start up file of _x_w_n_m_o.  If this isn't set, first
+             $_H_O_M_E/._x_i_m_r_c is referred. And if it doesn't exist,
+             the default is "/usr/local/lib/wnn/ximrc".  For
+             feather about _x_i_m_r_c-_f_i_l_e, please see the manaul of
+             _x_i_m_r_c-_f_i_l_e.
+
+     ccvvttffuunnNNaammee ((class CCvvttffuunnNNaammee))
+             Specifies the path name _c_o_n_v_e_r_t-_f_u_n_c_t_i_o_n-_f_i_l_e. The
+             _c_o_n_v_e_r_t-_f_u_n_c_t_i_o_n-_f_i_l_e contains the relation between
+             function keys of X and keys of Wnn. The default is
+             "/usr/local/lib/wnn/cvt_fun_tbl".  For feather about
+             _c_o_n_v_e_r_t-_f_u_n_c_t_i_o_n-_f_i_l_e, please see the manaul of
+             cvtfun.
+
+     ccvvttmmeettaaNNaammee ((class CCvvttmmeettaaNNaammee))
+             Specifies the path name of _c_o_n_v_e_r_t-_m_e_t_a-_f_i_l_e. The
+             _c_o_n_v_e_r_t-_m_e_t_a-_f_i_l_e contains the relation between meta
+             keys of X and keys of Wnn. The default is
+             "/usr/local/lib/wnn/cvt_meta_tbl".  For feather
+             about _c_o_n_v_e_r_t-_m_e_t_a-_f_i_l_e, please see the manaul of
+
+
+
+Printed 9/3/91              Release 5                           4
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+             cvtmt.
+
+     ffoorreeggrroouunndd ((class FFoorreeggrroouunndd))
+             This option specifies the color to use for display-
+             ing text of the xwnmo window. The default is
+             ``black.''
+
+     bbaacckkggrroouunndd ((class BBaacckkggrroouunndd))
+             Specifies the color to use for the background of the
+             xwnmo window.  The default is ``white.''
+
+     bboorrddeerrCCoolloorr ((class BBoorrddeerrCCoolloorr))
+             Specifies the color to use for the border of the
+             xwnmo window.  The default is ``black.''
+
+     ddiissppllaayy ((class DDiissppllaayy))
+             Specifies the X server to connect.
+
+     xxjjuuttiillNNaammee ((class XXjjuuttiillNNaammee))
+             Specifies the path name of _x_j_u_t_i_l which is _t_h_e _d_i_c_-
+             _t_i_o_n_a_r_y _u_t_i_l_i_t_y _m_a_n_a_g_e_r.  The default is
+             "/usr/bin/X11/xjutil".
+
+     iiccooiinniicc ((class IIccoonniicc))
+             Indicates that _x_w_n_m_o should ask the window manager
+             to start it as an icon rather than as the normal
+             window.
+
+     ggeeoommeettrryy ((class GGeeoommeettrryy))
+             Specifies the preferred size and position of the
+             xwnmo window.
+
+     iiccoonnGGeeoommeettrryy ((class IIccoonnGGeeoommeettrryy))
+             Specifies the preferred position of the icon window.
+
+     bboorrddeerrWWiiddtthh ((class BBoorrddeerrWWiiddtthh))
+             Specifies the width in pixels of the border sur-
+             rounding the xwnmo window.
+
+     llaannggNNaammee ((class LLaannggNNaammee))
+             Specifies the _l_o_c_a_l_e _n_a_m_e which is referred as the
+             language environment of _R_o_o_t-_m_o_d_e. If this isn't
+             set, first _L_A_N_G environment is referred. And if it
+             isn't set, the default is _j_a__J_P._u_j_i_s.
+
+     --ffss _f_o_n_t-_n_a_m_e-_l_i_s_t
+             This option specifies the list of font name. The
+             fontset of _R_o_o_t-_m_o_d_e is created from this list. The
+             default is depend on the locale.  A syntax of this
+             list follows.
+             font-name-list = <fontname>{','fontname}
+
+
+
+
+Printed 9/3/91              Release 5                           5
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+SSEEEE AALLSSOO
+     ximrc(4X), cvtfun(4X), cvtmt(4X)
+
+CCOOPPYYRRIIGGHHTT
+     Copyright 1991 by OMRON Corporation
+     Copyright 1991 by Massachusetts Institute of Technology
+
+AAUUTTHHOORR
+     Seiji Kuwari (OMRON Corporation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Printed 9/3/91              Release 5                           6
+
+
+

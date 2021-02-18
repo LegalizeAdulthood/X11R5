@@ -1,0 +1,87 @@
+; iconification following the "group" hint
+
+;;File: icon-groups.gwm -- iconify-window manage groups
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.2 -- Jan 30 1990
+;;State: Exp
+;;GWM Version: 1.4
+
+; do not manage some groups and manage groups starting iconified
+
+(if (not (boundp 'iconify-window-redefined-for-groups))
+    (setq opening
+	  (+ opening
+	     '((if (and window-group (= window-status 'window))
+		   (with (leader (# 0 window-group))
+		     (if (member (atom window-client-class)
+				 icon-groups.excluded)
+			 (window-group ())
+		       (if (and (not (= leader window))
+                                (not window-is-transient-for)
+				(with (window leader)
+				  (and window-starts-iconic
+				       (= 'icon (window-wm-state)))))
+			   (: window-starts-iconic t)))))))))
+
+(defaults-to icon-groups.excluded ())
+
+; iconifies a whole group in a single icon
+
+(if (not (boundp 'iconify-window-redefined-for-groups))
+    (progn
+      (: iconify-window-redefined-for-groups iconify-window)
+      (de iconify-window ()
+	  (if window-group	
+					; we are in a group
+	      (if (= window-window (# 0 window-group))
+					; leader
+		  (if (= window-status 'window)
+					; iconify leader
+		      (progn
+			(for window window-group
+			     (if window-is-mapped
+				 (progn (register-group-member window)
+					(unmap-window))))
+			(raise-and-map-window window-icon))
+					; de-iconify leader
+		    (progn
+		      (raise-and-map-window window-window)
+		      (for w window-group 
+			   (if (is-group-member w)
+			       (raise-and-map-window w)))
+		      (unmap-window window-icon)
+		      (clear-group-members window-group)
+		      ))
+					; member
+		(if (= window-status 'window)
+					; iconify member
+		    (progn
+		      (setq window-wm-state-icon 
+			    (with (window (# 0 window-group))
+			      (raise-and-map-window window-icon)
+			      window-icon))
+		      (register-group-member window)
+		      (unmap-window window))
+					; de-iconify member 
+					; (not possible normally)
+		  (iconify-window-redefined-for-groups)))
+					; window do not belong to a group
+	    (iconify-window-redefined-for-groups)))))
+
+; not to map back withdrawn windows, we maintain a 'group property for mapped
+; windows of the group
+
+(de register-group-member (w)
+    (## 'group w t))
+
+(de is-group-member (w)
+    (# 'group w))
+
+(de clear-group-members (l)
+    (for w l
+	 (## 'group w ())))
+
+(de raise-and-map-window (w)
+    (with (window w)
+      (raise-window)
+      (map-window)))

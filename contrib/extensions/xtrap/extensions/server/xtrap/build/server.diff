@@ -1,0 +1,62 @@
+*** /usr/proj/xtrap/xtrapcode/server.imake_r5	Mon Jul 15 07:50:40 1991
+--- /usr/proj/xtrap/X11R5/mit/server/Imakefile	Mon May 13 18:18:00 1991
+***************
+*** 5,38 ****
+  #include <Server.tmpl>
+  
+  #if BuildPexExt
+! #ifndef PexExts
+! #define PexExts $(EXTENSIONSRC)/server/PEX/dipex/dispatch/libdidipex.a \
+! 		$(EXTENSIONSRC)/server/PEX/dipex/swap/libdiswapex.a \
+!                 $(EXTENSIONSRC)/server/PEX/dipex/objects/libdiobpex.a \
+!                 $(EXTENSIONSRC)/server/PEX/dipex/dispatch/libdidipex.a \
+!                 $(EXTENSIONSRC)/server/PEX/ddpex/mi/level4/libddpex4.a \
+!                 $(EXTENSIONSRC)/server/PEX/ddpex/mi/level3/libddpex3.a \
+!                 $(EXTENSIONSRC)/server/PEX/ddpex/mi/shared/libddpexs.a \
+!                 $(EXTENSIONSRC)/server/PEX/ddpex/mi/level2/libddpex2.a \
+!                 $(EXTENSIONSRC)/server/PEX/ddpex/mi/level1/libddpex1.a \
+! 		$(EXTENSIONSRC)/server/PEX/ospex/4.2bsd/libospex.a 
+! #else
+! #define PexExts /*nothing*/
+  #endif
+- #endif
+  #if BuildXInputExt
+! #ifndef XInputExts
+! #define XInputExts $(EXTENSIONSRC)/server/xinput/libxinput.a
+  #endif
+- #else
+- #define XInputExts /*nothing*/
+- #endif
+- #ifndef OtherExts
+- #define PexExts XInputExts
+- #endif
+  
+!       OTHEREXTS = OtherExts
+!      EXTENSIONS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a
+           EXTDIR = $(EXTENSIONSRC)/server
+           XAULIB = $(XAUTHSRC)/libXau.a
+         XDMCPLIB = $(XDMCPLIBSRC)/libXdmcp.a
+--- 5,27 ----
+  #include <Server.tmpl>
+  
+  #if BuildPexExt
+!    PEXTENSIONSRC = $(EXTENSIONSRC)/server/PEX
+!          PEXLIBS = $(PEXTENSIONSRC)/dipex/dispatch/libdidipex.a \
+!                    $(PEXTENSIONSRC)/dipex/swap/libdiswapex.a \
+!                    $(PEXTENSIONSRC)/dipex/objects/libdiobpex.a \
+!                    $(PEXTENSIONSRC)/dipex/dispatch/libdidipex.a \
+!                    $(PEXTENSIONSRC)/ddpex/mi/level4/libddpex4.a \
+!                    $(PEXTENSIONSRC)/ddpex/mi/level3/libddpex3.a \
+!                    $(PEXTENSIONSRC)/ddpex/mi/shared/libddpexs.a \
+!                    $(PEXTENSIONSRC)/ddpex/mi/level2/libddpex2.a \
+!                    $(PEXTENSIONSRC)/ddpex/mi/level1/libddpex1.a \
+! 		   $(PEXTENSIONSRC)/ospex/4.2bsd/libospex.a 
+  #endif
+  #if BuildXInputExt
+!       OTHEREXTS = $(EXTENSIONSRC)/server/xinput/libxinput.a
+  #endif
+  
+!      EXTENSIONS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a $(PEXLIBS)
+           EXTDIR = $(EXTENSIONSRC)/server
+           XAULIB = $(XAUTHSRC)/libXau.a
+         XDMCPLIB = $(XDMCPLIBSRC)/libXdmcp.a

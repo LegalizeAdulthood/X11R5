@@ -1,0 +1,73 @@
+.TH GL_Resources 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Resources \- Type to use to handle resources, command line arguments
+.SH SYNTAX
+(void)GL_Create(GL_Resources, 
+.br
+		   <option>, 
+.br
+		   <resource name>, 
+.br
+		   <command line name>, 
+.br
+		   <dest ptr>,
+.br
+		   [...,]
+.br
+		...,
+.br
+		GL_Done);
+.SH ARGUMENTS
+.IP GL_Resources 1i
+Type specifier for the GL_Create call
+.IP GL_Done 1i
+Notation to terminate variable arguments
+
+.SH DESCRIPTION
+This is the set of varargs routines which handles resource and 
+command line argument management. All resource lookups are performed
+using the classname given in the call to GL_InitGraphics(3GL).
+The following options are possible : GL_RES_BOOLEAN, GL_RES_LONG,
+GL_RES_STRING, GL_RES_FUNCTION.  These will specify what type of 
+resource or command line argument to use.  The format for usage is :
+<type>, <resource name>, <command line name>, <destination pointer>,
+[function].  The resource name, and command line name are pointers to 
+chararcters, the destination pointer is a GLPointer, and the function is
+a void pointer to function.  The function is only used if the type is 
+GL_RES_FUNCTION.
+To specify that no resource is to be looked for, use the resource name
+NO_RESOURCE, and to specify that no command line option should be used,
+use the command line name NO_CMDLINE_ARG.  If no argument and no resource
+is found, then the destination data will be unchanged.
+
+.SH OPTIONS
+
+.IP "GL_RES_BOOLEAN, <res name>, <cmd line name>, <dest ptr>" 1i
+This is the type for boolean arguements, such as -label or -nolabel.
+Programmers should always specify a cmdlinename of "label", the code
+will automatically search for both -label and -nolabel, and set the
+destination pointer appropriately.  The code will accept the resource
+values true, on, and yes as setting the destination to true.  It will 
+accept false, off, and no as setting the destination value to false.
+.IP "GL_RES_LONG, <res name>, <cmd line name>, <dest ptr>" 1i
+This is the type for long arguments, such as an update time.  An integer
+value is expected after the option if it is found on the command line,
+or as the value in the resource database.
+.IP "GL_RES_STRING, <res name>, <cmd line name>, <dest ptr>" 1i
+This is the type for a string argument, such as a window name.  The string
+is expected after the option on the command line, or as the value in the
+resource database.  The string returned should not be freed.
+.IP "GL_RES_FUNCTION, <res name>, <cmd line name>, <dest ptr>, <fn>" 1i
+This is the type which will allow for more complicated parsing of a string
+option, such as breaking up a geometry specification into the component parts.
+The function will be passed the arguments resourcename, cmdlinename, resource,
+which are char *'s, and a pointer to the destination, exactly as it is
+passed into the resource handling functions.  Currently, the function
+GL_VA_handle_geometry is being used to parse geometry specifications.
+This function is not documented as it is not expected to be called.
+The function to be called should occur after the destination pointer in the
+varargs list.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_InitGraphics(3GL), GraphLib Programming Manual
+

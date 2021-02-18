@@ -1,0 +1,82 @@
+.\" $Header: XpexScale.man,v 2.4 91/09/11 16:03:55 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexScale 3PEX "$Revision: 2.4 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexScale \- calculate a 3D transformation matrix to perform a 
+specified scaling
+.sp
+XpexScale2D \- calculate a 2D transformation matrix to perform a
+specified scaling
+.SH "Synopsis"
+.nf
+void XpexScale(scale_vector, transformation_matrix)
+.br
+	XpexVector3D *scale_vector;
+.br
+	XpexMatrix transformation_matrix;  /* RETURN */
+.sp
+void XpexScale2D(scale_vector, transformation_matrix)
+.br
+	XpexVector2D *scale_vector;
+.br
+	XpexMatrix3X3 transformation_matrix;  /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIscale_vector\fP 1i
+To be added 
+.IP \fItransformation_matrix\fP 1i
+To be added 
+.SH "Description"
+Refer to the description in the PEX-SI PHIGS Reference Manual.
+.SH "Structures"
+typedef struct {
+.br
+	XpexFloat  x;
+.br
+	XpexFloat  y;
+.br
+} XPexVector2D;
+.sp
+typedef struct {
+.br
+	XpexFloat  x;
+.br
+	XpexFloat  y;
+.br
+	XpexFloat  z;
+.br
+} XPexVector3D;
+.SH "Errors"
+None
+.SH "Related Commands"
+XpexBuildTransformationMatrix, XpexBuildTransformationMatrix2D,
+XpexComposeMatrix, XpexComposeMatrix2D, XpexRotate, 
+XpexRotateX, XpexRotateY, XpexRotateZ, 
+XpexSetLocalTransform, XpexSetLocalTransform2D,
+XpexTransformPoint, XpexTransformPoint2D,
+XpexTranslate, XpexTranslate2D

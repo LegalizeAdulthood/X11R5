@@ -1,0 +1,53 @@
+This directory contains a simplified version of a drawing editor I wrote.
+The original one is in Objective C; this version is hacked together out
+of bits of that one, plus other code I had lying around.
+
+    The program is invoked
+
+	gdp classifierfile.cl
+
+    where classifierfile.cl is the name of a classifier file.  A classifier
+trained on my gestures is in gdp.cl.  You may wish to experiment with the
+-t option, which controls the number of milliseconds that the mouse needs
+to be kept still before the gesture is recognized:
+
+	gdp -t 150 gdp.cl
+
+   The operation of gdp is described in the Siggraph paper and the Usenix
+paper.  This version lacks some of the features of the one described.  In
+particular, the pack gesture (circling a group of objects) does not
+automatically select the enclosed objects for packing.  Instead, after it's
+recognized the objects to be packed have to be touched by the mouse.
+
+     I've noticed that first time users sometimes have problems because of
+the timeout.  In particular, after pressing the mouse button, you must move
+the mouse immediately or gdp will think you're done gesturing.
+
+First try the line gesture:
+	Position the mouse in the window
+	Press the left button and immediately draw a line to the right, say an
+		inch long.
+	Stop moving the mouse, but keep holding the button down
+		your crufty line will be replaced by a nice straight line
+		when the gesture is recognized.
+	You may rubberband the line as long as the button is held.
+
+The delete gesture:
+	Position the mouse on the line you just made.
+	Press the left button and draw a single stroke X as follows:
+		first segment down and to the right,
+		then straight up,
+		then down and to the left.
+	The line should then be deleted.
+	As long as you hold the button down, so will anything else you touch.
+	[note: to delete any object, you should begin the gesture on the black
+	 part (outline) of the object.  In other words, a rectangle is just the
+	 four lines, and does not include the interior.]
+
+The rectangle gesture:
+	position the mouse, press the left button, and draw an ``L''
+		(down, then to the right)
+	Hold the button down, a rectangle is created, which can be rubberbanded
+
+See ../record/README for a description of the other gestures.  Good luck.
+

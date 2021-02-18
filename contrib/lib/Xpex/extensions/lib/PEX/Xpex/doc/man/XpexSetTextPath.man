@@ -1,0 +1,109 @@
+.\" $Header: XpexSetTextPath.man,v 2.5 91/09/11 16:02:18 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.\"
+.\"
+.\"
+.TH XpexSetTextPath 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexSetTextPath \-
+.sp
+XpexSetTextFontIndex \-
+.sp
+XpexSetTextColorIndex \-
+.sp
+XpexSetTextColor \-
+.sp
+XpexSetTextBundleIndex \-
+.sp
+XpexSetTextAlignment \-
+.SH "Synopsis"
+.nf
+void XpexSetTextPath(dpy, text_path)
+.br
+	Display *dpy;
+.br
+	XpexTextPath text_path;
+.sp
+void XpexSetTextFontIndex(dpy, text_font_index)
+.br
+	Display *dpy;
+.br
+	XpexTableIndex text_font_index;
+.sp
+void XpexSetTextColorIndex(dpy, text_color_index)
+.br
+	Display *dpy;
+.br
+	XpexTableIndex text_color_index;
+.sp
+void XpexSetTextColor(dpy, text_color)
+.br
+	Display *dpy;
+.br
+	XpexColor *text_color;
+.sp
+void XpexSetTextBundleIndex(dpy, text_bundle_index)
+.br
+	Display *dpy;
+.br
+	XpexTableIndex text_bundle_index;
+.sp
+void XpexSetTextAlignment(dpy, vertical, horizontal)
+.br
+	Display *dpy;
+.br
+	XpexTextValignment vertical;
+.br
+	XpexTextValignment horizontal;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fItext_path\fP 1i
+To be added 
+.IP \fItext_font_index\fP 1i
+To be added
+.IP \fItext_color_index\fP 1i
+To be added
+.IP \fItext_color\fP 1i
+To be added
+.IP \fItext_bundle_index\fP 1i
+To be added 
+.IP \fIvertical\fP 1i
+To be added
+.IP \fIhorizontal\fP 1i
+To be added 
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 3.
+.SH "Structures"
+To be added 
+.SH "Errors"
+Structure, Renderer, FloatingPointFormat, OutputCommand, Value
+.SH "Related Commands"
+To be added 

@@ -1,0 +1,4 @@
+#define xterm_ul_width 8
+#define xterm_ul_height 4
+static char xterm_ul_bits[] = {
+   0x00, 0xc0, 0xe0, 0xe0};

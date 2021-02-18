@@ -1,0 +1,105 @@
+\begindata{text,271730524}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{List}
+
+
+
+
+\section{Quick reference list for List}
+
+
+
+\fixedtext{\bold{list_}Advance }\fixedindent{(struct list *\paramname{list});} 
+
+
+\fixedtext{void \bold{list_}Append }\fixedindent{(struct list 
+*\paramname{dst}, struct list *\paramname{src});} 
+
+\fixedtext{void \bold{list_}Clear }\fixedindent{(struct list 
+*\paramname{list});} 
+
+\fixedtext{\bold{list_}Data }\fixedindent{(struct list *\paramname{list});} 
+
+\fixedtext{boolean \bold{list_}Delete }\fixedindent{(struct list 
+*\paramname{list}, char *\paramname{data});} 
+
+\fixedtext{\bold{list_}Dequeue }\fixedindent{(struct list *\paramname{list});} 
+
+
+\fixedtext{\bold{list_}Enqueue }\fixedindent{(struct list *\paramname{list}, 
+char *\paramname{data});} 
+
+\fixedtext{char *\bold{list_}Enumerate }\fixedindent{(struct list 
+*\paramname{list}, procedure \paramname{proc}, char *\paramname{rock});} 
+
+\fixedtext{void \bold{list_}FinalizeObject }\fixedindent{(struct list 
+*\paramname{self});} 
+
+\fixedtext{\bold{list_}First }\fixedindent{(struct list *\paramname{list});} 
+
+\fixedtext{boolean \bold{list_}InitializeObject }\fixedindent{(struct list 
+*\paramname{self});} 
+
+\fixedtext{void \bold{list_}InsertEnd }\fixedindent{(struct list 
+*\paramname{list}, char *\paramname{data});} 
+
+\fixedtext{void \bold{list_}InsertFront }\fixedindent{(struct list 
+*\paramname{list}, char *\paramname{data});} 
+
+\fixedtext{void \bold{list_}InsertSorted }\fixedindent{(struct list 
+*\paramname{list}, char *\paramname{data}, procedure \paramname{compare});} 
+
+\fixedtext{boolean \bold{list_}InsertUnique }\fixedindent{(struct list 
+*\paramname{list}, char *\paramname{data});} 
+
+\fixedtext{\bold{list_}Last }\fixedindent{(struct list *\paramname{list});} 
+
+\fixedtext{boolean \bold{list_}Member }\fixedindent{(struct list 
+*\paramname{list}, char *\paramname{data});} 
+
+\fixedtext{void \bold{list_}Merge }\fixedindent{(struct list *\paramname{dst}, 
+struct list *\paramname{src});} 
+
+\fixedtext{\bold{list_}Pop }\fixedindent{(struct list *\paramname{list});} 
+
+\fixedtext{\bold{list_}Push }\fixedindent{(struct list *\paramname{list}, char 
+*\paramname{data});} 
+
+\fixedtext{char *\bold{list_}RemoveFront }\fixedindent{(struct list 
+*\paramname{list});} 
+
+\fixedtext{\bold{list_}Size }\fixedindent{(struct list *\paramname{list});} 
+
+\fixedtext{boolean \bold{list_}Sort }\fixedindent{(struct list 
+*\paramname{list}, procedure \paramname{greater});} 
+
+\fixedtext{\bold{list_}Start }\fixedindent{(struct list *\paramname{list});} \
+\enddata{text,271730524}

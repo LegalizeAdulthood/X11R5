@@ -1,0 +1,832 @@
+; ======================================================================
+; 			BUTTON PACKAGE
+; ======================================================================
+
+
+; =========
+; Utilities
+; =========
+
+(de button.pixmap-copy (pixmap)	
+    ; used colors (background/foreground) are without effect
+    (pixmap-make 
+	background
+	pixmap foreground))
+
+(de button.modify-property (list added-list)
+    (with (var ()  j 0)
+	  (while (setq var (# j added-list))
+		 (setq list (# var list (# (+ 1 j) added-list)))
+		 (setq j (+ 2 j)))
+	  list))
+
+(de button.enlarge-pixmap (pixmap width height)
+    (with (foreground background)
+	  (pixmap-make 
+	      background
+	      (pixmap-make width height) background
+	      pixmap foreground)))
+
+(de nop () ())
+
+(de button.context-save (context)
+    ;  (? "button.context-save, context: " context"\n\n\n")
+    (with (
+	   key ()
+	   value ()
+	   res ())
+	  (for i context
+	       (if (not key)
+		   (setq key i)
+		   (progn
+			 (setq value 
+			       (if (boundp key) (eval key)
+				   i))
+			 (setq res (+
+				     res
+				     (list 
+					   key
+					   (list 'quote value))))
+			 (setq key ()))
+	       ))
+	  (setq trace 0)
+	  res
+    ))
+
+
+
+; ============
+; Generic part
+; ============
+
+; button.generic-make	to create a button
+; ------------------
+; 
+; no argument
+;
+; Context:
+;
+;   for end-user (inherited from plug):
+; 	property
+; 	borderwidth
+; 	borderpixel
+; 	bordertile
+; 	background
+; 	menu 
+; 	cursor
+;
+;   for middle-user:
+; 	button.fsm
+;	button.property-expression
+; 
+
+;(setq count 0)
+(de button.generic-make ()			
+    ;    (? "button " (setq count (+ 1 count)) "\n")
+    (with (
+	   fsm 
+	   (default button.fsm button.push-fsm)
+	   
+	   property-expression
+	   (default
+		   button.property-expression 
+		   button.push-property-expression)
+	   
+	   property
+	   (+ (eval property-expression) property)
+	  )
+	  (plug-make button.default-pixmap)))
+
+
+
+
+
+; ================
+; Push button part
+; ================
+
+(de button.push-generic-make ()
+    (with button.push-context
+	  (button.generic-make)))
+
+(setq button.push-context
+    '(
+      button.fsm	       		button.push-fsm
+      button.property-expression	button.push-property-expression
+     ))
+
+
+
+; --------------
+; push behaviour
+; --------------
+
+(setq button.push-behaviour
+    (state-make
+	(on (user-event 'initialize)
+	    (progn 
+		   (eval (# 'initializing wob-property))))
+	(on (buttonpress any any)
+	    (progn 
+		   (eval (# 'pressed-drawing wob-property))
+		   (eval (# 'press-action wob-property))))
+	(on (buttonrelease any any)
+	    (progn 
+		   (eval (# 'normal-drawing wob-property))
+		   (eval (# 'release-action wob-property))))
+    ))
+
+(setq button.push-fsm (fsm-make button.push-behaviour))
+
+
+
+; ---------------
+; Push properties
+; ---------------
+
+(setq button.push-property-expression
+    '(+
+       (button.push-semantic-property-make)
+       (button.push-appearance-property-make)))
+
+
+
+; Push semantic properties
+; ========================
+
+; Semantic Context:
+;   for end-user:
+; 	button.action		(default= no-action)
+; 	button.trigger		('release or 'press; default= 'release)
+; 
+; 	button.press-action 	(default= no-action)
+; 	button.release-action	(default= no-action)
+
+(setq button.no-action ())
+
+(de button.push-semantic-property-make ()
+    (with (
+	   trigger
+	   (default button.trigger 'release) 
+	   
+	   action
+	   (default button.action button.no-action)
+	   
+	   press-action
+	   (default button.press-action button.no-action)
+	   
+	   release-action 
+	   (default button.release-action button.no-action)
+	  )
+	  (if (= 'press trigger)
+	      (setq press-action
+		    (+ '(progn)
+		       (list action)
+		       (list press-action)))
+	      (setq release-action
+		    (+ '(progn)
+		       (list action)
+		       (list release-action))))
+	  (list
+	       'press-action press-action
+	       'release-action release-action
+	  )
+    ))
+
+
+
+; Push appearance properties
+; ==========================
+
+; push appearance context:
+;   for end-user:
+; 	button.dynamic-context-making
+; 
+;   for middle-user:
+; 	button.static-context-saving
+; 	button.pixmaps-making
+;
+;   for advanced middle-user:
+; 	button.drawing-list
+; 	button.pixmaps-updating
+
+(setq button.default-pixmap (label-make "?"))
+(setq button.default-bitmap button.default-pixmap)
+
+(de button.push-appearance-property-make ()
+    (with (
+	   static-context (button.context-save 
+				 (default
+					 button.extern-context
+					 button.push-explicit-extern-context))
+	  )
+	  (+
+	    ; Drawing and Initialize procedures
+	    ; IMPORTANT: Must be coherent with behaviour 
+	    (default button.drawing-list button.default-drawing-list)
+	    
+	    ; Pixmaps or Datas to dynamically create Pixmaps
+	    (if (and (boundp 'button.dynamic-context-making)
+		     button.dynamic-context-making)
+		; Dynamic initialization
+		(list 
+		      'static-context
+		      static-context
+		      
+		      'dynamic-context-making
+		      button.dynamic-context-making
+		      
+		      'pixmaps-updating
+		      (default    
+			  button.pixmaps-updating
+			  button.default-pixmaps-updating)
+		)
+		; Initialization now
+		(with static-context
+		      (eval button.pixmaps-making))
+	    ))))
+
+;  defaults:
+; ---------
+
+(setq button.default-drawing-list
+    '(
+      initializing (progn
+			 (eval (# 'pixmaps-updating wob-property))
+			 (eval (# 'normal-drawing wob-property))
+		   )
+      normal-drawing (wob-tile (# 'normal-pixmap wob-property))
+      pressed-drawing (wob-tile (# 'pressed-pixmap wob-property))
+     ))
+    
+(setq button.default-pixmaps-making ())
+
+(setq button.default-pixmaps-updating
+    '(with (static-context (# 'static-context wob-property))
+	   (with static-context 
+		 (with (dynamic-context 
+			   (eval (# 'dynamic-context-making
+				  wob-property)))
+		       (with dynamic-context
+			     (wob-property 
+				 (button.modify-property
+					wob-property
+					(eval 
+					      (default
+						      button.pixmaps-making
+						      button.default-pixmaps-making
+					      )))))))))
+
+(setq button.default-dynamic-context-making
+    ())
+
+; This list must be added to particular extra context list
+(setq button.common-extern-context
+    (list
+	 'button.pixmaps-making button.default-pixmaps-making
+	 'button.pixmaps-updating button.default-pixmaps-updating	  
+    ))
+ 
+
+
+
+
+
+
+; Pixmap made by explicit pixmaps
+; -------------------------------
+
+; Context used
+; 
+; 	button.normal-pixmap
+; 	button.pressed-pixmap
+
+(de button.push-explicit-button-make ()
+    (with button.push-explicit-intern-context
+	  (button.push-generic-make)))
+
+(setq button.push-explicit-extern-context
+    (+ 
+       button.common-extern-context
+       (list
+	    'button.normal-pixmap button.default-pixmap
+	    'button.pressed-pixmap button.default-pixmap
+       )))
+
+(setq button.push-explicit-pixmaps-making
+    '(list 
+	   'normal-pixmap (default 
+			      button.normal-pixmap 
+			      button.default-pixmap)
+	   'pressed-pixmap (default 
+			       button.pressed-pixmap 
+			       button.default-pixmap)
+     ))
+
+(setq button.push-explicit-intern-context
+    '(
+      button.extern-context button.push-explicit-extern-context
+      button.pixmaps-making button.push-explicit-pixmaps-making
+     ))
+
+
+
+
+
+; Pixmap made by redrawed stencil
+; ------------------------------
+
+; Context
+;   for end-user:
+; 	button.stencil-bitmap
+; 	button.stencil-label
+; 	font
+; 	foreground
+;	background
+; 	button.minimum-width		
+; 	button.minimum-height
+; 
+;   for middle-user:
+; 	button.normal-redraw
+; 	button.pressed-redraw
+
+
+; Utilities
+
+; enlarge pixmap if necessary, accordingly with 
+; button.minimum-width and button.minimum-heigh
+(de button.minimize-pixmap (pixmap)
+    (if (or (< (width pixmap) button.minimum-width)
+	    (< (height pixmap) button.minimum-height))
+	(button.enlarge-pixmap 
+	       pixmap 
+	       (max 1 button.minimum-width)
+	       (max 1 button.minimum-height))
+	pixmap))
+
+(de button.stencil-pixmap-make ()
+    (with (
+	   stencil (button.stencil-description-make)
+	  )
+	  (if stencil
+	      (eval (+ (list 'pixmap-make
+			     background)
+		       stencil))
+	      button.default-pixmap)))
+		
+
+(de button.stencil-description-make ()
+    (with (
+	   stencil ()
+	   stencil-bitmap button.stencil-bitmap
+	   stencil-label button.stencil-label
+	  )
+	  (if stencil-bitmap
+	      (setq stencil
+		    (+ stencil
+		       (list
+			    stencil-bitmap
+			    foreground))))
+	  (if stencil-label
+	      (setq stencil
+		    (+ stencil
+		       (list
+			    (label-make stencil-label)
+			    foreground))))
+	  stencil))
+		
+(de button.surround (pixmap top-left-color bottom-right-color x1 y1 x2 y2)
+;    (? pixmap " " top-left-color  " " bottom-right-color  " "
+;       x1 " " y1 " " x2 " " y2 "\n")
+    (with (foreground top-left-color)
+	  (draw-line pixmap x1 y1 x2 y1)
+	  (draw-line pixmap x1 y1 x1 (- y2 1))
+    )
+    (with (foreground bottom-right-color)
+	  (draw-line pixmap x2 y2 x1 y2)
+	  (draw-line pixmap x2 y2 x2 (+ y1 1)))
+)
+
+
+
+; 2d utilities
+
+(de button.2d-normal-redraw (pixmap)
+    (with (
+	   width (width pixmap)
+	   height (height pixmap))
+	  (button.surround
+		 pixmap
+		 foreground
+		 foreground
+		 0 0 (- width 1) (- height 1))
+    ))
+
+		
+(de button.2d-pressed-redraw (pixmap)
+    (with (
+	   width (width pixmap)
+	   height (height pixmap))
+	  (button.surround
+		 pixmap
+		 foreground
+		 foreground
+		 0 0 (- width 1) (- height 1))
+	  (button.surround
+		 pixmap
+		 foreground
+		 foreground
+		 1 1 (- width 2) (- height 2))
+	  (button.surround
+		 pixmap
+		 foreground
+		 foreground
+		 2 2 (- width 3) (- height 3))
+    ))
+		
+		
+
+; 3d utilities
+
+(de button.3d-normal-redraw (pixmap)
+    (with (
+	   width (width pixmap)
+	   height (height pixmap))
+	  (button.surround
+		 pixmap
+		 white
+		 black
+		 0 0 (- width 1) (- height 1))
+	  (button.surround
+		 pixmap
+		 white
+		 black
+		 1 1 (- width 2) (- height 2))
+    ))
+		
+(de button.3d-pressed-redraw (pixmap)
+    (with (
+	   width (width pixmap)
+	   height (height pixmap))
+	  (button.surround
+		 pixmap
+		 black
+		 white
+		 0 0 (- width 1) (- height 1))
+	  (button.surround
+		 pixmap
+		 white
+		 black
+		 1 1 (- width 2) (- height 2))
+    ))
+		
+(de button.old-3d-pressed-redraw (pixmap)
+    (with (
+	   width (width pixmap)
+	   height (height pixmap))
+	  (button.surround
+		 pixmap
+		 black
+		 white
+		 0 0 (- width 1) (- height 1))
+    ))
+		
+
+
+; Definitions
+
+(de button.push-redrawed-button-make ()
+    (with button.push-redrawed-intern-context
+	  (button.push-generic-make)))
+
+(setq button.stencil-extern-context
+    (list 
+	  'button.stencil-bitmap button.default-bitmap
+	  'button.stencil-label ()
+	  'font	font
+	  'foreground foreground
+	  'background background
+    ))
+
+(setq button.push-redrawed-extern-context
+    (+ 
+       button.common-extern-context
+       button.stencil-extern-context
+       (list
+	    'button.minimum-width 0
+	    'button.minimum-height 0
+	    'button.normal-redraw button.2d-normal-redraw
+	    'button.pressed-redraw button.2d-pressed-redraw
+       )))
+
+(setq button.push-redrawed-pixmaps-making
+    '(with (
+	    stencil-pixmap (button.minimize-pixmap
+				  (button.stencil-pixmap-make))
+	   )
+	   (list
+		'normal-pixmap
+		(with (pixmap (button.pixmap-copy stencil-pixmap))
+		      (button.normal-redraw pixmap)
+		      pixmap)
+		
+		'pressed-pixmap
+		(with (pixmap stencil-pixmap) 
+		      ; for this last usage stencil-pixmap itself is used
+		      ;  instead of a copy
+		      (button.pressed-redraw pixmap)
+		      pixmap)
+	   )))
+		
+(setq button.push-redrawed-intern-context
+    '(
+      button.extern-context button.push-redrawed-extern-context
+      button.pixmaps-making button.push-redrawed-pixmaps-making
+      borderwidth 0
+     ))
+		
+
+
+
+		
+; ==================
+; End User Functions
+; ==================
+
+; Context (for end-user):
+;   semantic:
+; 	button.action		(default= no-action)
+; 	button.trigger		('release or 'press; default= 'release)
+; 
+; 	button.press-action 	(default= no-action)
+; 	button.release-action	(default= no-action)
+;
+;   appearance:
+; 	button.stencil-label	[1]
+; 	button.stencil-bitmap	[1]
+; 	font			[1]
+; 	foreground		[1]
+;	background		[1]
+; 	button.minimum-width	[1]
+; 	button.minimum-height	[1]
+; 	cursor
+; 
+;   stuff:
+; 	property
+; 	menu 
+; 	button.dynamic-context-making
+; 		context marked by [1] may be updated by initialize
+; 		eg: 	button.dynamic-context-making
+; 		    	'(button.stencil-label machine-name)
+; 		This expression may be used to update property 
+;		(see xload button)
+
+
+(de button.push-2d-redrawed-button-make ()
+    (button.push-redrawed-button-make))
+
+(de button.push-3d-redrawed-button-make ()
+    (with (
+	   button.normal-redraw button.3d-normal-redraw
+	   button.pressed-redraw button.3d-pressed-redraw
+	  )
+	  (button.push-redrawed-button-make)))
+
+(de button.push-old-3d-redrawed-button-make ()
+    (with (
+	   button.normal-redraw button.3d-normal-redraw
+	   button.pressed-redraw button.old-3d-pressed-redraw
+	  )
+	  (button.push-redrawed-button-make)))
+
+(de button.make ()
+    (if (and (boundp 'look-3d) look-3d) 
+	(button.push-old-3d-redrawed-button-make)
+	(button.push-2d-redrawed-button-make)))
+
+; ----------------------------------------------------------------------
+
+
+; ==================
+; Predefined buttons
+; ==================
+
+; Context:
+;   button.mode   'graphic (default), or 'english 
+
+(de button.iconify ()
+    (with (
+	   button.mode (default button.mode 'graphic)
+	  )
+	  (with-eval
+	      (+
+		'(
+		  button.action '(iconify-window)
+		 )
+		(if (= 'graphic button.mode)
+		    '(button.stencil-bitmap "iconify-vb")
+		    '(button.stencil-label "iconify-vb"))
+	      )
+	      (button.make))))
+
+(setq kill-window-yes-no-menu
+    (with (fsm pop-fsm menu ())
+	  (menu-make
+	      (item-make "yes" (kill-window))
+	      (item-make "no"  ())
+	  )))
+
+(de button.kill ()
+    (with (
+	   button.mode (default button.mode 'graphic)
+	  )
+	  (with-eval
+	      (+
+		'(
+		  button.press-action 
+		  '(progn 
+			  (eval (# 'normal-drawing wob-property))
+			  (pop-menu kill-window-yes-no-menu 1))
+		 )
+		(if (= 'graphic button.mode)
+		    '(button.stencil-bitmap "kill")
+		    '(button.stencil-label "kill"))
+	      )
+	      (button.make))))
+
+(de button.lower ()
+    (with (
+	   button.mode (default button.mode 'graphic)
+	  )
+	  (with-eval
+	      (+
+		'(
+		  button.action '(lower-window)
+		 )
+		(if (= 'graphic button.mode)
+		    '(button.stencil-bitmap "lower")
+		    '(button.stencil-label "lower"))
+	      )
+	      (button.make))))
+
+(de button.raise ()
+    (with (
+	   button.mode (default button.mode 'graphic)
+	  )
+	  (with-eval
+	      (+
+		'(
+		  button.action '(raise-window)
+		 )
+		(if (= 'graphic button.mode)
+		    '(button.stencil-bitmap "raise")
+		    '(button.stencil-label "raise"))
+	      )
+	      (button.make))))
+
+
+
+
+; 	------------------------------------
+; 	Utilities for xterm and xload buttons
+; 	------------------------------------
+
+(de get-current-machine-name ()
+    ; <<< to ameliorate
+    window-machine-name)
+		      
+(setq rxterm-font-name-list
+    '("screen.r.7"		; 0
+      "cour.r.10"		; 1
+      "8x13"			; 2
+      "vania9x13"		; 3
+      "9x15"			; 4
+      "serif.r.16"		; 5
+      "cour.b.18"		; 6
+      "cour.b.24"		; 7
+     ))
+    
+(setq default-font-number 1)
+
+(de rxterm-with-selected-font (machine)
+    (setq exec.machine machine)
+    (exec.xterm))
+;(de rxterm-with-selected-font (machine)
+;    ; IMPORTANT:
+;    ;    machine is memorised in a global variable (exec.machine)
+;    ;    because this function just pops a menu 
+;    ;    and action will be executed asynchronously
+;    (setq exec.machine machine)
+;    (pop-menu rxterm-with-selected-font-pop default-font-number))
+
+;(setq rxterm-with-selected-font-pop
+;    (with (
+;	   fsm pop-fsm
+;	   items '(menu-make)
+;	  )
+;	  (for font-name rxterm-font-name-list
+;	       (setq items
+;		     (+ items
+;			(list
+;			     (list 'with 
+;				   (list 'item-font
+;					 (list 'quote
+;					       (font-make font-name)))
+;				   (list 'item-make
+;					 font-name
+;					 (list 'with
+;					       (list 'exec.font-name 
+;						     (list 'quote font-name))
+;					       '(exec.xterm))))))))
+;	  (eval items)))
+
+
+
+
+(de button.xload ()
+    (with (
+	   button.mode (default button.mode 'graphic)
+	  )
+	  (if (= 'graphic button.mode)
+	      (with (
+		     button.action
+		     '(with (exec.machine (eval (# 'current-machine-name wob-property)))
+			    (exec.xload))
+		     
+		     button.dynamic-context-making
+		     '(with (current-machine-name (get-current-machine-name))
+			    (wob-property
+				(button.modify-property
+				       wob-property
+				       (list
+					    'current-machine-name
+					    current-machine-name)))
+			    ())
+		     button.stencil-bitmap "xload"
+		    )
+		    (button.make))
+	      (with (
+		     button.action
+		     '(with (exec.machine (eval (# 'current-machine-name wob-property)))
+			    (exec.xload))
+		     
+		     button.dynamic-context-making
+		     '(with (current-machine-name (get-current-machine-name))
+			    (wob-property
+				(button.modify-property
+				       wob-property
+				       (list
+					    'current-machine-name
+					    current-machine-name)))
+			    (list 'button.stencil-label 
+				  (+ "load " current-machin)))
+		    )
+		    (button.make)))))
+	       
+(de button.xterm ()
+    (with (
+	   button.mode (default button.mode 'graphic)
+	  )
+	  (if (= 'graphic button.mode)
+	      (with (
+		     button.press-action 
+		     '(progn
+			    (eval (# 'normal-drawing wob-property))
+			    (rxterm-with-selected-font 
+				(eval (# 'current-machine-name 
+				       wob-property))))
+		     
+		     button.dynamic-context-making
+		     '(with (current-machine-name (get-current-machine-name))
+			    (wob-property
+				(button.modify-property
+				       wob-property
+				       (list
+					    'current-machine-name
+					    current-machine-name)))
+			    ())
+		     button.stencil-bitmap "xterm")
+		    (button.make))
+	      (with (
+		     button.press-action
+		     '(progn
+			    (eval (# 'normal-drawing wob-property))
+			    (rxterm-with-selected-font 
+				(eval (# 'current-machine-name 
+				       wob-property))))
+		     
+		     button.dynamic-context-making
+		     '(with (current-machine-name (get-current-machine-name))
+			    (wob-property
+				(button.modify-property
+				       wob-property
+				       (list
+					    'current-machine-name
+					    current-machine-name)))
+			    (list 'button.stencil-label current-machine-name))
+		    )
+		    (button.make)))))
+	       
+; ======================================================================
+
+(provide 'vb-button)

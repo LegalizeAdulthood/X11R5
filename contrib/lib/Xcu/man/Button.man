@@ -1,0 +1,62 @@
+.TH XcuButton 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuButton \- Display labels in a set or unset state.
+.ne 4
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / XcuSimple / XcuLabel / XcuButton
+.ne 4
+.SH NEW RESOURCES
+\ 
+.br
+.TS
+allbox tab(;);
+c s s s.
+XcuButton Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNcallback;Callback;;Btn1Down and Btn1Up events
+XtNcursor;Cursor;"dot";Provides a default cursor
+XtNset;Boolean;False;Set/Unset state
+.TE
+.ne 4
+.SH DESCRIPTION
+\ 
+.br
+The \fBXcuButton\fR  widget can display itself in either a set or unset state.
+It does not, however, decide for itself what its appropriate state is.
+Instead, it reports mouse button events back to its client via callbacks, and
+relies on the client appropriately setting the \fBXcuButton\fR's set resource.
+The call_data is 'd' for Btn1Down events and 'u' for Btn1Up events.
+The unset state colors are the inverse colors of the set state.
+Widgets of class \fBxcuButtonWidgetClass\fR are required by \fBXcuBmgr\fR.
+.ne 4
+.SH SEE ALSO
+\ 
+.br
+XcuBmgr(3X), XcuLabel(3X), XcuSimple(3X)
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

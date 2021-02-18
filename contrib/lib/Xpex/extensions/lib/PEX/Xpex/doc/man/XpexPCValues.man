@@ -1,0 +1,184 @@
+.\" $Header: XpexPCValues.man,v 2.4 91/09/11 16:02:30 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexPCValues 3PEX "$Revision: 2.4 $" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexPCValues \- 
+.SH "Description"
+[ To be added ]
+.SH "Structures"
+typedef XpexBitmask XpexPCBitmask[XpexPC_BitmaskSize];
+.sp
+typedef struct {
+.br
+/* Marker attributes */
+.br
+	XpexEnumTypeIndex  marker_type;
+.br
+	XpexFloat  marker_scale;
+.br
+	XpexColorSpecifier  marker_color;
+.br
+	XpexTableIndex  marker_bundle_index;
+.br
+/* Text attributes */
+.br
+	XpexTableIndex  text_font_index;
+.br
+	XpexTextPrecision  text_precision;
+.br
+	XpexFloat  char_expansion;
+.br
+	XpexFloat  char_spacing;
+.br
+	XpexColorSpecifier  text_color;
+.br
+	XpexFloat  char_height;
+.br
+	XpexVector2D  char_up_vector;
+.br
+	XpexTextPath  text_path;
+.br
+	XpexTextAlignmentData  text_alignment;
+.br
+	XpexFloat  atext_height;
+.br
+	XpexVector2D  atext_up_vector;
+.br
+	XpexTextPath  atext_path;
+.br
+	XpexTextAlignmentData  atext_alignment;
+.br
+	XpexEnumTypeIndex  atext_style;
+.br
+	XpexTableIndex  text_bundle_index;
+.br
+/* Line and curve attributes */
+.br
+	XpexEnumTypeIndex  line_type;
+.br
+	XpexFloat  line_width;
+.br
+	XpexColorSpecifier  line_color;
+.br
+	XpexCurveApprox  curve_approx;
+.br
+	XpexEnumTypeIndex  polyline_interp;
+.br
+	XpexTableIndex  line_bundle_index;
+.br
+/* Surface attributes */
+.br
+	XpexEnumTypeIndex  interior_style;
+.br
+	XpexTableIndex  interior_style_index;
+.br
+	XpexColorSpecifier  surface_color;
+.br
+	XpexReflectionAttr  reflection_attr;
+.br
+	XpexEnumTypeIndex  reflection_model;
+.br
+	XpexEnumTypeIndex  surface_interp;
+.br
+	XpexEnumTypeIndex  bf_interior_style;
+.br
+	XpexTableIndex  bf_interior_style_index;
+.br
+	XpexColorSpecifier  bf_surface_color;
+.br
+	XpexReflectionAttr  bf_reflection_attr;
+.br
+	XpexEnumTypeIndex  bf_reflection_model;
+.br
+	XpexEnumTypeIndex  bf_surface_interp;
+.br
+	XpexSurfaceApprox  surface_approx;
+.br
+	XpexCullMode  culling_mode;
+.br
+	Bool  distinguish_flag;
+.br
+	XpexCoord2D  pattern_size;
+.br
+	XpexCoord2D  pattern_ref_pt;
+.br
+	XpexVector3D  pattern_ref_vec1;
+.br
+	XpexVector3D  pattern_ref_vec2;
+.br
+	XpexTableIndex  interior_bundle_index;
+.br
+/* Surface edge attributes */
+.br
+	XpexSwitch  surface_edge_flag;
+.br
+	XpexEnumTypeIndex  surface_edge_type;
+.br
+	XpexFloat  surface_edge_width;
+.br
+	XpexColorSpecifier  surface_edge_color;
+.br
+	XpexTableIndex  edge_bundle_index;
+.br
+/* Geometry transformation attributes */
+.br
+	XpexMatrix  local_transform;
+.br
+	XpexMatrix  global_transform;
+.br
+	XpexSwitch  model_clip;
+.br
+	XpexListOfHalfSpace3D  model_clip_volume;
+.br
+	XpexTableIndex  view_index;
+.br
+/* Color transformation attributes */
+.br
+	XpexListOfTableIndex  light_state;
+.br
+	XpexTableIndex  depth_cue_index;
+.br
+	XpexTableIndex  color_approx_index;
+.br
+	XpexEnumTypeIndex  rdr_color_model;
+.br
+	XpexParaSurfChar  psurf_char;
+.br
+/* ASF attributes */
+.br
+	XpexAsfSpecifier  asf_specifier;
+.br
+/* Miscellaneous attributes */
+.br
+	unsigned long  pick_id;
+.br
+	unsigned long  hlhsr_identifier;
+.br
+	XpexNameSet  name_set;
+.br
+} XpexPCValues;

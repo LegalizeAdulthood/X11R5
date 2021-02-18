@@ -1,0 +1,70 @@
+*** charproc.c.org	Fri Jun 29 19:00:05 1990
+--- charproc.c	Thu Sep 26 18:29:43 1991
+***************
+*** 3254,3259 ****
+--- 3254,3262 ----
+  	}
+  #endif /* !KTERM */
+  	screen->cursor_state = ON;
++ #ifdef KTERM_KCONV
++ 	SendSpot();
++ #endif /* KTERM_KCONV */
+  }
+  
+  /*
+***************
+*** 4059,4064 ****
+--- 4063,4071 ----
+      set_cursor_gcs (screen);
+  #endif /* !KTERM */
+      update_font_info (screen, doresize);
++ #ifdef KTERM_KCONV
++     SendFonts();
++ #endif /* KTERM_KCONV */
+      return 1;
+  
+    bad:
+*** screen.c.org	Fri Jun 29 19:00:16 1990
+--- screen.c	Wed Apr 17 10:06:18 1991
+***************
+*** 914,919 ****
+--- 914,923 ----
+  #endif	/* SIGWINCH */
+  #endif	/* TIOCSWINSZ */
+  #endif	/* sun */
++ #ifdef KTERM_KCONV
++ 	SendSize();
++ 	SendSpot();
++ #endif /* KTERM_KCONV */
+  	return (0);
+  }
+  
+*** scrollbar.c.org	Fri Jun 29 19:00:17 1990
+--- scrollbar.c	Wed Apr 17 10:28:40 1991
+***************
+*** 171,176 ****
+--- 171,180 ----
+  	XChangeWindowAttributes( screen->display, TextWindow(screen),
+  				 CWEventMask|CWBitGravity,
+  				 &newAttributes );
++ #ifdef KTERM_KCONV
++ 	SendSize();
++ 	SendSpot();
++ #endif /* KTERM_KCONV */
+  }
+  
+  void DoResizeScreen (xw)
+*** util.c.org	Fri Jun 29 19:00:21 1990
+--- util.c	Wed Apr 17 10:39:07 1991
+***************
+*** 1051,1056 ****
+--- 1051,1059 ----
+  	    TekExpose((XExposeEvent *) NULL);
+  	}
+  	update_reversevideo();
++ #ifdef KTERM_KCONV
++ 	SendColor();
++ #endif /* KTERM_KCONV */
+  }
+  
+  

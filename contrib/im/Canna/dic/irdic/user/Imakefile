@@ -1,0 +1,20 @@
+#include "../../../config.sh"
+
+               DICDIR = $(LIBDIR)/dic
+           USERDICDIR = $(DICDIR)/user
+            SAMPLEDIR = $(IROHADIR)/sample
+         SAMPLESRCDIR = $(IROHADIR)/sample/src
+
+                 DICS = chimei.t dics.dir katakana.t necgaiji.t \
+			software.t user.t
+all:
+
+MakeDirectories(install,$(USERDICDIR))
+InstallNonExec(chimei.t,$(USERDICDIR))
+InstallNonExec(katakana.t,$(USERDICDIR))
+InstallNonExec(necgaiji.t,$(USERDICDIR))
+InstallNonExec(software.t,$(USERDICDIR))
+InstallNonExec(user.t,$(USERDICDIR))
+InstallNonExec(dics.dir,$(USERDICDIR))
+
+DependDependency()

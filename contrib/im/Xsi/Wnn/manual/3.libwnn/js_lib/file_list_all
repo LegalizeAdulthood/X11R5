@@ -1,0 +1,25 @@
+JS_FILE_LIST_ALL( )
+
+名称
+
+	js_file_list_all	サーバ中の全てのファイルに関する情報を得る。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_file_list_all(server,ret)
+	WNN_JSERVER_ID *server;	
+	struct wnn_ret_buf *ret;
+
+機能
+
+	サーバ server 中の全てのファイルに関する情報を得る。
+	ret->buf には、WNN_FILE_INFO_STRUCT の配列が、ファイル数だけ返される。
+
+リターンバリュー
+
+	正常終了時には、ファイル数を返す。
+	異常終了時には、-1 を返す。
+

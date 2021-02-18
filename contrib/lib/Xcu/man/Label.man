@@ -1,0 +1,94 @@
+.TH XcuLabel 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuLabel \- Basic Labels
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / XcuSimple / XcuLabel
+.SH NEW RESOURCES
+\ 
+.br
+.TS
+allbox tab(;);
+c s s s.
+XcuLabel Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNbitmap;Pixmap;None;Bitmap to display instead of text
+XtNbiggestLabel;String;NULL;largest text to be displayed
+XtNfont;String;"Fixed";font for the label
+XtNforeground;Pixel;"Black";text color
+XtNgravity;XcuGravity;XcuCENTER_GRAVITY;gravity of label in oversized widgets
+XtNinternalHeight;Dimension;2;vt distance between border and label
+XtNinternalWidth;Dimension;2;hz distance between border and label
+XtNjustify;XcuJustify;XcuJUSTIFY_CENTER;label justification
+XtNlabel;String;widget's core name;text to be displayed
+XtNlineFactor;Float;1.0;multiples of font heights between lines
+XtNpixmap;Pixmap;None;Pixmap to display instead of text
+XtNpreserveText;Boolean;False;attempt to preserve text when widget is too small
+XtNtile;Boolean;False;tile the entire label with the pixmap
+.TE
+.SH DESCRIPTION
+\ 
+.br
+The \fBXcuLabel\fR widget handles the basic label display operations.
+It can display multiple lines of text with left, center, or right justification,
+and it has self-defined gravity covering each of the eight compass directions
+and center.
+Multiple lines are created merely by embedding newline characters within
+the label.
+.SH COMPARISON WITH THE XAW LABEL WIDGET
+\ 
+.br
+Although \fBXcuLabel\fR was originally derived from Xaw \fBLabel\fR, it
+has been significantly restructured.
+The following are the major externally visible differences:
+.in +3
+.sp
+\fBXcuLabel\fR allows text with embedded newlines, producing multi-line labels.
+These lines can be left, center, or right justified.
+.sp
+To prevent annoying resizes, there is a "biggestLabel" resource which permits
+the label to be initially sized large enough to hold the largest expected label.
+\fBXcuLabel\fR will not request to be made smaller than this size.
+.sp
+\fBXcuLabel\fR has a gravity resource.
+.sp
+It is a subclass of \fBXcuSimple\fR.
+.in -3
+.ne4
+.SH BUGS
+\ 
+.br
+When the label contains a bitmap, there are
+circumstances under which it refuses to redisplay after an
+Expose event.
+.ne4
+.SH SEE ALSO
+\ 
+.br
+XcuSimple(3X), XcuJustifyR(3X), XcuGravityR(3X)
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

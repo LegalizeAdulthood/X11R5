@@ -1,0 +1,9 @@
+BINDIR = $(DESTDIR)/usr/local/bin
+PROGRAMS= xtp
+SRCS= xtp.c regular.c
+OBJS= xtp.o regular.o
+
+AllTarget($(PROGRAMS))
+
+ComplexProgramTarget(xtp)
+

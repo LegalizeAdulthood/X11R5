@@ -1,0 +1,25 @@
+JL_GET_ZENKOUHO_KANJI( )
+
+名称
+
+	jl_get_zenkouho_kanji	全候補の変換結果文字列を得る。
+
+形式
+
+	#include "jllib.h"
+
+	void
+	jl_get_zenkouho_kanji(buf, zen_num, area)
+	struct wnn_buf *buf;	/* バッファ */
+	int zen_num;		/* オフセット */
+	w_char area;		/* かな漢字混じり列を入れる領域 */
+
+機能
+
+	全候補の、オフセット番目 zen_num の候補の変換結果文字列を得る。
+
+リターンバリュー
+
+	かな漢字混じり列を入れた領域のポインタ。
+	その長さを返す。
+

@@ -1,0 +1,32 @@
+*** /usr/proj/xtrap/xtrapcode/ext_include.imake_r5	Mon Jul 15 07:50:33 1991
+--- /usr/proj/xtrap/X11R5/mit/extensions/include/Imakefile	Fri Apr 12 15:42:34 1991
+***************
+*** 1,19 ****
+  #if BuildPexClients || BuildPexExt
+-     PEXDIRS = PEX
+- #else
+-     PEXDIRS = /*nothing*/
+- #endif
+- #if BuildXTrapClients || BuildXTrapExt
+-     XTRAPDIRS = xtrap
+- #else
+-     XTRAPDIRS = /*nothing*/
+- #endif
+- #if BuildPexClients || BuildPexExt || BuildXTrapExt || BuildXTrapLib
+  #define IHaveSubdirs
+  #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+!       SUBDIRS = $(PEXDIRS) $(XTRAPDIRS)
+  #endif
+- 
+  
+  HEADERS = Xext.h multibuf.h shape.h XShm.h MITMisc.h XI.h XInput.h XIproto.h \
+  	xtestext1.h
+--- 1,8 ----
+  #if BuildPexClients || BuildPexExt
+  #define IHaveSubdirs
+  #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+!       SUBDIRS = PEX
+  #endif
+  
+  HEADERS = Xext.h multibuf.h shape.h XShm.h MITMisc.h XI.h XInput.h XIproto.h \
+  	xtestext1.h

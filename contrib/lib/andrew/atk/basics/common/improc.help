@@ -1,0 +1,31 @@
+\begindata{text,272799772}
+\textdsversion{12}
+\template{help}
+\chapter{Proclist for Im}
+
+\chapter{
+}
+"im-exit", "\\030\\003", "Quit~99",  "Exit program."
+
+"im-start-keyboard-macro", "\\030(", "Start recording input events."
+
+"im-stop-keyboard-macro", "\\030)", "Stop recording input events."
+
+"im-play-keyboard-macro", "\\030e", "Play current keyboard macro."
+
+"im-redraw-window", "\\014", "Redraw the window."
+
+"im-print-malloc-statistics", "\\030\\200m", "Print malloc statisticsp to a 
+file."
+
+"im-reset-malloc-statistics", "\\030\\200r", "Reset malloc statistics."
+
+"im-print-malloc-table", "\\030\\200t", "Print malloc table to a file."
+
+"im-start-profile", "\\030\\200p", "Start profiling program."
+
+"im-stop-profile", "\\030\\200q", "Stop profiling program."
+
+
+
+\enddata{text,272799772}

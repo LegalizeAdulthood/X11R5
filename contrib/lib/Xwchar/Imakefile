@@ -1,0 +1,147 @@
+/**/#
+/**/# $XConsortium: Imakefile,v 1.10 91/07/01 10:53:08 xguest Exp $
+/**/#
+
+/**/#
+/**/# Copyright 1990, 1991 by OMRON Corporation, NTT Software Corporation,
+/**/#                      and Nippon Telegraph and Telephone Corporation
+/**/# Copyright 1991 by the Massachusetts Institute of Technology
+/**/#
+/**/# Permission to use, copy, modify, distribute, and sell this software and its
+/**/# documentation for any purpose is hereby granted without fee, provided that
+/**/# the above copyright notice appear in all copies and that both that
+/**/# copyright notice and this permission notice appear in supporting
+/**/# documentation, and that the names of OMRON, NTT Software, NTT, and M.I.T.
+/**/# not be used in advertising or publicity pertaining to distribution of the
+/**/# software without specific, written prior permission. OMRON, NTT Software,
+/**/# NTT, and M.I.T. make no representations about the suitability of this
+/**/# software for any purpose.  It is provided "as is" without express or
+/**/# implied warranty.
+/**/#
+/**/# OMRON, NTT SOFTWARE, NTT, AND M.I.T. DISCLAIM ALL WARRANTIES WITH REGARD
+/**/# TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+/**/# AND FITNESS, IN NO EVENT SHALL OMRON, NTT SOFTWARE, NTT, OR M.I.T. BE
+/**/# LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES 
+/**/# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+/**/# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+/**/# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+/**/#
+#define DoNormalLib 1
+/**/#define DoDebugLib DebugLibXwchar
+/**/#define DoProfileLib ProfileLibXwchar
+#include <Library.tmpl>
+
+/**/# The following define is used for thisSubdirs.
+
+
+       INCLUDES = -I. -I$(XLIBSRC)
+        HEADERS = wchar.h
+
+SRCS = \
+       atowc.c \
+       iswascii.c \
+       iswalnum.c \
+       iswalpha.c \
+       iswblank.c \
+       iswcntrl.c \
+       iswdigit.c \
+       iswgraph.c \
+       iswlatin1.c \
+       iswlower.c \
+       iswprint.c \
+       iswpunct.c \
+       iswspace.c \
+       iswupper.c \
+       iswxdigit.c \
+       towlower.c \
+       towupper.c \
+       wcscat.c \
+       wcschr.c \
+       wcscmp.c \
+       wcscpy.c \
+       wcscspn.c \
+       wcslen.c \
+       wcsncat.c \
+       wcsncmp.c \
+       wcsncpy.c \
+       wcspbrk.c \
+       wcsrchr.c \
+       wcsspn.c \
+       wcstol.c \
+       wctoa.c \
+       wstos.c \
+       wcswcs.c \
+       wcswidth.c \
+       wcsreverse.c
+
+/**/#       mblen.c \
+/**/#       mbstowcs.c \
+/**/#       wcstombs.c
+              
+OBJS = \
+       atowc.o \
+       iswascii.o \
+       iswalnum.o \
+       iswalpha.o \
+       iswblank.o \
+       iswcntrl.o \
+       iswdigit.o \
+       iswgraph.o \
+       iswlatin1.o \
+       iswlower.o \
+       iswprint.o \
+       iswpunct.o \
+       iswspace.o \
+       iswupper.o \
+       iswxdigit.o \
+       towlower.o \
+       towupper.o \
+       wcscat.o \
+       wcschr.o \
+       wcscmp.o \
+       wcscpy.o \
+       wcscspn.o \
+       wcslen.o \
+       wcsncat.o \
+       wcsncmp.o \
+       wcsncpy.o \
+       wcspbrk.o \
+       wcsrchr.o \
+       wcsspn.o \
+       wcstol.o \
+       wctoa.o \
+       wstos.o \
+       wcswcs.o \
+       wcswidth.o \
+       wcsreverse.o
+
+/**/#       mblen.o \
+/**/#       mbstowcs.o \
+/**/#       wcstombs.o
+
+
+LibraryObjectRule()
+
+#if DoNormalLib
+NormalLibraryTarget(Xwchar,$(OBJS) $(UNSHAREDOBJS))
+InstallLibrary(Xwchar,$(USRLIBDIR))
+#endif
+#if DoProfileLib
+ProfiledLibraryTarget(Xwchar,$(OBJS))
+InstallLibrary(Xwchar_p,$(USRLIBDIR))
+#endif
+#if DoDebugLib
+DebuggedLibraryTarget(Xwchar,$(OBJS))
+InstallLibrary(Xwchar_g,$(USRLIBDIR))
+#endif
+
+LintLibraryTarget(Xwchar,$(SRCS))
+InstallLintLibrary(Xwchar,$(LINTLIBDIR))
+
+BuildIncludes($(HEADERS),.,.)
+
+InstallMultiple($(HEADERS),$(INCDIR))
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

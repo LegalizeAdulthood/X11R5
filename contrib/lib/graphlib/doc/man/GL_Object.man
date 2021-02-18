@@ -1,0 +1,64 @@
+.TH GL_Object 3GL "10Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Object \- Base class for all objects.
+.SH SYNTAX
+GLPointer GL_Create(GL_Object,
+.br
+		       <option>, [args,]
+.br
+		    ...,
+.br
+		    GL_Done);
+void GL_InvertObject(object,setting)
+.br
+		     GLPointer object;
+.br
+		     int setting;
+void GL_InstallObject(object,window)
+.br
+		      GLPointer object;
+.br
+		      Window window;
+.SH ARGUMENTS
+.IP GL_Object 1i
+Type specifier for the GL_Create call.
+.IP GL_Done 1i
+Mark to terminate variable arguments list.
+.IP object 1i
+The object to invert or install.
+.IP setting 1i
+True or False to specify if the object should be inverted or not.
+.IP window 1i
+The window in which to install the object.  This will cause the object 
+to be drawn when the window is exposed.
+
+.SH DESCRIPTION
+This call will create a generic object.  Since this object will have no
+drawing ability, it is semi-pointless to do this.  However, as it is the
+base class for all the objects and it has functions which are useful to
+all of them, it is important that it is documented.
+The GL_InstallObject call will put an object into a specific window so that 
+when that window is exposed the object will be drawn.
+GL_InvertObject will set the inversion status of the object to the value 
+specified.  Some objects will perform a redraw when their status changes.
+Most will not, check on the specific manpages for details, unless specifically
+mentioned, assume that no action will be taken.
+
+.SH OPTIONS
+
+.IP "GLO_X, <int xpos>" 1i
+This specifies the x location of the object.  This is usually the upper
+left hand corner of the object, but does not have to be, for example in a
+circle it could be the center.
+.IP "GLO_Y, <int ypos>" 1i
+This specifies the y location of the object.
+.IP "GLO_Window, <Window window>" 1i
+This specifies the window that the object should use.  If this option is
+used then the object will automaticaly be installed in the specified window.
+.IP "GLO_Inverted, <int invertstate>" 1i
+This specifies if the object should start out inverted.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_TextObject(3GL), GL_InvertibleRectangle(3GL), 
+GL_LineObject(3GL), GL_PolygonObject(3GL), GL_FilledPolygonObject(3GL),
+GraphLib Programming Manual

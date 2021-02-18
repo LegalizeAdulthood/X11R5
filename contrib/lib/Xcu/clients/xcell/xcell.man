@@ -1,0 +1,378 @@
+.TH XCELL 1 "Release 4" "X Version 11"
+.SH NAME
+xcell - One dimensional cellular automata
+.SH SYNOPSIS
+.ta 8n
+\fBxcell\fP  [ bewildering array of options ]
+.SH DESCRIPTION
+The
+.I xcell 
+program displays successive generations of one-dimensional cellular automata.
+It can be used as a screen decoration or to take a serious look at the intricate
+behavior of these automata.
+.sp
+This program was inspired by the article "Abstract Mathematical Art" by Kenneth
+E. Perry, Byte, December, 1986.
+Briefly, in each generation (consisting of a row of pixels)
+each pixel is in a certain state.  That state is determined by the state of that
+pixel and its neighbors in the previous generation.  One type of rule would
+be to sum the three pixels, each pixel being in one of four states: 0,1,2,3.
+Since this sum can be in the range of 0-9, there are ten possible sums.
+A rule consists of ten numbers, each indicating what the outcome should be
+for each sum.  Each of the numbers of this rule will be 0, 1, 2, or 3.
+Since there are 4**10 possible rules (1048576),
+there is lots of room for interesting behavior.
+The rule just described, which I call "lcr4" (4 possible states, generated
+from the left neighbor, center, and right neighbor), is the default rule.
+There are also other rules which can be specified, these are described
+in the RULE TYPES section.
+.sp
+There are four classes of patterns that result.  The first kind rapidly
+degenerates to a constant state (9%).  The second kind degenerates to
+a number of stable, frequently periodic, structures (9%).  The third kind
+exhibits ever-changing chaotic patterns (80%).  The fourth kind is where
+most of the interesting patterns are found.  Sadly, these comprise maybe 2%
+of all the rules.  (All percentages are wild guesses!)  These latter designs
+can be likened to rules where no one pattern is dominant, and the two or
+three rule types "fight it out".  Sometimes the fight goes on for only
+a hundred or so generations, and sometimes it apparently goes on forever.
+
+.SH OPTIONS
+.I Xcell
+accepts all of the standard X Toolkit command line options along with the 
+additional options listed below:
+.TP 8
+.B \-colors \fIcolor,color[,color...\fP]
+This option is used to specify the colors that the automaton uses to display
+the states of its pixels.  It is permissable to specify more or fewer colors
+than there are states.  Extra colors are used when permuting the color palette.
+If fewer colors are specified, the program maps more than one state to a single
+color.
+The default colors are "Black,White,Blue,Green,Red,Yellow,Cyan,Magenta".
+.TP 8
+.B \-ncolors \fI%d\fP
+This option indicates how many colors should be used in computing
+permutations of the color palette. The default is 6.  Beware of exponential
+explosion.  The author has not ventured past a value of 8.
+.TP 8
+\fB\-ordered_color_permutations | \-random_color_permutations | \-random_colors\fP
+.sp
+All permutations of the colors (determined by \-colors and \-ncolors)
+are computed and stored in a table.  Whenever a new color palette is
+required (as determined by the following described flag), this option
+indicates which color palette should be used.
+The default is -ordered_color_permutations, which indicates that the
+palettes should be chosen sequentially from the table.
+.br
+When "\-random_color_permutations" is specified, the color palette
+is chosen randomly from the table.
+.br
+When "\-random_colors" is specified, the permuted colors are ignored and
+the color palette
+is chosen randomly from the full spectrum of colors.
+.TP 8
+\fB\-fixed_colors | \-page_colors | \-rule_colors | \-line_colors\fP
+.sp
+This option indicates how often the color palette should change.
+The default is "\-fixed_colors" which indicates that the same colors
+are used all the time.  In this case, the previously described flag
+is meaningless.
+.br
+When "\-page_colors" is specified, the color palette
+changes each time the generations reach the bottom of the window.
+.br
+When "\-rule_colors" is specified, each instance of a rule type has
+a new color palette.
+.br
+When "\-line_colors" is specified, each row of pixels in the window has
+a new color palette.  This is bizarre.
+.TP 8
+\fB\-lcr3 | \-lcr4 | \-lcr5 | \-lcr6 | \-lccr4 | \-lccrrr4 | \-klcrt3 | \-klcrt4 | \-klcrt5\fP
+.br
+This option selects the type of rule to use. The default is lcr4.
+See the RULE TYPES section for details of each rule type.
+.TP 8
+.B \-rules \fIfilename\fP
+This option indicates a file containing pre-computed rules.
+The default is to produce random rules.
+.TP 8
+.B \-ordered_rules
+This option indicates that rules from the rule file should be used in order.
+The default is to randomly select a rule from those available.
+.TP 8
+.B \-index \fI%d\fP
+This option indicates that a single rule from a file should be used.
+Index numbers start at 1.
+The default is to use all rules.
+.TP 8
+.B \-ignore \fIstate[,state...\fP]
+This option can be used to restrict the production of random rules.
+For each state specified, the automaton will not produce pixels of that state.
+The default is to ignore no states. E.g., "\-ignore 1" when used in conjunction
+with rule type "lcr4", will result in rules that contain only states
+0, 2, and 3.
+.TP 8
+.B \-mutate
+This option indicates that each rule will be computed by a single substitution
+of the previous rule, starting with an all-zero rule.
+.TP 8
+.B \-perturb
+This option indicates that for each rule, a number of rules should be
+produced, each differing from the original rule by a single substitution.
+This option overrides values for \-cols and \-rows, since the grid size
+is chosen from parameters in the "Mods" directory.
+See part 2 of the INTERESTING THINGS TO DO section.
+.TP 8
+.B \-alternate
+This option indicates that 
+.I xcell
+should use two different rules for
+alternate rows.  This permits the production of designs which
+are a hybrid of two rules.
+See part 3 of the INTERESTING THINGS TO DO section.
+.TP 8
+.B \-pick \fIfilename\fP
+Picked rules are written to this file.  A rule is picked by clicking the
+mouse in the area of the rule being drawn.  The default is to open a file
+called /tmp/cell with the process ID as a postfix.
+.TP 8
+.B \-directory \fIpath\fP
+This option tells
+.I xcell
+where to look for rule files, pick files, and the mask file directory.
+The default is to look in ".".
+.TP 8
+.B \-cols \fI%d\fP
+This option tells how many columns of rules to use.  The default is 1.
+.TP 8
+.B \-rows \fI%d\fP
+This option tells how many rows of rules to use.  The default is 1.
+.TP 8
+.B \-vmerge
+This option indicates that the first generation of the automaton should use
+the row from the last generation of the preceding rule.  The default is to
+to use a random row of states.
+.TP 8
+.B \-hmerge
+This option indicates that the automaton should use states from neighboring
+rules at the edges.  The default is to wrap around and use states at the
+opposite edge of the rule.
+.TP 8
+.B \-iwidth \fI%d\fP
+This option indicates the amount of space to leave between the border
+and the left and right edges of the rules area. The default is 0.
+.TP 8
+.B \-iheight \fI%d\fP
+This option indicates the amount of space to leave between the border
+and the upper and lower edges of the rules area. The default is 0.
+.TP 8
+.B \-bg \fIcolor\fP
+This will be the color seen for non-zero values of iwidth and iheight.
+.TP 8
+.B \-shadow
+This option indicates that a drop shadow should be used.
+The default is to use a picture frame.
+.TP 8
+.B \-fwidth \fI%d\fP
+This option indicates the width of the shadow or picture frame.  The default
+is 0.
+.TP 8
+.B \-seed \fI%d\fP
+This option can be used to initialize the random seed.  The default is
+based on time of day.
+.TP 8
+.B \-no_beep
+This option indicates that a ctrl-G should not be sent to the stderr
+when a rule is "picked" with the mouse.
+.SH RESOURCES
+The class of 
+.I xcell
+is XCell.
+Xcell uses the 
+.I XcuCell
+widget.
+Core, XcuSimple, and XcuCell resource names and classes may be used.
+.SH INTERESTING THINGS TO DO
+.sp
+\fB1. Use \fIxcell\fB as a screen decoration\fP
+.sp
+"xcell"
+.sp
+By default, 
+.I xcell
+will produce random rules of the type "lcr4".
+.sp
+"xcell -rules LCR4/f.all"
+.sp
+This will randomly sequence through a huge ( > 1000) set of preselected rules.
+.sp
+"xcell -rules LCR4/f.all -random_color_permutations -rule_colors"
+.sp
+Same as above, but different colors for each randomly selected rule.
+.sp
+"xcell -mutate -rows 2"
+.sp
+Watch as the designs slowly (and sometimes abruptly!) evolve from one
+pattern to another.
+.sp
+\fB2. Search out interesting sets of patterns in existing rule types.\fP
+.sp
+This is how I developed the rule files in the LCR4 directory.
+The first step is to display a very large window and use lots of rows and
+columns, using a random set of generated rules of a given type.  Direct
+the picks to a file, e.g., "pass1":
+.sp
+.in +5
+xcell -geometry 1024x1024 -lcr4 -rows 12 -cols 10 -pick pass1
+.in -5
+.sp
+When interesting patterns rear their heads, you click on them, and the rules
+are saved in the pick file.
+.sp
+The next step is to perturb a rule and study the effects on the designs.
+I perturb the rule by making a series of single substitutions in the primary
+rule.  In the case of the "lcr4" rule type,
+each of the ten numbers is assigned one of the other 3 possible states
+in turn; thus, there are 30 rules that differ by a single substitution.
+It's interesting that a lot of these rules have little or no
+effect, a lot of them change the design radically, and a few modify the
+design in a subtle fashion.  Like evolution, you select the improved versions
+for "breeding".  You can think of it as tracing out a 10 dimensional volume
+of related patterns.  To make this easy I have created a series of scripts
+in the Perturb directory that can be used for breeding attempts.
+.sp
+From the file "pass1", I move a single rule into the file "Perturb/p0" and
+cd to the "Perturb" directory. (Either a symbolic link or a copy of "../Mods"
+may be needed.)
+I put geometry, rule type, and -ordered_rules options in "options".
+Then I execute the script "breed".  Each of the rule variants occupies
+one cell of the grid. (Each rule type will have a
+different number of rules shown in the grid.  Since there are 30 different
+versions of an "lcr4" rule, the original rule is shown in the first and last
+cell, for a total of 32 cells in 4 rows of 8 columns.
+(See the files in the "Mods" directory for more details.)  When I see patterns
+I want to breed, I click on them to save the rules into the pick file
+"p1", which  is the input file to the next invocation of "breed", etc.
+(When there are multiple rules
+in the input file, each rule is perturbed in turn.)  When I feel I have
+exhausted this small portion of the 10D space, I collect all the generations
+together with the command "collect",
+which uses sort and uniq to eliminate redundancies.
+It then shows the whole collected family of rules in one grid.
+I click on the rules I want to eliminate, and they will be thrown away
+with  the command "cull" which leaves the final list of rules
+in the file "family" and removes all the "p" files.
+One can then move "family" off to some final resting place.
+(To throw away a whole breeding session, merely "rm Perturb/p*".)
+.sp
+To see some of the families I have collected, look in the directory "LCR4".
+Do a "wc" on the file to find the number of entries, choose a grid size,
+and look at it with a command like this:
+.sp
+I am particularly fond of the small family in the LCCR4 directory.  There
+is probably lots of fertile ground for searching using the "-lccr4"
+option.
+.sp
+xcell -geometry 1024x1024 -rules LCR4/f.0001310113
+.br
+.in +5
+-rows 3 -cols 2 -ordered_rules
+.in -5
+.sp
+\fB3. Try to make some interesting new patterns by creating hybrid rules\fP
+.sp
+To do this, you need to manually construct a rule file, which will be
+the target of the -rule flag.  When the
+\-alternate flag is specified, rules will be used two per pattern instead
+of one, with the rules alternating between rows. Specifying \-ordered_rules
+will be the most useful for testing specific pairs.
+.sp
+\fB4. Try to make some interesting new rule types\fP
+.sp
+Now you're really getting down to the nitty gritty.
+I'm thinking of sponsoring a contest for best CA design using this program,
+and creating a new rule type might give you an edge.
+.sp
+1) If you are using a neighborhood of 3 or 5 pixels, choose lcr.c.h or
+klcrt.c.h, respectively, else write a new .c.h file.  You might be able
+to figure out how to do the latter.  If not, just drop me a note.
+(Hey, why should I try to figure out how to explain this when maybe nobody
+is ever going to try it?)
+.sp
+2)
+If one of the existing routines (lcr.c, lccr.c, lccrrr.c, klcrt.c) contains
+the COMPUTATION macro you need, you may proceed to step 3.  Otherwise,
+study how these files are constructed.  If you can't figure it out,
+drop me a note.
+See the RULE TYPES section for details of existing rules.
+.sp
+3) Add a new item to the XcuCellType enumeration in CellP.h
+.sp
+4) Add a new "else if" to the function get_rule_type()
+.sp
+.in +5
+-- set "mix" to the enum selected in part 1
+.br
+-- set "spread" to the number of possible values produced by a neighborhood
+.br
+-- set "reduct" to the number of possible values for a pixel
+.br
+-- set "windo" to the width of the neighborhood
+.in -5
+.sp
+5) Add a case to the switch statement in XcuCellStep().  Cases that are
+grouped together use the same "COMPUTATION" macro.  If you have defined a
+new COMPUTATION macro, create a new case block.
+.sp
+6) If the new rule has a unique spread/reduct combination, you will
+need to add a file to the Mods directory.  There is a README there
+that tells you what to do.
+.sp
+7) Modify the Makefile
+
+.SH RULE TYPES
+The following is a summary of existing automaton routines.
+.sp
+.ta 10 20 30
+\fBC\ File	Include\ File	Computation	Rules\fP
+.sp
+lcr.c	lcr.c.h	l+c+r	lcr3, lcr4, lcr5, lcr6
+.br
+lccr.c	lcr.c.h	l+c+c+r	lccr4
+.br
+lccrrr.c	lcr.c.h	l+c+c+r+r+r	lccrrr4
+.br
+klcrt.c	klcrt.c.h	k+l+c+r+t	klcrt3, klcrt4, klcrt5
+.sp
+"l" is the left neighbor of "c", "r" is the right neighbor of "c".
+.br
+"k" is the left neighbor of "l", "t" is the right neighbor of "r".
+.br
+Hint: don't use
+this nomenclature anywhere else, unless you want to be laughed at.
+.sp
+The rule types lcr3, lcr4, lcr5, and lcr6 all sum the members of a
+three wide neighborhood, and differ only
+in the number of states that the pixels are reduced to.
+Similarly, kclrt3, klcrt4, and klcrt5 sum the members of a five wide
+neighborhood, reducing to 3, 4, and 5 states respectively.
+
+.SH FILES
+Rule and pick files are relative to the XtNdirectory resource.
+.sp
+Xcell also expects to find there a subdirectory named
+.B Mods
+which contains information for doing perturbations.
+.SH "SEE ALSO"
+XcuCell(3X), XcuSimple(3X)
+.SH BUGS
+Not all the combinations of
+.I xcell
+parameters have been tested.
+Expect some weird behavior when straying from the beaten path.
+.SH COPYRIGHT
+Copyright 1990, Gene W. Dykes
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHORS
+Gene Dykes (Cornell University) gwd@graphics.cornell.edu

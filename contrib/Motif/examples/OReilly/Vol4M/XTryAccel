@@ -1,0 +1,14 @@
+*pressme.labelString:	Press Me
+*quit.labelString:	Quit
+*XmPushButton.fontList:	variable
+*XmRowColumn.background:	green4
+*rowColumn.packing:	XmPACK_TIGHT
+*rowColumn.orientation:	XmHORIZONTAL
+! The following does nothing, even with *allowShellResize: True
+!*rowColumn.rowColumn.height:	400
+! The following doesn't work either
+!*pressme.height:	400
+*quit.accelerators: #augment\n\
+	Ctrl<Key>c:	ArmAndActivate()
+*pressme.accelerators: #augment\n\
+	Ctrl<Key>p:	ArmAndActivate()

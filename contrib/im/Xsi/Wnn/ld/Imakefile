@@ -1,0 +1,23 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:43:11 ohm Exp $
+/**/#
+#define IHaveSubdirs
+
+   INSTALLFLAGS = $(INSTDATFLAGS)
+
+SUBDIRS = rk
+
+CLIENTJDS = uum.msg \
+	uumkey  \
+	uumrc
+
+all::
+
+instclient:: install
+
+InstallMultipleDest(install, $(CLIENTJDS),$(LWNNWNNDIR))
+
+depend::
+
+clean::
+

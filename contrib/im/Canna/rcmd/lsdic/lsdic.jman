@@ -1,0 +1,22 @@
+.TH LSDIC 1
+.SH "名前"
+lsdic \- ユーザ辞書一覧の表示
+.SH "形式"
+.B "lsdic [{\-is|\-irohaserver} \fIiroha-server\fP] [\-i|\-u \fIuser-name\fP]
+.SH "説明"
+.PP
+ユーザ辞書の一覧を表示します．
+.PP
+他のユーザのユーザ辞書一覧を表示したい場合は，\-uオプションで
+ユーザ名を指定します．
+システム辞書の一覧を表示したい場合は\-iオプションを指定します。
+.SH "オプション"
+.IP "\-is \fIiroha-server\fP (または \-irohaserver \fIiroha-server\fP)" 12
+一覧表示したい辞書のあるサーバマシンを指定します．
+.IP "\-i" 12
+システム辞書の一覧を表示します．
+.IP "\-u \fIuser-name\fP"
+指定されたユーザの辞書一覧を表示します．
+.SH "関連情報"
+.PP
+cpdic(1), mkdic(1), mvdic(1), rmdic(1)

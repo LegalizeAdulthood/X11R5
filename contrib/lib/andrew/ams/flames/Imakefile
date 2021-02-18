@@ -1,0 +1,24 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+#ifdef AFS_ENV
+f_FILES = flib.flm bbd.flm mailsvcs.flm afs.flm
+#else
+f_FILES = flib.flm bbd.flm mailsvcs.flm
+#endif /* AFS_ENV */
+
+f_DIR = lib/flames
+
+InstallFileToFile(flib.flm, ${INSTINCFLAGS}, ${DESTDIR}/${f_DIR}/flib.flames)
+InstallFileToFile(bbd.flm, ${INSTINCFLAGS}, ${DESTDIR}/${f_DIR}/bbd.flames)
+InstallFileToFile(mailsvcs.flm, ${INSTINCFLAGS}, ${DESTDIR}/${f_DIR}/msvc.flames)
+#ifdef AFS_ENV
+InstallFileToFile(afs.flm, ${INSTINCFLAGS}, ${DESTDIR}/${f_DIR}/afs.flames)
+#endif /* AFS_ENV */
+
+/* InstallMultiple(${f_FILES}, ${INSTINCFLAGS}, ${DESTDIR}/${f_DIR}) */
+
+InstallDocs(Flames.pgr, ${DESTDIR}/doc/ams)
+InstallDocs(flames.help, ${DESTDIR}/help)

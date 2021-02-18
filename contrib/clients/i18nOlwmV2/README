@@ -1,0 +1,68 @@
+Topics Covered in This README File:
+----------------------------------
+What Is OLWM
+Changes for This Release  
+Building and Installing OLWM
+Feedback Mechanisms
+ 
+
+What Is OLWM:
+------------
+Olwm (OpenLook window manager) is an ICCCM compliant window manager
+supplied for use with the XView toolkit.  It requires the graphics
+library, olgx, in the contrib/lib/i18nXView2/lib/libolgx section to
+build.  Olwm is also dependent upon the OpenLook fonts found in the
+contrib/lib/i18nXView2/fonts directory.  By default, these fonts are
+already included in the FCS X Version 11 Release 4  and Release 5
+distribution.  You will only need these fonts if you are using an older
+version of the server.
+
+A man page for olwm, olwm.man, can be found in this directory.  
+A copy will also be installed in /usr/lib/X11/man.
+
+Changes For This Release: 
+------------------------  
+This an internationalized version of olwm.  All text string for menus
+of olwm are extracted and stored into message files.  By changing the
+display language enviroment settings, olwm can dynamically change its
+menus to displaying text of different languages.  For more information
+on the usage and environment settings, please refer to olwm.man and
+props.man in the installed area.
+  
+
+
+Building  and Installing OLWM:
+-----------------------------
+	In this directory
+	
+        1.  Type "make Makefile" for building the Makefile 
+        
+	2.  Type "make" for building olwm
+	
+	3.  Type "make install" for installation
+	    Default Install Directory: /usr/bin/X11
+
+ 
+Feedback Mechanisms:
+-------------------
+This internationalized version of olwm is provided along with the
+internationalized version of XView as a sample implementation which is
+NOT meant to be product quality.  No support is provided, and we are
+interested in feedback.
+
+Topics of general interest and questions about usage can be sent to
+comp.windows.x, comp.windows.open-look or the xpert mailing alias, but
+we would prefer to have them go to i18nxview-si@sun.com.
+
+If you do not have an email connection, feedback may be faxed to
+(415) 969-9131 or telexed to 3729639 SUN UR.  Please put the
+following on the cover sheet of the fax or telex.  
+	Atten:  I18N XView Sample Implementation Feeback M/S 5-40
+Feedback may also be mailed to:
+	Sun Microsystems Inc.,
+	Atten:  I18N XView Sample Implementation Feeback M/S 5-40
+	2550 Garcia Ave.
+	Mountain View, CA 94043
+	USA
+
+

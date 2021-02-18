@@ -1,0 +1,44 @@
+      DEPXAWLIB = $(CONTRIBSRC)/lib/Xaw/libXaw.a
+         XAWLIB = $(DEPXAWLIB)
+   DEPXWCHARLIB = $(CONTRIBSRC)/lib/Xwchar/libXwchar.a
+      XWCHARLIB = $(DEPXWCHARLIB)
+
+LINKS = Editres.ad \
+	Edit-col.ad \
+        README \
+        actions.c \
+        comm.c \
+        editres.man \
+        geometry.c \
+        setvalues.c \
+        utils.c \
+        widgets.c \
+        wtree.c
+
+DEFINES = -DXI18N
+DEPLIBS = $(DEPXAWLIB) $(DEPXWCHARLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XWCHARLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+           SRCS = actions.c comm.c editres.c geometry.c handler.c setvalues.c \
+		  svpopup.c utils.c widgets.c wtree.c 
+           OBJS = actions.o comm.o editres.o geometry.o handler.o setvalues.o \
+		  svpopup.o utils.o widgets.o wtree.o 
+
+ComplexProgramTarget(editres)
+
+includes::
+	$(RM) $(LINKS)
+	for i in $(LINKS); do (set -x; $(LN) $(CLIENTSRC)/editres/$$i .); done
+
+InstallAppDefaults(Editres)
+InstallAppDefaultsLong(Edit-col,Editres-color)
+
+install:: Editres-uj.ad
+	MakeDir($(LIBDIR)/ja_JP.ujis/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) Editres-uj.ad $(LIBDIR)/ja_JP.ujis/app-defaults/Editres
+
+clean::
+	$(RM) $(LINKS)
+
+
+        

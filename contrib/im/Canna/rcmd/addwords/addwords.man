@@ -1,0 +1,24 @@
+.TH ADDWORDS 1
+.SH "NAME"
+addwords \- Adding words to specified dictionary collectively
+.SH "SYNOPSIS"
+.B "addwords [{\-is|\-irohaserver} \fIirohaserver\fP] dicname"
+.SH "DESCRIPTION"
+.PP
+.I addwords
+adds words to specified dictionary according to the word information
+from the standard input.  The standard input must be in a format of
+``Text Dictionary format'' of Canna.
+.PP
+.I dicname
+must be a ``Text Dictionary format'' which can be rewritten.
+.SH "OPTIONS"
+.IP "\-is \fIirohaserver\fP (or \-irohaserver \fIirohaserver\fP)" 12
+Specifies the hostname on which the specified dictionary is expected
+to exist.
+.SH "EXAMPLE"
+.nf
+  % addwords mydic < newwords
+.fi
+.PP
+Adds words defined in \fInewwords\fP to \fImydic\fP.

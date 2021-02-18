@@ -1,0 +1,23 @@
+JS_DISCONNECT( )
+
+名称
+
+	js_disconnect		サーバとの間のコネクションを切る。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_disconnect(env)
+	struct wnn_env *env;	/* 環境 */
+
+機能
+
+	env で示される環境を無くす。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	env で示される環境がない場合、-1 を返す。
+

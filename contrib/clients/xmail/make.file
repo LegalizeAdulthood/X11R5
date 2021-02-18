@@ -1,0 +1,135 @@
+#
+# alternate make file for xmail 1.4
+#
+# It is HIGHLY recommended that you utilize xmkmf and the imake utilities
+# to build a Makefile from the Imakefile source.  This default make file is
+# provided for those systems that do not have the imake utilities installed.
+# There may be several instances of local defines which are not implemented
+# because of their normal existance from within imake.  You may have to
+# experiment with using this make file in order to build a working program.
+#
+#
+# Uncomment USE_DIRENT if readdir() uses <dirent.h> instead of <sys/dir.h>
+#
+#   USE_DIRENT = -DUSE_DIRENT
+#
+# Uncomment X_FACE and COMPFACE if you have the compface library installed
+# and you want xmail to automatically display the X-Face: header, if found
+# in a message.
+#
+#       X_FACE = -DX_FACE
+#     COMPFACE = -lcompface
+#
+# Uncomment XPM if you have the Xpm version 3 library and want color icons
+#
+#          XPM = -DXPM
+#       LIBXPM = -lXpm
+#
+# Uncomment LPT if you require att environment support for pseudo ports.
+#
+#          LPT = -lpt
+#
+# Uncomment MAILBOX_DIRECTORY if your mail spool is located in other than the
+# default /usr/spool/mail.  (If not specified, the default will be used.)
+#
+#  MAILBOX_DIR = -DMAILBOX_DIRECTORY=\"/usr/spool/mail\"
+#
+# Uncomment DEFAULT_VISUAL if your copy of vi lies in some place other than
+# /usr/ucb.  (If not specified, /usr/ucb/vi will be the default editor.)
+#
+#   DEF_VISUAL = -DDEFAULT_VISUAL=\"/usr/ucb/vi\"
+#
+# Uncomment DEFAULT_MAILER if your mail program is not the standard
+# /usr/ucb/Mail.  CAUTION - Operation is NOT guaranteed with other mailers.
+#
+#   DEF_MAILER = -DDEFAULT_MAILER=\"/usr/ucb/Mail\"
+#
+       BINDIR = /usr/bin/X11
+       APPDIR = /usr/lib/X11/app-defaults
+       MANDIR = /usr/man/mann
+	   CC = cc
+	   LD = ld
+      INSTALL = install
+ INSTBINFLAGS = -s -m 0755
+ INSTAPPFLAGS = -m 0644
+ INSTMANFLAGS = -m 0644
+	   RM = rm -f
+         LINK = ln -s
+       RANLIB = ranlib
+         MAKE = make
+        SHELL = /bin/sh
+XMAIL_DEFINES = $(MAILBOX_DIR) $(DEF_VISUAL) $(DEF_MAILER)
+      DEFINES = $(USE_DIRENT) $(X_FACE) $(XPM) $(XMAIL_DEFINES)
+       CFLAGS = $(DEFINES)
+    LIBRARIES = $(LIBXPM) -lXaw -lXmu -lXt -lXext -lX11 $(COMPFACE) $(LPT)
+      PROGRAM = xmail
+
+         SRCS = \
+		HelpText.c \
+		Mailwatch.c \
+		actions.c \
+		callMail.c \
+		callbacks.c \
+		confirm.c \
+		directory.c \
+		environs.c \
+		handler.c \
+		mail.c \
+		parser.c \
+		utils.c \
+		windows.c \
+		xmail.c
+
+         OBJS = \
+		HelpText.o \
+		Mailwatch.o \
+		actions.o \
+		callMail.o \
+		callbacks.o \
+		confirm.o \
+		directory.o \
+		environs.o \
+		handler.o \
+		mail.o \
+		parser.o \
+		utils.o \
+		windows.o \
+		xmail.o
+
+         INCS = \
+		MailwatchP.h \
+		Mailwatch.h \
+		defs.h \
+		global.h \
+		mail.xpm \
+		nomail.xpm \
+		icon.mail \
+		icon.nomail \
+		national.bm \
+		patchlevel.h \
+		revtable.h \
+		xmailregexp.h
+#
+$(PROGRAM):	$(OBJS)
+	@$(RM) $@
+	$(CC) -o $@ $(OBJS) $(LDFLAGS) $(LIBRARIES)
+
+install::	$(PROGRAM)
+	$(INSTALL) -c $(INSTBINFLAGS) $? $(BINDIR)
+
+install::	XMail.ad
+	$(INSTALL) -c $(INSTAPPFLAGS) $? $(APPDIR)/XMail
+
+install::
+	@echo done
+
+install.man::	xmail.man
+	$(INSTALL) -c $(INSTMANFLAGS) $? $(MANDIR)/xmail.n
+
+install.man::
+	@echo install man done
+
+clean:
+	@$(RM) *.o
+
+$(OBJS):	$(INCS)

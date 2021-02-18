@@ -1,0 +1,37 @@
+#
+# example programs Imakefile
+#
+#
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SRCS1=	xrowcolumn.c 
+OBJS1=	xrowcolumn.o 
+
+SRCS2=	xform.c
+OBJS2=	xform.o
+
+SRCS3=	xmainwindow.c
+OBJS3=	xmainwindow.o
+
+SRCS6=	Ex3-6.c
+OBJS6=	Ex3-6.o
+
+SRCS7=	Ex3-7.c
+OBJS7=	Ex3-7.o
+
+PROGRAMS = xrowcolumn xform xmainwindow Ex3-6 Ex3-7
+
+all::  $(PROGRAMS)
+
+LOCAL_LIBRARIES = -lXm $(XTOOLLIB) $(XLIB)
+
+NormalProgramTarget(xrowcolumn,$(OBJS1),,$(LOCAL_LIBRARIES),)
+
+NormalProgramTarget(xform,$(OBJS2),,$(LOCAL_LIBRARIES),)
+
+NormalProgramTarget(xmainwindow,$(OBJS3),,$(LOCAL_LIBRARIES),)
+
+NormalProgramTarget(Ex3-6,$(OBJS6),,$(LOCAL_LIBRARIES),)
+
+NormalProgramTarget(Ex3-7,$(OBJS7),,$(LOCAL_LIBRARIES),)

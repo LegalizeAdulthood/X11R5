@@ -1,0 +1,26 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = 
+#endif /* LIBDL_ENV */
+#else
+RESOLVER_LIB =
+SYS_LIBS = 
+#endif
+
+DependTarget()
+
+NormalObjectRule()
+ProgramTarget(nametime, nametime.o, ,${SUPLIBS} ${NETLIBS})
+InstallProgram(nametime, $(DESTDIR)/etc/snap)
+#ifdef RESOLVER_ENV
+ProgramTarget(nametimeg, nmtimeg.o,${RESOLVER_LIB} ,$(SYS_LIBS))
+InstallProgram(nametimeg, $(DESTDIR)/etc/snap)
+#endif /* RESOLVER_ENV */

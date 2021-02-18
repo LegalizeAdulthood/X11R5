@@ -1,0 +1,172 @@
+.\" $Header: XpexRedrawAllStructures.man,v 2.5 91/09/11 16:03:53 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexRedrawAllStructures 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexRedrawAllStructures, XpexUpdateWorkstation, 
+XpexRedrawClipRegion, XpexExecuteDeferredActions, 
+XpexSetViewPriority, XpexSetDisplayUpdateMode, 
+XpexMapDCtoWC, XpexMapWCtoDC \- 
+Functions that modify PHIGS workstation resources
+.SH "Synopsis"
+.nf
+void XpexRedrawAllStructures(dpy, wks_id)
+.br
+	Display *dpy;
+.br
+	XpexPhigsWks wks_id;
+.sp
+void XpexUpdateWorkstation(dpy, wks_id)
+.br
+	Display *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.sp
+void XpexRedrawClipRegion(dpy, wks_id, device_rects, count)
+.br
+	Display *dpy;
+.br
+	XpexPhigsWks wks_id;
+.br
+	XpexDeviceRects *device_rects;
+.br
+	int count;
+.sp
+void XpexExecuteDeferredActions(dpy, wks_id)
+.br
+	Display *dpy;
+.br
+	XpexPhigsWks wks_id;
+.sp
+void XpexSetViewPriority(dpy, wks_id, index1, index2, priority)
+.br
+	Display *dpy;
+.br
+	XpexPhigsWks wks_id;
+.br
+	XpexTableIndex index1;
+.br
+	XpexTableIndex index2;
+.br
+	XpexViewPriority priority;
+.sp
+void XpexSetDisplayUpdateMode(dpy, wks_id, mode)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexDisplayUpdate  mode;
+.sp
+Status XpexMapDCtoWC(dpy, wks_id, dc_pts, num_dc_pts, 
+.br
+	view_index, wc_pts, num_wc_pts)
+.br
+	Display *dpy;
+.br
+	XpexPhigsWks wks_id;
+.br
+	XpexDeviceCoord *dc_pts;
+.br
+	int num_dc_pts;
+.br
+	XpexTableIndex *view_index; /* RETURN */
+.br
+	XpexCoord3D **wc_pts; /* RETURN */
+.br
+	int *num_wc_pts; /* RETURN */
+.sp
+Status XpexMapWCtoDC(dpy, wks_id, 
+.br
+	wc_pts, num_wc_pts, view_index, dc_pts, num_dc_pts)
+.br
+	Display *dpy;
+.br
+	XpexPhigsWks wks_id;
+.br
+	XpexCoord3D *wc_pts;
+.br
+	int num_wc_pts;
+.br
+	XpexTableIndex view_index;     
+.br
+	XpexDeviceCoord **dc_pts; /* RETURN */
+.br
+	int *num_dc_pts; /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i    
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIwks_id\fP 1i    
+Specifies a workstation.
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 10.3.
+.SH "Structures"
+typedef struct {
+.br
+	short  xmin;
+.br
+	short  ymin;
+.br
+	short  xmax;
+.br
+	short  ymax;
+.br
+} XpexDeviceRect;
+.sp
+typedef struct {
+.br
+	int  count;
+.br
+	XpexDeviceCoord  *device_coord;
+.br
+} XpexListOfDeviceCoord;
+.sp
+typedef struct {
+.br
+	short  x;
+.br
+	short  y;
+.br
+	XpexFloat  z;
+.br
+} XpexDeviceCoord;
+.sp
+typedef struct {
+.br
+	XpexFloat  x;
+.br
+	XpexFloat  y;
+.br
+	XpexFloat  z;
+.br
+} XpexCoord3D;
+.SH "Errors"
+PhigsWks
+.SH "Related Commands"
+To be added

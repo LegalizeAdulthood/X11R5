@@ -1,0 +1,73 @@
+#
+# $Header: /usr/src/local/emu/menus/RCS/Imakefile,v 1.4 90/10/24 15:29:29 tom Exp Locker: jkh $
+#
+# Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+#
+#                        All Rights Reserved
+#
+# Permission to use, copy, modify, and distribute this software and its 
+# documentation for any purpose and without fee is hereby granted, 
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in 
+# supporting documentation, and that the names of PCS or the authors not
+# be used in advertising or publicity pertaining to distribution of the
+# software without specific, written prior permission.  
+# 
+# PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+# ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+# PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+# OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+# OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+#
+
+           SRCS = test_menus.c menus.c menus.h
+           OBJS = test_menus.o menus.o
+
+#ifdef PCS	/* PCS's DEPLIBS is unusual */
+        DEPLIBS =
+#endif
+
+##  Athena specific
+       INCLUDES = -I. -I./../include
+LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB) ./../misc/msgs.o
+    STD_DEFINES = StandardDefines -DDEBUG -DTEST
+STD_CPP_DEFINES = StandardDefines
+
+##  Motif 1.0 specific
+# ALLINCLUDES order is important for Motif
+# (/usr/include/Motif before /usr/include/X11)
+#      ALLINCLUDES = $(STD_INCLUDES) $(INCLUDES) $(TOP_INCLUDES) $(EXTRA_INCLUDES)
+#       INCLUDES = -I. -I/../alex/usr/include/Motif -I./../include
+#LOCAL_LIBRARIES = /usr/lib/Motif/libXm.a $(XMULIB) \
+	/usr/lib/Motif/libXt.a  $(XLIB) ./../misc/msgs.o
+#    STD_DEFINES = StandardDefines -DMOTIF_ONE_ZERO -DMOTIF -DDEBUG -DTEST
+#STD_CPP_DEFINES = StandardDefines -DMOTIF
+
+##  Motif 1.1 specific
+#       INCLUDES = -I. -I/../alex/usr2/Motif.1.1_obj -I./../include
+#LOCAL_LIBRARIES = /../alex/usr2/Motif.1.1_obj/lib/Xm/libXm.a $(XMULIB) \
+	$(XTOOLLIB) $(XLIB) ./../misc/msgs.o
+#    STD_DEFINES = StandardDefines -DMOTIF -DDEBUG -DTEST
+#STD_CPP_DEFINES = StandardDefines -DMOTIF
+
+ComplexProgramTarget(test_menus)
+
+installapps:: Test_menus
+	mv Test_menus XAppLoadDir/Test_menus
+
+Test_menus: Test_menus.ad
+	CppCmd $(STD_CPP_DEFINES) -P Test_menus.ad > Test_menus
+
+/*
+ * The "forceMakefile" rule was in R3. For some reason, we couldn't
+ * find it again in R4, so we put it back. This is a useful rule so
+ * I don't know why it was nuked in the first place.
+ */
+forceMakefile::
+	-@if [ -f Makefile ]; then \
+		echo "$(RM) Makefile.bak; $(MV) Makefile Makefile.bak"; \
+		$(RM) Makefile.bak; $(MV) Makefile Makefile.bak; \
+	else exit 0; fi
+	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) imakeflags

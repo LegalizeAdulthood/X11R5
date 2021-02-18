@@ -1,0 +1,10 @@
+;
+; $Id: 1F_select,v 1.1 1991/09/11 02:31:28 ohm Exp $
+;
+(defvar chr (all))
+1	1
+2	2
+3	3
+4	4
+H	H
+(chr)	P

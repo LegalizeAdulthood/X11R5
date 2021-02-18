@@ -1,0 +1,42 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:40:49 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+       INCLUDES = -I$(WNNINCLUDESRC)
+        DEFINES = $(WNNDEFINES)
+       LINTLIBS = 
+
+SRC1= jlv3.c
+OBJ1= jlv3.o
+SRC2= $(WNNETCSRC)/gethinsi.c
+OBJ2= gethinsi.o
+SRC3= $(WNNETCSRC)/sstrings.c
+OBJ3= sstrings.o
+SRCS= $(SRC1) $(SRC2) $(SRC3)
+OBJS= $(OBJ1) $(OBJ2) $(OBJ3)
+
+LibraryObjectRule()
+
+AllTarget(libjd.a)
+
+libjd.a: $(OBJS) $(WNNJLIB)
+	cp $(WNNJLIB) $@
+	ar rv $@ $(OBJS)
+	$(RANLIB) $@
+
+LintLibraryTarget(jd,$(SRCS))
+InstallLibrary(jd,$(USRLIBDIR))
+
+#if DebugLibJd
+DebuggedLibraryTarget(jd,$(OBJS))
+#endif
+
+NormalLintTarget($(SRCS))
+NamedMakeSubdirs($(WNNJLIB),$(WNNJLIBSRC))
+
+WnnSpecialObjectRule($(OBJ2),$(SRC2),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ3),$(SRC3),$(WNNETCSRC),)
+DependTarget()

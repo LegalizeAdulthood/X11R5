@@ -1,0 +1,38 @@
+            TBL = tbl
+          TROFF = troff
+          PRINT = lpr
+      MANMACROS = -man
+       MSMACROS = -ms
+      PROPTIONS = -n
+         XAWDOC = $(TTOP)/doc/Xaw
+     EVERYWHERE = \
+                  $(XAWDOC)/../util/macros.t \
+                  $(XAWDOC)/strings.mit \
+                  $(XAWDOC)/strings.xaw
+
+HEAD = intro.ms
+
+I18N = $(EVERYWHERE) \
+         strings.xaw.i18n
+
+CH3 = CH3.S10 CommandLc LabelLc ListLc ToggleLc
+CH4 = CH4.S6 SmeBSBLc MenuBtnLc
+CH5 = CH5.S1 TextActions TextFuncs CH5.S7 TextCustom CH5.S11 MultiText \
+      MultiSrc MultiSink
+CH8 = InputMethod
+
+SRCS = \
+      $(I18N) \
+      $(CH3) $(CH4) $(CH5) $(CH8)
+
+all: Xaw.lpt
+
+Xaw.lpt:
+	$(TBL) $(HEAD) | $(TROFF) $(MSMACROS) - > head.lpt
+	$(TBL) $(SRCS) | $(TROFF) $(MSMACROS) 2> index.lpt > Xaw.lpt
+
+print: Xaw.lpt
+	$(PRINT) $(PROPTIONS) head.lpt Xaw.lpt
+
+clean::
+	$(RM) head.lpt Xaw.lpt index.lpt

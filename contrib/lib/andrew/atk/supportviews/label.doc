@@ -1,0 +1,70 @@
+\begindata{text,272744420}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Label}
+
+
+
+\section{Quick reference list for Label}
+
+
+
+\fixedtext{void \bold{label_}FinalizeObject }\fixedindent{(struct label 
+*\paramname{self});} 
+
+\fixedtext{\bold{label_}GetFlags }\fixedindent{(struct label 
+*\paramname{label});} 
+
+\fixedtext{unsigned char *\bold{label_}GetFont }\fixedindent{(struct label 
+*\paramname{label}, long *\paramname{style}, long *\paramname{size});} 
+
+\fixedtext{unsigned char *\bold{label_}GetText }\fixedindent{(struct label 
+*\paramname{label});} 
+
+\fixedtext{boolean \bold{label_}InitializeObject }\fixedindent{(struct label 
+*\paramname{self});} 
+
+\fixedtext{long \bold{label_}Read }\fixedindent{(struct label 
+*\paramname{label}, FILE *\paramname{file}, long \paramname{id});} 
+
+\fixedtext{void \bold{label_}SetFlags }\fixedindent{(struct label 
+*\paramname{label}, int \paramname{flags});} 
+
+\fixedtext{void \bold{label_}SetFont }\fixedindent{(struct label 
+*\paramname{label}, unsigned char *\paramname{fontfamily}, long 
+\paramname{style}, long \paramname{size});} 
+
+\fixedtext{void \bold{label_}SetText }\fixedindent{(struct label 
+*\paramname{label}, unsigned char *\paramname{text});} 
+
+\fixedtext{long \bold{label_}Write }\fixedindent{(struct label 
+*\paramname{label}, FILE *\paramname{file}, long \paramname{id}, long 
+\paramname{level});} \
+\enddata{text,272744420}

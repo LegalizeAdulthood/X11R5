@@ -1,0 +1,5 @@
+SRCS=			animate.c app.c
+OBJS=			animate.o app.o
+SYS_LIBRARIES=		-L../lib -lV -lm -lX11
+
+ComplexProgramTarget(animate)

@@ -1,0 +1,96 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOCALINCLUDES = -I../hdrs
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYSLIBS = -L${DESTDIR}/lib -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYSLIBS = 
+#endif /* LIBDL_ENV */
+#endif /* RESOLVER_ENV */
+
+#ifdef AFS_ENV
+/* librauth.a is part of an old distribution of AFS.  It's not included in AFS3.0, but it's still AFS-related. */
+#ifndef AFS30_ENV
+LIBRAUTH = ${AFSBASEDIR}/lib/afs/librauth.a
+#endif /* AFS30_ENV */
+
+G_LIBSI		= \
+	${BASEDIR}/lib/libmail.a \
+	${BASEDIR}/lib/libutil.a \
+	${BASEDIR}/lib/liberrors.a \
+	${LIBRAUTH} \
+	${AFSBASEDIR}/lib/afs/libauth.a \
+	${AFSBASEDIR}/lib/afs/libacl.a \
+	${AFSBASEDIR}/lib/afs/libsys.a \
+	${AFSBASEDIR}/lib/librx.a \
+	${AFSBASEDIR}/lib/librxkad.a \
+	${AFSBASEDIR}/lib/liblwp.a \
+	$(AFSBASEDIR)/lib/libdes.a ${AFSUTILS} 	
+#else /* AFS_ENV */
+G_LIBSI 	= \
+	${BASEDIR}/lib/libmail.a \
+	${BASEDIR}/lib/libutil.a \
+	${BASEDIR}/lib/liberrors.a
+#endif /* AFS_ENV */
+
+G_LIBSS		= \
+	${BASEDIR}/lib/libsnap.a \
+	${G_LIBSI} \
+	${RESOLVER_LIB}
+
+G_LIBST		= \
+	${G_LIBSI} \
+	${BASEDIR}/lib/libpfio.a \
+	${RESOLVER_LIB}
+
+/*	${BASEDIR}/lib/libsnapt.a ${G_LIBSI} */
+
+G_OBJS	= \
+	guardian.o \
+	demonlog.o
+
+DependTarget()
+
+NormalObjectRule()
+
+ProgramTarget(bioyat, bioya.o,  $(BASEDIR)/lib/libgasp.a $(BASEDIR)/lib/libsnapt.a ${UTILLIB}, ${SYSLIBS} ${NETLIBS} ${SUPLIBS} ${BSDLIB})
+
+DIRS = ${DESTDIR}/etc/snap \ 
+	${DESTDIR}/etc/snap/servicest \ 
+	${DESTDIR}/etc/snap/services
+
+MkdirTarget($(DIRS))
+
+InstallFileToFile(bioyat, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/servicest/bioya)
+
+InstallFile(snptguar.h, $(INSTINCFLAGS), $(DESTDIR)/include)
+ProgramTarget(fakeclientt, fakeclnt.o, $(BASEDIR)/lib/libgasp.a $(BASEDIR)/lib/libsnapt.a ${UTILLIB},${SYSLIBS} ${NETLIBS} ${SUPLIBS} ${BSDLIB})
+InstallFileToFile(fakeclientt, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/servicest/fakeclient)
+InstallLink( $(DESTDIR)/etc/snap/servicest/fakeclient, $(DESTDIR)/etc/snap/servicest/messageserver)
+ProgramTarget(guardiant, ${G_OBJS} snptguar.o snptgerr.o, ${G_LIBST},$(SYSLIBS) ${NETLIBS} ${SUPLIBS} ${AUTHLIBS} ${BSDLIB})
+InstallProgram(guardiant, $(DESTDIR)/etc/snap)
+ProgramTarget(snaptestt, snaptest.o, $(BASEDIR)/lib/libsnapt.a $(BASEDIR)/lib/libmail.a $(UTILLIB), ${SYSLIBS} ${NETLIBS} ${SUPLIBS} ${BSDLIB})
+InstallProgram(snaptestt, $(DESTDIR)/etc/snap)
+
+ProgramTarget(bioyas, bioya.o,  $(BASEDIR)/lib/libgasp.a $(BASEDIR)/lib/libsnap.a ${UTILLIB},${SYSLIBS} ${NETLIBS} ${SUPLIBS} ${BSDLIB})
+
+
+InstallFileToFile(bioyas, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/services/bioya)
+
+ProgramTarget(fakeclients, fakeclnt.o, $(BASEDIR)/lib/libgasp.a $(BASEDIR)/lib/libsnap.a ${UTILLIB}, ${SYSLIBS} ${NETLIBS} ${SUPLIBS} ${BSDLIB})
+InstallFileToFile(fakeclients, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/services/fakeclient)
+InstallLink( $(DESTDIR)/etc/snap/services/fakeclient, $(DESTDIR)/etc/snap/services/messageserver)
+ProgramTarget(guardians, ${G_OBJS}, ${G_LIBSS}, $(SYSLIBS) ${NETLIBS} ${SUPLIBS} ${AUTHLIBS} ${BSDLIB})
+InstallFileToFile(guardians, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/guardian)
+ProgramTarget(snaptests, snaptest.o, $(BASEDIR)/lib/libsnap.a $(BASEDIR)/lib/libmail.a $(UTILLIB),${SYSLIBS} ${NETLIBS} ${SUPLIBS} ${BSDLIB})
+InstallFileToFile(snaptests, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/snaptest)

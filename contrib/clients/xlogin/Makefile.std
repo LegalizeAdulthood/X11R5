@@ -1,0 +1,79 @@
+#
+# Makefile for non-imake users
+#
+# WARNING   WARNING   WARNING
+#
+# if you don't have QUOTA and/or LASTLOGIN remove -DQUOTA and/or
+#    -DLASTLOGIN from the definition of STD_DEFINES.
+#    In this case you also have to check the dependencies on the
+#    end of this file!
+# you may wish to remove -DHOSTNAME, if you don't want hostname
+#    information for displays in the utmp/wtmp files (see README)
+# check the definition of the various variables
+#
+# $Id: Makefile.std,v 1.3 90/07/09 15:42:54 stumpf Exp Locker: stumpf $
+#
+
+          DEFINES = -DQUOTA -DLASTLOGIN -DHOSTNAME
+          DESTDIR = 
+        USRLIBDIR = $(DESTDIR)/usr/lib
+       APPLDEFDIR = $(USRLIBDIR)/app-defaults
+           BINDIR = $(DESTDIR)/usr/bin/X11
+           MANDIR = $(DESTDIR)/usr/man/man1
+          INCROOT = $(DESTDIR)/usr/include
+     EXTENSIONLIB = $(USRLIBDIR)/libXext.a
+             XLIB = $(USRLIBDIR)/libX11.a
+         XAUTHLIB = $(USRLIBDIR)/libXau.a
+           XMULIB = $(USRLIBDIR)/libXmu.a
+          OLDXLIB = $(USRLIBDIR)/liboldX.a
+         XTOOLLIB = $(USRLIBDIR)/libXt.a
+           XAWLIB = $(USRLIBDIR)/libXaw.a
+          DEPLIBS = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(EXTENSIONLIB) $(XLIB)
+           LDLIBS = $(DEPLIBS)
+           CFLAGS = $(DEFINES)
+
+        PROGRAM = xlogin
+           SRCS = xlogin.c
+           OBJS = xlogin.o
+
+all: xlogin
+
+xlogin: $(OBJS) $(DEPLIBS)
+	rm -f $@
+	$(CC) -o $@ $(OBJS) $(LDLIBS)
+
+install: xlogin
+	install -c -m 0755 xlogin $(BINDIR)
+	install -c -m 0644 Xlogin.ad $(APPLDEFDIR)/Xlogin
+
+install.man: xlogin.man
+	install -c -m 0644 xlogin.man $(MANDIR)/xlogin.l
+
+clean:
+	rm -f $(PROGRAM) *.CKP *.ln *.BAK *.bak *.o core errs ,* *~ \
+	*.a .emacs_* tags TAGS make.log MakeOut
+
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+xlogin.o: /usr/include/sys/quota.h /usr/include/lastlog.h
+
+xlogin.o: /usr/include/sys/param.h /usr/include/machine/param.h
+xlogin.o: /usr/include/errno.h /usr/include/pwd.h /usr/include/sys/stat.h
+xlogin.o: /usr/include/sys/signal.h /usr/include/sys/types.h
+xlogin.o: /usr/include/utmp.h /usr/include/stdio.h /usr/include/ttyent.h
+xlogin.o: /usr/include/X11/Xos.h /usr/include/strings.h
+xlogin.o: /usr/include/sys/file.h /usr/include/sys/time.h
+xlogin.o: /usr/include/X11/StringDefs.h /usr/include/X11/Intrinsic.h
+xlogin.o: /usr/include/X11/Xlib.h /usr/include/X11/X.h
+xlogin.o: /usr/include/X11/Xutil.h /usr/include/X11/Xresource.h
+xlogin.o: /usr/include/X11/Core.h /usr/include/X11/Composite.h
+xlogin.o: /usr/include/X11/Constraint.h /usr/include/X11/Object.h
+xlogin.o: /usr/include/X11/RectObj.h /usr/include/X11/Shell.h
+xlogin.o: /usr/include/X11/Xaw/Command.h /usr/include/X11/Xaw/Label.h
+xlogin.o: /usr/include/X11/Xaw/Simple.h /usr/include/X11/Xmu/Converters.h
+xlogin.o: /usr/include/X11/Xaw/Form.h /usr/include/X11/Xaw/AsciiText.h
+xlogin.o: /usr/include/X11/Xaw/Text.h /usr/include/X11/Xaw/TextSink.h
+xlogin.o: /usr/include/X11/Xaw/TextSrc.h /usr/include/X11/Xaw/AsciiSrc.h
+xlogin.o: /usr/include/X11/Xaw/AsciiSink.h /usr/include/X11/Xmu/CharSet.h
+xlogin.o: patchlevel.h

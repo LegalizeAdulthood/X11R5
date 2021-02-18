@@ -1,0 +1,31 @@
+       INCLUDES = $(XCUINCFLAG)
+LOCAL_LIBRARIES = $(XCULIB) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+AllTarget(ex1 ex2 ex3 ex4)
+SingleProgramTarget(ex1,ex1.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(ex2,ex2.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(ex3,ex3.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(ex4,ex4.o,$(LOCAL_LIBRARIES),)
+
+ex1.wc : ex1.wl defaults.wl
+	wlc ex1
+
+ex2.wc : ex2.wl defaults.wl
+	wlc ex2
+
+ex3.wc : ex3.wl defaults.wl
+	wlc ex3
+
+ex4.wc : ex4.wl defaults.wl
+	wlc ex4
+
+ex1 : ex1.wc
+
+ex2 : ex2.wc
+
+ex3 : ex3.wc
+
+ex4 : ex4.wc
+
+DependTarget()
+

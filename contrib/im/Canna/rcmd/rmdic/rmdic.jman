@@ -1,0 +1,18 @@
+.TH RMDIC 1
+.SH "名前"
+rmdic \- ユーザ辞書削除ツール
+.SH "形式"
+.B "rmdic [{\-is|\-irohaserver} \fIiroha-server\fP] \fIdicname1 [dicname2 ...]\fP"
+.SH "説明"
+.PP
+指定されたユーザ辞書を削除します。辞書目録ファイル dics.dir はこれに対応して書換えられます。
+.PP
+ユーザ辞書は幾つも指定することができます。
+.PP
+使用中(マウント中)の辞書は削除できません。
+.SH "オプション"
+.IP "\-is \fIiroha-server\fP (または \-irohaserver \fIiroha-server\fP)" 12
+削除したい辞書のあるサーバマシンを指定します。
+.SH "関連情報"
+.PP
+cpdic(1), lsdic(1), mkdic(1), mvdic(1)

@@ -1,0 +1,193 @@
+/* SCCSID = OSF/Motif: @(#)Motif.tmpl	3.5.1.7 91/08/29 */
+
+#ifndef NullParameter
+#define NullParameter
+#endif
+
+#ifdef AUTOMATION
+#define Automation    YES
+#endif
+
+#ifndef TestDefines
+#define TestDefines /**/
+#endif
+
+#ifdef Automation
+#ifndef AutoDefines
+#define AutoDefines -DAUTOMATION
+#endif
+#else
+#ifndef AutoDefines
+#define AutoDefines /**/
+#endif
+#endif
+
+#ifndef _MUse
+#ifdef UseInstalledMotif
+#define _MUse(a,b) a
+#else
+#define _MUse(a,b) b
+#endif
+#endif
+
+#ifndef _MUseCat
+#ifdef UseInstalledMotif
+#define _MUseCat(a,b,c) a/**/c
+#else
+#define _MUseCat(a,b,c) b/**/c
+#endif
+#endif
+
+#ifndef XmExtraLibraries
+#define XmExtraLibraries /**/
+#endif
+
+
+/* Shared libraries are unsupported in 1.1.4 */
+#ifndef SharedLibXm
+#define SharedLibXm NO
+#endif
+#ifndef SharedLibMrm
+#define SharedLibMrm NO
+#endif
+#ifndef SharedLibUil
+#define SharedLibUil NO
+#endif
+
+#ifndef XmClientLibs
+#define XmClientLibs $(XMLIB) $(XTOOLLIB) $(XLIB) $(XMEXTRA_LIBS)
+#endif
+#ifndef XmClientDepLibs
+#define XmClientDepLibs $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+#endif
+
+#ifndef MrmClientLibs
+#define MrmClientLibs $(MRESOURCELIB) $(XMLIB) $(XTOOLLIB) $(XLIB) $(XMEXTRA_LIBS)
+#endif
+#ifndef MrmClientDepLibs
+#define MrmClientDepLibs $(DEPMRESOURCELIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+#endif
+
+#ifndef UilClientLibs
+#define UilClientLibs $(UILLIB) $(MRESOURCELIB) $(XMLIB) $(XTOOLLIB) $(XLIB) $(XMEXTRA_LIBS)
+#endif
+#ifndef UilClientDepLibs
+#define UilClientDepLibs $(DEPUILLIB) $(DEPMRESOURCELIB) $(DEPXMLIB) $(DEPXTOOLLIB) $(DEPXLIB)
+#endif
+            UIL = _MUse(uil,$(UILSRC)/uil)
+         DEPUIL = _MUseCat($(BINDIR),$(UILSRC),/uil)
+
+#if SharedLibXm
+       DEPXMLIB =  /* _MUseCat($(USRLIBDIR),$(MWIDGETSRC),/libXm.so.$(SOXMREV)) */
+          XMLIB = _MUse(-lXm,-L$(MWIDGETSRC) -lXm)
+#else
+       DEPXMLIB = _MUseCat($(USRLIBDIR),$(MWIDGETSRC),/libXm.a)
+          XMLIB = LoaderLibPrefix _MUse(-lXm,$(DEPXMLIB))
+#endif
+
+#if SharedLibMrm
+DEPMRESOURCELIB = /* _MUseCat($(USRLIBDIR),$(MRESOURCESRC),/libMrm.so.$(SOMRMREV)) */
+   MRESOURCELIB = _MUse(-lMrm,-L$(MRESOURCESRC) -lMrm)
+#else
+DEPMRESOURCELIB = _MUseCat($(USRLIBDIR),$(MRESOURCESRC),/libMrm.a)
+   MRESOURCELIB = LoaderLibPrefix _MUse(-lMrm,$(DEPMRESOURCELIB))
+#endif
+
+#if SharedLibUil
+      DEPUILLIB = /* _MUseCat($(USRLIBDIR),$(UILSRC),/libUil.so.$(SOUILREV)) */
+         UILLIB = _MUse(-lUil,-L$(UILSRC) -lUil)
+#else
+      DEPUILLIB = _MUseCat($(USRLIBDIR),$(UILSRC),/libUil.a)
+         UILLIB = _MUse(-lUil,$(UILSRC)/libUil.a)
+#endif
+
+
+#ifndef UsrIncDir
+#define UsrIncDir $(DESTDIR)/usr/include
+#endif
+      USRINCDIR = UsrIncDir
+        TESTSRC = $(TOP)/tests
+  GENERALSRCLIB = $(TESTSRC)/General/lib
+  GENERALSRCBIN = $(TESTSRC)/General/bin
+   MANUALSRCLIB = $(TESTSRC)/Manual/lib
+   MANUALSRCBIN = $(TESTSRC)/Manual/bin
+     AUTOSRCLIB = $(TESTSRC)/Auto/lib
+     AUTOSRCBIN = $(TESTSRC)/Auto/bin
+       COMMONPP = $(GENERALSRCBIN)/Commonpp
+
+#ifndef TestUilClientLibs
+#define TestUilClientLibs $(TESTMALFNS) $(TESTCOMLIB) \
+        $(AUTOSCRIPTLIB) $(AUTOCREATELIB) $(AUTOVISUALLIB) $(AUTOSYNTHLIB) \
+      $(UILLIB) $(MRESOURCELIB) $(XMLIB) $(TESTMALLOCLIB) $(XTOOLLIB) \
+      $(XLIB) $(AUTOEXTRALIBS) $(XMEXTRA_LIBS)
+#endif
+
+
+#ifndef TestClientLibs
+#define TestClientLibs $(TESTMALFNS) $(TESTCOMLIB) \
+      $(AUTOSCRIPTLIB) $(AUTOCREATELIB) $(AUTOVISUALLIB) $(AUTOSYNTHLIB) \
+      $(XMLIB) $(TESTMALLOCLIB) $(XTOOLLIB) $(XLIB) \
+      $(AUTOEXTRALIBS) $(XMEXTRA_LIBS)
+#endif
+#ifndef TestClientDepLibs
+#define TestClientDepLibs XmClientDepLibs
+#endif
+#ifndef TestUilClientDepLibs
+#define TestUilClientDepLibs UilClientDepLibs
+#endif
+
+#ifdef DebugLib
+  TESTMALLOCSRC = $(GENERALSRCLIB)/Malloc
+#endif
+#ifdef Automation
+     TESTCOMSRC = $(AUTOSRCLIB)/Common
+#else
+     TESTCOMSRC = $(MANUALSRCLIB)/Common
+#endif
+#ifdef Automation
+  AUTOSCRIPTSRC = $(AUTOSRCLIB)/Script
+  AUTOSCRIPTLIB = $(AUTOSCRIPTSRC)/libScript.a
+   AUTOSYNTHSRC = $(AUTOSRCLIB)/Synth
+   AUTOSYNTHLIB = $(AUTOSYNTHSRC)/libSynth.a
+  AUTOCREATESRC = $(AUTOSRCLIB)/Create
+  AUTOCREATELIB = $(AUTOCREATESRC)/libCreate.a
+  AUTOVISUALSRC = $(AUTOSRCLIB)/Visual
+  AUTOVISUALLIB = $(AUTOVISUALSRC)/libVisual.a
+  AUTOEXTRALIBS = -ll -ly -lm
+#endif
+    XMEXTRA_LIBS = XmExtraLibraries
+
+
+    MINCLUDESRC = $(TOP)/X11
+        MLIBSRC = $(MTOP)/lib
+     MCLIENTSRC = $(MTOP)/clients
+
+
+    MTOOLKITSRC = $(LIBSRC)/Xt
+     MWIDGETSRC = $(LIBSRC)/Xm
+   MRESOURCESRC = $(LIBSRC)/Mrm
+         UILSRC = $(CLIENTSRC)/uil
+     TESTCOMLIB = $(TESTCOMSRC)/libCommon.a
+#ifdef DebugLib
+     TESTMALFNS = $(TESTMALLOCSRC)/MallocInit.o $(TESTMALLOCSRC)/MallocExit.o
+  TESTMALLOCLIB = $(TESTMALLOCSRC)/libMalloc.a 
+#endif
+  LINTMRESOURCE = $(MRESOURCESRC)/libMrm.a
+LINTXMWIDGETLIB = $(MWIDGETSRC)/llib-l/Xm.ln
+     LINTXMTOOL = $(MTOOLKITSRC)/llib-lXt.ln
+     LINTUILLIB = $(UILSRC)/llib-lUil.ln
+
+#if NeedDefaultDepLibs
+/*
+ */
+#if HasSunOSSharedLibraries
+        DEPLIBS = /* */
+#else
+        DEPLIBS = $(LOCAL_LIBRARIES)
+#endif
+        DEPLIBS1 = $(DEPLIBS)
+        DEPLIBS2 = $(DEPLIBS)
+        DEPLIBS3 = $(DEPLIBS)
+#endif /* NeedDefaultDepLibs */
+
+

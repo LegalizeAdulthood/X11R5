@@ -1,0 +1,95 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/dix/RCS/dispatch.c,v 
+*** 2.1	1991/09/22 00:26:48
+--- 2.2	1991/09/22 00:27:28
+***************
+*** 1207,1212 ****
+--- 1207,1215 ----
+      REQUEST(xCreatePixmapReq);
+      DepthPtr pDepth;
+      register int i;
++ #ifdef VIDEOX
++     extern Bool IsVexDepth();
++ #endif /* VIDEOX */
+  
+      REQUEST_SIZE_MATCH(xCreatePixmapReq);
+      client->errorValue = stuff->pid;
+***************
+*** 1228,1233 ****
+--- 1231,1240 ----
+          for (i=0; i<pDraw->pScreen->numDepths; i++, pDepth++)
+  	   if (pDepth->depth == stuff->depth)
+                 goto CreatePmap;
++ #ifdef VIDEOX
++ 	if (IsVexDepth(pDraw->pScreen, stuff->depth))
++ 	    goto CreatePmap;
++ #endif /* VIDEOX */
+  	client->errorValue = stuff->depth;
+          return BadValue;
+      }
+***************
+*** 2053,2058 ****
+--- 2060,2069 ----
+      ScreenPtr pScreen;
+      REQUEST(xCreateColormapReq);
+      int i, result;
++     Bool fOK;
++ #ifdef VIDEOX
++     extern VisualPtr GetVexVisual();
++ #endif /* VIDEOX */
+  
+      REQUEST_SIZE_MATCH(xCreateColormapReq);
+  
+***************
+*** 2068,2088 ****
+          return(BadWindow);
+  
+      pScreen = pWin->drawable.pScreen;
+      for (i = 0, pVisual = pScreen->visuals;
+  	 i < pScreen->numVisuals;
+  	 i++, pVisual++)
+      {
+! 	if (pVisual->vid != stuff->visual)
+! 	    continue;
+! 	result =  CreateColormap(mid, pScreen, pVisual, &pmap,
+! 				 (int)stuff->alloc, client->index);
+! 	if (client->noClientException != Success)
+! 	    return(client->noClientException);
+! 	else
+! 	    return(result);
+      }
+!     client->errorValue = stuff->visual;
+!     return(BadValue);
+  }
+  
+  int
+--- 2079,2108 ----
+          return(BadWindow);
+  
+      pScreen = pWin->drawable.pScreen;
++     fOK = FALSE;
+      for (i = 0, pVisual = pScreen->visuals;
+  	 i < pScreen->numVisuals;
+  	 i++, pVisual++)
+      {
+! 	if (pVisual->vid == stuff->visual) {
+! 	    fOK = TRUE;
+! 	    break;
+! 	}
+!     }
+! #ifdef VIDEOX
+!     if (fOK == FALSE && (pVisual = GetVexVisual(pScreen, stuff->visual)))
+! 	fOK = TRUE;
+! #endif /* VIDEOX */
+!     if (fOK == FALSE) {
+! 	client->errorValue = stuff->visual;
+! 	return(BadValue);
+      }
+!     result =  CreateColormap(mid, pScreen, pVisual, &pmap,
+! 			     (int)stuff->alloc, client->index);
+!     if (client->noClientException != Success)
+! 	return(client->noClientException);
+!     else
+! 	return(result);
+  }
+  
+  int

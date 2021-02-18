@@ -1,0 +1,19 @@
+.TH GL_ProcessEvent 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_ProcessEvent \- Localally execute an Event.
+.SH SYNTAX
+void GL_ProcessEvent(report)
+.br
+	XEvent *report;
+.SH ARGUMENTS
+.IP report 1i
+The Xevent which should be executed.
+
+.SH DESCRIPTION
+This function will call all of the functions for the event, as specified
+by the events type and window.  It will run faster than a call to 
+XSendEvent, because no round trip to the X server is neccesary.  Furthermore
+the function will not set the SendEvent flag.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_AddFuncPtr(3GL), GraphLib Programming Manual

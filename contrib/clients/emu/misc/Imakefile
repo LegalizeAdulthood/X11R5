@@ -1,0 +1,14 @@
+/*
+ * The "forceMakefile" rule was in R3. For some reason, we couldn't
+ * find it again in R4, so we put it back. This is a useful rule so
+ * I don't know why it was nuked in the first place.
+ */
+forceMakefile::
+	-@if [ -f Makefile ]; then \
+		echo "$(RM) Makefile.bak; $(MV) Makefile Makefile.bak"; \
+		$(RM) Makefile.bak; $(MV) Makefile Makefile.bak; \
+	else exit 0; fi
+	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) imakeflags
+
+SRCS= msgs.c strutils.c rdb.c
+OBJS= msgs.o strutils.o rdb.o

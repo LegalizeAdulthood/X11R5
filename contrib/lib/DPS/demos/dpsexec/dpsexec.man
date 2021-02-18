@@ -1,0 +1,81 @@
+.TH DPSEXEC 1 "19 July 1991" "Adobe Systems"
+.SH NAME
+dpsexec \- Display PostScript Executive
+.SH SYNOPSIS
+.B dpsexec 
+[
+.B \-display \fIname\fR
+][
+.B \-sync
+][
+.B \-backup
+][
+.B \-noexec
+]
+
+.SH DESCRIPTION
+.B dpsexec
+is a Display PostScript program that
+allows the user to interact directly with the PostScript 
+interpreter through a command interface. 
+.B dpsexec 
+reads lines of text from standard input and passes each line to
+the PostScript interpreter for execution.
+It creates a window which displays the results of graphics operations as
+they are executed.
+.B dpsexec
+exits when end of file is reached on standard input, or when
+the PostScript language 
+.B quit
+operator is executed (in other words, the user types "quit<return>").
+.LP
+By default,
+.B dpsexec
+executes the PostScript language
+.B executive
+operator before accepting any user input.
+This puts the PostScript interpreter into "interactive
+executive" mode, enabling the user to control the interpreter
+directly. 
+In this mode, the PostScript interpreter supports certain line-editing 
+functions and prompts the user when it is ready to execute more input.
+See section 2.4.4, "Using the Interpreter Interactively",
+of the \fIPostScript Language Reference Manual, Second Edition\fR
+for detailed information on this mode of operation. 
+
+.SH OPTIONS
+.TP
+.BI \-display " name"
+specifies the display on which to open a connection to the Display
+PostScript System. If no display is specified, the 
+DISPLAY environment variable is used.
+.TP
+.BI \-sync
+establishes a synchronous connection with the specified X display.
+.TP
+.BI \-backup
+uses backing store for the window in which graphics are
+displayed, if possible.
+.TP
+.BI \-noexec
+prevents
+.B dpsexec
+from entering "interactive executive" mode.  Primarily, this option
+inhibits printing the
+.B PS>
+prompt before each line of input is accepted.
+This is useful when 
+.B dpsexec
+is run with standard input redirected from a file or a pipe.
+
+.SH DIAGNOSTICS
+PostScript language error messages are printed to standard output.
+
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+PostScript and Display PostScript are registered trademarks of Adobe Systems
+Incorporated.
+.PP
+Copyright (c) 1990-1991 Adobe Systems Incorporated.  All rights reserved.
+

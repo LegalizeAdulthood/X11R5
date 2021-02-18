@@ -1,0 +1,18 @@
+#include "../Motif.rules"
+#include "../Motif.tmpl"
+
+INCLUDES = -I. -I$(INCLUDESRC) -I$(MINCLUDESRC)
+       DEPLIBS1 = XmClientDepLibs
+LOCAL_LIBRARIES = XmClientLibs
+
+SRCS1=	fsb.c FsbGQS.c
+
+OBJS1=	fsb.o FsbGQS.o
+
+PROGRAMS = fsb
+
+NormalLibraryObjectRule()
+
+ComplexProgramTarget_1(fsb,$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+

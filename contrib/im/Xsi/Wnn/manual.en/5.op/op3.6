@@ -1,0 +1,30 @@
+  (4) Word Search
+
+     1) At Dictionary Addition 1), Either input "3" or move the reverse
+        video display to "Search" and press the Return key. 
+        --> A prompt for the reading will be displayed.
+     < Figure 2.3.10 >
+
+
+        ( Reading :		        	        )
+
+     2) Input the reading in hiragana and press the Return key. 
+        --> The words, their frequencies, and their parts of speech
+            registered under that reading will be displayed.   
+     < Figure 2.3.11 >
+
+
+        ( Word (Dictionary Comment ...), Frequency, Part of Speech ...)
+
+     Keysym  (Command)| Function
+     -----------------+------------------------------------------------
+     Up            ^P | Display the previous word with the same reading
+     Down          ^N | Display the next word with the same reading
+                   ^D | Delete this word
+                   ^U | Toggle the in-use state of this word.
+                      | (The word remains in the server)
+     -----------------+------------------------------------------------
+
+     (NOTE): Press the Meta+Down key to quit dictionary operation mode.
+             This returns to the conditions prior to dictionary operation.
+

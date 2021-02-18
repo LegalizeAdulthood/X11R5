@@ -1,0 +1,28 @@
+[I modified xfed to display the bounding box, ascent, descent,
+ bearings etc.  Deals with R3 fonts now. Seems to work, sort of -- it
+ collects all COMMENT lines after the STARTFONT, regardless where they
+ appeared in the input file. I believe thiis what the BDF document
+ states. Good for displaying the fonts, but doesn't work when you try
+ and modify a character outside the bbox in most directions.  delinted
+ it a bit too. For a full-blown font-editor, modify to use ImageEdit
+ widget?  Should make it so it converts the character being edited to
+ a grid, and allows you to do arbitrary things with the character, not
+ just change pixels within the existing bounding box. A generalized
+ bitmap editing widget, based on the bitmap program would be nice. -
+ moraes@csri.toronto.edu, Nov 1989]
+
+This is a little font editor, which allows you to modify
+the bitmaps of .bdf files.
+
+Written by
+
+Claus Gittinger
+Software Consultant
+Siemens Munich
+Dep D-St-Sp-4
+Charles-de-Gaullestr. 2a
+D-8000 Munich/Neuperlach
+
+West Germany
+
+Email: ..!decvax!unido!sinix!claus

@@ -1,0 +1,97 @@
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+%include	pobbconfig.defs
+
+?[QuotedPercent]define tmplink
+LA	/tmp		/usr/tmp
+
+%ifdef pobb_RunMachines
+FI	?[PMPasswordFile]	?[PackageHome]		root wheel 600
+%endif pobb_RunMachines
+
+%ifdef	pobb_WPUpdate
+FI	?[WPPasswordFile]	?[PackageHome]		root wheel 600
+%endif	pobb_WPUpdate
+
+D	?[DaemonLog]					?[PostmasterName] wheel 777
+FIA	/NoJunkDaemons		?[PackageHome]/null	$${textmode}
+
+%ifdef pobb_RunMachines
+
+?[QuotedPercent]ifdef	rt_r3
+?[QuotedPercent]define	haspasswd
+FA	/etc/passwd	?[PackageHome]/etc/passwd	$${textmode}
+?[QuotedPercent]endif	rt_r3
+
+?[QuotedPercent]define	hascron
+F	/etc/cron		$${etcdir}				$${binmode}
+
+%endif pobb_RunMachines
+
+FA	/etc/hosts.equiv	?[PackageHome]/etc/hosts.equiv	?[PostmasterName] wheel 644
+FA	/etc/user.permits	?[PackageHome]/etc/user.permits root wheel 644
+# Defining ``hasadmin'' disables the public netd.conf, syslog.conf, and butler.conf files. 
+?[QuotedPercent]define	hasadmin
+?[QuotedPercent]ifndef	rt_r3
+?[QuotedPercent]ifndef	vax_22
+FA	/etc/netd.conf	?[PackageHome]/$${hostname}/netd.conf ?[PostmasterName] wheel 644
+?[QuotedPercent]else	vax_22
+FA	/etc/inetd.conf	?[PackageHome]/$${hostname}/inetd.conf ?[PostmasterName] wheel 644
+?[QuotedPercent]endif	vax_22
+?[QuotedPercent]else	rt_r3
+FA	/etc/inetd.conf	?[PackageHome]/$${hostname}/inetd.conf ?[PostmasterName] wheel 644
+?[QuotedPercent]endif	rt_r3
+FA	/etc/syslog.conf	?[PackageHome]/etc/syslog.conf	$${textmode}
+FA	/etc/butler.conf	?[PackageHome]/etc/butler.conf	?[PostmasterName] wheel 644
+
+%ifdef pobb_RunMachines
+FA	/etc/rc.local	?[PackageHome]/etc/rc.local	$${textmode}
+FA	?[SmallLocalDir]/startup	?[PackageHome]/etc/startup	$${binmode}
+
+FA	?[SmallLocalDir]/pobb.shutdown	?[PackageHome]/etc/pobb.shutdown	$${suidmode}
+FA	?[SmallLocalDir]/config.monitor	?[PackageHome]/etc/config.monitor	$${binmode}
+
+FA	?[SmallLocalDir]/butlertelnetd	?[PackageHome]/etc/butlertelnetd	$${binmode}
+%ifdef	pobb_RunAMSDelivery
+FA	?[SmallLocalDir]/FlushOld	?[PackageHome]/etc/FlushOld	$${binmode}
+%else	pobb_RunAMSDelivery
+%ifdef	pobb_NNTPIn
+FA	?[SmallLocalDir]/FlushOld	?[PackageHome]/etc/FlushOld	$${binmode}
+%endif	pobb_NNTPIn
+%endif	pobb_RunAMSDelivery
+
+%ifdef	pobb_RunAMSDelivery
+FA	?[SmallLocalDir]/qmd	?[PackageHome]/etc/qmd		$${binmode}
+FA	?[SmallLocalDir]/po.clean	?[PackageHome]/etc/po.clean	$${binmode}
+%endif	pobb_RunAMSDelivery
+%ifdef	pobb_AutoPost
+FA	?[SmallLocalDir]/bbd	?[PackageHome]/etc/bbd		$${binmode}
+%endif	pobb_AutoPost
+FA	/etc/crontab	?[PackageHome]/$${hostname}/crontab	$${textmode}
+
+%ifdef	pobb_CaptureAddresses
+FIA	?[DuplicateDB]/?[CaptSuffix]	?[PackageHome]/null	?[PostmasterName] wheel 666
+%endif	pobb_CaptureAddresses
+
+DR	?[BigLocalDir]					?[PostmasterName] wheel 755
+D	?[BigLocalDir]/config				?[PostmasterName] wheel 777
+D	?[BigLocalDir]/bbdjobs				?[PostmasterName] wheel 777
+FA	?[SmallLocalDir]/queueBBD	?[PackageHome]/etc/queueBBD	$${binmode}
+FA	?[SmallLocalDir]/runBBD	?[PackageHome]/etc/runBBD	$${binmode}
+
+%ifdef pobbenv_AFS
+D	?[BigLocalDir]/other-cells				?[PostmasterName] wheel 700
+?[QuotedPercent]ifdef	devel
+# Look in {andrew/overhead/pobbconf} uses.cuin.pobb for the CUIN definition
+FA	?[SmallLocalDir]/reauth	$${rwmachine}/usr/andy/etc/reauth	$${binmode}
+?[QuotedPercent]else	devel
+FA	?[SmallLocalDir]/reauth	$${machine}/usr/andrew/etc/reauth	$${binmode}
+?[QuotedPercent]endif	devel
+%endif pobbenv_AFS
+
+%endif pobb_RunMachines

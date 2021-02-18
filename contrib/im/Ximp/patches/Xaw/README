@@ -1,0 +1,144 @@
+This directory contains the suggested work around for contributed I18N Xaw
+to make it independent as much as possible from the actual XIM implementation.
+
+The goal of the XIM API is supposedly to provide interoperability among the
+plenty of input method implementation.
+
+I hope this would be a good input for application writer and XIM designer
+in that sense.
+
+CONTENTS:
+
+libw.c
+	Sample wide character library required for I18N Xaw.
+wchar.h
+	Header file for above library.
+	Please copy this to $(TOP)/mit/X11/wchar.h.
+
+wchar.h.JLE
+	For SunOS with JLE, just copy this header file to
+	$(TOP)/mit/X11/wchar.h.
+
+NOTE:
+	These file has been tested only on SunOS 4.1.1 + JLE 1.1.1.
+
+And the following is the suggested fix for XawIm.c.
+--------------------------------------------------------------------------
+*** contrib/lib/Xaw/XawIm.c	Mon Aug 26 08:11:08 1991
+--- XawIm.c	Tue Oct  1 14:03:49 1991
+***************
+*** 149,155 ****
+  static XIMStyle _ImGetImStyle(ve)
+      XawVendorShellExtPart	*ve;
+  {
+!     if (!strcmp(ve->im.preedit_type, "OverTheSpot")) {
+  	return((XIMPreeditPosition | XIMStatusArea));
+      } else if (!strcmp(ve->im.preedit_type, "OffTheSpot")) {
+  	return((XIMPreeditArea | XIMStatusArea));
+--- 149,157 ----
+  static XIMStyle _ImGetImStyle(ve)
+      XawVendorShellExtPart	*ve;
+  {
+!     if (!ve->im.preedit_type) {
+! 	return((XIMPreeditNothing | XIMStatusNothing));
+!     } else if (!strcmp(ve->im.preedit_type, "OverTheSpot")) {
+  	return((XIMPreeditPosition | XIMStatusArea));
+      } else if (!strcmp(ve->im.preedit_type, "OffTheSpot")) {
+  	return((XIMPreeditArea | XIMStatusArea));
+***************
+*** 281,290 ****
+  
+      if (!strcmp(setlocale(LC_ALL, NULL), "C")) return;
+      if ((p = XSetLocaleModifiers(NULL)) == NULL || *p == '\0') {
+! 	if (ve->im.input_method == NULL) return;
+! 	strcpy(modifiers, "@im=");
+! 	strcat(modifiers, ve->im.input_method);
+! 	XSetLocaleModifiers(modifiers);
+      }
+      if ((ve->im.xim = XOpenIM(XtDisplay(ve->parent), NULL,
+  				     NULL, NULL)) == NULL) {
+--- 283,293 ----
+  
+      if (!strcmp(setlocale(LC_ALL, NULL), "C")) return;
+      if ((p = XSetLocaleModifiers(NULL)) == NULL || *p == '\0') {
+! 	if (ve->im.input_method != NULL) {
+! 	    strcpy(modifiers, "@im=");
+! 	    strcat(modifiers, ve->im.input_method);
+! 	    XSetLocaleModifiers(modifiers);
+! 	}
+      }
+      if ((ve->im.xim = XOpenIM(XtDisplay(ve->parent), NULL,
+  				     NULL, NULL)) == NULL) {
+------------------------------------------------------------------------------
+At this moment, still the concrete spec regarding XGetICValues is under
+the debating.
+The current latest spec "Post Public Review Draft 1.1 - proposed" says
+	XGetICValues allocates memory to store the values,
+	and client is responsible for freeing each value by calling XFree.
+but right now, new proposal to revise this spec is under the discussion.
+Just in case that the current spec stays as it is, the following suggested
+fixes are also attached.
+-----------------------------------------------------------------------------
+*** contrib/lib/Xaw/XawIm.c	Mon Aug 26 08:11:08 1991
+--- XawIm.c	Tue Oct  1 14:03:49 1991
+***************
+*** 420,426 ****
+  {
+      XawIcTableList	p;
+      XPoint		position;
+!     XRectangle		pe_area, st_area, pe_area_needed, st_area_needed;
+      XVaNestedList	pe_attr = NULL, st_attr = NULL;
+      XPointer		ic_a[20], pe_a[20], st_a[20];
+      Dimension		height = 0;
+--- 423,429 ----
+  {
+      XawIcTableList	p;
+      XPoint		position;
+!     XRectangle		pe_area, st_area, *pe_area_needed, *st_area_needed;
+      XVaNestedList	pe_attr = NULL, st_attr = NULL;
+      XPointer		ic_a[20], pe_a[20], st_a[20];
+      Dimension		height = 0;
+***************
+*** 563,571 ****
+  	pe_attr = st_attr = NULL;
+  	ic_cnt = pe_cnt = st_cnt = 0;
+  	if (p->input_style & XIMStatusArea) {
+! 	    st_area.height = st_area_needed.height;
+! 	    if (p->input_style & XIMPreeditArea) {
+! 		st_area.width = st_area_needed.width;
+  	    }
+  	    st_attr = XVaCreateNestedList(0, XNArea, &st_area, NULL);
+  	    _ImSetVaArg(&ic_a[ic_cnt], XNStatusAttributes); ic_cnt++;
+--- 566,577 ----
+  	pe_attr = st_attr = NULL;
+  	ic_cnt = pe_cnt = st_cnt = 0;
+  	if (p->input_style & XIMStatusArea) {
+! 	    if (st_area_needed) {
+! 		st_area.height = st_area_needed->height;
+! 		if (p->input_style & XIMPreeditArea) {
+! 		    st_area.width = st_area_needed->width;
+! 		}
+! 		XFree(st_area_needed);
+  	    }
+  	    st_attr = XVaCreateNestedList(0, XNArea, &st_area, NULL);
+  	    _ImSetVaArg(&ic_a[ic_cnt], XNStatusAttributes); ic_cnt++;
+***************
+*** 576,582 ****
+  		pe_area.x = st_area.width;
+  		pe_area.width -= st_area.width;
+  	    }
+! 	    pe_area.height = pe_area_needed.height;
+  	    pe_attr = XVaCreateNestedList(0, XNArea, &pe_area, NULL);
+  	    _ImSetVaArg(&ic_a[ic_cnt], XNPreeditAttributes); ic_cnt++;
+  	    _ImSetVaArg(&ic_a[ic_cnt], pe_attr); ic_cnt++;
+--- 582,591 ----
+  		pe_area.x = st_area.width;
+  		pe_area.width -= st_area.width;
+  	    }
+! 	    if (pe_area_needed) {
+! 		pe_area.height = pe_area_needed->height;
+! 		XFree(pe_area_needed);
+! 	    }
+  	    pe_attr = XVaCreateNestedList(0, XNArea, &pe_area, NULL);
+  	    _ImSetVaArg(&ic_a[ic_cnt], XNPreeditAttributes); ic_cnt++;
+  	    _ImSetVaArg(&ic_a[ic_cnt], pe_attr); ic_cnt++;

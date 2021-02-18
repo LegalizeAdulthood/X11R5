@@ -1,0 +1,29 @@
+JS_ENV_STICKY( )
+
+名称
+
+	js_env_sticky		環境をスティッキーにする。
+	js_env_un_sticky	環境をスティッキーにしない。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_env_sticky(env)
+	struct wnn_env *env;
+
+	int
+	js_env_un_sticky(env)
+	struct wnn_env *env;
+
+機能
+
+	js_env_sticky は、環境 env を、スティッキーにする。
+	js_env_un_sticky は、環境 env を、スティッキーにしない。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

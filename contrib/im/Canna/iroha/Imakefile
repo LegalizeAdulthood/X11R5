@@ -1,0 +1,17 @@
+#include "../config.sh"
+
+         IROHAROOT = ..
+        INST_HEADER = kanji.h
+    JDAEMON_HEADER = jptaiwa.h
+            HEADER = net.h jrkanji.h  keydef.h mfdef.h $(JDAEMON_HEADER)
+
+AllTarget()
+LinkFileList(includes,$(INST_HEADER), \
+	$(IROHAROOT)/include/X11,../../iroha)
+LinkFileList(includes,$(HEADER), \
+	$(IROHAROOT)/include/iroha,../../iroha)
+LinkFileList(includes,$(HEADER), \
+	$(IROHAROOT)/include,../iroha)
+BuildIncludes($(INST_HEADER),.,.)
+InstallMultiple($(INST_HEADER),$(INCDIR))
+DependDependency()

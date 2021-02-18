@@ -1,0 +1,3 @@
+*trial*translations: #replace\n\
+	<Btn1Down>,<Btn1Up>(2):	set() actionA() unset()\n\
+	<Btn3Motion>:	set() actionC() unset()\n\

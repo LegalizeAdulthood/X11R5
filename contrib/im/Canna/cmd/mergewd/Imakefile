@@ -1,0 +1,9 @@
+#include "../../config.sh"
+
+        IROHAROOT = ../..
+         INCLUDES = -I$(IROHAROOT)/include/iroha \
+			-I$(IROHAROOT)/include
+             LIBS = $(IROHAROOT)/lib/RK/libRK.a
+  LOCAL_LIBRARIES = $(LIBS)
+
+SimpleProgramTarget(mergewd)

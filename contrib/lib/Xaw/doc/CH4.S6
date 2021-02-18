@@ -1,0 +1,27 @@
+.bp
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 4\fP\s-1
+
+\s+1\fBdMenus\fP\s-1
+
+.nr H1 4
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.NH 2
+Using the Menus
+.NH 2
+SimpleMenu Widget
+.NH 2
+SmeBSB Object
+.NH 2
+SmeLine Object
+.NH 2
+Sme Object
+.NH 2
+MenuButton Widget
+.bp

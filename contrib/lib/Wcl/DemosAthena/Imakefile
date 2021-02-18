@@ -1,0 +1,19 @@
+#ifndef WcTopDir
+#define WcTopDir ..
+#endif
+
+#include "../Wc.tmpl"
+
+       PROGRAMS = Athena MDathena
+          SRCS1 = Athena.c
+          OBJS1 = Athena.o
+          SRCS2 = MDathena.c
+          OBJS2 = MDathena.o
+
+      INCLUDES  = -I$(TOP) $(X11INC)
+LOCAL_LIBRARIES = $(SHRLIBDIR) $(XPLIB) $(WCLIB) \
+                  $(X11LIBDIR) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+
+UninstalledComplexProgramTarget_1(Athena,  $(LOCAL_LIBRARIES),$(SYSTEM_LIBRARIES))
+UninstalledComplexProgramTarget_2(MDathena,$(LOCAL_LIBRARIES),$(SYSTEM_LIBRARIES))

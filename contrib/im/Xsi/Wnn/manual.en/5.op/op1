@@ -1,0 +1,205 @@
+Section 3.2 Operation
+
+3.2.1 Overview
+
+This chapter covers the use of the Japanese text input method of Wnn.
+
+This input method of Wnn is designed to allow input by a
+straightforward procedure, and will be explained here based on
+representative environment settings.
+
+These input method settings may be changed. Refer to Section 3.3,
+Japanese Language Processing Environment, for details.
+
+3.2.2 Environment Settings
+
+The following is a representative set of environment settings.
+
+(1) uum Key Layout
+    Function				Keysym
+    Delete				F11
+    Register				Meta + F11
+    Recall				F12
+    Dictionary Manipulation		Meta + F12
+    Smallen BUNSETSU(phase)		F13
+    Code Input (Row/Cell)		Meta + F13
+    Enlarge BUNSETSU(phase)		F14
+    Code Input (JIS code)		Meta + F14
+    Previous/Previous Candidate		Up
+    Erase end of line/Un-Convert	Meta + Up
+    Cursor move left			Left
+    Beginning of line			Meta + Left
+    Cursor move right			Right
+    End of line				Meta + Right
+    Next/Next Candidate			Down
+    All Canditates/Cancel		Meta + Down
+    Confirm				Execute
+    Convert				Kanji
+    Hiragana/Katakana			F1
+    Full Width/Half Width		F2
+    Romaji/Kana				F3
+
+
+(2) Input Mode
+
+There are two forms of Japanese input as follows:
+
+(1) Romaji Input - Roman(ASCII) characters are input and converted
+    first to hiragana which is then converted to Kanji Input with an
+    initial setting of "romaji".
+
+(2) Kana Ianput - Kana is input directly and converted to Kanji.
+
+
+Input Mode 	Romaji input	Kana input	ex: Pressing A/kana_CHI key
+(Status Area)	Kana_Lock:off	Kana_Lock:on	Kana_Lock:off	Kana_Lock:on
+
+[あr]		Romaji		Kana		あ		ち
+(Hiragana A)+r	Hiragana	Hiragana	(Hiragana A)	(Hiragana CHI)
+
+[アr]		Romaji 		Kana 		ア		チ
+(Katakana A)+r	Katakana 	Katakana 	(Katakana A)	(Katakana CHI)
+
+[アイr]		Romaji		Kana 		ア		チ
+(1byte Katakana	1byte Katakana	1byte Katakana	(1byte Katakana	(1byte Katakana
+ A I)+r						 A)		 CHI)
+
+[あ ]		ZENKAKU Alpha	Hiragana	ａ		ち
+(Hiragana A)					(Zenkaku a)	(Hiragana CHI)
+
+[Aあ]		ASCII		Hiragana	a		ち
+A+(Hiragana A)					(1byte a)	(Hiragana CHI)
+
+[ア ]		ZENKAKU Alpha	Katakana	ａ		チ
+(Katakana A)					(Zenkaku a)	(Katakana CHI)
+
+[アイA]		ASCII		1byte Katakana	a		チ
+(1byte Katakana						   (1byte Katakana CHI)
+ A I)+A
+
+[---]		Conversion off mode		a		チ
+							   (1byte Katakana CHI)
+
+[ q ]		ASCII		1byte Katakana	a		チ
+							   (1byte Katakana CHI)
+
+[ Q ]		ZENKAKU Alpha	1byte Katakana	ａ		チ
+						(Zenkaku a)	(1byte Katakana
+								 CHI)
+
+
+* "HANKAKU Alphabet" is left half of JISX0201, "half width alphabet"
+  is same meaning.
+* "ZENKAKU Alphabet" is alphabet in JISX0208.  "full width alphabet"
+  is same meaning.
+* "1 byte Katakana" is right half of JISX0201, "half width kana" and
+  "HANKAKU KATAKANA" are same meaning.
+
+### "1 byte Katakana" cannot input by nemacs(Nihongo emacs).
+### So, I use Katakana(ZENKAKU) in this manuaal.
+### Sorry, this may be trouble you to understand.
+
+
+(3) Switching mode
+
+To switch between Hiragana and Katakana input mode, press Function 1
+key.
+To switch between Zenkaku and Hankaku input mode, press Function 2
+key.
+To switch between Romaji and Kana input mode, press Function 3 key.
+
+
+To switch 
+During Romaji input mode, pressing "q" switches to ASCII input mode
+[ q ].
+
+During Romaji input mode, pressing "Q" switches to Zenkaku input mode
+[ Q ].
+
+To return to Romaji input mode, press "^G".
+
+To switch from ASCII mode to Zenkaku input mode, press Function 2 key.
+
+Usage notes:
+## Default configlation may be not allowed Hankaku Katakana input.
+## Beacause nemacs is not allowed Hankaku Katakana.
+## And most mail system are not allowed, too.
+
+
+#ifdef	OMRON LUNA	/* Only for OMRON LUNA JIS keyboad */
+
+The "Hira/Kata" key: This key switches between hiragana and katakana
+input mode. Press the '-' key while holding down the Meta key.
+
+The "Zenkaku/Hankaku" key: This key switches between Zenkaku and
+Hankaku input mode. Press the '^' key while holding down the Meta'
+key.
+
+The "Romaji/Kana" key: This key switches between Romaji and Kana input
+mode.  Press the '\' key while holding down the Meta key.
+#endif	OMRON_LUNA
+
+
+Mode Change Table
+
+                               [ q ]  <-------------------------+
+                                |  A                            | 
+                             ^G |  | q                          |
+                                V  |                            |
+           +---------------->  [Aあ]  <-----------------+       |
+           |                     A                      |       | 
+           |                     | F2                   |       | 
+           |                     V                      |       | 
+           |           +---->  [あ ] <-----+            |       |
+           | F1        | F1                | F2         | F2    | F2
+           V           V                   V            V       |       
+         [アイA]<---->[ア ]              [あ ]<---->[あr]       |
+           A           A                   A            A       |
+           |           | F3                | F3         |       | 
+           |           +---->  [アr]  <----+            |       |
+           |                     A                      |       | 
+           | F3                  | F2                   | F1    |
+           |                     V                      |       | 
+           +---------------->  [アイr]  <---------------+       | 
+                                |  A                            | 
+                             ^G |  | Q                          |
+                                V  |                            | 
+                               [ Q ]  <-------------------------+
+
+
+
+
+NOTE: If you want to use Kana input mode, then by making the following
+      changes to the /usr/local/lib/wnn/rk/mode file, mode display
+      will start out in the Zenkaku Hiragana input mode, and ASCII
+      input mode can be entered by setting the Kana_Lock "off".
+
+      The below are the necessary changes:
+	+-----------------------+	+-----------------------+
+	|  (defmode romkan on)	|	|  (defmode romkan)	|
+	|  (defmode katakana)	|	|  (defmode katakana)	|
+	|  (defmode zenkaku)	|	|  (defmode zenkaku on)	|
+	|	....		|	|	....		|
+	+-----------------------+	+-----------------------+
+
+      Refer to section 3.3: Japanese Language Processing Environment MODE
+
+## Latest version is changed from "/usr/local/lib/wnn/rk/mode" to 
+## "/usr/local/lib/wnn/rk/ja_JP/mode".
+
+
+
+NOTE: If you want to use Hankaku Katakana, then by making the following
+      changes to the /usr/local/lib/wnn/rk/mode file.
+
+	% cd /usr/local/lib/wnn/rk
+	% mv mode mode.sv
+	% ln -s mode.hankata mode
+
+      If you do not want to use Hankaku Katakana, then by making the
+      following changes to the /usr/local/lib/wnn/rk/mode file.
+
+	% cd /usr/local/lib/wnn/rk
+	% mv mode mode.sv
+	% ln -s mode.nohankata mode
+

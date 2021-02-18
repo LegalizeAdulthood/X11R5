@@ -1,0 +1,87 @@
+#
+# $Id: xi.msg.ja_JP,v 1.2 1991/09/16 21:37:35 ohm Exp $
+#
+#
+# Copyright 1989, 1990, 1991 by OMRON Corporation Corporation
+# Copyright 1991 by Massachusetts Institute of Technology
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the names of OMRON and MIT not be used in
+# advertising or publicity pertaining to distribution of the software without
+# specific, written prior permission.  OMRON and MIT make no representations
+# about the suitability of this software for any purpose.  It is provided
+# "as is" without express or implied warranty.
+#
+# Wnn consortium is one of distributors of the official Wnn source code
+# release.  Wnn consortium also makes no representations about the
+# suitability of this software for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+# OMRON, MIT AND WNN CONSORTIUM DISCLAIM ALL WARRANTIES WITH REGARD TO
+# THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+# FITNESS, IN NO EVENT SHALL OMRON, MIT OR WNN CONSORTIUM BE LIABLE FOR ANY
+# SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+# RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+# CONTRACT, NEGLIGENCE OR OTHER TORTUOUS ACTION, ARISING OUT OF OR IN
+# CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+###
+###	ja_JP message file for xim
+###
+0	辞書の頻度とユーザ辞書のセーブを完了しました。
+1	次候補選択(小文節)
+2	次候補選択(大文節)
+3	候補が多過ぎて次候補が取り出せません。
+4	 頻度
+5	評価値
+6	前端ベクトル
+7	大文節評価値
+8	読み
+9	を削除しますか
+10	固定形式の辞書のエントリは削除出来ません。
+11	リードオンリーの辞書のエントリは削除出来ません。
+12	「
+13	」を削除します。
+14	リードオンリーの頻度で変更出来ません。
+15	」の使用を中止します。
+16	キャンセル
+17	JISコード入力
+18	JISコードを入力して下さい
+19	実行
+20	辞書操作
+21	デフォルトのuumkeyが異常です。
+22	を展開できません。
+23	のキーが二重定義です。
+24	区点入力
+25	区点を入力して下さい
+26	区
+27	jserverとの接続が切れています。
+28	デフォルトのuumrcがありません。
+29	接 続
+30	接続ホスト名を入力して下さい
+31	 接続がうまくいきません。
+32	 接続に失敗しました。
+33	 接続が完了しました。
+34	インスペクト
+35	削除
+36	使用/不使用
+37	次へ
+38	前へ
+39	マウス選択
+40	 キー選択 
+41	次ページ
+42	前ページ
+43	辞書追加
+44	辞書一覧
+45	登録
+46	検索
+47	パラメータ変更
+48	頻度セーブ
+49	辞書情報
+50	付属語変更
+51	はい
+52	いいえ
+53	ＯＫ？

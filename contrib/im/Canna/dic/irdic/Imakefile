@@ -1,0 +1,11 @@
+#include "../../config.sh"
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+SUBDIRS = pubdic.iroha user
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs($(SUBDIRS))
+MakeLintSubdirs($(SUBDIRS),install.ln,install.ln)

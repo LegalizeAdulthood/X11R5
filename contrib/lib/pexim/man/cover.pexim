@@ -1,0 +1,96 @@
+."		"@(#)cover.pexim	1.1 Stardent 91/02/15"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+.\"
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.cover.pexim
+."	
+.\" @(#)cover.phigs	1.5 Stardent 90/10/19 
+.\" This file is under sccs control at Stardent in: 
+.\" /nfs/uranus/root/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/PHIGS/s.cover.phigs 
+.\"##
+.\"## @(#)cover.phigs 4.2 90/10/08 Copyr 1990 SMI/MIT
+.\"##
+.\"## 
+.\"## Copyright (c) 1990 by Sun Microsystems, Inc. and the X Consortium.
+.\"## 
+.\"##                         All Rights Reserved
+.\"## 
+.\"## Permission to use, copy, modify, and distribute this software and its 
+.\"## documentation for any purpose and without fee is hereby granted, 
+.\"## provided that the above copyright notice appear in all copies and that
+.\"## both that copyright notice and this permission notice appear in 
+.\"## supporting documentation, and that the names of Sun Microsystems,
+.\"## the X Consortium, and MIT not be used in advertising or publicity 
+.\"## pertaining to distribution of the software without specific, written 
+.\"## prior permission.  
+.\"## 
+.\"## SUN MICROSYSTEMS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, 
+.\"## INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+.\"## EVENT SHALL SUN MICROSYSTEMS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+.\"## CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+.\"## USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+.\"## OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+.\"## PERFORMANCE OF THIS SOFTWARE.
+.\"  use -ms in Makefile
+.\"	@(#)cover.irm 3.4 90/09/18 SMI  
+.\"  
+.\"  
+.\"   
+.if t .cf pexim.logo
+.EH '''  
+.OH '''  
+.sp 3
+.ce 1
+\s30\f(STStardent\fP\s0
+.sp 10
+.ce
+\s16\f(B Library Manual Pages\fP\s0
+.LP
+.ce 2
+Version 1.0
+1-AUG-91
+.sp 8
+.LP   
+.nf   
+.ce 2  
+Copyright \(co 1991, Stardent Computer  Inc.
+All rights reserved.    
+.LP  
+Permission to use, copy, modify, and distribute this document for any  
+purpose and without fee is hereby granted, provided that the above copyright 
+notice appear in all copies and that both that copyright notice and this  
+permission notice are retained, and that the name of Stardent Computer Inc., 
+not be used in advertising or publicity pertaining to this document without  
+specific, written prior permission.  Stardent Computer Inc., makes no  
+representations about the suitability of this document or the interface  
+defined in this document for any purpose.  It is provided ``as is'' without  
+express or implied warranty.  
+.LP
+.sp 2
+.I "All of the PHIGS portions of this document are based on the PEX-SI Graphics Library Manual Pages.  Hence:"
+.sp 2
+.ce 2
+Copyright \(co 1990, Sun Microsystems, Inc.  
+All rights reserved.    
+.LP  
+Permission to use, copy, modify, and distribute this document for any  
+purpose and without fee is hereby granted, provided that the above copyright 
+notice appear in all copies and that both that copyright notice and this  
+permission notice are retained, and that the name of Sun Microsystems, Inc., 
+not be used in advertising or publicity pertaining to this document without  
+specific, written prior permission.  Sun Microsystems, Inc., makes no  
+representations about the suitability of this document or the interface  
+defined in this document for any purpose.  It is provided ``as is'' without  
+express or implied warranty.  

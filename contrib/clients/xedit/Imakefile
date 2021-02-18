@@ -1,0 +1,33 @@
+      DEPXAWLIB = $(CONTRIBSRC)/lib/Xaw/libXaw.a
+         XAWLIB = $(DEPXAWLIB)
+   DEPXWCHARLIB = $(CONTRIBSRC)/lib/Xwchar/libXwchar.a
+      XWCHARLIB = $(DEPXWCHARLIB)
+
+LINKS = Xedit.ad \
+        commands.c \
+        xedit.man
+
+DEFINES = -DXI18N
+DEPLIBS = $(DEPXAWLIB) $(DEPXWCHARLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XWCHARLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+  SYS_LIBRARIES = -lm
+           SRCS = xedit.c commands.c util.c
+           OBJS = xedit.o commands.o util.o
+
+ComplexProgramTarget(xedit)
+
+includes::
+	$(RM) $(LINKS)
+	for i in $(LINKS); do (set -x; $(LN) $(CLIENTSRC)/xedit/$$i .); done
+	
+InstallAppDefaults(Xedit)
+
+install::
+	MakeDir($(LIBDIR)/wr_WR.ct/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) Xedit-ct.ad $(LIBDIR)/wr_WR.ct/app-defaults/Xedit
+	MakeDir($(LIBDIR)/ja_JP.ujis/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) Xedit-uj.ad $(LIBDIR)/ja_JP.ujis/app-defaults/Xedit
+
+clean::
+	$(RM) $(LINKS)

@@ -1,0 +1,37 @@
+;; a function to have a delta functionnality with gwm
+
+; how to use it: in your .profile, before any deco, do
+; (load 'deltabutton)
+; (: standard-behavior
+;    (state-make
+;       (on (buttonpress 1 alone) (if (deltabutton)
+;                                     (progn (raise-window)(move-window))
+;                                   (raise-window)))
+;       standard-behavior				       
+; ))
+; (reparse-standard-behaviors)
+
+(defaults-to deltabutton.delta 4)
+
+(de abs (n)
+    (if (> n 0) n
+      (- n)))
+
+(de deltabutton ()
+    (if (and (> (current-event-code) 0)	; last event received
+	     (< (current-event-modifier) 256)) ; is a buttonpress
+	(tag DELTABUTTON
+	     (: e-m (# (current-event-code) '(0 1 2 4)))
+	     (: e-x (current-event-x))
+	     (: e-y (current-event-y))
+	     (: m-p (current-mouse-position))
+	     (while (= (/ (# 2 m-p) 256) e-m) ; the button is still pressed
+	       (: dx (abs (- (# 0 m-p) e-x)))
+	       (: dy (abs (- (# 1 m-p) e-y)))
+	       (if (or (> dx deltabutton.delta)
+		       (> dy deltabutton.delta))
+		   (exit DELTABUTTON t))
+	       (: m-p (current-mouse-position)))
+	     ()))
+    )
+                                                            

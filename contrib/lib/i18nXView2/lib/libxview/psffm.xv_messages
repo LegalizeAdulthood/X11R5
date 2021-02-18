@@ -1,0 +1,1512 @@
+#
+# @(#)psffm.xv_messages 1.2 90/12/12
+#
+domain "xv_messages"
+#
+# attr.c: line number: 108
+msgid "Number of attributes(%d) exceeds max(%d)"
+msgstr "属性の数(%d) が最大値(%d) を越えている。"
+#
+# xv.c: line number: 131
+msgid "data in object looks like seal of standard object"
+msgstr "オブジェクト中のデータによれば、標準オブジェクトのシール (seal) である。"
+#
+# xv.c: line number: 144
+msgid "embedding header too large for our encoding scheme"
+msgstr "ヘッダが大きすぎる。"
+#
+# xv.c: line number: 177
+msgid "embedding seal incorrect"
+msgstr "シール (seal) が正しくない。"
+#
+# xv.c: line number: 191
+msgid "byte offset incorrect"
+msgstr "バイトオフセットが正しくない。"
+#
+# xv.c: line number: 206
+msgid "standard seal incorrect"
+msgstr "標準シール (seal) が正しくない。"
+#
+# xv.c: line number: 808
+msgid "xv_destroy_status"
+msgstr "xv_destroy_status"
+#
+# xv.c: line number: 809
+msgid "internal error in package"
+msgstr "パッケージ内の内部エラー。"
+#
+# xv.c: line number: 812
+msgid "attempted veto during wrong phase"
+msgstr "誤ったフェイズで拒否しようとした。"
+#
+# xv.c: line number: 814
+msgid "send bug report"
+msgstr "バグレポートを出してください。"
+#
+# xv_debug.c: line number: 87
+msgid "xv_dprintf: cannot open debugging file %s\n"
+msgstr "xv_dprintf: デバッグファイル %s を開けない。\n"
+#
+# xv_debug.c: line number: 134
+msgid "xv_take_breakpoint: please debug process %d\n"
+msgstr "xv_take_breakpoint: プロセス %d をデバッグしてください。\n"
+#
+# xv_error.c: line number: 61
+msgid "bad attribute, %s"
+msgstr "属性が正しくない。%s"
+#
+# xv_error.c: line number: 71
+msgid "bad value (0x%x) for attribute %s"
+msgstr "(0x%x) はアトリビュート %s の正しい値ではない。"
+#
+# xv_error.c: line number: 80
+msgid "cannot get %s"
+msgstr "%s がゲットできない。"
+#
+# xv_error.c: line number: 89
+msgid "cannot set %s"
+msgstr "%s を設定できない。"
+#
+# xv_error.c: line number: 98
+msgid "%s only valid in xv_create"
+msgstr "%s は、xv_create でのみ有効。"
+#
+# xv_error.c: line number: 107
+msgid "invalid object (%s)"
+msgstr "オブジェクト (%s) は正しくない。"
+#
+# xv_error.c: line number: 138
+msgid "System"
+msgstr "システム"
+#
+# xv_error.c: line number: 146
+msgid "unix error %d"
+msgstr "UNIX エラー %d"
+#
+# xv_error.c: line number: 155
+msgid "Server"
+msgstr "サーバ"
+#
+# xv_error.c: line number: 164
+msgid "error unknown"
+msgstr "未知のエラー"
+#
+# xv_error.c: line number: 172
+msgid "XView"
+msgstr "XView"
+#
+# xv_error.c: line number: 188
+msgid "%s %s: Object 0x%x,"
+msgstr "%s %s: オブジェクト 0x%x,"
+#
+# xv_error.c: line number: 216
+msgid "%s (%s package)\n"
+msgstr "%s (%s パッケージ)\n"
+#
+# xv_parse.c: line number: 191
+msgid "xv_cmdline_scrunch: argc (%d) < count (%d)\n"
+msgstr "xv_cmdline_scrunch: argc (%d) < count (%d)\n"
+#
+# xv_parse.c: line number: 202
+msgid "xv_cmdline_scrunch: argv[argc(%d)] (%d:%s) not NULL\n"
+msgstr "xv_cmdline_scrunch: argv[argc(%d)] (%d:%s) が NULL でない。\n"
+#
+# xv_parse.c: line number: 281
+msgid "%s: missing argument after %s"
+msgstr "%s: %s のあとに引数がない。"
+#
+# xv_parse.c: line number: 360
+msgid "%s: unknown scale \"%s\" used with %s option"
+msgstr "%s: 未知のスケール \"%s\" が%s オプションで使用された。"
+#
+# xv_parse.c: line number: 508
+msgid "xv_set_debug_flag; '%d' is out of bounds"
+msgstr "xv_set_debug_flag; '%d' は、条件外。"
+#
+# xv_parse.c: line number: 557
+msgid "%s: can't have negative argument %s after %s"
+msgstr "%s: 負の引き数 %s は%s の後ではとれない。"
+#
+# xv_parse.c: line number: 592
+msgid "Generic debugging flags are:\n"
+msgstr "ジェネリックのデバッグフラグは:\n"
+#
+# cms.c: line number: 449
+msgid "Unable to find RGB values for a named color"
+msgstr "指定されたカラーの RGB 値が見つからない。"
+#
+# cms_pblc.c: line number: 102
+msgid "Can not allocate a dynamic cms from a static visual"
+msgstr "静的画像からは動的 cms を割り当てられない。"
+#
+# cms_pblc.c: line number: 181
+msgid "CMS_TYPE is a create-only attribute"
+msgstr "CMS_TYPE は、クリエイト専用の属性。"
+#
+# cms_pblc.c: line number: 240
+msgid "Unable to parse window color"
+msgstr "ウィンドウカラーを分析できない。"
+#
+# cms_pblc.c: line number: 263
+msgid "Unable to allocate colors for colormap segment"
+msgstr "カラーマップセグメントにカラーを割り当てられない。"
+#
+# cms_pblc.c: line number: 303
+msgid "Unable to allocate colors for colormap segment"
+msgstr "カラーマップセグメントにカラーを割り当てられない。"
+#
+# curs_pri.c: line number: 68
+msgid "cannot create cursor with null image"
+msgstr "null イメージのカーソルはクリエイトできない。"
+#
+# curs_pri.c: line number: 88
+msgid "cursor_make_x(): bad xhot/yhot parameters"
+msgstr "cursor_make_x(): xhot/yhot パラメータに誤りがある。"
+#
+# curs_pri.c: line number: 94
+msgid "cursor_make_x(): bad xhot/yhot parameters"
+msgstr "cursor_make_x(): xhot/yhot パラメータに誤りがある。"
+#
+# curs_pri.c: line number: 208
+msgid "cursor_make_x(): unknown rasterop specified"
+msgstr "cursor_make_x(): 未知の rasterop が指定された。"
+#
+# curs_pri.c: line number: 256
+msgid "Unable to find OPEN LOOK cursor font"
+msgstr "OPEN LOOK のカーソルフォントが見つからない。"
+#
+# cursor.c: line number: 349
+msgid "cursor: can't create cursor"
+msgstr "cursor: カーソルをクリエイトできない。"
+#
+# cursor.c: line number: 374
+msgid "Window and cursor have different roots! Can't set cursor"
+msgstr "ウィンドウとカーソルの root が異なっている。カーソルを設定できない。"
+#
+# db_conv.c: line number: 49
+msgid "Unknown type for type conversion"
+msgstr "タイプ変換のタイプが不明。"
+#
+# db_pblc.c: line number: 169
+msgid "Unable to get resource value from database"
+msgstr "データベースからリソース値を取り込むめない。"
+#
+# defaults.c: line number: 117
+msgid "\"%s\" is an unrecognized boolean value (Defaults package)"
+msgstr "\"%s\" は、認識外のブール値。(boolean value) (デフォルトパッケージ)"
+#
+# defaults.c: line number: 155
+msgid "\"%s\" is not a character constant (Defaults package)"
+msgstr "\"%s\" は、文字定数でない。(デフォルトパッケージ)"
+#
+# defaults.c: line number: 232
+msgid "\"%s\" is not an integer (Defaults package)"
+msgstr "\"%s\" は、整数でない。(デフォルトパッケージ)"
+#
+# defaults.c: line number: 274
+msgid "The value of name \"%s\" (class \"%s\") is %d,\nwhich is not between %d and %d. (Defaults package)"
+msgstr "\"%s\" (クラス \"%s\") の値は %dである。\n %d から %d の範囲外。(デフォルトパッケージ)"
+#
+# defaults.c: line number: 423
+msgid "Unable to load server Resource Manager property -\n"
+msgstr "サーバのリソースマネージャ・プロパティをロードできない。-\n"
+#
+# filter.c: line number: 73
+msgid "while parsing filter file %s"
+msgstr "フィルタファイル %s を分析中。"
+#
+# filter.c: line number: 113
+msgid "filter file %s: missing command-line"
+msgstr "フィルタファイル %s: コマンドラインがない。"
+#
+# filter.c: line number: 170
+msgid "problem parsing filter file %s"
+msgstr "フィルタファイル %s 分析中に問題発生。"
+#
+# filter.c: line number: 186
+msgid "problem on line number %d"
+msgstr "行番号 %d で問題発生。"
+#
+# filter.c: line number: 189
+msgid "problem near character position %d"
+msgstr "文字位置 %d で問題発生。"
+#
+# filter.c: line number: 212
+msgid "while parsing filter file %s"
+msgstr "フィルタファイル %s を分析中。"
+#
+# fs.c: line number: 157
+msgid "Already in fullscreen mode!"
+msgstr "既にフルスクリーンモード！"
+#
+# fs.c: line number: 294
+msgid "Already in fullscreen by another client. Fullscreen Failed."
+msgstr "他のクライアントによって、既にフルスクリーンモードに入っている。フルスクリーン失敗。"
+#
+# fs.c: line number: 302
+msgid "Invalid time. Fullscreen failed."
+msgstr "この time は正しくない。フルスクリーン失敗。"
+#
+# fs.c: line number: 309
+msgid "Fullscreen window or confine-to window not mapped. Fullscreen failed."
+msgstr "フルスクリーン・ウィンドウまたは制限ウィンドウがマップされてない。フルスクリーン失敗。"
+#
+# fs.c: line number: 316
+msgid "Already frozen by another client. Fullscreen Failed."
+msgstr "他のクライアントによって、既に固定された。フルスクリーン失敗。"
+#
+# fs_set.c: line number: 275
+msgid "Attempt to allow synchronous event processing without first being in synchronous mode. Attribute ignored!"
+msgstr "同期モードにせずに同期イベント処理を許可しようとした。属性は無視される！"
+#
+# input.c: line number: 21
+msgid "input stream not of type input"
+msgstr "入力ストリームが入力タイプと異なる。"
+#
+# io.c: line number: 39
+msgid "invalid stream type"
+msgstr "この入力タイプは正しくない。"
+#
+# io.c: line number: 68
+msgid "invalid stream type"
+msgstr "この入力タイプは正しくない。"
+#
+# output.c: line number: 22
+msgid "output stream not of type output"
+msgstr "出力ストリームが出力タイプと異なる。"
+#
+# ctstowcs.c: line number: 141
+msgid "Couldn't open %s\n"
+msgstr "%s をオープンできない。\n"
+#
+# ctstowcs.c: line number: 161
+msgid "error in ctstowcs.\n"
+msgstr "ctstowcs でエラー発生。\n"
+#
+# getlogindr.c: line number: 44
+msgid "xv_getlogindir: couldn't find user in password file"
+msgstr "xv_getlogindir: パスワード・ファイルにユーザが見つからない。"
+#
+# getlogindr.c: line number: 59
+msgid "xv_getlogindir: no home directory in password file"
+msgstr "xv_getlogindir: パスワード・ファイルにホーム・ディレクトリが無い。"
+#
+# wcstocts.c: line number: 188
+msgid "Couldn't open %s\n"
+msgstr "%s をオープンできない。\n"
+#
+# wcstocts.c: line number: 208
+msgid "error in wcstocts.\n"
+msgstr "wcstocts でエラー発生。\n"
+#
+# ndet_auto.c: line number: 99
+msgid "2ndary select EBADF"
+msgstr "二次選択は EBADF。"
+#
+# ndet_auto.c: line number: 106
+msgid "2ndary select error"
+msgstr "二次選択エラー。"
+#
+# ndet_auto.c: line number: 177
+msgid "Nclient unprepared to handle signal"
+msgstr "複数クライアントがシグナルを取り扱うようにはなっていない。"
+#
+# ndet_auto.c: line number: 233
+msgid "Error when enq condition"
+msgstr "キュー送りコンディションでのエラー。"
+#
+# ndet_loop.c: line number: 947
+msgid "Error when enq condition"
+msgstr "キュー送りコンディションでのエラー。"
+#
+# ndetitimer.c: line number: 198
+msgid "Error when enq condition"
+msgstr "キュー送りコンディションでのエラー。"
+#
+# ndisdispch.c: line number: 308
+msgid "Unexpected dispatcher cond"
+msgstr "予期せぬディスパッチャ・コンディション。"
+#
+# ntfy_debug.c: line number: 79
+msgid "Notifier fatal error: "
+msgstr "ノーティファイアの致命的エラー: "
+#
+# ntfy_debug.c: line number: 81
+msgid "Notifier fatal error: "
+msgstr "ノーティファイアの致命的エラー: "
+#
+# ntfy_list.c: line number: 60
+msgid "Tried to remove node that wasn't on list"
+msgstr "リストに存在しないノードを消しょうとした。"
+#
+# ntfyperror.c: line number: 31
+msgid "Success"
+msgstr "成功"
+#
+# ntfyperror.c: line number: 34
+msgid "Unknown client"
+msgstr "未知のクライアント。"
+#
+# ntfyperror.c: line number: 37
+msgid "No condition for client"
+msgstr "クライアントへのコンディションがない。"
+#
+# ntfyperror.c: line number: 40
+msgid "Unknown interval timer type"
+msgstr "未知のインターバル・タイマのタイプ。"
+#
+# ntfyperror.c: line number: 43
+msgid "Bad signal number"
+msgstr "シグナル番号に誤りがある。"
+#
+# ntfyperror.c: line number: 46
+msgid "Notifier not started"
+msgstr "ノーティファイアが未起動。"
+#
+# ntfyperror.c: line number: 49
+msgid "Destroy vetoed"
+msgstr "破壊 (Destroy) は拒否された。"
+#
+# ntfyperror.c: line number: 52
+msgid "Notifier internal error"
+msgstr "ノーティファイアの内部エラー。"
+#
+# ntfyperror.c: line number: 55
+msgid "No such process"
+msgstr "該当するプロセスが無い。"
+#
+# ntfyperror.c: line number: 58
+msgid "Bad file number"
+msgstr "ファイル名に誤りがある。"
+#
+# ntfyperror.c: line number: 61
+msgid "Not enough memory"
+msgstr "メモリ不足。"
+#
+# ntfyperror.c: line number: 64
+msgid "Invalid argument"
+msgstr "この引き数は正しくない。"
+#
+# ntfyperror.c: line number: 67
+msgid "Too many interposition functions"
+msgstr "インターポーズ関数が多すぎる。"
+#
+# ntfyperror.c: line number: 70
+msgid "Unknown notifier error"
+msgstr "ノーティファイアの未知のエラー。"
+#
+# mem_ops.c: line number: 48
+msgid "Unsupported pixrect operation attempted"
+msgstr "サポートされていない pixrect オペレーションを行なおうとした。"
+#
+# pw_read.c: line number: 39
+msgid "xv_read: attempting to read into an invalid object"
+msgstr "xv_read: このオブジェクトを読み込むことはできない。"
+#
+# pw_read.c: line number: 66
+msgid "xv_read_internal(): image depth > pixrect depth"
+msgstr "xv_read_internal(): image depth > pixrect depth"
+#
+# pw_traprop.c: line number: 31
+msgid "pw_traprop: not implemented"
+msgstr "pw_traprop: インプリメントされていない。"
+#
+# xv_rop.c: line number: 203
+msgid "xv_rop: can't handle drawables of different depth"
+msgstr "xv_rop: 異なる depth の drawables は取り扱えない。"
+#
+# xv_rop.c: line number: 222
+msgid "xv_rop: Windows of different depth, can't rop"
+msgstr "xv_rop: depth の異なるウィンドウでのラスタ・オペレーションはできない。"
+#
+# xv_rop.c: line number: 570
+msgid "xv_rop: xv_rop_internal failed"
+msgstr "xv_rop: xv_rop_internal 失敗"
+#
+# xv_rop.c: line number: 678
+msgid "xv_replrop: xv_replrop_internal failed"
+msgstr "xv_replrop: xv_replrop_internal 失敗"
+#
+# xv_rop.c: line number: 825
+msgid "Unsupported frame buffer depth: %d\n"
+msgstr "このフレームバッファの depth はサポートされていない: %d\n"
+#
+# xv_rop.c: line number: 838
+msgid "Server probabaly run out of memory in XCreateGC\n"
+msgstr "XCreateGC で、サーバがメモリを使い切ってしまったらしい。\n"
+#
+# xv_stencil.c: line number: 58
+msgid "xv_stencil: stencil has to be of depth 1"
+msgstr "xv_stencil: stencil の depth は 1 でなければならない。"
+#
+# xv_stencil.c: line number: 140
+msgid "xv_stencil: xv_stencil_internal failed"
+msgstr "xv_stencil: xv_stencil_internal 失敗"
+#
+# rect.c: line number: 165
+msgid "Bad sortorder arg in mostRect"
+msgstr "Bad sortorder arg in mostRect で引き数のソート順に誤りがある。"
+#
+# rectlist.c: line number: 357
+msgid "Malformed rl in rl_free"
+msgstr "不完全な rl が rl_free にある。"
+#
+# rectlist.c: line number: 421
+msgid "%s: Bounding "
+msgstr "%s: バウンディング"
+#
+# rectlist.c: line number: 429
+msgid "using these offsets: x=%d, y=%d \n"
+msgstr "次のオフセットを使用する: x=%d, y=%d \n"
+#
+# screen.c: line number: 272
+msgid "Unable to return window to screen cache"
+msgstr "ウィンドウをスクリーン・キャッシュに返せない。"
+#
+# sel_agent.c: line number: 326
+msgid "Agent couldn't reply about a file"
+msgstr "エージェント (Agent) はファイルについては応答しない。"
+#
+# sel_agent.c: line number: 337
+msgid "Agent couldn't reset to start of file"
+msgstr "エージェント (Agent) はファイルの始まりをリセットしない。"
+#
+# sel_agent.c: line number: 1014
+msgid "selection: malloc() failed"
+msgstr "selection: malloc() 失敗"
+#
+# sel_agent.c: line number: 1263
+msgid "MULTIPLE target atom not implemented\n"
+msgstr "複数のターゲット atom は、インプリメントされない。\n"
+#
+# sel_agent.c: line number: 1680
+msgid "Select"
+msgstr "選択"
+#
+# sel_agent.c: line number: 1887
+msgid "Couldn't get selection atom, selections may not work. (Selection package)"
+msgstr "セレクション atom を持ってこれない。選択が効いていないらしい。(セレクションパッケージ)"
+#
+# sel_appl.c: line number: 57
+msgid "Couldn't malloc request buffer (no swap space?)\n"
+msgstr "バッファを malloc できない (スワップ領域が無い？)\n"
+#
+# sel_appl.c: line number: 166
+msgid "Couldn't malloc request buffer (no swap space?)\n"
+msgstr "バッファを malloc できない (スワップ領域が無い？)\n"
+#
+# sel_clnt.c: line number: 181
+msgid "requested selection: %d; result: %d\n"
+msgstr "要求されたセレクション: %d; 結果: %d\n"
+#
+# sel_clnt.c: line number: 689
+msgid "selection # %d\n"
+msgstr "セレクション # %d\n"
+#
+# sel_clnt.c: line number: 700
+msgid "Selection service couldn't open selection file"
+msgstr "セレクション・サービスがセレクション・ファイルをオープンできない。"
+#
+# sel_clnt.c: line number: 707
+msgid "filename: \"%s\"\n"
+msgstr "ファイル名: \"%s\"\n"
+#
+# selection.c: line number: 47
+msgid "%s would not open\n"
+msgstr "%s はオープンしない。\n"
+#
+# selection.c: line number: 85
+msgid "%s would not open\n"
+msgstr "%s はオープンしない。\n"
+#
+# selection.c: line number: 106
+msgid "%s not in correct format\n"
+msgstr "%s のフォーマットが正しくない。\n"
+#
+# selection.c: line number: 132
+msgid "%s would not open\n"
+msgstr "%s はオープンしない。\n"
+#
+# server.c: line number: 459
+msgid "Only support Shift, Ctrl and Meta as mouse button modifiers"
+msgstr "SERVER_JOURNAL_ATOM atom をクリエイトできない。"
+#
+# server.c: line number: 703
+msgid "Only support Shift, Ctrl and Meta as mouse button modifiers"
+msgstr "マウスボタンの修飾キーとして使えるのは、Shift, Ctrl,  Meta だけ。"
+#
+# server.c: line number: 728
+msgid "Can't create/get window manager atom"
+msgstr "ウィンドウマネージャ atom をクリエイト/ゲットできない。"
+#
+# svr_x.c: line number: 227
+msgid "Problems setting default modifier mapping"
+msgstr "デフォルト修飾マップの設定に問題発生。"
+#
+# svr_x.c: line number: 275
+msgid "Error from call to XSetModifierMapping"
+msgstr "XSetModifierMapping 呼び出しからのエラー。"
+#
+# svr_x.c: line number: 316
+msgid "Error from call to XSetModifierMapping"
+msgstr "XSetModifierMapping 呼び出しからのエラー。"
+#
+# svr_x.c: line number: 327
+msgid "No unused modifier index found"
+msgstr "未使用の修飾インデックスが見つからない。"
+#
+# svrim_ops.c: line number: 56
+msgid "server_image_rop(): src is not a server image"
+msgstr "server_image_rop(): src がサーバ・イメージでない。"
+#
+# svrim_ops.c: line number: 99
+msgid "server_image_rop(): dest is not a memory pixrect or a server_image"
+msgstr "server_image_rop(): dest が、メモリ pixrect でもサーバ・イメージでもない。"
+#
+# svrim_ops.c: line number: 126
+msgid "server_image_stencil(): stencil is not a memory pr or a server image"
+msgstr "server_image_stencil(): stencil が、メモリ pixrect でもサーバ・イメージでない。"
+#
+# svrim_ops.c: line number: 151
+msgid "server_image_stencil(): Can't create mpr in server_image_stencil"
+msgstr "server_image_stencil(): server_image_stencil にメモリ pixrect をクリエイトできない。"
+#
+# svrim_ops.c: line number: 170
+msgid "server_image_stencil(): Can't create mpr in server_image_stencil"
+msgstr "server_image_stencil(): server_image_stencil にメモリ pixrect をクリエイトできない。"
+#
+# svrim_ops.c: line number: 205
+msgid "server_image_stencil(): dest is mpr, src isn't image pr"
+msgstr "server_image_stencil(): dest がメモリ pixrect であり、src はイメージ pixrect でない。"
+#
+# svrim_ops.c: line number: 237
+msgid "server_image_stencil(): dest is not mpr or server_image_pr"
+msgstr "server_image_stencil(): dest がメモリ pixrect でもサーバ・イメージでもない。"
+#
+# svrim_ops.c: line number: 276
+msgid "server_image_replrop(): Unable to create server image"
+msgstr "server_image_replrop(): サーバ・イメージをクリエイトできない。"
+#
+# svrim_ops.c: line number: 296
+msgid "server_image_replrop(): dest is mpr, src isn't image pr"
+msgstr "server_image_replrop(): dest がメモリ pixrect であり、src はイメージ pixrect でない。"
+#
+# svrim_ops.c: line number: 330
+msgid "server_image_replrop(): dest is image pr, src isn't image pr or mpr"
+msgstr "server_image_replrop(): dest がイメージ pixrect であり、src はイメージ pixrect でもメモリ pixrect でもない。"
+#
+# svrim_ops.c: line number: 344
+msgid "server_image_replrop(): dest is not mpr or server_image_pr"
+msgstr "server_image_replrop(): dest が、メモリ pixrect でも server_image_pr でもない。"
+#
+# svrim_ops.c: line number: 395
+msgid "server_image_region: Unsupported operation"
+msgstr "server_image_region: このオペレーションはサポートされていない。"
+#
+# svrim_ops.c: line number: 413
+msgid "Server images do not have associated colormaps"
+msgstr "サーバ・イメージが関連カラーマップを持っていない。"
+#
+# svrim_pblc.c: line number: 68
+msgid "Server image alloc failed"
+msgstr "サーバ・イメージ alloc 失敗"
+#
+# svrim_pblc.c: line number: 131
+msgid "SERVER_IMAGE_BITMAP_FILE: Server image creation failed"
+msgstr "SERVER_IMAGE_BITMAP_FILE: サーバ・イメージの生成失敗"
+#
+# svrim_pblc.c: line number: 226
+msgid "SERVER_IMAGE_PIXMAP: Unable to get geometry"
+msgstr "SERVER_IMAGE_PIXMAP: ジオメトリをゲットできない。"
+#
+# svrim_pblc.c: line number: 283
+msgid "Colormap segment %s not found"
+msgstr "カラーマップ・セグメント %s が見つからない。"
+#
+# svrim_pblc.c: line number: 326
+msgid "Server Image creation failed"
+msgstr "サーバ・イメージの生成失敗。"
+#
+# win_compat.c: line number: 45
+msgid " Attempting to set the input mask of a window in fullscreen mode!\n"
+msgstr "フルスクリーンモードで、ウィンドウの入力マスクをセットしようとした。\n"
+#
+# win_damage.c: line number: 51
+msgid "xid not pending drawable (Win package)"
+msgstr "xid は、未決定 drawable でない。(Win パッケージ)"
+#
+# win_damage.c: line number: 71
+msgid "Pending drawable has not been cleared (Win package)"
+msgstr "未決定 drawable がクリアされていない。(Win パッケージ)"
+#
+# win_damage.c: line number: 126
+msgid "too many rectangles (Win package)"
+msgstr "方形が多すぎる。(Win パッケージ)"
+#
+# win_damage.c: line number: 258
+msgid "Partial damage switch: old %X, new %X\n"
+msgstr "Partial damage switch: 旧 %X, 新 %X\n"
+#
+# win_damage.c: line number: 292
+msgid "Specified drawable is current pending_drawable.\n"
+msgstr "指定された drawable は、未決定drawable でない。\n"
+#
+# win_damage.c: line number: 299
+msgid "Specified drawable is current damaged_drawable.\n"
+msgstr "指定された drawable は、ダメージ drawable。\n"
+#
+# win_damage.c: line number: 308
+msgid "There are enqueued exposures.\n"
+msgstr "キュー送りされた exposures がある。\n"
+#
+# win_treeop.c: line number: 65
+msgid "win_getlink: XQueryTree failed!\n"
+msgstr "win_getlink: XQueryTree 失敗！\n"
+#
+# win_treeop.c: line number: 95
+msgid "win_getlink: XQueryTree failed!\n"
+msgstr "win_getlink: XQueryTree 失敗！\n"
+#
+# win_treeop.c: line number: 108
+msgid "win_getlink(sibling): window not in tree\n"
+msgstr "win_getlink(sibling): ウィンドウがツリーに無い。\n"
+#
+# win_treeop.c: line number: 124
+msgid "win_getlink: unknown linkname: %d\n"
+msgstr "win_getlink: 未知のリンク名: %d\n"
+#
+# win_treeop.c: line number: 171
+msgid "Call to win_setlink() with ZERO link value would orphan a child. Ignored. (Win package)"
+msgstr "リンク値 ZERO での win_setlink() への呼び出しは、親の存在しない child を作ってしまう。無視される。(Win パッケージ)"
+#
+# win_treeop.c: line number: 184
+msgid "win_setlink: unknown linkname: %d\n"
+msgstr "win_setlink: 未知のリンク名: %d\n"
+#
+# window.c: line number: 249
+msgid "Subwindow owner is not a window\n"
+msgstr "サブウィンドウのオーナーがウィンドウでない。\n"
+#
+# window.c: line number: 262
+msgid "Parent window does not support children"
+msgstr "親ウィンドウは小ウィンドウをサポートしない。"
+#
+# window.c: line number: 276
+msgid "no decoration flag set for non-top level window"
+msgstr "トップレベルでないウィンドウには修飾フラグが無い。"
+#
+# window.c: line number: 404
+msgid "Window creation failed to get new visual"
+msgstr "ウィンドウ生成が新画像をゲットできなかった。"
+#
+# window.c: line number: 433
+msgid "notify_set_event_func failed in window creation"
+msgstr "notify_set_event_func が、ウィンドウ生成で失敗した。"
+#
+# window.c: line number: 446
+msgid "notify_set_event_func failed in window creation"
+msgstr "notify_set_event_func が、ウィンドウ生成で失敗した。"
+#
+# window_cms.c: line number: 101
+msgid "Attempting to set colormap segment data before naming the segment"
+msgstr "セグメントを指定する前にカラーマップ。セグメントのデータをセットしようとした。"
+#
+# window_cms.c: line number: 187
+msgid "Can not set a CMS on a window of a different visual class"
+msgstr "ビジュアル・クラスの異なるウィンドウには CMS をセットできない。"
+#
+# window_set.c: line number: 153
+msgid "WIN_TOP_LEVEL_NO_DECOR specified for non-top level window"
+msgstr "WIN_TOP_LEVEL_NO_DECOR がトップレベルでないウィンドウに対して指定された。"
+#
+# windowlayt.c: line number: 119
+msgid "window layout option (%d) not recognized (window_layout)"
+msgstr "ウィンドウレイアウト・オプション (%d) は (window_layout) を認識できない。"
+#
+# windowutil.c: line number: 322
+msgid "window: zero width or height specified"
+msgstr "ウィンドウ: 幅または高さにゼロが指定された。"
+#
+# aux.c: line number: 52
+msgid "Auxiliary Region"
+msgstr "Aux 領域"
+#
+# aux.c: line number: 63
+msgid "Auxiliary Region"
+msgstr "Aux 領域"
+#
+# luc.c: line number: 680
+msgid "%s: cannot use font:\n"
+msgstr "%s: フォントを使用できない:\n"
+#
+# fm_cmdline.c: line number: 252
+msgid "Unknown color: \"%.30s\""
+msgstr "未知のカラー: \"%.30s\""
+#
+# fm_destroy.c: line number: 118
+msgid "Are you sure you want to Quit?"
+msgstr "本当に終了しますか？"
+#
+# fm_destroy.c: line number: 120
+msgid "Confirm"
+msgstr "終了する"
+#
+# fm_destroy.c: line number: 122
+msgid "Cancel"
+msgstr "終了しない"
+#
+# fm_layout.c: line number: 274
+msgid "frame_layout(internal error): frame layout option (%d) not recognized."
+msgstr "frame_layout(内部エラー): フレームレイアウト・オプション (%d) が認識できない。"
+#
+# fm_set.c: line number: 305
+msgid "Attempt to make frame deaf failed"
+msgstr "フレームを deaf 状態にできない。"
+#
+# fm_set.c: line number: 324
+msgid "Attempt to make frame undeaf failed"
+msgstr "フレームを undeaf 状態にできない。"
+#
+# fm_win.c: line number: 92
+msgid "frame_is_exposed(): XQueryTree failed!"
+msgstr "frame_is_exposed(): XQueryTree 失敗！"
+#
+# fm_win.c: line number: 117
+msgid "frame_is_exposed(): window not in tree"
+msgstr "frame_is_exposed(): ウィンドウがフリーでない。"
+#
+# help.c: line number: 135
+msgid "%s for %s."
+msgstr "%s 対象: %s."
+#
+# help.c: line number: 143
+msgid "%s."
+msgstr "%s."
+#
+# help.c: line number: 152
+msgid "OK"
+msgstr "ＯＫ"
+#
+# help.c: line number: 296
+msgid "No help is available"
+msgstr "ヘルプは使用できません。"
+#
+# help.c: line number: 311
+msgid "More help is not available"
+msgstr "More ヘルプは使用できません。"
+#
+# help.c: line number: 333
+msgid "No help is available on this window"
+msgstr "このウィンドウではヘルプは使用できません。"
+#
+# help.c: line number: 366
+msgid ": Help"
+msgstr ": ヘルプ"
+#
+# help.c: line number: 380
+msgid "No frame associated with this window"
+msgstr "このウィンドウには関連するフレームがない。"
+#
+# help.c: line number: 435
+msgid "More"
+msgstr "More"
+#
+# help.c: line number: 541
+msgid "No Primary Selection"
+msgstr "プライマリセクションが無い。"
+#
+# help.c: line number: 552
+msgid "No Primary Selection"
+msgstr "プライマリセクションが無い。"
+#
+# help.c: line number: 573
+msgid "No Help String Filename specified for window"
+msgstr "ウィンドウに対するヘルプストリングのファイル名が無い。"
+#
+# help.c: line number: 586
+msgid "Help String File not found"
+msgstr "ヘルプストリング・ファイルが無い。"
+#
+# help.c: line number: 602
+msgid "\" not found in Help String File"
+msgstr "\" は、ヘルプストリング・ファイル中に無い。"
+#
+# icon.c: line number: 272
+msgid "GetWorkSpacePixel: color name %s not in database"
+msgstr "GetWorkSpacePixel: カラー名 %s は、デーラベース中に無い。"
+#
+# icon.c: line number: 286
+msgid "GetWorkSpacePixel:All color cells are allocated"
+msgstr "GetWorkSpacePixel:全てのカラーセルは割り当てられている。"
+#
+# icon.c: line number: 344
+msgid "xv_rop: xv_rop_internal failed"
+msgstr "xv_rop: xv_rop_internal 失敗"
+#
+# icon_load.c: line number: 46
+msgid "Cannot open file %s.\n"
+msgstr "ファイル %s をオープンできない。\n"
+#
+# icon_load.c: line number: 123
+msgid "icon file %s parse failure\n"
+msgstr "アイコンファイル %s 分析失敗。\n"
+#
+# icon_load.c: line number: 133
+msgid "%s has invalid header format.\n"
+msgstr "%s のヘッダフォーマットは、正しくない。\n"
+#
+# icon_load.c: line number: 149
+msgid "Cannot handle Depth of %d.\n"
+msgstr "Depth %d は操作できない。\n"
+#
+# icon_load.c: line number: 158
+msgid "Cannot handle Valid_bits_per_item of %d.\n"
+msgstr "Valid_bits_per_item %d は操作できない。\n"
+#
+# icon_load.c: line number: 167
+msgid "Cannot handle Width of %d.\n"
+msgstr "Width %d は操作できない。\n"
+#
+# icon_load.c: line number: 216
+msgid "icon file header valid bits not 16 or 32"
+msgstr "アイコンファイルのヘッダの有効ビット数が 16 でも 32 でもない。"
+#
+# icon_load.c: line number: 245
+msgid "Cannot create memory pixrect %dx%dx%d.\n"
+msgstr "メモリ pixrect %dx%dx%d をクリエイトできない。\n"
+#
+# icon_load.c: line number: 281
+msgid "Cannot create memory pixrect %dx%dx%d.\n"
+msgstr "メモリ pixrect %dx%dx%d をクリエイトできない。\n"
+#
+# icon_obj.c: line number: 79
+msgid "Can't allocate icon structure"
+msgstr "アイコン構造を割り当てられない。"
+#
+# icon_obj.c: line number: 426
+msgid "icon_obj:color name %s not in database"
+msgstr "icon_obj:カラー名 %s はデータベース中に無い。"
+#
+# icon_obj.c: line number: 440
+msgid "icon_obj: All color cells are allocated"
+msgstr "icon_obj: 全てのカラーセルは割り当てられている。"
+#
+# om_public.c: line number: 150
+msgid "menu_show: no menu specified"
+msgstr "menu_show: メニューが指定されていない。"
+#
+# om_public.c: line number: 165
+msgid "menu_show: menu not owned by this server"
+msgstr "menu_show: メニューがこのサーバの管理下にない。"
+#
+# om_public.c: line number: 232
+msgid "menu_show: unable to grab pointer"
+msgstr "menu_show: ポインタをグラブできない。"
+#
+# om_public.c: line number: 249
+msgid "menu_show: unable to grab keyboard"
+msgstr "menu_show: キーボードをグラブできない。"
+#
+# om_public.c: line number: 273
+msgid "menu_show: unable to allocate group_info"
+msgstr "menu_show: group_info を割り当てられない。"
+#
+# om_public.c: line number: 406
+msgid "menu_create: unable to allocate menu structure"
+msgstr "menu_create: メニュー構造を割り当てられない。"
+#
+# om_public.c: line number: 419
+msgid "menu_create: unable to allocate menu structure"
+msgstr "menu_create: メニュー構造を割り当てられない。"
+#
+# om_public.c: line number: 463
+msgid "menu_create: unable to allocate an item list"
+msgstr "menu_create: 項目リストをを割り当てられない。"
+#
+# om_public.c: line number: 486
+msgid "Unknown menu type"
+msgstr "未知のメニュータイプ。"
+#
+# om_public.c: line number: 549
+msgid "Menu_create_item: unable to allocate menu_item"
+msgstr "Menu_create_item: menu_item を割り当てられない。"
+#
+# om_public.c: line number: 865
+msgid "menu_find: menu's gen_proc failed to generate a menu"
+msgstr "menu_find: メニューの gen_proc がメニューを生成できない。"
+#
+# om_public.c: line number: 887
+msgid "menu_find: menu item's gen_proc failed to generate a menu item"
+msgstr "menu_find: メニュー項目の gen_proc がメニュー項目を生成できない。"
+#
+# om_public.c: line number: 1291
+msgid "menu_create_pin_window: menu item does not have a string or image"
+msgstr "menu_create_pin_window: メニュー項目にはストリングもイメージも無い。"
+#
+# om_render.c: line number: 188
+msgid "menu_render: menu's gen_proc failed to generate a menu"
+msgstr "menu_render: メニューの gen_proc がメニューを生成できない。"
+#
+# om_render.c: line number: 235
+msgid "menu_create: unable to allocate menu window"
+msgstr "menu_create: メニューウィンドウを割り当てられない。"
+#
+# om_render.c: line number: 311
+msgid "menu_create: unable to allocate shadow window"
+msgstr "menu_create: シャドーウィンドウを割り当てられない。"
+#
+# om_render.c: line number: 1332
+msgid "Menu too large for screen"
+msgstr "スクリーンに対してメニューが大きすぎる。"
+#
+# om_render.c: line number: 1502
+msgid "Pullright Generate Procedure failed to generate a pullright menu"
+msgstr "プルライト生成プロシジャがプルライトメニューの生成に失敗。"
+#
+# om_render.c: line number: 2100
+msgid "menu_create: unable to create shadow Graphics Context"
+msgstr "menu_create: シャドウグラフィック・コンテクストが生成できない。"
+#
+# om_set.c: line number: 411
+msgid "Invalid argument for attribute MENU_LINE_AFTER_ITEM: %d"
+msgstr "属性 MENU_LINE_AFTER_ITEM の引き数: %d は正しくない。"
+#
+# om_set.c: line number: 427
+msgid "MENU_CLASS attribute is get-only"
+msgstr "MENU_CLASS 属性はゲット専用。"
+#
+# om_set.c: line number: 1040
+msgid "Invalid argument for attribute MENU_LINE_AFTER_ITEM: %d"
+msgstr "属性 MENU_LINE_AFTER_ITEM の引き数: %d は正しくない。"
+#
+# om_set.c: line number: 1163
+msgid "menu_set: Malloc failed to allocate an item list"
+msgstr "menu_set: Malloc が項目リストの割り当てに失敗。"
+#
+# omi.c: line number: 89
+msgid "Menu item does not have a string or image"
+msgstr "メニュー項目にはストリングもイメージも無い。"
+#
+# xv_deaf.c: line number: 63
+msgid "xv_deaf:attempt to make windows deaf/hear failed"
+msgstr "xv_deaf:ウィンドウを deaf/hear 状態にできない。"
+#
+# xv_deaf.c: line number: 128
+msgid "Attempt to make children windows deaf/hear failed"
+msgstr "子ウィンドウを deaf/hear 状態にできない。"
+#
+# xv_deaf.c: line number: 167
+msgid "Attempt to query the children windows failed"
+msgstr "子ウィンドウに照会できない。"
+#
+# notice.c: line number: 206
+msgid "NULL parent window passed to notice_show(). Not allowed. (Notice package)"
+msgstr "notice_show() に NULL の親ウィンドウが引き渡された。これは許可されない。 (Notice パッケージ)"
+#
+# notice.c: line number: 293
+msgid "Malloc failed. (Notice package)"
+msgstr "Malloc 失敗。(Notice パッケージ)"
+#
+# notice.c: line number: 806
+msgid "Only one NOTICE_BUTTON_YES attr allowed. Attr ignored. (Notice package)"
+msgstr "NOTICE_BUTTON_YES 属性は、一つだけ許可される。属性は無視される。(Notice パッケージ)"
+#
+# notice.c: line number: 836
+msgid "Only one NOTICE_BUTTON_NO attr allowed. Attr ignored. (Notice package)"
+msgstr "NOTICE_BUTTON_NO 属性は、一つだけ許可される。属性は無視される。(Notice パッケージ)"
+#
+# notice.c: line number: 888
+msgid "Only one NOTICE_BUTTON_YES attr allowed. Attr ignored. (Notice package)"
+msgstr "NOTICE_BUTTON_YES 属性は、一つだけ許可される。属性は無視される。(Notice パッケージ)"
+#
+# notice.c: line number: 914
+msgid "Only one NOTICE_BUTTON_NO attr allowed. Attr ignored. (Notice package)"
+msgstr "NOTICE_BUTTON_NO 属性は、一つだけ許可される。属性は無視される。(Notice パッケージ)"
+#
+# notice.c: line number: 964
+msgid "(Notice package)"
+msgstr "(Notice パッケージ)"
+#
+# notice.c: line number: 975
+msgid "(Notice package)"
+msgstr "(Notice パッケージ)"
+#
+# notice.c: line number: 1363
+msgid "calloc failed in notice[create_button_struct]. (Notice package)"
+msgstr "calloc が notice に失敗 [create_button_struct] (Notice パッケージ)"
+#
+# notice.c: line number: 1998
+msgid "Unable to find \"fixed\" font. (Notice package)"
+msgstr "\"fixed\" フォントが見つからない。(Notice パッケージ)"
+#
+# notice.c: line number: 2049
+msgid "Unable to find \"fixed\" font. (Notice package)"
+msgstr "\"fixed\" フォントが見つからない。(Notice パッケージ)"
+#
+# notice.c: line number: 2196
+msgid "Malloc failed. (Notice package)"
+msgstr "Malloc 失敗 (Notice パッケージ)"
+#
+# notice.c: line number: 2221
+msgid "Malloc failed. (Notice package)"
+msgstr "Malloc 失敗 (Notice パッケージ)"
+#
+# openwin.c: line number: 75
+msgid "can't allocate openwin structure. Abort\n"
+msgstr "openwin 構造を割り当てられない。アボート。\n"
+#
+# ow_paint.c: line number: 253
+msgid "Unable to find bold font; using standard font"
+msgstr "ボールドフォントが見つからない。; 標準フォントを使用する。"
+#
+# p_btn.c: line number: 529
+msgid "begin_preview: menu's gen_proc failed to generate a menu"
+msgstr "begin_preview: メニューの gen_proc がメニューの生成に失敗。"
+#
+# p_list.c: line number: 343
+msgid "Font height exceeds row height; font ignored"
+msgstr "フォントの高さが行の高さを越えた。; フォントは無視される。"
+#
+# p_list.c: line number: 368
+msgid "Panel List glyph height exceeds row height; glyph ignored"
+msgstr "パネルリスト・グリフの高さが行の高さを越えた。; グリフは無視される。"
+#
+# p_list.c: line number: 709
+msgid "Scrolling List"
+msgstr "スクローリングリスト"
+#
+# p_list.c: line number: 716
+msgid "Locate Choice"
+msgstr "選択の位置へ"
+#
+# p_list.c: line number: 717
+msgid "Locate Next Choice"
+msgstr "次の選択の位置へ"
+#
+# p_list.c: line number: 730
+msgid "Clear All Choices"
+msgstr "すべての選択をクリア"
+#
+# p_list.c: line number: 742
+msgid "Edit List"
+msgstr "項目の編集"
+#
+# p_list.c: line number: 753
+msgid "Scrolling List"
+msgstr "スクローリングリスト"
+#
+# p_list.c: line number: 755
+msgid "Change"
+msgstr "変更"
+#
+# p_list.c: line number: 759
+msgid "Insert"
+msgstr "挿入"
+#
+# p_list.c: line number: 764
+msgid "Before"
+msgstr "前に"
+#
+# p_list.c: line number: 770
+msgid "After"
+msgstr "後ろに"
+#
+# p_list.c: line number: 778
+msgid "Delete"
+msgstr "削除"
+#
+# p_list.c: line number: 786
+msgid "End Editing"
+msgstr "編集終了"
+#
+# p_set.c: line number: 210
+msgid "%s not valid on a 3D Panel"
+msgstr "%s は、3D パネル上では使用できない。"
+#
+# p_set.c: line number: 391
+msgid "Unable to find bold font; using standard font"
+msgstr "ボールドフォントが見つからない。; 標準フォントを使用する。"
+#
+# p_set.c: line number: 409
+msgid "Unable to find OPEN LOOK glyph font"
+msgstr "OPEN LOOK のグリフフォントが見つからない。"
+#
+# p_utl.c: line number: 203
+msgid "Invalid Server Image specified"
+msgstr "指定されたサーバ・イメージは正しくない。"
+#
+# sb.c: line number: 162
+msgid "Scrollbar"
+msgstr "スクロールバー"
+#
+# sb.c: line number: 165
+msgid "Here to top"
+msgstr "ここを先頭に"
+#
+# sb.c: line number: 165
+msgid "Here to left"
+msgstr "ここを左端に"
+#
+# sb.c: line number: 172
+msgid "Top to here"
+msgstr "先頭をここに"
+#
+# sb.c: line number: 172
+msgid "Left to here"
+msgstr "左端をここに"
+#
+# sb.c: line number: 178
+msgid "Previous"
+msgstr "以前の位置に"
+#
+# sb.c: line number: 185
+msgid "Split View"
+msgstr "画面分割"
+#
+# sb.c: line number: 190
+msgid "Join Views"
+msgstr "画面結合"
+#
+# sb_set.c: line number: 182
+msgid "%s not valid on a 3D Scrollbar"
+msgstr "%s は、3D スクロールバーでは使用できない。"
+#
+# sb_set.c: line number: 241
+msgid "Cannot split a scrollbar created with scrollbar_create()"
+msgstr "scrollbar_create() で生成されたスクロールバーは分割できない。"
+#
+# term_ntfy.c: line number: 389
+msgid "TTYSW tty write failure"
+msgstr "tty サブ・ウィンドウ書き込み失敗。"
+#
+# term_ntfy.c: line number: 414
+msgid "cannot set output func on ttysw %x, tty fd %d\n"
+msgstr "出力ファンクショウンを設定できない。ttysw %x, tty fd %d\n"
+#
+# term_ntfy.c: line number: 527
+msgid "Pty cmd buffer overflow: last cmd ignored."
+msgstr "Pty コマンドバッファがオーバフローした。: 最後のコマンドは無視される。"
+#
+# tty.c: line number: 376
+msgid "A %s window has exited because its child exited.\n"
+msgstr "%s ウィンドウは、子ウィンドウが終了したので、終了した。\n"
+#
+# tty.c: line number: 378
+msgid "Its child's process id was %d and it"
+msgstr "子プロセスの id は %d である。"
+#
+# tty.c: line number: 380
+msgid " died due to signal %d"
+msgstr " シグナル %d で終了。"
+#
+# tty.c: line number: 383
+msgid " exited with return code %d"
+msgstr " リターンコード %d で終了。"
+#
+# tty.c: line number: 387
+msgid " and left a core dump.\n"
+msgstr " コアを出力しました。\n"
+#
+# tty_init.c: line number: 575
+msgid "All pty's in use\n"
+msgstr "すべての pty's は使われている。\n"
+#
+# tty_init.c: line number: 634
+msgid "TTYSW - setting TIOCTCNTL to 1 failed"
+msgstr "tty サブ・ウィンドウ - TIOCTCNTL を 1 に設定できなかった。"
+#
+# tty_init.c: line number: 643
+msgid "TTYSW - setting TIOCPKT to 1 failed"
+msgstr "tty サブ・ウィンドウ - TIOCPKT を 1 に設定できなかった。"
+#
+# tty_init.c: line number: 693
+msgid "couldn't find user name\n"
+msgstr "ユーザ名が見つからない。\n"
+#
+# tty_init.c: line number: 736
+msgid "Cannot find slot in /etc/ttys for updating /etc/utmp.\n"
+msgstr "/etc/utmp 交信のために /etc/ttys にスロットが見つからない。\n"
+#
+# tty_init.c: line number: 737
+msgid "Commands like \"who\" will not work.\n"
+msgstr "\"who\" などのコマンドは使用できない。\n"
+#
+# tty_init.c: line number: 738
+msgid "Add tty[qrs][0-f] to /etc/ttys file.\n"
+msgstr "tty[qrs][0-f] を /etc/ttys に追加する。\n"
+#
+# tty_init.c: line number: 748
+msgid "make sure that you can write /etc/utmp!\n"
+msgstr "/etc/utmp に書き込みできることを確認！\n"
+#
+# tty_main.c: line number: 152
+msgid "TTYSW:ttysw_pty_output: out of memory"
+msgstr "tty サブ・ウィンドウ:ttysw_pty_output: メモリ不足"
+#
+# tty_main.c: line number: 157
+msgid "TTYSW:ttysw_pty_output: invalid wide character"
+msgstr "tty サブ・ウィンドウ:ttysw_pty_output: このワイドキャラクタは使用できない。"
+#
+# tty_main.c: line number: 170
+msgid "TTYSW pty write failure"
+msgstr "tty サブ・ウィンドウ pty 書き込み失敗。"
+#
+# tty_main.c: line number: 181
+msgid "TTYSW pty write failure"
+msgstr "tty サブ・ウィンドウ pty 書き込み失敗。"
+#
+# tty_main.c: line number: 199
+msgid "TTYSW:ttysw_pty_output: out of memory"
+msgstr "tty サブ・ウィンドウ:ttysw_pty_output: メモリ不足"
+#
+# tty_main.c: line number: 204
+msgid "TTYSW:ttysw_pty_output: invalid wide character"
+msgstr "tty サブ・ウィンドウ:ttysw_pty_output: このワイドキャラクタは使用できない。"
+#
+# tty_main.c: line number: 223
+msgid "TTYSW pty write failure"
+msgstr "tty サブ・ウィンドウ pty 書き込み失敗。"
+#
+# tty_main.c: line number: 321
+msgid "TTYSW:ttysw_pty_input: out of memory"
+msgstr "TTYSW:ttysw_pty_input: メモリ不足"
+#
+# tty_main.c: line number: 329
+msgid "TTYSW:ttysw_pty_input: invalid multi-byte character"
+msgstr "tty サブ・ウィンドウ:ttysw_pty_input: この複数バイト文字は使用できない。"
+#
+# tty_main.c: line number: 429
+msgid "TTYSW:ttysw_pty_output: out of memory"
+msgstr "tty サブ・ウィンドウ:ttysw_pty_output: メモリ不足"
+#
+# tty_main.c: line number: 434
+msgid "TTYSW:ttysw_input_it: invalid multi-byte character"
+msgstr "tty サブ・ウィンドウ:ttysw_input_it: この複数バイト文字は使用できない。"
+#
+# tty_main.c: line number: 455
+msgid "Too many characters to add to the input buffer."
+msgstr "文字数が多すぎて入力バッファに入り切らない。"
+#
+# tty_main.c: line number: 456
+msgid "Wait a few seconds after you click Continue,"
+msgstr "継続をクリックしたのちしばらく待ち、"
+#
+# tty_main.c: line number: 457
+msgid "then retype the missing characters."
+msgstr "無くなった文字を入力仕直す。"
+#
+# tty_main.c: line number: 466
+msgid "Continue"
+msgstr "継続"
+#
+# tty_main.c: line number: 522
+msgid "Too many characters to add to the input buffer."
+msgstr "文字数が多すぎて入力バッファに入り切らない。"
+#
+# tty_main.c: line number: 523
+msgid "Wait a few seconds after you click Continue,"
+msgstr "継続をクリックしたのちしばらく待ち、"
+#
+# tty_main.c: line number: 524
+msgid "then retype the missing characters."
+msgstr "無くなった文字を入力仕直す。"
+#
+# tty_main.c: line number: 533
+msgid "Continue"
+msgstr "継続"
+#
+# tty_main.c: line number: 782
+msgid "ttysw-TIOCSSIZE"
+msgstr "ttysw-TIOCSSIZE"
+#
+# tty_main.c: line number: 807
+msgid "ttysw-TIOCSWINSZ"
+msgstr "ttysw-TIOCSWINSZ"
+#
+# tty_main.c: line number: 927
+msgid "TIOCFLUSH"
+msgstr "TIOCFLUSH"
+#
+# tty_mapkey.c: line number: 92
+msgid "%s: line %d longer than 1024 characters\n"
+msgstr "%s: 行番号 %d は 1024 バイト以上ある。\n"
+#
+# tty_mapkey.c: line number: 129
+msgid "%s: unknown command on line %d\n"
+msgstr "%s: 未知のコマンドライン %d\n"
+#
+# tty_mapkey.c: line number: 293
+msgid ".ttyswrc error: %s cannot be mapped"
+msgstr ".ttyswrc エラー: %s はマップできない。"
+#
+# tty_mapkey.c: line number: 328
+msgid "while saving key strings"
+msgstr "while saving key strings"
+#
+# tty_menu.c: line number: 98
+msgid "Disable Page Mode"
+msgstr "ページモードＯＦＦ"
+#
+# tty_menu.c: line number: 113
+msgid "Copy"
+msgstr "コピー"
+#
+# tty_menu.c: line number: 126
+msgid "Paste"
+msgstr "ペースト"
+#
+# tty_menu.c: line number: 140
+msgid "Term Pane"
+msgstr "ターミナルペイン"
+#
+# tty_menu.c: line number: 226
+msgid "Continue"
+msgstr "継続"
+#
+# tty_menu.c: line number: 235
+msgid "Disable Page Mode"
+msgstr "ページモードＯＮ"
+#
+# tty_menu.c: line number: 244
+msgid "Enable Page Mode "
+msgstr "ページモードＯＦＦ"
+#
+# tty_menu.c: line number: 299
+msgid "Continue"
+msgstr "継続"
+#
+# tty_menu.c: line number: 306
+msgid "Please make a primary selection first."
+msgstr "最初にプライマリセレクションを行なってください。"
+#
+# tty_menu.c: line number: 334
+msgid "Please Copy text onto clipboard first."
+msgstr "最初にテキストをクリップボードにコピーしてください。"
+#
+# tty_menu.c: line number: 410
+msgid "Store log as new file "
+msgstr "ログを新ファイルに保存"
+#
+# tty_menu.c: line number: 423
+msgid "Clear log"
+msgstr "ログをクリア"
+#
+# tty_menu.c: line number: 443
+msgid "History"
+msgstr "ヒストリ"
+#
+# tty_menu.c: line number: 455
+msgid "Edit"
+msgstr "編集"
+#
+# tty_menu.c: line number: 467
+msgid "Find"
+msgstr "検索"
+#
+# tty_menu.c: line number: 479
+msgid "その他"
+msgstr "Extras"
+#
+# tty_menu.c: line number: 496
+msgid "Enable"
+msgstr "ＯＮ"
+#
+# tty_menu.c: line number: 508
+msgid "Disable"
+msgstr "ＯＦＦ"
+#
+# tty_menu.c: line number: 526
+msgid "File Editor"
+msgstr "ファイルエディタ"
+#
+# tty_menu.c: line number: 564
+msgid "Scrolling"
+msgstr "スクローリング"
+#
+# tty_menu.c: line number: 575
+msgid "Term Pane"
+msgstr "ターミナルペイン"
+#
+# tty_menu.c: line number: 630
+msgid "File"
+msgstr "ファイル"
+#
+# tty_menu.c: line number: 640
+msgid "View"
+msgstr "表示"
+#
+# tty_menu.c: line number: 651
+msgid "Edit"
+msgstr "編集"
+#
+# tty_menu.c: line number: 663
+msgid "Find"
+msgstr "検索"
+#
+# tty_menu.c: line number: 740
+msgid "Please destroy all split views before enabling File Editor."
+msgstr "ファイルエディタを使用する場合には、すべての分割画面を終了させてください。"
+#
+# tty_menu.c: line number: 741
+msgid "Press \"Continue\" to proceed."
+msgstr "\"継続\" を押すと先へ進みます。"
+#
+# tty_menu.c: line number: 749
+msgid "Continue"
+msgstr "継続"
+#
+# tty_menu.c: line number: 784
+msgid "Textedit is already created."
+msgstr "テキストエディットは既にクリエイトされている。"
+#
+# tty_menu.c: line number: 785
+msgid "Press \"Continue\" to proceed."
+msgstr "\"継続\" を押すと先へ進みます。"
+#
+# tty_menu.c: line number: 790
+msgid "Continue"
+msgstr "継続"
+#
+# tty_menu.c: line number: 828
+msgid "No textedit is enabled yet."
+msgstr "テキストエディットが起動されていない。"
+#
+# tty_menu.c: line number: 829
+msgid "Press \"Continue\" to proceed."
+msgstr "\"継続\" を押すと先へ進みます。"
+#
+# tty_menu.c: line number: 837
+msgid "Continue"
+msgstr "継続"
+#
+# tty_menu.c: line number: 921
+msgid "Continue"
+msgstr "継続"
+#
+# tty_menu.c: line number: 928
+msgid "Exiting vi will enable scrolling."
+msgstr "vi 終了するとスクローリング可能になる。"
+#
+# tty_menu.c: line number: 957
+msgid "Continue"
+msgstr "継続"
+#
+# tty_menu.c: line number: 964
+msgid "Only one termsw view can turn into a ttysw at a time."
+msgstr "一度にtty サブ・ウィンドウになるターミナル・サブウィンドウ画面は一つだけ。"
+#
+# tty_ntfy.c: line number: 178
+msgid "ttysw_sigwinch, can't get tty process group"
+msgstr "ttysw_sigwinch, tty プロセスグループをゲットできない。"
+#
+# tty_ntfy.c: line number: 239
+msgid "ioctl"
+msgstr "ioctl"
+#
+# ttyselect.c: line number: 1007
+msgid "ttysw didn't recognize function to perform on selection"
+msgstr "tty サブ・ウィンドウがセレクション機能を認識できなかった。"
+#
+# ttyselect.c: line number: 1258
+msgid "failed for selection copy-out"
+msgstr "セレクションの出力失敗"

@@ -1,0 +1,1026 @@
+#WLDL
+6
+
+6 XcuWlm
+12
+16 Label.facetWidth 1 (0) 6 Global
+16 Label.foreground 5 (black) 6 Global
+17 Label.borderColor 9 (LightGray) 6 Global
+16 Label.background 9 (LightGray) 6 Global
+15 Tbl.borderColor 9 (LightGray) 6 Global
+15 Tbl.borderWidth 1 (0) 6 Global
+14 Tbl.background 9 (LightGray) 6 Global
+4 font 4 (9x15) 6 Global
+16 brightFacetColor 14 (LightSteelBlue) 6 Global
+13 dimFacetColor 9 (SteelBlue) 6 Global
+18 highlightThickness 1 (2) 6 Global
+4 name 6 (office) 5 Local
+0
+0
+2
+
+  7 XcuBmgr
+  2
+  8 bmgrType 9 (OneOfMany) 5 Local
+  4 name 10 (plus_minus) 5 Local
+  0
+  18
+  11 (yo_negative) 6 String 11 (yo_negative)
+  11 (yo_positive) 6 String 11 (yo_positive)
+  11 (hi_negative) 6 String 11 (hi_negative)
+  11 (hi_positive) 6 String 11 (hi_positive)
+  11 (sc_negative) 6 String 11 (sc_negative)
+  11 (sc_positive) 6 String 11 (sc_positive)
+  11 (zm_negative) 6 String 11 (zm_negative)
+  11 (zm_positive) 6 String 11 (zm_positive)
+  11 (ry_negative) 6 String 11 (ry_negative)
+  11 (ry_positive) 6 String 11 (ry_positive)
+  11 (rx_negative) 6 String 11 (rx_negative)
+  11 (rx_positive) 6 String 11 (rx_positive)
+  11 (tz_negative) 6 String 11 (tz_negative)
+  11 (tz_positive) 6 String 11 (tz_positive)
+  11 (ty_negative) 6 String 11 (ty_negative)
+  11 (ty_positive) 6 String 11 (ty_positive)
+  11 (tx_negative) 6 String 11 (tx_negative)
+  11 (tx_positive) 6 String 11 (tx_positive)
+  0
+
+  6 XcuTbl
+  5
+  14 internalHeight 2 (10) 5 Local
+  13 internalWidth 2 (10) 5 Local
+  11 interHeight 2 (10) 5 Local
+  12 formatString 2 (c.) 5 Local
+  4 name 7 (visible) 5 Local
+  0
+  0
+  11
+
+    6 XcuTbl
+    1
+    12 formatString 2 (c.) 5 Local
+    0
+    0
+    1
+
+      7 XcuBmgr
+      2
+      8 bmgrType 9 (Transient) 5 Local
+      4 name 4 (quit) 5 Local
+      0
+      1
+      4 (QUIT) 6 String 4 (QUIT)
+      1
+
+        9 XcuButton
+        1
+        4 name 4 (QUIT) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    1
+    12 formatString 2 (c.) 5 Local
+    0
+    0
+    1
+
+      7 XcuBmgr
+      2
+      8 bmgrType 9 (Transient) 5 Local
+      4 name 7 (texture) 5 Local
+      0
+      1
+      7 (TEXTURE) 6 String 7 (TEXTURE)
+      1
+
+        9 XcuButton
+        1
+        4 name 7 (TEXTURE) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    1
+    12 formatString 2 (c.) 5 Local
+    0
+    0
+    1
+
+      7 XcuBmgr
+      2
+      8 bmgrType 9 (Transient) 5 Local
+      4 name 5 (reset) 5 Local
+      0
+      1
+      5 (RESET) 6 String 5 (RESET)
+      1
+
+        9 XcuButton
+        1
+        4 name 5 (RESET) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 formatString 6 (c
+c
+c.) 5 Local
+    4 name 3 (A11) 5 Local
+    0
+    0
+    1
+
+      7 XcuBmgr
+      2
+      8 bmgrType 9 (OneOfMany) 5 Local
+      4 name 10 (read_write) 5 Local
+      0
+      3
+      3 (OFF) 6 String 3 (OFF)
+      6 (RECORD) 6 String 6 (RECORD)
+      6 (REPLAY) 6 String 6 (REPLAY)
+      3
+
+        9 XcuButton
+        2
+        3 set 4 (True) 5 Local
+        4 name 3 (OFF) 5 Local
+        0
+        0
+        0
+
+        9 XcuButton
+        1
+        4 name 6 (RECORD) 5 Local
+        0
+        0
+        0
+
+        9 XcuButton
+        1
+        4 name 6 (REPLAY) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 equalColumns 4 (True) 5 Local
+    12 formatString 4 (c c.) 5 Local
+    0
+    0
+    1
+
+      7 XcuBmgr
+      2
+      8 bmgrType 12 (DoubleToggle) 5 Local
+      4 name 10 (dbl_buffer) 5 Local
+      0
+      2
+      14 (DBL
+BUFFER
+OFF) 3 Int 1 (0)
+      13 (DBL
+BUFFER
+ON) 3 Int 1 (1)
+      2
+
+        9 XcuButton
+        1
+        4 name 14 (DBL
+BUFFER
+OFF) 5 Local
+        0
+        0
+        0
+
+        9 XcuButton
+        2
+        3 set 4 (True) 5 Local
+        4 name 13 (DBL
+BUFFER
+ON) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 equalColumns 4 (True) 5 Local
+    12 formatString 4 (c c.) 5 Local
+    0
+    0
+    1
+
+      7 XcuBmgr
+      2
+      8 bmgrType 12 (DoubleToggle) 5 Local
+      4 name 2 (up) 5 Local
+      0
+      2
+      11 (UP
+VARIABLE) 3 Int 1 (0)
+      11 (UP
+CONSTANT) 3 Int 1 (1)
+      2
+
+        9 XcuButton
+        1
+        4 name 11 (UP
+VARIABLE) 5 Local
+        0
+        0
+        0
+
+        9 XcuButton
+        2
+        3 set 4 (True) 5 Local
+        4 name 11 (UP
+CONSTANT) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 equalColumns 4 (True) 5 Local
+    12 formatString 4 (c c.) 5 Local
+    0
+    0
+    1
+
+      7 XcuBmgr
+      2
+      8 bmgrType 12 (DoubleToggle) 5 Local
+      4 name 5 (cycle) 5 Local
+      0
+      2
+      9 (CYCLE OFF) 3 Int 1 (0)
+      8 (CYCLE ON) 3 Int 1 (1)
+      2
+
+        9 XcuButton
+        1
+        4 name 8 (CYCLE ON) 5 Local
+        0
+        0
+        0
+
+        9 XcuButton
+        2
+        3 set 4 (True) 5 Local
+        4 name 9 (CYCLE OFF) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 formatString 6 (c
+c
+c.) 5 Local
+    4 name 5 (hi_yo) 5 Local
+    0
+    0
+    3
+
+      6 XcuTbl
+      3
+      12 equalColumns 4 (True) 5 Local
+      12 formatString 6 (c c c.) 5 Local
+      4 name 3 (A10) 5 Local
+      0
+      0
+      1
+
+        7 XcuBmgr
+        2
+        8 bmgrType 9 (OneOfMany) 5 Local
+        4 name 8 (hy_value) 5 Local
+        0
+        6
+        3 (hy8) 5 Float 3 (8.0)
+        3 (hy4) 5 Float 3 (4.0)
+        3 (hy2) 5 Float 3 (2.0)
+        3 (hy1) 5 Float 3 (1.0)
+        4 (hy.1) 5 Float 3 (0.1)
+        3 (hy0) 5 Float 1 (0)
+        6
+
+          9 XcuButton
+          2
+          5 label 1 (8) 5 Local
+          4 name 3 (hy8) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          3
+          3 set 4 (True) 5 Local
+          5 label 1 (4) 5 Local
+          4 name 3 (hy4) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (2) 5 Local
+          4 name 3 (hy2) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (1) 5 Local
+          4 name 3 (hy1) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (.1) 5 Local
+          4 name 4 (hy.1) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (RS) 5 Local
+          4 name 3 (hy0) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      2
+      10 interWidth 1 (2) 5 Local
+      12 formatString 4 (c c.) 5 Local
+      0
+      0
+      2
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (yo) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (yo_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (yo_negative) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (hi) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (hi_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (hi_negative) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      4
+      10 facetWidth 1 (0) 6 Global
+      10 foreground 5 (black) 6 Global
+      12 formatString 4 (c c.) 5 Local
+      12 equalColumns 4 (True) 5 Local
+      0
+      0
+      2
+
+        8 XcuLabel
+        1
+        4 name 3 (YON) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        1
+        4 name 6 (HITHER) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 formatString 6 (c
+c
+c.) 5 Local
+    4 name 10 (zoom_scene) 5 Local
+    0
+    0
+    3
+
+      6 XcuTbl
+      3
+      12 equalColumns 4 (True) 5 Local
+      12 formatString 10 (c c
+c c c.) 5 Local
+      4 name 2 (A9) 5 Local
+      0
+      0
+      1
+
+        7 XcuBmgr
+        2
+        8 bmgrType 9 (OneOfMany) 5 Local
+        4 name 10 (zoom_value) 5 Local
+        0
+        5
+        7 (zoom1.5) 5 Float 3 (1.5)
+        7 (zoom1.1) 5 Float 3 (1.1)
+        6 (zoom.9) 5 Float 3 (0.9)
+        6 (zoom.5) 5 Float 3 (0.5)
+        5 (zoom0) 5 Float 1 (0)
+        5
+
+          9 XcuButton
+          2
+          5 label 3 (1.5) 5 Local
+          4 name 7 (zoom1.5) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          3
+          3 set 4 (True) 5 Local
+          5 label 3 (1.1) 5 Local
+          4 name 7 (zoom1.1) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (.9) 5 Local
+          4 name 6 (zoom.9) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (.5) 5 Local
+          4 name 6 (zoom.5) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (RS) 5 Local
+          4 name 5 (zoom0) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      3
+      10 interWidth 1 (2) 5 Local
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A8) 5 Local
+      0
+      0
+      3
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (sc) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (sc_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (sc_negative) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        4
+        18 layoutWhenUnmapped 4 (True) 5 Local
+        17 mappedWhenManaged 5 (False) 5 Local
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 3 (A8a) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 1 ( ) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 1 ( ) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (zm) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (zm_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (zm_negative) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      2
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A7) 5 Local
+      0
+      0
+      3
+
+        8 XcuLabel
+        1
+        4 name 2 (SC) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        1
+        4 name 2 (  ) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        1
+        4 name 2 (ZM) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 formatString 6 (c
+c
+c.) 5 Local
+    4 name 8 (rotation) 5 Local
+    0
+    0
+    3
+
+      6 XcuTbl
+      3
+      12 equalColumns 4 (True) 5 Local
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A6) 5 Local
+      0
+      0
+      1
+
+        7 XcuBmgr
+        2
+        8 bmgrType 9 (OneOfMany) 5 Local
+        4 name 12 (rotate_value) 5 Local
+        0
+        6
+        8 (rotate90) 5 Float 4 (90.0)
+        8 (rotate30) 5 Float 4 (30.0)
+        8 (rotate10) 5 Float 2 (10)
+        7 (rotate5) 5 Float 1 (5)
+        7 (rotate2) 5 Float 1 (2)
+        7 (rotate1) 5 Float 1 (1)
+        6
+
+          9 XcuButton
+          2
+          5 label 2 (90) 5 Local
+          4 name 8 (rotate90) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (30) 5 Local
+          4 name 8 (rotate30) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (10) 5 Local
+          4 name 8 (rotate10) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          3
+          3 set 4 (True) 5 Local
+          5 label 1 (5) 5 Local
+          4 name 7 (rotate5) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (2) 5 Local
+          4 name 7 (rotate2) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (1) 5 Local
+          4 name 7 (rotate1) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      3
+      10 interWidth 1 (2) 5 Local
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A5) 5 Local
+      0
+      0
+      3
+
+        6 XcuTbl
+        4
+        18 layoutWhenUnmapped 4 (True) 5 Local
+        17 mappedWhenManaged 5 (False) 5 Local
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (rz) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (rz_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (rz_negative) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (ry) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (ry_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (ry_negative) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (rx) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (rx_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (rx_negative) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      2
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A4) 5 Local
+      0
+      0
+      3
+
+        8 XcuLabel
+        1
+        4 name 2 (  ) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        1
+        4 name 2 (RY) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        1
+        4 name 2 (RX) 5 Local
+        0
+        0
+        0
+
+    6 XcuTbl
+    2
+    12 formatString 6 (c
+c
+c.) 5 Local
+    4 name 11 (translation) 5 Local
+    0
+    0
+    3
+
+      6 XcuTbl
+      3
+      12 equalColumns 4 (True) 5 Local
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A3) 5 Local
+      0
+      0
+      1
+
+        7 XcuBmgr
+        2
+        8 bmgrType 9 (OneOfMany) 5 Local
+        4 name 15 (translate_value) 5 Local
+        0
+        6
+        11 (translate10) 5 Float 4 (10.0)
+        10 (translate4) 5 Float 3 (4.0)
+        10 (translate2) 5 Float 3 (2.0)
+        10 (translate1) 5 Float 3 (1.0)
+        11 (translate.5) 5 Float 3 (0.5)
+        11 (translate.1) 5 Float 3 (0.1)
+        6
+
+          9 XcuButton
+          2
+          5 label 2 (10) 5 Local
+          4 name 11 (translate10) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (4) 5 Local
+          4 name 10 (translate4) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (2) 5 Local
+          4 name 10 (translate2) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          3
+          3 set 4 (True) 5 Local
+          5 label 1 (1) 5 Local
+          4 name 10 (translate1) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (.5) 5 Local
+          4 name 11 (translate.5) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 2 (.1) 5 Local
+          4 name 11 (translate.1) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      3
+      10 interWidth 1 (2) 5 Local
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A2) 5 Local
+      0
+      0
+      3
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (tz) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (tz_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (tz_negative) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (ty) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (ty_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          2
+          5 label 1 (-) 5 Local
+          4 name 11 (ty_negative) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        2
+        12 formatString 5 (c c.
+) 5 Local
+        4 name 2 (tx) 5 Local
+        0
+        0
+        2
+
+          9 XcuButton
+          2
+          5 label 1 (+) 5 Local
+          4 name 11 (tx_positive) 5 Local
+          0
+          0
+          0
+
+          9 XcuButton
+          3
+          3 set 4 (True) 5 Local
+          5 label 1 (-) 5 Local
+          4 name 11 (tx_negative) 5 Local
+          0
+          0
+          0
+
+      6 XcuTbl
+      2
+      12 formatString 6 (c c c.) 5 Local
+      4 name 2 (A1) 5 Local
+      0
+      0
+      3
+
+        8 XcuLabel
+        1
+        4 name 2 (TZ) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        1
+        4 name 2 (TY) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        1
+        4 name 2 (TX) 5 Local
+        0
+        0
+        0

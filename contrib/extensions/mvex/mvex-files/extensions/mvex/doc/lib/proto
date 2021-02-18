@@ -1,0 +1,376 @@
+.\" $Header: /n/lacey/usr/local/src/video/MVEX/doc/lib/RCS/proto,v 1.11 1991/09/26 04:54:34 toddb Exp $
+\&
+.sp 1
+.ce 3
+\s+1\fBSection 3\fP\s-1
+
+\s+1\fBMVEX Protocol Functions\fP\s-1
+.sp 2
+.nr H1 0
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.LP
+.XS
+Section 3: MVEX Protocol Functions
+.XE
+.NH 1
+Video Manager Routines
+.XS
+\*(SN Video Manager Routines
+.XE
+.IN "MVEXChangeOwnership" "" "@DEF@"
+.FD 0
+MVEXChangeOwnership(\^\fIdisplay\fP, \fIowners\fP, \fInowners\fP\^)
+.br
+	Display *\fIdisplay\fP\^;
+.br
+	MVEXOwner \fIowners\fP[]\^;
+.br
+	unsigned long \fInowners\fP;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIowners\fP 1i
+Specifies array of ownerships to set.
+.IP \fInowners\fP 1i
+Specifies number of entries in \fIowners\fP array.
+.LP
+For each member of the \fIowners\fP list, the client that created the
+specified window is given ownership of the specified resource.
+[See the MVEX Protocol ChangeOwnership request description]
+.sp 5
+.ne 20
+.NH 1
+Video Input and Video Output
+.XS
+\*(SN Video Input and Video Output
+.XE
+.IN "MVEXCreateVideo" "" "@DEF@"
+.FD 0
+VideoIO MVEXCreateVideo(\^\fIdisplay\fP, \fIreference\fP\^)
+.br
+	Display *\fIdisplay\fP\^;
+.br
+	VideoReference \fIreference\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIreference\fP 1i
+Specifies reference for which a VIDEOIO alias is requested.
+.LP
+Returns a VideoIO corresponding to the given VideoReference.  If the MVEX
+extension cannot be initialized, the returned value is None.
+[See the MVEX Protocol CreateVideo request description]
+.bp
+.IN "MVEXRenderVideo" "" "@DEF@"
+.FD 0
+MVEXRenderVideo\^(\^\fIdisplay\fP, \fIsrc\fP\^, \fIdest\fP\^, \fIgc\fP\^, \fIport\fP\^,
+ \fIsrc_x\fP\^, \fIsrc_y\fP\^, \fIsrc_width\fP\^, \fIsrc_height\fP\^,
+ \fIdest_x\fP\^, \fIdest_y\fP\^, \fIdest_width\fP\^, \fIdest_height\fP\^,
+ \fIvalue_mask\fP\^, \fIvalues\fP\^)
+.br
+	Display *\fIdisplay\fP\^;
+.br
+	VideoIn \fIsrc\fP\^;
+.br
+	Drawable \fIdest\fP\^;
+.br
+	GC \fIgc\fP\^;
+.br
+	GC \fIport\fP\^;
+.br
+	int \fIsrc_x\fP\^, \fIsrc_y\fP\^;
+.br
+	unsigned int \fIsrc_width\fP\^, \fIsrc_height\fP\^;
+.br
+	int \fIdest_x\fP\^, \fIdest_y\fP\^;
+.br
+	unsigned int \fIdest_width\fP\^, \fIdest_height\fP\^;
+.br
+	unsigned long \fIvalue_mask\fP\^;
+.br
+	MVEXVideoValues \fIvalues\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIsrc\fP 1i
+Specifies the video source.
+.IP \fIdest\fP 1i
+Specifies the drawable which accepts the video signal.
+.IP \fIgc\fP 1i
+Specifies the gc which provides the subWindowMode and the clip information.
+.IP \fIport\fP 1i
+Specifies the port identifier for the video input.
+.IP \fIsrc_x\fP 1i
+.br
+.ns
+.IP \fIsrc_y\fP 1i
+Specify the x and y coordinates of the upper-left corner
+of the video source rectangle.
+.IP \fIsrc_width\fP 1i
+.br
+.ns
+.IP \fIsrc_height\fP 1i
+Specify the width and height of the video source rectangle.
+.IP \fIdest_x\fP 1i
+.br
+.ns
+.IP \fIdest_y\fP 1i
+Specify the x and y coordinates of the upper-left corner
+of the destination drawable rectangle.  The coordinates are relative to the
+origin of the destination drawable.
+.IP \fIdest_width\fP 1i
+.br
+.ns
+.IP \fIdest_height\fP 1i
+Specify the width and height of the destination drawable rectangle.
+.IP \fIvalue_mask\fP 1i
+Specifies the set of bits designating the values to send.
+.IP \fIvalues\fP 1i
+Specifies the set of values for this request.
+.LP
+The specified region of the source video signal is decoded and
+directed to the destination drawable.
+[See the MVEX Protocol RenderVideo request description]
+.bp
+.IN "MVEXCaptureGraphics" "" "@DEF@"
+.FD 0
+MVEXCaptureGraphics\^(\^\fIdisplay\fP, \fIsrc\fP\^, \fIdest\fP\^, \fIcmap\fP\^, \fIport\fP\^,
+ \fIsrc_x\fP\^, \fIsrc_y\fP\^, \fIsrc_width\fP\^, \fIsrc_height\fP\^,
+ \fIdest_x\fP\^, \fIdest_y\fP\^, \fIdest_width\fP\^, \fIdest_height\fP\^,
+ \fIsubwindow_mode\fP\^, \fIvalue_mask\fP\^, \fIvalues\fP\^)
+.br
+	Display *\fIdisplay\fP\^;
+.br
+	Drawable \fIsrc\fP\^;    
+.br
+	VideoOut \fIdest\fP\^;    
+.br
+	Colormap \fIcmap\fP\^;    
+.br
+	Atom \fIport\fP\^;    
+.br
+	int \fIsrc_x\fP\^, \fIsrc_y\fP\^;
+.br
+	unsigned int \fIsrc_width\fP\^, \fIsrc_height\fP\^;
+.br
+	int \fIdest_x\fP\^, \fIdest_y\fP\^;
+.br
+	unsigned int \fIdest_width\fP\^, \fIdest_height\fP\^;
+.br
+	int \fIsubwindow_mode\fP\^;
+.br
+	unsigned long \fIvalue_mask\fP\^;
+.br
+	MVEXVideoValues \fIvalues\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIsrc\fP 1i
+Specifies the drawable source.
+.IP \fIdest\fP 1i
+Specifies the video output which accepts the video signal.
+.IP \fIcmap\fP 1i
+Specifies the colormap to use for a Pixmap drawable.  Must be None for window
+drawable.
+.IP \fIport\fP 1i
+Specifies the port identifier for the video output.
+.IP \fIsrc_x\fP 1i
+.br
+.ns
+.IP \fIsrc_y\fP 1i
+Specify the x and y coordinates of the upper-left corner
+of the source drawable rectangle.  The coordinates are relative to the
+origin of the source drawable.
+.IP \fIsrc_width\fP 1i
+.br
+.ns
+.IP \fIsrc_height\fP 1i
+Specify the width and height of the drawable source rectangle.
+.IP \fIdest_x\fP 1i
+.br
+.ns
+.IP \fIdest_y\fP 1i
+Specify the x and y coordinates of the upper-left corner
+of the destination video rectangle.
+.IP \fIdest_width\fP 1i
+.br
+.ns
+.IP \fIdest_height\fP 1i
+Specify the width and height of the destination video rectangle.
+.IP \fIsubwindow_mode\fP 1i
+Specifies the treatment of the source window's children.  Ignored if
+source is a pixmap.  You can pass ClipByChildren or IncludeInferiors.
+.IP \fIvalue_mask\fP 1i
+Specifies the set of bits designating the values to send.
+.IP \fIvalues\fP 1i
+Specifies the set of values for this request.
+.LP
+The specified region of the drawable source is encoded into a video signal by
+the destination encoder.
+[See the MVEX Protocol CaptureGraphics request description]
+.bp
+.IN "MVEXStopVideo" "" "@DEF@"
+.FD 0
+.sp 5
+.ne 20
+MVEXStopVideo(\^\fIdisplay\fP, \fIaction_mask\fP, \fIdrawables\fP, \fIndrawables\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    int \fIaction_mask\fP;
+.br
+    Drawable \fIdrawables\fP[]\^;
+.br
+    unsigned long \fIndrawables\fP;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIaction_mask\fP 1i
+Specifies the action to take on the drawables list. The mask values is a
+bitwise OR of these masks: MVEXStopRenderVideo and MVEXStopCaptureVideo.
+.IP \fIdrawables\fP 1i
+Specifies array of drawables to stop.
+.IP \fIndrawables\fP 1i
+Specifies number of entries in \fIdrawables\fP array.
+.LP
+The video actions previously requested on any of the drawables given in the
+\fIdrawables\fP array are stopped, even if one of the drawables produces
+an error.
+[See the MVEX Protocol StopVideo request description]
+.IN "MVEXQuerySetup" "" "@DEF@"
+.FD 0
+.sp 5
+.ne 20
+MVEXQuerySetup(\^\fIdisplay\fP, \fIsetup\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    MVEXSetupState *\fIsetup\fP;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIsetup\fP 1i
+For input, it specifies the vio and the port combination being queried.
+For return values, it specifies if frames and timecodes are available,
+and if the combination is frame-accurate on all operations.
+.LP
+The vio and port combination are queried its ability to "see" timecodes
+and/or frames, and whether it is able to perform
+RenderVideo or CaptureGraphics on a frame accurate basis.
+[See the MVEX Protocol QuerySetup request description]
+.bp
+.IN "MVEXSelectEvents" "" "@DEF@"
+.FD 0
+MVEXSelectEvents(\^\fIdisplay\fP, \fIid\fP, \fIevent_mask\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    XID \fIid\fP\^;
+.br
+    unsigned long \fIevent_mask\fP;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIid\fP 1i
+Specifies the VideoID or Drawable on which events are selected.
+.IP \fIevent_mask\fP 1i
+Specifies the events to select.
+.LP
+.\"Table 8-2 
+The following table 
+lists the event mask constants you can pass to
+the event_mask argument and
+the circumstances in which you would want to specify the
+event mask:
+.LP
+.\" .CP T 2
+.\"Event Mask Definitions
+.TS H
+lw(2i) lw(3.5i).
+_
+.sp 6p
+.TB
+Event Mask	Circumstances
+.sp 6p
+_
+.sp 6p
+.TH
+.R
+T{
+.PN NoEventMask
+T}	T{
+No events wanted
+T}
+T{
+.PN MVEXRedirectMask
+T}	T{
+MVEXRequest events wanted on a screen (should be used only by Video Manager)
+T}
+T{
+.PN MVEXSyncMask
+T}	T{
+MVEXSync events wanted
+T}
+T{
+.PN MVEXViolationMask
+T}	T{
+MVEXViolation events wanted
+T}
+T{
+.PN MVEXOverrideMask
+T}	T{
+MVEXOverride events wanted
+T}
+.sp 6p
+_
+.TE
+MVEXRequest, MVEXViolation, and MVEXOverride events
+can be selected only on a
+Drawable.  MVEXSync events can be selected only on a VideoIO and
+MVEXControl events can be selected only on a VideoID.  Selections are not
+cumulative;  if an event is not asserted in conjunction with a valid 
+resource for that event (e.g. not asserting MVEXOverrideMask when using
+a Drawable resource), the event will not be delivered on that
+resource regardless of earlier selections on that resource.
+MVEXRequest events are actually selected on the
+screen associated with the drawable id argument; to maintain these selections,
+MVEXRedirectMask
+must be asserted on each drawable id associated with that screen.
+[See the MVEX Protocol SelectVideoEvents request description]
+.sp 5
+.ne 25
+.IN "MVEXQueryVideo" "" "@DEF@"
+.FD 0
+Status MVEXQueryVideo(\^\fIdisplay\fP, \fIscreen_number\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    int \fIscreen_number\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIscreen_number\fP 1i
+Specifies the screen to be updated.
+.LP
+[See the MVEX Protocol QueryVideo request description]
+.LP
+.PN MVEXQueryVideo
+updates connectivity and device list information in MVEXlib.  It should be
+called by the client after receiving a 
+MVEXConnectivityEvent or a MVEXChangeEvent.
+The client should get a new XVout array by calling
+.PN MVEXGetVouts
+after calling 
+.PN MVEXQueryVideo.
+.LP
+.PN MVEXQueryVideo
+does an implicit selection for MVEXChange events.  This selection cannot
+be withdrawn.
+.LP
+Status return is non-zero if MVEXlib can be initialized.  Otherwise
+the return is zero and MVEXlib data are not updated.
+.bp

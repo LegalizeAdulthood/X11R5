@@ -1,0 +1,950 @@
+
+		*************************************************
+		*	Appendix 1   CWNN INSTALLATION		*
+		*************************************************
+
+
+
+
+1. Introduction of cWnn System 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	cWnn is an integrated Chinese Input System which adopts the Server-Client Model.
+"cserver" is  the server which represents the  Chinese Server.  The client that uses the 
+server is called "uum".
+
+   	All  the files  which are installed in the  cWnn system are listed  in the table
+below.  Only directories (1) and (2) are  necessary to run cWnn.  Directory (1) contains
+all the cWnn  commands and tools.  Directory (2) contains the environment files of cWnn. 
+It mainly consists of  input automaton,  definitions of  convert keys,  dictionaries and
+definitions of client environments. 
+
+   	For more details on the commands and data files, please refer to 
+"USER'S MANUAL OF THE CHINESE INPUT SYSTEM CWNN".
+
+   	Directories (3) and (4) contain  the Chinese font files  for  X-window  and GMW.
+If you  already have the fonts, you need not load them in.  Both 16x16 dot and 24x24 dot 
+fonts are available.
+
+   	Directory (5)  contains  some  include  files  defined  in  cWnn.  Directory (6)
+contains  the  cWnn  library files.  Users can  develop applications  using the contents 
+under directories (5) and (6).  For details on (5) and (6), please refer to 
+"PROGRAMMER'S MANUAL OF CHINESE INPUT SYSTEM CWNN".
+
+	+---------------------------------------------------------------+
+	|  No. |   Content      |  Standard Path (default) | Memory Size|
+	|------+----------------+--------------------------+------------|
+	| (1)  | bin	        |  /usr/local/bin/cWnn4/   |  1.1 MB    |
+	|------+----------------+--------------------------+------------|
+	| (2)  | environment    | /usr/local/lib/wnn/zh_CN/|  2.5 MB    |
+	|------+----------------+--------------------------+------------|
+	| (3)  | X-window font  | /usr/lib/X11/fonts/misc/ |  2.0 MB    |
+	|------+----------------+--------------------------+------------|
+	| (4)  | GMW font       | /usr/lib/gmw/font/       |  0.9 MB    |
+	|------+----------------+--------------------------+------------|
+	| (5)  | cWnn include   | /usr/include/cwnn/       |  0.045 MB  |
+	|------+----------------+--------------------------+------------|
+	| (6)  | cWnn library   | /usr/lib/                |  0.26 MB   |
+	|---------------------------------------------------------------+
+
+					- A-1 -
+2. Procedure for Installing cWnn
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(1) Create a working directory
+
+  	+------------------------------------------------------+
+  	|  % mkdir /tmp/tmp <CR>	     		       |
+  	+------------------------------------------------------+
+
+(2) Change directory to the working directory
+
+  	+------------------------------------------------------+
+  	|  % cd /tmp/tmp <CR>				       |
+  	+------------------------------------------------------+
+
+(3) Read in the install program
+
+   	Insert the installation tape into the streamer drive and read in the install
+ 	program using the "tar" command.
+
+  	+------------------------------------------------------+
+  	|  % tar xvof /dev/st0 install <CR>		       |
+  	+------------------------------------------------------+
+
+(4) Change to superuser
+
+  	+------------------------------------------------------+
+  	|  % su <CR>					       |
+	|  # 						       |
+  	+------------------------------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-2 -
+(5) Execute the install program
+
+  	+------------------------------------------------------+
+  	|  # ./install <CR>				       |
+  	+------------------------------------------------------+
+
+(6) During the installation,  some questions will be  asked for user's confirmation. 
+
+  +---------------------------------------------------------------------------+
+  |  									      |
+  |			cWnn ------ Chinese  Input  System		      |
+  |									      |
+  |			        Install  Program   	   		      |
+  |									      |
+  |			          version 1.0	    			      |
+  |									      |
+  | > cWnn will be installed directly from tape into system.	    	      |
+  |									      |
+  | > Please answer following questions. 				      |
+  |   If you type [RETURN] to the question, it will be regarded as default.   |
+  |									      |
+  | > Do you want to continue(*/n)?  y <CR>				      |
+  |				     ~ ~~~~				      |
+  +---------------------------------------------------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-3 -
+(7) The system status will be displayed and some user interactions are required.
+
+  +---------------------------------------------------------------------------+
+  |			             					      |
+  | > Your disk free:							      |
+  |	.								      |
+  |	.								      |
+  |	.								      |
+  |	 								      |
+  | > cWnn disk usage: 						      	      |
+  |     ([...] means you can choose other disks instead of /usr)   	      |
+  |									      |
+  |    1.  bin		  (1.1MB)	[/usr/local/bin/cWnn4]		      |
+  |	2.  environment	  (2.5MB)	[/usr/local/lib/wnn/zh_CN]	      |
+  |	3.  X-fonts	  (2.0MB)	/usr/lib/X11/fonts/misc      	      |
+  |	4.  GMW-fonts	  (0.9MB)	/usr/lib/gmw/font	     	      |
+  |	5.  include	  (0.045MB)     /usr/include/cwnn	      	      |
+  |	6.  lib	  	  (0.26MB)      /usr/lib/		              |
+  |									      |
+  | > Where to set bin directory  [/usr/local/bin/cWnn4] ?  <CR>	  (*) |
+  |						           ~~~~	      	      |
+  | > Where to set environments directory  [/usr/local/lib/wnn/zh_CN]?<CR>(**)|
+  |						               ~~~~~          |
+  | > Do you use X-window(*/n)?   y <CR>				      |
+  |			          ~ ~~~~				      |
+  | > Do you use GMW-window(*/n)?  y <CR>		  		      |
+  |			           ~ ~~~~				      |
+  | > Begin to install files from install tape:			      	      |
+  |    			           				    	      |
+  |   .			           				      	      |
+  |   .			           				              |
+  |   .			           				              |
+  | > Installation completed	           				      |
+  |    			           				      	      |
+  | > If you use X-window, please make font alias by yourself.		      |
+  |   then, you can login by your user name and open a Chinese window,	      |
+  |   run cserver and run the client module uum.			      |
+  |    			           				      	      |
+  | #   			           				      |
+  +---------------------------------------------------------------------------+
+
+
+
+
+
+
+
+
+
+					- A-4 -
+(8) If you use X-window, please make the font alias as follows :
+
+	- If your X-window system is R3, you must add the following 6 lines to 
+
+		/usr/lib/X11/fonts/misc/fonts.dir
+
+	- If your X-window system is R4, you must add the following 6 lines to 
+
+		/usr/lib/X11/fonts/misc/fonts.alias
+
+	+-------------------------------------------------------+
+	|  chasc-16.snf   	chasc-16     			|
+	|  chkan-16.snf   	chkan-16     			|
+	|  chkana-16.snf  	chkana-16    			|
+	|  chasc-24.snf   	chasc-24     			|
+	|  chkan-24.snf   	chkan-24     			|
+	|  chkana-24.snf  	chkana-24    			|
+	+-------------------------------------------------------+
+
+
+(9) End of installation 
+
+     (*)  If the directory which you set for bin exists, install program will ask the 
+	  following question.
+
+    	+--------------------------------------------------------------------+
+    	| > I will remove $BIN and remake it, if it exists. OK(*/n)?  y <CR> |
+	|							      ~ ~~~~ |
+    	+--------------------------------------------------------------------+
+
+     	  Check the bin directory, and answer yes or no.
+
+     (**) If the  directory  which  you  set  for  cWnn  environment  exists, install 
+	  program will ask the following question.
+
+    	+--------------------------------------------------------------------+
+    	| > I will remove $LIB and remake it, if it exists. OK(*/n)?  y <CR> |
+	|							      ~ ~~~~ |
+    	+--------------------------------------------------------------------+
+
+	  Check the environment directory, and answer yes or no.  
+
+
+ 	Note: 	In  this  manual, symbol "%" and "#" are the prompts for C shell and 
+		Bourne shell respectively.
+		"<CR>" refers to the return key.
+		Underlined characters are the user's input.
+ 
+
+					- A-5 -
+
+		*************************************************
+            	*	 Appendix 2	PINYIN/ZHUYIN		* 
+	   	* 	 		DEFINITION  TABLE	*
+		*************************************************
+
+
+	
+	Pinyin and  Zhuyin are both  external representations  of Chinese pronunciation.
+These  external representations of  Chinese pronunciation are made up  English alphabets
+that are used in  Hanyu Pinyin  as well as characters  defined in  cWnn for the input of
+Pinyin and Zhuyin.
+
+	The  structures of  Pinyin and  Zhuyin  follow  certain  rules given below.  The
+following are the definitions of Pinyin and Zhuyin in the cWnn system.
+
+(1) Construction of Pinyin   --  In accordance to Xinhua dictionary.
+(2) Construction of Zhuyin   --  In accordance to Xinhua dictionary and conforms in
+			         representation with  dictionaries commonly used in
+			         Taiwan.
+(3) Initial Pinyin character --  For a Pinyin that  contains a consonant, the first
+				 character  is in  upper  case, and  the subsequent
+				 characters are in lower case.  
+				 If a Pinyin  does not begin with a consonant, only 
+				 lower case characters are used.
+(4) Input using Pinyin  can only be done in Pinyin mode, and input using Zhuyin can 
+    only be done in Zhuyin mode.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-6 -
+		(0) External Representation of Characters
+<Table-a-2.1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-7 -
+		(1) Pinyin Definition Table
+	+-----------------------------------------------------------------------+
+	| 1	a 	Cui 	Guai 	Kua 	N 	Qing 	Suan 	Yin	|
+	| 2	ai 	Cun 	Guan 	Kuai 	Na 	Qiong 	Sui 	Ying	|
+	| 3	an 	Cuo 	Guang 	Kuan 	Nai 	Qiu 	Sun 	Yo	|
+	| 4	ang 	Da 	Gui 	Kuang 	Nan 	Qu 	Suo 	Yong	|
+	| 5	ao 	Dai 	Gun 	Kui 	Nang 	Quan 	Ta 	You	|
+	| 6	Ba 	Dan 	Guo 	Kun 	Nao 	Que 	Tai 	Yu 	|
+	| 7	Bai 	Dang 	Ha 	Kuo 	Ne 	Qun 	Tan 	Yuan	|
+	| 8	Ban 	Dao 	Hai 	La 	Nei 	Ran 	Tang 	Yue	|
+	| 9	Bang 	De 	Han 	Lai 	Nen 	Rang 	Tao 	Yun	|
+	| 10	Bao 	Dei 	Hang 	Lan 	Neng 	Rao 	Te 	Za	|
+	| 11	Bei 	Den 	Hao 	Lang 	Ng 	Re 	Tei 	Zai	|
+	| 12	Ben 	Deng 	He 	Lao 	Ni 	Ren 	Teng 	Zan	|
+	| 13	Beng 	Di 	Hei 	Le 	Nia 	Reng 	Ti 	Zang	|
+	| 14	Bi 	Dia 	Hen 	Lei 	Nian 	Ri 	Tian 	Zao	|
+	| 15	Bian 	Dian 	Heng 	Leng 	Niang 	Rong 	Tiao 	Ze	|
+	| 16	Biao 	Diao 	Hm 	Li 	Niao 	Rou 	Tie 	Zei	|
+	| 16	Bie 	Die 	Hng 	Lia 	Nie 	Ru 	Ting 	Zen	|
+	| 18	Bin 	Ding 	Hong 	Lian 	Nin 	Rua 	Tong 	Zeng	|
+	| 19	Bing 	Diu 	Hou 	Liang 	Ning 	Ruan 	Tou 	Zha	|
+	| 20	Bo 	Dong 	Hu 	Liao 	Niu 	Rui 	Tu 	Zhai	|
+	| 21	Bu 	Dou 	Hua 	Lie 	Nong 	Run 	Tuan 	Zhan	|
+	| 22	Ca 	Du 	Huai 	Lin 	Nou 	Ruo 	Tui 	Zhang	|
+	| 23	Cai 	Duan 	Huan 	Ling 	Nu 	Sa 	Tun 	Zhao	|
+	| 24	Can 	Dui 	Huang 	Liu 	Nuan 	Sai 	Tuo 	Zhe	|
+	| 25	Cang 	Dun 	Hui 	Lo 	Nuo 	San 	Wa 	Zhei	|
+	| 26	Cao 	Duo 	Hun 	Long 	NŽ¹ 	Sang 	Wai 	Zhen	|
+	| 27	Ce 	e 	Huo 	Lou 	NŽ¹e 	Sao 	Wan 	Zheng	|
+	| 28	Cen 	ei 	Ji 	Lu 	o 	Se 	Wang 	Zhi	|
+	| 29	Ceng 	en 	Jia 	Luan 	ou 	Sen 	Wei 	Zhong	|
+	| 30	Cha 	eng 	Jian 	Lun 	Pa 	Seng 	Wen 	Zhou	|
+	| 31	Chai 	er 	Jiang 	Luo 	Pai 	Sha 	Weng 	Zhu	|
+	| 32	Chan 	Fa 	Jiao 	LŽ¹ 	Pan 	Shai 	Wo 	Zhua	|
+	| 33	Chang 	Fan 	Jie 	LŽ¹e 	Pang 	Shan 	Wu 	Zhuai	|
+	| 34	Chao 	Fang 	Jin 	M 	Pao 	Shang 	Xi 	Zhuan	|
+	| 35	Che 	Fei 	Jing 	Ma 	Pei 	Shao 	Xia 	Zhuang	|
+	| 36	Chen 	Fen 	Jiong 	Mai 	Pen 	She 	Xian 	Zhui	|
+	| 37	Cheng 	Feng 	Jiu 	Man 	Peng 	Shei 	Xiang 	Zhun	|
+	| 38	Chi 	Fo 	Ju 	Mang 	Pi 	Shen 	Xiao 	Zhuo	|
+	| 39	Chong 	Fou 	Juan 	Mao 	Pian 	Sheng 	Xie 	Zi	|
+	| 40	Chou 	Fu 	Jue 	Me 	Piao 	Shi 	Xin 	Zong	|
+	+-----------------------------------------------------------------------+
+
+
+
+
+
+
+					- A-8 -
+	+-----------------------------------------------------------------------+
+	| 41	Chu 	Ga 	Jun 	Mei 	Pie 	Shou 	Xing 	Zou	|
+	| 42	Chua 	Gai 	Ka 	Men 	Pin 	Shu 	Xiong 	Zu	|
+	| 43	Chuai 	Gan 	Kai 	Meng 	Ping 	Shua 	Xiu 	Zuan	|
+	| 44	Chuan 	Gang 	Kan 	Mi 	Po 	Shuai 	Xu 	Zui	|
+	| 45	Chuang	Gao 	Kang 	Mian 	Pou 	Shuan 	Xuan 	Zun	|
+	| 46	Chui 	Ge 	Kao 	Miao 	Pu 	Shuang 	Xue 	Zuo	|
+	| 47	Chun 	Gei 	Ke 	Mie 	Qi 	Shui 	Xun		|
+	| 48	Chuo 	Gen 	Kei 	Min 	Qia 	Shun 	Ya		|
+	| 49	Ci 	Geng 	Ken 	Ming 	Qian 	Shuo 	Yan		|
+	| 50	Cong 	Gong 	Keng 	Miu 	Qiang 	Si 	Yang		|
+	| 51	Cou 	Gou 	Kong 	Mo 	Qiao 	Song 	Yao		|
+	| 52	Cu 	Gu 	Kou 	Mou 	Qie 	Sou 	Ye		|
+	| 53	Cuan 	Gua 	Ku 	Mu 	Qin 	Su 	Yi		|
+	+-----------------------------------------------------------------------+
+
+
+		(2) Zhuyin Definition Table
+<Table-a-2.2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-9 -
+<Table-a-2.3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-10 -
+
+		*************************************************
+		*	Appendix 3	ERPIN KEYBOARD		*
+		*			LAYOUT TABLES		*
+		*************************************************
+
+
+
+	Erpin is also known  as  Shuangpin, which uses two keys to input a Pinyin.  The 
+Erpin input in cWnn is defined in the input automaton.  Any Erpin  input method  can be 
+defined in cWnn.  There are many ways of arranging  the keyboard layout for Erpin.  Two 
+common Erpin  keyboard arrangements are provided by cWnn.  The two keyboard arrangement 
+tables are shown below.
+
+1. Guangming Ribao Erpin Table
+
+<Table-a-3.1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-11 -
+<Table-a-3.2>
+
+
+
+
+
+
+
+
+2. Puji Hanzi Conversion System (PJY) Erpin Table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	Input consonants using the corresponding alphabets.  The three consonants, "Ch", 
+"Sh" and "Zh" are input using "E", "A" and "V" respectively.  Pinyin which has no vowels 
+uses "O" as the first key. 
+
+<Table-a-3.3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-12 -
+
+		*************************************************
+		*	Appendix 4	ZHUYIN KEYBIARD		*
+		*			LAYOUT TABLE		*
+		*************************************************
+
+
+
+	Zhuyin was used before Pinyin is introduced.  It is now commonly used in Taiwan 
+and Hong Kong.
+
+	Zhuyin  characters are not  found on the  standard keyboard.  In order to input
+Zhuyin, each  key has to be defined on the standard keyboard.  There are several Zhuyin 
+keyboard arrangements. cWnn provides two arrangements which are commonly used in Taiwan
+
+	--  (1) Yitian arrangement
+	--  (2) Xiyong arrangement
+
+The two keyboard arrangement tables are shown below.
+
+	Note that  the  consonants  and  vowels  of  Pinyin and  Zhuyin  are different.
+However, user is  able to  input  both Pinyin and Zhuyin  using the front-end processor 
+"uum".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-13 -
+1. Zhuyin Arrangement Table (Yitian)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	 a. Consonants Table
+
+<Table-a-4.1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     	 b. Vowels Table
+
+<Table-a-4.2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        - A-14 -
+2. Zhuyin Arrangement Table (Xiyong)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	 a. Consonants Table
+
+< Table-a-4.3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    	 b. Vowels Table
+
+<Table-a-4.4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-15 -
+
+		*************************************************
+		*	Appendix 5	STANDARD FUNCTION	*
+		*			KEYS DEFINITION		*
+		*************************************************
+
+
+
+		The Definition of Standard Function Keys
+	+---------------------------------------------------------------------------+
+	|   Function Key   |     Input State      |  Edit State  |   Env Op State   |
+	|------------------+----------------------+--------------+------------------|
+	|Activate Pinyin   |    Standard Pinyin   |      <-      |       <-         |
+	|mode 	       PF1 |    Input             |              |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Activate Bianma   |    Wubi / Cangjie /  |      <-      |       <-         |
+	|mode 	       PF2 |    Qianma            |              |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Quanjiao /        |    Quanjiao / Banjiao|      <-      |       <-         |
+	|Banjiao       PF3 |	 		  |              |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Guobiao / Quwei / |    Guobiao / Quwei / |      <-      |       <-         |
+	|Neima 	       PF4 |    Neima  	    	  |              |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Keyboard          |    Options	   	  |      <-      |       <-         |
+	|Arrangement   PF5 |    		  |              |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Environment       |    Environment	  |      <-      |       <-         |
+	|Operations    PF6 |    operations	  |              |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Cancel        PF10|    Cancel environment|      <-      |       <-         |
+	|		   |    operations	  |              |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Conversion Key ^W |    Conversion        | Extract      |        -         |
+	|		   |    		  | candidates   |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Phrase 	^Z |    Phrase 	    	  | Extract 	 |        -         |
+	|Conversion	   |    conversion 	  | phrase       |                  |
+	|		   |    		  | candidates   |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Confirm Key    ^L |         ->           | Confirm	 |        -         |
+	|		   |           	    	  |  	    	 |                  |
+	|------------------+----------------------+--------------+------------------|
+	|   ->          ^F |    Move cursor to    | Move a word  |  Move cursor     |
+	|   		   |    the right	  | to the right |  to the right    |
+	|------------------+----------------------+--------------+------------------|
+	|   <-          ^B |    Move cursor to    | Move a word  |  Move cursor     |
+	|   		   |    the left	  | to the left  |  to the left     |
+	+---------------------------------------------------------------------------+
+					- A-16 -
+	+---------------------------------------------------------------------------+
+	|   Function Key   |     Input State      |  Edit State  |   Env Op State   |
+	|------------------+----------------------+--------------+------------------|
+	|   ^           ^P |    Extract previous  | Extract      |  Return to       |
+	|   |		   |    memory contents   | previous     |  previous        |
+	|		   |    		  | candidates   |  menu            |
+	|------------------+----------------------+--------------+------------------|
+	|   |          ^N  |    Extract next	  | Extract      |  Go to next      |
+	|   V	   	   |    memory contents   | next         |  menu            |
+	|		   |    		  | candidates   |                  |
+	|------------------+----------------------+--------------+------------------|
+	|Delete         ^D |    Delete a character|       -      |  Delete a        |
+	|		   |    		  |  	    	 |  character       |
+	|------------------+----------------------+--------------+------------------|
+	| ->|          ^E  |    Move to right end |      <-      |       <-         |
+	|		   |    		  |       	 |        	    |
+	|------------------+----------------------+--------------+------------------|
+	| |<-          ^A  |    Move to left end  |      <-      |       <-         |
+	|		   |    		  |       	 |        	    |
+	|------------------+----------------------+--------------+------------------|
+	| ->|          ^K  |    Remove contents   | To undo the  |        -         |
+	|		   |    after cursor	  | conversion   |  	    	    |
+	|------------------+----------------------+--------------+------------------|
+	| Segmentation-> ^O|          -           | Increase by  |        -         |
+	|		   |                      | a character  |                  |
+	|------------------+----------------------+--------------+------------------|
+	| Segmentation<- ^I|          -           | Decrease by  |        -         |
+	|		   |                      | a character  |                  |
+	|------------------+----------------------+--------------+------------------|
+	| Cancel        ^G |          -           | Extract      |  Quit            |
+	| 		   |                      | candidates   |  dictionary      |
+	|------------------+----------------------+--------------+------------------|
+	| Reverse       ^C |    Reverse	   	  | Enter input  |        -         |
+	| Conversion	   |    conversion        | mode 	 |   	    	    |
+	|------------------+----------------------+--------------+------------------|
+	| ^@	       ^SP |    Toggle conversion |      <-      |       <-         |
+	|		   |    on/off            |              |                  |
+	+---------------------------------------------------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+					- A-17 -
+
+		*****************************************
+		*	Appendix 6	BIANMA INPUT	*
+		*			DEFINITION	*
+		*****************************************
+
+
+
+Example
+~~~~~~~
+
+1. Mode Definition Table (mode)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+<Table-a-6.1>
+
+
+
+
+2. Initial Mapping Table (1B_TOLOWER)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	    (defvar up (all))
+	    (up)    (tolower(up))
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-18 -
+3. Intermediate Mapping Table (2B_WuBi)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	    (defvar str (list 	0 1 2 3 4 5 6 7 8 9 ? \
+		a b c d e f g h i j k l m n o p q r s t u v w x y z))
+	
+<Table-a-6.2>
+
+
+
+
+
+
+
+
+
+
+
+	    (if strk1)'R'  '\x08''\x08'	  	'S'	; 'R': back_space
+	    (if strk2)'R'  '\x08'		'S'	; 
+	    (if strk3)'R'  '\x08'		'S'	;
+	    (if strk0)'R'  '\x08'
+	    (if strk3)'S'	(off strk3)(on strk2)
+	    (if strk2)'S'	(off strk2)(on strk1)
+	    (if strk1)'S'	(off strk1)(on strk0)
+	    
+	    (unless  strk0)'\x20'	'\x9E'	'T'	; 0x89: Tan Transfer
+	    						; 0x20: space key
+	    '\x9f'	'\x9f'		'T'		; 0x9f: Certification
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- A-19 -

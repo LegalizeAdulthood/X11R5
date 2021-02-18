@@ -1,0 +1,69 @@
+/**/#
+/**/# $Id: Imakefile,v 1.2 1991/09/13 05:17:21 proj Exp $
+/**/#
+INSTALLFLAGS = $(INSTLIBFLAGS) -o $(WNNOWNER)
+        ATOD = $(CWNNJUTILSRC)/atod
+        ATOF = $(CWNNFUZOKUGOSRC)/atof
+    WNNTOUCH = $(CWNNJUTILSRC)/wnntouch
+       HINSI = $(CWNNCDSRC)/cixing.data
+#       HINSI = ./cixing.data
+    FZK_FLAG =
+
+   INSTALLFLAGS = -m 644 -o $(WNNOWNER)
+
+FULL = full.con
+FULLR = full.conR
+
+HINSI_SRC = cixing.data
+
+FZK_SRCS = con.attr con.jirattr con.jircon con.master con.shuutan \
+	   con.masterR con.shuutanR
+
+DIC_SRCS = basic.u \
+	level_1.u \
+	level_2.u \
+	computer.u \
+	cwnn.u\
+	WuBi.u \
+	QianMa.u
+
+DICS = basic.dic \
+	level_1.dic \
+	level_2.dic \
+	computer.dic \
+	cwnn.dic\
+	WuBi.dic \
+	QianMa.dic
+
+ALLTGT = $(FULL) $(FULLR) $(DICS)
+
+AllTarget($(ALLTGT))
+
+.SUFFIXES: .dic .u
+
+.u.dic:
+	$(ATOD) -h $(HINSI) $@ < $<
+
+$(DICS): $(HINSI)
+
+$(FULL):: $(FZK_SRCS)
+	$(CPP) $(FZK_FLAG) con.master | egrep -v '^(# |$$)' | $(ATOF) -h $(HINSI) $@
+
+$(FULLR):: $(FZK_SRCS)
+	$(CPP) $(FZK_FLAG) con.masterR | egrep -v '^(# |$$)' | $(ATOF) -h $(HINSI) $@
+
+instserver:: install
+
+InstallMultiple($(ALLTGT),$(CWNNSYSDICDIR))
+
+install::
+	@for i in $(ALLTGT); \
+	do \
+		$(WNNTOUCH) $(DESTDIR)$(CWNNSYSDICDIR)/$$i ;\
+	done
+
+depend::
+	@echo "skipping make in my dir"
+
+clean::
+	$(RM) $(FULL) $(FULLR) $(DICS)

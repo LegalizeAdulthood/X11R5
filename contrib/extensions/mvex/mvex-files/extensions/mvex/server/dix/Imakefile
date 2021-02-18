@@ -1,0 +1,16 @@
+# $Header: /usr/local/src/x11r5/mit/extensions/RCS/Imakefile,v 2.1 1991/09/19 22:32:52 toddb Exp $
+#include <Server.tmpl>
+SRCS = globals.c render.c query.c video.c mvexutil.c mvexevents.c swapmvex.c
+OBJS = globals.o render.o query.o video.o mvexutil.o mvexevents.o swapmvex.o
+
+ STD_DEFINES = ServerDefines
+ CDEBUGFLAGS = ServerCDebugFlags
+    INCLUDES = -I../include -I../../include -I$(SERVERSRC)/include \
+		-I$(INCLUDESRC)
+ EXT_DEFINES = ExtensionDefines
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(dix,$(OBJS))
+LintLibraryTarget(dix,$(SRCS))
+NormalLintTarget($(SRCS))
+DependTarget()

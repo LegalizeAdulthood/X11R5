@@ -1,0 +1,91 @@
+
+README -- xpipeman
+ 
+Xpipeman is a game of skill requiring the user to connect together
+pieces of a pipe to allow a liquid to flow through without
+leaking out. The aim of the game is to connect as many pieces of pipe 
+to the start block as possible before the liquid flows out of the
+end on the pipe (see manual page for further details).
+
+Nigel Paver
+18 July 1991
+
+------
+X11R5
+
+This program has been tested under X11R5. The only changes required
+were in score.c because Xos.h apparently did not bring in sys/file.h.
+
+13/9/91
+
+--------------
+Compiling Details:
+
+xpipeman can be compiled by either using the Imakefile or by using the 
+hand generated Makefile.tra.
+
+Compile time parameters:  
+
+ 	  MAXSCORES -- the number of high scores that you want to keep.
+ 	The default is 20.
+
+ 	  The default directory for the binary and score file is the current 
+	directory.  You'll have to modify the makefile or copy the binary
+	if you want it to install elsewhere.  xpipeman will attempt to
+	create the scorefile (SCOREFILE) at runtime.  
+
+  There is a little bsd-ish stuff in score.c.  flock is used to stop a race 
+condition.  If you don't have a bsd-like flock, you could probably 
+comment it out.  The race condition (multiple users writing to the 
+score file) is probably rare.  If SYSV is defined, this will be ifndef'd
+out.
+
+  If your compiling this under X11R3, define the term R3 in the makefile or
+imakefile.  This will make the include references look like those expected
+by X11R3 instead of X11R4.
+
+
+------
+
+Copying and Distribution Policy:
+
+  Send Constructive comments, bug reports, etc. to either
+ 
+           JANET: pavern@uk.ac.man.cs
+ 
+   or      INER : pavern%cs.man.ac.uk@nsfnet-relay.ac.uk
+ 
+  All other comments > /dev/null !!
+ 
+  
+  Copyright 1991 Nigel Paver
+  
+  Permission to use, copy, modify, distribute, and sell this software and its
+  documentation for any purpose is hereby granted without fee, provided that
+  the above copyright notice appear in all copies and that both that
+  copyright notice and this permission notice appear in supporting
+  documentation, and that the author's name not be used in advertising or
+  publicity pertaining to distribution of the software without specific,
+  written prior permission.  The author makes no representations about the
+  suitability of this software for any purpose.  It is provided "as is"
+  without express or implied warranty.
+  
+  THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING 
+  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL THE 
+  AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY 
+  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN 
+  AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF 
+  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  
+ 
+ 
+  Acknowledgements to Brian Warkentine (brian@sun.COM) for his xrobots
+  program (copyright  1989) which I cannibalized to write this program
+ 
+ 
+
+
+
+
+
+

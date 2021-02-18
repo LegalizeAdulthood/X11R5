@@ -1,0 +1,49 @@
+Here are some things which might be done in the future or have been
+recently tried. 
+
+1. Parse the DISPLAY environment variable without forking any extra
+processes like sed.  Perhaps use IFS in the shell.
+<done, but doesn't work in Ultrix /bin/sh>
+
+2. Pass other environment variables besides $DISPLAY.  Users might
+want to pass an arbitrary set.
+<can now pass XAUTHORITY using XRSH_AUTH_TYPE and arbitrary
+  environment variables using XRSH_ENVS_TO_PASS>
+
+3. Don't use backslashes for quoting, only  use only ' and " for portability.
+<What hosts don't handle backslashes?  This turns out to be very hard.>
+
+4. Pass  $XUSERFILESEARCHPATH to the remote host?
+<I'm not sure this is always what you want to do, but you can
+  do it if you want to using XRSH_ENVS_TO_PASS.>
+
+5. Add command line flag to describe the remote machine (like -sysv or
+-irix).  This would get all the config options correct without having
+to guess.
+<I hope not to have to do this -- I hope to make the one script portable.>
+
+6. If you have to rsh the xhost to the serverhost, run it in the
+     background and use wait before the final rsh to improve speed.
+<I did this, but it made some system V hosts (HP-UX 7.0) go insane and
+say "wait: pid 232 is not a child of this shell" over and over again.
+I finally deleted it in the interests of portability.  Timing showed
+it wasn't a major win in speed anyway>
+
+7. Expand DISPLAY environment variable  from foo to foo.org.com so
+that it works when you leave your local site.
+<hard to do in a site independent manner.  Now uses ip addresses if the 
+remote host name contains periods like foo.bar.com>
+
+8. Decide rsh vs. remsh vs. rcmd at install time instead of run time.
+<disadvantage:  one script can't be transferred from one machine to another>
+
+9. make first line be : instead of #!
+<Can't -- without #! some systems use $SHELL to eval scripts.  May not
+be the right thing>
+
+10. Use IP address when setting $DISPLAY for remote hosts that can't
+resolve local hostname.
+<This is done for remote host names with . in them>
+
+11. Have an .xrsh.rc file which can be used to tailor defaults for
+specific hosts.

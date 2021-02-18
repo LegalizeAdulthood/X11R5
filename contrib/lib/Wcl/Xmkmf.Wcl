@@ -1,0 +1,29 @@
+#!/bin/csh
+# Template for imake/makes with the X11R4
+# Assumes: ~/X11R4 link pointing to (usr/) directory above "lib',"include"
+#          in the MIT X11R4 install tree
+#          ~/X11R4/bin/X11  in the PATH
+#          ~/X11R4/lib      in LD_LIBRARY_PATH
+#
+#
+setenv X11TOP ~/X11R4
+#
+echo "Making makefiles using X11 at $X11TOP"
+#
+# Make makefiles: Note, MOTIF insists on it's munged Imake rules, however,
+# site.def must be "ours".
+#
+imake -DUseInstalled -I$X11TOP/lib/X11/config -DDestDir=$X11TOP
+#
+#
+rm -f make_world.log
+make World DestDir=$X11TOP >& make_world.log
+#
+#
+# Installing Dirt Somewhere else than X is quite a challenge ....
+SETenv DIRTDIR /usr/local/prj/systems-scm/Dirt/build/sunos/Dirt/1.10/a/install
+#
+make install DESTDIR=$MOTDIR> & make_install.log
+#
+:wq
+

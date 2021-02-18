@@ -1,0 +1,32 @@
+JS_WORD_ADD( )
+
+名称
+
+	js_word_add		辞書に単語を登録する。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_word_add(env,dic_no,yomi,kanji,comment,hinshi,init_hindo)
+	struct wnn_env *env;	/* 環境 */
+	int     dic_no;		/* 辞書番号 */
+	w_char *yomi;		/* 読み */
+	w_char *kanji;		/* 漢字 */
+	w_char *comment;	/* コメント */	
+	int     hinshi;		/* 品詞 */
+	int	init_hindo;	/* 頻度初期値 */
+
+機能
+
+	辞書番号 dic の辞書に漢字 kanji, 読み yomi, コメント omment, 品詞 hinsi,
+	頻度初期値 init_hindo の語を登録する。
+	漢字と読みとコメントの長さは、それぞれ256文字以下である。
+        辞書がない、または、辞書が、固定形式辞書、読み込み専用の場合は、エラーと
+	なる。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。異常終了時には、-1 を返す。
+

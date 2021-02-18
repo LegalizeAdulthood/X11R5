@@ -1,0 +1,16 @@
+INSTALLFLAGS = $(INSTDATFLAGS)
+
+LCFILES = olwm
+
+all::
+
+depend::
+
+install::
+	LibMkdir($(LIBDIR)/lib)
+	LibMkdir($(LIBDIR)/lib/locale)
+	LibMkdir($(LIBDIR)/lib/locale/japanese)
+	LibMkdir($(LIBDIR)/lib/locale/ja_JP.EUC)
+
+InstallMultiple($(LCFILES),$(LIBDIR)/lib/locale/japanese/app-defaults)
+InstallMultiple($(LCFILES),$(LIBDIR)/lib/locale/ja_JP.EUC/app-defaults)

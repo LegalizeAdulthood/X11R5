@@ -1,0 +1,49 @@
+# Makefile.distrib
+# This file is included by 'Make' after 'Makefile'.
+
+# Path name of distribution directory (~ftp/pub/x11proof)
+DISTRIB = /var/home/ftp/pub/x11proof# no spaces allowed at end of line
+
+CIFLAGS = 
+COFLAGS = 
+RCSFLAGS = -sDistrib
+RCSDIFFFLAGS = -c -w
+SRCS = Proof.c draw.c getdevinfo.c index.c main.c showpage.c xfontinfo.c \
+	drawhacks.c fixfont.c version.c
+HFILES = Proof.h ProofP.h adobe.h bdfheader.h dev.h xproof.h patchlevel.h
+OTHERS = README Imakefile xproof.man ximake mkversion.sh
+
+ALL = $(OTHERS) $(SRCS) $(HFILES)
+
+help:
+	@echo use one of fonttablehack, ci, co, rcs, rcsdiff, or distrib
+
+# For distributing to the world.  (We don't really want
+# to distribute RCS files.)  This assumes that everything is checked out.
+distrib: $(DISTRIB) $(ALL) xproof.prf
+	cp $(ALL) Makefile xproof.prf $(DISTRIB)
+
+sharfiles: $(ALL) xproof.prf
+	makekit $(ALL) Makefile xproof.prf
+
+rcs:
+	rcs $(RCSFLAGS) $(ALL)
+
+rcsdiff:
+	rcsdiff $(RCSDIFFFLAGS) $(ALL)
+
+ci:
+	ci $(CIFLAGS) $(ALL)
+
+co:
+	co $(COFLAGS) $(ALL)
+
+$(DISTRIB):
+	mkdir $@
+
+fonttablehack: fonttablehack.o
+	$(RM) $@
+	$(CC) -o $@ fonttablehack.o  $(LDFLAGS)  $(SYSLAST_LIBRARIES)
+
+clean::
+	$(RM) fonttablehack

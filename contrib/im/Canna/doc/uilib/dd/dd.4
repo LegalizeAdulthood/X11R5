@@ -1,0 +1,49 @@
+£³¡¥  £ê£ò£Ë£á£î£ê£é£Ã£ï£î£ô£ò£ï£ìËô¤Ï£Ø£Ë£á£î£ê£é£Ã£ï£î£ô£ò£ï£ì¤Î½èÍý³µÍ×
+
+  ËÜ¾Ï¤Ç¤ÏjrKanjiControlËô¤ÏXKanjiControl¤¬¸Æ¤Ð¤ì¤¿¤È¤­¤Î½èÍý³µÍ×¤Ë¤Ä
+  ¤¤¤Æ½Ò¤Ù¤ë¡£
+
+  Îã¤È¤·¤ÆXKanjiControl¤ÇKC_YOMIINFO¤¬request¤µ¤ì¤¿¤È¤­¤Ë¼ÂºÝ¤Ë½èÍý¤¬
+  ¹Ô¤ï¤ì¤ë¤Þ¤Ç¤ÎÎ®¤ì¤ò¼¨¤¹¡£
+
+£³¡¥£±½èÍý³µÍ×
+
+  XKanjiControl¤ÏXLookupKanjiString¤Ç¤ÎÀ©¸æ¤ò¹Ô¤¦¤¿¤á¤Ë
+  XLookupKanjiString¤ÈÁÈ¤ß¹ç¤ï¤»¤Æ»ÈÍÑ¤¹¤ë´Ø¿ô¤Ç¤¢¤ë¡£
+
+  XKanjiControl¤ÎrequestÉô¤ËÀ©¸æ¤·¤¿¤¤µ¡Ç½¤ÎrequestÌ¾¤ò»ØÄê¤·¤ÆÍÑ¤¤¤ë¡£
+
+  »ØÄê¤µ¤ì¤¿request¤Ïkctrl.c¤ÎKanjiControl´Ø¿ô¤ËÅÏ¤µ¤ì¤ë¡£request¤Ë¤è¤Ã
+  ¤Ækctrlfunc¤ò»²¾È¤·À©¸æ´Ø¿ô¤Ø¤Î¥Ý¥¤¥ó¥¿¤òÆÀ¤Æ¡¢¤½¤ì¤ò¼Â¹Ô¤¹¤ë¡£
+
+         kctrlfunc
+        ¨£¨¡¨¡¨¡¨¡¨¡¨¡¨¤
+        ¨§¨¡¨¡¨¡¨¡¨¡¨¡¨©¨¡¨¤
+        ¨§¨¡¨¡¨¡¨¡¨¡¨¡¨©  ¨¢À©¸æ´Ø¿ôKC_yomiinfo ¤Ê¤É¤Î¥Ý¥¤¥ó¥¿¤¬Æþ¤Ã¤Æ
+        ¨§¨¡¨¡¨¡¨¡¨¡¨¡¨©  ¨¢¤¤¤ë¡£request ¤Ë¤è¤Ã¤Æ¡¢¤³¤Î¥Æ¡Ý¥Ö¥ë¤ò»²¾È¤¹
+        ¨§¨¡¨¡¨¡¨¡¨¡¨¡¨©  ¨¢¤ë¡£
+        ¨§¨¡¨¡¨¡¨¡¨¡¨¡¨©  ¨¢
+        ¨§¨¡¨¡¨¡¨¡¨¡¨¡¨©  ¨¢
+        ¨§¨¡¨¡¨¡¨¡¨¡¨¡¨©¨¡¨¥
+        ¨¦¨¡¨¡¨¡¨¡¨¡¨¡¨¥
+£³¡¥£²½èÍý¤ÎÎ®¤ì
+
+  KC_YOMIINFO¤¬request¤µ¤ì¤¿¤È¤­¤ÎÎ®¤ì¤ò°Ê²¼¤Ë¼¨¤¹¡£(KC_YOMIINFO¤Ï³ÎÄê
+  Ê¸»úÎó¤¬ÊÖ¤µ¤ì¤ë¤È¤­¤Ë¡¢ÆÉ¤ß¤âÊÖ¤¹¤è¤¦»ØÄê¤¹¤ë¤â¤Î¤Ç¤¢¤ë)
+
+  (1)XKanjiControl¤¬¸Æ¤Ð¤ì¤ë¡£
+
+  (2)jrbind.c¤ÎXKanjiControl2¤¬¸Æ¤Ð¤ì¡¢request¤Ê¤É°ú¿ô¤¬ÅÏ¤µ¤ì¤ë¡£­£
+  
+  (3)kctrl.c¤ÎkeyToContext¤¬¸Æ¤Ð¤ì¡¢display¤Èwindow¤ÎÁÈ¤«¤éUiContext¤¬
+     ³ä¤ê¤À¤µ¤ì¤ë¡£
+
+­¤(4)ktcrl.c¤ÎKanjiControl´Ø¿ô¤¬¸Æ¤Ð¤ì¡¢¤½¤ÎÃæ¤«¤é kctrlfunc¸Û¤ò»²¾È¤·¡¢
+     KC_yomiinfo´Ø¿ô¤Î¥Ý¥¤¥ó¥¿¤¬ÆÀ¤é¤ì¡¢KC_yomiinfo ´Ø¿ô¤¬¼Â¹Ô¤µ¤ì¤ë¡£
+
+  (5)KC_yomiinfo´Ø¿ô¤ÎÃæ¤ÇÊÑ¿ôyomilevel¤ËÃÍ¤¬ÀßÄê¤µ¤ì¤ë¡£ÊÑ¿ôyomilevel
+     ¤Ï¼ÂºÝ¤Ë¤Ï´Ø¿ôYomiHenkan¤ÎÃæ¤Ç¸¡ºº¤µ¤ìKC_YOMIINFO¤Îµ¡Ç½¤¬¼Â¹Ô¤µ¤ì
+     ¤ë¡£
+
+  ¤³¤ÎÍÍ¤ËXKanjiControl¤Ï»ØÄê¤µ¤ì¤¿request¤ËÂÐ±þ¤¹¤ë´Ø¿ô¤¬¸Æ¤Ð¤ì¼ÂºÝ¤Î
+  ½èÍý¤¬¹Ô¤ï¤ì¤ë¡£

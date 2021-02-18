@@ -1,0 +1,270 @@
+.TH XPOSTIT 1 "2 January 1989" RIACS/X11R3
+.SH NAME
+xmpostit \- X window system (Motif-like) Post-it\(rg notes
+.SH SYNOPSIS
+.B xmpostit
+[
+.I \-toolkitoptions ...
+] [
+.I \-options ...
+]
+.SH DESCRIPTION
+.I Xmpostit
+provides a mechanism for manipulating on-screen Post-it\(rg notes.
+All three sizes of Post-it notes may be displayed,
+edited,
+and saved to disk files or stashed in the main window as buttons.
+In addition,
+any on-screen note may be resized to any arbitrary size either when it is
+created or at a later time.  This size will be retained if the note is "saved."
+.PP
+When
+.I xmpostit
+is first invoked,
+it creates a small window.
+This is the control window for
+.IR xmpostit .
+Additionally,
+if any notes were stored in the save directory (see below),
+these will become buttons on the control window.  The label on the button 
+is the name of the note.
+Each Post-it note,
+when created, prompts for a name to use and 
+then makes a window for the note.
+.I Xmpostit
+is controlled using the mouse buttons and a menu.
+The Post-it notes are controlled using buttons and the scroll bars.
+.SH OPTIONS
+.PP
+.I Xmpostit
+accepts all of the standard X Toolkit command line options along with the
+additional options listed below.
+.TP 8
+.BI \-bs " number"
+Specifies the size of the character buffer in which to save each Post-it
+note.
+A note may not contain more than this number of characters,
+including newlines.
+The default is 1024.
+.TP 8
+.BI \-dir " path"
+Specifies the path name of the directory in which to store saved Post-it notes.
+If
+.I path
+begins with a `/' it is taken as-is;
+if it does not begin with a `/',
+the path is taken relative to the home directory.
+The named directory must already exist if notes are to be saved in it.
+The default is
+.IR \&.postitnotes .
+.TP 8
+.B \-sv
+Enables save-on-exit.
+When specified,
+this option tells
+.I xmpostit
+to save all Post-it notes to disk files when exiting.
+If not specified,
+notes will only be saved to disk files when saved manually by the user.
+.SH "X DEFAULTS"
+.PP
+.I Xmpostit
+understands all of the core X Toolkit resource names and classes as well
+as those listed below,
+which are all of class
+.BR XmPostit .
+.TP 8
+.B bufSize
+Specifies the size of the character buffer used to store a Post-it note.
+The default is 1024.
+.TP 8
+.B noteDir
+Specifies the path name of the directory in which to store saved notes.
+The default is
+.IR \&.postitnotes .
+.TP 8
+.B saveNotes
+Controls the state of the save-on-exit option.
+The default is
+.BR false .
+.TP 8
+.B scrollBar
+Controls placing scroll bars on Post-it notes.
+The default is
+.BR false .
+.TP 8
+.B showPlaid
+displays the 3M-like plaid background found typical of paper
+postit notes.  The default is True.
+.PP
+Because of the large amount of widget nesting in
+.I xmpostit ,
+the following constructions are recommended for setting resources on
+the various widgets:
+.in 8
+.sp
+.nf
+*XmPostit.\fIresource\fP
+
+*XmPostit.plaid*\fIresource\fP
+
+*XmPostit.Confirm*\fIresource\fP
+*XmPostit.Confirm*confirm*\fIresource\fP
+*XmPostit.Confirm*cancel*\fIresource\fP
+
+*XmPostit.Menu*\fIresource\fP
+
+*XmPostit.PostItNote*\fIresource\fP
+*XmPostit.PostItNote*save*\fIresource\fP
+*XmPostit.PostItNote*erase*\fIresource\fP
+*XmPostit.PostItNote*destroy*\fIresource\fP
+*XmPostit.PostItNote*text*\fIresource\fP
+.in 0
+.sp
+.fi
+.SH "THE CONTROL WINDOW"
+.PP
+.I Xmpostit
+allows two operations to be performed from its control window.
+Pressing mouse button one on a button in the 
+.I xmpostit
+main window causes the note for that button to appear on the screen.
+Pressing mouse button three in the control window raises the
+.I xmpostit
+menu.
+.SH "THE MENU"
+.PP
+The
+.I xmpostit
+menu provides the following selections:
+.TP 8
+.B "Create 1.5x2 Note"
+Create a new Post-it note,
+1.5 inches tall by 2 inches wide.
+.TP 8
+.B "Create 3x3 Note"
+Create a new Post-it note,
+3 inches square.
+.TP 8
+.B "Create 3x5 Note"
+Create a new Post-it note,
+3 inches tall by 5 inches wide.
+.TP 8
+.B "Raise All Notes"
+Raise all Post-it notes to the top.
+.TP 8
+.B "Lower All Notes"
+Lower all Post-it notes to the bottom.
+.TP 8
+.B "Save All Notes"
+Save all Post-it notes to disk files in the save directory.
+.TP 8
+.B "Choose Printer"
+Change or specify the printer for the "Hardcopy" button.  The
+default is $PRINTER.
+.TP 8
+.B Exit
+Exit
+.I xmpostit .
+If the
+.B \-sv
+command line option was given,
+or the
+.B saveNotes
+resource is
+.B true,
+all Post-it notes will be saved to disk first.
+.PP
+To select an item from the menu,
+move the mouse cursor to that item and press the left mouse button.
+.SH "THE POST-IT NOTE"
+.PP
+Each Post-it note is made up of two parts:
+a scrolling text window where the text of the note is stored,
+and a row of five buttons labeled ``Save'',
+``Erase'', ``Destroy'', ``Hardcopy'', and ``Stash''.
+.PP
+To enter text into a Post-it note,
+simply move the mouse cursor into the text window and start typing.
+Since the text window is actually a Motif Text widget,
+all the Motif Text widget translations including cutting and 
+pasting are accepted.
+.PP
+After entering text in the Post-it note,
+you may wish to save the note in a disk file.
+This way,
+if the machine goes down,
+or if you exit
+.IR xmpostit ,
+the Post-it note can be restored when you restart
+.IR xmpostit .
+To save the note to a disk file,
+move the mouse cursor to the button labeled ``save'' and press the left
+mouse button.
+The note will be saved as the file ``note\fIn\fP'' in your save directory,
+where
+.I n
+is some sequence number.
+.BR \s-1NOTE\s0 :
+it is important to remember that until you have pressed the ``save'' button,
+the data stored in the Post-it note is not saved on disk and can be lost if
+the system goes down or
+.I xmpostit
+exits.
+.PP
+To erase the entire contents of the text window,
+you can press the left mouse button in the ``erase'' button.
+This will bring up a confirmation window,
+which has two buttons labeled ``confirm'' and ``cancel''.
+If you press the ``confirm'' button,
+the text will be erased.
+If you press the ``cancel'' button,
+the operation is canceled,
+and nothing will happen.
+.BR \s-1NOTE\s0 :
+erasing the text in the window does not affect any contents of the note
+you have saved on disk unless you press the ``save'' button again.
+.PP
+To destroy a Post-it note,
+getting rid of its window on the screen and the disk file it is saved in,
+move the mouse cursor to the ``destroy'' button and press the left mouse
+button.
+This will bring up a confirmation window as described above.
+If you confirm the operation,
+the Post-it note will disappear from the screen and the disk file it was
+saved in will be deleted.
+.PP
+To send the current contents of a Post-it note to a printer, click mouse
+button one on ``hardcopy''.  If no printer is set (and $PRINTER is not
+set) xmpostit will ring the terminal bell.  Otherwise the current contents
+of the note, whether or not saved, will be sent to the selected printer.
+To select or change the printer, click on ``Choose Printer'' by popping
+up the main xmpostit menu.
+.PP
+To "stash" the note as a button on the main xmpostit window, click the 
+mouse button one on ``Stash.''  This will make the button of the note's
+name active and unmap the note from the screen.  The note can also be 
+iconified using the currently running window manager's iconify capability.
+.SH "SEE ALSO"
+X(1)
+.SH BUGS
+.PP
+The sizes of the Post-it notes are only as acurrate as the display
+dimension and resolution returned by the server.
+On the Sun server and possibly others,
+this means they aren't all that accurate.
+.PP
+Without a color display for canary yellow notes and red plaid,
+the aesthetic value of
+.I xmpostit
+cannot be fully appreciated.  In such a case,
+.I showPlaid
+should be set False.
+.SH AUTHOR
+Original author of xpostit:
+David A. Curry, Research Institute for Advanced Computer Science
+.PP
+Motif implementation and design:
+David Mischel, Genentech
+.sp
+``Post-it'' and the plaid design are registered trademarks of 3M.

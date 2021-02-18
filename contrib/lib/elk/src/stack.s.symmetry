@@ -1,0 +1,69 @@
+	.file "stack.s"
+
+	.globl	_stksize
+	.globl _stkbase
+	.globl _saveenv
+	.globl _jmpenv
+	.globl	_Special
+
+_stksize:
+	movl	_stkbase,%eax
+	subl	%esp,%eax
+	addl	$120,%eax
+	ret
+
+_saveenv:
+	movl	4(%esp),%eax
+	movl	%ebp,12(%eax)
+	movl   %ebx,40(%eax)
+	movl	(%esp),%ebx
+	movl	%ebx,4(%eax)
+	addl	$4,%esp
+	movl	%esp,8(%eax)
+	movl   %esi,44(%eax)
+	movl   %edi,48(%eax)
+	movl   %ebp,52(%eax)
+	movl   %edx,56(%eax)
+
+	movl	%esp,%esi
+	movl	%eax,%edi
+	addl	$80,%edi
+
+	movl	_stkbase,%ecx
+	subl	%esi,%ecx
+	shrl	$2,%ecx
+	repz
+ 	smovl	
+	subl	%esi,%edi
+	movl	%edi,(%eax)
+	movl	40(%eax),%ebx
+	movl    44(%eax),%esi
+	movl    48(%eax),%edi
+	movl    52(%eax),%ebp
+	movl    56(%eax),%edx
+	movl	%eax,%ecx
+	movl	_Special,%eax
+	jmp	*4(%ecx)
+
+_jmpenv:
+	movl	8(%esp),%ecx
+	movl	4(%esp),%eax
+	movl	8(%eax),%esp
+	movl	%esp,%edi
+	movl	%eax,%esi
+	addl	$80,%esi
+	movl	%ecx,%ebx
+	movl	_stkbase,%ecx
+	subl	%edi,%ecx
+	shrl	$2,%ecx
+	repz
+	smovl
+	movl	%ebx,%ecx
+	movl	40(%eax),%ebx
+	movl    44(%eax),%esi
+	movl    48(%eax),%edi
+	movl    52(%eax),%ebp
+	movl    56(%eax),%edx
+	movl	12(%eax),%ebp
+	xchgl	%eax,%ecx
+	jmp	*4(%ecx)

@@ -1,0 +1,62 @@
+."		"@(#)pend_rendering.3PEXIM	1.1 Stardent 91/06/14"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.pend_rendering.3PEXIM
+."	
+.TH "END RENDERING" 3PEXIM "12-JUNE-91"
+.SH NAME
+END RENDERING \- End rendering and flush all output to the Drawable
+.IX "Renderer" "END RENDERING"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+pend_rendering ( wkid )
+Pint	wkid;		\fIRenderer \s-1ID\s+1 given by the application\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine flushes all Output Commands (see \s-1BEGIN RENDERING\s+1) and completes
+rendering.  This copies the rendered image to the window or pixmap.
+.SS C Input Parameters
+.IP \fIwkid\fP
+This is the \s-1ID\s+1 by which the application identifies the
+Renderer.  The application specifies the \s-1ID\s+1 when it opens the Renderer
+(using \s-1OPEN RENDERER\s+1).  A Renderer \s-1ID\s+1 is synonymous with
+a workstation identifier and is passed to other \s-1PHIGS\s+1 workstation
+routines to set views or lights.
+.SS Execution
+Required state of specified Renderer before execution: \s-1PEXIM_RENDERING\s+1
+.br
+Specified Renderer's state after execution: \s-1PEXIM_IDLE\s+1.
+.SS Function Return
+\f3pend_rendering\f1 returns an integer status.  A value of \s-1POK\s+1
+indicates successful execution.
+.SH ERRORS
+.IP \s-1PEXIMERRB\s+1ad\s+1WKID
+Renderer is not open
+.IP \s-1PEXIMERRN\s+1ot\s-1R\s+1endering
+Renderer state is not \s-1PEXIM_RENDERING\s+1
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "OPEN RENDERER"
+.SM "BEGIN RENDERING"
+.fi

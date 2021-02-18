@@ -1,0 +1,56 @@
+.\"
+.\" $Id: ximrc.man,v 1.1 1991/09/13 08:12:19 proj Exp $
+.\"
+.TH XIMRC 4 "Release 5" "X Version 11"
+.SH NAME
+ximrc \- Environment setting file of Input Manager of the X Window
+System Version 11 (xwnmo(1X))
+.SH SYNOPSIS
+.B /usr/local/lib/wnn/ximrc (Default)
+.SH DESCRIPTION
+The \fIximrc\fP file sets up the environment for the \fIxwnmo\fP.
+Individual settings can be specified for each user.
+Duplicate entries will be overwritten.
+Lines that start with a semicolon (;) are comments.
+.PP
+\fIXwnmo\fP will search this file as follows:
+.TP 8
+1. Resource "ximrcName"
+.br
+2. $HOME/.ximrc
+.br
+3. /usr/local/lib/wnn/ximrc (Default)
+.PP
+The following settings are specified in this file.  Any setting which is not 
+specified will use the default value.  
+.TP 8
+.B setuumrc <\fIlanguage_name\fP> <\fIuumrc_file_name\fP>
+Specifies the \fIuumrc\fP file that \fIxwnmo\fP uses for uumrc each language.
+The default is "@LIBDIR/@LANG/uumrc".
+.TP 8
+.B preloadrkfile <\fIlanguage_name\fP>
+Specifies the language that automaton conversion pre-load.
+In default, the language of Root-mode is loaded.
+.TP 8
+.B setbackspacechar <\fIbackspace_char\fP>
+Specifies the charcter for back-space.
+If it isn't set, \fIXwnmo\fP will get ERASE code of /dev/console.
+If \fIxwnmo\fP couldn't open /dev/console, the default is 0xff.
+.SH EXAMPLE
+setuumrc        ja_JP           /usr/demos/ja_JP/uumrc
+.br
+setuumrc        zh_CN           /usr/demos/zh_CN/uumrc
+.br
+preloadrkfile   ja_JP
+.br
+preloadrkfile   zh_CN
+.br
+setbackspacechar ^H
+.SH "SEE ALSO"
+xwnmo(1X)
+.SH COPYRIGHT
+Copyright 1991 by OMRON Corporation
+.br
+Copyright 1991 by Massachusetts Institute of Technology
+.SH AUTHOR
+Seiji Kuwari (OMRON Corporation)

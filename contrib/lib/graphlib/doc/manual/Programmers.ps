@@ -1,0 +1,1910 @@
+%!
+%%BoundingBox: (atend)
+%%Pages: (atend)
+%%DocumentFonts: (atend)
+%%EndComments
+%
+% FrameMaker PostScript Prolog 2.0, for use with FrameMaker 2.0
+% Copyright (c) 1986,87,89 by Frame Technology, Inc.  All rights reserved.
+%
+% Known Problems:
+%	Due to bugs in Transcript, the 'PS-Adobe-' is omitted from line 1
+/FMversion (2.0) def 
+% Set up Color vs. Black-and-White
+	/FMPrintInColor systemdict /colorimage known def
+% Uncomment this line to force b&w on color printer
+%   /FMPrintInColor false def
+/FrameDict 190 dict def 
+systemdict /errordict known not {/errordict 10 dict def
+		errordict /rangecheck {stop} put} if
+% The readline in 23.0 doesn't recognize cr's as nl's on AppleTalk
+FrameDict /tmprangecheck errordict /rangecheck get put 
+errordict /rangecheck {FrameDict /bug true put} put 
+FrameDict /bug false put 
+mark 
+% Some PS machines read past the CR, so keep the following 3 lines together!
+currentfile 5 string readline
+00
+0000000000
+cleartomark 
+errordict /rangecheck FrameDict /tmprangecheck get put 
+FrameDict /bug get { 
+	/readline {
+		/gstring exch def
+		/gfile exch def
+		/gindex 0 def
+		{
+			gfile read pop 
+			dup 10 eq {exit} if 
+			dup 13 eq {exit} if 
+			gstring exch gindex exch put 
+			/gindex gindex 1 add def 
+		} loop
+		pop 
+		gstring 0 gindex getinterval true 
+		} def
+	} if
+/FMVERSION {
+	FMversion ne {
+		/Times-Roman findfont 18 scalefont setfont
+		100 100 moveto
+		(FrameMaker version does not match postscript_prolog!)
+		dup =
+		show showpage
+		} if
+	} def 
+/FMLOCAL {
+	FrameDict begin
+	0 def 
+	end 
+	} def 
+	/gstring FMLOCAL
+	/gfile FMLOCAL
+	/gindex FMLOCAL
+	/orgxfer FMLOCAL
+	/orgproc FMLOCAL
+	/organgle FMLOCAL
+	/orgfreq FMLOCAL
+	/yscale FMLOCAL
+	/xscale FMLOCAL
+	/manualfeed FMLOCAL
+	/paperheight FMLOCAL
+	/paperwidth FMLOCAL
+/FMDOCUMENT { 
+	array /FMfonts exch def 
+	/#copies exch def
+	FrameDict begin
+	0 ne dup {setmanualfeed} if
+	/manualfeed exch def
+	/paperheight exch def
+	/paperwidth exch def
+	setpapername
+	manualfeed {true} {papersize} ifelse 
+	{manualpapersize} {false} ifelse 
+	{desperatepapersize} if
+	/yscale exch def
+	/xscale exch def
+	currenttransfer cvlit /orgxfer exch def
+	currentscreen cvlit /orgproc exch def
+	/organgle exch def /orgfreq exch def
+	end 
+	} def 
+	/pagesave FMLOCAL
+	/orgmatrix FMLOCAL
+	/landscape FMLOCAL
+/FMBEGINPAGE { 
+	FrameDict begin 
+	/pagesave save def
+	3.86 setmiterlimit
+	/landscape exch 0 ne def
+	landscape { 
+		90 rotate 0 exch neg translate pop 
+		}
+		{pop pop}
+		ifelse
+	xscale yscale scale
+	/orgmatrix matrix def
+	gsave 
+	} def 
+/FMENDPAGE {
+	grestore 
+	pagesave restore
+	end 
+	showpage
+	} def 
+/FMDEFINEFONT { 
+	FrameDict begin
+	findfont 
+	ReEncode 
+	2 index exch 
+	definefont exch 
+	scalefont 
+	FMfonts 3 1 roll 
+	put
+	end 
+	} bind def
+/FMNORMALIZEGRAPHICS { 
+	newpath
+	0.0 0.0 moveto
+	1 setlinewidth
+	0 setlinecap
+	0 0 0 sethsbcolor
+	0 setgray 
+	} bind def
+	/fx FMLOCAL
+	/fy FMLOCAL
+	/fh FMLOCAL
+	/fw FMLOCAL
+	/llx FMLOCAL
+	/lly FMLOCAL
+	/urx FMLOCAL
+	/ury FMLOCAL
+/FMBEGINEPSF { 
+	end 
+	/FMEPSF save def 
+	/showpage {} def 
+	FMNORMALIZEGRAPHICS 
+	[/fy /fx /fh /fw /ury /urx /lly /llx] {exch def} forall 
+	fx fy translate 
+	rotate
+	fw urx llx sub div fh ury lly sub div scale 
+	llx neg lly neg translate 
+	} bind def
+/FMENDEPSF {
+	FMEPSF restore
+	FrameDict begin 
+	} bind def
+FrameDict begin 
+/setmanualfeed {
+%%BeginFeature *ManualFeed True
+	 statusdict /manualfeed true put
+%%EndFeature
+	} def
+/max {2 copy lt {exch} if pop} bind def
+/min {2 copy gt {exch} if pop} bind def
+/inch {72 mul} def
+/pagedimen { 
+	paperheight sub abs 16 lt exch 
+	paperwidth sub abs 16 lt and
+	{/papername exch def} {pop} ifelse
+	} def
+	/papersizedict FMLOCAL
+/setpapername { 
+	/papersizedict 14 dict def 
+	papersizedict begin
+	/papername /unknown def 
+		/Letter 8.5 inch 11.0 inch pagedimen
+		/LetterSmall 7.68 inch 10.16 inch pagedimen
+		/Tabloid 11.0 inch 17.0 inch pagedimen
+		/Ledger 17.0 inch 11.0 inch pagedimen
+		/Legal 8.5 inch 14.0 inch pagedimen
+		/Statement 5.5 inch 8.5 inch pagedimen
+		/Executive 7.5 inch 10.0 inch pagedimen
+		/A3 11.69 inch 16.5 inch pagedimen
+		/A4 8.26 inch 11.69 inch pagedimen
+		/A4Small 7.47 inch 10.85 inch pagedimen
+		/B4 10.125 inch 14.33 inch pagedimen
+		/B5 7.16 inch 10.125 inch pagedimen
+	end
+	} def
+/papersize {
+	papersizedict begin
+		/Letter {lettertray} def
+		/LetterSmall {lettertray lettersmall} def
+		/Tabloid {11x17tray} def
+		/Ledger {ledgertray} def
+		/Legal {legaltray} def
+		/Statement {statementtray} def
+		/Executive {executivetray} def
+		/A3 {a3tray} def
+		/A4 {a4tray} def
+		/A4Small {a4tray a4small} def
+		/B4 {b4tray} def
+		/B5 {b5tray} def
+		/unknown {unknown} def
+	papersizedict dup papername known {papername} {/unknown} ifelse get
+	end
+	/FMdicttop countdictstack 1 add def
+	statusdict begin stopped end 
+	countdictstack -1 FMdicttop {pop end} for
+	} def
+/manualpapersize {
+	papersizedict begin
+		/Letter {letter} def
+		/LetterSmall {lettersmall} def
+		/Tabloid {11x17} def
+		/Ledger {ledger} def
+		/Legal {legal} def
+		/Statement {statement} def
+		/Executive {executive} def
+		/A3 {a3} def
+		/A4 {a4} def
+		/A4Small {a4small} def
+		/B4 {b4} def
+		/B5 {b5} def
+		/unknown {unknown} def
+	papersizedict dup papername known {papername} {/unknown} ifelse get
+	end
+	stopped 
+	} def
+/desperatepapersize {
+	statusdict /setpageparams known
+		{
+		paperwidth paperheight 0 1 
+		statusdict begin
+		{setpageparams} stopped pop 
+		end
+		} if
+	} def
+/savematrix {
+	orgmatrix currentmatrix pop
+	} bind def
+/restorematrix {
+	orgmatrix setmatrix
+	} bind def
+/dmatrix matrix def
+/dpi    72 0 dmatrix defaultmatrix dtransform
+    dup mul exch   dup mul add   sqrt def
+/freq dpi 18.75 div 8 div round dup 0 eq {pop 1} if 8 mul dpi exch div def
+/sangle 1 0 dmatrix defaultmatrix dtransform exch atan def
+/DiacriticEncoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /space /exclam /quotedbl
+/numbersign /dollar /percent /ampersand /quotesingle /parenleft
+/parenright /asterisk /plus /comma /hyphen /period /slash /zero /one
+/two /three /four /five /six /seven /eight /nine /colon /semicolon
+/less /equal /greater /question /at /A /B /C /D /E /F /G /H /I /J /K
+/L /M /N /O /P /Q /R /S /T /U /V /W /X /Y /Z /bracketleft /backslash
+/bracketright /asciicircum /underscore /grave /a /b /c /d /e /f /g /h
+/i /j /k /l /m /n /o /p /q /r /s /t /u /v /w /x /y /z /braceleft /bar
+/braceright /asciitilde /.notdef /Adieresis /Aring /Ccedilla /Eacute
+/Ntilde /Odieresis /Udieresis /aacute /agrave /acircumflex /adieresis
+/atilde /aring /ccedilla /eacute /egrave /ecircumflex /edieresis
+/iacute /igrave /icircumflex /idieresis /ntilde /oacute /ograve
+/ocircumflex /odieresis /otilde /uacute /ugrave /ucircumflex
+/udieresis /dagger /.notdef /cent /sterling /section /bullet
+/paragraph /germandbls /registered /copyright /trademark /acute
+/dieresis /.notdef /AE /Oslash /.notdef /.notdef /.notdef /.notdef
+/yen /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/ordfeminine /ordmasculine /.notdef /ae /oslash /questiondown
+/exclamdown /logicalnot /.notdef /florin /.notdef /.notdef
+/guillemotleft /guillemotright /ellipsis /.notdef /Agrave /Atilde
+/Otilde /OE /oe /endash /emdash /quotedblleft /quotedblright
+/quoteleft /quoteright /.notdef /.notdef /ydieresis /Ydieresis
+/fraction /currency /guilsinglleft /guilsinglright /fi /fl /daggerdbl
+/periodcentered /quotesinglbase /quotedblbase /perthousand
+/Acircumflex /Ecircumflex /Aacute /Edieresis /Egrave /Iacute
+/Icircumflex /Idieresis /Igrave /Oacute /Ocircumflex /.notdef /Ograve
+/Uacute /Ucircumflex /Ugrave /dotlessi /circumflex /tilde /macron
+/breve /dotaccent /ring /cedilla /hungarumlaut /ogonek /caron
+] def
+/ReEncode { 
+	dup 
+	length 
+	dict begin 
+	{
+	1 index /FID ne 
+		{def} 
+		{pop pop} ifelse 
+	} forall
+	Encoding StandardEncoding eq 
+	{
+		/Encoding DiacriticEncoding def
+	}if
+	currentdict 
+	end 
+	} bind def
+/graymode true def
+	/bwidth FMLOCAL
+	/bpside FMLOCAL
+	/bstring FMLOCAL
+	/onbits FMLOCAL
+	/offbits FMLOCAL
+	/xindex FMLOCAL
+	/yindex FMLOCAL
+	/x FMLOCAL
+	/y FMLOCAL
+/setpattern {
+	 /bwidth  exch def
+	 /bpside  exch def
+	 /bstring exch def
+	 /onbits 0 def  /offbits 0 def
+	 freq sangle landscape {90 add} if 
+		{/y exch def
+		 /x exch def
+		 /xindex x 1 add 2 div bpside mul cvi def
+		 /yindex y 1 add 2 div bpside mul cvi def
+		 bstring yindex bwidth mul xindex 8 idiv add get
+		 1 7 xindex 8 mod sub bitshift and 0 ne
+		 {/onbits  onbits  1 add def 1}
+		 {/offbits offbits 1 add def 0}
+		 ifelse
+		}
+		setscreen
+	 {} settransfer
+	 offbits offbits onbits add div FMsetgray
+	/graymode false def
+	} bind def
+/grayness {
+	FMsetgray
+	graymode not {
+		/graymode true def
+		orgxfer cvx settransfer
+		orgfreq organgle orgproc cvx setscreen
+		} if
+	} bind def
+	/HUE FMLOCAL
+	/SAT FMLOCAL
+	/BRIGHT FMLOCAL
+	/Colors FMLOCAL
+FMPrintInColor 
+	
+	{
+	/HUE 0 def
+	/SAT 0 def
+	/BRIGHT 0 def
+	% array of arrays Hue and Sat values for the separations [HUE BRIGHT]
+	/Colors   
+	[[0    0  ]    % black
+	 [0    0  ]    % white
+	 [0.00 1.0]    % red
+	 [0.37 1.0]    % green
+	 [0.60 1.0]    % blue
+	 [0.50 1.0]    % cyan
+	 [0.83 1.0]    % magenta
+	 [0.16 1.0]    % comment / yellow
+	 ] def
+      
+	/BEGINBITMAPCOLOR { 
+		BITMAPCOLOR} def
+	/BEGINBITMAPCOLORc { 
+		BITMAPCOLORc} def
+	/K { 
+		Colors exch get dup
+		0 get /HUE exch store 
+		1 get /BRIGHT exch store
+		  HUE 0 eq BRIGHT 0 eq and
+			{1.0 SAT sub setgray}
+			{HUE SAT BRIGHT sethsbcolor} 
+		  ifelse
+		} def
+	/FMsetgray { 
+		/SAT exch 1.0 exch sub store 
+		  HUE 0 eq BRIGHT 0 eq and
+			{1.0 SAT sub setgray}
+			{HUE SAT BRIGHT sethsbcolor} 
+		  ifelse
+		} bind def
+	}
+	
+	{
+	/BEGINBITMAPCOLOR { 
+		BITMAPGRAY} def
+	/BEGINBITMAPCOLORc { 
+		BITMAPGRAYc} def
+	/FMsetgray {setgray} bind def
+	/K { 
+		pop
+		} def
+	}
+ifelse
+/normalize {
+	transform round exch round exch itransform
+	} bind def
+/dnormalize {
+	dtransform round exch round exch idtransform
+	} bind def
+/lnormalize { 
+	0 dtransform exch cvi 2 idiv 2 mul 1 add exch idtransform pop
+	} bind def
+/H { 
+	lnormalize setlinewidth
+	} bind def
+/Z {
+	setlinecap
+	} bind def
+/X { 
+	fillprocs exch get exec
+	} bind def
+/V { 
+	gsave eofill grestore
+	} bind def
+/N { 
+	stroke
+	} bind def
+/M {newpath moveto} bind def
+/E {lineto} bind def
+/D {curveto} bind def
+/O {closepath} bind def
+	/n FMLOCAL
+/L { 
+ 	/n exch def
+	newpath
+	normalize
+	moveto 
+	2 1 n {pop normalize lineto} for
+	} bind def
+/Y { 
+	L 
+	closepath
+	} bind def
+	/x1 FMLOCAL
+	/x2 FMLOCAL
+	/y1 FMLOCAL
+	/y2 FMLOCAL
+	/rad FMLOCAL
+/R { 
+	/y2 exch def
+	/x2 exch def
+	/y1 exch def
+	/x1 exch def
+	x1 y1
+	x2 y1
+	x2 y2
+	x1 y2
+	4 Y 
+	} bind def
+/RR { 
+	/rad exch def
+	normalize
+	/y2 exch def
+	/x2 exch def
+	normalize
+	/y1 exch def
+	/x1 exch def
+	newpath
+	x1 y1 rad add moveto
+	x1 y2 x2 y2 rad arcto
+	x2 y2 x2 y1 rad arcto
+	x2 y1 x1 y1 rad arcto
+	x1 y1 x1 y2 rad arcto
+	closepath
+	16 {pop} repeat
+	} bind def
+/C { 
+	grestore
+	gsave
+	R 
+	clip
+	} bind def
+/U { 
+	grestore
+	gsave
+	} bind def
+/F { 
+	FMfonts exch get
+	setfont
+	} bind def
+/T { 
+	moveto show
+	} bind def
+/RF { 
+	rotate
+	0 ne {-1 1 scale} if
+	} bind def
+/TF { 
+	gsave
+	moveto 
+	RF
+	show
+	grestore
+	} bind def
+/P { 
+	moveto
+	0 32 3 2 roll widthshow
+	} bind def
+/PF { 
+	gsave
+	moveto 
+	RF
+	0 32 3 2 roll widthshow
+	grestore
+	} bind def
+/S { 
+	moveto
+	0 exch ashow
+	} bind def
+/SF { 
+	gsave
+	moveto
+	RF
+	0 exch ashow
+	grestore
+	} bind def
+/B { 
+	moveto
+	0 32 4 2 roll 0 exch awidthshow
+	} bind def
+/BF { 
+	gsave
+	moveto
+	RF
+	0 32 4 2 roll 0 exch awidthshow
+	grestore
+	} bind def
+	/x FMLOCAL
+	/y FMLOCAL
+	/dx FMLOCAL
+	/dy FMLOCAL
+	/dl FMLOCAL
+	/t FMLOCAL
+	/t2 FMLOCAL
+	/Cos FMLOCAL
+	/Sin FMLOCAL
+	/r FMLOCAL
+/W { 
+	dnormalize
+	/dy exch def
+	/dx exch def
+	normalize
+	/y  exch def
+	/x  exch def
+	/dl dx dx mul dy dy mul add sqrt def
+	dl 0.0 gt {
+		/t currentlinewidth def
+		savematrix
+		/Cos dx dl div def
+		/Sin dy dl div def
+		/r [Cos Sin Sin neg Cos 0.0 0.0] def
+		/t2 t 2.5 mul 3.5 max def
+		newpath
+		x y translate
+		r concat
+		0.0 0.0 moveto
+		dl t 2.7 mul sub 0.0 rlineto
+		stroke
+		restorematrix
+		x dx add y dy add translate
+		r concat
+		t 0.67 mul setlinewidth
+		t 1.61 mul neg  0.0 translate
+		0.0 0.0 moveto
+		t2 1.7 mul neg  t2 2.0 div     moveto
+		0.0 0.0 lineto
+		t2 1.7 mul neg  t2 2.0 div neg lineto
+		stroke
+		t setlinewidth
+		restorematrix
+		} if
+	} bind def
+/G { 
+	gsave
+	newpath
+	normalize translate 0.0 0.0 moveto 
+	dnormalize scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	closepath fill
+	grestore
+	} bind def
+/A { 
+	gsave
+	savematrix
+	newpath
+	2 index 2 div add exch 3 index 2 div sub exch 
+	normalize 2 index 2 div sub exch 3 index 2 div add exch 
+	translate 
+	scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	restorematrix
+	stroke
+	grestore
+	} bind def
+	/x FMLOCAL
+	/y FMLOCAL
+	/w FMLOCAL
+	/h FMLOCAL
+	/xx FMLOCAL
+	/yy FMLOCAL
+	/ww FMLOCAL
+	/hh FMLOCAL
+	/FMsaveobject FMLOCAL
+	/FMoptop FMLOCAL
+	/FMdicttop FMLOCAL
+/BEGINPRINTCODE { 
+	/FMdicttop countdictstack 1 add def 
+	/FMoptop count 4 sub def 
+	/FMsaveobject save def
+	userdict begin 
+	/showpage {} def 
+	FMNORMALIZEGRAPHICS 
+	3 index neg 3 index neg translate
+	} bind def
+/ENDPRINTCODE {
+	count -1 FMoptop {pop pop} for 
+	countdictstack -1 FMdicttop {pop end} for 
+	FMsaveobject restore 
+	} bind def
+/gn { 
+	0 
+	{	46 mul 
+		cf read pop 
+		32 sub 
+		dup 46 lt {exit} if 
+		46 sub add 
+		} loop
+	add 
+	} bind def
+	/str FMLOCAL
+/cfs { 
+	/str sl string def 
+	0 1 sl 1 sub {str exch val put} for 
+	str def 
+	} bind def
+/ic [ 
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0223
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0223
+	0
+	{0 hx} {1 hx} {2 hx} {3 hx} {4 hx} {5 hx} {6 hx} {7 hx} {8 hx} {9 hx}
+	{10 hx} {11 hx} {12 hx} {13 hx} {14 hx} {15 hx} {16 hx} {17 hx} {18 hx}
+	{19 hx} {gn hx} {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12}
+	{13} {14} {15} {16} {17} {18} {19} {gn} {0 wh} {1 wh} {2 wh} {3 wh}
+	{4 wh} {5 wh} {6 wh} {7 wh} {8 wh} {9 wh} {10 wh} {11 wh} {12 wh}
+	{13 wh} {14 wh} {gn wh} {0 bl} {1 bl} {2 bl} {3 bl} {4 bl} {5 bl} {6 bl}
+	{7 bl} {8 bl} {9 bl} {10 bl} {11 bl} {12 bl} {13 bl} {14 bl} {gn bl}
+	{0 fl} {1 fl} {2 fl} {3 fl} {4 fl} {5 fl} {6 fl} {7 fl} {8 fl} {9 fl}
+	{10 fl} {11 fl} {12 fl} {13 fl} {14 fl} {gn fl}
+	] def
+	/sl FMLOCAL
+	/val FMLOCAL
+	/ws FMLOCAL
+	/im FMLOCAL
+	/bs FMLOCAL
+	/cs FMLOCAL
+	/len FMLOCAL
+	/pos FMLOCAL
+/ms { 
+	/sl exch def 
+	/val 255 def 
+	/ws cfs 
+	/im cfs 
+	/val 0 def 
+	/bs cfs 
+	/cs cfs 
+	} bind def
+400 ms 
+/ip { 
+	is 
+	0 
+	cf cs readline pop 
+	{	ic exch get exec 
+		add 
+		} forall 
+	pop 
+	
+	} bind def
+/wh { 
+	/len exch def 
+	/pos exch def 
+	ws 0 len getinterval im pos len getinterval copy pop
+	pos len 
+	} bind def
+/bl { 
+	/len exch def 
+	/pos exch def 
+	bs 0 len getinterval im pos len getinterval copy pop
+	pos len 
+	} bind def
+/s1 1 string def
+/fl { 
+	/len exch def 
+	/pos exch def 
+	/val cf s1 readhexstring pop 0 get def
+	pos 1 pos len add 1 sub {im exch val put} for
+	pos len 
+	} bind def
+/hx { 
+	3 copy getinterval 
+	cf exch readhexstring pop pop 
+	} bind def
+	/h FMLOCAL
+	/w FMLOCAL
+	/d FMLOCAL
+	/lb FMLOCAL
+	/bitmapsave FMLOCAL
+	/is FMLOCAL
+	/cf FMLOCAL
+/wbytes { 
+	dup 
+	8 eq {pop} {1 eq {7 add 8 idiv} {3 add 4 idiv} ifelse} ifelse
+	} bind def
+/BEGINBITMAPBWc { 
+	1 {} COMMONBITMAPc
+	} bind def
+/BEGINBITMAPGRAYc { 
+	8 {} COMMONBITMAPc
+	} bind def
+/BEGINBITMAP2BITc { 
+	2 {} COMMONBITMAPc
+	} bind def
+/COMMONBITMAPc { 
+	/r exch def
+	/d exch def
+	gsave
+	translate rotate scale /h exch def /w exch def
+	/lb w d wbytes def 
+	sl lb lt {lb ms} if 
+	/bitmapsave save def 
+	r                    
+	/is im 0 lb getinterval def 
+	ws 0 lb getinterval is copy pop 
+	/cf currentfile def 
+	w h d [w 0 0 h neg 0 h] 
+	{ip} image 
+	bitmapsave restore 
+	grestore
+	} bind def
+/BEGINBITMAPBW { 
+	1 {} COMMONBITMAP
+	} bind def
+/BEGINBITMAPGRAY { 
+	8 {} COMMONBITMAP
+	} bind def
+/BEGINBITMAP2BIT { 
+	2 {} COMMONBITMAP
+	} bind def
+/COMMONBITMAP { 
+	/r exch def
+	/d exch def
+	gsave
+	translate rotate scale /h exch def /w exch def
+	/bitmapsave save def 
+	r                    
+	/is w d wbytes string def
+	/cf currentfile def 
+	w h d [w 0 0 h neg 0 h] 
+	{cf is readhexstring pop} image
+	bitmapsave restore 
+	grestore
+	} bind def
+	/proc1 FMLOCAL
+	/proc2 FMLOCAL
+	/newproc FMLOCAL
+/Fmcc {
+    /proc2 exch cvlit def
+    /proc1 exch cvlit def
+    /newproc proc1 length proc2 length add array def
+    newproc 0 proc1 putinterval
+    newproc proc1 length proc2 putinterval
+    newproc cvx
+} bind def
+/ngrayt 256 array def
+/nredt 256 array def
+/nbluet 256 array def
+/ngreent 256 array def
+	/gryt FMLOCAL
+	/blut FMLOCAL
+	/grnt FMLOCAL
+	/redt FMLOCAL
+	/indx FMLOCAL
+	/cynu FMLOCAL
+	/magu FMLOCAL
+	/yelu FMLOCAL
+	/k FMLOCAL
+	/u FMLOCAL
+/colorsetup {
+	currentcolortransfer
+	/gryt exch def
+	/blut exch def
+	/grnt exch def
+	/redt exch def
+	0 1 255 {
+		/indx exch def
+		/cynu 1 red indx get 255 div sub def
+		/magu 1 green indx get 255 div sub def
+		/yelu 1 blue indx get 255 div sub def
+		/k cynu magu min yelu min def
+		/u k currentundercolorremoval exec def
+		nredt indx 1 0 cynu u sub max sub redt exec put
+		ngreent indx 1 0 magu u sub max sub grnt exec put
+		nbluet indx 1 0 yelu u sub max sub blut exec put
+		ngrayt indx 1 k currentblackgeneration exec sub gryt exec put
+	} for
+	{255 mul cvi nredt exch get}
+	{255 mul cvi ngreent exch get}
+	{255 mul cvi nbluet exch get}
+	{255 mul cvi ngrayt exch get}
+	setcolortransfer
+	{pop 0} setundercolorremoval
+	{} setblackgeneration
+	} bind def
+	/tran FMLOCAL
+/fakecolorsetup {
+	/tran 256 string def
+	0 1 255 {/indx exch def 
+		tran indx
+		red indx get 77 mul
+		green indx get 151 mul
+		blue indx get 28 mul
+		add add 256 idiv put} for
+	currenttransfer
+	{255 mul cvi tran exch get 255.0 div}
+	exch Fmcc settransfer
+} bind def
+/BITMAPCOLOR { 
+	/d 8 def
+	gsave
+	translate rotate scale /h exch def /w exch def
+	/bitmapsave save def 
+	colorsetup
+	/is w d wbytes string def
+	/cf currentfile def 
+	w h d [w 0 0 h neg 0 h] 
+	{cf is readhexstring pop} {is} {is} true 3 colorimage 
+	bitmapsave restore 
+	grestore
+	} bind def
+/BITMAPCOLORc { 
+	/d 8 def
+	gsave
+	translate rotate scale /h exch def /w exch def
+	/lb w d wbytes def 
+	sl lb lt {lb ms} if 
+	/bitmapsave save def 
+	colorsetup
+	/is im 0 lb getinterval def 
+	ws 0 lb getinterval is copy pop 
+	/cf currentfile def 
+	w h d [w 0 0 h neg 0 h] 
+	{ip} {is} {is} true 3 colorimage
+	bitmapsave restore 
+	grestore
+	} bind def
+/BITMAPGRAY { 
+	8 {fakecolorsetup} COMMONBITMAP
+	} bind def
+/BITMAPGRAYc { 
+	8 {fakecolorsetup} COMMONBITMAPc
+	} bind def
+/ENDBITMAP {
+	} bind def
+end 
+%%EndProlog
+%%BeginSetup
+(2.0) FMVERSION
+1 1 612 792 0 1 9 FMDOCUMENT
+/fillprocs 32 array def
+fillprocs 0 { 0.000000 grayness } put
+fillprocs 1 { 0.100000 grayness } put
+fillprocs 2 { 0.300000 grayness } put
+fillprocs 3 { 0.500000 grayness } put
+fillprocs 4 { 0.700000 grayness } put
+fillprocs 5 { 0.900000 grayness } put
+fillprocs 6 { 0.970000 grayness } put
+fillprocs 7 { 1.000000 grayness } put
+fillprocs 8 {<0f1e3c78f0e1c387> 8 1 setpattern } put
+fillprocs 9 {<0f87c3e1f0783c1e> 8 1 setpattern } put
+fillprocs 10 {<cccccccccccccccc> 8 1 setpattern } put
+fillprocs 11 {<ffff0000ffff0000> 8 1 setpattern } put
+fillprocs 12 {<8142241818244281> 8 1 setpattern } put
+fillprocs 13 {<03060c183060c081> 8 1 setpattern } put
+fillprocs 14 {<c06030180c060381> 8 1 setpattern } put
+fillprocs 15 {} put
+fillprocs 16 { 1.000000 grayness } put
+fillprocs 17 { 0.900000 grayness } put
+fillprocs 18 { 0.700000 grayness } put
+fillprocs 19 { 0.500000 grayness } put
+fillprocs 20 { 0.300000 grayness } put
+fillprocs 21 { 0.100000 grayness } put
+fillprocs 22 { 0.030000 grayness } put
+fillprocs 23 { 0.000000 grayness } put
+fillprocs 24 {<f0e1c3870f1e3c78> 8 1 setpattern } put
+fillprocs 25 {<f0783c1e0f87c3e1> 8 1 setpattern } put
+fillprocs 26 {<3333333333333333> 8 1 setpattern } put
+fillprocs 27 {<0000ffff0000ffff> 8 1 setpattern } put
+fillprocs 28 {<7ebddbe7e7dbbd7e> 8 1 setpattern } put
+fillprocs 29 {<fcf9f3e7cf9f3f7e> 8 1 setpattern } put
+fillprocs 30 {<3f9fcfe7f3f9fc7e> 8 1 setpattern } put
+fillprocs 31 {} put
+%%EndSetup
+0 8 /Times-Roman FMDEFINEFONT
+1 24 /Times-Roman FMDEFINEFONT
+2 12 /Times-Bold FMDEFINEFONT
+%%Page: "1" 1
+%%BeginPaperSize: Letter
+%%EndPaperSize
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(GraphLib Programming Manual) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(1) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(GraphLib Programming Manual) 168.77 450 T
+(V) 264.05 402 T
+(ersion 0.5a) 278.7 402 T
+2 F
+(Eric Anderson) 286.52 362 T
+(July 12, 1991) 290.51 346 T
+FMENDPAGE
+%%EndPage: "1" 2
+1 18 /Times-Bold FMDEFINEFONT
+2 10 /Courier FMDEFINEFONT
+%%Page: "2" 2
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(2) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 1 :Copyrights and Disclaimers) 108 708 T
+2 F
+(GraphLib - A library and collection of programs to make) 108 663.33 T
+(X programming easier.) 108 651.33 T
+(\050c\051 Copyright 1990,1991 Eric Anderson ) 108 627.33 T
+(Buttons and menus mostly by Jeffrey Hutzelman) 108 615.33 T
+(Our thanks to the contributed maintainers at andrew for providing) 108 591.33 T
+(disk space for the development of this library.) 108 579.33 T
+(My thanks to Geoffrey Collyer and Henry Spencer for providing the basis) 108 567.33 T
+(for this copyright.) 108 555.33 T
+(This software is not subject to any license of the American Telephone) 108 531.33 T
+(and Telegraph Company, the Regents of the University of California, or) 108 519.33 T
+(the Free Software Foundation.) 108 507.33 T
+(Permission is granted to anyone to use this software for any purpose on) 108 483.33 T
+(any computer system, and to alter it and redistribute it freely, subject) 108 471.33 T
+(to the following restrictions:) 108 459.33 T
+(1. The authors are not responsible for the consequences of use of this) 108 435.33 T
+(software, no matter how awful, even if they arise from f) 108 423.33 T
+(laws in it.) 443.82 423.33 T
+(2. The origin of this software must not be misrepresented, either by) 108 399.33 T
+(explicit claim or by omission. Since few users ever read sources,) 108 387.33 T
+(credits must appear in the documentation.) 108 375.33 T
+(3. Altered versions must be plainly marked as such, and must not be) 108 351.33 T
+(misrepresented as being the original software. Since few users) 108 339.33 T
+(ever read sources, credits must appear in the documentation.) 108 327.33 T
+(4. This notice may not be removed or altered.) 108 303.33 T
+FMENDPAGE
+%%EndPage: "2" 3
+2 12 /Times-Roman FMDEFINEFONT
+%%Page: "3" 3
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(3) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 2 :Intr) 108 708 T
+(oduction) 226.59 708 T
+2 F
+-0.15 (GraphLib is a project which began a short time after I began attempting to write X ) 144 680 P
+(programs. The only previous experience I had had with programming in a windowing ) 108 666 T
+(environment was in Sunview) 108 652 T
+(, and so when I began to look at programming in X I was ) 246.8 652 T
+-0.02 (pretty dismayed, I tried to understand what Xt programs were doing, and it was just thor-) 108 638 P
+(oughly confusing. Since X seemed to be an excellent idea I decided that I would try to ) 108 624 T
+(write an interface which people would be able to use easier) 108 610 T
+(. GraphLib is the result.) 391.1 610 T
+(This is the initial release of graphlib, and as can be interpreted by the release num-) 144 584 T
+(ber) 108 570 T
+(, 0.5a, I do not consider this to be a \336nished product, or even to be really good, how-) 122.84 570 T
+-0.14 (ever) 108 556 P
+-0.14 (, as I have completed two useful clients, and I would like to see the worlds reaction to ) 128.16 556 P
+-0.18 (yet another toolkit, I decided to try to get it released as soon as possible. Also I am hoping ) 108 542 P
+-0.35 (that other people will write code for the library and that I will eventually be able to present ) 108 528 P
+(a reasonable replacement for the Xt library for the use of programming.) 108 514 T
+(W) 144 488 T
+(e have decided that it is neccesary to rewrite the library in C++. Therefore, this ) 154.36 488 T
+(version should be considered mostly terminal. I will be supporting it, and will accept bug ) 108 474 T
+(\336xes, and improvements, and I will accept any suggestions for what people would like to ) 108 460 T
+(see in the library) 108 446 T
+(, but will not write any code to implement those improvements.) 187.49 446 T
+(As this project is designed to shorten the learning curve for X programming, I am ) 144 420 T
+-0.44 (requesting feedback on how well it achieves this goal. From every report that I have heard, ) 108 406 P
+(it takes about 6 months to be able to program in Xt well. I hope that in graphlib this time ) 108 392 T
+(will be shortened to at most a week before people will be able to put together fully func-) 108 378 T
+(tional clients, and a few more weeks if people want to write extensions to the library) 108 364 T
+(. ) 512.26 364 T
+-0.28 (The library is not yet to the point at which people will be able to write complicated ) 144 338 P
+-0.13 (useful programs in it, it requires more classes to be written for it. T) 108 324 P
+-0.13 (o be able to write these ) 426.88 324 P
+(classes will require some familiarity with the Xlib interface, however this familiarity is ) 108 310 T
+(much easier to achieve, and many examples of usage of the Xlib calls can be found in the ) 108 296 T
+(code. Indeed once the object things are completed, it is unlikely that programmers will ) 108 282 T
+(have to make any calls to X for general usage.) 108 268 T
+(The manual is divided up into a number of parts, the \336rst part being a section on ) 144 242 T
+(concepts of the library) 108 228 T
+(. There are a number of recurring paradigms that are used, and as a ) 214.8 228 T
+-0.2 (result it is important to introduce the method in which they are used early as this increases ) 108 214 P
+(comprehension. After the recurring methods are discussed, an in-complete discussion of ) 108 200 T
+(all of the currently available pieces\050wc?\051 are discussed. Finally the collection of miscella-) 108 186 T
+(neous routines which are available to make programming easier) 108 172 T
+(. After that there is a dis-) 413.77 172 T
+(cussion of the current bad choices in design and coding, and a discussion of the expected ) 108 158 T
+(\336xes. Finally there is a discussion of some of the long term plans, and the questioning of ) 108 144 T
+(the way that some of the long term design should be handled.) 108 130 T
+FMENDPAGE
+%%EndPage: "3" 4
+3 16 /Times-Bold FMDEFINEFONT
+%%Page: "4" 4
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(4) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 3 :General Featur) 108 708 T
+(es) 314.02 708 T
+2 F
+-0.43 (This chapter will discuss some of the general design decisions that were made. The ) 144 680 P
+(\336rst is the DataList, which because it is used in numerous places has to be discussed. The ) 108 666 T
+(second is the use of GL_Create for the building of all types of structures. Third will be a ) 108 652 T
+(discussion of how event handling is done.) 108 638 T
+3 F
+(3.1  DataLists\325) 108 597.33 T
+(s) 206.46 597.33 T
+2 F
+(A datalist, which is so named because of the current implementation is merely a ) 144 570 T
+(linked list. However) 108 556 T
+(, they are supposed to be a way of associating a piece of data with a ) 205.12 556 T
+(key so that it can be retrieved in the future. Datalists are created using GL_Init_DataList ) 108 542 T
+(Depending on this implementation however is foolhardy) 108 528 T
+(, because I expect to change it to ) 378.38 528 T
+(either a binary tree or a hash table at some point in the future when I decide that the ) 108 514 T
+(increased speed of lookups is worth the extra coding time.) 108 500 T
+-0.32 (Additions to datalists are handled by calling the function GL_Add_T) 144 474 P
+-0.32 (o_DataList. It ) 471.03 474 P
+-0.15 (was decided to use pointers to functions as the keys because this gave a much higher guar-) 108 460 P
+-0.2 (antee that the keys would be unique while not requiring time to be spent maintaining a list ) 108 446 P
+(of this person owns this key) 108 432 T
+(, etc., which would have to be maintained between sites, and ) 241.48 432 T
+(furthermore could easily cause con\337icts with people writing their own extensions to the ) 108 418 T
+-0.11 (library which they did not want to release, and therefore would not have to \324register) 108 404 P
+-0.11 (\325 their ) 508.25 404 P
+(key for) 108 390 T
+(. ) 141.64 390 T
+-0.25 (T) 144 364 P
+-0.25 (o retrieve the data stored in a datalist, the GL_Search_DataList call is made. This ) 150.49 364 P
+(call simply uses the key speci\336ed and searches through the datalist to \336nd the key) 108 350 T
+(, then it ) 498.96 350 T
+(returns the data which was associated with that particular key) 108 336 T
+(. It is important that the key ) 401.99 336 T
+(actually exist in the list that is searched because if it doesn\325) 108 322 T
+(t, GL_Search_DataList will ) 391.92 322 T
+(exit. ) 108 308 T
+(T) 144 282 T
+(o test for the existence of a key in a particular database a call should be made to ) 150.49 282 T
+(GL_Key_In_DataList, this call takes the same ar) 108 268 T
+(guments as GL_Search_DataList, how-) 341.94 268 T
+(ever it returns an integer which tells the caller if that key existed in the datalist.) 108 254 T
+-0.19 (Datalists are used in many dif) 144 228 P
+-0.19 (ferent places. First, every window has a datalist asso-) 285.73 228 P
+(ciated with it. This datalist is used to store the information that the functions which deal ) 108 214 T
+(with the window need. An example of this is that a label needs to store the text that it is ) 108 200 T
+(supposed to display) 108 186 T
+(, this data is stored in the Datalist associated with the window) 201.84 186 T
+(. DataL-) 496.87 186 T
+(ists are also used for object handling, there is a datalist which contains all of the objects ) 108 172 T
+(which are installed in a window) 108 158 T
+(. Programmers should feel free to use datalists when they ) 260.11 158 T
+(need to associate some data with various keys, If there are a number of complaints about ) 108 144 T
+(the speed with which the datalists are searched, I or someone else de\336nitely will rewrite ) 108 130 T
+(the code.) 108 116 T
+FMENDPAGE
+%%EndPage: "4" 5
+4 14 /Times-Bold FMDEFINEFONT
+%%Page: "5" 5
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(5) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+3 F
+0 X
+(3.2  GL_Cr) 108 709.33 T
+(eate) 185.45 709.33 T
+2 F
+(GL_Create is the generic method of creating all of the things which are used in ) 144 682 T
+(GraphLib. It is used to create all types of windows, objects, it is even used to manage the ) 108 668 T
+(handling of command line options and resources.) 108 654 T
+(All calls to GL_Create are done in the following method:) 144 628 T
+(<possible return type>GL_Create\050<type speci\336er>,) 144 602 T
+(<option>, [ar) 324 576 T
+(gs,]) 387.28 576 T
+(...,) 324 550 T
+(GL_Done\051;) 324 524 T
+(The speci\336ed return type of GL_Create is a GLPointer) 144 498 T
+(, which is designed to be ) 405.32 498 T
+-0.34 (lar) 108 484 P
+-0.34 (ge enough to hold any pointer) 120.44 484 P
+-0.34 (, or a long, and should therefore be suf) 261.83 484 P
+-0.34 (\336cient for returning ) 444.09 484 P
+(many varied and dif) 108 470 T
+(ferent types. It is not neccesary that anything useful be returned, for ) 204.04 470 T
+(example when the type is GL_Resource, the value returned is unspeci\336ed.) 108 456 T
+(The options are speci\336ers which say what is being af) 144 430 T
+(fected, examples are ) 397.27 430 T
+-0.28 (GL_W) 108 416 P
+-0.28 (inX which would specify the x position of a window) 140.83 416 P
+-0.28 (. V) 389.72 416 P
+-0.28 (arious ar) 402.77 416 P
+-0.28 (guments often have ) 443.9 416 P
+-0.26 (to be speci\336ed after the option, such as GL_W) 108 402 P
+-0.26 (inX would require an integer after it to spec-) 328.26 402 P
+(ify the ) 108 388 T
+(It is not neccesary that there even be any ar) 144 362 T
+(guments to a particular option. For ) 351.27 362 T
+(example for the creation of polygonal objects there is the option GLPO_Closed, which ) 108 348 T
+-0.34 (takes no ar) 108 334 P
+-0.34 (guments and merely speci\336es that the polygon that is begin described should be ) 159.05 334 P
+(forced to be closed.) 108 320 T
+4 F
+(3.2.1  How the type speci\336er works.) 108 286.67 T
+2 F
+(The type speci\336er is actually a macro which speci\336es \336ve functions. These func-) 144 260 T
+(tions, in the order they are speci\336ed in the type are the Initializer) 108 246 T
+(, the Handler) 417.62 246 T
+(, the Exe-) 479.42 246 T
+(cuter) 108 232 T
+(, the Destroyer) 131.49 232 T
+(, and the Returner) 201.96 232 T
+(. The \336rst four are all void, and the \336fth returns a ) 287.23 232 T
+-0.16 (GLPointer) 108 218 P
+-0.16 (. These functions are called in a speci\336c manner by the GL_Create function.All ) 157.98 218 P
+-0.05 (of the functions \336rst ar) 108 204 P
+-0.05 (gument is a GL_DataList in which they can store data so that infor-) 216.84 204 P
+(mation can be passed from one stage of processing to another) 108 190 T
+(. ) 402.45 190 T
+4 F
+(3.2.2  The Initializer) 108 156.67 T
+2 F
+-0.02 (The \336rst stage of processing is initialization. The Initializer is called, and it\325) 144 130 P
+-0.02 (s pur-) 506.88 130 P
+(pose is to set up the initial default values that will be used. For example, the label initial-) 108 116 T
+(izer sets the initial string to NULL. Each initializer is responsible for calling it\325) 108 102 T
+(s parent ) 486.43 102 T
+-0.39 (initializer) 108 88 P
+-0.39 (, for example the label initializer calls the window initializer before it sets up any ) 153.49 88 P
+(of its information.) 108 74 T
+FMENDPAGE
+%%EndPage: "5" 6
+%%Page: "6" 6
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(6) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+4 F
+0 X
+(3.2.3  The Handler) 108 710.67 T
+2 F
+(After the initializer is called, GL_Create begins to loop through the varar) 144 684 T
+(gs data. ) 494.2 684 T
+(First, it picks of) 108 670 T
+(f a long which speci\336es which option is used. Then it calls the handling ) 183.75 670 T
+(function with the list, the modi\336er) 108 656 T
+(, and a pointer to the varar) 271.43 656 T
+(gs list. This allows the han-) 397.45 656 T
+-0.42 (dling function to modify the varar) 108 642 P
+-0.42 (gs position. Each Handling routine should have a default ) 268.6 642 P
+(entry in the case statement which passes all the values to its parent. Root handlers should ) 108 628 T
+-0.27 (print an error message out, and exit. In general the handling functions should just store the ) 108 614 P
+(values that they get in the structure that was initialized in the Initializer) 108 600 T
+(. When all of the ) 448.45 600 T
+-0.06 (variable ar) 108 586 P
+-0.06 (guments have been handled, which means that the GL_Create function found a ) 158.67 586 P
+(modi\336er of the value GL_Done which is a #de\336ne for 0, it will stop looping through the ) 108 572 T
+(variable ar) 108 558 T
+(guments and proceed to call the executer) 158.73 558 T
+(.) 353.91 558 T
+4 F
+(3.2.4  The Executer) 108 524.67 T
+2 F
+(GL_Create will next call the Executer) 144 498 T
+(. This is the function which generally does ) 325.53 498 T
+-0.22 (all the work of getting set up. For example, in the Execute function for labels, it calculates ) 108 484 P
+(the width of the text that it is going to be displaying. The execute function is responsible ) 108 470 T
+(for calling the execute function for its parent, the execute function for the labels calls the ) 108 456 T
+(execute function for windows, which creates the window in which the label will be dis-) 108 442 T
+-0.06 (played. This function in turn calls the execute function for the event manager) 108 428 P
+-0.06 (, which adds ) 476.88 428 P
+(the window to the list of windows to handle events for) 108 414 T
+(.) 368.51 414 T
+4 F
+(3.2.5  The Returner) 108 380.67 T
+2 F
+(Next the returner is called, and the value that it returns is saved. In general this is ) 144 354 T
+(likely to be the returner of a parent function, most things subclassed of) 108 340 T
+(f of the window ) 446.55 340 T
+(class will use the window returner) 108 326 T
+(, most objects will use the default object returner) 271.73 326 T
+(. ) 505.25 326 T
+4 F
+(3.2.6  The Destr) 108 292.67 T
+(oyer) 202.18 292.67 T
+2 F
+(Finally) 144 266 T
+(, the destroyer is called. This function should destroy anything that was ) 177.21 266 T
+(constructed that is not wanted any more, such as the window returner destroys all the ) 108 252 T
+(information that it had stored, as that information has already been used to create the win-) 108 238 T
+(dow) 108 224 T
+(, and is therefore no longer needed, and is also likely to become out of date soon.) 127.87 224 T
+4 F
+(3.2.7  Cleanup) 108 190.67 T
+2 F
+(Finally) 144 164 T
+(, GL_Create returns the stored value that it got from the returner) 177.21 164 T
+(. In this ) 484.98 164 T
+(way) 108 150 T
+(, classes can be built on top of each other) 127.2 150 T
+(, which allows for easier implementing of ) 323.9 150 T
+-0.01 (more complicated things, for example, labels don\325) 108 136 P
+-0.01 (t need to know how to position the win-) 348.87 136 P
+(dow they are in.) 108 122 T
+FMENDPAGE
+%%EndPage: "6" 7
+5 12 /Courier FMDEFINEFONT
+%%Page: "7" 7
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(7) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+3 F
+0 X
+(3.3  Event Handling) 108 709.33 T
+2 F
+(Event handling is all done through the use of callbacks. The basic idea is that the ) 144 682 T
+(programmer registers routines which will be called whenever a certain event is received. ) 108 668 T
+-0.37 (These handlers are speci\336c to each window) 108 654 P
+-0.37 (. The advantage of this method is that the event ) 313.5 654 P
+(loop is centralized in a single place, handlers are added to deal with each type of event, ) 108 640 T
+-0.09 (and provided they are designed not to interfere with each other) 108 626 P
+-0.09 (, all of your event handling ) 407.66 626 P
+(is done cleanly) 108 612 T
+(, you don\325) 179.17 612 T
+(t have to worry about events being missed, or failing to be deliv-) 227.92 612 T
+(ered to routines that need to handle them. Beyond that a central event handling routine ) 108 598 T
+(cleans up the code and prevents a number of problems which result from multiple event ) 108 584 T
+(loops. The event handling code also can deal with functions which need to be called regu-) 108 570 T
+(larly) 108 556 T
+(, as it is unsafe to make X calls inside of signal handlers. Also, the code to switch on ) 129.2 556 T
+(the event type only has to be done in a single place instead of in every function that han-) 108 542 T
+-0.17 (dles events. Finally) 108 528 P
+-0.17 (, in the future, you will be able to add callback routines to handle input ) 199.82 528 P
+(on an arbitrary \336le descriptor) 108 514 T
+(.) 247.23 514 T
+4 F
+(3.3.1  Adding callback functions) 108 480.67 T
+2 F
+(Callback functions can be added at any point. If they are added at the creation ) 144 454 T
+(time, they are merely dumped into the call to GL_Create using the following format: ) 108 440 T
+(Event <| Options>, [OptionV) 144 414 T
+(alues,] CallbackFunction.) 282.52 414 T
+-0.38 (For example to add a function to handle the expose events, the line would look like ) 144 388 P
+(so: ) 108 374 T
+5 F
+(Expose, Demo_Expose_Function,) 108 354 T
+2 F
+-0.34 (and then the programmer would continue to list options exactly as they had before. ) 144 328 P
+(The only option which is supported is GL_Restricted. This causes the event handling ) 108 314 T
+(functions to restrict the times at which they will call the callback function. The basic con-) 108 300 T
+-0.42 (cept is that the programmer speci\336es a rectangle in which the event should have happened, ) 108 286 P
+-0.09 (and when the position in the XEvent structure is inside of this rectangle, then the function ) 108 272 P
+-0.07 (is called. The events for which it is legitimate to specify a restriction rectangle are Button-) 108 258 P
+(Press, ButtonRelease, EnterNotify) 108 244 T
+(, LeaveNotify) 271.78 244 T
+(, KeyPress, KeyRelease, and MotionNo-) 337.61 244 T
+-0.2 (tify) 108 230 P
+-0.2 (. Although it is possible to restrict the notify events, this is probably not going to result ) 123.88 230 P
+(in the expected behavior) 108 216 T
+(, and t therefore probably shouldn\325) 225.09 216 T
+(t be used. T) 391.42 216 T
+(o have a function ) 446.54 216 T
+(called if the button is pressed inside the upper left hand corner of the window) 108 202 T
+(, the line ) 478.28 202 T
+(would be speci\336ed as follows:) 108 188 T
+5 F
+(ButtonPress|GL_Restricted, 0,0,10,10, Demo_Button_Function,) 108 168 T
+2 F
+(This would cause the function to only be called if the button was pressed in the ) 144 142 T
+-0.17 (upper left hand corner inside of the rectangle speci\336ed. This could be used to optimize for ) 108 128 P
+-0.02 (buttons that only need to deal with things if the button is pressed inside of their section or ) 108 114 P
+(something like that. This is mainly designed to be a convenience for programming.) 108 100 T
+FMENDPAGE
+%%EndPage: "7" 8
+%%Page: "8" 8
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(8) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+2 F
+0 X
+-0.37 (T) 144 712 P
+-0.37 (o add a callback function after the window has been created, the GL_AddFuncPtr ) 150.49 712 P
+(call is used. This functions \336rst ar) 108 698 T
+(gument is the window to which the functions should be ) 270.02 698 T
+(added, and the remainder of its ar) 108 684 T
+(guments are identical to the ar) 268.65 684 T
+(guments which are used ) 413.33 684 T
+(when a callback function is added at creation time.) 108 670 T
+4 F
+(3.3.2  Adding T) 108 636.67 T
+(ime-out functions) 199.89 636.67 T
+2 F
+(A time-out function is a function which is supposed to be called regularly at a ) 144 610 T
+(speci\336ed interval. This is useful for programs which wish to be called to update statistics ) 108 596 T
+(which are being monitored, for blinking the cursor) 108 582 T
+(, etc. There are three values which are ) 350.02 582 T
+(passed to the time-out function. The \336rst is the timer interval. This is a struct timeval, the ) 108 568 T
+(de\336nition of which is: ) 108 554 T
+5 F
+(#include <sys/time.h>) 108 534 T
+(struct timeval {) 108 520 T
+( long tv_sec; /* seconds */) 108 506 T
+( long tv_usec; /* and microseconds */) 108 492 T
+(};) 108 478 T
+2 F
+(The second value is the time-out function, and the \336nal value is the window that ) 144 440 T
+-0.05 (the time-out function is associated with. this is so that it can get information which would ) 108 426 P
+(be neccesary for updating values and things like that.) 108 412 T
+-0.38 (For example to set up a function that would be called twice a second, the following ) 144 386 P
+(code would be used:) 108 372 T
+5 F
+(struct timeval timeout;) 108 352 T
+(timeout.tv_sec = 0;) 108 338 T
+(timeout.tv_usec = 500000;) 108 324 T
+(GL_SetTimeOut\050&timeout,demo_timeout_function,) 108 310 T
+(demo_timeout_window\051;) 207 296 T
+2 F
+-0.14 (This code would cause the timeout function to be called twice a second. If a call is ) 144 270 P
+(missed because of heavy load on the machine the timeout function will immediately be ) 108 256 T
+(called, it will then set the next call time to be in interval units. Otherwise the function ) 108 242 T
+(should be called almost exactly on time consistently) 108 228 T
+(. It should be noted that at the current ) 357.4 228 T
+(time only a single timeout function is supported.) 108 214 T
+FMENDPAGE
+%%EndPage: "8" 9
+%%Page: "9" 9
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(9) 536 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 4 :Curr) 108 708 T
+(ent Classes) 234.58 708 T
+2 F
+(There are two base classes, the event manager class, and the object class. The ) 144 680 T
+(event manager class could potentially more correctly be called the window class, and ) 108 666 T
+(probably will be for the remainder of this because the only subclass that makes sense for ) 108 652 T
+(the event manager routines is one that sets up a window) 108 638 T
+(.) 375.03 638 T
+3 F
+(4.1  W) 108 597.33 T
+(indow class) 151.69 597.33 T
+2 F
+(The window class is one of the basic most useful classes. For example to put a ) 144 570 T
+(window on the screen with the title Hello W) 108 556 T
+(orld, the following code would be used:) 319.56 556 T
+5 F
+(#include \322X11/gl/window.h\323) 108 536 T
+(main\050argc,argv\051) 108 508 T
+(int argc;) 108 494 T
+(char **argv;) 108 480 T
+({) 108 466 T
+(Window mainwin;) 135 452 T
+(GL_InitGraphics\050argc,argv,\322helloworld\323,GL_Window_Help\051;) 135 424 T
+(mainwin = \050Window\051GL_Create\050GL_Window,) 135 410 T
+(GL_PrimaryWindow,) 333 396 T
+(GL_WinName, \322Hello World\323,) 333 382 T
+(GL_Done\051;) 333 368 T
+(GL_MainLoop\050mainwin\051;) 135 354 T
+(}) 108 340 T
+2 F
+(This program would be compiled with a line similar to cc -o demo demo.c -lgl -) 144 300 T
+(lX1) 108 286 T
+(1. Y) 125.55 286 T
+(ou may need to add a -L/usr/local/lib or something like that to this line. Now an ) 145 286 T
+-0.43 (explanation for the code which was used. The include statement gets the GraphLib include ) 108 272 P
+(\336le which describes windows. The call to GL_InitGraphics initializes the library with ) 108 258 T
+(ar) 108 244 T
+(gc, ar) 117.1 244 T
+(gv) 143.52 244 T
+(, the standard classname, and the default help function. The call to GL_Create ) 154.74 244 T
+(creates the window with the title of Hello W) 108 230 T
+(orld, exactly how this would be displayed on ) 320.22 230 T
+(your screen is dependant on the window manager that you use. Finally) 108 216 T
+(, the call to ) 445.65 216 T
+-0.14 (GL_MainLoop with the window that was created tells the library to map that window and ) 108 202 P
+(all its children, and begin handling events. ) 108 188 T
+-0.18 (This is indeed a complete application, it is legitimate to give it command line ar) 144 162 P
+-0.18 (gu-) 524.01 162 P
+(ments such as -geometry) 108 148 T
+(, and -display) 226.13 148 T
+(.) 290.31 148 T
+-0.09 (The other options which can be set for windows are document on the manpage for ) 144 122 P
+(GL_W) 108 108 T
+(indow) 140.83 108 T
+(. They are GL_W) 170.03 108 T
+(inW) 254.14 108 T
+(idth, GL_W) 274.31 108 T
+(inHeight, GL_W) 331.8 108 T
+(inParent, GL_W) 412.6 108 T
+(inX, ) 491.39 108 T
+-0.06 (GL_W) 108 94 P
+-0.06 (inY) 140.83 94 P
+-0.06 (, GL_EventMask, GL_OverrideRedirect, GL_SaveUnder) 157.27 94 P
+-0.06 (, GL_W) 431.73 94 P
+-0.06 (indowBorder-) 470.49 94 P
+(W) 108 80 T
+(idth, GL_W) 118.84 80 T
+(inName, GL_BackgroundPixel, GL_PrimaryW) 176.33 80 T
+(indow) 403.03 80 T
+(. It is important that ) 432.23 80 T
+FMENDPAGE
+%%EndPage: "9" 10
+%%Page: "10" 10
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(10) 532 42.62 T
+108 63 540 720 R
+7 X
+V
+2 F
+0 X
+(GL_Primary window always be speci\336ed for at least one window because otherwise the ) 108 712 T
+(geometry command line option will not be properly handled. ) 108 698 T
+(People wishing to accept events other than Exposures, Keypresses, ButtonPresses ) 144 672 T
+(and StructureNoti\336es will need to set the eventmask.) 108 658 T
+4 F
+(4.1.1  Label Class) 108 624.67 T
+2 F
+-0.13 (The label class is a subclass of the window class. Its primary function is to display ) 144 598 P
+(a single string in a window) 108 584 T
+(. The following program will supports a label which can be ) 236.81 584 T
+(changed by clicking in the window and then typing in the new label in the xterm that the ) 108 570 T
+(program was run from.) 108 556 T
+5 F
+(#include <stdio.h>) 108 522 T
+(#include \322X11/gl/label.h\323) 108 508 T
+(Window mainwin;) 108 480 T
+(void ButtonPressProc\050report\051) 108 452 T
+(XButtonEvent *report) 108 438 T
+({) 108 424 T
+(char newlabel[200];) 135 410 T
+(printf\050\322Enter New Label --->>\323\051;) 135 382 T
+(gets\050newlabel\051;) 135 368 T
+(Change_Label\050mainwin,newlabel\051;) 135 354 T
+(}) 108 340 T
+(main\050argc,argv\051) 108 312 T
+(int argc;) 108 298 T
+(char ** argv;) 108 284 T
+({) 108 270 T
+(Window mainwin;) 135 256 T
+(GL_InitGraphics\050argc,argv,\322labeldemo\323,GL_Label_Help\051;) 135 228 T
+(mainwin = \050Window\051GL_Create\050GL_Label,) 135 214 T
+(GL_PrimaryWindow,) 333 200 T
+(ButtonPress,ButtonPressProc,) 333 186 T
+(GL_Done\051;) 333 172 T
+(GL_MainLoop\050mainwin\051;) 135 158 T
+(}) 108 144 T
+FMENDPAGE
+%%EndPage: "10" 11
+%%Page: "11" 11
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(11) 532 42.62 T
+108 63 540 720 R
+7 X
+V
+3 F
+0 X
+(4.2  Other Classes) 108 709.33 T
+2 F
+-0.22 (I\325m tired of documenting. This is all covered in the manpages, or at least sort of is. ) 144 682 P
+(Read the manpages, read the examples, tell me what documentation I should write and ) 108 668 T
+(then I will write it, but after a month of continuous documenting, I\325m just tired of it. ) 108 654 T
+(Assuredly more documentation will be written as further releases are done. I expect to ) 108 640 T
+(have a real programmers manual once I hit version 1.0, but until then there will just be ) 108 626 T
+(interim releases of the programmers manual.) 108 612 T
+FMENDPAGE
+%%EndPage: "11" 12
+%%Page: "12" 12
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(12) 532 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 5 :Miscellaneous Routines) 108 708 T
+2 F
+(Currently supported misc. routines are Gl_GetColor) 144 680 T
+(, GL_GetGC, GL_SetGCCo-) 393.36 680 T
+(lor) 108 666 T
+(, GL_SetW) 120.85 666 T
+(inColor) 174.99 666 T
+(, and xmalloc.) 211.17 666 T
+FMENDPAGE
+%%EndPage: "12" 13
+%%Page: "13" 13
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(13) 532 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 6 :Curr) 108 708 T
+(ent badnesses) 234.58 708 T
+2 F
+(The use of GL_Modify really should be thought through more carefully) 144 680 T
+(. It is a ) 487.65 680 T
+(very useful function, however) 108 666 T
+(, it is not going to operate in exactly the way that would be ) 251.4 666 T
+(expected in all cases.) 108 652 T
+(I don\325) 144 626 T
+(t really like the way that menus are created, the use of recursive calls to ) 172.76 626 T
+(GL_Create is really nifty) 108 612 T
+(, but it complicates and adds to the amount of writing that needs ) 227.47 612 T
+(to be done.) 108 598 T
+(The menu code should support some sort of variable so that you don\325) 144 572 T
+(t need a dif-) 476.23 572 T
+(ferent function for every single ar) 108 558 T
+(gument. See the evilness in perfmon for why this is ) 269.31 558 T
+(really bad.) 108 544 T
+-0.03 (The menu code for shadows is slightly broken it should be another window which ) 144 518 P
+(is the shadow) 108 504 T
+(, this is not the way it currently works.) 172.51 504 T
+(Some of the stripchart code is a little more hairy then I would like it to be. The ) 144 478 T
+(internals should be cleaned up.) 108 464 T
+FMENDPAGE
+%%EndPage: "13" 14
+%%Page: "14" 14
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(14) 532 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 7 :Futur) 108 708 T
+(e plans) 240.59 708 T
+2 F
+(\245) 108 686 T
+-0.02 (The library will be re-written in C++. Send mail to ea08+@andrew) 121.54 686 P
+-0.02 (.cmu.edu for infor-) 442.69 686 P
+(mation on how this is coming.) 121.54 672 T
+(\245) 108 652 T
+(The consideration of whether or not all windows should be objects is coming up more ) 121.54 652 T
+(and more. ) 121.54 638 T
+(\245) 108 618 T
+(Some method for dealing with or) 121.54 618 T
+(ganization of dif) 280.22 618 T
+(ferent things such as saying that one ) 359.28 618 T
+(window is below another one and having it deal with it is de\336nitely needed. Anyone ) 121.54 604 T
+-0.38 (coming up with code to support, and/or just a good way of handling it would get a lot of ) 121.54 590 P
+(gratitude and de\336nitely mention in the comments) 121.54 576 T
+(\245) 108 556 T
+( Multiple timeout functions need to be supported in the near future. ) 121.54 556 T
+(\245) 108 536 T
+-0.25 (I need to add stuf) 121.54 536 P
+-0.25 (f so that GC\325) 203.6 536 P
+-0.25 (s can be supported better) 264.49 536 P
+-0.25 (, I plan to have it cache all of the ) 382.26 536 P
+(dif) 121.54 522 T
+(ferent GC\325) 134.65 522 T
+(s and allow them to be shared between people, also support for clip ) 185.6 522 T
+(regions will be added so that you can multiply set the clip region and the X call will ) 121.54 508 T
+(only go out a single time.) 121.54 494 T
+(\245) 108 474 T
+-0.43 (I plan to deal with scrollable regions in the near future, which will require the writing of ) 121.54 474 P
+(scrollbars.) 121.54 460 T
+(\245) 108 440 T
+-0.07 (The code to handle objects needs to have a better way of dealing with expose events, it ) 121.54 440 P
+(gets pretty slow when there are 500 or so objects being managed. ) 121.54 426 T
+(\245) 108 406 T
+(More options need to be added to the creation of windows) 121.54 406 T
+(\245) 108 386 T
+-0.09 (The event mask should be set up so that it sets itself based on which callback functions ) 121.54 386 P
+(are de\336ned) 121.54 372 T
+(\245) 108 352 T
+-0.01 (Code to deal with graphics exposes needs to be written so that they can be adjusted for ) 121.54 352 P
+(long delays.) 121.54 338 T
+(\245) 108 318 T
+(Better support for sup parts to the classname should be done.) 121.54 318 T
+(\245) 108 298 T
+(Many more objects need to be written. I plan to write scrollbars, better text stuf) 121.54 298 T
+(f.) 501.71 298 T
+(\245) 108 278 T
+(Many more window classes need to be written. Mainly the scrollable text window will ) 121.54 278 T
+(be written.) 121.54 264 T
+(\245) 108 244 T
+(The documentation needs to be improved.) 121.54 244 T
+(\245) 108 224 T
+(Future clients: a replacement for xmag, and a better version of xconsole.) 121.54 224 T
+(\245) 108 204 T
+(Support for accepting input on arbitrary \336lehandles needs to be done.) 121.54 204 T
+(\245) 108 184 T
+(May want to consider methods of dealing with multiple displays.) 121.54 184 T
+FMENDPAGE
+%%EndPage: "14" 15
+%%Page: "15" 15
+612 792 0 FMBEGINPAGE
+108 740.81 540 756 R
+7 X
+0 K
+V
+108 54 540 54 2 L
+V
+0.25 H
+2 Z
+0 X
+N
+108 36 540 47.95 R
+7 X
+V
+0 F
+0 X
+(Version 0.5a) 108 42.62 T
+(October 4, 1991) 298.13 42.62 T
+(15) 532 42.62 T
+108 63 540 720 R
+7 X
+V
+1 F
+0 X
+(Chapter 8 :General comments) 108 708 T
+2 F
+-0.33 (I would appreciate any comments that would improve this manual in any way) 144 680 P
+-0.33 (, also ) 512.34 680 P
+(any comments on the future plans would be nice. When writing code in X, the program ) 108 666 T
+(oneko, available from export.lcs.mit.edu is very useful for testing if you are dealing with ) 108 652 T
+-0.32 (expose events well, you should use it on all of the clients that you release, also running the ) 108 638 P
+(windowmanager with opaque scrolling will tell you how well you deal with expose ) 108 624 T
+(events. There should not be any \337icker or stuf) 108 610 T
+(f like that.) 327.96 610 T
+-0.33 (Anyway) 144 584 P
+-0.33 (, this library is an attempt to improve the general status of programming in ) 183.85 584 P
+(X, and I hope that at some point it will be complete enough to be very usable.) 108 570 T
+FMENDPAGE
+%%EndPage: "15" 16
+%%Trailer
+%%BoundingBox: 0 0 612 792
+%%Pages: 15 1
+%%DocumentFonts: Times-Roman
+%%+ Times-Bold
+%%+ Courier

@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                            THE SELFMOVING WIDGET                             %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+ROADMAP
+--------------------------------------------------------------------------------
+
+This directory contains the following files:
+
+
+        Makefile        : For building mo_demo. Change to adapt to your
+                          location of the Motif libraries
+
+	mo_demo.c	: Demo program using the OSF/Motif widget set 
+
+	mo_demo.dat	: Resource file for mo_demo program
+
+        SelfM.c
+        SelfM.h
+        SelfMP.h        : The widget code
+
+
+BUILDING INSTRUCTIONS
+--------------------------------------------------------------------------------
+
+Adapt MOTIF_LIBS and MOTIF_INCLUDES in Makefile to point to your Motif 
+libraries location.
+
+Type: make
+
+
+WARNING
+Before running the mo_demo program  you should set qour XENVIRONMENT variable
+to point to the full path of the mo_demo.dat resource file
+
+
+--------------------------------------------------------------------------------
+
+
+                                                   Hubert Rechsteiner
+                                                   Doris Hirt
+                                                   Nicolas Repond

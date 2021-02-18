@@ -1,0 +1,21 @@
+#define IHaveSubdirs
+#define PassCDebugFlags /* as nothing */
+
+        SUBDIRS = C japanese
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+INSTALLFLAGS = $(INSTDATFLAGS)
+
+LCFILES = basic_locale
+
+all::
+
+depend::
+
+install::
+	LibMkdir($(LIBDIR)/share)
+	LibMkdir($(LIBDIR)/share/locale)
+
+InstallMultiple($(LCFILES),$(LIBDIR)/share/locale/props)

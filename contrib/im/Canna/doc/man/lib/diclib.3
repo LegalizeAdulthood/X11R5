@@ -1,0 +1,1172 @@
+.\" $Header$ NEC;
+.if t .pn 575
+.TH DICLIBINTRO 3 "4 April 1991"
+.SH "名前"
+DICLib intro \- 辞書アクセスライブラリイントロ
+.SH "説明"
+.PP
+辞書アクセスライブラリは，かな漢字変換のための基本機能を提供するライブ
+ラリです．
+.PP
+辞書アクセスライブラリを使用する場合には，以下のファイルが必要となりま
+す．
+.IP "ヘッダファイル" 
+iroha/RK.h
+.br
+かな漢字変換ライブラリで使用されるデータや関数宣言を含んだインクルード
+ファイルです．コンパイル時にこのファイルをインクルードして下さい．
+.IP "ライブラリ"
+libiroha.a, libiroha.so
+.br
+かな漢字変換を行うためのライブラリです．リンク時に``\-liroha''を指定し
+て下さい．
+.PP
+.SH "概要"
+.PP
+辞書アクセスライブラリの機能は以下の３つに分類されます．
+.IP "・" 3
+コード変換機能
+.RS
+.PP
+全角・半角，ひらがな・カタカナ間の文字列コードを変換します．コード変換
+方式はプログラムで固定されています．外部データや初期化処理は不要です．
+.RE
+.IP "・" 3
+ローマ字かな変換機能
+.RS
+.PP
+ローマ字をかなに変換します．ローマ字かな変換では，ローマ字とかなの対応
+を定義したローマ字かな変換テーブルを用います．このテーブルの内容を変更
+すれば，ローマ字かな変換規則を変更することができます．
+.RE
+.IP "・" 3
+かな漢字変換機能
+.RS
+連文節変換によりかな漢字変換を行います．かな漢字変換では，読みと単語の
+対応を定義したかな漢字変換辞書を用います．この内容を変更すれば，用途に
+応じたかな漢字変換を行うことができます．
+.RE
+.PP
+本ライブラリはかな日本語入力処理のうちデータ変換処理のみを行います．し
+たがって，キーボードを用いて日本語入力を行うためには，アプリケーション
+プログラム内でユーザがキーボードのハンドリングルーチンを記述する必要が
+あります．
+.IP "・" 3
+コード変換機能
+.RS
+.IP "RkCvtZen" 22
+ASCII文字，および半角カタカナを全角文字に変換します．
+.IP "RkCvtHan" 22
+全角の記号，英数字，ひらがな，カタカナを半角文字に変換します．
+.IP "RkCvtKana" 22
+全角ひらがなを全角カタカナに変換します．
+.IP "RkCvtHira" 22
+全角カタカナを全角ひらがなに変換します．
+.IP "RkCvtEuc" 22
+シフトJISコードをEUCファイルコードに変換します．
+.RE
+.IP "・" 3
+ローマ字かな変換機能
+.RS
+.IP "RkOpenRoma" 22
+ローマ字かな変換に用いる辞書を読み込みます．
+.IP "RkCloseRoma" 22
+ローマ字かな変換に用いる辞書をクローズします．
+.IP "RkMapRoma" 22
+指定されたローマ字かな変換辞書を用いてローマ字かな変換を行います．
+.IP "RkCvtRoma" 22
+RkMapRomaを繰り返し用い，文字列すべてのローマ字かな変換を行います．
+.RE
+.IP "・" 3
+かな漢字変換機能
+.RS
+.IP "RkInitialize" 22
+かな漢字変換機能を初期化します．
+.IP "RkFinalize" 22
+かな漢字変換機能を終了させます．
+.IP "RkCreateContext" 22
+新しい変換コンテクストを作成します．
+.IP "RkDuplicateContext" 22
+指定されたコンテクストと同一の変換環境を持つコンテクストを作成します．
+.IP "RkCloseContext" 22
+指定された変換コンテクストをクローズします．
+.IP "RkGetDicList" 22
+辞書リストに追加できる辞書名を求めます．
+.IP "RkMountDic" 22
+辞書リストに辞書を追加します．
+.IP "RkGetMountList" 22
+現在マウントされている辞書名を求めます
+.IP "RkUnmountDic" 22
+辞書リストから指定された辞書を取り除きます．
+.IP "RkRemountDic" 22
+既に辞書リストにある辞書の優先度を変更します．
+.IP "RkBgnBun" 22
+指定した長さの読みがなを漢字に変換します．
+.IP "RkEndBun" 22
+かな漢字変換を終了させます．
+.IP "RkGoTo" 22
+指定された文節番号をカレント文節にします．
+.IP "RkLeft" 22
+カレント文節を左の文節に移動します．
+.IP "RkRight" 22
+カレント文節を右の文節に移動します．
+.IP "RkXfer" 22
+指定された候補番号の候補をカレント候補にします．
+.IP "RkNext" 22
+次候補をカレント候補にします．
+.IP "RkPrev" 22
+前候補をカレント候補にします．
+.IP "RkNfer" 22
+読みがなそのものをカレント候補にします
+.IP "RkResize" 22
+カレント文節の読みがな長をlenバイトにします．
+.IP "RkEnlarge" 22
+カレント文節の読みを長くします．
+.IP "RkShorten" 22
+カレント文節の読みを短くします．
+.IP "RkStoreYomi" 22
+カレント文節の読みを指定されたものに変更し，それ以降の文節を再変換
+します．
+.IP "RkGetYomi" 22
+カレント文節に対応する読みを取り出します．
+.IP "RkGetKanji" 22
+カレント文節のカレント候補をを取り出します．
+.IP "RkGetKanjiList" 22
+カレント文節の全漢字候補を取り出します．
+.IP "RkGetStat" 22
+カレント候補に関する解析情報を求めます．
+.IP "RkGetLex" 22
+カレント候補を構成する単語毎の形態素情報を求めます．
+.IP "RkDefineDic" 22
+指定された単語を辞書に登録します．
+.IP "RkDeleteDic" 22
+指定された単語を辞書から削除します．
+.RE
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKBGNBUN 3 "4 April 1991"
+.SH "名前"
+RkBgnBun \- 指定した長さの読みの漢字変換
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkBgnBun(cxnum, yomi, maxyomi, mode)
+.B int cxnum;
+.B unsigned char *yomi;
+.B int maxyomi;
+.B int mode;
+.fi
+.SH "説明"
+.I RkBgnBun
+は，長さ
+.I maxyomi
+バイトの読みがな
+.I yomi
+を漢字に変換します．
+読みがなは， EUC ファイルコードの文字境界に従わなければなりません．
+コンテクストは変換モードに入り，カレント文節，カレント候補ともに 0 に
+設定されます．
+.PP
+.I mode
+は，各文節に追加されるコード変換候補をビットフィールドで表現します．
+ビットフィールドの幅は RK_XFERBITS で，次のいずれかを指定することができます．
+.RS
+.IP RK_XFER 10
+ひらがな
+.IP RK_HFER 10
+半角文字
+.IP RK_KFER 10
+カタカナ
+.IP RK_ZFER 10
+全角文字
+.RE
+.PP
+カレント文節の候補数をNとした場合，最下位のビットフィールドから順番に 
+N，N+1，… 番目の候補を読みがなからコード変換により候補を追加します．
+なお，対応するビットフィールドが 0 になった所で，候補追加は終了します．
+.PP
+以下に例を示します
+.RS
+.nf
+mode                               候補
+RK_XFER                            仮名を かなを
+(RK_XFER << RK_XFERBITS) | RK_KFER 仮名を カナヲ かなを
+(RK_KFER << RK_XFERBITS) | RK_XFER 仮名を かなを カナヲ
+.fi
+.RE
+.PP
+コンテクストは，
+.I RkBgnBun
+から
+.IR RkEndBun(3)
+に至るまで，変換モードに入ります．変換モードはネストすることはできません．
+.SH "戻り値"
+変換で得られた文節の個数を示します．
+変換に失敗した場合には -1 を返します．
+.SH "関連情報"
+RkEndBun(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKCLOSEROMA 3 "4 April 1991"
+.SH "名前"
+RkCloseRoma \- ローマ字かな変換に用いる辞書をクローズする
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B RkCloseRoma(romaji)
+.B struct RkRxDic *romaji;
+.fi
+.SH "説明"
+ローマ字かな変換は，
+.IR mkromdic(1)
+により作成されたローマ字かな変換テーブルを用いて行います．
+.I RkCloseRoma
+は，このローマ字かな変換テーブルをクローズします．
+.I romaji
+は，
+.IR RkOpenRoma(3)
+により返されたローマ字かな変換テーブルへのポインタを与えます．
+.SH "関連情報"
+RkOpenRoma(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKCVTEUC 3 "4 April 1991"
+.SH "名前"
+RkCvtEuc \- シフト JIS コードを EUC ファイルコードに変換する
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkCvtEuc(dst, maxdst, src, srclen)
+.B unsigned char *dst;
+.B int maxdst;
+.B unsigned char *src;
+.B int srclen;
+.fi
+.SH "説明"
+.I RkCvtEuc
+は，領域
+.I src
+から開始する
+.I srclen
+バイトのシフトJISコードのデータをＥＵＣコードに変換します．
+.I src
+中のヌル文字は文字列の終わりとは解釈されません．変換された結果は領域
+.I dst
+に格納され，変換対象とならない文字はそのままコピーされます．
+変換されたコードのバイト数が
+.I maxdst
+-1 を超える場合には，
+EUC ファイルコードの文字境界に合わせて切り捨てられます． さらに
+.I dst
+の最後には可能ならばヌル文字が付け加えられます．
+.PP
+.I dst
+には NULL を与えることができます． この場合，変換されたコードは
+すべて無視されます．
+.SH "戻　り　値"
+変換されたコードのバイト数を返します． 
+.I maxdst
+が不正な場合には 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKCVTHAN 3 "4 April 1991"
+.SH "名前"
+RkCvtHan \- 全角記号，英数字，ひらがな，カタカナを半角文字に変換する
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkCvtHan(dst, maxdst, src, srclen)
+.B unsigned char *dst;
+.B int maxdst;
+.B unsigned char *src;
+.B int srclen;
+.fi
+.SH "説明"
+.I RkCvtHan
+は，領域
+.I src
+から開始する
+.I srclen
+バイトの全角記号，英数字，ひらがな，カタカナデータを半角文字に変換します． 
+.I src
+中のヌル文字は文字列の終わりとは解釈されません．変換された結果は領域
+.I dst
+に格納され，変換対象とならない文字はそのままコピーされます．
+変換されたコードのバイト数が
+.I maxdst
+-1 を超える場合には，
+EUC ファイルコードの文字境界に合わせて切り捨てられます． さらに
+.I dst
+の最後には可能ならばヌル文字が付け加えられます．
+コードの表現は
+.I src
+，
+.I dst
+とも EUC ファイルコードが用いられます．
+.PP
+.I dst
+には NULL を与えることができます． この場合，変換されたコードは
+すべて無視されます．
+.SH "戻り値"
+変換されたコードのバイト数を返します． 
+.I maxdst
+が不正な場合には 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKCVTHIRA 3 "4 April 1991"
+.SH "名前"
+RkCvtHira \- 全角カタカナを全角ひらがなに変換する
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkCvtHira(dst, maxdst, src, srclen)
+.B unsigned char *dst;
+.B int maxdst;
+.B unsigned char *src;
+.B int srclen;
+.fi
+.SH "説明"
+.I RkCvtHira
+は，領域
+.I src
+から開始する
+.I srclen
+バイトの全角カタカナデータを全角ひらがなに変換します． 
+.I src
+中のヌル文字は文字列の終わりとは解釈されません．変換された結果は領域
+.I dst
+に格納され，変換対象とならない文字はそのままコピーされます．
+変換されたコードのバイト数が
+.I maxdst
+-1 を超える場合には，
+EUC ファイルコードの文字境界に合わせて切り捨てられます． さらに
+.I dst
+の最後には可能ならばヌル文字が付け加えられます．
+コードの表現は
+.I src
+，
+.I dst
+とも EUC ファイルコードが用いられます．
+.PP
+.I dst
+には NULL を与えることができます． この場合，変換されたコードは
+すべて無視されます．
+.SH "戻り値"
+変換されたコードのバイト数を返します． 
+.I maxdst
+が不正な場合には 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKCVTKANA 3 "4 April 1991"
+.SH "名前"
+RkCvtKana \- 全角ひらがなを全角カタカナに変換する
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkCvtKana(dst, maxdst, src, srclen)
+.B unsigned char *dst;
+.B int maxdst;
+.B unsigned char *src;
+.B int srclen;
+.fi
+.SH "説明"
+.I RkCvtKana
+は，領域
+.I src
+から開始する
+.I srclen
+バイトの全角ひらがなデータを全角カタカナに変換します． 
+.I src
+中のヌル文字は文字列の終わりとは解釈されません．変換された結果は領域
+.I dst
+に格納され，変換対象とならない文字はそのままコピーされます．
+変換されたコードのバイト数が
+.I maxdst
+-1 を超える場合には，
+EUC ファイルコードの文字境界に合わせて切り捨てられます． さらに
+.I dst
+の最後には可能ならばヌル文字が付け加えられます．
+コードの表現は
+.I src
+，
+.I dst
+とも EUC ファイルコードが用いられます．
+.PP
+.I dst
+には NULL を与えることができます． この場合，変換されたコードは
+すべて無視されます．
+.SH "戻り値"
+変換されたコードのバイト数を返します． 
+.I maxdst
+が不正な場合には 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKCVTROMA 3 "4 April 1991"
+.SH "名前"
+RkCvtRoma \- RkMapRomaを繰り返し用い，文字列すべてのローマ字変換を行う
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B "int RkCvtRoma(romaji, dst, maxdst, src, srclen, flags)"
+.B struct RkRxDic *romaji;
+.B unsigned char *dst;
+.B int maxdst;
+.B unsigned char *src;
+.B int srclen;
+.B int flags;
+.fi
+.SH "説明"
+.I RkCvtRoma
+は，
+.I src
+文字列に対して
+.IR RkMapRoma(3)
+を繰り返し用い， 
+.I src
+文字列すべてのローマ字変換を行います．パラメータは，
+.I status
+がない以外
+.IR RkMapRoma(3)
+と同じです．
+.SH "戻り値"
+ローマ字かな変換の結果得られたかな文字列のバイト数を返します．
+.SH "関連情報"
+RkMapRoma(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKCVTZEN 3 "4 April 1991"
+.SH "名前"
+RkCvtZen \- ASCII文字および半角カタカナを全角文字に変換する
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkCvtZen(dst, maxdst, src, srclen)
+.B unsigned char *dst;
+.B int maxdst;
+.B unsigned char *src;
+.B int srclen;
+.fi
+.SH "説明"
+.I RkCvtZen
+は，領域
+.I src
+から開始する
+.I srclen
+バイトのASCII文字および半角カタカナデータを全角文字に変換します． 
+.I src
+中のヌル文字は文字列の終わりとは解釈されません．変換された結果は領域
+.I dst
+に格納され，変換対象とならない文字はそのままコピーされます．
+変換されたコードのバイト数が
+.I maxdst
+-1 を超える場合には，
+EUC ファイルコードの文字境界に合わせて切り捨てられます． さらに
+.I dst
+の最後には可能ならばヌル文字が付け加えられます．
+コードの表現は
+.I src
+，
+.I dst
+とも EUC ファイルコードが用いられます．
+.PP
+.I dst
+には NULL を与えることができます． この場合，変換されたコードは
+すべて無視されます．
+.SH "戻り値"
+変換されたコードのバイト数を返します． 
+.I maxdst
+が不正な場合には 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKDEFINEDIC 3 "19 April 1991"
+.SH "名前"
+RkDefineDic \- 辞書への候補の追加
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkDefineDic(cxnum, dicname, wordrec)
+.B int cxnum;
+.B char *dicname;
+.B char *wordrec;
+.fi
+.SH "説明"
+.I RkDefineDic
+では，
+.I dicname
+で指定された辞書に候補を追加します．追加する単語を文字列
+.I wordrec
+により指定します．
+.PP
+これは，次のような形式で記述した文字列です．
+.sp
+.nf
+　　読みがな　品詞情報　漢字候補　...
+.fi
+.sp
+たとえば，
+.sp
+.nf
+　　かんじ　#T35　漢字
+.fi
+.sp
+を与えると，読み「かんじ」で定義された品詞 #T35 でつづりが「漢字」と一致する
+候補を指定することになります．
+.SH "戻り値"
+成功すると 0 ，失敗すると -1 を返します．
+また，変換モードのコンテクストで実行された場合には何もせずに -1 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKDELETEDIC 3 "19 April 1991"
+.SH "名前"
+RkDeleteDic \- 辞書中の候補の削除
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkDeleteDic(cxnum, dicname, wordrec)
+.B int cxnum;
+.B char *dicname;
+.B char *wordrec;
+.fi
+.SH "説明"
+.I RkDeleteDic
+では，
+.I dicname
+で指定された辞書から指定された候補を取り除きます．削除する単語を文字列
+.I wordrec
+により指定します．
+.PP
+これは，次のような形式で記述した文字列です．
+.sp
+.nf
+　　読みがな　品詞情報　漢字候補　...
+.fi
+.sp
+たとえば，
+.sp
+.nf
+　　かんじ　#T35　漢字
+.fi
+.sp
+を与えると，読み「かんじ」で定義された品詞 #T35 でつづりが「漢字」と一致する
+候補を指定することになります．
+.SH "戻り値"
+成功すると 0 ，失敗すると -1 を返します．
+また，変換モードのコンテクストで実行された場合には何もせずに -1 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKENDBUN 3 "4 April 1991"
+.SH "名前"
+RkEndBun \- かな漢字変換の終了
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkEndBun(cxnum, mode)
+.B int cxnum;
+.B int mode;
+.fi
+.SH "説明"
+.I RkEndBun
+は，
+かな漢字変換のために使用されていた領域を開放します．\fImode\fPは変換結
+果をもとにして学習を行うかどうかを指定するフラグです．1を指定するとカ
+レント候補を参考にして学習を行います．
+.SH "関連情報"
+RkBgnBun(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKENLARGE 3 "4 April 1991"
+.SH "名前"
+RkEnlarge \- カレント文節の読みの拡大
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkEnlarge(cxnum)
+.B int cxnum;
+.fi
+.SH "説明"
+.I RkEnlarge
+は，カレント文節の読みを長くします．
+読みの長さが限界を超える場合には何もしません．
+.SH "戻り値"
+変更後の文節数を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKFINALIZE 3 "4 April 1991"
+.SH "名前"
+RkFinalize \- かな漢字変換機能の終了
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkFinalize()
+.fi
+.SH "説明"
+かな漢字変換を終了させます．
+.SH "関連情報"
+RkInitialize(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKGETDICLIST 3 "4 April 1991"
+.SH "名前"
+RkGetDicList \- 辞書リストに追加できる辞書名の取りだし
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkGetDicList(cxnum, dics, maxdics)
+.B int cxnum;
+.B char *dics;
+.B int maxdics;
+.fi
+.SH "説明"
+.I RkGetDicList
+は，辞書リストに追加できる辞書名を求めます．
+.PP
+かな漢字変換では同時に複数の辞書を用いることができます．
+使用可能な辞書は変換コンテクストの辞書リストにつながれます．
+この辞書リストの先頭におかれた辞書は他の辞書より先に調べられ，
+それから作成された候補も優先的に扱われます．
+辞書の識別は，辞書テーブルに記述された辞書名により行われます． 
+.PP
+辞書名は，領域
+.I dics
+に次の型式で得られます．
+.nf
+　　辞書名1　￥0　辞書名2　￥0　...　辞書名n　￥0　￥0
+.fi
+.PP
+領域
+.I dics
+の大きさは，
+.I maxdics
+によりバイト数で与えます．
+辞書名リストがこのサイズを越える場合には，文字列単位で切り捨てられます．
+.SH "戻り値"
+辞書名の個数を返します．コンテクスト番号が正しくない場合には -1 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKGETKANJI 3 "19 April 1991"
+.SH "名前"
+RkGetkanji \- カレント候補の漢字の取りだし
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkGetkanji(cxnum, kanji, maxkanji)
+.B int cxnum;
+.B unsigned char *kanji;
+.B int maxkanji;
+.fi
+.SH "説明"
+.I RkGetKanji
+は，漢字を領域
+.I kanji
+に設定します．文字列のバイト数が
+.I maxkanji
+-1 を超える場合には，結果は切り捨てられます．
+.SH "戻り値"
+カレント候補の長さを返します．
+変換モードでないコンテクストで実行された場合には何もせずに -1 を
+返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKGETLEX 3 "19 April 1991"
+.SH "名前"
+RkGetLex \- カレント候補を構成する単語毎の形態素情報の取りだし
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkGetLex(cxnum, lex, maxlex)
+.B int cxnum;
+.B RkLex *lex;
+.B int maxlex;
+.fi
+.SH "説明"
+.I RkGetLex
+は，カレント候補を構成する単語毎の形態素情報を求めます．
+カレント候補を構成する単語の形態素情報を左から順番に配列
+.I lex
+に格納します．単語数が
+.I maxlex
+を超える場合には，右の単語情報が切り捨てられます．
+.PP
+構造体 lex の各フィールドには，以下のような情報が設定されます．
+.sp
+.nf
+  ylen    単語の読みのバイト数
+  klen    単語の漢字のバイト数
+  rownum  単語の行番号
+  coldnum 単語の列番号
+  dicnum  未使用
+.fi
+.SH "戻り値"
+変換モードでないコンテクストで実行された場合には何もせずに -1 を
+返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKGETSTAT 3 "19 April 1991"
+.SH "名前"
+RkGetStat \- カレント候補に関する解析情報の取りだし
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkGetStat(cxnum，stat)
+.B int cxnum;
+.B Rkstat *stat;
+.fi
+.SH "説明"
+.I RkGetStat
+は，カレント候補に関する解析情報を求めます．構造体
+.I stat
+の各フィールドには，以下のような情報が設定されます．
+.sp
+.nf
+  bunnum  カレント文節番号
+  candnum カレント候補番号
+  maxcand カレント文節の候補数
+  diccand maxcandからRkBgnBun(3)のモード指定分を引いたもの
+  ylen    カレント候補の読みがなのバイト数
+  klen    カレント候補の漢字候補のバイト数
+  tlen    カレント候補の構成単語数
+.fi
+.SH "戻り値"
+0 を返します．
+変換モードでないコンテクストで実行された場合には何もせずに -1 を
+返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKGETYOMI 3 "4 April 1991"
+.SH "名前"
+RkGetYomi \- カレント文節の読みの取りだし
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkGetYomi(cxnum, yomi, maxyomi)
+.B int cxnum;
+.B unsigned char *yomi;
+.B int maxyomi;
+.fi
+.SH "説明"
+.I RkGetYomi
+は，カレント文節の読みがなを領域
+.I yomi
+に設定します．文字列のバイト数が
+.I maxyomi
+-1 を超える場合には，結果は切り捨てられます．
+.SH "戻り値"
+カレント文節の読みの長さを返します．
+変換モードでないコンテクストで実行された場合には何もせずに -1 を
+返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKGOTO 3 "4 April 1991"
+.SH "名前"
+RkGoTo \- カレント文節の変更
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkGoTo(cxnum, bnum)
+.B int cxnum;
+.B int bnum;
+.fi
+.SH "説明"
+.I RkGoto
+は，指定された文節番号
+.I bnum
+をカレント文節にします．
+文節番号は， 0 から最終文節番号未満でなければなければなりません．
+範囲外の文節番号が指定された場合には，カレント文節は変更されません．
+.SH "戻り値"
+成功するとコンテクストのカレント文節を移動し，変更後のカレント文節番号
+を返します．変換モードでないコンテクストで実行された場合には
+何もせずに 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKINITIALIZE 3 "4 April 1991"
+.SH "名前"
+RkInitialize \- かな漢字変換機能の初期化
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkInitialize(dhdpath)
+.B char *dhdpath;
+.fi
+.SH "説明"
+.I RkInitialize
+は，かな漢字変換機能を初期化します．
+.I dhdpath
+には，辞書ホームディレクトリ名を与えます．
+.PP
+本ライブラリでは同時に複数のかな漢字変換を行うことができます． 
+このため，それぞれのかな漢字変換を管理する方法として変換コンテクストを用いた
+制御を行います．
+各コンテクストには，かな漢字変換を行うために必要な内部データが確保されます． 
+.PP
+利用者は変換コンテクストをコンテクスト番号により識別します． 
+コンテクスト番号は， 0 以上の整数値で表現され，かな漢字変換関数の第1パラメータ
+として使用されます．
+.PP
+.I RkInitialize
+によりかな漢字変換が初期化された直後には，番号 0 の
+標準コンテクストだけが存在します． コンテクストを一つだけ使用する
+アプリケーションは標準コンテクストを使用することができます．
+.SH "戻り値"
+初期化に成功した場合には 0 を，失敗した場合には -1 を返します．
+.SH "関連情報"
+RkFinalize(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKLEFT 3 "4 April 1991"
+.SH "名前"
+RkLeft \- カレント文節を左の文節に移動する
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkLeft(cxnum)
+.B int cxnum;
+.fi
+.SH "説明"
+.I RkLeft
+は，カレント文節を左の文節に移動します．
+カレント文節が 0 の場合には，最終文節へ移動します．
+.SH "戻り値"
+成功するとコンテクストのカレント文節を移動し，変更後のカレント文節番号
+を返します．変換モードでないコンテクストで実行された場合には
+何もせずに 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKMAPROMA 3 "4 April 1991"
+.SH "名前"
+RkMapRoma \- 指定されたローマ字かな変換テーブルを用いてローマ字かな変換を行う
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B "int RkMapRoma(romaji, dst, maxdst, src, srclen, flags, status)"
+.B struct RkRxDic *romaji;
+.B unsigned char *dst;
+.B int maxdst;
+.B unsigned char *src;
+.B int srclen;
+.B int flags;
+.B int *status;
+.fi
+.SH "説明"
+.I RkMapRoma
+は，指定されたローマ字かな変換テーブルを用いてローマ字かな変換を行います． 
+.I romaji
+は，
+.IR RkOpenRoma(3)
+により返されたローマ字かな変換テーブルへのポインタを与えます．
+.I RkMapRoma
+は，領域
+.I src
+から
+.I srclen
+バイト続くデータをローマ字列として解釈し，ローマ字列先頭と一致するロー
+マ字かな変換規則をローマ字かな変換テーブルから探します．
+対応する変換規則が見つかった場合には，対応するかな文字列を
+.I dst
+領域に格納します．ただし，文字列のバイト数が
+.I maxdst
+-1 を超える場合には結果は切り捨てられます． また，可能ならば変換最終位
+置にヌル文字が付け加えられます．
+.PP
+.I flags
+は，ローマ字かな変換を制御するためのフラグで以下を or で組合わせます．
+.RS
+.IP RK_SOKUON 10
+促音処理を有効にします．促音処理は，先頭2文字が同一文字xxであり，ロー
+マ字かな変換テーブルファイルに登録されていない時に限り，xxから「っ」へ
+変換します．
+.IP RK_FLUSH 10
+すべてのローマ字を強制的に変換します．これは最後のnの処理に有効です．
+.RE
+.PP
+以下のフラグは
+.I src
+に格納される文字の種類を指定します．これは，ローマ字かな変換テーブルか
+ら得られたかな文字列に対するコード変換を指定します．これらは，いずれか
+ひとつだけを用いることができます．
+.RS
+.IP RK_NFER 10
+そのまま
+.IP RK_XFER 10
+ひらがな
+.IP RK_HFER 10
+半角文字
+.IP RK_KFER 10
+カタカナ
+.IP RK_ZFER 10
+全角文字
+.RE
+.PP
+.I status
+には，
+.I dst
+領域に設定された文字列のバイト数が設定されます．
+この値が負の場合には，マッチするローマ字がなかったことを示します．
+.SH "戻り値"
+ローマ字かな変換でマッチしたローマ字列先頭バイト数を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKMOUNTDIC 3 "4 April 1991"
+.SH "名前"
+RkMountDic \- 辞書リストへの辞書の追加
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkMountDic(cxnum, dicname, mode)
+.B int cxnum;
+.B char *dicname;
+.B int mode;
+.fi
+.SH "説明"
+.I RMountDic
+は辞書リストに辞書を追加します．
+辞書名には
+.IR RkGetDicList(3)
+で得られたものを用います．
+.I RkMountDic
+は，辞書リストの最後に指定された辞書を追加します．
+追加された辞書は，次回のかな漢字変換より使用されるようになります．
+.I mode
+は現在のところ意味を持ちません． 
+.PP
+辞書はこのコンテクストにマウントされていないものでなければなりません．
+.SH "戻り値"
+マウントに成功した場合は 0 ，失敗した場合には -1 を返します．
+.SH "関連情報"
+RkUnmountDic(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKNEXT 3 "4 April 1991"
+.SH "名前"
+RkNext \- カレント候補を次候補にする
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkNext(cxnum)
+.B int cxnum;
+.fi
+.SH "説明"
+.I RkNext
+は，カレント候補を次候補にします．
+カレント候補が最終候補の場合，先頭候補へ戻ります．
+.SH "戻り値"
+成功したらコンテクストのカレント候補を移動し，変更後のカレント候補番号
+を返します．また，変換モードでないコンテクストで実行された場合には
+何もせずに 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKNFER 3 "4 April 1991"
+.SH "名前"
+RkNfer \- 読みがなそのものをカレント候補とする
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkNfer(cxnum)
+.B int cxnum;
+.fi
+.SH "説明"
+.I RkNfer
+は，読みがなそのものをカレント候補とします．
+.SH "戻り値"
+成功したらコンテクストのカレント候補を移動し，変更後のカレント候補番号
+を返します．また，変換モードでないコンテクストで実行された場合には
+何もせずに 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKOPENROMA 3 "4 April 1991"
+.SH "名前"
+RkOpenRoma \- ローマ字かな変換に用いる辞書を読み込む
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B struct RkRxDic RkOpenRoma(filename)
+.B char *filename;
+.fi
+.SH "説明"
+ローマ字かな変換は，
+.IR mkromdic(1)
+により作成されたローマ字かな変換テーブルを用いて行います．
+.I RkOpenRoma
+は，このローマ字かな変換テーブルを読み込みます． 
+.I filename
+は，ローマ字かな変換テーブルのファイル名を指定します．
+.SH "戻り値"
+ローマ字かな変換テーブルがオープンできた場合，ローマ字かな変換テーブルへのポインタを返します．
+ローマ字変換関数には，このポインタを渡す必要があります．
+読み込みに失敗した場合には NULL を返します．
+.SH "関連情報"
+RkCloseRoma(3),
+mkromdic(1)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKPREV 3 "4 April 1991"
+.SH "名前"
+RkPrev \- カレント候補を前候補にする
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkPrev(cxnum)
+.B int cxnum;
+.fi
+.SH "説明"
+.I RkPrev
+は，カレント候補を前候補にします．
+カレント候補が先頭候補の場合，最終候補へ移ります．
+.SH "戻り値"
+成功したらコンテクストのカレント候補を移動し，変更後のカレント候補番号
+を返します．また，変換モードでないコンテクストで実行された場合には
+何もせずに 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKREMOUNTDIC 3 "4 April 1991"
+.SH "名前"
+RkRemountDic \- 既に辞書リストにある辞書の優先度の変更
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkRemountDic(cxnum, dicname, pos)
+.B int cxnum;
+.B char *dicname;
+.B int pos;
+.fi
+.SH "説明"
+.I RkRemountDic
+は，既に辞書リストにある辞書の優先度を変更します． 
+.I pos
+が 0 の場合には，辞書リストの最後に，それ以外では先頭に移動します．
+辞書はすでにマウントされたものでなければなりません．
+.SH "戻り値"
+成功した場合は 0 ，失敗した場合には -1 を返します．
+.SH "関連情報"
+RkMountDic(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKRESIZE 3 "4 April 1991"
+.SH "名前"
+RkResize \- カレント文節の読みがな長を len バイトにする
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkResize(cxnum, len)
+.B int cxnum;
+.B int len;
+.fi
+.SH "説明"
+.I RkResize
+は，カレント文節の読みがな長を
+.I len
+バイトに変更し，カレント文節より右の文節を再変換します．この
+.I len
+は，EUC ファイルコードの文字境界に従わなければなりません．
+再変換される文節は読みがな長に影響があったもので，解析結果は破壊されますが，
+それ以外の文節は解析結果は変化しません．
+カレント文節は変化しません．
+.SH "戻り値"
+変更後の文節数を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKRIGHT 3 "4 April 1991"
+.SH "名前"
+RkRight \- カレント文節を右の文節に移動する
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkRight(cxnum)
+.B int cxnum;
+.fi
+.SH "説明"
+.I RkRight
+は，カレント文節を右の文節に移動します．
+カレント文節が最終文節の場合には，先頭文節へ戻ります．
+.SH "戻り値"
+成功するとコンテクストのカレント文節を移動し，変更後のカレント文節番号
+を返します．変換モードでないコンテクストで実行された場合には
+何もせずに 0 を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKSHORTEN 3 "4 April 1991"
+.SH "名前"
+RkShorten \- カレント文節の読みの短縮
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkShorten(cxnum)
+.B int cxnum;
+.fi
+.SH "説明"
+.I RkShorten
+は，カレント文節の読みを短くします．
+読みの長さが 0 になる場合には何もしません．
+.SH "戻り値"
+変更後の文節数を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKSTOREYOMI 3 "4 April 1991"
+.SH "名前"
+RkStoreYomi \- カレント文節の読みの変更とそれ以降の文節の再変換
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkStoreYomi(cxnum, yomi, maxyomi)
+.B int cxnum;
+.B unsigned char *yomi;
+.B int maxyomi;
+.fi
+.SH "説明"
+.I RkStoreYomi
+は，カレント文節の読みがなを指定されたものに変更し，
+それ以降の文節を再変換します．長さ
+.I maxyomi
+バイトの読みがな
+.I yomi
+は置換される読みがなで，
+この長さは， EUC ファイルコードの文字境界に従わなければなりません．
+.SH "戻り値"
+変更後の文節数を返します．
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKUNMOUNTDIC 3 "4 April 1991"
+.SH "名前"
+RkUnmountDic \- 辞書リストからの辞書の削除
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkUnmountDic(cxnum, dicname)
+.B int cxnum;
+.B char *dicname;
+.fi
+.SH "説明"
+.I RkUnmountDic
+は，辞書リストから
+.I dicname
+に指定された辞書を取り除きます．
+削除された辞書は，次回のかな漢字変換から検索されません．
+.PP
+辞書はすでにマウントされたものでなければなりません．
+.SH "戻り値"
+成功した場合は 0 ，失敗した場合には -1 を返します．
+.SH "関連情報"
+RkMountDic(3)
+.\" $Header$ NEC;
+.if t .pn 575
+.TH RKXFER 3 "4 April 1991"
+.SH "名前"
+RkXfer \- カレント候補の変更
+.SH "形式"
+.nf
+.B #include <iroha/RK.h>
+.B int RkXfer(cxnum, knum)
+.B int cxnum;
+.B int knum;
+.fi
+.SH "説明"
+.I RkXfer
+は，指定された候補番号
+.I knum
+をカレント候補にします．
+候補番号は， 0 からカレント文節の最大候補番号未満でなければなりません．
+範囲外の候補番号が指定された場合には，カレント候補は変化されません．
+.SH "戻り値"
+成功したらコンテクストのカレント候補を移動し，変更後のカレント候補番号
+を返します．また，変換モードでないコンテクストで実行された場合には
+何もせずに 0 を返します．

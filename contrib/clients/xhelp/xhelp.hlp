@@ -1,0 +1,122 @@
+4
+000000%000000Welcome to XHELP
+1370
+INTRODUCTION TO XHELP
+
+    XHELP is a help facility designed for the X Window 
+System.  Its purpose is twofold: to provide a standard help
+facility for users and give developers tools to implement 
+it.
+
+
+MODES OF OPERATION
+
+   XHELP has two modes of operation: USER and DEVELOPER
+modes.   USER mode provides the application user with a
+read-only help browser.  To invoke XHelp in USER mode,
+XHELP must either be invoked from 1) an application or 
+2) command line with a helpfilename and an optional
+topicId.
+
+   DEVELOPER mode provides means to create and edit help
+files and supply information needed to integrate XHELP into
+an application.  To invoke XHelp in this mode, run XHELP
+from the command line without parameters.  Use OPEN on the 
+FILE menu to select a help file to edit.
+
+
+CONTEXT-SENSITIVE HELP
+
+    XHELP provides an application the means to provide 
+context-sensitive help.  Each help button in an 
+application, for example, can be assigned to display a 
+specific help topic when pressed.
+
+    XHELP is shared between applications.  The interface
+routine (in xhelp.h) directs help requests to XHELP.  If
+XHELP is not running, or has been terminated, a new request
+for help run a new copy of XHELP.
+
+   Since the help facility uses the Athena textEdit widget,
+cut-and-paste operations between XHELP and other 
+applications, such as XEDIT, are supported.
+
+buttons      The buttons
+184
+The four large icon buttons above perform the following
+functions: (left to right)
+
+1. Topic Index
+
+2. Move up a topic page
+
+3. Move down a topic page
+
+4. Search a topic page for text
+user mode    Interfacing your application to XHELP
+1673
+CALLING XHELP
+
+    To invoke XHELP from within an application, you will 
+need to include "xhelp.h".  This header file provides the
+communication mechanism to interface your application with
+XHELP.  Also, you should put the directory containing XHELP
+into your path.
+  
+#include "xhelp.h"
+
+
+To invoke XHELP from within an application, call the routine
+below, supplying the necessary parameters. 
+
+int XhCallXhelp(w, helpfilename, topicId, topicName)
+	Widget w;
+	String helpfilename, topicId, topicName;
+
+Widget w:
+-----------------------------------------------------------
+    This should be your "toplevel" widget.
+
+
+String helpfilename: 
+-----------------------------------------------------------
+    This string contains the filename of your helpfile.
+XHelp files have an extension of ".hlp".   If you do not
+supply this extension, XHelp will tack it on. 
+
+
+String topicId:
+-----------------------------------------------------------
+    This id is a 13-character string supplied by the
+application developer who created the helpfile. 
+
+    To see a list of the topic ids for your helpfile, select
+"IDs" from the edit menu.  (Note that XHELP must be run
+in "developer" mode to use the editing features.)
+
+    When creating a help file, the FIRST help
+topic is reserved for a "welcome" topic for your 
+application.  Code XHELP_INTRO_ID for the topicID field when
+requesting this topic from your application. 
+
+
+String topicName:
+-----------------------------------------------------------
+    Although you are required to pass this parameter, it
+is not currently used by the help facility.  For this field,
+pass the topic name you supplied when creating the help 
+file. About...     About XHelp
+258
+
+    XHELP was written using the MIT Athena Widgets.  It has
+been tested under X11R4 and R5. 
+
+    Your comments and suggestions are welcomed.
+
+
+Mark Newsome
+Computer Science & Engineering
+107 Dunstan Hall
+Auburn University, Al 36849
+
+mnewsome@eng.auburn.edu

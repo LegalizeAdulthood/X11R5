@@ -1,0 +1,4 @@
+.TH incl_trunc 1 ""
+.UC 4
+.SH NAME
+incl_trunc \- script required by makefiles for XcuWlm clients.

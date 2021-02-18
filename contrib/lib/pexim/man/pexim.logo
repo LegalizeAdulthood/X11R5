@@ -1,0 +1,154 @@
+!%%%%		"@(#)pexim.logo	1.1 Stardent 91/02/15"
+!%%%%			Copyright (c) 1989 by
+!%%%%			Stardent Computer Inc.
+!%%%%			All Rights Reserved
+!%%%%	
+!%%%%  Permission to use, copy, modify, and distribute this software and its
+!%%%%  documentation for any purpose and without fee is hereby granted,
+!%%%%  provided that the above copyright notice appear in all copies and that
+!%%%%  both that copyright notice and this permission notice appear in
+!%%%%  supporting documentation, and that the name of Stardent Computer not be
+!%%%%  used in advertising or publicity pertaining to distribution of the
+!%%%%  software without specific, written prior permission. Stardent Computer
+!%%%%  makes no representations about the suitability of this software for any
+!%%%%  purpose.  It is provided "as is" without express or implied warranty.
+!%%%%	
+!%%%%	!720 -7800 translate
+!%%%%   !226 618 translate
+!/-save- save def
+!/strokefill {gsave stroke grestore fill} def
+!
+!
+!0 setgray
+!2.0 2.0 scale
+!80 310 translate
+!
+!%%%% PEXIM
+!
+!1 setlinecap
+!1 setlinejoin
+!0 setlinewidth
+!
+!%%%% P
+!%%%%
+!newpath
+!   0   2 moveto
+!   0  16 lineto
+!   6  16 lineto
+!   6   2 lineto
+!   0   2 lineto
+!strokefill
+!%%%%
+!newpath
+! 0 17 moveto
+! 0 19 lineto
+! 11 19 lineto
+! 14 20 lineto
+! 16 21 lineto
+! 17 23 lineto
+! 17 26 lineto
+! 16 28 lineto
+! 14 29 lineto
+! 11 30 lineto
+! 6 30 lineto
+! 6 20 lineto
+! 0 20 lineto
+! 0 32 lineto
+! 14 32 lineto
+! 18 31 lineto
+! 20 30 lineto
+! 22 28 lineto
+! 23 26 lineto
+! 23 23 lineto
+! 22 21 lineto
+! 20 19 lineto
+! 18 18 lineto
+! 14 17 lineto
+! 0 17 lineto
+!strokefill
+!%%%% E
+!%%%%
+!newpath
+! 29 2 moveto
+! 29 16 lineto
+! 35 16 lineto
+! 35 4 lineto
+! 50 4 lineto
+! 50 2 lineto
+! 29 2 lineto
+!strokefill
+!%%%%
+!newpath
+! 29 17 moveto
+! 29 19 lineto
+! 50 19 lineto
+! 50 17 lineto
+! 29 17 lineto
+!strokefill
+!%%%%
+!newpath
+! 29 20 moveto
+! 29 32 lineto
+! 50 32 lineto
+! 50 30 lineto
+! 35 30 lineto
+! 35 20 lineto
+! 29 20 lineto
+!strokefill
+!%%%% X
+!%%%%
+!newpath
+! 56 2 moveto
+! 66 17 lineto
+! 56 32 lineto
+! 62 32 lineto
+! 70 20 lineto
+! 58 2 lineto
+! 56 2 lineto
+!strokefill
+!%%%%
+!newpath
+! 76 2 moveto
+! 68 14 lineto
+! 80 32 lineto
+! 82 32 lineto
+! 72 17 lineto
+! 82 2 lineto
+! 76 2 lineto
+!strokefill
+!%%%% I
+!%%%%
+!newpath
+! 88 2 moveto
+! 88 32 lineto
+! 94 32 lineto
+! 94 2 lineto
+! 88 2 lineto
+!strokefill
+!%%%% M
+!%%%%
+!newpath
+! 100 2 moveto
+! 100 29 lineto
+! 106 20 lineto
+! 106 2 lineto
+! 100 2 lineto
+!strokefill
+!%%%%
+!newpath
+! 100 32 moveto
+! 113 20 lineto
+! 126 32 lineto
+! 113 13.5 lineto
+! 100 32 lineto
+!strokefill
+!%%%%
+!newpath
+! 120 2 moveto
+! 120 20 lineto
+! 126 29 lineto
+! 126 2 lineto
+! 120 2 lineto
+!strokefill
+!
+!-save- restore

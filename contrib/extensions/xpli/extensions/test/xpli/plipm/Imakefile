@@ -1,0 +1,14 @@
+XCOMM $XConsortium: Imakefile,v 1.14 91/07/12 17:06:55 rws Exp $
+
+   XPLILIB = ../../../lib/Xpli/libXpli.a
+INCLUDES = -I$(TOP) -I$(INCLUDESRC) -I$(XLIBSRC) -I../../../include/xpli
+   LOCLIBS = $(XPLILIB) $(XLIB)
+   DEPLIBS = $(DEPXLIB)
+   SRCS = plipm.c wsimple.c
+   OBJS = plipm.o wsimple.o
+
+all: plipm
+
+NormalProgramTarget(plipm,$(OBJS),$(DEPLIBS),$(LOCLIBS),NullParameter)
+
+DependTarget()

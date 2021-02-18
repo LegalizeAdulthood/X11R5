@@ -1,0 +1,83 @@
+.\" $Header: XpexSetTableEntries.man,v 2.5 91/09/11 16:03:40 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.\"
+.\"
+.\"
+.TH XpexSetTableEntries 3PEX "Alpha Release" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexSetTableEntries, XpexDeleteTableEntries \- Modify lookup table resources
+.SH "Synopsis"
+.nf
+void XpexSetTableEntries(dpy, lut_id, table_type, start, count, entries)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexLookupTable \fIlut_id\fP;
+.br
+	XpexTableType \fItable_type\fP;
+.br
+	XpexTableIndex \fIstart\fP;
+.br
+	int \fIcount\fP;
+.br
+	char \fI*entries\fP;
+.br
+	int \fIlength\fP;
+.sp
+void XpexDeleteTableEntries(dpy, lut_id, start, count)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexLookupTable \fIlut_id\fP;
+.br
+	XpexTableIndex \fIstart\fP;
+.br
+	int \fIcount\fP;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIlut_id\fP
+To be added 
+.IP \fItable_type\fP
+To be added 
+.IP \fIstart\fP
+To be added 
+.IP \fIentries\fP
+To be added
+.IP \fIcount\fP
+To be added
+.SH "Description"
+Refer to PEX Protocol Specification Document, Section 4.3.
+.SH "Structures"
+To be added
+.SH "Errors"
+LookupTable, Value, FloatingPointFormat, ColorType, Alloc
+.SH "Related Commands"
+To be added

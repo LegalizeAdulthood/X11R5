@@ -1,0 +1,1387 @@
+/**************************************************************************\
+* 									   *
+*  			HISTORY of user-visible changes			   *
+* 									   *
+\**************************************************************************/
+
+1.7h 		(91/10/04)		xpm v3.0 R5 tape
+
+      - now uses xpm 3.0 library (xpm version for the R5 contrib tape)
+
+    BUGS CORRECTED:
+
+      - icons with no center plug didn't resize when bars were resizing
+        themselves. Found by Mike Liang <mike@lsil.com>.
+
+
+1.7g		(91/10/03)		bugs
+
+    R5 INCLUSION:
+
+      - GNU copyrights removed on data/amc-lisp.el, with author agreement.
+
+      - xpm/Imakefile corrections
+
+    BUGS CORRECTED:
+
+      - problem when resized with confine-windows on on left and top side of
+        screen. Doug Bogia (bogia@cs.uiuc.edu)
+
+      - bug with some false window-group hints (bus errors on sun4s)
+
+    DISTRIBUTION:
+
+      - new PROBLEMS file for listing hints & tips for helping to compile.
+        added tips for HP machines by Eyvind Ness <eyvind@hrp.no>
+
+      - blk@zoot.cca.cr.rockwell.com (Barry L. Kaplan) GWM-Lisp major mode 
+        for Emacs included in distrib.
+
+      - Hugues.Leroy@irisa.fr (Hugues Leroy) additions of rxcmdtool to 
+        rxterm.script
+
+
+1.7f		(91/09/12)		submission to X11R5 contrib tape
+
+    BUGS CORRECTED:
+
+      - Do not trust the validity of windows put by clients as group leaders
+        or transient_for masters. Idraw v3.0 was putting garbage in its 
+	transient_for property and was fooling gwm.
+
+      - send-key-to-window now properly puts shifts to access shifted
+        chars, i.e.: (send-key-to-window "aB@#" alone) works as expected
+
+    MWM PROFILE:
+
+      - bug in submenu execution in mwm: current window was bad. Bug found by
+        blk@zoot.cca.cr.rockwell.com (Barry L. Kaplan) 
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - uses now the new 3.0b XPM Pixmap file library
+
+
+1.7e		(91/09/10)		bug fixes
+
+    BUGS CORRECTED:
+
+      - no more resource manager bugs. Were due to using null strings to 
+         mean "any" as classes.
+
+      - gwm now properly dies when the X server dies 
+        (shown by qjb@athena.mit.edu). Was due to a bus error in a signal 
+        handler...
+
+      - problems in shaped windows decoration
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - new function color-make-rgb function contributed by 
+        dab@berserkly.cray.com (David Borman)
+
+      - uses now the new 3.0a XPM Pixmap file library
+
+
+1.7d		(91/08/29)		bug fix
+
+    BUGS CORRECTED:
+
+      - version number wasn't correct (still 1.7b)
+
+      - bad behavior on transient windows
+
+
+1.7c		(91/08/28)		Compiles with R5 + bug fixes
+
+    BUGS CORRECTED:
+
+      - random values returned sometimes by the X ressources manager
+
+      - sun4 bugs
+
+      - John Carr <jfc@ATHENA.MIT.EDU> patches for IBM RT and RS/6000, 
+        X11R5, ansiC
+
+      - more careful during window decoration (should fix xrn crashes)
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - machine names are trunacted to first dot, to retain only machine name,
+        not the domain
+
+    NEW FUNCTIONS:
+
+      - window-to-client and client-to-window functions to convert to/from
+        decorated client's X ids and Gwm decorating "window"s.
+
+
+1.7b		(91/08/15)		bug fixes
+
+    BUGS CORRECTED:
+
+      - random "Invalid Window" errors really corrected
+
+      - window-icon? documented and implemented in C instead of wool.
+
+      - README updated
+
+
+1.7a		(91/08/15)		bug fixes
+
+    STANDARD PROFILE:
+
+      - dvrooms additions by Dwight Shih <dwight@s1.gov>:
+        roll-rooms-up and roll-rooms-down to get through rooms in order
+	magic-dvroom-attach: windows <Room>::<Name> get automatically added
+	    to <Room>.
+        dvroom-remapping: unmaps all windows belonging to any room.	
+
+    BUGS CORRECTED:
+
+      - random "Invalid Window" errors
+
+      - defines XErrorHandler for pre-R4 releases
+
+      - bad data/Imakefile generation
+
+    NEW FUNCTIONS:
+
+      - window-is-valid, wob-is-valid to help debugging profiles.
+
+    DISTRIBUTION:
+
+      - "make wool" is provided to make a standalone command-line version of
+        wool (less all the gwm-specific routines).
+
+
+1.7		(91/08/01)
+
+    STANDARD PROFILE:
+
+      - hostnames which contain embedded "." were not matched properly
+	Fix provided by DGREEN@IBM.COM (Dan R. Greening) and
+	Doug Bogia (bogia@cs.uiuc.edu)
+
+      - proper use of * in resource specs
+
+      - keys works in vscreen window now
+
+      - meters stay in place
+
+      - client-info menu wasn't movable
+
+      - no-set-focus not always set properly (patch by Doug Bogia)
+
+      - null string for the window-client-name badly matched
+        (patch by Doug Bogia)
+
+    BUGS CORRECTED:
+
+      - (= "foo" 'foo) didn't work!
+
+      - William.Lott@ARDATH.SLISP.CS.CMU.EDU: (wob-borderpixel <pixmap>)
+        broken
+
+      - John Carr patches for IBM PC-RTs under BSD (AOS), not AIX
+	Mike Newton patches for building on DG AViiON
+	Dan R. Greening patches to Imakefile for IBM RS-6000
+	sven@tde.lth.se (Sven Mattisson) patches for Sequent Symmetry
+	DYNIX 3.0.17
+
+      - window-icon checks for window existence
+
+      - madler@apollo.com (Michael Adler) dims_outer_to_inner() in client.c:
+        failed to account for the border width of the decoration
+
+      - client moving only one coord would move to 0
+
+      - client-name context var was ignored in place-menu
+
+      - double-buttonpress was bugged: acted as a buttonpress
+
+      - fixed crash when client quits immediately after a colormap change 
+	request. (problem showed by Frank Mangin <mangin@sa.inria.fr>)
+
+      - fixed random crash while redecorating windows that were part of a group
+
+    NEW FUNCTIONS:
+
+      - xid-to-wob function
+
+      - delete-read-properties pointer to delete x properties after reading 
+        them (Philippe.Kaplan@sa.inria.fr)
+
+      - GWM_EXECUTE gets deleted after being read
+
+      - color-free to de-allocate a color allocated by color-make
+
+      - draw-rectangle to draw filled rectangles in pixmaps
+
+      - draw-text to write strings in pixmaps
+
+    MWM PROFILE:
+
+      - restart code fixed also in mwm.gwm and twm.gwm
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - uses xpm library v3.0a. xpm files read are v3, i.e. xpm v2, but only
+	with the C syntax.
+
+      - Eyvind Ness <eyvind@hrp.no> near-mouse placement policy included in
+	file near-mouse.gwm
+
+      - new place-button function in utils.gwm to easily create sexy 3-d
+        looking standalone button triggering wool code when pressed.
+
+      - no need to put pressed button as modifier for release events anymore
+
+    DISTRIBUTION:
+
+      - main directory included in the tar file, i.e. I do "tar c gwm" instead
+	of "tar c ." previously.
+
+      - data/Imakefile is now automatically generated to avoid forgetting 
+	files.
+
+      - no more use of makedepend in makefile. Local dependencies already
+	generated before distribution.
+
+      - amc-lisp.el emacs style included to indent "properly" (like me, that
+        is :-) wool code under emacs
+
+    CHANGES TO THE DOC:
+
+      - Doc fully updated.
+
+
+1.7_delta     	(91/01/11)
+
+    STANDARD PROFILE:
+
+      - Mike Newton: pop menu on root with any modifier on menu button, not
+        just alone or with-alt, in case things goes wrong
+
+    BUGS CORRECTED:
+
+      - Jay Berkenbilt <qjb@ATHENA.MIT.EDU>: closing code executed at the end
+        and restart of gwm was just value of closing, causing random crashes
+
+      - av@cs.uta.fi (Arto V. Viitanen) ids too long for apollo C compiler
+
+      - Mike Newton: new version of mon-keys.gwm (bugs with epoch)
+
+      - Alan Pfeiffer-Traum <apt@uh.edu>: iconification of clients not matched
+        by describe-window failed
+
+      - icon-groups-old.gwm  simple-icon-old.gwm  simple-win-old.gwm files were
+        missing from distrib (for mwm and twm profiles)
+
+      - Mike Newton: installation procedure works on install-less machines
+
+      - John Carr <jfc@ATHENA.MIT.EDU>: fixes for correct argument types in
+        functions, for compiling with prototyped Xlib
+
+    MWM PROFILE:
+
+      - you need to replace (load "icon-groups") by (load "icon-groups-old")
+        in your mwmprofile.gwm
+
+
+1.7_gamma	(90/12/28)	deep clean up: profile reorg, xpm2, bugs
+
+	This version is the result of collecting all the contributed patches
+	sent to me, chasing the last bugs hiding in dark corners, and
+	reorganizing the standard profile code for having a much cleaner base
+	for adding things. Gwm 2.0 being late, this is to have a solid gwm
+	version	to play with meanwhile.
+	WARNING: The LaTeX doc is not yet updated, hope to do it in Feb 91.
+
+    INCOMPATIBILITIES WITH PREVIOUS PROFILES:
+
+      - gwm now uses XPM v2 format to read color images, not anymore XPM v1.
+        converters from v1 to v2 are included in the XPM v2.8 distrib included
+	in the xpm subdirectory, files xpm1to2.perl (perl script), and from
+	ppm to xpmv2: ppmtoxpm2.c (C program). Perl is a language available
+	by anonymous ftp from prep.ai.mit.edu. Xpm1 files won't be recognized,
+	but gwm won't break, just display the X logo instead.
+
+    NEW FUNCTIONS:
+
+      - new events enter-window-not-from-grab & leave-window-not-from-grab
+        used for tricky interactions in menus.
+
+      - color-components function returns (R G B) list of primary color
+        components of a color made by color-make.
+
+      - wool: trace-func.gwm package to add ability to individually trace wool
+        functions by trace-func and untrace-func
+
+      - wool: Jay Berkenbilt's match-windowspec function to choose decos by
+        regular expressions on window names or class is included in utils.gwm
+
+    BUGS CORRECTED:
+
+      - clients started as iconic before gwm launch now work OK.
+	(bug report: John Mackin <john@cs.su.oz.au>,
+		     David Hogan <dhog@cs.su.oz.au>)
+
+      - setting window-size bugged on windows which didn't have resize incr
+        hints set.
+
+      - basebars without titlebars on non-rectangular windows triggered an
+        error (bug found by Frank Mangin <Frank.Mangin@mirsa.inria.fr>)
+
+      - a random bus error due to uninitialized variable in redecoration of
+        windows fixed
+
+      - gwm didn't handle resizes or move too early after initial mapping
+
+      - could crash if window was destroyed too fast. More generally, all (I
+        hope) timing bugs have been chased to death...
+
+      - bus errors while moving windows with move-opaque shouldn't appear
+        anymore 
+
+      - \xNN escape sequence in strings for specifiying chars by hex value was
+        bugged.
+
+      - rotate-cut-buffer was bugged
+
+      - (boundp '()) was returning ()
+
+      - set-icon didn't work
+
+      - unmapped group leaders were mapped (never-mapped toplevel widgets for
+        instance) 
+
+      - the propagate argument provided to send-user-event survived function
+        invocation.
+
+      - simple-win.gwm: title stayed of inactive color in some cases
+
+      - Carl Witty <cwitty@portia.stanford.edu>: confined windows could get 
+        1 pixel off the right & down of screen
+
+      - John Carr <jfc@ATHENA.MIT.EDU>: make decoration windows have
+        background "none" to decrease flashing. I forgot to include this patch
+	in 1.6b
+
+      - wool: (exit insts...) were evaluating inst after restoring old
+      context!
+
+      - wool: exit out of a for didn't restore correcetly the old values
+
+      - + misc bugs... Globally safer when X errors happen at unexpected times
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - send-key-to-window automatically adds "shift" as modifier to
+        upper-case letters sent, to behave as expected when sending a string
+	with mixed upper/lower case. Pointed by Frank Mangin
+	<Frank.Mangin@mirsa.inria.fr>.
+
+      - pixmap-load now supports symbolic color overriding, a XPM v2 feature
+        (e.g (pixmap-load "mailbox" "flag" "Red" "sky" (color-make "Blue"))) 
+
+      - menu-make skips nil entries
+
+      - make-string-usable-for-resource-key traps now blanks & * as well as .
+
+      - traps Program sizes <= 1 for this brain-dead motif 1.1
+
+    STANDARD PROFILE:
+
+      - I now use the "amc-lisp" indent style under emacs for indenting wool
+        code. amc-lisp.el is provided with the epoch distribution.
+
+      - all client specifications for set-window, set-icon et al. now can be
+        either class-name, class-name.client-name,
+	class-name.client-name.window-name, or
+	class-name.client-name.window-name.machine-name. *-notation is
+	supported. You can say (set-window "Xman*Manual_Page" foo)
+
+      - decos are now evaluated at *deco* time, not when reading profile as
+        before. At evaluation, the deco is recursively processed (up to 10
+	times) till a decoration is obtained. (an atom/string is taken as a
+	file name and loaded, a function is called without args, a list is
+	evaluated). This should supress a lot of complicated quoting in
+	decos. This should not break existing decos, and you can then supress
+	most of the quoting you were forced to use with the previous method.
+
+      - raise-on-move, raise-on-resize and raise-on-iconify global flags.
+
+      - exemple .profile.gwm is much cleaner (and commented)
+
+      - Jay Berkenbilt <qjb@ATHENA.MIT.EDU> cute mini virtual screen package
+        included. Use by loading "vscreen" at the start of your profile, then
+	move along by Ctrl-Alt-Keys. Map available by root menu (see item 
+	"VS Show" in menu). see vscreen.gwm on how to customize.
+
+      - Rod Whitby: float package (was called auto-raise) included to make
+        windows always on top or to the background use by loading "float",
+	then new items added on window/icon menu.
+	This package uses visibility events, so can miss some cases and may
+	enter (exitable) loops if 2 floating windows overlap.
+
+      - Rod Whitby: unconf-move package, allows you to still move/resize
+	windows off screen boundaries, even if confine-windows is set (by
+	using the control key)
+
+      - Rod Whitby: suntools-keys package to iconyfy windows with F7 or L7,
+        and to toggle raise/lower with F5 or L5
+
+      - Mike Newton's (newton@gumby.cs.caltech.edu): mon-keys.gwm package to
+        add many WM functions on functions keys, such as F1/F2 to go to
+	next/previous window
+
+      - icon-groups package now adds 3 ways to iconify in the menu item
+        for iconifying: iconifying all group, this window (default), all
+	other windows of the group.
+
+      - dvrooms: Philippe Kaplan <phk@mirsa.inria.fr> added a flag
+        dvroom.icon-box, which, if set to t will make dvrooms non-exclusive
+	(more than one open at a time)
+
+      - added the "float" package of Rod Whitby <rwhitby@adl.austek.oz.au>
+        to make window always float before others, or sink to the background
+
+      - menu code is cleaned up: menus are now a list of items during profile,
+        where loaded packages can modify this list. The menu is then built
+	from the list after user profile is read. These lists are
+	window-pop-items, icon-pop-items, root-pop-items.
+
+      - menu buttons can now be strings, pixmaps, or any lisp expression
+        returning a pixmap
+
+      - multi-item entries in menus (with multi-item-make)
+
+      - menus now have a default action triggered when button is released
+	before menu is mapped. (nothing was done before)
+	Default action is set by the menu-default-action function
+
+      - reparse-standard-behaviors simplified, and window- & icon-behavior now
+        do not include anymore standard-behavior, you must include it when
+	building your fsms from these behaviors
+
+      - dvroom package new dvroom.auto-add flag to tell if new windows will
+        get automatically included in current room.
+
+      - new "customize" function to generically modify decos by context
+        E.g.: (customize simple-icon any Xman
+			 simple-icon.background (color-make "MistyRose"))
+	simple-icon and term-icon are customizable this way now
+	thus having a standard interface for customizing all packages on a
+	client basis
+
+      - screen-tile & icon-pixmap are defaulted-to intead of set.
+
+      - the provided rxterm script in data/ subdir now works with full
+        internet adresses 
+
+      - the "client info" menu item now pops-up an independant window.
+
+      - bugs in simple-ed-win corrected by duanev@mcc.com (Duane Voth)
+
+      - "reload" item no more included in root menu (reloading profile is
+        often not sufficent...)
+
+    MWM PROFILE:
+
+        mwm profile is not affected by the standard profile modifications
+
+      - Carl Witty <cwitty@portia.stanford.edu> patches:
+        mwm profile:
+            f.maximize corrected:
+                If executed from a menu, it didn't correctly change the
+    	    state of the window's zoom button
+    	    It did set the zoom button's pixmap incorrectly, although
+    	    this was corrected as soon as a leave-window event is generated.
+    	keyboard menu traversal more sensible
+    	new functions:
+    	    (f.eval (? "Hello")) will print hello when it is executed.
+    	    (f.identify) pops up a window which giving information about the
+    	    current window.
+    	    (f.delete) uses the WM_DELETE_WINDOW protocol to delete a window.
+    	    (f.load "mwm") will reload the mwm profile.
+    	    (f.raise_lower) is my version, which doesn't raise a window unless
+    	    another on-screen window actually obscures it.
+    	    (f.raise_move) is obvious.
+    	    (f.refresh_win) didn't do anything before; now it does.
+    	    (f.warpto "emacs") warps the mouse to the first emacs window found
+    	    and brings it to the front.  I implemented it for a friend who 
+    	    likes twm.
+    	I didn't like the look of disabled menu items in the mwm profile, with
+    	    that line drawn through them, so I added some modifications to 
+    	    allow disabled menu items to be displayed in a different color
+    	    instead.
+
+    TWM PROFILE:
+
+        twm profile is not affected by the standard profile modifications
+
+      - Carl Witty <cwitty@portia.stanford.edu> patches:
+        Some patches to make the icon manager in the twm profile act
+        more like the one in the X11R4 twm.  That is, when the cursor is in
+    	the icon manager, the focus is set to the window whose bar the cursor
+    	is over.  The patches also change it so that the icon manager doesn't
+    	resize when a window is iconified or deiconified.
+
+    CHANGES TO THE DOC:
+
+      - LaTeX doc is not yet updated. 1.7 will be 1.7_alpha/beta/gamma....
+        with doc updated
+
+      - John Mackin <john@cs.su.oz.au> corrections to the man page
+
+      - casey@gauss.llnl.gov (Casey Leedom): namespace doc entries out of
+        order 
+
+
+1.6b		(90/05/28)	bugs
+
+    BUGS CORRECTED:
+
+      - mwm profile: closing a xmh sub window was generating X errors
+        (Gilles Muller) + many more bugs corrected in mwm profile
+
+      - Jay Berkenbilt <qjb@ATHENA.MIT.EDU> windows with east gravities were
+        bugged (were offset 4*inside_borderwidth to the left)
+
+      - tmiller@suna0.cs.uiuc.edu withdrawing a client having an "user-icon" 
+        set didn't work (such as a dvroom)
+
+      - cwitty@portia.stanford.edu: reallocating when adding strings could fail
+        if new_size was > 2*old_size
+
+      - when match fails, returns () when called with 2args, "" otherwise.
+        (code made conformant to the doc)
+
+      - Doug Bogia <bogia@suna0.cs.uiuc.edu> The no-set-focus did not allow
+        the autocolormap to work. 
+
+      - new global values class-name & client-name for specifying client class
+        and client name of placed menus (default: Gwm and menu)
+
+      - John Carr <jfc@ATHENA.MIT.EDU>: make decoration windows have
+        background "none" to decrease flashing
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - Rod Whitby <rwhitby@austek.oz.au> added the variable "confine-windows"
+        to keep interactive moves and resizes confined to screen boundaries.
+        I added confine-windows support to the wool move-opaque code, too.
+
+    STANDARD PROFILE:
+
+      - button 2 in icon of simple-ed-win works now (Andrew Simms
+        <ams@acm.Princeton.EDU>)
+
+      - duanev@mcc.com (Duane Voth): dvrooms maintain a GWM_ROOM window
+        property on windows to put them back in room managers
+
+      - Rod Whitby <rwhitby@austek.oz.au> xterm-list more defaultable
+
+    CHANGES TO THE DOC:
+
+      - documentation of confine-windows flag and  class-name & client-name
+
+
+
+1.6a		(90/05/09)	bugs
+
+    BUGS CORRECTED:
+
+      - bug in (pop-menu 'here) was preventing mwm sub-menus from working
+
+      - No Imakefile in data/
+
+      - deplibs added in Imakefile (hleroy@irisa.fr (Hugues Leroy))
+
+      - compilation without -DUSER_DEBUG now works
+	dacseg@uts.amdahl.com (Scott E. Garfinkle)
+
+      - icon description evalution was done too early, prevented tracking
+	changes of the icon name until the icon had been realized
+
+      - bus errors were supposed to be trapped gracefully, but weren't
+	Ray Nickson <Ray.Nickson@comp.vuw.ac.nz>
+
+      - in multi-screen mode, gwm mixed decos between screens
+	<eirik@elf.TN.Cornell.EDU>
+
+      - mapping an already mapped leader of a group of windows could lead to
+	problems. Alan Caroll <carroll@suna0.cs.uiuc.edu>
+
+      - On gwm created menus, the property WM_CLIENT_MACHINE was of type atom
+	instead of string. Carl Witty <cwitty@cs.stanford.edu>
+
+      - bitmaps read from files could be offset.  Dana Chee <dana@bellcore.com>
+
+      - replacing menu inside screen was letting borders out of screen. 
+	Jay Berkenbilt <qjb@ATHENA.MIT.EDU> 
+
+      - gwm could miss resize events while decorating windows
+	Simon Kaplan <kaplan@cs.uiuc.edu>
+
+      - bug in destroying placed menus fixed 
+        Carl Witty <cwitty@portia.stanford.edu>
+
+      - killing gwm by SIGTERM (kill without options) was doing an emergency
+        exit, leaving windows not were they should be. Gwm now quits properly
+	Jay Berkenbilt <qjb@ATHENA.MIT.EDU>
+
+    STANDARD PROFILE:
+
+      - icon-groups: new members always started iconic if leader had the
+        "start as an icon" hint.
+
+      - mwm profile: many bugs corrected by Gilles.Muller@irisa.fr
+
+      - could have blank pixmaps in mwm icons. Dana Chee <dana@bellcore.com>
+
+    CHANGES TO THE DOC:      None.
+
+
+1.6		(90/03/30) 	dark corners clean-up
+
+    BUGS CORRECTED:
+
+      - group leader could be unmapped on gwm restart
+
+      - bar with no plug didn't take the size of its tile (implied null side
+        bars under mwm profile on some windows) (Gilles.Muller@irisa.fr)
+
+      - closing of windows of a window-group could generate X errors.
+
+      - window gravity hints now work
+
+      - when a client is iconified on startup, call "iconify-window", do not
+        try to map icon.
+
+      - some files were missings from data/Imakefile
+
+      - for "pop-menu", doc was saying to use the flag "'fixed". It was
+        "'here" in fact. doc corrected.
+
+      - a reference count bug could bring havoc in some setq/with combinations
+        (Vincent Bouthors <vincent@mirsa.inria.fr>)
+
+      - withdrawing a window (a la icccm) could make gwm destroy it
+
+      - do not break on bogus clients hints (xcol. XView clients)
+
+      -  bar-min-width was ignored (Carl Witty <cwitty@portia.stanford.edu>)
+
+      - simple-icon wasn't working in multi screen mode (Doug Bogia)
+
+      - changing the name after editing window name left it in black/black
+        (Doug Bogia)
+
+      - patch to the README file by casey@gauss.llnl.gov (Casey Leedom)
+
+      - or was returning its result non evaluated
+
+      - all the current-event-xxx functions return 0 instead of () when
+        current event was not a key or button event
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - window-icon-pixmap-id to know what actual bitmap the client has set.
+
+    STANDARD PROFILE:
+
+      - icon-groups works, even on clients starting iconified.
+        can now exclude some clients from icon-grouping with list
+	icon-groups.exclude
+
+      - deltabutton now part of the distrib
+
+      - new "'sort" field of rows to keep icons sorted
+
+      - set-icon didn't work when given a lisp expression (Steve Anderson)
+
+      - no user-positioning for transient windows (Carl Witty)
+
+      - better customizability of standard behaviors: re-declare them, then
+        call the reparse-standard-behaviors functions. Buttons have now
+	symbolic names select-button, action-button, menu-button instead of 1,
+	2, and 3.
+
+      - Doug Bogia <bogia@cs.uiuc.edu>: patches to the no-set-focus code
+
+
+1.5e		(90/03/07)	old pre-icccm code
+
+    BUGS CORRECTED:
+
+      - gwm was using the ICCCM-obsolete size and position normal hints
+        (bug triggered by XView clients)
+
+      - gwm was giving false size for xterms (offset by 1)
+
+      - some bugs when labels became of size 0 (when erasing a dvroom label)
+
+      - Doug Bogia <bogia@cs.uiuc.edu>: patches to the no-set-focus code to
+        make it work in all cases.
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - GWM_EXECUTE property can be also set on any client window, no more
+        just on root windows. Thus you will be able to execute
+	window-dependent gwm code.
+
+
+1.5d		(90/02/28)	bugs in mwm
+
+    NEW FUNCTIONS:
+
+      - new "move-opaque" package part of the distrib now. This one works
+        with the mwm profile and is documented in the standard profile chapter.
+
+    BUGS CORRECTED:
+
+      - twm profile bug fixes by Arup Mukherjee:
+	[1] No more error messages if you change a window name when
+	    the icon manager is off.
+	[2] Icon box in title bar now requires only one click to iconify.
+	[3] Menu code takes advantage of the new hostname active
+	    value, so that windows on remote machines come up correctly even if
+	    the display was unix:0 when gwm was started.
+
+      - creating a menu before accessing "hostname" could crash. Bug was only
+        in 1.5c. (It could happen when creating a new dvroom).
+
+      - simple-icon.legend flag was not documented
+
+      - bugs in the mwm profile (contributed by Gilles.Muller@irisa.fr)
+	- mnemonics work now (Alt-M to move a window)
+	- always raises on de-iconify
+	- better looking menus (mwmrc.gwm changed)
+        - only the client-class was used in resources, not the client name
+
+
+1.5c	 	(90/02/21)	bugs
+
+	Now patches can be applied with "patch -p" without an argument.
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - machine name is now set on gwm windows (placed menus)
+
+    NEW FUNCTIONS:
+
+      - new "hostname" active value gives the name of the machine on which gwm
+        is running.
+
+      - "window-icon?" (defined in Wool in "utils.gwm") returns () if icon has
+        not been created yet. This is used to check for icon existence without
+	creating it, since evauating "window-icon" would provoque the creation
+	of the icon
+
+    BUGS CORRECTED:
+
+      - elapsed-time now yields the real time elapsed in milliseconds
+
+      - standard profile: gwm could crash on withdrawing of windows (with xmh,
+        xpostit...). This bug only existed in 1.5b.
+
+      - mwm profile:
+	    - do not do interactive positioning on user-positioned windows.
+	    - did not set the colormap focus when entering the window.
+
+
+1.5b	 	(90/02/15)	bugs, printable doc
+
+	Gwm version names will now be distinct from the actual rcs numbers,
+	I got fed up writing these long 1.5.xx.yy silly names :-)
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - a nice minimal man page (gwm.man) has been contributed by 
+        Casey Leedom <casey@gauss.llnl.gov>, as well as fixes to the
+	Imakefile.
+
+      - if client re-order its WM_COLORMAP_WINDOWS list, and had the
+        current colormap focus, re-install the colormap of the first
+	window in the (new) list.
+
+      - Gwm maintains a GWM_RUNNING property on each root window of
+        the screens it manages in which is kept the window Id of a
+	Gwm-created hidden window bearing the same property for
+	applications to check for the presence of Gwm. This is the
+	same mechanism that Mwm uses.
+
+    NEW FUNCTIONS:
+
+      - (send-button-to-window button# modifier x y)
+        Just like send-key-to-window, sends a synthetic
+	buttonpress/buttonrelease pair of events to the window at
+	position x,y (in pixels) in the client window (which can be a
+	subwindow) 
+
+      - visibility-fully-obscured
+        visibility-partially-obscured
+	visibility-unobscured
+	new events contributed by Rod Whitby <rwhitby@adl.austek.oz.au>
+
+      - any wool code can be parsed and evaluated by putting it as an
+        ASCII string in the GWM_EXECUTE property on the root window.
+	This is built-in, and will work with any profile.
+
+      - make-string-usable-for-resource-key to replace . and * with _ to give
+        to resource-get. window-name does not use this automatically anymore,
+	allowing you to see dots in window names
+
+      - "allow-event-processing" to un-freeze the server once you got an event
+        that you grabbed in a replayable way (via the "replayable-event"
+	function). Otherwise, looping on current-mouse-position was hanging
+	gwm, since the pointer didn't appear to change state.
+
+    BUGS CORRECTED:
+
+      - AT LAST! The postscript version of the doc will print on any
+        postscript printer, even with low RAM. This is done by using
+	dvips v5.0 from Tomas Rockiki and converting XWD dumps to
+	idraw drawings.
+
+      - icon-groups was buggy, but should work Ok now.
+
+      - restarting gwm was killing applications which had an
+        application-created icon window.
+
+      - parent of menu was not resetted to root window by
+        "unpop-menu". This was making the mwm profile hang at random
+	places, when the wob-parent function deferenced this
+	"dangling" pointer
+
+      - do not take into account icons in clients window-group hints.
+        This allows gwm to work with the (buggy) XView clients 
+	(bug found by Michael Urban <urban%rcc@rand.org>)
+
+      - X Toolkit popups could fail to appear after the first time,
+        due to a bad handling of the Withdrawn state by gwm
+	(Randy Thomas <rjt@sedist.cray.com> helped me greatly to find
+	this one by providing me with a program exercising the bug)
+
+      - "window scooting" bug (some windows will move after a gwm
+        restart) fixed by Jay Berkenbilt <qjb@ATHENA.MIT.EDU>      
+
+      - "delete-window" do not more have the side-effect of changing
+        the current wob.
+
+      - calling "window-icon-name" on the root window crashed gwm.
+
+      - patches for working with interactive386 C compiler provided by
+        Dan Rich <drich%dialogic@uunet.UU.NET>
+
+      - current screen could be changed during opening & closing. Fix
+        provided by John Carr <jfc@ATHENA.MIT.EDU>
+
+      - TeX macro \RCSRevNum corrected by Juha Sarlin <juha@tds.kth.se>
+
+      - mwm profile:
+	  -  double clicking fast enough in a plug could kill client
+	  -  "delta" function could hang gwm. solved with new
+	     "allow-event-processing" function
+	  - files buttons.gwm and bindings.gwm have been renamed in mwm-*
+
+    STANDARD PROFILE MODS:
+
+      - now icons update names on window-icon-name changes in the standard
+        profile and the mwm emulation.
+
+      - mwm profile now set resouces by CLASS, no more by NAME!
+        in mwmrc.gwm say now:
+	            XClock.clientDecoration '(border resizeh)
+	instead of  xclock.clientDecoration '(border resizeh)
+	mwm icons use now always the icon name, not the window name
+
+    CHANGES TO THE DOC:
+	(here I will list changes made to the doc, so that you can
+	decide if it worth re-printing it)
+
+      - doc for the send-button-to-window function.              (wool_ref.tex)
+      - doc for the new visibility... events.                    (wool_ref.tex)
+      - doc for sending wool code by the GWM_EXECUTE property,   (overview.tex)
+	and for checking for Gwm presence by GWM_RUNNING.
+      - doc for make-string-usable-for-resource-key.             (wool_ref.tex)
+      - doc for allow-event-processing.				 (wool_ref.tex)
+
+
+1.5.1.5 	(89/12/20)	bugs
+
+    NEW FUNCTIONS:
+
+      - x, y, gravity, borderwidth & borderpixel can now be set for
+	meters in the "meter" function, which now returns previous values.
+
+      - new "map-notify" event sent to window each time it is actually mapped
+	on the screen. (needed for epoch)
+
+      - new "reenter_on_opening" flag (default 1). Can be set to 0 during
+	critical sections that cannot be re-entered (thus fixing a bug
+	in the twm emulator).
+
+    BUGS CORRECTED:
+
+      - "window creep" on restart is fixed
+
+      - menu-min/max-width were ignored when a plug made the menu resize
+
+      - redecorating a window (by the menu) sometimes unmapped it
+
+      - dlist package somewhat cleaned up (Gary Oberbrunner <garyo@Think.COM>)
+
+      - 2 patches from dab@berserkly.cray.com (David Borman) for
+        compiling with the buggy DEC BSD4.4 C compiler (with -DSTUPID)
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - meters now grow & shrink (were only growing before)
+
+      - december version of arup's twm package included.
+
+      - process-events can take an argument to do a sync before
+	processing events
+
+
+1.5.1.1		(89/12/05)	bugs
+
+    NEW FUNCTIONS:
+
+      - menu-max-width & menu-min-width as context variables for menu-make,
+	just as there is bar-max-width & bar-min-width.
+
+    BUGS CORRECTED:
+
+      - when client was moving and resizing itself, gwm was sending 2	
+	configure events.
+
+      - on a withdraw request, (Synthetic UnmapNotify sent to root, see
+	ICCCM v1.0, sec 4.1.4), gwm now fully un-decorate the window
+	to start afresh a new decoration on new map.
+
+
+1.5		(89/11/24)	X11R4 tape gwm
+
+    This is the version that will be included in the X11R4 tape
+    The standard profile has been cleaned up (some renaming of variables)
+
+    Inclusion of the TWM emulator by Arup Mukherjee and the rooms
+    package by Duane Voth.
+
+    The placement functions have been greatly enhanced with the new "rows"
+    package
+
+    NEW FUNCTIONS:
+
+      - trigger-error to jump to toplevel
+
+      - icon-name and starts-iconic context variable for placed menus
+
+    BUGS CORRECTED:
+
+      - no more errors on calls to XGrabPointer on R4
+
+      - bugs in resizing of menus when items were resized
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - "-" is now n-ary
+
+
+1.4.1.30	(89/11/15)	X11R4 beta
+
+    This version should compile OK under the X11R4 beta tree
+
+    NOTE: for compiling with alpha release of X11R4, use -DX11R4a
+          for compiling with beta  release of X11R4, use -DX11R4
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - window-name always converts the dots "." to "_", for not breaking
+	the X resource manager. This did not happen in the standard profile
+	but was very dangerous in some other profiles
+
+      - for X11R4 inclusion, wl_namespace.c and .h files are renamed to
+	wl_name.c and .h, and Imakefile was re-designed by Donna Converse.
+
+      - #endif foo were replaced by #endif /* foo */
+
+      - new file "cursor-names.gwm" to have the names of the built-in
+	cursors (see "cursor-make" entry)
+
+      - mwm profile included: try it with a gwm -f mwm
+
+    BUGS CORRECTED:
+
+      - list-of-windows could break due to an uninitialised context
+
+      - if a (buggy) client declared itself as transient-for itself, gwm
+	would enter an infinite loop (new interviews clients)
+
+
+1.4.1.27	(89/10/18)	Imakefile
+
+    NOTE: the "gwm" subdirectory is renamed as "data" for compiling with imake\
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - Installs now with either an Imakefile or Makefile.noXtree
+
+      - supports now the WinGravity iccm hint (ICCCM 1.0 fully compatible)
+
+      - simple-icon.legend to remove title on simple icons
+
+    BUGS CORRECTED:
+
+      - set/get-x-property on root Ok now
+
+      - grid-color should be Ok
+
+    NEW FUNCTIONS:
+
+      - get-wm-command to get WM_COMMAND ICCCM property
+
+1.4.1.25	(89/10/09)	Shape extension
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - support of X11R4 non-rectangular windows (Shape extension)
+
+      - window-is-shaped function to test if decorated window is 
+	non-rectangular (returns t or ())
+
+    BUGS CORRECTED:
+
+      - unbind was bugged (if done twice on same atom)
+
+      - current-event-window-coords bugged when window did not have 
+	resize inc hints set
+
+      - gwm was looping on windows having themselves as group leader 
+	(bug fixed by weissman@wsl.dec.com)
+
+      - sort was bugged
+
+
+1.4.1.22	(89/09/07)	bug fixes
+
+    INCOMPATIBILITIES WITH PREVIOUS PROFILES:
+
+      - replayable events are now made with the "replayable-event" function,
+	no more by setting the "freeze-on-grab" flag
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - ungrab-server can take no arguments, meaning ungrab unconditionnaly
+	(with argument, ungrabs only if argument is the wob having set the
+	grab)
+
+      - # and ## now works on wobs (by accessing the property field, supposedly
+	containing a list), and on atoms (by accessing their value which
+	must be a list).
+
+      - ## can now add new elements to a list, in an unique way: If many
+	objects point to the list, only one copy of the list is expanded
+
+      - match can now return a list of values, e.g:
+	(match "\\([0-9]*\\)x\\([0-9]*\\)" "80x24" 1 2)
+	returns the list ("80" "24")
+
+      - strings can be written across lines by prefixing the eol by "\"
+
+    BUGS CORRECTED:
+
+      - no more ghost windows when client dies during decoration
+
+      - gwm tracks correctly changes of key mapping
+
+      - ungrab-server was bugged
+
+      - with-modifier-N instead of with-modifierN, as was specified in the doc
+
+      - colors could be mixed between screens
+
+      - defname in screen. was changing current wob
+
+    NEW FUNCTIONS:
+
+      - better error handling with a stack dump on error, with variable
+	"stack-print-level" controlling the number of levels displayed
+
+      - wob-x and wob-y for absolute position of wobs
+
+      - current-event-time for time (milliseconds) of triggering event
+
+      - confine-grabs flag for confining cursor inside grabbing wob
+
+      - delete-nth for physically removing an element of a list
+
+      - current-event-from-grab tells if the event was generated by a grab
+	(enter/leave, focus in/out)
+
+      - window-program-set-position, window-program-set-size for acessing
+	application hints
+
+
+1.4.1.13	(89/08/18)	bug fixes
+
+    INCOMPATIBILITIES WITH PREVIOUS PROFILES:
+
+      - ! does not fork a shell anymore, directly executes command instead.
+	Now you must break yourself the command line into arguments, i.e. 
+	change (! "xterm -fn 6x10") in (! "xterm" "-fn" "6x10")
+	and (! "for i in `cat ~/.xloads`;do rxload $i;done")
+	in  (! "/bin/sh" "-c" "for i in `cat ~/.xloads`;do rxload $i;done")
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - -q flag for quiet start up (sets "gwm-quiet" var)
+
+      - pop-menu and unpop-menu now do a XSync
+
+    BUGS CORRECTED:
+
+      - = didn't check type of second arg in some cases
+
+      - window was lost if mapped on another screen
+
+      - some timing bugs could prevent windows from mapping after X errors
+
+      - current-event-relative-y was broken (returned the x value)
+
+      - grab-server was bugged when given a wob as argument
+
+    STANDARD PROFILE MODS:
+
+      - xterms/xload called by the pop-up menu now are created on the same
+	screen as the menu.
+
+      - set-icon evaluates list if given in argument (and is debugged, too)
+
+1.4.1.10	(89/08/09)	bug fixes
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - shell escape "!" uses now the content of the SHELL env. variable
+	(dab@opus.cray.com (Dave Borman))
+
+      - placed menus participate in the WM_DELETE ICCCM protocol, i.e. you
+	can apply "delete-window" on a placed menu to destroy them.
+
+      - Class of placed menus is now "Gwm" instead of "GWM".
+
+      - defname of an atom having already a value sets all the created names
+	in the existing namespace states to this value.
+
+      - current-event-window-coords returns now also the coordinates in
+	the decorating window (thus including the decoration) as 5th and 6th
+	elements of the returned list
+
+    BUGS CORRECTED:
+
+      - typos in the doc (Olaf Heimburger <olaf@tubopal.uucp>)
+
+      - (cursor-make number) works for all releases and for number = 0
+
+      - place-menu with coords was bugged 
+        (Eirik Fuller <eirik@labs.labs.tek.com>)
+
+      - composite wobs (bars, menus) always transmit user-events to their
+	sons (bars, plugs) now. (Terry Weissman	<weissman@wsl.dec.com>)
+
+      - "-m" option do not map menus anymore
+
+      - error-occured becomes error-occurred
+
+      - bitwise-and was bugged (always returned 0)
+
+      - when restarting gwm, some windows drifted of one pixel
+	(Gary Oberbrunner <garyo@Think.COM>)
+
+    NEW FUNCTIONS:
+
+      - grab-keyboard-also flag for grabbing also the keyboard when issuing
+	a "grab-server" which grabs the pointer.
+
+
+1.4.1.6		(89/07/27)
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - (cursor-make number) to select a cursor in the server's cursor font
+	code courtesy of Bill Trost <trost@scott.labs.tek.com>
+
+      - resize-style controls the interaction during resizes: 0 is the
+	old "uwm" way, 1 is the new "mwm" way. two new flags control the
+	behavior:
+		mwm-resize-style-catch-corners if you want to be able
+			to "catch" corners while dragging a side
+		mwm-resize-style-corner-size for the distance from the corner
+			at which you catch them
+	and 8 new cursor variables (cursor-NW et al.) controls the shape
+	of the cursor.
+	Warning: for now, you must trigger the code only in the borders
+	(wait for an leave-window event before calling resize window...)
+	but it will be corrected in next release.
+	(code made by Frederic Charton)
+
+      - new value 5 for resize-grid-style for 2-pixel wide lines for style 0
+
+    BUGS CORRECTED:
+
+      - namespace-add was broken
+
+      - grab-server was bugged
+
+      - compiles ok on ultrix
+
+    NEW FUNCTIONS:
+
+      - namespace-remove to remove a name state, to be able to implement
+	a full "window." namespace later
+
+
+1.4.1.4		(89/07/26)	bug fixes
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - send-user-event can take a third argument not to propagate events
+	down the wob hierarchy
+
+      - This file is now called CHANGES and at the top directory, instead of
+	doc/HISTORY
+
+      - updates will now be distributed as patches to the files, no more to
+	the shell archive
+
+    BUGS CORRECTED:
+
+      - IBM-RT compilation flag changed to IBM_RT in Makefile
+
+      - compiles ok with vanilla gcc (no more writes in static strings)
+
+      - re-decorate-window works with an argument and check if it is applied
+	to a real window
+
+      - cond works now
+
+      - re-load&dec menu item fixed in standard profile
+
+      - when tracing an expression, the evaluated expression could not unset
+	the tracing mode
+
+      - in case of errors in the "opening" code of the window, maps it
+
+    NEW FUNCTIONS:
+
+      - ungrab-server-and-replay-event to release an activated passive grab
+	and replay the grabbing event. Useful for click-to-type policies
+
+      - current-event-relative-x & current-event-relative-y coords of
+	last event in the wob coordinates
+
+
+1.4.1.1		(89/07/21)	multi-screen
+
+    INCOMPATIBILITIES WITH PREVIOUS PROFILES:
+
+      - previously, menus were considered as windows: thus in a menu fsm,
+	send-user-event was sending events to the menu. This was a bug and
+	has been corrected (window refers to the window of the wob having
+	popped the menu). Menu codes working in previous releases should
+	be corrected (look at the new "std-popus.gwm" file)
+
+      - the "sublist" function has been changed not to include the last
+	given element
+
+      - the meter parameters are now set by a single function, "meter"
+	instead by multiple variables meter-font, meter-background, etc...
+
+    COMPATIBLE ENHANCEMENTS:
+
+      - multi-screen support: now Gwm will decorate all the screens on the
+	display. The standard profile operates by defining one resource per
+	screen, and then loading the user ".profile.gwm" file once per
+	screen. The problem is that the decoration writers will have to be
+	sure they do not mix colors, pixmaps, cursors and all wobs and
+	menus. 
+
+      - To help managing multiple screens, the concept of "namespaces"
+	has been added. A namespace is a set of names having a different
+	value for each state of the namespace. Gwm defines the "screen."
+	namespace, for all screen-dependant data. For instance, "screen-width"
+	is a name in the "screen." namespace, having the correct value for
+	each screen, gwm changing the state of "screen." to match the
+	current screen.
+	See functions: namespace-make, namespace-add, defname,
+	namespace, namespace-of, namespace-size
+
+      - grab-server accepts a 'nochild optional argument to grab strictly
+	on a wob, redirecting even the events sent to its childs.
+
+      - (trace  expression) evaluates the expression before each list eval
+
+      - new -1, -x command line switches and GWM_MONOSCREEN shell variable
+
+      - current-mouse-position returns current screen as 4th elt
+
+      - resize-meter to say that you want a meter to appear on resizes
+
+      - move & resize-window return status code that can be checked to see
+	if the user aborted them
+
+    NEW FUNCTIONS:
+
+      - warp-pointer to set the position of the pointer
+
+      - menu-wob to get the wob id of a menu
+
+      - new "screen" active value and associated variables: screen-type, 
+	screen-count, screen-width, screen-height, screen-widthMM, 
+	screen-heightMM.
+
+      - list-of-screens returns the managed screens
+
+
+    BUGS CORRECTED:
+
+      - in fsms, if no "goto" state was given, the new state was setted to
+	the same state. Now it is just left untouched, so that it is possible 
+	to set the new state by sending user-events to the same fsm in an
+	action
+
+      - Gwm handles resizes of not-yet-mapped windows, allowing XTerms
+	to appear quickly
+
+      - undefinde keys cannot anymore be grabbed.
+
+    STANDARD PROFILE MODS:
+
+      - set-window et al. use now the class of the client rather than its
+	name for resource management, and accept the screen type as an
+	optional first argument
+
+      - default for resources is now "any", not window, icon, etc...
+
+
+1.3.1.35	(89/05/09)	stack-frames
+
+    WOOL keeps now true stack frames, so it is able to correctly restore
+    	local variable value when exiting across function calls and with
+	calls by an "exit" call or an error
+    ICCCM IconifyRequest was bugged
+    -D was not working
+    -a switch for "asynchronous" handling of moves and resizes
+    ported to ibm PC/RT
+    rxterm ksh shell script included in the distribution now
+    (load 'foo)bar do not eat "b" anymore
+    can unbind atoms now (primitive: "unbind")
+    do not remap withdrawn windows on (re)start
+    "simple-ed-borderwidth" variable to set the outer-borderwidth of the
+	simple-ed-win standard decoration
+    works now on pure SYSV or BSD Makefiles
+    -i option to stay in PointerRoot input focus mode

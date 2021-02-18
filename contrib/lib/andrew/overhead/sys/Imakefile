@@ -1,0 +1,30 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+DependTarget()
+
+NormalObjectRule()
+ProgramTarget(sys, sys.o, ,)
+InstallProgram(sys, $(DESTDIR)/bin)
+
+ProgramTarget(conftest, conftest.o, ,)
+
+InstallDocs(sys.help, ${DESTDIR}/help)
+
+install.time::
+	@echo "%%%% Now attempting execution of the installed 'sys' program."
+	@echo "%%%% If this execution does not work for some reason,"
+	@echo "%%%%    it may indicate a serious problem with your"
+	@echo "%%%%    Andrew system configuration."
+	@echo "%%%% If execution appears successful, the installation will continue."
+	@echo "%%%% Otherwise, it should stop here, and you should"
+	@echo "%%%%    correct the apparent problem."
+	@echo "Result of executing $(DESTDIR)/bin/sys is:"
+	@$(DESTDIR)/bin/sys
+	@echo "%%%% Execution appears to have been successful."
+	@echo "%%%% Installation continues."
+	@echo "%%%% Executing the configuration tester."
+	./conftest
+	@echo "%%%% No problems discovered.  Continuing with the build."

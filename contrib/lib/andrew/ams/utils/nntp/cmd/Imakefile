@@ -1,0 +1,30 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOCALINCLUDES = -I../lib
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#else
+RESOLVER_LIB =
+#endif /* RESOLVER_ENV */
+
+LIBS	=	${BASEDIR}/lib/libmail.a \
+		${UTILLIB} \
+		${BASEDIR}/lib/liberrors.a \
+		${MALLOCLIB}
+
+NormalObjectRule()
+
+ProgramTarget(nntppoll, main.o, ../lib/libpoll.a ${LIBS}, ${BSDLIB})
+ProgramTarget(nntpxmit, nntpxmit.o, ../lib/libxmit.a ${LIBS} ${RESOLVER_LIB}, ${BSDLIB})
+InstallProgram(nntppoll, ${DESTDIR}/etc)
+InstallProgram(nntpxmit, ${DESTDIR}/etc)
+
+DependTarget()
+

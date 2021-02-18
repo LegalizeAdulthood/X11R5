@@ -1,0 +1,32 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:39:35 ohm Exp $
+/**/#
+   INSTALLFLAGS = $(INSTDATFLAGS)
+
+all::
+
+RKS = 1B_TOUPPER \
+	1B_ZENHIRA \
+	1B_ZENKATA \
+	1B_newTOUPPER \
+	2A_CTRL \
+	2B_DAKUTEN \
+	2B_JIS \
+	2B_ROMKANA \
+	2_TCODE \
+	3B_HANKATA \
+	3B_KATAKANA \
+	3B_ZENKAKU \
+	autork \
+	mode \
+	mode.hankata \
+	mode.nohankata
+
+includes:: mode
+
+LinkFile(mode,mode.nohankata)
+
+InstallMultiple($(RKS),$(JWNNWNNDIR)/rk)
+
+clean::
+	$(RM) mode

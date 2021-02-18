@@ -1,0 +1,17 @@
+#!/bin/csh
+if ($#argv >= 1) then
+   setenv XAPPLRESDIR ${1}mri/
+else
+   setenv XAPPLRESDIR ./
+   cd Mri
+endif
+if (-e Mri) then
+    echo ============= Testing Mri =============
+    foreach example (${XAPPLRESDIR}M[0-9][0-9]_*)
+        echo Mri $example:t
+	Mri $example:t
+    end
+endif
+if ($#argv == 0 ) then 
+   cd ..
+endif

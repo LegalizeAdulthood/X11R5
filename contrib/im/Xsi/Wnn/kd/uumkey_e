@@ -1,0 +1,32 @@
+;
+; $Id: uumkey_e,v 1.1 1991/09/09 22:43:33 ohm Exp $
+;
+;; uumkey for use empty-mode
+
+include		@LIBDIR/uumkey
+
+unset yank
+unset yank_e
+yank_e				^Y
+unset sainyuuryoku
+unset sainyuuryoku_e
+sainyuuryoku_e			^U 0x8C
+unset kuten
+unset kuten_e
+kuten_e				^] 0x97
+unset jis
+unset jis_e
+jis_e				^_ 0x98
+unset touroku
+unset touroku_e
+touroku_e			^T 0x95
+unset quote
+unset quote_e
+quote_e				^V
+unset previous_history
+unset previous_history_e
+previous_history_e		^P 0x93
+unset next_history
+unset next_history_e
+next_history_e			^N 0x92
+quote_send_ascii_char		^X

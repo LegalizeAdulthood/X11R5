@@ -1,0 +1,42 @@
+JL_NOBI_CONV( )
+
+名称
+
+	jl_nobi_conv	文節の長さを変えて変換する。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_nobi_conv(buf, bun_no, ichbn_len, bun_no2, use_maep, ich_shop)
+	struct wnn_buf *buf;	/* バッファ */
+	int bun_no;		/* 文節番号1 */
+	int ichbn_len;		/* 一文節目の長さ */
+	int bun_no2;		/* 文節番号2 */
+	int use_maep;		/* 前後の接続を使う/否 */
+	int ich_shop;		/* 一文節目を小文節1つにする/複数小文節にする */
+
+機能
+
+	文節番号 bun_no から 文節番号 bun_no2 の前までの文節を、第一文節目の長さ
+	ichbn_len を指定して変換し直す。
+
+	bun_no2 = -1 の時には、bun_no2 = 文節数として行なう。
+
+	use_maep で、第一文節目の変換時に、その前の小文節との接続情報を用いるか
+	を指定する。
+	    WNN_NO_USE	    接続情報を用いない。
+	    WNN_USE_MAE	    第一文節の変換時に前の小文節との接続情報を用いる。
+	    WNN_USE_ATO	    第二文節の変換時に第一文節との接続情報を用いる。
+	    WNN_USE_ZENGO   WNN_USE_MAE + WNN_USE_ATO
+
+	第一文節として、大文節を用いるか、小文節を用いるかを ich_shop で指定する。
+	    WNN_DAI	   大文節を用いる。
+	    WNN_SHO	   小文節を用いる。
+
+リターンバリュー
+
+	正常終了時には文節数を返す。
+	異常終了時には -1 を返す。
+

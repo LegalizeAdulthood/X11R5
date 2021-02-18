@@ -1,0 +1,67 @@
+#include "config.sh"
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+      WORLDOPTS = -k
+        SUBDIRS = lib iroha server cmd rcmd dic misc can
+        INCLUDE = ./include/iroha
+       INCLUDEX = ./include/X11
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+SERVERDIR = server dic/romdic dic/irdic
+CLIENTDIR = cmd rcmd dic/romdic
+SGSDIR = iroha lib
+
+install:: mkbindir mklibdir mkdicdir mkerrdir mklockdir
+instserver:: mkdicdir mkerrdir mklockdir
+instclient:: mkbindir mkdicdir
+instsgs:: mklibdir
+
+MakeDirectories(mkbindir, $(irohaBinDir))
+MakeDirectories(mklibdir, $(irohaLibDir))
+MakeDirectories(mkdicdir, $(DicDir))
+MakeDirectories(mkerrdir, $(ErrDir))
+MakeDirectories(mklockdir, $(LockDir))
+
+iroha:: 
+	@echo ""
+	@echo "Building iroha"
+	@echo ""
+	@echo ""
+	$(RM) -r include
+	MakeDir($(INCLUDE))
+	MakeDir($(INCLUDEX))
+	$(MAKE) Makefiles
+	$(MAKE) clean
+	$(MAKE) includes
+	$(MAKE) depend
+	$(MAKE) $(WORLDOPTS)
+	@echo ""
+	@date
+	@echo ""
+
+instserver::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SERVERDIR) ;\
+	do \
+		(cd $$i ; echo "installing" "in $(CURRENT_DIR)/$$i..."; \
+		$(MAKE) $(MFLAGS) DESTDIR='$(DESTDIR)' install); \
+	done
+
+instclient::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(CLIENTDIR) ;\
+	do \
+		(cd $$i ; echo "installing" "in $(CURRENT_DIR)/$$i..."; \
+		$(MAKE) $(MFLAGS) DESTDIR='$(DESTDIR)' install); \
+	done
+
+instsgs::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SGSDIR) ;\
+	do \
+		(cd $$i ; echo "installing" "in $(CURRENT_DIR)/$$i..."; \
+		$(MAKE) $(MFLAGS) DESTDIR='$(DESTDIR)' install); \
+	done
+

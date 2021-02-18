@@ -1,0 +1,93 @@
+.TH GL_Menu 3GL 9Jul91 "GraphLib 0.5a"
+.SH NAME
+GL_Menu \- Type to use to create menus.
+GL_AttachButtonMenu \- Put a menu as the action of a button.
+.SH SYNTAX
+(Window)GL_Create(GL_Menu,
+.br
+		    <option>, [args,]
+.br
+		  ...,
+.br
+		  GL_Done);
+int GL_AttachButtonMenu(menu,button)
+.br
+		Window menu,button;
+.SH ARGUMENTS
+.IP GL_Menu 1i
+Type specifier for the GL_Create call
+.IP GL_Done 1i
+Mark to terminater variable arguments list.
+.IP menu 1i
+The menu to install in the button.
+.IP button 1i
+The button to install into.
+
+.SH DESCRIPTION
+The first call to GL_Create creates a menu with the options as specified.
+The second call will attach an already created menu to an already created
+button.  This call will return a status -- 1 if it succeeds 0 if it fails.
+The install call will fail if the button already has an action.
+Menus are subclassed off of Windows, and all of those options can therefore
+be used.
+
+.SH OPTIONS
+.IP "GL_Menu*Colors, <unsigned long fgcolor,bgcolor>" 1i
+These options are currently not supported because the text objects do not
+support alternative colors.  This will be fixed in a future release.
+.IP "GL_MenuFrame, <int width>" 1i
+This specifies the width of the frame.  This value defaults to 1.
+.IP "GL_MenuShadow, <int width>" 1i
+This specifies the width of the shadow.  This defaults to 0, which causes 
+no shadow to be used.  Shadow support is currently slightly broken, this
+will be fixed when the shadow is created as its own window as it should
+be done.
+.IP "GL_MenuFrameCol, <int framecol>" 1i
+???
+.IP "GL_MenuShadowCol, <int shadowcol>" 1i
+???
+.IP "GL_ComplexMenuItem, " 1i
+This specifies that a complex menu item is about to be created.
+The effect of this call is a recursive call to GL_Create, and therefore
+this command must be terminated by a GL_Done.
+Options to this are GL_MItem* or GL_MSubMenu.
+.IP "GL_MenuItem, <char *itemname>, <VPTF action_function>" 1i
+This creates a menu item with the given name, and action function which
+will be called if that menu item is selected.
+.IP "GL_MenuWindow, <Window attachwin>" 1i
+This is the window which the menu will be popped up in when a button is
+pressed.  This has to be done because the stupid XGrabPointer call will
+flush out ButtonRelease events if you click too quickly.
+
+.IP "GL_MItemMenu, " 1i
+??? It has no handling function, and therefore use will cause a program
+to exit.
+.IP "GL_MItemName, <char *name>" 1i
+Specifies the name of a complex menu item.
+.IP "GL_MItemH, <int height>" 1i
+Specifies the height of a complex menu item.
+.IP "GL_MItemW, <int width>" 1i
+Specifies the width of a complex menu item.
+.IP "GL_MItemAction, <VPTF action>" 1i
+Specifies the action which should be taken if this item is selected.
+.IP "GL_MSubMenu, " 1i
+Specifies that a submenu should occur for this menu item.  This option
+must have a similar terminating GL_Done to terminate the submenu.
+.IP "GL_MItemDim, " 1i
+Specifies that the item is dimmed.
+.IP "GL_MItemTitle, " 1i
+Specifies that this item is a title, this causes a line to be placed under
+the item, and also that it will not invert when the pointer is over that
+item.
+.IP "GL_MItemSeperator, " 1i
+Places a seperator, which is currently a line after the current item.
+
+.SH FEATURES?
+The documentor also did not write this section of the code and therefore
+does not understand what some of the options do.  This problem should
+be fixed in a future release.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_TextObject(3GL), GL_Window(3GL), GL_Button(3GL),
+GraphLib Programming Manual
+

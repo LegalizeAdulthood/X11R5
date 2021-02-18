@@ -1,0 +1,202 @@
+ＵＵＭＲＣ（４＿ＪＴ）
+
+
+名称
+    uumrc - かな漢字変換フロントエンドプロセッサ(uum(1_JT))初期化ファイル
+
+形式
+    /usr/local/lib/wnn/ja_JP/uumrc (デフォルト)
+
+機能説明
+
+    uumrcは、かな漢字変換の標準インタフェースを使用する時の環境を設定す
+    るもので、各ユーザごとの設定が可能である。
+
+    エントリが重複した場合は上書きされる。
+    ';' で始まる行はコメントになる。
+
+    このファイルで設定できるものは、以下の通り。
+
+	include <uumrcファイル名>
+		他のuumrcファイルを読み込む。
+		デフォルトの uumrc ファイルに個人の設定を付け加える場合な
+		どに使用する。
+
+	setconvenv <wnnenvrc ファイル名> 
+	setconvenv <wnnenvrc ファイル名> sticky
+	setconvenv <サーバのホスト名> <wnnenvrc ファイル名>
+	setconvenv <サーバのホスト名> <wnnenvrc ファイル名> sticky
+		かな漢字変換用の環境設定ファイルを指定する。
+		省略時は、/usr/local/lib/wnn/ja_JP/wnnenvrc である。
+		サーバのホスト名が指定されているものは、そのサーバに接続される。
+		sticky がついていると、その環境は、uum がいなくなっても残る。
+		環境の初期化時に、その環境が存在すると(スティッキーな環境であ
+		れば)、その環境を初期化することなく、そのまま使われる。
+		これは、次の立上りを早くするためである。
+
+	setkankanaenv <wnnenvrc ファイル名>
+	setkankanaenv <wnnenvrc ファイル名> sticky
+	setkankanaenv <サーバのホスト名> <wnnenvrc ファイル名>
+	setkankanaenv <サーバのホスト名> <wnnenvrc ファイル名> sticky
+		漢字かな変換用の環境設定ファイルを指定する。
+		省略時は、漢字かな変換が出来ない。
+		サーバのホスト名が指定されているものは、そのサーバに接続される。
+		sticky がついていると、その環境は、uum がいなくなっても残る。
+		環境の初期化時に、その環境が存在すると(スティッキーな環境であ
+		れば)、その環境を初期化することなく、そのまま使われる。
+		これは、次の立上りを早くするためである。
+
+	setkanaromenv <wnnenvrc ファイル名>
+	setkanaromenv <wnnenvrc ファイル名> sticky
+	setkanaromenv <サーバのホスト名> <wnnenvrc ファイル名>
+	setkanaromenv <サーバのホスト名> <wnnenvrc ファイル名> sticky
+		かなローマ字変換用の環境設定ファイルを指定する。
+		省略時は、かなローマ字変換が出来ない。
+		サーバのホスト名が指定されているものは、そのサーバに接続される。
+		sticky がついていると、その環境は、uum がいなくなっても残る。
+		環境の初期化時に、その環境が存在すると(スティッキーな環境であ
+		れば)、その環境を初期化することなく、そのまま使われる。
+		これは、次の立上りを早くするためである。
+
+	setuumkey <uumkey ファイル名>
+		キーバインドファイルを指定する。
+		省略時は、/usr/local/lib/wnn/ja_JP/uumkey である。
+
+	setrkfile <ローマ字かな変換ファイル名>
+		ローマ字かな変換ファイル名を指定する。
+		ディレクトリ名の場合、その下の mode ファイルが対象になる。
+		省略時は、/usr/local/lib/wnn/ja_JP/rk/mode である。
+
+	setconvkey <convert-keyファイル名>
+
+	setconvkey <端末名> <convert-keyファイル名>
+		convert-key(機種によるキーバインドの違いを吸収するファイル)を指定
+		する。
+		省略時は、/usr/local/lib/wnn/cvt_key_tbl である。
+		<端末名>が指定されているものは、その<端末名>が環境変数 TERM と一致
+		している場合のみ有効である。但し、<端末名>の指定には、ワイルド・
+		カード '*' が使える。
+		ここで参照される端末名とは、uum が起動された後の 環境変数 TERM 
+		(uum 起動前の TERM に"-j" を付け加えたもの)の値である。
+
+	not_send_ascii_char
+		かな漢字変換バッファ(変換行)が空の時、ascii 文字をかな漢字変換
+		バッファに取り込む 。( デフォルト)
+
+	send_ascii_char
+		かな漢字変換バッファ(変換行)が空のとき、ascii 文字をかな漢字変換
+		バッファに取り込まない。
+
+        waking_up_in_henkan_mode
+		uum を変換 ON モードで立ち上げる。(デフォルト)
+
+        waking_up_no_henkan_mode
+		uum を変換 OFF モードで立ち上げる。
+
+        setjishopath <パス名>
+		辞書追加のときの辞書名入力バッファの初期値を指定する。
+		デフォルトは ""。
+
+        sethindopath <パス名>
+		辞書追加のときの頻度ファイルのディレクトリパス名の初期値を指定する。
+		デフォルトは ""。
+
+        setfuzokugopath <パス名>
+		辞書追加のときの付属語ファイルのディレクトリパス名の初期値を指定する。
+		デフォルトは ""。
+
+        setmaxchg <数字>
+		最大変換可能文字数を指定する。
+		数字に0以下の値(0を含む)を指定すると、デフォルト値となる。
+		デフォルトは、80。
+
+        setmaxbunsetsu <数字>
+		最大変換可能文節数を指定する。上限は、400。
+		数字に0以下の値(0を含む)を指定すると、デフォルト値となる。
+		デフォルトは、80。
+
+        setmaxichirankosu <数字>
+		次候補一覧の時の最大表示次候補数を指定する。
+		省略時は、画面の幅に応じて表示個数を選択する。
+		数字に0以下の値(0を含む)を指定すると、デフォルト値となる。
+		デフォルトは、36。
+
+        setmaxhistory <数字>
+		ヒストリーを最大何個まで記憶するかを指定する。
+		数字に0以下の値(0を含む)を指定すると、デフォルト値となる。
+		デフォルトは、11。
+
+	 excellent_delete
+		オートマトン(ローマ字かな変換)で文字を消去する時、確定された文字は
+		アルファベットに戻って最後の１文字が消える。（デフォルト)
+
+	 simple_delete
+		オートマトン(ローマ字かな変換)で文字を消去する時、確定された文字は
+		そのまま消える。
+
+	 flow_control_on
+		tty のフローコントロールを on に設定する。（デフォルト)
+
+	 flow_control_off
+		tty のフローコントロールを off に設定する。
+
+	 convkey_not_always_on
+		変換 off の時、キーコード変換を機能させない。（デフォルト)
+
+	 convkey_always_on
+		変換 off の時、キーコード変換を機能させる。
+
+	 remove_cs
+		termcap から cs を remove する。
+
+	 not_remove_cs
+		termcap から cs を remove しない。
+
+	touroku_comment
+		単語登録時にコメントの入力を行なう。
+
+	touroku_no_comment
+		単語登録時にコメントの入力を行なわない。
+
+    include, setuumkey, setrkfile, setconvkey, setconvenv,
+    setjishopath, sethindopath, setfuzokugopath,
+    setkankanaenv, setkanaromenv の引数の先頭に
+    ~、 ~username, @HOME, @LIBDIR の記法が使用できる。
+	~		環境変数 HOME の値。
+	~username	/etc/passwd に登録されているログネーム username のホーム
+			ディレクトリ名。
+	@HOME		環境変数 HOME の値。
+	@LIBDIR		デフォルトの uum 環境ファイルのディレクトリパス名
+			(/usr/local/lib/wnn)。
+	@LANG		環境変数 LANG の値の最初の 5 文字
+	
+    setdic, setjishopath, sethindopath の引数内では、最初の @USR を 
+    uum のユーザ名(uum(1_JT) 参照)に展開する。
+	
+設定例
+	setdic		usr/@USR/ud	-			8 0 0 - -
+	setdic		sys/kihon_1	usr/@USR/kihon_1.hindo	5 0 0 - -
+	setdic		sys/koyuu_1	usr/@USR/koyuu_1.hindo	3 0 0 - -
+	setdic		sys/tankan_1	usr/@USR/tankan_1.hindo	0 1 0 - -
+	setjishopath	sys/
+	sethindopath	usr/@USR/
+	setuumkey	@LIBDIR/uumkey
+	setrkfile	@LIBDIR/rk
+	setconvkey	@LIBDIR/cvt_key_tbl
+	setconvkey	ST*	@LIBDIR/cvt_key_tbl.ST
+	setconvkey	gmw*	@LIBDIR/cvt_key_tbl.gm
+	;waking_up_no_henkan_mode
+	flow_control_on
+	not_send_ascii_char
+
+注意事項
+
+    辞書、 頻度のファイルは、 uum が接続する jserver が起動しているマシン上の
+    ファイル名を指定する。指定したユーザ辞書、頻度のファイルが存在しない場合、
+    jserver 起動マシン上に作成される。
+    詳しくは、sys_dic(5_JT), usr_dic(5_JT), jserver(1_JT) を参照すること。
+
+関連項目
+
+    uum(1_JT), jserver(1_JT), SYS_DIC(5_JT), USR_DIC(5_JT), uumkey(4_JT),
+    cvt_key_tbl(4_JT), オートマトン(3J_T)

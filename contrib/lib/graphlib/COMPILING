@@ -1,0 +1,4 @@
+In general, you should be able to type build.sh and hit return and it should
+properly build the library.  If you get messages about not being able to 
+find include/library files, run config.sh and try to give answers as to where
+your X11 includes and libraries are.

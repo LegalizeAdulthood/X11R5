@@ -1,0 +1,49 @@
+#
+# @(#)Imakefile 1.3 90/02/26 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=	
+HDRSPRIVATE=	
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP) -I$(TOOLDIR)
+
+OBJS =\
+	help.o\
+	help_file.o
+
+SRCS =\
+	help.c\
+	help_file.c
+
+all::
+
+#if DebugLibXvol && ProfileLibXvol
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvol
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvol
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvol,$(OBJS))
+SubdirCompoundLibTarget(xview,$(OBJS))
+
+#if ProfileLibXvol
+SubdirProfiledLibTarget(xvol,$(OBJS))
+#endif
+
+#if DebugLibXvol
+SubdirDebuggedLibTarget(xvol,$(OBJS))
+#endif
+
+install_headers::
+
+DependTarget()

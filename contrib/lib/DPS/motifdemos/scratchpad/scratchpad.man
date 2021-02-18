@@ -1,0 +1,97 @@
+.TH scratchpad 1 "2 October 1991" "Adobe Systems"
+.SH NAME
+scratchpad \- Display PostScript text "playground"
+.SH SYNTAX
+scratchpad [toolkit options] [-debug]
+.SH DESCRIPTION
+.PN Scratchpad
+lets the user play and experiment with Display PostScript fonts.  Fonts
+may be aligned, resized, rotated, and slanted.  Also, font outlines
+may be used.  Any fonts supported by the DPS/X server may be selected
+at any point size (within reason ;-).
+
+After starting up, an option panel and a drawing window will be made
+available to the user.  A preexisting file may be loaded using the load
+button, or the user may start from scratch.  Double Clicking on the
+left mouse while in the drawing window will place a text cursor for
+the user to type.  All text will appear on the screen. 
+
+To change the font (size or type), click on the 'Show Font Panel' button
+of the option panel.  This will popup a font panel allowing the user
+to select the desired type and size of font.  When returning to the
+drawing window, be patient after the first couple of keypresses, as it
+sometimes takes a bit of time for the new font to be loaded from the
+disk if it has not previously been used.
+
+To set input text to outlined, press in the 'Outline Text' toggle.
+
+Select Mode:
+
+To select a character or characters, either click on the desired 
+character with the left button, or drag out a region to select with
+the left button.  To append to the current selections, use the right
+button.  Selected characters may be moved by clicking and dragging on
+any of the selected characters.  While characters are selected, several
+operators may be used to modify the characters.  In addition, changing
+the font in the font panel will change the selected characters to that
+font automatically.
+
+In all other modes, select mode may be temporarily re-enabled by holding
+down the CTRL key.  The CTRL key must be held down for the entire
+time of the operation (whether it be a drag, click, or double click).  
+
+Realign Mode:
+
+If characters get sized or scrolled strangely, they may be recovered
+using realign.  This operator takes all selected characters and returns
+them to their original state on the same line.
+
+Delete Mode:
+
+To delete selected characters, simply click on any selected character
+while in this mode.   If no characters are selected, select mode may
+temporarily be enabled using the CTRL key (as described above) to
+select characters.  In addition, clicking on an unselected character
+or dragging out a rubberband box without the CTRL key pressed will
+subsequently delete any affected characters.
+
+All of the other modes (rotate, resize, and scale) work exactly
+alike:
+
+Select the desired mode.  Click once (crosshair cursor) to set the
+anchor point.  The cursor will then change to denote the desired
+operation.  Click and drag the cursor on the control point to 
+perform the operator.
+
+.SH LOADING, SAVING, AND PRINTING
+
+The Load, Save, and Print buttons allow documents to be stored
+or retrieved from the disk.  Load and Save request the filename, while
+Print requests the filename or printer name, depending upon the 
+destination.
+
+While it is possible to print to a file, this file is not Loadable by
+the program, and is suitable only for PostScript printer output.  The
+Save option stores information in a format which may be used by Load.
+
+If Print is used and send to printer is selected, the output will go
+to the printer found in the PRINTER environmental variable (default), 
+or to the printer specified by the user.
+
+.SH DIAGNOSTICS
+Usage of the -debug option will open up a text context on stdout.  All
+PostScript sent to the X/DPS extension will be displayed on the screen
+as well.
+
+.SH BUGS
+The cursor sometimes is not updated correctly.  Race conditions can
+result in some conditions when text is selected.
+
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+PostScript and Display PostScript are registered trademarks of Adobe Systems
+Incorporated.
+.PP
+Copyright (c) 1990-1991 Adobe Systems Incorporated.  All rights reserved.
+

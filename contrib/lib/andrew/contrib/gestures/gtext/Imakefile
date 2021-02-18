@@ -1,0 +1,22 @@
+/* ********************************************************************** *\
+ * gtextv - Gesture Text View
+ * Medical Informatics 
+ * Washington University, St. Louis
+ * July 29, 1991
+ *
+ * Scott Hassan
+ * Steve Cousins
+ * Mark Frisse
+\* ********************************************************************** */
+GESTURE_RECOG_LIB = $(BASEDIR)/lib/gestures/librecog.a
+LIBS = $(BASEDIR)/lib/atk/libtext.a $(GESTURE_RECOG_LIB)
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicObject(gtextv,$(LIBS),-lm)
+DynamicObject(gtext,,)
+
+InstallClassFiles(gtextv.do gtext.do, gtextv.ih gtext.ih)
+InstallFile(gest.cl,$(INSTINCFLAGS),$(BASEDIR)/lib/gestures)
+DependTarget()

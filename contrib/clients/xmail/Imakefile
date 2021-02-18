@@ -1,0 +1,55 @@
+/* */#
+/* */# @(#)Imakefile - for xmail version 1 patchlevel 4
+/* */#
+/* */# Uncomment USE_DIRENT if readdir() uses <dirent.h> instead of <sys/dir.h>
+/* */#
+/* */#     USE_DIRENT = -DUSE_DIRENT
+/* */#
+/* */# Uncomment X_FACE and COMPFACE if you have the compface library installed
+/* */# and you want xmail to automatically display the X-Face: header, if found
+/* */# in a message.
+/* */#
+/* */#         X_FACE = -DX_FACE
+/* */#       COMPFACE = -lcompface
+/* */#
+/* */# Uncomment XPM if you have the Xpm version 3 library and want color icons
+/* */#
+/* */#            XPM = -DXPM
+/* */#         LIBXPM = -lXpm
+/* */#
+/* */# Uncomment LPT if you require att environment support for pseudo ports.
+/* */#
+/* */#            LPT = -lpt
+/* */#
+/* */# Define MAILBOX_DIRECTORY if your mail spool is located in other than the
+/* */# default /usr/spool/mail.  (If not specified, the default will be used.)
+/* */#
+/* */#    MAILBOX_DIR = -DMAILBOX_DIRECTORY=\"/usr/spool/mail\"
+/* */#
+/* */# Define DEFAULT_VISUAL if your copy of vi lies in some place other than
+/* */# /usr/ucb.  (If not specified, /usr/ucb/vi will be the default editor.)
+/* */#
+/* */#     DEF_VISUAL = -DDEFAULT_VISUAL=\"/usr/ucb/vi\"
+/* */#
+/* */# Define DEFAULT_MAILER if your mail program is not the standard
+/* */# /usr/ucb/Mail.  CAUTION - Operation is NOT guaranteed with other mailers.
+/* */#
+/* */#     DEF_MAILER = -DDEFAULT_MAILER=\"/usr/ucb/Mail\"
+/* */#
+
+  XMAIL_DEFINES = $(MAILBOX_DIR) $(DEF_VISUAL) $(DEF_MAILER)
+        DEFINES = $(USE_DIRENT) $(X_FACE) $(XPM) $(XMAIL_DEFINES)
+        DEPLIBS = $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(LIBXPM) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB) $(COMPFACE) $(LPT)
+
+           SRCS = Mailwatch.c HelpText.c actions.c callMail.c callbacks.c \
+		  confirm.c directory.c environs.c handler.c mail.c parser.c \
+		  utils.c windows.c xmail.c
+
+           OBJS = Mailwatch.o HelpText.o actions.o callMail.o callbacks.o \
+		  confirm.o directory.o environs.o handler.o mail.o parser.o \
+		  utils.o windows.o xmail.o
+
+ComplexProgramTarget(xmail)
+
+InstallAppDefaults(XMail)

@@ -1,0 +1,140 @@
+/**/#
+/**/# $Id: Imakefile,v 1.2 1991/09/12 07:48:22 ohm Exp $
+/**/#
+#FORKDEF = -DNOTFORK
+#      Jserver usually fork and remove association with controll
+#      terminal. -DNOTFORK is for DEBUG.
+
+ JSERVERDEFINES = -DJSERVER -DWRITE_CHECK
+       INCLUDES = -I$(WNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(WNNDEFINES) $(JSERVERDEFINES) $(WNNTERM)
+   INSTPGMFLAGS = $(INSTUIDFLAGS) -o $(WNNOWNER)
+  SERVERINITDEF = -DSERVER_INIT_FILE=\"/ja_JP/jserverrc\"
+  HINSIDEFINES = -DHINSIDATA_FILE=\"/ja_JP/hinsi.data\"
+
+SRC0= de.c
+SRC1= de_vars.c \
+	dispatch.c \
+	do_dic_env.c \
+	do_dic_no.c \
+	do_filecom.c \
+	error.c \
+	jbiki.c \
+	jbiki_b.c \
+	jishoop.c \
+	rd_jishoop.c \
+	readfile.c \
+	b_index.c \
+	jishosub.c \
+	jmt0.c \
+	malloc.c \
+	kai_area.c \
+	mknode0.c \
+	mknode1.c \
+	mknode2.c \
+	renbn_kai.c \
+	bnsetu_kai.c \
+	daibn_kai.c \
+	jikouho.c \
+	jikouho_d.c \
+	fzk.c \
+	atojis.c \
+	get_kaiarea.c \
+	snd_rcv.c \
+	do_henkan.c \
+	do_henkan1.c \
+	do_env.c \
+	do_hindo_s.c \
+	initjserv.c \
+	hinsi_list.c \
+	sisheng.c
+
+OBJ0= de.o
+OBJ1= de_vars.o \
+	dispatch.o \
+	do_dic_env.o \
+	do_dic_no.o \
+	do_filecom.o \
+	error.o \
+	jbiki.o \
+	jbiki_b.o \
+	jishoop.o \
+	rd_jishoop.o \
+	readfile.o \
+	b_index.o \
+	jishosub.o \
+	jmt0.o \
+	malloc.o \
+	kai_area.o \
+	mknode0.o \
+	mknode1.o \
+	mknode2.o \
+	renbn_kai.o \
+	bnsetu_kai.o \
+	daibn_kai.o \
+	jikouho.o \
+	jikouho_d.o \
+	fzk.o \
+	atojis.o \
+	get_kaiarea.o \
+	snd_rcv.o \
+	do_henkan.o \
+	do_henkan1.o \
+	do_env.o \
+	do_hindo_s.o \
+	initjserv.o \
+	hinsi_list.o \
+	sisheng.o
+
+SRC2= $(WNNJLIBSRC)/getopt.c
+OBJ2= getopt.o
+SRC3= $(WNNJLIBSRC)/wnnerrmsg.c
+OBJ3= wnnerrmsg.o 
+
+SRC4= $(WNNETCSRC)/strings.c
+OBJ4= strings.o
+SRC5= $(WNNETCSRC)/sstrings.c
+OBJ5= sstrings.o
+SRC6= $(WNNETCSRC)/bdic.c
+OBJ6= bdic.o
+SRC7= $(WNNETCSRC)/dic_atojis.c
+OBJ7= dic_atojis.o
+SRCGETHINSI= $(WNNETCSRC)/gethinsi.c
+OBJGETHINSI= gethinsi.o
+SRC9= $(WNNETCSRC)/revdic.c
+OBJ9= revdic.o
+SRC10= $(WNNETCSRC)/hindo.c
+OBJ10= hindo.o
+SRC11= $(WNNETCSRC)/pwd.c
+OBJ11= pwd.o
+SRC12= $(WNNETCSRC)/bcopy.c
+OBJ12= bcopy.o
+SRC13= $(WNNETCSRC)/msg.c
+OBJ13= msg.o
+SRCS= $(SRC0) $(SRC1) $(SRC2) $(SRC3) $(SRC4) $(SRC5) $(SRC6) $(SRC7) \
+      $(SRCGETHINSI) $(SRC9) $(SRC10) $(SRC11) $(SRC12) $(SRC13)
+OBJS= $(OBJ0) $(OBJ1) $(OBJ2) $(OBJ3) $(OBJ4) $(OBJ5) $(OBJ6) $(OBJ7) \
+      $(OBJGETHINSI) $(OBJ9) $(OBJ10) $(OBJ11) $(OBJ12) $(OBJ13)
+
+AllTarget(jserver)
+SingleProgramTarget(jserver,$(OBJS),,)
+
+instserver:: install
+
+InstallProgram(jserver,$(JWNNBINDIR))
+
+WnnSpecialObjectRule($(OBJ0),$(SRC0),.,$(SERVERINITDEF) $(FORKDEF))
+WnnSpecialObjectRule($(OBJ2),$(SRC2),$(WNNJLIBSRC),)
+WnnSpecialObjectRule($(OBJ3),$(SRC3),$(WNNJLIBSRC),)
+WnnSpecialObjectRule($(OBJ4),$(SRC4),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ5),$(SRC5),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ6),$(SRC6),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ7),$(SRC7),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJGETHINSI),$(SRCGETHINSI),$(WNNETCSRC),$(HINSIDEFINES))
+WnnSpecialObjectRule($(OBJ9),$(SRC9),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ10),$(SRC10),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ11),$(SRC11),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ12),$(SRC12),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ13),$(SRC13),$(WNNETCSRC),)
+
+DependTarget()

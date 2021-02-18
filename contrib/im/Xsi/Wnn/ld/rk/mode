@@ -1,0 +1,10 @@
+;
+; $Id: mode,v 1.1 1991/09/09 22:43:25 ohm Exp $
+;
+;;; for laten-1
+(defmode latin)
+
+2A_CTRL
+;;; for latin-1
+(if latin "[Lat]" 2B_LATIN)
+"[ q ]"

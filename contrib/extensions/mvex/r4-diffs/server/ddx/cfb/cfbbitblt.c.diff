@@ -1,0 +1,363 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/cfb/RCS/cfbbitblt.c,v 
+*** 1.7.1.1	1991/09/22 02:21:55
+--- 1.7.1.4	1991/09/22 21:29:43
+***************
+*** 35,40 ****
+--- 35,45 ----
+  #include	"cfb8bit.h"
+  #include	"fastblt.h"
+  
++ #ifdef sun
++ #include <pixrect/pixrect_hs.h>
++ extern Pixrect *sun_pr_screen;
++ #endif
++ 
+  cfbDoBitblt(pSrc, pDst, alu, prgnDst, pptSrc, planemask)
+      DrawablePtr	    pSrc, pDst;
+      int		    alu;
+***************
+*** 216,221 ****
+--- 221,248 ----
+          xdir = 1;
+      }
+  
++ #ifdef sun
++     if ((pSrc->type == DRAWABLE_WINDOW)
++ 	&& (pDst->type == DRAWABLE_WINDOW)
++ 	&& (alu == GXcopy))
++     {
++ 	pr_putattributes(sun_pr_screen, &planemask);
++ 
++         while(nbox--)
++         {
++             pr_rop(sun_pr_screen,
++ 		   pbox->x1, pbox->y1,
++ 		   pbox->x2 - pbox->x1, pbox->y2 - pbox->y1,
++ 		   PIX_SRC, sun_pr_screen,
++ 		   pptSrc->x, pptSrc->y);
++             pbox++;
++             pptSrc++;
++         }
++         pr_get(sun_pr_screen, 0, 0);
++ 
++     } else
++ #endif
++ 
+      /* special case copy */
+      if (alu == GXcopy && (planemask & PMSK) == PMSK)
+      {
+***************
+*** 937,942 ****
+--- 964,971 ----
+      return prgnExposed;
+  }
+  
++ static unsigned long	copyPlaneBitPlane;
++ 
+  #if (PPW == 4)
+  
+  cfbCopyPlane1to8 (pSrcDrawable, pDstDrawable, rop, prgnDst, pptSrc, planemask)
+***************
+*** 1281,1288 ****
+      }
+  }
+  
+- static unsigned long	copyPlaneBitPlane;
+- 
+  #define mfbmaskbits(x, w, startmask, endmask, nlw) \
+      startmask = starttab[(x)&0x1f]; \
+      endmask = endtab[((x)+(w)) & 0x1f]; \
+--- 1310,1315 ----
+***************
+*** 1311,1329 ****
+      } \
+  }
+  
+- cfbCopyImagePlane (pSrcDrawable, pDstDrawable, rop, prgnDst, pptSrc, planemask)
+-     DrawablePtr pSrcDrawable;
+-     DrawablePtr pDstDrawable;
+-     int	rop;
+-     unsigned long planemask;
+-     RegionPtr prgnDst;
+-     DDXPointPtr pptSrc;
+- {
+-     copyPlaneBitPlane = planemask;
+-     cfbCopyPlane8to1 (pSrcDrawable, pDstDrawable, rop, prgnDst, pptSrc,
+- 		      (unsigned long) ~0L);
+- }
+- 
+  cfbCopyPlane8to1 (pSrcDrawable, pDstDrawable, rop, prgnDst, pptSrc, planemask)
+      DrawablePtr pSrcDrawable;
+      DrawablePtr pDstDrawable;
+--- 1338,1343 ----
+***************
+*** 1495,1500 ****
+--- 1509,1745 ----
+  
+  #endif
+  
++ #if (PPW == 1)
++ unsigned long cfb24Pixelsfg, cfb24Pixelsbg;
++ 
++ cfbCopyPlane1to24 (pSrcDrawable, pDstDrawable, rop, prgnDst, pptSrc, planemask)
++     DrawablePtr pSrcDrawable;
++     DrawablePtr pDstDrawable;
++     int	rop;
++     unsigned long planemask;
++     RegionPtr prgnDst;
++     DDXPointPtr pptSrc;
++ {
++     int	srcx, srcy, dstx, dsty, width, height;
++     int xoffSrc, xoffDst;
++     unsigned int *psrcBase, *pdstBase;
++     int	widthSrc, widthDst;
++     unsigned int *psrcLine, *pdstLine;
++     register unsigned int *psrc, *pdst;
++     register unsigned int bits, tmp;
++     register int leftShift, rightShift;
++     unsigned int startmask, endmask;
++     register int nl, nlMiddle;
++     int firstoff, secondoff;
++     int nbox;
++     BoxPtr  pbox;
++ 
++     if (pSrcDrawable->type == DRAWABLE_WINDOW)
++     {
++ 	psrcBase = (unsigned int *)
++ 		(((PixmapPtr)(pSrcDrawable->pScreen->devPrivate))->devPrivate.ptr);
++ 	widthSrc = (int)
++ 		   ((PixmapPtr)(pSrcDrawable->pScreen->devPrivate))->devKind
++ 		    >> 2;
++     }
++     else
++     {
++ 	psrcBase = (unsigned int *)(((PixmapPtr)pSrcDrawable)->devPrivate.ptr);
++ 	widthSrc = (int)(((PixmapPtr)pSrcDrawable)->devKind) >> 2;
++     }
++ 
++     if (pDstDrawable->type == DRAWABLE_WINDOW)
++     {
++ 	pdstBase = (unsigned int *)
++ 		(((PixmapPtr)(pDstDrawable->pScreen->devPrivate))->devPrivate.ptr);
++ 	widthDst = (int)
++ 		   ((PixmapPtr)(pDstDrawable->pScreen->devPrivate))->devKind
++ 		    >> 2;
++     }
++     else
++     {
++ 	pdstBase = (unsigned int *)(((PixmapPtr)pDstDrawable)->devPrivate.ptr);
++ 	widthDst = (int)(((PixmapPtr)pDstDrawable)->devKind) >> 2;
++     }
++ 
++     nbox = REGION_NUM_RECTS(prgnDst);
++     pbox = REGION_RECTS(prgnDst);
++     while (nbox--)
++     {
++ 	dstx = pbox->x1;
++ 	dsty = pbox->y1;
++ 	srcx = pptSrc->x;
++ 	srcy = pptSrc->y;
++ 	width = pbox->x2 - pbox->x1;
++ 	height = pbox->y2 - pbox->y1;
++ 	pbox++;
++ 	pptSrc++;
++ 	psrcLine = psrcBase + srcy * widthSrc + (srcx >> 5);
++ 	pdstLine = pdstBase + dsty * widthDst + dstx;
++ 	xoffSrc = srcx & 0x1f;
++ 	xoffDst = 0;
++ 
++ 	maskbits(dstx, width, startmask, endmask, nlMiddle);
++ 	leftShift = xoffSrc;
++ 	rightShift = 32 - leftShift;
++ 	if (rop == GXcopy && (planemask & PMSK) == PMSK)
++ 	{
++ 	    while (height--)
++ 	    {
++ 	    	psrc = psrcLine;
++ 	    	pdst = pdstLine;
++ 	    	psrcLine += widthSrc;
++ 	    	pdstLine += widthDst;
++ 	    	bits = *psrc++;
++ 	    	nl = nlMiddle;
++ 	    	while (nl >= 32)
++ 	    	{
++ 		    int i = 32;
++ 		    nl -= 32;
++ 		    tmp = BitLeft(bits, leftShift);
++ 		    bits = *psrc++;
++ 		    if (rightShift != 32)
++ 		    	tmp |= BitRight(bits, rightShift);
++ #if BITMAP_BIT_ORDER == MSBFirst
++ 		    while (i--)
++ 			*pdst++ = (tmp & (1 << i)) ?
++ 			    cfb24Pixelsfg : cfb24Pixelsbg;
++ #else
++ 		    while (i--)
++ 			*pdst++ = (tmp & (1 << (31 - i))) ?
++ 			    cfb24Pixelsfg : cfb24Pixelsbg;
++ #endif
++ 	    	}
++ 		if (nl)
++ 		{
++ 		    int i = 31;
++ 		    tmp = BitLeft(bits, leftShift);
++ 		    if (rightShift != 32)
++ 		    {
++ 			bits = *psrc++;
++ 			tmp |= BitRight(bits, rightShift);
++ 		    }
++ #if BITMAP_BIT_ORDER == MSBFirst
++ 		    while (nl--)
++ 			*pdst++ = (tmp & (1 << i--)) ?
++ 			    cfb24Pixelsfg : cfb24Pixelsbg;
++ #else
++ 		    while (nl--)
++ 			*pdst++ = (tmp & (1 << (31 - i--))) ?
++ 			    cfb24Pixelsfg : cfb24Pixelsbg;
++ #endif
++ 		}
++ 	    }
++ 	}
++ 	else
++ 	{
++ 	    register unsigned int   src;
++ 
++ 	    while (height--)
++ 	    {
++ 	    	psrc = psrcLine;
++ 	    	pdst = pdstLine;
++ 	    	psrcLine += widthSrc;
++ 	    	pdstLine += widthDst;
++ 	    	bits = *psrc++;
++ 	    	nl = nlMiddle;
++ 		if (rop == GXcopy)
++ 		{
++ 	    	    while (nl >= 32)
++ 	    	    {
++ 		    	int i = 32;
++ 		    	nl -= 32;
++ 		    	tmp = BitLeft(bits, leftShift);
++ 		    	bits = *psrc++;
++ 		    	if (rightShift != 32)
++ 		    	    tmp |= BitRight(bits, rightShift);
++ 		    	while (i--)
++ 		    	{
++ #if BITMAP_BIT_ORDER == MSBFirst
++ 			    if (tmp & (1 << i))
++ 				src = cfb24Pixelsfg;
++ #else
++ 			    if (tmp & (1 << (31 - i)))
++ 				src = cfb24Pixelsfg;
++ #endif
++ 			    else
++ 				src = cfb24Pixelsbg;
++ 			    *pdst = *pdst & ~planemask | src;
++ 		    	    pdst++;
++ 		    	}
++ 	    	    }
++ 		}
++ 		else
++ 		{
++ 	    	    while (nl >= 32)
++ 	    	    {
++ 		    	int i = 32;
++ 		    	nl -= 32;
++ 		    	tmp = BitLeft(bits, leftShift);
++ 		    	bits = *psrc++;
++ 		    	if (rightShift != 32)
++ 		    	    tmp |= BitRight(bits, rightShift);
++ 		    	while (i--)
++ 		    	{
++ #if BITMAP_BIT_ORDER == MSBFirst
++ 			    if (tmp & (1 << i))
++ 				src = cfb24Pixelsfg;
++ #else
++ 			    if (tmp & (1 << (32 - i)))
++ 				src = cfb24Pixelsfg;
++ #endif
++ 			    else
++ 				src = cfb24Pixelsbg;
++ 		    	    *pdst = *pdst & ~planemask |
++ 			    	    DoRop(rop, src, *pdst) & planemask;
++ 		    	    pdst++;
++ 		    	}
++ 	    	    }
++ 		}
++ 	    	if (nl)
++ 	    	{
++ 		    int i = 31;
++ 		    tmp = BitLeft(bits, leftShift);
++ 		    if (rightShift != 32)
++ 		    {
++ 		    	bits = *psrc++;
++ 		    	tmp |= BitRight (bits, rightShift);
++ 		    }
++ 		    while (nl--)
++ 		    {
++ #if BITMAP_BIT_ORDER == MSBFirst
++ 			if (tmp & (1 << i--))
++ 			    src = cfb24Pixelsfg;
++ #else
++ 			if (tmp & (1 << (32 - i--)))
++ 			    src = cfb24Pixelsfg;
++ #endif
++ 			else
++ 			    src = cfb24Pixelsbg;
++ 		    	*pdst = *pdst & ~planemask |
++ 			    	DoRop(rop, src, *pdst) & planemask;
++ 		    	pdst++;
++ 		    }
++ 	    	}
++ 	    }
++ 	}
++     }
++ }
++ #endif
++ 
++ cfbCopyImagePlane (pSrcDrawable, pDstDrawable, rop, prgnDst, pptSrc, planemask)
++     DrawablePtr pSrcDrawable;
++     DrawablePtr pDstDrawable;
++     int	rop;
++     unsigned long planemask;
++     RegionPtr prgnDst;
++     DDXPointPtr pptSrc;
++ {
++     copyPlaneBitPlane = planemask;
++     cfbCopyPlane (pSrcDrawable, pDstDrawable, rop, prgnDst, pptSrc,
++ 		      (unsigned long) ~0L);
++ }
++ 
+  RegionPtr cfbCopyPlane(pSrcDrawable, pDstDrawable,
+  	    pGC, srcx, srcy, width, height, dstx, dsty, bitPlane)
+      DrawablePtr 	pSrcDrawable;
+***************
+*** 1589,1594 ****
+--- 1834,1861 ----
+  				 dstx, dsty, bitPlane);
+      }
+      return ret;
++ 
++ #elif (PPW == 1)
++     if (pSrcDrawable->depth == 1 && pDstDrawable->depth == 24)
++     {
++ 	if (bitPlane == 1)
++ 	{
++ 	    cfb24Pixelsfg = pGC->fgPixel & pGC->planemask;
++ 	    cfb24Pixelsbg = pGC->bgPixel & pGC->planemask;
++ 	    doBitBlt = cfbCopyPlane1to24;
++ 	    ret = cfbCopyArea (pSrcDrawable, pDstDrawable,
++ 	            pGC, srcx, srcy, width, height, dstx, dsty);
++ 	    doBitBlt = cfbDoBitblt;
++ 	}
++ 	else
++ 	    ret = miHandleExposures (pSrcDrawable, pDstDrawable,
++ 	    	pGC, srcx, srcy, width, height, dstx, dsty, bitPlane);
++ 	return ret;
++     }
++     else
++ 	return miCopyPlane(pSrcDrawable, pDstDrawable,
++ 	    pGC, srcx, srcy, width, height, dstx, dsty, bitPlane);
++ 
+  #else
+      return miCopyPlane (pSrcDrawable, pDstDrawable,
+  	    pGC, srcx, srcy, width, height, dstx, dsty, bitPlane);

@@ -1,0 +1,38 @@
+#include <GLLibrary.tmpl>
+#include <GraphLib.tmpl>
+
+INCLUDES = -I$(INCLUDESRC) -I$(TOP)
+HEADERS = \
+	object.h\
+	textobj.h\
+	invertrect.h\
+	lineobj.h\
+	polygonobj.h\
+	fillpolyobj.h
+
+SRCS = \
+	object.c \
+	textobj.c \
+	invertrect.c\
+	lineobj.c\
+	polygonobj.c\
+	fillpolyobj.c
+
+OBJS = \
+	object.o \
+	textobj.o \
+	invertrect.o\
+	lineobj.o\
+	polygonobj.o\
+	fillpolyobj.o
+
+all:: $(OBJS)
+NormalLibraryObjectRule()
+#if SharedLibGL
+SharedLibraryObjectRule()
+#endif
+
+BuildIncludes($(HEADERS),gl,..)
+InstallMultiple($(HEADERS),$(INCDIR)/gl)
+
+DependTarget()

@@ -1,0 +1,30 @@
+EXTRA_LIBRARIES = -lX11 -lm
+PROGRAMS= display import XtoPS animate montage
+SRCS= display.c X.c image.c rotate.c quantize.c colors.c compress.c\
+  PreRvIcccm.c
+OBJS= display.o X.o image.o rotate.o quantize.o colors.o compress.o\
+  PreRvIcccm.o
+ImportObjects= import.o X.o image.o rotate.o quantize.o compress.o\
+  PreRvIcccm.o
+XtoPSObjects= XtoPS.o X.o image.o rotate.o quantize.o compress.o\
+  PreRvIcccm.o
+AnimateObjects= animate.o X.o image.o rotate.o quantize.o colors.o\
+  compress.o PreRvIcccm.o
+MontageObjects= montage.o X.o image.o rotate.o quantize.o colors.o\
+  compress.o PreRvIcccm.o
+
+AllTarget($(PROGRAMS))
+
+ComplexProgramTarget(display)
+SingleProgramTarget(import,$(ImportObjects), , )
+InstallProgram(import,$(BINDIR))
+InstallManPage(import,$(MANDIR))
+SingleProgramTarget(XtoPS,$(XtoPSObjects), , )
+InstallProgram(XtoPS,$(BINDIR))
+InstallManPage(XtoPS,$(MANDIR))
+SingleProgramTarget(animate,$(AnimateObjects), , )
+InstallProgram(animate,$(BINDIR))
+InstallManPage(animate,$(MANDIR))
+SingleProgramTarget(montage,$(MontageObjects), , )
+InstallProgram(montage,$(BINDIR))
+InstallManPage(montage,$(MANDIR))

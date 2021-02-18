@@ -1,0 +1,29 @@
+JL_SET_JIKOUHO( )
+
+名称
+
+	jl_set_jikouho		全候補(大、小)の内の次候補設定。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_set_jikouho(buf, offset)
+	struct wnn_buf *buf;	/* バッファ */
+	int offset;		/* オフセット */
+
+機能
+
+	jl_zenkouho, 或いは、jl_zenkouho_dai で取り出した全候補 offset に決定す
+	る。
+
+	jl_set_jikouho, jl_next, jl_previous を呼ぶ前に、jl_zenkouho, 或いは、
+	jl_zenkouho_daiを呼んでおく必要がある。候補の設定は、jl_zenkouho(_dai)
+	が呼ばれた文節に対して行なわれる。jl_zenkouho(_dai) は、最後に呼ばれた
+	ものだけが有効である。
+
+リターンバリュー
+
+	次候補のオフセットを返す。
+

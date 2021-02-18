@@ -1,0 +1,23 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+/* Don't use install -- it hasn't been built yet */
+
+#ifdef hp9000s800
+OSOBJS = strncpy.o scandir.o
+#endif /* hp9000s800 */
+
+#ifdef hp9000s800
+DependTarget()
+
+NormalObjectRule()
+
+LibraryTarget(libossup.a, $(OSOBJS))
+
+MkdirTarget($(DESTDIR) $(DESTDIR)/lib)
+
+install.time:: libossup.a
+	cp libossup.a $(DESTDIR)/lib/libossup.a
+#endif /* hp9000s800 */

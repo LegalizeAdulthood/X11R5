@@ -1,0 +1,11 @@
+;
+;		cWnn version 1.0
+;        	    Pubdic Version    1989/10/6
+;
+
+#include "con.attr"
+#include "con.jirattr"
+#include "con.jircon"
+#include "con.shuutanR"
+
+\bye

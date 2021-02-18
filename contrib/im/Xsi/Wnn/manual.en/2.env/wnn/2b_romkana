@@ -1,0 +1,15 @@
+2B_ROMKANA(4)
+
+NAME
+    2B_ROMKANA - Roman-To-Kana conversion table
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/rk/2B_ROMKANA
+
+DESCRIPTION
+    This data is referred at startup time of uum(1) and sets Roman-To-Kana
+    conversion.
+
+SEE ALSO
+    uum(1), mode(4), automaton(5)
+

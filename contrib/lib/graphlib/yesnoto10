@@ -1,0 +1,24 @@
+#!/bin/sh
+# yesnoto10 argument default
+# Make SURE that the DEFAULT occurs here, otherwise
+# this will loop infinitely.
+work=$1
+if [ $work = 'y' ]; then
+echo "1"
+elif [ $work = 'n' ]; then
+echo "0"
+elif [ $work = 'yes' ]; then
+echo "1"
+elif [ $work = 'Y' ]; then
+echo "1"
+elif [ $work = 'Yes' ]; then
+echo "1"
+elif [ $work = 'N' ]; then
+echo "0"
+elif [ $work = 'no' ]; then
+echo "0"
+elif [ $work = 'No' ]; then
+echo "0"
+else
+echo `yesnoto10 $2`
+fi

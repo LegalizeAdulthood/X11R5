@@ -1,0 +1,25 @@
+.TH GL_FilledPolygonObject 3GL 10Jul91 "GraphLib 0.5a"
+.SH NAME
+GL_FilledPolygonObject \- A polygon which has been filled in.
+.SH SYNTAX
+GLPointer GL_Create(GL_FilledPolygonObject,
+.br
+			<option>, [args,]
+.br
+		    ...,
+.br
+		    GL_Done);
+
+.SH DESCRIPTION
+This is a filled polygon, it is subclassed off of the polygon object.
+
+.SH OPTIONS
+
+.IP "GLFPO_PolygonShape, <int shape>"
+This specifies the shape of the polygon, which can allow the X server
+to fill the polygon faster.  Legal values are Complex, Convex and NonConvex.
+This defaults to Complex.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Object(3GL), GL_PolygonObject(3GL), GraphLib Programming
+Manual, Xlib - C Language X Interface

@@ -1,0 +1,51 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DependTarget()
+
+NormalObjectRule()
+NormalAsmPPRule()
+
+all:: globals.o entry.o doload.o
+
+globals.o: globalrefs._h
+
+entry.o: entry.s
+	cc -c -I. entry.s
+
+globalrefs._h:	libc.eplist
+		$(AWK) '{printf "\tglobalref(%s)\n", $$2}' libc.eplist \
+		| sed -e '/\./d' >,globalrefs._h
+		$(MV) ,globalrefs._h globalrefs._h
+
+libc.eplist:	/usr/lib/libc_s.a /usr/lib/crt1.o /usr/lib/crtn.o getlist.awk
+		$(RM) /tmp/libhack.a
+		$(AR) /tmp/libhack.a /usr/lib/crt1.o /usr/lib/crtn.o
+		$(NM) -Bgo /usr/lib/libc_s.a /tmp/libhack.a | $(TR) ":" " " | \
+			$(AWK) -f getlist.awk >,libc.eplist
+		$(MV) ,libc.eplist libc.eplist
+
+InstallLibrary(libcx.a, $(DESTDIR)/lib)
+InstallCshScript(makedo.csh, $(DESTDIR)/bin/makedo)
+InstallShScript(mksdpool, $(DESTDIR)/etc/mksdpool)
+
+all::		libcx.a
+
+DelList._:	libc.eplist
+		$(AWK) '{print $$1}' libc.eplist | $(SORT) -u \
+		| sed -e '/^crt.\.o/d' > ,DelList._
+		$(MV) ,DelList._ DelList._
+
+libcx.a:	/usr/lib/libc_s.a DelList._
+		$(CP) /usr/lib/libc_s.a ,libcx.a
+		$(CHMODW) ,libcx.a
+		-ar d ,libcx.a `cat DelList._`
+		$(RANLIB) ,libcx.a
+		$(MV) ,libcx.a libcx.a
+
+ProgramTarget(dofix,dofix.o,,)
+InstallProgram(dofix,$(DESTDIR)/bin)
+
+clean::
+	$(RM) DelList._ libc.eplist globalrefs._h ,* libcx.a

@@ -1,0 +1,25 @@
+.TH GL_Key_In_DataList 3GL "5Jul91" GraphLib 0.5a"
+.SH NAME
+GL_Key_In_DataList \- Determine if a key is in the datalist
+.SH SYNTAX
+int GL_Key_In_DataList(List,Key)
+.br
+	GL_DataList List;
+.br
+	VPTF Key;
+.SH ARGUMENTS
+.IP List 1i
+The list in which to check the existance of the key.
+.IP Key 1i
+The key to check for the existance of.
+
+.SH DESCRIPTION
+GL_Key_In_DataList checks to see if a key exists inside the datalist
+this is provided because calling GL_Search_DataList(3GL) when the key
+is not in the list results in termination of your program.
+The function returns 1 if the key is in the list, and 0 otherwise.
+
+.SH "SEE ALSO"
+GL_Search_DataList(3GL), GL_Add_To_DataList(3GL), GL_AddWindowAssocInfo(3GL),
+GraphLib Programming Manual
+

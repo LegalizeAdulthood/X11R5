@@ -1,0 +1,66 @@
+きちんとした初期化処理を行わずに jrKanjiString を
+呼び出してしまっても、jrKanjiString の最初の呼び出し時に
+自動的に初期化処理が行われますが、明示的に初期化処理を行うことの方が望
+ましいプログラミングスタイルと言えます。
+
+かな漢字変換処理を初期化するには以下の処理を行います。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  char **warn;
+
+  jrKanjiControl(context_id, KC_INITIALIZE, &warn);
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+jrKanjiControlはかな漢字変換処理に関するなんらかの制御を行うための関
+数です。jrKanjiControlに対して第1引数では{\it context\_id}を与え、第2引
+数ではどのような制御を行うかを表すコントロールキーワードを与えます。
+初期化を行うにはKC\_INITIALIZEを指定します。
+先のサンプルプログラムでは12行目で呼び出されています。
+初期化時には以下の処理が行われます。
+
+\begin{enumerate}
+  \item カスタマイズファイルの読み込み
+  \item ローマ字かな変換テーブルの読み込み
+  \item かな漢字変換サーバとの接続
+  \item 辞書のマウント処理
+\end{enumerate}
+
+初期化処理にはコンテクストは関係しないのでとりあえずcontext\_idとしては
+０を与えておけば良いでしょう。
+
+第３引数にはウォーニングメッセージが返されます。
+初期化処理において何らかのウォーニングが発生した場合、第３引数で指定さ
+れた変数にウォーニングメッセージへのポインタが格納されます。例えばウォー
+ニングメッセージを標準エラー出力に表示したいのであれば以下のような処理
+を行います。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  char **warn;
+
+  jrKanjiControl(0, KC_INITIALIZE, &warn);
+  if (warn) {
+    char **p;
+
+    for (p = warn ; *p ; p++) {
+      fprintf(stderr, "%s\en", *p);
+    }
+  }
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+ウォーニングメッセージが必要でないのであればjrKanjiControlの
+呼び出し時に第３引数として 0 を指定し
+ます。

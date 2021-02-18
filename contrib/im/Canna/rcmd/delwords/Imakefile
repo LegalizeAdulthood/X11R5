@@ -1,0 +1,22 @@
+#include "../../config.sh"
+
+#if HasSharedLibraries
+# define SharedLibiroha YES
+#else
+# define SharedLibiroha NO
+#endif
+
+        IROHAROOT = ../..
+        IROHASRC = $(IROHAROOT)/lib/iroha
+        IROHALIB = -L$(IROHASRC) -liroha
+
+         INCLUDES = -I$(IROHAROOT)/include
+          DEFINES = 
+    LOCAL_LDFLAGS = $(IROHALIB)
+#  LOCAL_LIBRARIES = $(DEPIROHALIB)
+
+             SRCS = delwords.c ../rutil/rutil.c RKdelline.c
+             OBJS = delwords.o ../rutil/rutil.o RKdelline.o
+           TARGET = delwords
+
+ComplexProgramTarget($(TARGET))

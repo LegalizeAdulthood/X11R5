@@ -1,0 +1,11 @@
+BSD:
+     1) ar x /lib/libc.a mon.o
+     2) In the symboltable of mon.o replace mcount by Mcount
+	and _moncontrol by _Moncontrol (using emacs).
+
+Sun:
+     1) cp /lib/mcrt0.o mon.o
+     2) In the symboltable of mon.o replace start by Start
+	and _environ by _Environ.
+
+3) ld -r mon.o monitor.o; mv a.out monitor.o; rm mon.o

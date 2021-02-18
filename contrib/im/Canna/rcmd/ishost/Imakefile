@@ -1,0 +1,16 @@
+#include "../../config.sh"
+
+       IROHAROOT = ../..
+            SSRC = $(IROHAROOT)/server
+           RKSRC = $(IROHAROOT)/lib/RK
+          RKCSRC = $(IROHAROOT)/lib/RKC
+           IRSRC = $(IROHAROOT)/lib/iroha
+
+        IROHALIB = -L$(IROHAROOT)/lib/iroha -liroha
+   LOCAL_LDFLAGS = $(IROHALIB)
+        INCLUDES =  -I$(IROHAROOT)/include/iroha \
+			-I$(IROHAROOT)/include \
+			-I$(SSRC) \
+			-I$(RKCSRC)
+
+SimpleProgramTarget(ishost)

@@ -1,0 +1,111 @@
+/* int stksize();
+ */
+	.globl	_stksize
+	.globl	_Special
+_stksize:
+	set	_stkbase,%o1
+	ld	[%o1],%o1
+	mov	%sp,%o0
+	sub	%o1,%o0,%o0
+	retl
+	add	%o0,256,%o0
+
+/* int saveenv(char* envbuf);
+ */
+	.globl	_saveenv
+_saveenv:
+	save	%sp,-96,%sp		/* new window */
+					/* i0: char *envbuf */
+
+	t	0x3			/* ST_FLUSH_WINDOWS trap */
+
+	st	%i7,[%i0+4]		/* saved PC */
+	mov	%y,%l0
+	st	%l0,[%i0+8]		/* Y register */
+#ifdef notdef
+/* Illegal instruction. This doesn't seem to be necessary... */
+	mov	%psr,%l0
+	st	%l0,[%i0+12]		/* PSR register */
+#endif
+	st	%sp,[%i0+16]		/* SP register */
+	st	%fp,[%i0+20]		/* FP register */
+
+	st	%g1,[%i0+40]		/* save globals */
+	st	%g2,[%i0+44]
+	st	%g3,[%i0+48]
+	st	%g4,[%i0+52]
+	st	%g5,[%i0+56]
+	st	%g6,[%i0+60]
+	st	%g7,[%i0+64]
+
+	mov	%sp,%l0			/* %l0 source */
+	add	%i0,128,%l1		/* %l1 dest */
+	set	_stkbase,%l2		/* %l2 limit */
+	ld	[%l2],%l2
+
+rep1:	/* copy stack to buf */
+	ld	[%l0],%l3
+	st	%l3,[%l1]
+	inc	4,%l1
+	cmp	%l0,%l2
+	bleu	rep1
+	inc	4,%l0
+
+	sub	%l1,%l0,%l1		/* %l1 relocation offset */
+	st	%l1,[%i0]		/* store at front of buffer */
+
+	set	_Special,%i0		/* return value */
+	ld	[%i0],%i0
+
+	ret
+	restore
+
+/* dead jmpenv(const char* envbuf, int retcode);
+ */
+	.globl	_jmpenv
+_jmpenv:
+	save	%sp,-96,%sp		/* new window */
+					/* i0: char *envbuf */
+					/* i1: int retcode */
+
+	t	0x3			/* ST_FLUSH_WINDOWS trap */
+
+	ld	[%i0+16],%l1		/* l1: SP register */
+	mov	%l1,%sp
+
+	add	%i0,128,%l0		/* %l0: source */
+					/* %l1: dest */
+	set	_stkbase,%l2		/* %l2: limit */
+	ld	[%l2],%l2
+
+rep2:	/* copy buf to stack */
+	ld	[%l0],%l3
+	st	%l3,[%l1]
+	inc	4,%l1
+	cmp	%l1,%l2
+	bleu	rep2
+	inc	4,%l0
+
+	ld	[%i0+40],%g1
+	ld	[%i0+44],%g2
+	ld	[%i0+48],%g3
+	ld	[%i0+52],%g4
+	ld	[%i0+56],%g5
+	ld	[%i0+60],%g6
+	ld	[%i0+64],%g6
+
+	ld	[%i0+20],%fp
+#ifdef notdef
+	ld	[%i0+12],%l0
+/* Illegal instruction. This doesn't seem to be necessary... */
+	mov	%l0,%psr
+#endif
+	ld	[%i0+8],%l0
+	mov	%l0,%y
+	ld	[%i0+4],%i7
+
+	nop			/* ??? */
+	mov	%i1,%i0
+
+	ret
+	restore

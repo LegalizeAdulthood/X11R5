@@ -1,0 +1,4 @@
+#define itemSep_width 1
+#define itemSep_height 2
+static char itemSep_bits[] = {
+   0x00, 0x01};

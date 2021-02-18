@@ -1,0 +1,20 @@
+Ari.wcChildren:		paned
+Ari.title:		A04_Paned
+
+*paned.wcClassName:	Paned
+*paned.wcChildren:	quit, label
+
+*quit.wcClassName:	Command
+*quit.callback:		WcExitCB
+*quit.font:		*-courier-bold-r-*-240-*
+*quit.translations:	<EnterWindow>:	highlight()		\n\
+			<LeaveWindow>:	reset()			\n\
+			<Btn1Down>:	set()			\n\
+			<Btn1Up>:	notify() unset()	\n\
+			<Key>Return:	WcSetValueACT(*quit.label:Quit) \n\
+			<Key>Tab:	WcSetValueACT(*quit.label: Go)
+
+*label.wcClassName:	Label
+*label.label:		Paned, Command, & Label
+*label.font:		*lucida-bold-i-*-240-*
+*label.translations:	

@@ -1,0 +1,27 @@
+! This is like the third demo in the OLIT Programmer's Guide--demonstrating
+! the use of the menuButton.  This example shows the trick that
+! has the wcCallback create the children of the menu button.
+! The default button is the first one on the list.
+
+!*wcTrace:               True
+Ori.wcChildren:		menuBtn
+Ori.title:		O03_MenuButtonWidget
+
+*threeD:		TRUE
+*background:		grey
+
+*menuBtn.wcClass:	menuButtonWidgetClass
+*menuBtn.label:		MenuButtonWidget
+*menuBtn.wcCallback:	WcCreateChildrenCB(*menuBtn*pane, open, edit, quit)
+
+*menuBtn*pane.open.Label:	Open
+*menuBtn*pane.open.wcClass:	oblongButtonGadgetClass
+*menuBtn*pane.open.select:	WcSystemCB(echo open)
+
+*menuBtn*pane.edit.wcClass:	oblongButtonGadgetClass
+*menuBtn*pane.edit.select:	WcSystemCB(echo edit)
+*menuBtn*pane.edit.Label:	Edit
+
+*menuBtn*pane.quit.wcClass:	oblongButtonGadgetClass
+*menuBtn*pane.quit.Label:	Quit
+*menuBtn*pane.quit.select:	WcExitCB

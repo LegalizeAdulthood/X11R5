@@ -1,0 +1,173 @@
+/* $XConsortium: XIMProto.h,v 1.1 91/05/13 21:03:13 gildea Exp $ */
+/******************************************************************
+
+              Copyright 1991, by FUJITSU LIMITED
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of FUJITSU LIMITED not be used
+in advertising or publicity pertaining to distribution of the software
+without specific, written prior permission. FUJITSU LIMITED
+makes no representations about the suitability of this software
+for any purpose.  It is provided "as is" without express or implied warranty.
+
+FUJITSU LIMITED DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS, IN NO EVENT SHALL FUJITSU LIMITED BE LIABLE FOR ANY
+SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING
+FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+  Author: Takashi Fujiwara     FUJITSU LIMITED 
+                               fujiwara@a80.tech.yk.fujitsu.co.jp
+
+******************************************************************/
+
+typedef unsigned long	ICID;
+
+/* ClientMessage No. */
+
+/* client <=> frontend  */
+#define  XIMP_KEYPRESS		 1
+
+/* client => frontend  */
+#define  XIMP_CREATE		 2
+#define  XIMP_DESTROY		 3
+#define  XIMP_BEGIN		 4
+#define  XIMP_END		 5
+#define  XIMP_SETFOCUS		 6
+#define  XIMP_UNSETFOCUS	 7
+#define  XIMP_CHANGE		 8
+#define  XIMP_MOVE		 9
+#define  XIMP_RESET		10
+
+#define  XIMP_GEOMETRY		20
+#define  XIMP_PREEDITSTART	21
+#define  XIMP_PREEDITMAXSIZE	22
+#define  XIMP_PREEDITDONE	23
+#define  XIMP_PREEDITDRAW	24
+#define  XIMP_PREEDITCARET	25
+#define  XIMP_CARET_POS		26
+#define  XIMP_STATUSSTART	27
+#define  XIMP_STATUSDONE	28
+#define  XIMP_STATUSDRAW	29
+
+#define  XIMP_EXTENSION		50
+
+/* frontend => client */
+#define  XIMP_CREATE_RETURN	 2
+#define  XIMP_CONVERSION_BEGIN	30
+#define  XIMP_CONVERSION_END	31
+#define  XIMP_READPROP		32
+
+#define  XIMP_ERROR		 99
+#define  XIMP_E_PROTOCOL	100
+#define  XIMP_E_MAX_USER	101
+#define  XIMP_E_NO_WORK  	102
+#define  XIMP_E_NO_PROP  	103	/* No Property			*/
+#define  XIMP_E_NO_PROP_TYPE 	104	/* No Property type		*/
+
+/* Property Name */
+#define  _XIMP_PROTOCOL		"_XIMP_PROTOCOL"
+#define  _XIMP_BASE		"_XIMP_" /* Root Window _XIP_<locale_name> */
+
+/* IMS Window Property Name */
+#define  _XIMP_VERSION		"_XIMP_VERSION"
+#define  _XIMP_STYLE		"_XIMP_STYLE"
+#define  _XIMP_KEYS		"_XIMP_KEYS"
+#define  _XIMP_SERVERNAME	"_XIMP_SERVERNAME"
+#define  _XIMP_SERVERVERSION	"_XIMP_SERVERVERSION"
+#define  _XIMP_EXTENSIONS	"_XIMP_EXTENSIONS"
+#define  _XIMP_PREEDITMAXSIZE	"_XIMP_PREEDITMAXSIZE"
+
+/* Client Window Property Name */
+#define  _XIMP_FOCUS		"_XIMP_FOCUS"
+#define  _XIMP_PREEDIT		"_XIMP_PREEDIT"
+#define  _XIMP_STATUS		"_XIMP_STATUS"
+#define  _XIMP_PREEDITFONT	"_XIMP_PREEDITFONT"
+#define  _XIMP_STATUSFONT	"_XIMP_STATUSFONT"
+
+#define  _XIMP_CTEXT		"_XIMP_CTEXT"
+
+/* CallBack Property Name */
+#define  _XIMP_PREEDITDRAW_DATA		"_XIMP_PREEDITDRAW_DATA"
+#define  _XIMP_FEEDBACKS		"_XIMP_FEEDBACKS"
+#define  _XIMP_PREEDITDRAWLENGTH 	"_XIMP_PREEDITDRAWLENGTH"
+#define  _XIMP_PREEDITDRAWSTRING 	"_XIMP_PREEDITDRAWSTRING"
+#define  _XIMP_PREEDITDRAWFEEDBACK 	"_XIMP_PREEDITDRAWFEEDBACK"
+
+/* FRONTEND or BACKEND MODE */
+#define XIMP_FRONTEND	 0
+#define XIMP_BACKEND	 1
+
+/* _XIMP_KEYS   struct  */
+
+typedef struct {
+	unsigned long		modifier;
+	unsigned long		modifier_mask;
+	KeySym			keysym;
+	} Ximp_Key;
+
+typedef struct {
+	unsigned short		 count_keys;
+	Ximp_Key		*keys_list;
+	} Ximp_KeyList;
+
+typedef struct _Ximp_Area {
+	long		x;
+	long		y;
+	long		width;
+	long		height;
+	} Ximp_AreaRec;
+
+typedef struct _Ximp_Point {
+	long		x;
+	long		y;
+	} Ximp_PointRec;
+
+typedef struct _Ximp_Size {
+	long		width;
+	long		height;
+	} Ximp_SizeRec;
+
+/* kana-kanji conversion window attributes */
+
+#define XIMP_PREEDIT_MAX_LONG 14
+#define XIMP_PREEDIT_MAX_CHAR 56
+
+typedef struct  _Ximp_Preedit {
+	Ximp_AreaRec	Area;
+	unsigned long   Foreground;
+	unsigned long   Background;
+	Colormap	Colormap;
+	Pixmap		Bg_Pixmap;
+	long		LineSpacing;
+	Cursor		Cursor;
+	Ximp_SizeRec	AreaNeeded;
+	Ximp_PointRec    SpotLocation;
+	} Ximp_PreeditPropRec;
+
+#define XIMP_STATUS_MAX_LONG 13
+#define XIMP_STATUS_MAX_CHAR 52
+
+typedef struct  _Ximp_Status {
+	Ximp_AreaRec	Area;
+	unsigned long   Foreground;
+	unsigned long   Background;
+	Colormap	Colormap;
+	Pixmap		Bg_Pixmap;
+	long		LineSpacing;
+	Cursor		Cursor;
+	Ximp_SizeRec	AreaNeeded;
+	Window		window;
+	} Ximp_StatusPropRec;
+
+/* for CallBack */
+typedef struct _Ximp_PreeditDrawDataPropRec {
+	long caret;
+	long chg_first;
+	long chg_length;
+} Ximp_PreeditDrawDataPropRec, *Ximp_PreeditDrawDataProp;

@@ -1,0 +1,29 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DUMMYFLAGS = 
+
+CSHFILES	=	msgsn.csh msgss.csh \
+			sendmsgn.csh sendmsgs.csh \
+			sendmsg.csh readmail.csh
+
+SHFILES	=	sendmail.sh sendnews.sh
+
+LINKS		=	messages sendmessage
+
+
+InstallCshScript(msgsn.csh, ${DESTDIR}/bin/messagesn)
+InstallCshScript(sendmsgn.csh, ${DESTDIR}/bin/sendmessagen)
+InstallCshScript(sendmsg.csh, ${DESTDIR}/bin/sendmessage)
+#ifdef SNAP_ENV
+InstallCshScript(msgss.csh, ${DESTDIR}/bin/messagess)
+InstallCshScript(sendmsgs.csh, ${DESTDIR}/bin/sendmessages)
+#endif /* SNAP_ENV */
+InstallCshScript(readmail.csh, ${DESTDIR}/bin/readmail)
+InstallShScript(sendmail.sh, ${DESTDIR}/bin/sendmail)
+InstallShScript(sendnews.sh, ${DESTDIR}/bin/sendnews)
+
+
+InstallLink(runapp, ${DESTDIR}/bin/messages)
+DependTarget()

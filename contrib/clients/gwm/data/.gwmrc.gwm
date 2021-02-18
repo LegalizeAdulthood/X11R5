@@ -1,0 +1,609 @@
+;;=============================================================================
+;;                    STANDARD GWM PROFILE
+;;=============================================================================
+
+;;File: .gwmrc.gwm -- the GWM standard profile
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.4 -- June 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+;;=============================================================================
+;;                    Initialisations
+;;=============================================================================
+
+; banner
+; ======
+
+(load 'trace-func)
+(stack-print-level 3)
+(setq display-name-radix (match "\\([^:]*:[0-9][0-9]*\\)" display-name 1))
+(defname 'x-screen-name screen. '(+ display-name-radix "." (itoa screen)))
+
+(if (= gwm-quiet 0)
+  (progn
+    (for screen (list-of-screens)
+      (? x-screen-name " " screen-width " x " screen-height " x " 
+	screen-depth "\n"))
+    (print "reading...")
+    (: original-load load)
+    (defun load (file) (? ".")(original-load file))
+))
+
+; appearance
+; ==========
+
+(: name-font (font-make "9x15"))
+(: meter-font (font-make "9x15"))
+(: bull-font (font-make "9x15"))
+(: small-font (font-make "6x10"))
+
+; global switches
+; ===============
+
+(: move-grid-style 3)
+(: resize-grid-style 4)
+
+(: property ())
+(: borderwidth 1)
+(: any-button (button any any))
+(: any-key (key any any))
+
+(: select-button 1)
+(: action-button 2)
+(: menu-button 3)
+
+(: autoraise ())
+(: autocolormap t)
+(: no-set-focus ())
+(: to-be-done-after-setup '(progn))	; obsolete: use screen-opening
+(: screen-opening '(progn))		; actions to be done before operation
+(: screen-closing			; actions to be done when ending
+  '(progn
+)) 
+
+; per-screen data setting
+; =======================
+
+(defunq defname-in-screen-to args
+    (with (value (eval (# 0 args))
+		 vars (sublist 1 (length args) args))
+	  (for var vars
+	       (defname var screen. value))))
+
+(defunq set-color (name value)
+  (if (not (= screen. (namespace-of name)))
+    (progn
+      (defname name screen.)
+      (for screen (list-of-screens)
+	(set name (color-make value)))
+)))
+
+(defunq set-pixmap args
+  (with (name (# 0 args)
+      pixmap-make-call (# 0 args 'pixmap-make))
+    (if (not (= screen. (namespace-of name)))
+      (progn
+	(defname name screen.)
+	(for screen (list-of-screens)
+	  (set name (eval pixmap-make-call)))
+))))
+
+; per-screen data
+; ===============
+
+(defname-in-screen-to () tile screen-tile bordertile menu root-cursor)
+
+(defname 'root-pop screen.)
+(defname 'window-pop screen.)
+(defname 'icon-pop screen.)
+(set-color black Black)
+(set-color white White)
+(set-color grey Grey)
+(set-color darkgrey DarkSlateGrey)
+
+(set-pixmap icon-pixmap "icon20")
+    
+(defname 'look-3d screen.)
+(for screen (list-of-screens)
+    (if (= 'mono screen-type)
+	(: look-3d ())
+	(: look-3d t)
+    (: invert-color (bitwise-xor black white))
+    ))))
+
+; functions to affect decorations to a client name
+; =================================================
+
+; The assignement of decorations to client names:
+; a decoration is either:
+; 	a function yielding the decoration
+;       an unbound variable: the corresponding file is then loaded, which
+;       	must define the function
+
+(load 'utils)
+
+;;=============================================================================
+;;                    X resource management for the standard profile
+;;=============================================================================
+;;
+
+(defun std-resource-get args
+  (with (resource-class (# 0 args) resource-name (# 1 args) Name () Class ())
+    (: Name (+ -screen-name '.
+	window-client-class '.
+	(make-string-usable-for-resource-key-non-nil window-client-name) '.
+	(make-string-usable-for-resource-key-non-nil window-name) '.
+	screen-type '.
+	window-machine-name '.
+	(if resource-name resource-name resource-class)
+    ))
+;;    (: Class (+ "S......" resource-class)) ;; makes Xrm crash on sun4s
+    (: Class (+ "S.any.any.any.any.any.any" resource-class))
+;;    (? "resource-get " Name " " Class " = " (resource-get Name Class) "\n")
+    (resource-get Name Class)
+))
+
+;; puts resource:
+;; (std-resource-put resource-name
+;;                   [screen-type] clientclass[name[windnowname[machine]]]]
+;;                   value)
+
+(defun std-resource-put (Resource args)
+  (with (Client-desc () Value () Screen () Name ())
+    (if (= 3 (length args))
+      (progn
+	(: Client-desc (# 1 args))
+	(: Value (# 2 args))
+	(: Screen (# 0 args))
+      )
+      (progn
+	(: Client-desc (# 0 args))
+	(: Value (# 1 args))
+    ))
+    (: Name (std-resource-expand Client-desc Screen Resource))
+;;    (? "resource-put " Name " " Value "\n")
+    (resource-put Name Value)
+))
+
+;; expands class[.name[.wname[.machine]]] visual Resource
+;; into ScreenNumber.class.name.wname.visual.machine.Resource
+
+(defun std-resource-expand (desc visual resource)
+  (if (match "[*]" desc)
+    (+ -screen-name
+      (if (match "^[*]" desc) () '.)
+      desc
+      (if (match "[*]$" desc) () '.)
+      resource)
+    (with (tmp (match
+	  "^\\([^.]*\\)[.]*\\([^.]*\\)[.]*\\([^.]*\\)[.]*\\([^.]*\\)$"
+	  desc 1 2 3 4
+      ))
+      (make-resource-string -screen-name (# 0 tmp) (# 1 tmp) (# 2 tmp)
+	visual (# 3 tmp) 'any resource
+))))
+
+;; appends list elements with '.', collapsing consecutive void (or any) 
+;; elements into *
+
+(defun make-resource-string l
+  (with (star () first t l2 
+      (mapfor elt l
+	(if (or (= "any" elt) (not elt))
+	  (if star
+	    ""
+	    (progn
+	      (setq star t)
+	      "*"
+	    )
+	  )
+	  (progn
+	    (setq star ())
+	    (if first (progn (setq first ()) elt)
+	    (+ "." elt)
+    )))))
+    (eval (+ '(+) l2))
+))
+  
+
+;(trace-func std-resource-put)
+
+;; customisation of decos by context
+;; (customize deco screen application context...)
+
+(defun customize-usage (string)
+  (? "USAGE: (customize deco screen application context...),\n"
+    "error was: " string "\n"
+    (exit customize)
+))
+
+(defunq customize args
+  (tag customize
+    (with (Deco (# 0 args)
+	Screen (# 1 args)
+	Application (# 2 args)
+	Context (if (and (=  4 (length args)) (= 'list (type (# 3 args))))
+	  (# 3 args)
+	  (sublist 3 (length args) args)
+	)
+	l (length Context)
+	i 1
+      )
+      (while (< i l)
+	(## i Context (eval (# i Context)))
+	(setq i (+ 2 i))
+      )
+      (std-resource-put Deco (list Screen Application Context))
+)))
+  
+;; recursively evaluates till we obtain a context
+
+(defun get-context (name)
+  (do-get-context name 0)
+)
+
+(defun do-get-context (name level)
+  (if (> level max-autoload-evaluation) name
+    (progn
+      (setq name
+	(if (# (type name) string-types)
+	  (progn			; atoms:
+	    (if (= 'string (type name))
+	      (: name (atom name)))	; string->atom to test if defined
+	    (if (boundp name)
+	      (eval name)		; defined: eval
+	      (progn
+		(load name)		; undefined, load and returns itself
+		name
+	  )))
+	  (# (type name) func-types)	; function: called without args
+	  (eval (list name))
+	  (= (type name) 'list)
+	  (if (= (% (length name) 2) 0) ; if even list, its a context
+	    name
+	    (= 1 (length name))		; if one element, return it
+	    (# 0 name)
+	    (eval name)			; if odd list, eval
+	  )
+	  (eval name)			; others: eval
+      ))
+      (if (or (not name)
+	  (and (= (type name) 'list)(= (% (length name) 2) 0)))
+	name
+	(do-get-context name (+ 1 level)
+)))))
+
+
+;;=============================================================================
+;;                    user-callable resource settings
+;;=============================================================================
+
+(defname '-screen-name screen.)
+(for screen (list-of-screens)
+  (: -screen-name (+ "S" (itoa screen)))
+  (std-resource-put 'GwmWindow (list screen-type ()))
+  (std-resource-put 'GwmIconWindow (list screen-type ()))
+  (std-resource-put 'GwmIconPixmap (list screen-type ()))
+  (std-resource-put 'GwmPlacement (list screen-type ()))
+  (std-resource-put 'GwmIconPlacement (list screen-type ()))
+)
+
+(: string-types '(string t atom t pointer t active t))
+(: func-types '(expr t fexpr t subr t fsubr t))
+
+(setq max-autoload-evaluation 10)
+
+(defun autoload-description (name)
+  (with (level 0) 
+    (do-autoload-description name level)
+))
+
+;; recursively evaluates or load description to obtain a wl_client
+
+(defun do-autoload-description (name level)
+  (if (> level max-autoload-evaluation) name
+    (progn
+      (setq name
+	(if (# (type name) string-types)
+	  (progn			; atoms:
+	    (if (= 'string (type name))
+	      (: name (atom name)))	; string->atom to test if defined
+	    (if (boundp name)
+	      (eval name)		; defined: eval
+	      (progn
+		(load name)		; undefined, load and returns itself
+		name
+	  )))
+	  (# (type name) func-types)	; function: called without args
+	  (eval (list name))
+	  (eval name)			; others: evalb
+      ))
+      (if (= 'client (type name)) name
+	(do-autoload-description name (+ 1 level)
+))))))
+
+(defun autoload-description (name)
+  (do-autoload-description name 0)
+)
+
+(defunq set-window args (std-resource-put 'GwmWindow args))
+
+(defunq set-icon-window args (std-resource-put 'GwmIconWindow args))
+
+(defunq set-icon args
+  (## (- (length args) 1) args (expand-pixmap (# (- (length args) 1) args)))
+  (std-resource-put 'GwmIconPixmap args)
+)
+
+(defun expand-pixmap (obj)
+    (if (and obj (# (type obj) string-types))
+	(pixmap-make obj)
+	(eval obj)))	
+
+(defunq set-placement args (std-resource-put 'GwmPlacement args))
+
+(defunq set-icon-placement args (std-resource-put 'GwmIconPlacement args))
+
+;;=============================================================================
+;;                    automatic placement
+;;=============================================================================
+
+(de apply1 (func arg)
+    (eval (list (eval func) arg)))
+
+(: opening 
+  '(progn
+    (apply1 (if (= window-status 'icon)
+	(std-resource-get 'GwmIconPlacement)
+	(= window-status 'window)
+	(std-resource-get 'GwmPlacement)
+      )
+      t)))
+
+(: closing 
+  '(progn 
+    (apply1 (if (= window-status 'icon)
+	(std-resource-get 'GwmIconPlacement)
+	(= window-status 'window)
+	(std-resource-get 'GwmPlacement)
+      )
+      ())
+))
+
+; default placement make title bar in screen
+(defun default-placement (flag)
+    (if flag
+	(if (< window-y 0) (move-window window-x 0))))
+
+(load "placements")
+
+;;=============================================================================
+;;                    std-... wrappers for raise-current flag
+;;=============================================================================
+
+(if (not (boundp 'std-move-window))
+  (progn
+    (: raise-on-move t)
+    (defun std-move-window ()
+      (if raise-on-move (raise-window))
+      (move-window)
+    )
+    (: raise-on-resize t)
+    (defun std-resize-window ()
+      (if raise-on-resize (raise-window))
+      (resize-window)
+    )
+    (: raise-on-iconify t)
+    (defun std-iconify-window ()
+      (iconify-window)
+      (if raise-on-iconify (raise-window))
+)))
+
+;;=============================================================================
+;;                    default behaviors
+;;=============================================================================
+
+;; standard-behavior is the default actions for all items
+;; to make a fsm for a window or icon, do a
+;; (fsm-make (state-make <your-actions> window-behavior standard-behavior)
+;; (fsm-make (state-make <your-actions> icon-behavior standard-behavior)
+
+(: standard-behavior
+  (state-make
+    (on (buttonpress select-button alone)
+      (std-move-window))
+    (on (button select-button with-shift) (lower-window))
+    (on (buttonpress select-button with-alt)
+      (std-move-window))
+    (on (button select-button (together with-shift with-alt))
+      (lower-window))
+    (on (buttonpress menu-button alone)
+      (progn (set-colormap-focus ()) (std-pop-menu)))
+    (on (buttonpress menu-button with-alt) 
+      (progn (set-colormap-focus ()) (std-pop-menu)))
+))
+
+;; actions specific to window titles. you should be used before 
+;; standard-behavior in further fsms
+
+(: standard-title-behavior
+  (state-make
+    (on (buttonpress action-button alone)
+      (std-resize-window))
+    (on (buttonpress action-button with-alt)
+      (std-resize-window))
+))
+
+;; actions specific to windows
+
+(: window-behavior
+  (state-make
+    (on (buttonpress action-button alone)
+      (std-resize-window))
+    (on (buttonpress action-button with-alt)
+      (std-resize-window))
+    (on name-change (send-user-event 'name-change))
+    (on focus-in (progn (if autoraise (raise-window))
+	(send-user-event 'focus-in)))
+    (on focus-out (send-user-event 'focus-out))
+    (if no-set-focus
+      (on enter-window (progn (if autoraise (raise-window))
+	  (if autocolormap (set-colormap-focus))))
+      (on enter-window (progn (if autoraise (raise-window))
+	  (set-focus)
+	  (if autocolormap (set-colormap-focus)))))
+    (if (not no-set-focus)
+      (on leave-window (set-focus ())))
+    (on name-change (send-user-event 'name-change))
+    (on (property-change 'WM_ICON_NAME)
+      (if (window-icon?)
+	(send-user-event 'get-icon window-icon)))
+    (on window-icon-pixmap-change 
+      (if (window-icon?)
+	(send-user-event 'icon-pixmap-change window-icon)))
+))
+
+;; icon-specific actions
+
+(: icon-behavior
+  (state-make
+    (on (buttonrelease action-button any)
+      (std-iconify-window))
+))
+
+;; root-window actions
+;; make root menu appear on any modifier combinations in case of problems
+
+(: root-behavior
+  (state-make
+    (on (buttonpress menu-button any) (pop-root-menu))
+))
+
+(: old-standard-behavior ())
+(: old-standard-title-behavior ())
+(: old-window-behavior ())
+(: old-icon-behavior ())
+(: old-root-behavior ())
+
+(: grabs (: root-grabs (: window-grabs (: icon-grabs (list
+	  (button any with-alt)
+	  (button select-button (together with-shift with-alt))
+)))))
+
+;; the function to call when redefining behaviors, to re-create fsms
+;;==================================================================
+
+(defun reparse-standard-behaviors ()
+  (if (not (and
+	(eq window-behavior old-window-behavior)
+	(eq standard-behavior old-standard-behavior)
+    ))
+    (progn
+      (: window-fsm (fsm-make (state-make window-behavior standard-behavior)))
+      (: old-window-behavior window-behavior)
+  ))
+  (if (not (and
+	(eq icon-behavior old-icon-behavior)
+	(eq standard-behavior old-standard-behavior)
+    ))
+    (progn
+      (: icon-fsm (fsm-make (state-make icon-behavior standard-behavior)))
+      (: old-icon-behavior icon-behavior)
+  ))
+  (if (not (eq root-behavior old-root-behavior))
+    (progn
+      (: root-fsm (fsm-make (state-make root-behavior)))
+      (: old-root-behavior root-behavior)
+  ))
+  (: old-standard-behavior standard-behavior)
+
+  ;; some sensible defaults for buggy decos
+  (: fsm window-fsm)
+  (: grabs window-grabs)
+)
+
+(reparse-standard-behaviors)
+
+
+;;=============================================================================
+;;                    User Profile
+;;=============================================================================
+
+; Pop-ups
+; =======
+
+(load "std-popups.gwm")		; default: the standard menu package
+
+(for screen (list-of-screens) (: menu 'window-pop)))
+
+; read user customizations in .profile.gwm, once per screen
+; =========================================================
+
+(if (= 0 gwm-quiet) (? "["))
+(for screen (list-of-screens) 
+    (load ".profile.gwm")
+    (if (= 'string (type screen-tile))
+	(: screen-tile (pixmap-make screen-tile)))
+)
+(if (= 0 gwm-quiet) (? "]"))
+    
+(load menu.builder)			; build menus from set-up descs
+
+; The simplest window: no-decoration
+; ==================================
+
+(defun simple-window-decoration ()
+	  (with (fsm window-fsm
+		     borderwidth 0
+		     inner-borderwidth any
+		     menu window-pop)
+		(window-make () () () () ())))
+(: no-frame-no-borders (: simple-icon-decoration
+    (: no-decoration simple-window-decoration))
+)
+
+; no-decoration by a small border
+
+(df no-frame () (window-make ()()()()()))
+
+;;=============================================================================
+;;                    DESCRIBE-SCREEN & DESCRIBE-WINDOW
+;;=============================================================================
+
+(de describe-screen ()
+  (with (fsm root-fsm cursor root-cursor menu root-pop tile screen-tile
+      grabs root-grabs
+      opening '(progn (eval to-be-done-after-setup)
+	(eval screen-opening)
+	(if (= 0 gwm-quiet) 
+	  (? "Screen #" screen " ready.\n")))
+      closing '(eval screen-closing)
+    )
+    (window-make () () () () ()))))
+
+(de describe-window ()
+  (list
+    (autoload-description
+      (if (: tmp (std-resource-get 'GwmWindow))
+	tmp
+	'simple-win)
+    )
+    '(autoload-description		; defer evaluation till iconification
+      (if (: tmp (std-resource-get 'GwmIconWindow))
+	tmp
+	'simple-icon)
+)))
+
+;  Bye bye
+; ========
+
+(if (= 0 gwm-quiet)
+  (progn
+    (setq load original-load)
+    (print "...done\n")
+  )
+  (bell)
+)
+
+;(trace-func do-autoload-description name)

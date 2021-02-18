@@ -1,0 +1,13 @@
+CXEMACS -- Here is a way to make "GNU emacs" work under "cxterm".
+-------
+
+Please read cxemacs-18.55 for more information.
+
+Files:
+
+cxemacs-18.55	how to make emacs version 18.55 (or later) work under cxterm.
+		(Provided by Stephen Simpson, simpson@math.psu.edu)
+
+cxemacs-18.57	how to make emacs version 18.57 (or later) work under cxterm.
+		(Provided by Stephen Simpson, simpson@math.psu.edu)
+

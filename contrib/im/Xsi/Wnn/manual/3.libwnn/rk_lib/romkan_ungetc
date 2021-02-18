@@ -1,0 +1,20 @@
+ＲＯＭＫＡＮ＿ＵＮＧＥＴＣ（ＪＴ＿ＬＩＢ）
+
+
+名称
+    romkan_ungetc  ―  ローマ字仮名変換 変換文字のプッシュバック
+
+形式
+    #include		<wnn/rk_spcl_val.h>
+
+    letter	romkan_ungetc(c)
+    letter	c;
+
+機能説明
+    romkan_ungetc は、変換文字入力関数 romkan_getc で得られた文字を、１文字だ
+    けプッシュバックするために用いる。２文字以上のプッシュバックはできない。
+
+関連項目
+    romkan_init(JT_LIB), romkan_getc(JT_LIB), romkan_clear(JT_LIB), 
+    romkan_dispmode(JT_LIB), romkan_next(JT_LIB), 2A_CTRL(JT_ENV), 
+    2B_ROMKANA(JT_ENV)

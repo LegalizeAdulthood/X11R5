@@ -1,0 +1,28 @@
+# $Header: /n/lacey/usr/local/src/video/MVEX/server/RCS/Imakefile,v 2.2 1991/09/23 00:25:00 toddb Exp $
+#include <Server.tmpl>
+
+#define IHaveSubdirs
+
+#if BuildMvexRasterOps
+      PLATFORMSUBDIRS = ddx/rasterops
+     PLATFORMMVEXLIBS = ddx/rasterops/libromvex.a
+#endif
+              SUBDIRS = dix ddx/mi $(PLATFORMSUBDIRS)
+             MVEXLIBS = dix/libdix.a ddx/mi/libmi.a $(PLATFORMMVEXLIBS)
+
+MakeSubdirs($(SUBDIRS))
+
+all:: libmvex.a
+libmvex.a: $(MVEXLIBS)
+	mkdir tmp
+	@for lib in $(MVEXLIBS); do \
+		(set -x; cd tmp; ar x ../$$lib); \
+	done
+	$(RM) $@
+	cd tmp; $(AR) ../$@ *.o
+	$(RANLIB) $@
+	rm -rf tmp
+
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs(lib)
+MakeLintSubdirs(lib,install.ln,install.ln)

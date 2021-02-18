@@ -1,0 +1,187 @@
+.TH XcuBmgr 3X "\fBCornell University Widget Set\fR"
+.in +3
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuBmgr \- Manages semantics of groups of XcuButton widgets
+.ne 4
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / XcuBmgr
+.ne 4
+.SH NEW RESOURCES
+\ 
+.br
+.TS
+allbox tab(;);
+c s s s.
+XcuBmgr Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNbmgrType;XcuBmgrType;XcuBMGR_ANY_OF_MANY;Semantics
+XtNdownAction;Boolean;True;Callbacks occur on down events instead of up
+XtNsetCallback;Callback;;Whenever a child becomes set
+XtNunsetCallback;Callback;;Whenever a child becomes unset
+XtNillegalCallback;Callback;;Whenever a child is forbidden to change state
+.TE
+.ne 4
+.SH DESCRIPTION
+\ 
+.br
+The \fBXcuBmgr\fR  widget understands the semantics of several kinds of
+"button" combinations.
+It is not, however, a geometry manager.
+\fBXcuBmgr\fR children (which must be \fBXcuButton\fR widgets)
+must also be children of geometry managers.
+This separation of geometry management and semantic management makes possible
+several techniques that would otherwise be impossible.
+The children of a \fBXcuBmgr\fR need not all be children
+of the same geometry manager.
+Conversely, more than one \fBXcuBmgr\fR may have children of a
+single geometry manager.
+.sp
+The call_data of the callbacks is the value associated with
+the \fBXcuButton\fR when the \fBXcuButton\fR was registered with the \fBXcuBmgr\fR.
+.sp
+The following button semantics are understood by the \fBXcuBmgr\fR:
+.sp
+.ne 4
+XcuBMGR_TRANSIENT
+.sp
+.in +5
+The clicked \fBXcuButton\fR
+changes from unset to set and back to unset, producing
+a momentary flicker.
+.in -5
+.sp
+.ne 4
+XcuBMGR_SINGLE_TOGGLE
+.sp
+.in +5
+The clicked \fBXcuButton\fR changes from unset to set, or vice versa.
+(This is a synonym for XcuBMGR_ANY_OF_MANY.)
+.in -5
+.sp
+.ne 3
+XcuBMGR_DOUBLE_TOGGLE
+.sp
+.in +5
+When either of a pair of \fBXcuButtons\fR is clicked, they swap states.
+.in -5
+.sp
+.ne 4
+XcuBMGR_ONE_OF_MANY
+.sp
+.in +5
+The clicked unset \fBXcuButton\fR changes from unset to set,
+and the previously set \fBXcuButton\fR changes to unset.
+If a set \fBXcuButton\fR is clicked, no \fBXcuButtons\fR change state, and
+a beep is issued.
+.in -5
+.sp
+.ne 3
+XcuBMGR_ANY_OF_MANY
+.sp
+.in +5
+The clicked \fBXcuButton\fR changes from unset to set, or vice versa.
+.in -5
+.ne 4
+.SH PUBLIC FUNCTIONS
+\ 
+.br
+.ne 4
+XcuBmgrManage ( XcuBmgrWidget bmgr,  XcuButtonWidget *ButtonList,  caddr_t *ValueList,  Cardinal n_buttons )
+.sp
+.in +5
+The list of \fBXcuButton\fR widgets is registered with the \fBXcuBmgr\fR,
+and each \fBXcuButton\fR
+is associated with a value for use as call_data during callbacks.
+.in -5
+.sp
+.ne 4
+XcuBmgrSample ( XcuBmgrWidget bmgr )
+.sp
+.in +5
+For each managed \fBXcuButton\fR, each callback in the setCallback list or
+unsetCallback list is called, as appropriate.
+If the semantic type is XcuBMGR_TRANSIENT, the callbacks are not made.
+.in -5
+.sp
+.ne 4
+XcuBmgrSetAll ( XcuBmgrWidget bmgr )
+.sp
+.in +5
+Each managed \fBXcuButton\fR has its state set to "True", and each callback
+in the setCallback list is called.
+.in -5
+.sp
+.ne 4
+XcuBmgrUnsetAll ( XcuBmgrWidget bmgr )
+.sp
+.in +5
+Each managed \fBXcuButton\fR has its state set to "False", and each callback
+in the unsetCallback list is called.
+.in -5
+.sp
+.ne 4
+XcuBmgrToggleAll ( XcuBmgrWidget bmgr )
+.sp
+.in +5
+Each managed \fBXcuButton\fR has its state reversed and each callback
+in the setCallback or unsetCallback list is called, as appropriate.
+.in -5
+.ne 4
+XcuBmgrSetChild ( XcuBmgrWidget bmgr,  XcuButtonWidget button )
+.sp
+.in +5
+If the managed \fBXcuButton\fR is unset, it has its state changed to set
+and the setCallback list is called.
+.in -5
+.ne 4
+XcuBmgrUnsetChild ( XcuBmgrWidget bmgr,  XcuButtonWidget button )
+.sp
+.in +5
+If the managed \fBXcuButton\fR is set, it has its state changed to unset
+and the unsetCallback list is called.
+.in -5
+.ne 4
+.SH DIAGNOSTICS
+\ 
+.br
+If there are an improper number of children in the set state for the
+chosen semantics, a warning is issued with a description of the rectifying
+action.
+.ne 4
+.SH FUTURE ENHANCEMENTS
+\ 
+.br
+There needs to be a method for the semantics of "at most N of many" and
+"at least N of many".
+.ne 4
+.SH SEE ALSO
+\ 
+.br
+XcuBmgrR(3X), XcuButton(3X), XcuWlm(3X)
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

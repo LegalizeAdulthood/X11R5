@@ -1,0 +1,261 @@
+/* badfile.psw - Test file for pswrap
+ *
+ * Copyright (C) 1988 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.  If any portion of this software is changed, it cannot be
+ * marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+ * its sole discretion, approves by a prior writing the quality of the
+ * resulting implementation.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */
+
+#include <stdio.h>
+
+#include <DPS/dpsclient.h>
+
+#ifndef DEBUG_CLIENTLIB
+#define DEBUG_CLIENTLIB 0
+#endif
+
+#define LINEBUF 256
+
+#define stdin_fd 0
+#define stdout_fd 1
+
+#define TRUE 1
+#define FALSE 0
+#define VOID (void)
+
+/* DEFINE WRAP ROUTINES */
+
+
+/* empty wrap handling */
+defineps emptywrap(@!#$%^&*()_+|~)
+endps
+endps	
+
+
+/* parameter test */
+defineps paramtest(int *s1; int x,s1; float a[2] | char *s2; int y; float pos[2])
+	(s1)
+	s2
+	\a[0] \a[y]  moveto
+	currentpoint pos pos
+	x
+	y
+endps
+
+
+/* optimization tests */
+defineps unknownsize(DPSContext a[4]; int i; float z[i]; boolean y[3])
+	/adata a def
+	/zdata z def
+	/ydata y def
+	adata
+	zdata
+	ydata
+endps
+
+defineps knownsize(int a[4]; boolean y[3])
+	/aname a def
+	/yname y def
+endps
+
+ 
+
+/* visual output test */
+defineps visual(char *message
+	/inch 72 mul} def
+	/x 5.5 inch def
+	/y 5.5 inch def
+	/width	4 inch def
+	/height	2 inch def
+	
+	1 setgray
+	x y width height rectfill
+	0 setgray
+	0.1 inch setlinewidth
+	x y width height rectstroke
+	x y translate
+	/Helvetica 20 selectfont
+        (message) stringwidth
+        height exch sub 2 div
+        exch
+        width exch sub 2 div
+        exch moveto
+        (message) show
+
+
+
+
+
+
+/* END OF WRAP ROUTINE DEFINITIONS */
+
+DPSTextProc AppTextProc(ctxt, buf, count)
+  DPSContext ctxt;
+  char *buf;
+  unsigned int count;
+{
+    (void) fwrite(buf, sizeof(char), count, stdout);
+    (void) fflush(stdout);
+}
+
+/* Global Vars */
+DPSContext context;
+
+float	a2[10], incoord[2]={22,333}, outcoord[2]={0,0};
+char	outstr[80];
+int	five, a1[4], size = 10; 
+long int	a3[3];
+
+main(argc, argv)
+int argc;
+char **argv;
+{
+
+float 	scale;
+int	buffer[100];
+
+/*----------------------*/
+    char *prog;
+    char st[LINEBUF];
+    DPSConnection conn;
+     int debugging = FALSE, doAscii = FALSE, doStrings = FALSE;
+    FILE *fp = NULL;
+    
+    prog = *argv;
+    ++argv;
+    --argc;
+    
+    while (argc > 0 && **argv == '-')
+        {
+        switch ((*argv)[1])
+            {
+            case 'a': doAscii = TRUE; break;
+            case 's': 
+            		--argc;
+            		++argv;
+            		if(argc > 0 ) 
+            			scale = atof(*argv);
+            		break;
+            default: VOID fprintf(stderr, "usage: dpsc [-d] [-s scale] [-a] [file | hostname]\n");
+                exit(0);
+            }
+        ++argv;
+        --argc;
+        }
+    
+    /* create context */
+    if (doAscii)
+        {
+	if (!argc)
+	    context = DPSCreateFDContext(stdout_fd, DPSDefaultErrorProc);
+	else
+	    {
+	    if ((fp = fopen(*argv, "w")) == NULL)
+	        {
+	        VOID fprintf(stderr, "debugwraps: can't open file (%s)\n", *argv);
+	        exit(-1);
+	        }
+	    context = DPSCreateFDContext(fileno(fp), DPSDefaultErrorProc);
+	    }
+        }
+    else
+        {
+        if (!argc)
+            VOID gethostname(st, LINEBUF);
+        else
+            VOID strncpy(st, *argv, LINEBUF);
+        conn = DPSOpenConnection(st, DPSDefaultCommErrorProc, NULL);
+        if (conn == NULL) exit(-1);
+        
+        context = DPSCreateContext(conn, AppTextProc, DPSDefaultErrorProc, NULL);
+        }
+        
+    if (context == NULL) exit (-1);
+    DPSSetCurrentContext(context);
+    if (doStrings)
+	DPSChangeEncoding(
+	  context,
+	  context->programEncoding,
+	  context->byteOrder,
+	  context->numFormat,
+	  dps_strings);
+    	printf("Begin test ...\n");
+    
+ /* -------------------------------------------------------------------------
+ 
+ 		Main Application Body
+ 		
+ ---------------------------------------------------------------------------*/
+ 
+ 	{
+	
+	emptywrap();
+	paramtest("This is a string", 5, incoord, outstr, &five, outcoord);
+	printf("%s\n", outstr);
+	printf("%d\n", five);
+	printf("%f %f\n",outcoord[0],outcoord[1]);
+	
+	long256();
+
+/* problem with client lib call that writes this output to a file 	
+	unknownsize(a1, size, a2, a3);
+
+	knownsize(a1, a3);
+*/
+	
+	visual("PSWrap Test");
+	
+	}
+
+	
+	
+	
+     
+/*-------------------------------------------------------------------------
+
+	Disconnect from DPS server
+
+--------------------------------------------------------------------------*/
+    
+    DPSWaitContext(context);
+    if (!doAscii)
+	{
+	DPSDestroySpace(DPSSpaceFromContext(context));
+        DPSCloseConnection(conn);
+	}
+    else if (fp != NULL) VOID fclose(fp);
+    printf("End test ...\n");
+}
+
+    
+/*------------------------------------------------------------------------
+
+	Function Definitions
+	
+-------------------------------------------------------------------------*/

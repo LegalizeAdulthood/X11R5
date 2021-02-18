@@ -1,0 +1,8 @@
+SYS_LIBRARIES = -lm
+DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+
+SRCS = lclock.c Clock.c transform.c
+OBJS = lclock.o Clock.o transform.o
+
+ComplexProgramTarget(lclock)

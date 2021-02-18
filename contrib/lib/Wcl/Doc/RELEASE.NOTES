@@ -1,0 +1,99 @@
+
+RELEASE NOTES, Wcl 1.06
+-----------------------
+
+Wcl 1.06 is a repackaged and enhanced version of David Smyth's
+last public release, Wcl 1.05. David is currently working on
+Wcl 2.0, so this release is probably the last in the "1" branch.
+
+MAIN FEATURES
+-------------
+
+o  Many changes to Imakefiles, allowing to build Wcl using various
+   releases of X11 and Motif, all in independent locations.
+
+o  Added support for Open Look Intrinsic Toolkit (OLIT), provided
+   courtessy of Kim Gillies, National Optical Astronomy Observatories.
+   Requires OLIT 2.5 and best works using OpenWindows.
+
+o  Added support for Cornell University widget set, also provided
+   courtessy of Kim Gillies, National Optical Astronomy Observatories.
+   Not having Xcu widget set, I could not perform any testing.
+   
+o  Code changes to allow building Wcl with Motif 1.0.x all the way
+   up to MIT X11R5. Also included are changes required to build Wcl
+   and Mri for VMS. To support R3 level of Motif 1.0 Intrinsics,
+   several enhancements have been postponed.
+
+o  Both Ari,Mri,Ori and Cri are changed to use the first argument as 
+   an application class name (thus resource file name). X toolkit
+   Intrinsic use a search pattern for the initial resource file name,
+   typically finding such file in XAPPLRESDIR or HOME.
+
+o  Added support for template instancing: wcTemplate resource.
+   Template instancing takes advantage of X11R5 new functionality:
+   XrmEnumaretaDatabase. For older systems, a back-implementation
+   of this function is provided. However, this implementation is
+   based upon MIT X code; if the vendor's implementation of Xrm.c
+   is different, changes may be required. In case of any problems,
+   refer to files Wc/PreR5Enum.c and Wc/testPreR4Enum.c.
+
+o  Relaxed restriction that only ONE of the possible four creation
+   methods can be specified for each widget. The "highest order"
+   method is used, and if WcTrace is set to true, a notification
+   is printed on the standard output.
+   
+BUG FIXES
+---------
+
+o  Corrected StringToWidget resource converter registrations to
+   always provide widget id. For R3 compatibility we still do not
+   use XtSetTypeConverter, and conversions are (unfortunately)
+   automatically cached.
+   Wcl's widget converter has been made Xmu converter compatible. 
+   Specification "name" is first looked up under current widget's
+   parent ("^name"), then from the root of widget hierarchy.
+   Note that Xmu converter behavior is to some extent questionable,
+   as "name" should mean sibling of current widget, not of a parent.
+   Added checks for NULL parent (shells) in WcNameToWidget.
+   Both WcNameToWidget and converters now issue warning if a widget
+   can not be found.
+
+o  Corrected resource files to use "!" as a comment, insted of the
+   pound sign (used to indicate #include etc.).
+
+o  Corrected SetValues problem in Xp, Xmp flavor of the Table
+   widget (Xop, Xcp are unchanged).
+
+o  Fixed incorrect argument count in sprintf in WcCallb.c
+
+o  Several formal fixes to allow Wc compilation on VMS and using
+   Motif 1.0 "flavor" of Xt Intrinsics, as well as fixes for
+   X11R5. Sorry, I do not guarantee that turning prototypes on
+   won't find too many violations.
+
+
+ACKNOWLEDGEMENTS
+----------------
+This release would not have been possible without the previous work
+of David Smyth, and contributions of:
+
+  Kim Gillies ( gillies@noao.edu )
+  Ron Newman  ( rnewman@BBN.COM )
+
+
+SUPPORT
+-------
+Usual disclaimer: I can not promise any level of support, however,
+I am interested in any experience with Wcl - good and bad, as well
+as any suggestions for it's future enhancements.
+I do plan to work closely with David Smyth (now in Germany) on any
+future releases of Wcl.
+
+
+Martin Brunecky 
+marbru@auto-trol.com 
+Auto-trol Technology Corporation, Denver CO  
+(303) 252-2499   
+
+

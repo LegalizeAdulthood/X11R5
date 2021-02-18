@@ -1,0 +1,114 @@
+/*
+ * XMailbox.res
+ *
+ * Mri resource file for xmailbox.
+ *
+ * This interface MUST include a XmText widget.
+ * It must be registered w/ the main application using RegisterText().
+ * See below.
+ *
+ * There are a number of functions that can be bound to various events
+ * within the interface.  Commonly these are attached to something like
+ * an activateCallback on a PushButton:
+ *
+ * WcExitCB	
+ *	Will exit the application.
+ *
+ * ClearText
+ *	This clears the messages in the mailbox window.  The next 
+ *	incoming mail will become the first message in the window.
+ *	This action happens automatically when the mailbox is emptied
+ *	from a mailer like xmh or elm.
+ *
+ * HideMail
+ *	Causes the mailbox window to disappear until the next incoming mail
+ *	arrives.  Keeps the desktop clean.  When the hideNoMail resource
+ *	is set to true, the mailbox window is hidden whenever there are
+ * 	no unread mail messages left.
+ *
+ * ReScan
+ *	Causes the mailbox to be rescanned for all unread messages and
+ *	the mailbox window to be updated.  This action might be performed
+ *	after a ClearText, when you wish to see some past message.
+ *
+ * None, some, or all of these actions may be used freely within this
+ * interface.  There are a number of Mri internal actions as well, 
+ * (WcExitCB is one of them) see Mri documentation for details.
+ *
+ */
+
+
+/*
+ * toplevel declaration.
+ */
+XMailbox*xmailbox.wcChildren:		form
+
+/*
+ * Uncomment this for a trace of the widget hierarchy.  Useful for building
+ * resource files.
+ */
+!*wcTrace:			True
+
+/*
+ * The Text window.  Some kind of XmText construct MUST be declared and
+ * used for displaying mail messages.
+ */
+
+XMailbox*text.wcConstructor:            XmCreateScrolledText
+XMailbox*text.wcPopups:			pmenu
+XMailbox*textSW.topAttachment:		ATTACH_FORM
+XMailbox*textSW.leftAttachment:		ATTACH_FORM
+XMailbox*textSW.rightAttachment:	ATTACH_FORM
+XMailbox*textSW.bottomAttachment:	ATTACH_FORM
+XMailbox*text.wcCallback:               RegisterText ( this )
+XMailbox*text.editable:                 False
+XMailbox*text.editMode:                 MULTI_LINE_EDIT
+XMailbox*text.scrollHorizontal:		False
+
+XMailbox*XmText.translations:   #augment \n\
+                <Btn3Down>: MriPopupACT( *pmenu )
+
+XMailbox*form.wcClass:			xmFormWidgetClass
+XMailbox*form.wcChildren:		text
+
+XMailbox*pmenu.wcConstructor:		XmCreatePopupMenu
+XMailbox*pmenu.wcChildren:		title, sep, hide, auto_raise, \
+					no_auto_raise, \
+					rescan, clear, sep2, quit
+
+XMailbox*title.wcConstructor:		XmCreateLabelGadget
+XMailbox*title.labelString:		xmailbox
+
+XMailbox*sep.wcConstructor:		XmCreateSeparatorGadget
+
+XMailbox*hide.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*hide.labelString:		Hide
+XMailbox*hide.activateCallback:		HideMail
+
+XMailbox*auto_raise.wcConstructor:	XmCreatePushButtonGadget
+XMailbox*auto_raise.labelString:	Auto raise
+XMailbox*auto_raise.activateCallback:	AutoRaise (), \
+					WcUnmanageCB (this), \
+					WcManageCB (*no_auto_raise)
+
+XMailbox*no_auto_raise.wcConstructor:	XmCreatePushButtonGadget
+XMailbox*no_auto_raise.labelString:	No Auto raise
+XMailbox*no_auto_raise.wcManaged:	False
+XMailbox*no_auto_raise.activateCallback: AutoRaise (), \
+					WcUnmanageCB (this), \
+					WcmanageCb (*auto_raise)
+
+XMailbox*rescan.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*rescan.labelString:		Rescan
+XMailbox*rescan.activateCallback:	ReScan
+
+XMailbox*clear.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*clear.labelString:		Clear
+XMailbox*clear.activateCallback:	ClearText
+
+XMailbox*sep2.wcConstructor:		XmCreateSeparatorGadget
+
+XMailbox*quit.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*quit.labelString:		Quit
+XMailbox*quit.activateCallback:		WcExitCB
+

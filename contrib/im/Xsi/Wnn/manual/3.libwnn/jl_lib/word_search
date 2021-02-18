@@ -1,0 +1,72 @@
+JL_WORD_SEARCH( )
+
+名称
+
+	jl_word_search		指定された辞書から単語検索を行なう。
+	jl_word_search_e	指定された辞書から単語検索を行なう。
+
+	jl_word_search_by_env	バッファ内の全ての辞書から単語検索を行なう。
+	jl_word_search_by_env_e	環境内の全ての辞書から単語検索を行なう。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_word_search(buf, dic_no, yomi, jdp)
+	struct wnn_buf *buf;		/* バッファ */
+	int dic_no;			/* 辞書番号 */
+	w_char *yomi;			/* 読み */
+	struct wnn_jdata **jdp;		/* 領域 */
+
+	int
+	jl_word_search_e(env, dic_no, yomi, jdp)
+	struct wnn_env *env;		/* 環境 */
+	int dic_no;			/* 辞書番号 */
+	w_char *yomi;			/* 読み */
+	struct wnn_jdata **jdp;		/* 領域 */
+
+	int
+	jl_word_search_by_env(buf, yomi, jdp)
+	struct wnn_buf *buf;		/* バッファ */
+	w_char *yomi;			/* 読み */
+	struct wnn_jdata **jdp;		/* 領域 */
+
+	int
+	jl_word_search_by_env_e(env, yomi, jdp)
+	struct wnn_env *env;		/* 環境 */
+	w_char *yomi;			/* 読み */
+	struct wnn_jdata **jdp;		/* 領域 */
+
+機能
+
+	jl_word_search は、指定された辞書 dic_no から単語検索を行なう。
+	jl_word_search_e は、指定された辞書 dic_no から単語検索を行なう。
+
+	jl_word_search_by_env は、バッファ buf 内の全ての辞書から単語検索を行なう。
+	jl_word_search_by_env_e	は、環境 env 内の全ての辞書から単語検索を行なう。
+
+	辞書番号 dic_noの辞書から読み yomi の単語検索を行ない、領域を確保して結
+	果を格納し、領域の先頭へのポインタを領域 jdp の先に格納する。
+
+	最後の wnn_jdata の次の wnn_jdata の dic_no 部分には、-1 が入っている。
+	候補は、今使ったよビットと頻度によってソートされる
+	（今使ったよビットが立っているものがまず頻度順に出される）。
+
+	単語検索で返される頻度、および、今使ったよビットは、hhindo, im の他
+	に、int_hindo, int_ima がある。頻度ファイルを辞書外に用いている時は、
+	頻度ファイルの値が hindo, imaにはいり、辞書内の値が int_hindo,int_ima 
+	にはいる。また、頻度ファイルを用いていない時には、辞書内の値(今使って
+	いる値) が、hindo, ima に入り、int_hindo, int_ima はそれぞれ -1 となる。
+	なお、コメントアウトされたエントリに関しては、辞書内でコメントアウ
+	トされている場合、頻度ファイルでコメントアウトされている場合に応じて
+	hindo = -1, ima = 0、または、int_hindo = -1, int_ima = 0 となる。
+
+リターンバリュー
+
+	候補数を返す。
+
+使用上の注意事項
+
+	領域は、他の jl 関数を呼んだことにより、破壊されることはない。
+

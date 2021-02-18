@@ -1,0 +1,26 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = help.do helpa.do helpdb.do
+IHFILES = help.ih helpa.ih helpdb.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+MkdirTarget($(DESTDIR)/lib/tmac)
+
+InstallFile(helpmac.an, $(INSTINCFLAGS), $(DESTDIR)/lib/tmac)
+InstallFile(config.h, $(INSTINCFLAGS), $(DESTDIR)/include/atk)
+
+DynamicMultiObject(help.do, help.o helpaux.o, ${BASEDIR}/lib/librxp.a,)
+DynamicMultiObject(helpa.do, helpa.o, ,${NETLIBS})
+DynamicMultiObject(helpdb.do, helpdb.o, ${BASEDIR}/lib/libindex.a,)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallLink(runapp, ${DESTDIR}/bin/help)
+
+DependTarget()
+
+

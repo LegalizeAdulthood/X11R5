@@ -1,0 +1,128 @@
+/**/#
+/**/# $Id: Imakefile,v 1.2 1991/09/12 12:00:32 proj Exp $
+/**/#
+   INSTALLFLAGS = $(INSTLIBFLAGS) -o $(WNNOWNER)
+           ATOD = $(WNNJUTILSRC)/atod
+           ATOF = $(WNNFUZOKUGOSRC)/atof
+       WNNTOUCH = $(WNNJUTILSRC)/wnntouch
+          HINSI = $(WNNJDSRC)/hinsi.data
+       FZK_FLAG =
+
+LINKS = Version bio.hd bio.u chimei.hd chimei.u computer.hd \
+ computer.u fzk.attr fzk.con fzk.fzkattr fzk.jirattr \
+ fzk.jircon fzk.master fzk.shuutan jinmei.hd jinmei.u \
+ kihon.hd kihon.u koyuu.hd koyuu.u setsuji.hd setsuji.u \
+ special.hd special.u symbol.hd symbol.u tankan.hd tankan.u
+
+FZK_SRC= \
+         fzk.master \
+         fzk.attr \
+         fzk.jirattr \
+         fzk.fzkattr \
+         fzk.jircon \
+         fzk.con \
+         fzk.shuutan
+
+DIC= \
+	bio.dic \
+	chimei.dic \
+	computer.dic \
+	jinmei.dic \
+	kihon.dic \
+	koyuu.dic \
+	setsuji.dic \
+	special.dic \
+	symbol.dic \
+	tankan.dic
+
+MORE=\
+	kihon.more \
+	setsuji.more \
+	jinmei.more \
+	chimei.more \
+	koyuu.more \
+	special.more \
+	computer.more \
+	bio.more \
+	symbol.more \
+	tankan.more
+FZKDATA= \
+	 full.fzk \
+	 kougo.fzk \
+	 std.fzk
+
+VERSION=\
+	Version
+
+DICS = $(DIC) $(FZKDATA)
+
+AllTarget($(DICS)) 
+
+includes:: $(LINKS)
+
+LinkSourceFile(Version,$(PUBDICSRC))
+LinkSourceFile(bio.hd,$(PUBDICSRC))
+LinkSourceFile(bio.u,$(PUBDICSRC))
+LinkSourceFile(chimei.hd,$(PUBDICSRC))
+LinkSourceFile(chimei.u,$(PUBDICSRC))
+LinkSourceFile(computer.hd,$(PUBDICSRC))
+LinkSourceFile(computer.u,$(PUBDICSRC))
+LinkSourceFile(fzk.attr,$(PUBDICSRC))
+LinkSourceFile(fzk.con,$(PUBDICSRC))
+LinkSourceFile(fzk.fzkattr,$(PUBDICSRC))
+LinkSourceFile(fzk.jirattr,$(PUBDICSRC))
+LinkSourceFile(fzk.jircon,$(PUBDICSRC))
+LinkSourceFile(fzk.master,$(PUBDICSRC))
+LinkSourceFile(fzk.shuutan,$(PUBDICSRC))
+LinkSourceFile(jinmei.hd,$(PUBDICSRC))
+LinkSourceFile(jinmei.u,$(PUBDICSRC))
+LinkSourceFile(kihon.hd,$(PUBDICSRC))
+LinkSourceFile(kihon.u,$(PUBDICSRC))
+LinkSourceFile(koyuu.hd,$(PUBDICSRC))
+LinkSourceFile(koyuu.u,$(PUBDICSRC))
+LinkSourceFile(setsuji.hd,$(PUBDICSRC))
+LinkSourceFile(setsuji.u,$(PUBDICSRC))
+LinkSourceFile(special.hd,$(PUBDICSRC))
+LinkSourceFile(special.u,$(PUBDICSRC))
+LinkSourceFile(symbol.hd,$(PUBDICSRC))
+LinkSourceFile(symbol.u,$(PUBDICSRC))
+LinkSourceFile(tankan.hd,$(PUBDICSRC))
+LinkSourceFile(tankan.u,$(PUBDICSRC))
+
+instserver:: install
+
+MakeDirectory(install, $(DESTDIR)$(JWNNDICDIR))
+InstallMultiple($(DICS),$(JWNNPUBDICDIR))
+
+install::
+	@for i in $(DICS); \
+	do \
+		$(WNNTOUCH) $(DESTDIR)$(JWNNPUBDICDIR)/$$i ;\
+	done
+
+depend::
+	@echo "skipping make in my dir"
+
+std.fzk: $(FZK_SRC)
+	$(CPP) $(FZK_FLAG) fzk.master | egrep -v '^(# |$$)' | $(ATOF) -h $(HINSI) $@
+
+full.fzk: $(FZK_SRC)
+	$(MAKE) FZK_FLAG=-DKANSAI std.fzk
+	$(MV) std.fzk $@
+
+kougo.fzk: $(FZK_SRC)
+	$(MAKE) FZK_FLAG=-DKOUGO std.fzk
+	$(MV) std.fzk $@
+
+.SUFFIXES: .hd .u .dic .more
+
+.u.dic:
+	cat $*.hd $< | $(ATOD) -p $(VERSION) -P $(VERSION) -h $(HINSI) $@
+
+.hd.more:
+	$(ATOD) -h $(HINSI) $@ < $<
+
+$(DIC): $(HINSI)
+
+clean::
+	$(RM) -f *.fzk *.dic *.more $(LINKS)

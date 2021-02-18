@@ -1,0 +1,19 @@
+#ifndef WcTopDir
+#define WcTopDir ..
+#endif
+
+#include "../Wc.tmpl"
+
+       PROGRAMS = MDmotif xmailbox
+          SRCS1 = MDmotif.c
+          OBJS1 = MDmotif.o
+          SRCS2 = xmailbox.c
+          OBJS2 = xmailbox.o
+
+        DEFINES = -D_NO_PROTO
+       INCLUDES = -I. -I$(TOP) $(XMINC) $(X11INC)
+LOCAL_LIBRARIES = $(SHRLIBDIR) $(XMPLIB) $(WCLIB) $(XMLIB) \
+                  $(X11LIBDIR) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+UninstalledComplexProgramTarget_1(MDmotif,$(LOCAL_LIBRARIES),)
+UninstalledComplexProgramTarget_2(xmailbox,$(LOCAL_LIBRARIES),)

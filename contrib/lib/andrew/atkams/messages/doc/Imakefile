@@ -1,0 +1,13 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+NormalHelpRule()
+InstallDocs(msgs.help folders.help options.help msgskys.help sendmsg.help msgs.chng, ${DESTDIR}/help)
+InstallHelpAlias(msgs, messages readmail readnews subscribe subscription subscribing)
+InstallHelpAlias(folders, messages-folders)
+InstallHelpAlias(options, messages-customization setoptions setoption option)
+InstallHelpAlias(msgskys, messages-keys messageskeys messages-keybindings)
+InstallHelpAlias(sendmsg, sendmessage sendmessages messages-send)
+

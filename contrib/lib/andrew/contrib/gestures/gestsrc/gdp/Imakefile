@@ -1,0 +1,9 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+LIBS = $(BASEDIR)/lib/gestures/librecog.a $(BASEDIR)/lib/gestures/libgdev.a
+OBJS = gpoint.o gesture.o gdpint.o draw.o object.o wm.o state.o set.o transform.o
+
+ProgramTarget(gdp,$(OBJS),$(LIBS),-lX11 -lm)
+InstallProgram(gdp,$(BASEDIR)/bin)

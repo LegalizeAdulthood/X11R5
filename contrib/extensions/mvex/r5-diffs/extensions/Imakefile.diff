@@ -1,0 +1,26 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 extensions/RCS/Imakefile,v 
+*** 2.3	1991/09/21 21:04:50
+--- 2.5	1991/09/24 06:09:22
+***************
+*** 2,9 ****
+  #define IHaveSubdirs
+  #define PassCDebugFlags
+  
+  #if BuildServer
+!   SERVERSUBDIRS = server
+  #else
+  #if BuildPexClients
+    SERVERSUBDIRS = server/PEX/dipex/swap
+--- 2,13 ----
+  #define IHaveSubdirs
+  #define PassCDebugFlags
+  
++ #if BuildMvex
++            MVEX = mvex
++ #endif
++ 
+  #if BuildServer
+!   SERVERSUBDIRS = server $(MVEX)
+  #else
+  #if BuildPexClients
+    SERVERSUBDIRS = server/PEX/dipex/swap

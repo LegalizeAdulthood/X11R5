@@ -1,0 +1,92 @@
+JL_DIC_ADD( )
+
+名称
+
+	jl_dic_add()		バッファに辞書を追加する。
+	jl_dic_add_e()		環境に辞書を追加する。
+
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_dic_add(buf,dic_name,hindo_name, rev, prio,rw, hrw, 
+			pwd_dic, pwd_hindo, error_handler, message_handler)  
+	struct wnn_buf *buf;		/* バッファ */
+	char 	*dic_name;		/* 辞書名 */
+	char 	*hindo_name;		/* 頻度ファイル名 */
+	int 	rev;			/* 逆変換かどうか(未使用) */
+	int 	prio;			/* 優先度 */
+	int 	rw;			/* 辞書のR/W */
+	int 	hrw;			/* 頻度ファイルのR/W */
+	char 	*pwd_dic;		/* 辞書のパスワードファイル名 */
+	char 	*pwd_hindo;		/* 頻度ファイルのパスワードファイル名 */
+	int  	(*error_handler)(); 	/* エラー・ハンドラ */
+	int  	(*message_handler)(); 	/* メッセージ・ハンドラ */
+
+	int
+	jl_dic_add_e(env,dic_name,hindo_name, rev, prio,rw, hrw,
+			pwd_dic, pwd_hindo, error_handler, message_handler)  
+	struct wnn_env *env;		/* 環境 */
+	char 	*dic_name;		/* 辞書名 */
+	char 	*hindo_name;		/* 頻度ファイル名 */
+	int 	rev;			/* 逆変換かどうか(未使用) */
+	int 	prio;			/* 優先度 */
+	int 	rw;			/* 辞書のR/W */
+	int 	hrw;			/* 頻度ファイルのR/W */
+	char 	*pwd_dic;		/* 辞書のパスワードファイル名 */
+	char 	*pwd_hindo;		/* 頻度ファイルのパスワードファイル名 */
+	int  	(*error_handler)(); 	/* エラー・ハンドラ */
+	int  	(*message_handler)(); 	/* メッセージ・ハンドラ */
+
+機能
+
+	jl_dic_add は、バッファ buf 内の環境に、jl_dic_add_e は、環境 env に
+	dic_name, hindo_name の辞書、頻度ファイルを追加する。
+	クライアント・サイトの辞書、頻度ファイルは、ファイル名の先頭
+	に ! をつけた名前をdic_name, hindo_name に指定する。
+
+
+	prio で、辞書の優先度を指定する。
+	rw, hrw で、辞書、頻度ファイルが読み取り専用か否かを指定する。
+	    WNN_DIC_RDONLY	読み取り専用
+	    WNN_DIC_RW		読み取り/書き込み可能
+
+	固定形式辞書、および、読み取り専用辞書には、単語登録/削除ができない。
+
+	rev  で、逆変換を行なうかどうか、指定する。
+	    WNN_DIC_ADD_REV	逆変換
+	    WNN_DIC_ADD_NOR	通常の変換
+
+	逆変換形式辞書に対してしか、逆変換は行なうことができない。
+
+	pwd_dic, pwd_hindo で、辞書及び頻度ファイルのパスワードの入っているファ
+	イル名を指定する。
+	辞書及び頻度ファイルにパスワードが掛かっていない場合は、NULL を指定する。
+
+	エラー・ハンドラ error_handler で、辞書及び頻度ファイルが存在しない時に
+	作成するか否かを指定する。
+	    WNN_NO_CREAT    辞書は作らずその行はスキップする。
+	    WNN_CREATE	    辞書は登録可能形式辞書として作成し読み込む。
+			    頻度ファイルはその辞書に対する頻度ファイルとして作成
+			    し読み込む。
+
+	    その他	    (*error_handler)()を、メッセージとなる文字列を引数と
+			    して、辞書などを作成するか否かを返す関数と見なし、
+			    その関数を呼ぶ。
+			    関数の返値が 1 なら作成し、0 なら作成しない。
+
+	メッセージ・ハンドラ message_handler が NULL でなければ、文字列を表示す
+	る関数と見なし、辞書などを作成したというメッセージの表示を行なう。
+
+	これらのハンドラが必要なのは、jl_open の中で、バッチ的に辞書の
+	読み込みを行なうためである。
+	
+	辞書ファイルを作成する時には、逆引き形式で作成する。
+
+リターンバリュー
+
+	正常終了時には辞書番号を返す。
+	異常終了時には -1 を返す。
+

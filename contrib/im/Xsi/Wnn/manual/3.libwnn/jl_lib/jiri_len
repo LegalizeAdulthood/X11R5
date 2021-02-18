@@ -1,0 +1,22 @@
+JL_JIRI_LEN( )
+
+名称
+
+	jl_jiri_len		読みの長さを得る。
+
+形式
+
+	#include "jllib.h"
+	int
+	jl_jiri_len(buf, bun_no)
+	struct wnn_buf *buf;	/* バッファ */
+	int bun_no; 		/* 文節番号 */
+
+機能
+	文節番号 bun_no の文節の自立語部分の長さを取り出す。
+
+リターンバリュー
+
+	自立語部分の長さを返す。
+
+

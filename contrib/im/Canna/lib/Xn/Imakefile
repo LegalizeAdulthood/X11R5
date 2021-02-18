@@ -1,0 +1,9 @@
+INCLUDES = -I../.. -I../iroha
+
+SRCS = oldxlook.c xbind.c kanji.c kmodes.c
+OBJS = oldxlook.o xbind.o kanji.o kmodes.o
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(Xn, $(OBJS))
+InstallLibrary(Xn,$(USRLIBDIR)/X11)
+DependTarget()

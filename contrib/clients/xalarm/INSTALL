@@ -1,0 +1,92 @@
+MAKING
+~~~~~~
+
+  First get any relevant patch files so as to make the latest patch version.
+  You can find out which patch level your xalarm is at by looking at the file
+  patchlevel.h in the source directory, or, if you have xalarm built, by:
+
+% xalarm -version
+
+  See the man page for more.  Apply any patches, see the patch files themselves
+  for more information.
+
+  If you have problems, have a look below.
+
+    1.  If you don't want to use the Imakefile or the Makefile generated from
+	    it, try using Makefile.alt.  First check it for correct flag
+	    settings, then copy it to Makefile.
+	Otherwise use the supplied Makefile, or check the Imakefile and
+	    generate your own Makefile by "xmkmf".
+
+	If you want to use a different notation or language for dates, see the
+	    definitions for WEEKDAYS and MONTHS in xalarm.h.
+
+    2.  First, "make config".  Answer the questions.
+
+    3.  Try making with "make".  Have a play.
+
+    4.  If you aren't installing (you selfish get), put the XAlarm.ad and
+	    XAlarm.ad+ in your ~/.xresources file.
+	Otherwise, try "make install", then "make install.man".
+
+  Look at the manual for anything else & enjoy.
+
+
+PROBLEMS
+~~~~~~~~
+
+  Compilation
+
+    1.  When using the Makefile generated from the Imakefile, compiler says
+	things like, "Don't know how to make target `lib/Xaw/libXaw.a'".  You
+	are not building in the contrib directory, so try removing $(DEPLIBS)
+	from the xalarm target in the Makefile.
+
+    2.  When using the Makefile generated from the Imakefile, the loader says
+	things like, "ld: ./lib/Xaw/libXaw.a: No such file or directory".  You
+	are not building in the contrib directory, so try re-defining
+	LOCAL_LIBRARIES to be "-lXaw -lXmu -lXt -lXext -lX11" in the Makefile.
+
+    3.  Compiler complains about gethostname().  If you haven't got this, you
+	need to add -DNOGETHOSTNAME to DEFINES in the Makefile.
+
+    4.  If you don't have "ps", "fgrep" or "colrm", you can compile xalarm, but
+	you won't be able to use the -list option.  The command "ps" lists
+	processes.  The command "fgrep" is a pattern matcher.  The command
+	"colrm" removes everything from its input after the sixth column.  If
+	you don't have this, you could possibly just use "tee" (giving its full
+	path, of course) or equivalent which just replicates its input.  Look
+	at the file config.1st.
+
+    5.  Similarly, if you don't have "fortune" or "yow", you can't have
+	"xfortune" or "xyow".
+
+
+  Alarm Layout
+
+    1.  You want to layout the alarm buttons differently, don't you?  Mine not
+	good enough?  The buttons are within a Form Widget, so have a look at
+	the Xaw man page for this.  Each button has the placement resources
+	fromHoriz, fromVert, horizDistance & vertDistance.  There are some
+	suggestions in the xalarm man page too.
+
+	The button box and message label are also in a (higher level) Form
+	widget, so you can also change the relationship of button box to
+	message text.  See the man page too.
+
+	Note that the ordering of resources are important; you can't refer to a
+	widget in a resource before it's created by xalarm.  The order of
+	creation is:
+
+	    alarm:	buttonbox message
+	    buttonbox:	quit snooze snooze1 snooze5 snooze15 snoozetime
+
+
+BUGS
+~~~~
+
+  If you have any comments, suggestions, code, fixes, please let me know and I
+  will make an attempt to include them.  A few ``things'' are mentioned in the
+  bugs section of the manual.  Don't forget to include the xalarm version
+  number ("xalarm -version" gives it you), machine/OS, X11 release & patch etc.
+

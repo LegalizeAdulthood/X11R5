@@ -1,0 +1,33 @@
+/*
+** Choose whatever mail path is appropriate for your system
+*/
+#ifdef XlbiffMailPath
+MAILPATH = XlbiffMailPath
+#else
+/* MAILPATH = /udir/%s/.maildrop	*/
+/* MAILPATH = /usr/mail/%s 		*/
+MAILPATH = /usr/spool/mail/%s
+#endif
+
+/*
+** Where you want the xlbiff.form file to go
+*/
+#ifdef	XmhLibDir
+MHLIBDIR = XmhLibDir
+#else
+MHLIBDIR = /usr/new/lib/mh
+#endif
+
+
+/*    CDEBUGFLAGS = -g -DDEBUG*/
+
+        DEFINES = -DMAILPATH=\"$(MAILPATH)\"
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+
+SimpleProgramTarget(xlbiff)
+InstallAppDefaults(XLbiff)
+/*
+** Uncomment this if you have R5 and want to install the scan format file
+*/
+/* InstallNonExecFile(xlbiff.form,$(MHLIBDIR)) */

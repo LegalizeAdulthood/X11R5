@@ -1,0 +1,234 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/cfb/RCS/cfbmskbits.h,v 
+*** 1.3.1.1	1991/09/22 02:34:14
+--- 1.3.1.3	1991/09/22 21:29:43
+***************
+*** 82,93 ****
+   * ==========================================================================
+   */
+  
+! #define PPW	4
+! #define PLST	3
+! #define PIM	0x03
+! #define PWSH	2
+! #define PSZ	8
+! #define PMSK	0xFF
+  
+  /* the following notes use the following conventions:
+  SCREEN LEFT				SCREEN RIGHT
+--- 82,93 ----
+   * ==========================================================================
+   */
+  
+! #define PPW	1
+! #define PLST	0
+! #define PIM	0
+! #define PWSH	0
+! #define PSZ	24
+! #define PMSK	0x00FFFFFF
+  
+  /* the following notes use the following conventions:
+  SCREEN LEFT				SCREEN RIGHT
+***************
+*** 214,287 ****
+  #define BitLeft(lw,n)	((lw) >> (n))
+  #endif	/* (BITMAP_BIT_ORDER == MSBFirst) */
+  
+! #define SCRLEFT(lw, n)	BitLeft (lw, (n) * PSZ)
+! #define SCRRIGHT(lw, n)	BitRight(lw, (n) * PSZ)
+  
+  /*
+   * Note that the shift direction is independent of the byte ordering of the 
+   * machine.  The following is portable code.
+   */
+! #define PFILL(p) ( ((p)&PMSK)          | \
+! 		   ((p)&PMSK) <<   PSZ | \
+! 		   ((p)&PMSK) << 2*PSZ | \
+! 		   ((p)&PMSK) << 3*PSZ )
+! #define PFILL2(p, pf) { \
+!     pf = (p) & PMSK; \
+!     pf |= (pf << PSZ); \
+!     pf |= (pf << 2*PSZ); \
+! }
+  
+  
+  #define maskbits(x, w, startmask, endmask, nlw) \
+!     startmask = cfbstarttab[(x)&PIM]; \
+!     endmask = cfbendtab[((x)+(w)) & PIM]; \
+!     if (startmask) \
+! 	nlw = (((w) - (PPW - ((x)&PIM))) >> PWSH); \
+!     else \
+! 	nlw = (w) >> PWSH;
+  
+  #define maskpartialbits(x, w, mask) \
+!     mask = cfbstartpartial[(x) & PIM] & cfbendpartial[((x) + (w)) & PIM];
+  
+  #define mask32bits(x, w, startmask, endmask) \
+!     startmask = cfbstarttab[(x)&PIM]; \
+!     endmask = cfbendtab[((x)+(w)) & PIM];
+  
+  
+  #define getbits(psrc, x, w, dst) \
+! if ( ((x) + (w)) <= PPW) \
+! { \
+!     dst = SCRLEFT(*(psrc), (x)); \
+! } \
+! else \
+! { \
+!     int m; \
+!     m = PPW-(x); \
+!     dst = (SCRLEFT(*(psrc), (x)) & cfbendtab[m]) | \
+! 	  (SCRRIGHT(*((psrc)+1), m) & cfbstarttab[m]); \
+! }
+  
+  
+  #define putbits(src, x, w, pdst, planemask) \
+  if ( ((x)+(w)) <= PPW) \
+! { \
+!     unsigned long tmpmask; \
+!     maskpartialbits((x), (w), tmpmask); \
+!     tmpmask &= PFILL(planemask); \
+!     *(pdst) = (*(pdst) & ~tmpmask) | (SCRRIGHT(src, x) & tmpmask); \
+! } \
+! else \
+! { \
+!     unsigned long m; \
+!     unsigned long n; \
+!     unsigned long pm = PFILL(planemask); \
+!     m = PPW-(x); \
+!     n = (w) - m; \
+!     *(pdst) = (*(pdst) & (cfbendtab[x] | ~pm)) | \
+! 	(SCRRIGHT(src, x) & (cfbstarttab[x] & pm)); \
+!     *((pdst)+1) = (*((pdst)+1) & (cfbstarttab[n] | ~pm)) | \
+! 	(SCRLEFT(src, m) & (cfbendtab[n] & pm)); \
+! }
+  #if defined(__GNUC__) && defined(mc68020)
+  #undef getbits
+  #define FASTGETBITS(psrc, x, w, dst) \
+--- 214,250 ----
+  #define BitLeft(lw,n)	((lw) >> (n))
+  #endif	/* (BITMAP_BIT_ORDER == MSBFirst) */
+  
+! #define SCRLEFT(lw, n)  (lw)
+! #define SCRRIGHT(lw, n)	(lw)
+  
+  /*
+   * Note that the shift direction is independent of the byte ordering of the 
+   * machine.  The following is portable code.
+   */
+! #define PFILL(p) (p)
+! #define PFILL2(p, pf) pf = p;
+  
+  
+  #define maskbits(x, w, startmask, endmask, nlw) \
+!     startmask = 0; \
+!     endmask = 0; \
+!     nlw = w;
+  
+  #define maskpartialbits(x, w, mask) \
+!     mask = 0xFFFFFFFF;
+  
+  #define mask32bits(x, w, startmask, endmask) \
+!     startmask = 0; \
+!     endmask = 0;
+  
+  
+  #define getbits(psrc, x, w, dst) \
+!     dst = *(psrc);
+  
+  
+  #define putbits(src, x, w, pdst, planemask) \
+  if ( ((x)+(w)) <= PPW) \
+!     *(pdst) = src;
+  #if defined(__GNUC__) && defined(mc68020)
+  #undef getbits
+  #define FASTGETBITS(psrc, x, w, dst) \
+***************
+*** 318,350 ****
+  #endif /* mc68020 */
+  
+  #define putbitsrop(src, x, w, pdst, planemask, rop) \
+- if ( ((x)+(w)) <= PPW) \
+  { \
+!     unsigned long tmpmask; \
+!     unsigned long t1, t2; \
+!     maskpartialbits((x), (w), tmpmask); \
+!     PFILL2(planemask, t1); \
+!     tmpmask &= t1; \
+!     t1 = SCRRIGHT((src), (x)); \
+!     t2 = DoRop(rop, t1, *(pdst)); \
+!     *(pdst) = (*(pdst) & ~tmpmask) | (t2 & tmpmask); \
+! } \
+! else \
+! { \
+!     unsigned long m; \
+!     unsigned long n; \
+!     unsigned long t1, t2; \
+!     unsigned long pm; \
+!     PFILL2(planemask, pm); \
+!     m = PPW-(x); \
+!     n = (w) - m; \
+!     t1 = SCRRIGHT((src), (x)); \
+!     t2 = DoRop(rop, t1, *(pdst)); \
+!     *(pdst) = (*(pdst) & (cfbendtab[x] | ~pm)) | (t2 & (cfbstarttab[x] & pm));\
+!     t1 = SCRLEFT((src), m); \
+!     t2 = DoRop(rop, t1, *((pdst) + 1)); \
+!     *((pdst)+1) = (*((pdst)+1) & (cfbstarttab[n] | ~pm)) | \
+! 	(t2 & (cfbendtab[n] & pm)); \
+  }
+  
+  #if GETLEFTBITS_ALIGNMENT == 1
+--- 281,290 ----
+  #endif /* mc68020 */
+  
+  #define putbitsrop(src, x, w, pdst, planemask, rop) \
+  { \
+!     unsigned long t2; \
+!     t2 = DoRop(rop, SCRRIGHT((src), (x)), *(pdst)); \
+!     *(pdst) = (*(pdst) & ~planemask) | (t2 & planemask); \
+  }
+  
+  #if GETLEFTBITS_ALIGNMENT == 1
+***************
+*** 409,435 ****
+   */
+  #if (BITMAP_BIT_ORDER == MSBFirst)
+  #define getstipplepixels( psrcstip, x, w, ones, psrcpix, destpix ) \
+! { \
+!     unsigned int q; \
+!     int m; \
+!     if ((m = ((x) - ((PPW*PSZ)-4))) > 0) { \
+!         q = (*(psrcstip)) << m; \
+! 	if ( (x)+(w) > (PPW*PSZ) ) \
+! 	    q |= GET_VALID_BITS_FROM_LONG(*((psrcstip)+1)) >> ((PPW*PSZ)-m); \
+!     } \
+      else \
+!         q = (*(psrcstip)) >> -m; \
+!     q = QuartetBitsTable[(w)] & ((ones) ? q : ~q); \
+!     *(destpix) = (*(psrcpix)) & QuartetPixelMaskTable[q]; \
+! }
+! #else /* BITMAP_BIT_ORDER == LSB */
+  #define getstipplepixels( psrcstip, xt, w, ones, psrcpix, destpix ) \
+! { \
+!     unsigned int q; \
+!     q = GET_VALID_BITS_FROM_LONG(*(psrcstip)) >> (xt); \
+!     if ( ((xt)+(w)) > (PPW*PSZ) ) \
+!         q |= (*((psrcstip)+1)) << ((PPW*PSZ)-(xt)); \
+!     q = QuartetBitsTable[(w)] & ((ones) ? q : ~q); \
+!     *(destpix) = (*(psrcpix)) & QuartetPixelMaskTable[q]; \
+! }
+  #endif
+--- 349,362 ----
+   */
+  #if (BITMAP_BIT_ORDER == MSBFirst)
+  #define getstipplepixels( psrcstip, x, w, ones, psrcpix, destpix ) \
+!     if (*(psrcstip) & ((unsigned long)(1 << 31) >> (x))) \
+!         *(destpix) = (ones) ? *(psrcpix) : 0; \
+      else \
+!         *(destpix) = (ones) ? 0 : *(psrcpix);
+! #else
+  #define getstipplepixels( psrcstip, xt, w, ones, psrcpix, destpix ) \
+!     if (*(psrcstip) & (1 << (x))) \
+!         *(destpix) = (ones) ? *(psrcpix) : 0; \
+!     else \
+!         *(destpix) = (ones) ? 0 : *(psrcpix);
+  #endif

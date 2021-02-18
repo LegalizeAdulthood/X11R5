@@ -1,0 +1,593 @@
+"@(#)shinbun.man	1.5 91/09/11"
+
+NAME
+	shinbun - OpenWindows interface to USENET news system that uses 
+		the NNTP remote news server
+
+SYNOPSIS
+	shinbun
+
+AVAILABILITY
+	This command is available with the OpenWindows  environment.
+	For information about installing OpenWindows, refer to the
+	OpenWindows Installation and Start-Up Guide.
+
+DESCRIPTION
+	shinbun is the standard(?) OpenWindws based interface to the 
+	USENET news system that uses the NNTP remote news server for 
+	accessing newsgroups and articles. It provides a menu-driven 
+	facility for reading, storing, composing, and sending article or mail
+	messages. Scrollable windows allow easy access to newsgroups.
+	The full editing capabilities of textedit (1) are available
+	for modifying and composing news messages as well as text 
+	fields within command panels.
+
+OPTIONS
+
+	-newsrc		Specify the setting newsrc file. Unless this
+			option. $HOME/.newsrc file is used in the default.
+
+	generic tool arguments
+			shinbun accepts the generic tool arguments described 
+			in xview (1).
+
+ENVIRONMENT
+	The behavior of shinbun can also be tailored by means of the
+	following environment variables:
+
+	NNTPSERVER
+		Must be set to the name of the NNTP server machine.
+
+	SHINBUNHOME
+		In the case of MOWN like JOW, COW..., shinbun supports
+		the text handling mechanism. If you want to use labels in
+		your locale laguage, specfy this. 
+		Refer to the International XView Programming Manual in details.
+
+USAGE
+	shinbun operates through the use of a set of command panel 
+	buttons, message windows, menus, and other components that 
+	conform to the OPEN LOOK Graphical User Interface Functional
+	Specification.  News messages are edited using the menus and 
+	commands of the textedit program. For more information about 
+	the general usage of OPEN LOOK software applications, see the
+	OpenWindows User's Guide. For more information about textedit
+	conventions, see the textedit (1) man page.
+
+	Command Panel Buttons
+
+	The shinbun command panel is located near the top of the main 
+	window, under the window header. Select a command panel button 
+	to reveal the menu for that button.
+
+	Newsgroup
+
+		Next ng >
+			Move to the next or previous group.
+
+			Next	Move to the next group.
+
+			Prev	Move to the previous group.
+
+		Mark >	Mark all articles in the current group as read 
+			or unread.
+
+			As read		Mark as read.
+
+			As unread	Mark as unread.
+
+		Catch up
+			The newsgroup displayed in the panel text is
+			catched up.
+
+		Latest	Display newsgroups which have new articles
+			arrived within default minutes(See biff).
+
+		Save changes
+			Update the setting file implicity. This is used
+			".newsrc" file in the default.This file
+			is not updated while the session. You must select
+			this menu or specify the Save when quitting the
+			shinbun to update the file.
+
+	Open	Open	Read the articles in the current group. 
+			The current group is displayed at the Group 
+			text field.
+
+		Rescan	Query the server for any new ariticles.
+
+	Article
+
+		Mark >	Mark selected article(s) in the current group 
+			as read or unread.
+
+			As read		Mark as read.
+
+			As unread	Mark as unread.
+
+		View >	Query the server for any unread or all articles.
+
+			Unread	Query for any unread articles.
+
+			Read	Query for all articles.
+
+
+		Find	Find the article(s) which has the same sender or subject
+			in the Sender or Subject of the Find text field.
+
+			Sender:
+				Enter text that is in the Sender field.
+				
+			Subject:
+				Enter text that is in the Subject field of
+				the message you want. Or Set the selected
+				message before bringging up the frame.
+				"Re: " of the replied message convention is
+				ignored.
+
+			Find Forward
+				After entering text for Subject:, click SELECT
+				on Find Forward to select the next message that
+				match the text.
+
+			Find Backward
+				After entering text for Subject:, click SELECT
+				on Find Backward to select the prgvious message
+				that match the text.
+
+			Select All
+				After entering text for Subject:, click SELECT
+				on Select All to select the all messages
+				that match the text.
+
+		Cancel	Cancel the article.
+
+			Newsgroup:
+				Enter text that is the newsgroup to bg canceled
+				article.
+
+			Article number:
+				Enter text that is the canceled article number.
+
+			Cancel	After entering text for Newsgroup: and
+				Article number: both, click SELECT on Cancel
+				to cancel the article that matches the text.
+
+		Print
+			Sends copies of all the selected articles to your
+			default printer.
+		
+	View
+
+		Next	Display the next article in the current group.
+
+		View	Display the selected article, if any; otherwise,
+			display the unread article at first.
+
+		Prev	Display the previous article in the current group.
+
+		MsgID	Display the article by the message ID.
+			Select the message ID by the primary selection
+			in the text which include the message ID, and then
+			push this button.
+
+	Post	Post an article to any groups or mail a message.
+		This allows users to creat new article or mail messages 
+		to be sent, reply to existing messages with or
+		without including the current messages, and to forward
+		messages as needed.
+
+		Post >	Post an article to any groups.
+
+			Post	Opens a post window without the
+				message headers being filled in.
+
+			Brancketed post
+				Opens a post window with the currently
+				selected message inculuded in the new
+				message body.
+				The included messages are brancketed with
+				special lines.
+
+			Followup
+				Opens a post window. In the window, the
+				address field contains the originator's 
+				address for the selected message.
+
+			Indented post
+				Opens a post window with the currently
+				selected message inculuded in the new
+				message body.
+				Each line of the included message is included,
+				using, the standard indentation string.
+
+		Mail >	Mail a message to someone.
+
+			Forward
+				Opens a mail window without the
+				message headers being filled in.
+
+			Brancketed forward
+				Opens a mail window with the currently
+				selected message inculuded in the new
+				message body.
+				The included messages are brancketed with
+				special lines.
+
+			Reply
+				Opens a mail window. In the window, the
+				address field contains the originator's 
+				address for the selected message.
+
+			Indented reply
+				Opens a mail window with the currently
+				selected message inculuded in the new
+				message body.
+				Each line of the included message is included,
+				using, the standard indentation string.
+
+	The Post Window
+
+	The address field of the post window is set the following beforehand.
+
+		From :
+		Path :
+		Reply-To:
+		Organization :
+
+	This window has its own control panel with the following buttons.
+
+	Include
+
+		Brancketed
+			Pastes the currently selected message into
+			the body of the message you are composing.
+			The included messages are brancketed with
+			special lines.
+
+		Indented
+			Pastes the currently selected message into
+			the body of the message you are composing.
+			Each line of the included message is included,
+			using, the standard indentation string.
+
+		Selected
+			Pastes the currently selected text in the view
+			window by the primary selection into the body of 
+			the message you are composing. 
+			Each line of the included message is included,
+			using, the standard indentation string.
+
+		Reference
+			Pastes the Reference into the body of the message
+			you are composing.
+
+	Send
+		Quit window
+			Posts the message you have composed and then
+			dismisses the post window.
+
+		Close window
+			Posts the message you have composed and then
+			close the post window to an icon.
+
+		Clear window
+			Posts the message you have composed and then
+			clears the post window to prepare it for re-use.
+
+		Leave message intact
+			Posts the message you have composed and then
+			leaves the message.
+
+	Header
+		Abbrev	Display the following address field only.
+
+				From :
+				Subject :
+				Newsgroup :
+
+		Full	Display all the address field.
+			
+	Clear	Clears the contents of the post window.
+
+
+	The Mail Window
+
+	This window has its own control panel with the following buttons.
+
+	Include
+
+		Brancketed
+			Pastes the currently selected message into
+			the body of the message you are composing.
+			The included messages are brancketed with
+			special lines.
+
+		Indented
+			Pastes the currently selected message into
+			the body of the message you are composing.
+			Each line of the included message is included,
+			using, the standard indentation string.
+
+		Selected
+			Pastes the currently selected text in the view
+			window by the primary selection into the body of 
+			the message you are composing. 
+			Each line of the included message is included,
+			using, the standard indentation string.
+
+		Reference
+			Pastes the Reference into the body of the message
+			you are composing.
+
+	Send
+		Quit window
+			Posts the message you have composed and then
+			dismisses the mail window.
+
+		Close window
+			Posts the message you have composed and then
+			close the mail window to an icon.
+
+		Clear window
+			Posts the message you have composed and then
+			clears the mail window to prepare it for re-use.
+
+		Leave message intact
+			Posts the message you have composed and then
+			leaves the message.
+
+	Header
+		Abbrev	Display the following address field only.
+
+				From :
+				Subject :
+				Cc :
+
+		Full	Display all the address field.
+			
+	Clear	Clears the contents of the post window.
+
+
+	Prpperties
+		Display the Prpperties windows. The various categories of
+		propertis you can modify are displayed in a pop-up menu
+		from the Dispaly abbreviated menu button.
+		Tool properties.
+
+			General properties
+				Default Header Pane Height:
+					Specifies the number of lines
+					for the header pane.
+
+				Default Header Pane Width:
+					Specifies the width of 
+					for the header pane in columns.
+
+				Default Header Post Height:
+					Specifies the width of 
+					for the header post in columns.
+
+				Default Header View Height:
+					Specifies the width of 
+					for the header view in columns.
+
+				Max Header Message Number:
+					Specifies the maximum number of 
+					the messages in the header pane.
+					Lower realize the good perfomance.
+
+				Print Script:
+					Script executed when Print is selected.
+
+				Default Article Display:
+					Specifies whether the default display 
+					of the article is unread one or not.
+
+				Post Window with:
+					Specifies whether the header of the
+					post/mail window is the abbreviation.
+
+				Default Header Message width:
+					Specifies what the header message
+					display. Sender, subject and date
+					can be selected.
+
+				Default Indent Prefix:
+					Specifies the default indent prefix.
+
+				Indent at Include width:
+					Specifies whether the Indent when
+					include include the sender or not.
+
+				Apply	When this button is selected, any 
+					changes you have specified are made.
+
+				Reset	When this button is selected, any 
+					changes you have make in the window 
+					are deleted.
+
+			New arrival properties
+				Check for News Every:
+					Specifies in minutes how often shinbun
+					checks for new articles.
+
+				Signal New News With:
+					Specifies how many beeps or move or
+					both that are used to notify you of
+					the arrival of new article.
+
+				Apply	When this button is selected, any 
+					changes you have specified are made.
+
+				Reset	When this button is selected, any 
+					changes you have make in the window 
+					are deleted.
+
+
+		News properties
+			Display the News properties window and allow users
+			to edit the current '.newsrc' file.
+
+			Groups
+				Difference
+					Display only the newsgroup of the
+					diffrence between the
+					user's '.newsrc' file and the full
+					ones in the server.
+
+				All
+					Load the full newsgroups in the server.
+
+			Templete
+				Add after
+					Field is inserted into list after
+					the selection point.
+
+				Add before
+					Field is inserted into list before
+					the selection point.
+
+				Insert first
+					Field is inserted into the first list.
+
+				Insert last
+					Field is inserted into the last list.
+
+				Find
+					Find the text in the newsgroup.
+
+				Delete	Deletes the selected field from the
+					list.
+
+			Apply	When this button is selected, any changes
+				you have specified are made.
+
+			Reset	When this button is selected, any changes
+				you have make in the window are deleted.
+
+		Signature properties
+			File
+				Load	Load '.signature' file. If your 
+					enviroment is not at C locale,
+					this file is converted from JIS to
+					EUC automatically.
+
+				Save	Save '.signiture' file. If your 
+					enviroment is not at C locale,
+					this file is converted from EUC to
+					JIS automatically.
+
+		Newsbiff properties
+			Display the Newsbiff properties window and allow users
+			to edit the "$HOME/.newsbiff" file. This
+			is used this to know what newsgruop shinbun watch.
+
+			Groups
+				Difference
+					Display only the newsgroup of the
+					diffrence between the
+					user's '.newsrc' file and the full
+					ones in the server.
+
+				All
+					Load the full newsgroups in the server.
+
+			Templete
+				Add after
+					Field is inserted into list after
+					the selection point.
+
+				Add before
+					Field is inserted into list before
+					the selection point.
+
+				Insert first
+					Field is inserted into the first list.
+
+				Insert last
+					Field is inserted into the last list.
+
+				Find
+					Find the text in the newsgroup.
+
+				Delete	Deletes the selected field from the
+					list.
+
+			Apply	When this button is selected, any changes
+				you have specified are made.
+
+			Reset	When this button is selected, any changes
+				you have make in the window are deleted.
+
+
+	Next >	Next/Prev button is probably used by the person who reads 
+		the news usually and lots. They need to read automaticaly
+		the next page of the article view window, 
+		the next aritcle, and the next newsgroup.
+
+		Next	When this button is selected, the following procedure
+			is applied.
+
+			1. Check the page of the view window of the
+			current article.
+			If this window is able to scroll more, 
+			scroll the next page. If not, try to query the
+			next article, or the next newsgroup.
+
+			2. Check the next article. If any, open the view 
+			window of the next article. If none, try to
+			query the next newsgroup.
+
+			3. Check the next newsgroup. If any, display the next
+			newsgroup and open the view window of the next unread
+			article.
+
+		Prev	Prev is the oposite of Next.
+
+	Biff	shinbun watches the arrival of the new article. This is
+		done every your setting minutes. You can set this minutes
+		by New Arrival properties.
+
+		When shinbun is opened and the new articles are arrived
+		within that minutes, the information of how many articles
+		are arrived is displayed at the frame left footer.
+		And you can look for the newsgroup which has new arrivals
+		to open the Latest of Newsgroup frame.
+
+		When shibun is iconic and the new articles are arrived
+		within that minutes, the icon changes
+
+	Function Keys
+		shinbun costomizes the following function keys.
+
+		The commands indicated by use of the function keys are:
+
+		Command			Description
+
+		Copy			Copies the selected messages to the
+					Clipboard.
+		Cut			Open the cancel frame with the
+					information of the selected message.
+		Find			Open the find frame with the
+					information of the selected message.
+		Up(right key)		Open the next article.
+		Down(right key)		Open the previous article.
+
+FILES
+	~/.newsrc	Description of the groups and the artcles read
+			in each group.
+	~/.signature	Signature for use when sending messages.
+	~/.shinbunrc	Start-up file for shinbun tool.
+	~/.newsbiff	News biff use the file to know what newsgroup is
+			whatched.
+
+
+SEE ALSO
+	readnews(1), rn(1), xrn(1), nntpd(8), xview(1), olwm(1), X(1)
+
+BUGS
+	
+
+AUTHORS
+	shioda@Japan.Sun.COM, nabe@Japan.Sun.COM

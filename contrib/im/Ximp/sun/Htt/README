@@ -1,0 +1,47 @@
+Htt is Sun's multilingual Input Server for the X Window System V11R5.
+
+Htt is using the XIMP version 3.5 protocol as a method for the communication
+between the Input Method library.
+This protocol is clean enough in terms of X Window because
+it only uses the client message and the property defined by
+the X Window system, it will not require any other communication
+primitive such as own socket connection.
+
+　　Htt's forte:
+     o having good interoperability with other IM server.
+       which is compliment with the XIMP protocol.
+     o Supports multiple language engine.
+     o Supports multiple style
+	As a input style:
+		Preedit Nothing (root window by Htt)
+		Preedit Position(over the spot by Htt)
+		Preedit Callback(rendering by client)
+	As a status style:
+		Status Nothing  (drawn in the Htt's status window by Htt)
+		Status Area     (drawn in the client's area by Htt )
+		Status Callback (rendering by client)
+	As a lookup choices style:
+		Display in the Htt's status window
+		Display in the Htt's popup window
+		Lookup Choice Callback (rendering by client)
+
+Since this release has concentrated on supporting i18nXView as a client
+and the i18nXView carries SunOS4.x/JLE1.x dependencies, this Htt had tested
+with
+	Callbacks through i18nXView
+	SunOS/JLE's language engine through libmle.so.1.4
+
+Since libmle.so.1.3 has crucial bug (It causes immediate core dump)
+you have to use libmle.so.1.4 or later for SunOS/JLE engine.
+Therefore this directory contains libmle.so.1.4 for SPARC.
+
+To build and install the Htt, type 
+	make Makefiles
+	make depend
+	make
+	make install
+in contrib/im/Ximp/sun/Htt directory.
+
+To run the Htt, type
+	Htt &
+

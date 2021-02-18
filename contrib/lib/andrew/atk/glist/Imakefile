@@ -1,0 +1,16 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = glist.do
+IHFILES = glist.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+DependTarget()
+
+MkdirTarget(${DESTDIR}/doc/atk/glist)
+InstallDocs(glist.doc,${DESTDIR}/doc/atk/glist)

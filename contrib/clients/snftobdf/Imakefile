@@ -1,0 +1,16 @@
+#
+# Make file for the SNF to BDF font compiler
+#
+# If TOP is incorrectly defined, uncomment and change the following
+# line to point at the X11 distribution source.
+
+#        TOP = /usr/local/src/X11R5/mit
+
+      SRCS  = snftobdf.c input.c output.c
+      OBJS  = snftobdf.o input.o output.o
+   INCLUDES = -I. -I$(SERVERSRC)/include -I$(SERVERSRC)/include/old \
+              -I$(SERVERSRC)/ddx/snf
+   PROGRAM  = snftobdf
+
+ComplexProgramTarget(snftobdf)
+InstallManPage(snftobdf,$(MANDIR))

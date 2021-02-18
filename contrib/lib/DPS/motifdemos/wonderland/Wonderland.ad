@@ -1,0 +1,30 @@
+*square_fore_red*foreground: black
+*square_fore_green*foreground: black
+*square_fore_blue*foreground: black
+*square_back*foreground: black
+
+*circle_fore_red*foreground: black
+*circle_fore_green*foreground: black
+*circle_fore_blue*foreground: black
+*circle_back*foreground: black
+
+*text_fore_red*foreground: black
+*text_fore_green*foreground: black
+*text_fore_blue*foreground: black
+*text_back*foreground: black
+
+*image_fore_red*foreground: black
+*image_fore_green*foreground: black
+*image_fore_blue*foreground: black
+*image_back*foreground: black
+
+*imageFile: flowers90.ps
+*fallbackImage: /doimage {gsave -49 -32.5 translate \
+	0 setgray 0 0 98 65 rectfill \
+	/Helvetica 18 selectfont \
+	1 1 0 setrgbcolor 10 40 moveto (Image ) show \
+	1 0 1 setrgbcolor (not) show \
+	0 1 1 setrgbcolor 10 20 moveto (installed) show \
+	grestore} bind def \
+
+*labelFont: -adobe-helvetica-medium-r-normal--10-100-*-*-*-*-*-*

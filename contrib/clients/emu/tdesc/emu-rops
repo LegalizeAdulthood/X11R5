@@ -1,0 +1,107 @@
+/* $Header: /usr3/Src/emu/tdesc/RCS/emu-rops,v 1.1 91/09/30 18:15:08 me Exp $ */
+
+/*
+ * Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+ *
+ *                        All Rights Reserved
+ *
+ * Permission to use, copy, modify, and distribute this software and its 
+ * documentation for any purpose and without fee is hereby granted, 
+ * provided that the above copyright notice appear in all copies and that
+ * both that copyright notice and this permission notice appear in 
+ * supporting documentation, and that the names of PCS or the authors not
+ * be used in advertising or publicity pertaining to distribution of the
+ * software without specific, written prior permission.  
+ * 
+ * PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ * ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+ * PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+ * OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+ * USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ * OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+ *
+ */
+
+/*
+ * Various reverse operations for the "emu" terminal.
+ *
+ * Author: Michael Elbel, Jordan Hubbard.
+ * Date: June 28th, 1990
+ * Description: Here are the reverse ops for emu inquiries and
+ *		initialization
+ *
+ * Revision History:
+ *
+ * $Log:	emu-rops,v $
+# Revision 1.1  91/09/30  18:15:08  me
+# Initial revision
+# 
+ *
+ */
+
+*term.emu-rops:							\
+ROP_INSERT_CHAR		<%gA%c>						\
+ROP_SCREEN_SIZE		<\\E[%gy%d;%gx%dS>				\
+ROP_CURSOR_POS		<\\E[%{gy,1,+,d};%{gx,1,+,d}R>			\
+									\
+/* Setup stuff */							\
+									\
+/* Request to initialize the emulation				*/	\
+/* Initialize the tty to get the state from the caller		*/	\
+/*								*/	\
+/* Initialize the canvas:					*/	\
+/* Add Translations 						*/	\
+/*								*/	\
+/* Map the graphics characters into the upper half of the	*/	\
+/* character set to allow easier access.			*/	\
+/*								*/	\
+/* For the font menu, set register F to 0 			*/	\
+/* (doesn't really belong here, but there's no rop to		*/	\
+/*  initialize the menus yet)					*/	\
+/*								*/	\
+/* IF we have more than 2 colors				*/	\
+/* Initialize colors 1 to 15 to be 				*/	\
+/*	 1 black						*/	\
+/*	 2 red							*/	\
+/*	 3 green						*/	\
+/*	 4 yellow						*/	\
+/*	 5 blue							*/	\
+/*	 6 magenta						*/	\
+/*	 7 cyan							*/	\
+/*	 8 white						*/	\
+/*	 9 gray20						*/	\
+/*	10 gray30						*/	\
+/*	11 gray40						*/	\
+/*	12 gray50						*/	\
+/*	13 gray60						*/	\
+/*	14 gray70						*/	\
+/*	15 gray80						*/	\
+/* both on background and foreground				*/	\
+/*								*/	\
+ROP_INIT_CANVAS		<%{						\
+			"numKeypad" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"CKeys" pa OP_OVERRIDE_TRANSLATIONS C		\
+			"fkeys" pa OP_OVERRIDE_TRANSLATIONS C		\
+			"miscFkeys" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"multiKeys" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"graphics" pa  128 pb OP_CHANGE_FLUT C		\
+			0 pF						\
+			OP_CANVAS_DISPLAY_CELLS C ga 2 = ! ?		\
+			   1 pa "black" D pb pc OP_SET_CIT_CELL C	\
+			   2 pa "red" D pb pc OP_SET_CIT_CELL C		\
+			   3 pa "green" D pb pc OP_SET_CIT_CELL C	\
+			   4 pa "yellow" D pb pc OP_SET_CIT_CELL C	\
+			   5 pa "blue" D pb pc OP_SET_CIT_CELL C	\
+			   6 pa "magenta" D pb pc OP_SET_CIT_CELL C	\
+			   7 pa "cyan" D pb pc OP_SET_CIT_CELL C	\
+			   8 pa "white" D pb pc OP_SET_CIT_CELL C	\
+			   9 pa "gray20" D pb pc OP_SET_CIT_CELL C	\
+			   10 pa "gray30" D pb pc OP_SET_CIT_CELL C	\
+			   11 pa "gray40" D pb pc OP_SET_CIT_CELL C	\
+			   12 pa "gray50" D pb pc OP_SET_CIT_CELL C	\
+			   13 pa "gray60" D pb pc OP_SET_CIT_CELL C	\
+			   14 pa "gray70" D pb pc OP_SET_CIT_CELL C	\
+			   15 pa "gray80" D pb pc OP_SET_CIT_CELL C	\
+			;						\
+			}>

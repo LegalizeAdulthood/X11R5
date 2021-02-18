@@ -1,0 +1,13 @@
+#include <Library.tmpl>
+
+        DEFINES = -DSJ3_DICTIONARY
+
+LOCAL_INCLUDES  = -I. -I.. 
+       INCLUDES = $(LOCAL_INCLUDES) $(STD_INCLUDES)
+           SRCS = Sj3Henkan.c Sj3Convert.c
+           OBJS = Sj3Henkan.o Sj3Convert.o
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(sj3,$(OBJS))
+InstallLibrary(sj3,$(USRLIBDIR))
+DependTarget()

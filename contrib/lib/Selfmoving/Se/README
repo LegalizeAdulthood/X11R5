@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                            THE SELFMOVING WIDGET                             %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+This directory contains the Selfmoving widget code.
+
+ROADMAP
+--------------------------------------------------------------------------------
+
+You will find in this directory:
+
+
+- Imakefile   : The imake file that will be used to compile the Selfmoving code
+                on a X11R5 site. 
+ 
+- SelfM.c     : The widget code file
+
+- SelfM.h     : The public header file
+
+- SelfMP.h    : The private header file
+
+                
+
+BUILDING INSTRUCTIONS
+--------------------------------------------------------------------------------
+If X11R5 is installed on your machine you should follow the instructions given
+in the README file in the Selfmoving directory.
+
+If X11R5 is not installed or you do not want to use Imake you shoud do the 
+following things:
+
+- Compile the SelfM.c file to produce SelfM.o
+
+- Include the SelfM.h file in your program
+
+- Linking your program with the SelfM.o file
+
+--------------------------------------------------------------------------------
+
+                                                   Hubert Rechsteiner
+                                                   Doris Hirt
+                                                   Nicolas Repond
+     

@@ -1,0 +1,56 @@
+;
+; $Id: 2P_RongCuo,v 1.1 1991/09/11 02:31:10 ohm Exp $
+;
+(defvar A  	(list             J           Q         X      ))
+
+(A)A		(A)iaé¿
+(A)A1		(A)ié°é¿
+(A)A2		(A)ié¢é¿
+(A)A3		(A)ié£é¿
+(A)A4		(A)ié§é¿
+(A)AI		(A)iaé¿
+(A)AI1		(A)ié°é¿
+(A)AI2		(A)ié¢é¿
+(A)AI3		(A)ié£é¿
+(A)AI4		(A)ié§é¿
+(A)AN		(A)iané¿
+(A)AN1		(A)ié°né¿
+(A)AN2		(A)ié¢né¿
+(A)AN3		(A)ié£né¿
+(A)AN4		(A)ié§né¿
+(A)ANG		(A)iangé¿
+(A)ANG1		(A)ié°ngé¿
+(A)ANG2		(A)ié¢ngé¿
+(A)ANG3		(A)ié£ngé¿
+(A)ANG4		(A)ié§ngé¿
+(A)AO		(A)iaoé¿
+(A)AO1		(A)ié°oé¿
+(A)AO2		(A)ié¢oé¿
+(A)AO3		(A)ié£oé¿
+(A)AO4		(A)ié§oé¿
+(A)E		(A)ieé¿
+(A)E1		(A)ié•é¿
+(A)E2		(A)ié¶é¿
+(A)E3		(A)iéßé¿
+(A)E4		(A)ié®é¿
+(A)EI		(A)ieé¿
+(A)EI1		(A)ié•é¿
+(A)EI2		(A)ié¶é¿
+(A)EI3		(A)iéßé¿
+(A)EI4		(A)ié®é¿
+(A)EN		(A)iné¿
+(A)EN1		(A)é©né¿
+(A)EN2		(A)é™né¿
+(A)EN3		(A)é´né¿
+(A)EN4		(A)é¨né¿
+(A)ENG		(A)ingé¿
+(A)ENG1		(A)é©ngé¿
+(A)ENG2		(A)é™ngé¿
+(A)ENG3		(A)é´ngé¿
+(A)ENG4		(A)é¨ngé¿
+
+(A)OU		(A)iué¿
+(A)OU1		(A)ié±é¿
+(A)OU2		(A)ié≤é¿
+(A)OU3		(A)ié≥é¿
+(A)OU4		(A)ié¥é¿

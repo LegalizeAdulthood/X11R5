@@ -1,0 +1,28 @@
+!
+! Ari resource definition file to demonstrate pop-up menus
+!
+
+!*wcTrace:	True
+
+Ari.wcPopups:			rmenu
+Ari.wcChildren:			btn
+Ari.title:			A05_Popup
+
+*btn.wcClassName:		Command
+*btn.Label:			Press Mouse Buttons 3
+*btn.callback:			WcSystemCB(echo "No, press Btn3Down")
+*translations:                  #override \
+                                <Btn3Down>:     XawPositionSimpleMenu(rmenu) \
+                                                MenuPopup(rmenu)
+
+*rmenu.wcConstructor:		XawCreateSimpleMenu
+*rmenu.wcChildren:              menu1, menu2
+
+*SmeBSB.callback:		WcExitCB
+
+*menu1.wcClassName:             SmeBSB
+*menu1.label:                   quit
+
+*menu2.wcClassName:             SmeBSB
+*menu2.label:                   bye
+

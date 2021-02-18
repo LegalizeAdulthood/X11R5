@@ -1,0 +1,20 @@
+#!/bin/csh
+#
+# I use this simple script to fire up two xmailboxs that are used to monitor
+# the ongoing results of a simulation of the unix kernel on a model of a
+# microprocessor.  One box monitors `Passed' lines in the simulation log
+# file and the other monitors `ERROR' lines in the same log file.  The
+# log file is the "mailbox" file, instead of /usr/mail/peebles.
+#
+
+/user/peebles/x11/xmail/xmailbox \
+	-mailbox /user/peebles/AUnix/mips/TRACES/Watch.out \
+	-resources /user/peebles/x11/xmail/XMailbox.popup \
+	-xrm "*xmailbox*geometry: +734+10" \
+	-fromCmd "grep Passed" &
+
+/user/peebles/x11/xmail/xmailbox \
+	-mailbox /user/peebles/AUnix/mips/TRACES/Watch.out \
+	-resources /user/peebles/x11/xmail/XMailbox.popup \
+	-xrm "*xmailbox*geometry: +734+90" \
+	-fromCmd "grep ERROR" &

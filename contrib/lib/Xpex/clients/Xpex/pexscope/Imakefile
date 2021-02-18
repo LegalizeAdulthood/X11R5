@@ -1,0 +1,64 @@
+/* $Header: Imakefile,v 2.6 91/09/13 13:00:55 sinyaw Exp $ */
+
+/*****************************************************************
+Copyright 1991 by Sony Microsystems Company, San Jose, California
+
+					All Rights Reserved
+
+Permission to use, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and
+that both that copyright notice and this permission notice appear
+in supporting documentation, and that the name of Sony not be used
+in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+SOFTWARE.
+*****************************************************************/
+
+##
+##
+##
+##
+##
+#define PassCDebugFlags
+#ifndef PexClientCDebugFlags
+#define PexClientCDebugFlags OptimizedCDebugFlags
+#endif
+
+CDEBUGFLAGS = PexClientCDebugFlags
+#include "../common.mk"
+LOCAL_LIBRARIES = $(PEXLIB) $(XLIB)
+##     LDLIBS = -lm ExtraLibraries
+
+
+       SRCS = common.c decode11.c decode_pex.c fd.c \
+              print11.c print_pex.c prtype.c scope.c server.c \
+              table11.c \
+              pexpr.c eType.c
+
+       OBJS = common.o decode11.o decode_pex.o fd.o \
+              print11.o print_pex.o prtype.o scope.o server.o \
+              table11.o \
+              pexpr.o eType.o
+
+AllTarget(pexscope)
+
+NormalProgramTarget(pexscope, $(OBJS),$(PEXLIB),$(LOCAL_LIBRARIES),)
+
+MakeDirectories(install,$(BINDIR))
+
+InstallProgram(pexscope,$(BINDIR))
+
+InstallManPageLong(pexscope,$(MANDIR),pexscope)
+
+DependTarget()
+

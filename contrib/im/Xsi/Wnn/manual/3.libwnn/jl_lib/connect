@@ -1,0 +1,46 @@
+JL_CONNECT( )
+
+名称
+
+	jl_connect	環境を作る。
+
+形式
+
+	#include "jllib.h"
+
+	struct wnn_env *
+	jl_connect(env_n, server_n, wnnrc_n, error_handler, message_handler, timeout)
+	char *env_n;			/* 環境名 */
+	char *server_n;			/* サーバ名 */
+	char *wnnrc_n;			/* wnnrcファイル名 */
+	int  (*error_handler)();	/* エラー・ハンドラ */	
+	int  (*message_handler)();	/* メッセージ・ハンドラ */	
+	int timeout;			/* タイムアウト時間 */
+
+
+機能
+
+	新しい環境を指定されたサーバ server_n 上に指定された環境名 env_n で作り、
+	環境を返す。
+	サーバとコネクトされていない場合は、コネクションを張る。
+	既にその環境が存在する時には、その環境を返す。
+
+	初期化ファイル wnnrc_n が指定された場合、ファイル中の初期化を行なう。
+	初期化を行なわない場合は、wnnrc_n に NULL を指定する。jl_open 参照。
+	エラー・ハンドラ error_handler、メッセージ・ハンドラ message_handler を
+	用いる。jl_dic_add 参照。
+
+	timeout(秒)以内に、サーバと接続できない場合は、接続を中断し異常終了する。
+	タイムアウトの設定のために、SIGALARM を使用している。
+	timeout が 0 または、負の場合は、SIGALARM を使用しない。
+	js_connect を参照。
+
+リターンバリュー
+
+	正常終了時には、環境を返す。
+	異常終了時には NULL を返す。
+
+使用上の注意
+
+	タイムアウトには、SIGALARM を使用しているので、注意が必要である。
+	SIGALARM を使用する場合には、timeout に 0 を設定しなければならない。

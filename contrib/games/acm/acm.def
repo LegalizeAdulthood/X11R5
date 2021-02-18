@@ -1,0 +1,26 @@
+/*
+ *  I run imake all without all the other X11Rx stuff on my system.
+ *
+ *  To facilitate this, I override a few imake parameters.
+ *
+ *  To make the changes I invoke imake this way:
+ *
+ *	% imake -DStandAloneImake ...
+ *
+ *  If you use this, you will surely want to modify some of these
+ *  paths.
+ */
+
+#ifdef StandAloneImake
+TOP = .
+IMAKE = /people/riley/bin/imake
+IRULESRC = /usr/lib/local/imake.includes
+IMAKE_DEFINES = -DStandAloneImake
+IMAKE_CMD = $(IMAKE) -s Makefile $(IMAKE_DEFINES)
+#endif
+
+#ifdef notdef
+#if defined(Mips)
+CDEBUGFLAGS = -systype bsd43 -O
+#endif
+#endif

@@ -1,0 +1,7 @@
+;
+; $Id: cvt_key_tbl,v 1.1 1991/09/09 22:40:13 ohm Exp $
+;
+kcub1	\x81
+kcuu1	\x82
+kcuf1	\x83
+kcud1	\x84

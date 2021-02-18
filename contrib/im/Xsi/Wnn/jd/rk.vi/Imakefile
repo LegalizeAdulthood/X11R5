@@ -1,0 +1,21 @@
+/**/#
+/**/# $Id: Imakefile,v 1.2 1991/09/19 02:49:53 proj Exp $
+/**/#
+   INSTALLFLAGS = $(INSTDATFLAGS)
+
+all::
+
+RKS = 1B_newTOUPPER \
+	2A_CTRL \
+	2B_KEISEN \
+	2B_ROMKANA \
+	2C_KEISEN1 \
+	2C_VI \
+	2C_VIEX \
+	2C_VISH \
+	2_VITHROW \
+	3B_ZENASC \
+	mode \
+	uumkey
+
+InstallMultiple($(RKS),$(JWNNWNNDIR)/rk.vi)

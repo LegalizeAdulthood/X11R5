@@ -1,0 +1,273 @@
+;
+; $Id: 2P_ErPin_P3K,v 1.1 1991/09/11 02:31:05 ohm Exp $
+;
+(defvar A  	(list B C E D F G H   K L M N P     S A T W   Y Z V))
+(defvar AI  	(list B C E D   G H   K L M N P     S A T W     Z V))
+(defvar AN  	(list B C E D F G H   K L M N P   R S A T W   Y Z V)) ;ANG
+(defvar AO  	(list B C E D   G H   K L M N P   R S A T W   Y Z V))
+(defvar E  	(list B C E D   G H   K L M N     R S A T     Y Z V))
+(defvar EI  	(list B C   D   G H   K L M N P       A T W     Z V))
+(defvar EN  	(list B C E   F G H   K   M N P   R S A   W     Z V))
+(defvar ENG  	(list B C E D F G H   K L M N P   R S A T W     Z V))
+(defvar I  	(list B C E D       J   L M N P Q R S A T   X Y Z V))
+(defvar IA  	(list       D       J   L       Q           X      ))
+(defvar IAN  	(list B     D       J   L M N P Q       T   X      ))
+(defvar IANG  	(list               J   L   N   Q           X      ))
+(defvar IAO	(list B     D       J   L M N P Q       T   X      )) ;IE
+(defvar IN  	(list B             J   L M N P Q           X Y    ))
+(defvar ING  	(list B     D       J   L M N P Q       T   X Y    ))
+(defvar IONG  	(list               J           Q           X      ))
+(defvar IU	(list       D       J   L M N   Q           X      ))
+(defvar O  	(list B       F         L M   P           W   Y    ))
+(defvar ONG  	(list   C E D   G H   K L   N     R S   T     Y Z V))
+(defvar OU	(list   C E D F G H   K L M N P   R S A T     Y Z V))
+(defvar U  	(list B C E D F G H J K L M N P Q R S A T W X Y Z V))
+(defvar V  	(list                   L   N                      ))
+(defvar UA  	(list           G H   K           R   A           V))
+(defvar UAI  	(list     E     G H   K               A           V))
+(defvar UAN	(list   C E D   G H J K L   N   Q R S A T  X Y Z  V))
+(defvar UANG  	(list     E     G H   K               A           V))
+(defvar UE  	(list               J           Q           X Y    ))
+(defvar VE  	(list                   L   N                      ))
+(defvar UI  	(list   C E D   G H   K           R S A T       Z V))
+(defvar UN  	(list   C E D   G H J K L       Q R S A T   X Y Z V))
+(defvar UO  	(list   C E D   G H   K L   N     R S A T W     Z V))
+ 
+(defvar SS1     (list   T R E W Q 1 ))
+(defvar SS2     (list   G F D S A B V C X Z 2 ))
+(defvar SS3     (list   Y U I O P 3 ))
+(defvar SS4     (list   H J K L N M 4))
+
+(A)A	(A)aé¿
+(A)A(SS1)	(A)é°é¿
+(A)A(SS2)	(A)é¢é¿
+(A)A(SS3)	(A)é£é¿
+(A)A(SS4)	(A)é§é¿
+(AI)D	(AI)aié¿
+(AI)D(SS1)	(AI)é°ié¿
+(AI)D(SS2)	(AI)é¢ié¿
+(AI)D(SS3)	(AI)é£ié¿
+(AI)D(SS4)	(AI)é§ié¿
+(AN)F	(AN)ané¿
+(AN)F(SS1)	(AN)é°né¿
+(AN)F(SS2)	(AN)é¢né¿
+(AN)F(SS3)	(AN)é£né¿
+(AN)F(SS4)	(AN)é§né¿
+(AN)G	(AN)angé¿
+(AN)G(SS1)	(AN)é°ngé¿
+(AN)G(SS2)	(AN)é¢ngé¿
+(AN)G(SS3)	(AN)é£ngé¿
+(AN)G(SS4)	(AN)é§ngé¿
+(AO)S	(AO)aoé¿
+(AO)S(SS1)	(AO)é°oé¿
+(AO)S(SS2)	(AO)é¢oé¿
+(AO)S(SS3)	(AO)é£oé¿
+(AO)S(SS4)	(AO)é§oé¿
+(E)E	(E)eé¿
+(E)E(SS1)	(E)é•é¿
+(E)E(SS2)	(E)é¶é¿
+(E)E(SS3)	(E)éßé¿
+(E)E(SS4)	(E)é®é¿
+(EI)W	(EI)eié¿
+(EI)W(SS1)	(EI)é•ié¿
+(EI)W(SS2)	(EI)é¶ié¿
+(EI)W(SS3)	(EI)éßié¿
+(EI)W(SS4)	(EI)é®ié¿
+(EN)R	(EN)ené¿
+(EN)R(SS1)	(EN)é•né¿
+(EN)R(SS2)	(EN)é¶né¿
+(EN)R(SS3)	(EN)éßné¿
+(EN)R(SS4)	(EN)é®né¿
+(ENG)T	(ENG)engé¿
+(ENG)T(SS1)	(ENG)é•ngé¿
+(ENG)T(SS2)	(ENG)é¶ngé¿
+(ENG)T(SS3)	(ENG)éßngé¿
+(ENG)T(SS4)	(ENG)é®ngé¿
+(I)I	(I)ié¿
+(I)I(SS1)	(I)é©é¿
+(I)I(SS2)	(I)é™é¿
+(I)I(SS3)	(I)é´é¿
+(I)I(SS4)	(I)é¨é¿
+(IA)P	(IA)iaé¿
+(IA)P(SS1)	(IA)ié°é¿
+(IA)P(SS2)	(IA)ié¢é¿
+(IA)P(SS3)	(IA)ié£é¿
+(IA)P(SS4)	(IA)ié§é¿
+(IAN)H	(IAN)iané¿
+(IAN)H(SS1)	(IAN)ié°né¿
+(IAN)H(SS2)	(IAN)ié¢né¿
+(IAN)H(SS3)	(IAN)ié£né¿
+(IAN)H(SS4)	(IAN)ié§né¿
+(IANG)L	(IANG)iangé¿
+(IANG)L(SS1)	(IANG)ié°ngé¿
+(IANG)L(SS2)	(IANG)ié¢ngé¿
+(IANG)L(SS3)	(IANG)ié£ngé¿
+(IANG)L(SS4)	(IANG)ié§ngé¿
+(IAO)Y	(IAO)iaoé¿
+(IAO)Y(SS1)	(IAO)ié°oé¿
+(IAO)Y(SS2)	(IAO)ié¢oé¿
+(IAO)Y(SS3)	(IAO)ié£oé¿
+(IAO)Y(SS4)	(IAO)ié§oé¿
+(IAO)N	(IAO)ieé¿
+(IAO)N(SS1)	(IAO)ié•é¿
+(IAO)N(SS2)	(IAO)ié¶é¿
+(IAO)N(SS3)	(IAO)iéßé¿
+(IAO)N(SS4)	(IAO)ié®é¿
+(IN)M	(IN)iné¿
+(IN)M(SS1)	(IN)é©né¿
+(IN)M(SS2)	(IN)é™né¿
+(IN)M(SS3)	(IN)é´né¿
+(IN)M(SS4)	(IN)é¨né¿
+(ING)K	(ING)ingé¿
+(ING)K(SS1)	(ING)é©ngé¿
+(ING)K(SS2)	(ING)é™ngé¿
+(ING)K(SS3)	(ING)é´ngé¿
+(ING)K(SS4)	(ING)é¨ngé¿
+(IONG)J	(IONG)iongé¿
+(IONG)J(SS1)	(IONG)ié≠ngé¿
+(IONG)J(SS2)	(IONG)iéÆngé¿
+(IONG)J(SS3)	(IONG)iéØngé¿
+(IONG)J(SS4)	(IONG)ié∞ngé¿
+(IU)Q	(IU)iué¿
+(IU)Q(SS1)	(IU)ié±é¿
+(IU)Q(SS2)	(IU)ié≤é¿
+(IU)Q(SS3)	(IU)ié≥é¿
+(IU)Q(SS4)	(IU)ié¥é¿
+(O)O	(O)oé¿
+(O)O(SS1)	(O)é≠é¿
+(O)O(SS2)	(O)éÆé¿
+(O)O(SS3)	(O)éØé¿
+(O)O(SS4)	(O)é∞é¿
+(ONG)J	(ONG)ongé¿
+(ONG)J(SS1)	(ONG)é≠ngé¿
+(ONG)J(SS2)	(ONG)éÆngé¿
+(ONG)J(SS3)	(ONG)éØngé¿
+(ONG)J(SS4)	(ONG)é∞ngé¿
+(OU)C	(OU)oué¿
+(OU)C(SS1)	(OU)é≠ué¿
+(OU)C(SS2)	(OU)éÆué¿
+(OU)C(SS3)	(OU)éØué¿
+(OU)C(SS4)	(OU)é∞ué¿
+(U)U	(U)ué¿
+(U)U(SS1)	(U)é±é¿
+(U)U(SS2)	(U)é≤é¿
+(U)U(SS3)	(U)é≥é¿
+(U)U(SS4)	(U)é¥é¿
+(UA)P	(UA)uaé¿
+(UA)P(SS1)	(UA)ué°é¿
+(UA)P(SS2)	(UA)ué¢é¿
+(UA)P(SS3)	(UA)ué£é¿
+(UA)P(SS4)	(UA)ué§é¿
+(UAI)Y	(UAI)uaié¿
+(UAI)Y(SS1)	(UAI)ué°ié¿
+(UAI)Y(SS2)	(UAI)ué¢ié¿
+(UAI)Y(SS3)	(UAI)ué£ié¿
+(UAI)Y(SS4)	(UAI)ué§ié¿
+(UAN)X	(UAN)uané¿
+(UAN)X(SS1)	(UAN)ué°né¿
+(UAN)X(SS2)	(UAN)ué¢né¿
+(UAN)X(SS3)	(UAN)ué£né¿
+(UAN)X(SS4)	(UAN)ué§né¿
+(UANG)L	(UANG)uangé¿
+(UANG)L(SS1)	(UANG)ué°ngé¿
+(UANG)L(SS2)	(UANG)ué¢ngé¿
+(UANG)L(SS3)	(UANG)ué£ngé¿
+(UANG)L(SS4)	(UANG)ué§ngé¿
+(UE)B	(UE)ueé¿
+(UE)B(SS1)	(UE)ué•é¿
+(UE)B(SS2)	(UE)ué¶é¿
+(UE)B(SS3)	(UE)uéßé¿
+(UE)B(SS4)	(UE)ué®é¿
+(UI)B	(UI)uié¿
+(UI)B(SS1)	(UI)ué©é¿
+(UI)B(SS2)	(UI)ué™é¿
+(UI)B(SS3)	(UI)ué´é¿
+(UI)B(SS4)	(UI)ué¨é¿
+(UN)Z	(UN)uné¿
+(UN)Z(SS1)	(UN)é±né¿
+(UN)Z(SS2)	(UN)é≤né¿
+(UN)Z(SS3)	(UN)é≥né¿
+(UN)Z(SS4)	(UN)é¥né¿
+(UO)O	(UO)uoé¿
+(UO)O(SS1)	(UO)ué≠é¿
+(UO)O(SS2)	(UO)uéÆé¿
+(UO)O(SS3)	(UO)uéØé¿
+(UO)O(SS4)	(UO)ué∞é¿
+(V)V	(V)éπé¿
+(V)V(SS1)	(V)éµé¿
+(V)V(SS2)	(V)é∂é¿
+(V)V(SS3)	(V)é∑é¿
+(V)V(SS4)	(V)é∏é¿
+(VE)B	(VE)éπeé¿
+(VE)B(SS1)	(VE)éπé•é¿
+(VE)B(SS2)	(VE)éπé¶é¿
+(VE)B(SS3)	(VE)éπéßé¿
+(VE)B(SS4)	(VE)éπé®é¿
+OA	aé¿
+OA(SS1)	é°é¿
+OA(SS2)	é¢é¿
+OA(SS3)	é£é¿
+OA(SS4)	é§é¿
+OD	aié¿
+OD(SS1)	é°ié¿
+OD(SS2)	é¢ié¿
+OD(SS3)	é£ié¿
+OD(SS4)	é§ié¿
+OF	ané¿
+OF(SS1)	é°né¿
+OF(SS2)	é¢né¿
+OF(SS3)	é£né¿
+OF(SS4)	é§né¿
+OG	angé¿
+OG(SS1)	é°ngé¿
+OG(SS2)	é¢ngé¿
+OG(SS3)	é£ngé¿
+OG(SS4)	é§ngé¿
+OS	aoé¿
+OS(SS1)	é°oé¿
+OS(SS2)	é¢oé¿
+OS(SS3)	é£oé¿
+OS(SS4)	é§oé¿
+OE	eé¿
+OE(SS1)	é•é¿
+OE(SS2)	é¶é¿
+OE(SS3)	éßé¿
+OE(SS4)	é®é¿
+OW	eié¿
+OW(SS1)	é•ié¿
+OW(SS2)	é¶ié¿
+OW(SS3)	éßié¿
+OW(SS4)	é®ié¿
+OR	ené¿
+OR(SS1)	é•né¿
+OR(SS2)	é¶né¿
+OR(SS3)	éßné¿
+OR(SS4)	é®né¿
+;OT	engé¿
+;OT(SS1)	é•ngé¿
+;OT(SS2)	é¶ngé¿
+;OT(SS3)	éßngé¿
+;OT(SS4)	é®ngé¿
+OQ	eré¿
+OQ(SS1)	é•ré¿
+OQ(SS2)	é¶ré¿
+OQ(SS3)	éßré¿
+OQ(SS4)	é®ré¿
+OO	oé¿
+OO(SS1)	é≠é¿
+OO(SS2)	éÆé¿
+OO(SS3)	éØé¿
+OO(SS4)	é∞é¿
+OG	oué¿
+OG(SS1)	é≠ué¿
+OG(SS2)	éÆué¿
+OG(SS3)	éØué¿
+OG(SS4)	é∞ué¿
+;;;;		-----------Special PinYin-------------
+;HM	Hmé¿
+HN	Hngé¿
+NG' '	Ngé¿
+OM	Mé¿
+ON	Né¿
+M' '	Mé¿
+N' '	Né¿

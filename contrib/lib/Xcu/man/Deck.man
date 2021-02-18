@@ -1,0 +1,98 @@
+.TH XcuDeck 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuDeck \- Geometry manager for a deck of widgets
+.ne 4
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / Composite / XcuSimpleComp / XcuDeck
+.ne 4
+.SH DESCRIPTION
+\ 
+.br
+The \fBXcuDeck\fR  geometry manager
+maintains its children so that they are all the same size and occupy the
+same location so that only one at a time is visible.
+.ne 4
+.SH NEW RESOURCES
+\ 
+.br
+.in -3
+.TS
+allbox tab(;);
+c s s s.
+XcuDeck Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNinternalHeight;Dimension;0;Vt distance between parent and children
+XtNinternalWidth;Dimension;0;Hz distance between parent and children
+XtNresizeParticipants;XcuResizeParticipants;T{
+.na
+XcuRESIZE_INTERNALS\ |
+XcuRESIZE_CHILDREN 
+.ad
+T};Things that adjust during resizes
+.TE
+.in +3
+.ne 4
+.SH CALLBACKS
+\ 
+.br
+\fBXtNcallback\fR
+.sp
+.in +5
+Callbacks in this callback list are called whenever the stacking order of the
+deck changes.
+The call_data is a Widget pointer, which points to a sequence of widget id's
+that represent the current stacking order, from highest to lowest.
+.in -5
+.ne 4
+.SH PUBLIC FUNCTIONS
+\ 
+.br
+XcuDeckRaiseLowest ( XcuDeckWidget )
+.in +5
+The child widget at the bottom of the stacking order
+is placed at the top of the deck.
+.in -5
+.sp
+XcuDeckLowerHighest ( XcuDeckWidget )
+.in +5
+The child widget at the top of the stacking order
+is placed at the bottom of the deck.
+.in -5
+.sp
+XcuDeckRaiseWidget ( XcuDeckWidget,  Widget )
+.in +5
+The specified child is placed at the top of the deck.
+.in -5
+.ne 4
+.SH DIAGNOSTICS
+\ 
+.br
+If the widget specified in a \fBXcuDeckRaiseWidget()\fR function is not a child
+of the \fBXcuDeck\fR, a warning is issued.
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

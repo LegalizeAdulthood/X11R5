@@ -1,0 +1,34 @@
+        shinbun - オープンウインドウの NNTP リモートサーバーを利用した
+                  USENET ニュースシステムのインターフェイス
+
+インストール方法
+	(1) config.h.distを編集します。
+		SunOS/JLEを使用する場合は、次の行
+			#define MLE
+			#define JLE
+		を加えてください。
+
+		MAILADDRESS, ORGANIZATION, GCOS, DEFAULT_DIST_NAME
+		を編集してください。
+
+	(2) Make
+
+	    1.	Imakefile を編集します。
+
+		1) i18nxview, JLE を使う人
+
+		EXTRA_LIBRARIES= -lxview -lolgx -lX11 -lc
+		DEFINES= -DOW_I18N
+
+		2) xview, SunOS を使う人
+
+		EXTRA_LIBRARIES= -lxview -lolgx -lX11
+		DEFINES=
+
+		デフォルトは、1 です。
+
+	   2.	xmkmf
+
+	   3.	make
+
+	   4.   make install

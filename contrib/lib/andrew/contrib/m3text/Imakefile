@@ -1,0 +1,19 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+DOBJS = m3text.do m3textv.do
+IHFILES = m3text.ih m3textv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallFile(m3text.tpl, ${INSTINCFLAGS}, ${DESTDIR}/lib/tpls)
+
+DependTarget()
+NormalHelpRule()
+InstallDocs(m3text.help, $(DESTDIR)/help)
+InstallHelpAlias(m3text, m3text)

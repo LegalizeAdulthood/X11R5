@@ -1,0 +1,184 @@
+中間表示情報は jrKanjiStatus 構造体にて
+返されます。jrKanjiStatus 構造体の中身を説明する前に中間表示として何が
+あるかを以下で説明します。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+
+\input{fig/preedit.tex}
+
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+図でも示されますように中間表示としては以下の３つがあります。
+
+\begin{enumerate}
+  \item 変換の様子を示す入力部分
+  \item モードを表すモード表示部分
+  \item 候補一覧など、その他の情報を表すガイドライン表示部分
+\end{enumerate}
+
+入力部分およびガイドライン表示部分は表示の一部が反転するといった強調表
+示が行われることがあります(上図で四角でかこってある部分)。このような強
+調表示する部分がどこであるのかと言った情報も返されます。
+
+中間表示のための情報は以下の構造体により返されます。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  typedef struct {
+    unsigned char *echoStr;  /* 入力部分の文字列 */
+    int           length;    /* その長さ */
+    int           revPos;    /* 強調表示の開始位置 */
+    int           revLen;    /* 強調表示の長さ */
+    int           info;      /* その他の情報。下を見よ */
+    unsigned char *mode;     /* モード情報 */
+    struct {
+      unsigned char *line;   /* ガイドライン部分の文字列 */
+      int           length;  /* その長さ */
+      int           revPos;  /* 強調表示の開始位置 */
+      int           revLen;  /* 強調表示の長さ */
+    } gline;
+  } jrKanjiStatus;
+
+  /* information flags */
+  #define KanjiModeInfo   01
+  #define KanjiGLineInfo  02
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+\begin{enumerate}
+\item 入力部分の情報
+
+入力部分の情報は jrKanjiStatus 構造体
+の echoStr、length、revPos、revLen の各メンバにより返されます。それぞ
+れの意味は上記の構造体の定義中にコメントで表されている通りです。
+
+\begin{itemize}
+  \item length が \-1 の時 \- 入力部に変化がない
+
+length が \-1 の時は特別で、入力部分に変化が無かったことを表します。例
+えば、かな漢字変換入力中にシフトキーなどの単発的な入力があってもかな
+漢字変換入力操作に影響を与えません。
+このような場合には length メンバに \-1 が返ります。
+
+  \item length が 0 の時 \- 入力部がない
+
+length メンバが０である場合には入力部分が無くなったと言うことを表しま
+す。\-1 の場合と混同しないようにご注意お願いします。
+
+  \item revPos、revLen \- 強調表示部分
+
+revPos、revLenメンバは強調表示する部分の範囲を表します。入力部分の表示
+に関しては、入力部分全体に下線をほどこし、強調部分のみを反転するという
+感じで表示すると良いでしょう。あるいは、入力部分全体の色を確定している
+テキストの色とは別の色にし、さらに強調部分については別の色にするなども
+考えられます。いずれにせよ、表示の方法についてはアプリケーションプログ
+ラムの自由です。色々と工夫してみて下さい。
+
+  \item echoStr \- 入力部文字列
+
+echoStr には文字列が格納されて返されるわけですがこの文字列を格納するた
+めのメモリ領域はユーザインタフェースライブラリ内部に取られます。この文
+字列バッファをアプリケーションプログラムで書き換えたり free しようとし
+てはいけません。そのようなことをし
+た場合予測されない結果を生じる可能性がありますのでご注意下さい。
+\end{itemize}
+
+  \item モード表示
+
+モード表示に変化が生じた場合(すなわちモードが変わった場合)にはinfoメ
+ンバのKanjiModeInfoビットが立って返って来ます。すなわち、モード表示
+に変化があったかどうかは以下ような形で判断されます。
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+
+  jrKanjiStatus ks;
+  int nbytes, ch;
+  .....
+
+  nbytes = jrKanjiString(0, ch, buf, bufsize, &ks);
+  .....
+
+  if (ks.info & KanjiModeInfo) { /* モードに変化がある */
+    モード表示を変更する処理 ;
+  }
+
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+  \begin{itemize}
+    \item info \- モードが変化したかどうか
+
+info メンバに対して KanjiModeInfo ビットが立って
+返って来た場合には mode メンバにモードを表す文字列が格納されています。
+アプリケーションプログラムはこのモード文字列をしかるべきモード表示領域
+に表示する必要があります。
+
+    \item mode \- モード文字列
+
+mode メンバにて返される文字列用の領域もユーザインタフェースライブラリ
+内部にて確保されていますので文字列の内容を勝手に書き換えたり free して
+はいけません。
+  \end{itemize}
+
+  \item ガイドラインの情報
+
+ガイドラインの表示に変化が生じた場合にはinfoメンバのKanjiGLineInfoビットが立っ
+て返って来ます。これはあたかもモード表示に変化があったかどうかをチェッ
+クするのと同様の方法でチェックできます。唯一の違いは、
+調べるビットがKanjiModeInfoではなく、KanjiGLineInfoであるだけです。
+
+  \item info \- ガイドライン表示に変化があるかどうか
+
+info メンバのKanjiGLineInfoビットが
+立っていた場合にはガイドラインの情報がjrKanjiStatus構
+造体を介して返されます。jrKanjiStatus構造体のglineメンバがそれに当たり
+ます。glineメンバはさらに構造体の形になっており、内部メンバと
+して、line、length、revPos、revLenを持っています。
+これは、lineがechoStrに対応していると考えれば、jrKanjiStatus構造体の入
+力部分の情報を表しているechoStr、length、revPos、revLenと同じ意味合い
+を持ちます。
+
+すなわち、以下のようになります。
+
+  \begin{itemize}
+    \item line \- ガイドライン文字列
+
+line にはガイドラインに表示する文字列のポインタが返されます。
+
+    \item length \- ガイドライン文字列の長さ
+
+lengthには上記文字列の長さ(バイト単位)が返ります。
+
+    \item revPos、revLen \- 強調表示部分
+
+revPos、revLenはそれぞれ、上記のガイドラインに表示する文字列のうち、強調表示
+する部分の位置と長さを返します。
+  \end{itemize}
+
+入力部分との違いは、ガイドラインの情報については、lengthとして\-1が返される
+ことが無いと言うことです。
+
+入力部分では、表示に変化が無い場合にはlengthとして\-1が返されましたが、
+ガイドラインに関しては表示に変化が無いことは、単にinfoメンバ
+のKanjiGLineInfoが立たないことによって表されます。
+
+よくある間違いですが、KanjiGLineInfoが立っていないと言うことはガイドラインに
+表示する情報が存在しないという意味であると思ってしまっている人がいます。
+実際にはそうではなくて、上で説明した通りガイドラインに表示する情報に関して何
+の変化も生じていないと言うことですのでご注意下さい。
+\end{enumerate}

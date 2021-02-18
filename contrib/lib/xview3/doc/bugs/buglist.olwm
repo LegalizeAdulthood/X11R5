@@ -1,0 +1,490 @@
+===========================
+OLWM Version 3 FCS BUG LIST
+===========================
+
+
+OPEN BUGS: PRIORITY 1 and 2 BUGS and BUGS WITH WORKAROUNDS
+==========================================================
+
+Bug Id:       1039020
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm locks up server in some situations
+Public Summary:
+	Running xnews and olwm, it is possible to lock up the server.  
+	Olwm puts a passive grab on some frames when in click-to-type 
+	mode.  There seems to be a case where olwm will not respond  
+	to middle mouse button press events when the event happens in 
+	the middle of creating a window. 
+
+Bug Id:       1046365
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm does not perform "immediate" updates for attribute changes
+Public Summary:
+	Changing _OL_DECOR_ADD, _OL_DECOR_DEL, _OL_WIN_ATTR properties once
+	a window is mapped does not cause an immediate update of the window
+	attributes.  These properties control attributes of the window frame
+	uch as which menu is used, state of the pin, etc.
+	The window must be unmapped and then remapped.
+Work Around:
+	The window must be unmapped and then remapped.
+
+Bug Id:       1068090
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Use of SEPARATOR  command in openwin-menu file overwrites other entries
+Public Summary:
+	Using the SEPARATOR command in the openwin-menu file results in 
+	a blank entry first in the menu and in the real first entry 
+	being overwritten when displayed. 
+
+Bug Id:       1035276
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     bad 3D visuals when using white windows
+Public Summary:
+	When the window color specified in the .Xdefaults file is white, 
+	the window corners on buttons and frames are not drawn as complete
+	outlines.
+
+Bug Id:       1021693
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     window properties is not implemented
+Public Summary:
+	The OPEN LOOK "Window Properties" function is not implemented.  Thus,
+	the "Properties..." item in every window menu will be grayed out and
+	will be inactive.
+
+Bug Id:       1024765
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Cannot distinguish "Save Workspace" and server shutdown
+Public Summary:
+	Clients cannot distinguish between being told to save themselves
+	(Save Workspace) and being told to quit unconditionally (Exit
+	OpenWindows).
+
+Bug Id:       1037691
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm repaints everything instead of clipping
+Public Summary:
+	Using follow-mouse mode, entering a window always causes the headers
+	and footers on the window to repaint.
+
+Bug Id:       1032005
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     performance problem with resizing
+Public Summary:
+	Sometimes resizing windows is slower than it should be.
+
+Bug Id:       1046750
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Window create without pushpin problems
+Public Summary:
+	Requesting certain combinations of decorations can result in the
+	window manager emitting unexpected behavior.
+
+Bug Id:       1051790
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     when server exits unexpectedly (crashes) olwm often crashes too
+Public Summary:
+	If the server exits, olwm may get a bus error and dump core.
+Work Around:
+	cd into another directory before starting the server.
+
+Bug Id:       1052755
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm mouse buttons cannot be remapped
+Public Summary:
+	Olwm's mouse button bindings cannot be changed by the user.
+
+Bug Id:       1048237
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     sometimes root window color changes spontaneously
+Public Summary:
+	Sometimes the workspace or window colors will change spontaneously.
+
+Bug Id:       1053892
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     vkbd cannot be reached via mouseless commands
+Public Summary:
+	If you bring up the Function Keys or Virtual Keyboard windows and
+	navigate the focus away using a keyboard command, the windows remain
+	on the screen and are inaccessible via the keyboard navigation
+	commands.
+Work Around:
+	Use the mouse to get to the windows in question.
+
+Bug Id:       1054172
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Can't start Saber-c from .openwin-menu
+Public Summary:
+	Saber-C cannot be run from olwm's root menu.
+Work Around:
+	Run saber, redirecting its standard input from /dev/console, i.e.
+
+		"Saber-C..."	xsaber < /dev/console
+
+Bug Id:       1059332
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     full size may leave window partially off-screen
+Public Summary:
+	For a client-app-window which has specified a max size
+	(width/height) in the SizeHints, when olwm goes to full
+	size on that window, it does not adjust the position of
+	the window.  Depending on the normal-size position and
+	max-size may result in a window which is partially off-screen.
+
+Bug Id:       1062140
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Busy state is not supported in iconified windows
+Public Summary:
+	Busy windows that have been closed do not display the standard 
+	busy feedback in their icons as required by the OPEN LOOK spec.
+
+Bug Id:       1062142
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Monochrome icon borders are drawn incorrectly (double pixels in corners)
+Public Summary:
+	Monochrome icon borders have adjacent pixels in the upper left- and 
+	lower right-hand corners.  The OPEN LOOK spec requires open corners.
+
+Bug Id:       1063574
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm redundantly configures new windows
+Public Summary:
+	Olwm will deliver a redundant ConfigureNotify event to applications
+	when they first map a window to the screen.
+
+Bug Id:       1063987
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     OLWM menus *dissappear* when you pin them
+Public Summary:
+	When you pin an OLWM menu, it first disappears and then
+	re-appears in the pinned state.
+
+Bug Id:       1064765
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Olwm doesn't support hierarchical window groups
+Public Summary:
+	Bring up an attachment popup, then select the window mark in mailtool 
+	to close. The popup stays up.
+
+Bug Id:       1066065
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     reread menu file should be on the utilities menu
+Public Summary:
+	Reread Menu File should be on the Default 
+	($OPENWINHOME/lib/openwin-menu-utlities) menu.  If a user
+	has an error in his/her .openwin-menu, the system reverts back to 
+	a known, good menu; in this case $OPENWINHOME/lib/openwin-menu.  
+	OLWM prints an error message, and the user can then fix his/her 
+	menu.  But the only way to get OLWM to reread the menu is to 
+	restart OLWM.
+
+Bug Id:       1066365
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     moving cursor from across heads into a TNT window loses input focus
+Public Summary:
+	Olwm will "steal" the focus if you move across a screen boundary and
+	directly into a TNT window.
+Work Around:
+	Move out of the TNT window and back into it again.
+
+Bug Id:       1066765
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     root window color is red after running xlock
+Public Summary:
+	After exiting xlock, the root window and the background color
+	of all the icons is sometimes red, when it was set to some
+	other color initially.
+
+Bug Id:       1067015
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     on cg12, olwm run in overlay doesn't install default root colormap
+Public Summary:
+	If run in the overlay plane of a cg12, olwm will not install the
+	server's default colormap.
+Work Around:
+	Install the colormap of a window running in the default colormap,
+	either by moving the pointer into it or by pressing the color-lock
+	key.
+
+Bug Id:       1067837
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm pop-up window for exit always honors mouseless commands
+Public Summary:
+	The olwm pop-up window for exit honors mouseless commands 
+	regardless of the setting of the OpenWindows.KeyboardCommands 
+	resource.
+
+Bug Id:       1067927
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm allows use of mouseless commands in menus when it shouldn't
+Public Summary:
+	When OpenWindows.KeyboardCommands is set to "Basic," olwm honors 
+	the use of mouseless commands within menus. It should not.
+
+Bug Id:       1067962
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Alt-z doesn't suspend mouseless mode but turns off Front and Open keys.
+Public Summary:
+	Suspending Mouseless operation applies only to window manager keys,
+	not to keys used by the toolkits.
+
+Bug Id:       1069568
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm dies if change Properties localization & non Ow client runs
+Public Summary:
+	When changing localization from one language to another, if
+	non-OpenWindows clients are running on the desktop, the window
+	manager will die, and the window system may die as well.
+
+Bug Id:       1069586
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Application requested window repositioning results in wrong location
+Public Summary:
+	Within the Properties sheet, changing to/from the Swedish locale 
+	from/to the English one often causes olwm to die or the system to
+	exit into console mode.  
+
+Bug Id:       1035708
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm should read app-defaults file
+Public Summary:
+	Olwm doesn't read an app-defaults file for its resources.
+Work Around:
+	Copy site customizations to individuals' $HOME/.Xdefaults files.
+
+Bug Id:       1035707
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     automatic window placement should avoid icon area
+Public Summary:
+	Default placement of windows can overlap icons.
+Work Around:
+	Move windows around after they have appeared.
+
+Bug Id:       1037446
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm cancels user defined workspace cursor
+Public Summary:
+	After setting the workspace cursor to a user selected cursor using
+	xsetroot in my .openwin-init file in Openwindows 2.0 PreFCS, I get
+	my workspace cursor before olwm starts but sometimes olwm overrides
+	my cursor with the default olwm workspace cursor and then the only
+	way to get mine back is to explicitely reexecute xsetroot.  This
+	seems to be startup timing related since it happens more often when
+	starting the server on my cg10 than on my cg6 (on a Sparcstation1)
+	and I can make it less of a problem by sleeping for a few seconds
+	before executing the xsetroot command in my .openwin-init file.
+Work Around:
+	Sleep for about 20 seconds in .openwin-init before calling xsetroot.
+
+Bug Id:       1045663
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Using the AutoRaise option confuses stacking order of menus.
+Public Summary:
+	If OpenWindows.AutoRaise is set in the resource database then there
+	seems to be occasions when a menu that should be brought to the
+	front of the window stack seems only to be initially raised and then
+	obscured by its parent.
+Work Around:
+	Turn off AutoRaise.
+
+Bug Id:       1050484
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     root menu comes up in wrong place in mouseless mode
+Public Summary:
+	If the root menu is brought up using a Mouseless OPEN LOOK
+	keystroke, it comes up under the pointer instead of in the center of
+	the screen.
+Work Around:
+	Move the pointer to a reasonable location before bringing up the menu.
+
+Bug Id:       1051699
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     unmapping/remapping window loses restore size information
+Public Summary:
+	If a window is unmapped while it is in the "Full Size" state, the
+	window manager loses this state information.  When the window is
+	remapped, the window size cannot be restored.
+Work Around:
+	Resize the window manually.
+
+Bug Id:       1053891
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     Front<L5> and Open<L7> do not follow mouseless input focus
+Public Summary:
+	The Front (L5) and Open (L7) keys are not implemented according to
+	the OPEN LOOK Mouseless Specification.  Instead of operating on the
+	primary selection and the input focus, which is the correct
+	behavior, they operate on the window under the pointer.
+Work Around:
+	Use the base window accelerators Open/Close=Alt+<F2> and
+	Back=Alt+<F5>.
+
+Bug Id:       1062116
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     FRAME_BUSY doesn't gray the title bar out when set before xv_main_loop
+Public Summary:
+	If the FRAME_BUSY attribute is set to TRUE before xv_main_loop has 
+	been called.  The cursor image is changed and the window appears busy. 
+	However the frames header remains unaffected and is not greyed out.
+Work Around:
+	Ensure that FRAME_BUSY is set after the call to xv_main_loop.
+
+Bug Id:       1068104
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm uses different visual selection criteria from XView
+Public Summary:
+	If incomplete visual information is specified, such as just the
+	visual class or just the depth (but not both), olwm and XView will
+	disagree on their visual selection.  This will result in colormap
+	flashing.
+Work Around:
+	Specify a more complete visual information.  In particular,
+	specify the visual depth *and* the visual class.  The visual class
+	may be specified with the -visual option (works for both XView and
+	olwm).
+
+Bug Id:       1069400
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     window manager conflict with xbiff
+Public Summary:
+	Starting a shelltool and xbiff from within .openwin-init
+	causes rubber-banding to break.  This doesn't happen if
+	xbiff is started by hand once olwm is running.
+Work Around:
+	Start xbiff manually after olwm is running.
+
+Bug Id:       1045735
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     windows dragged offscreen and on stop 'rubbing' against edge
+Public Summary:
+	Windows dragged offscreen, released, and then dragged back on
+	stop 'rubbing' against the edge of the screen while the mouse
+	is down.
+Work Around:
+	Release the mouse before trying to reposition the window after
+	dragging it back onscreen.
+
+Bug Id:       1046262
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm -2d does not display full 2d on color system
+Public Summary:
+	When using olwm -2d on a color system full 2d display is not produced.
+	"Full 2d display" is best shown with a combination of -2d and 
+	OpenWindows.3DLook.Color: False or OpenWindows.3DLook.Color: False 
+	and OpenWindows.Use3D: False
+Work Around:
+	To get the desired 2d display use a combination of either: 
+		olwm -2d and OpenWindows.3DLook.Color: False 
+	or 
+		OpenWindows.3DLook.Color: False and OpenWindows.Use3D: False.
+
+Bug Id:       1051980
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     cmdtool <program_name> or shelltool <prog_name> dies in win mgr
+Public Summary:
+	Running short-lived programs in a shelltool or cmdtool window causes
+	the window to be created improperly, resulting in warning message
+	from olwm.
+Work Around:
+	cmdtool sh -c 'ls; cat > /dev/null'
+
+	This will spawn a cmdtool displaying ls output.  The cmdtool will
+	persist until you press ^D (or whatever your EOF character is).
+
+Bug Id:       1060865
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm cursor disappears on rootdesktop,frames if CursorFont unknown
+Public Summary:
+	Setting the OpenWindows.CursorFont to an unknown font can
+	make the mouse pointer disappear on the root background and
+	on all frame menus.
+Work Around:
+	1. Modify your .Xdefaults file, and do not set the resource
+	   OpenWindows.CursorFont.
+	2. Run the public-domain program 'xneko'.  At least you can
+	   see your mouse (really!) on the root background and on the
+	   frames.  You won't see the mouse in the push button pins nor
+	   in the open/close button on the frame.
+
+Bug Id:       1026524
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     noncompliant X11 applications don't get the input focus
+Public Summary:
+	Some X11 applications that expect to get the keyboard input do not
+	get the input focus.  The reason is that the ICCCM (X11 Inter-Client
+	Communication Conventions Manual) requires applications to set a
+	"hint" to let the window manager know they are eligible to receive
+	the input focus.  If a client does not set this hint, many window
+	managers will never set the input focus to that client.
+Work Around:
+	To tell olwm to not enforce the ICCCM, put the following line in
+	your .Xdefaults file and restart the system:
+
+		OpenWindows*FocusLenience: true
+
+	Alternatively, some code like the following should be added to the X
+	client to bring it into conformance with the ICCCM:
+
+		Display *dpy;
+		Window win;
+		XWMHints wmhints;
+
+		wmhints.input = True;
+		wmhints.flags = InputHint;
+		XSetWMHints(dpy, win, &wmhints);
+
+Bug Id:       1042530
+Category:     x11news                         
+SubCategory:  olwm                            
+Synopsis:     olwm sometimes gets BadColor error
+Public Summary:
+	Quitting an application that uses a colormap other than the default
+	colormap may result in olwm issuing a BadColor warning message.
+	This is only a warning, and it doesn't otherwise affect the
+	operation of the window manager.
+Work Around:
+	Make sure the mouse is outside the window after you hit the Quit item.

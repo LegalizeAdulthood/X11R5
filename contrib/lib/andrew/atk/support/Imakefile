@@ -1,0 +1,82 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif 
+
+DOBJS = buffer.do \
+	bufferlist.do \
+	complete.do \
+	dict.do \
+	envrment.do \
+	list.do \
+	mark.do \
+	nstdmark.do \
+	print.do \
+	rectlist.do \
+	style.do \
+	stylesht.do \
+	tree23.do \
+	viewref.do 
+
+IHFILES = buffer.ih \
+	bufferlist.ih \
+	complete.ih \
+	dict.ih \
+	envrment.ih \
+	list.ih \
+	mark.ih \
+	nstdmark.ih \
+	print.ih \
+	rectlist.ih \
+	style.ih \
+	stylesht.ih \
+	tree23.ih \
+	viewref.ih
+
+OBJS =  buffer.o \
+	bufferlist.o \
+	complete.o \
+	dict.o \
+	envrment.o \
+	list.o \
+	mark.o \
+	nstdmark.o \
+	print.o \
+	rectlist.o \
+	style.o \
+	stylesht.o \
+	suptinit.o \
+	tree23.o \
+	viewref.o
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicObject(buffer, ${UTILLIB}, ${BSDLIB})
+DynamicObject(complete, ${UTILLIB}, ${BSDLIB})
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+LibraryTarget(libsupport.a, $(OBJS))
+InstallLibrary(libsupport.a, ${DESTDIR}/lib/atk)
+
+DependTarget()
+
+
+MkdirTarget(${DESTDIR}/doc/atk/support)
+
+NormalHelpRule()
+InstallDocs(stlproc.help,${DESTDIR}/help)
+InstallHelpAlias(stlproc, sytlesheetproc)
+InstallDocs(buffer.help,${DESTDIR}/help)
+InstallHelpAlias(buffer, ez-buffers buffers)
+
+DOCS = buffer.doc complete.doc dict.doc envrment.doc list.doc \
+	mark.doc nstdmark.doc print.doc rectlist.doc style.doc \
+	stylesht.doc tree23.doc viewref.doc
+
+InstallDocs($(DOCS), $(DESTDIR)/doc/atk/support)
+

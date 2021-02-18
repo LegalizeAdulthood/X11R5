@@ -1,0 +1,10 @@
+Copyright 1991 Sony Corporation
+Apr 29, 1991
+
+This directory contains dictionary.
+
+Install Procedure:
+	o Make directory /usr/sony/dict/sj3
+	o Make directory /usr/sony/dict/sj3/user
+	o cp binary.dic /usr/sony/dict/sj3/sj3main.dic
+

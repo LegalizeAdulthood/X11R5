@@ -1,0 +1,55 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/cfb/RCS/Imakefile,v 
+*** 1.3	1991/09/24 03:44:24
+--- 1.4	1991/09/26 16:39:54
+***************
+*** 10,21 ****
+  	 cfbtileoddC.c cfbtileoddG.c \
+  	 cfbcmap.c cfbzerarcC.c cfbzerarcX.c cfbzerarcG.c \
+  	 cfbfillarcC.c cfbfillarcG.c \
+! 	 cfbtegblt.c cfbbstore.c cfb8cppl.c \
+  	 cfbbltC.c cfbbltX.c cfbbltO.c cfbbltG.c \
+! 	 cfb8bit.c cfbteblt8.c cfbglblt8.c cfbglrop8.c cfbigblt8.c \
+!  	 cfbpush8.c cfbrctstp8.c cfbpolypnt.c \
+! 	 cfb8lineCO.c cfb8lineX.c cfb8lineG.c cfb8lineCP.c \
+!  	 cfb8segC.c cfb8segX.c cfb8segG.c cfb8segCS.c \
+  	 cfbbres.c cfbline.c cfbhrzvert.c cfbbresd.c cfbimage.c cfbseg.c \
+  	 cfbply1rctC.c cfbply1rctG.c
+  
+--- 10,18 ----
+  	 cfbtileoddC.c cfbtileoddG.c \
+  	 cfbcmap.c cfbzerarcC.c cfbzerarcX.c cfbzerarcG.c \
+  	 cfbfillarcC.c cfbfillarcG.c \
+! 	 cfbtegblt.c cfbbstore.c \
+  	 cfbbltC.c cfbbltX.c cfbbltO.c cfbbltG.c \
+!  	 cfbpolypnt.c \
+  	 cfbbres.c cfbline.c cfbhrzvert.c cfbbresd.c cfbimage.c cfbseg.c \
+  	 cfbply1rctC.c cfbply1rctG.c
+  
+***************
+*** 39,52 ****
+  	 cfbpntwin.o cfbmskbits.o cfbpixmap.o \
+  	 cfbcmap.o cfbzerarcC.o cfbzerarcX.o cfbzerarcG.o \
+  	 cfbfillarcC.o cfbfillarcG.o \
+! 	 cfbtegblt.o cfbbstore.o cfb8cppl.o \
+! 	 cfb8bit.o cfbteblt8.o cfbglblt8.o cfbglrop8.o cfbigblt8.o \
+!  	 cfbrctstp8.o cfbpolypnt.o \
+!  	 cfb8segCS.o cfb8segX.o cfb8segG.o cfb8segC.o \
+! 	 cfb8lineCO.o cfb8lineX.o cfb8lineG.o cfb8lineCP.o \
+  	 cfbbres.o cfbline.o cfbhrzvert.o cfbbresd.o cfbimage.o cfbseg.o \
+   	 cfbbitblt.o cfbbltC.o cfbbltX.o cfbbltO.o cfbbltG.o \
+! 	 cfbpush8.o cfbply1rctC.o cfbply1rctG.o $(STIPPLEOBJ)
+  
+     INCLUDES = -I. -I../mfb -I../mi -I../../include -I$(INCLUDESRC) \
+     	      -I$(FONTSRC)/include
+--- 36,46 ----
+  	 cfbpntwin.o cfbmskbits.o cfbpixmap.o \
+  	 cfbcmap.o cfbzerarcC.o cfbzerarcX.o cfbzerarcG.o \
+  	 cfbfillarcC.o cfbfillarcG.o \
+! 	 cfbtegblt.o cfbbstore.o \
+!  	 cfbpolypnt.o \
+  	 cfbbres.o cfbline.o cfbhrzvert.o cfbbresd.o cfbimage.o cfbseg.o \
+   	 cfbbitblt.o cfbbltC.o cfbbltX.o cfbbltO.o cfbbltG.o \
+! 	 cfbply1rctC.o cfbply1rctG.o $(STIPPLEOBJ)
+  
+     INCLUDES = -I. -I../mfb -I../mi -I../../include -I$(INCLUDESRC) \
+     	      -I$(FONTSRC)/include

@@ -1,0 +1,237 @@
+XPROOF -- An X Windows Previewer for Typesetter-Independent Troff
+
+Version for X11 Release 4,  June 1990
+$Header: /src/X11/uw/xproof/RCS/README,v 3.8 1991/10/04 22:16:18 tim Exp $
+
+	Marvin Solomon
+	Computer Sciences Department
+	University of Wisconsin, Madison WI
+	solomon@cs.wisc.edu or seismo!uwvax!solomon
+
+This directory contains a program allows you to preview the output of
+"Typesetter-Independent Troff" (also called "Device-Independent Troff" or
+"ditroff") on a workstation running the X Window system.
+
+I previously wrote a similar program that worked under version 10 of X Windows,
+but the current program was written "from scratch" for X version 11,
+using the X Toolkit Intrinsics and Athena Widgets.  The spline routines in
+draw.c were lifted from a device driver included in the ditroff package.
+Otherwise, everything is original.
+
+This software is distributed under the same conditions as the X Windows package
+itself, namely, that you don't blame me for bugs in it and that you don't
+erase my name from it and sell it as your own.  I would also appreciate
+hearing about your experiences with it, especially bug fixes and
+enhancements.  I cannot promise to fix anything, but you tell me about bugs
+or deficiencies, I might be able to help.
+
+The program has not yet seen widespread distribution, so it might still have
+a few bugs.  I've compiled and run it successfully on a variety of client
+hosts, including VAX Unix (both Ultrix 3.0 and 4.3 BSD), Sun 3 and Sun 4
+(SunOS 4.0), HP Bobcats, and IBM RT/PC's (AOS).  It seems to work ok with
+color, black and white, and gray-scale servers, including the VAX qvss and
+qdss displays (however, see comments below about the latter).
+
+It should work with little or no change on other flavors of Berkeley Unix.  I
+have no idea about System V.
+
+The remainder of this file contains installation instructions followed by
+a line of '---' followed by a list of change notices, most recent first.
+See xproof.1 for instructions on how to use xproof.
+
+Installation Instructions (Basic Outline):
+
+1. Make sure the ditroff font-description files are available.
+
+2. Edit Imakefile to reflect your local configuration and type "make Makefile".
+
+3. Type "make install-fonts" to install special "fixed-up" versions of the
+X fonts distributed with X11 Release 4.
+
+4. Type "make xproof" to compile the xproof program.
+
+5. Type "make test" to format the xproof manual page and display it
+using xproof.
+
+6. Type "make install".
+
+More details follow.
+
+1. Font Description Files
+
+Ditroff uses a set of "font description" tables to describe various properties
+of fonts available of the target device.  These tables are normally found
+in the directory /usr/lib/font/devxxx, where "xxx" is the name of the
+device.  Xproof needs access to description files for the X fonts.
+Although these files contain a variety of information, xproof only uses
+them to find the mapping of characters to positions in fonts.
+The fonts installed by "make install-fonts" have the layout defined by
+Adobe Systems Incorporated.  If you have a device that uses this layout
+on your system (for example, the Apple Laserwriter), you probably have
+already installed tables for the "psc" (PostScript) device.  If not,
+choose some other device description files.  Chances are they will work ok,
+although some special characters--particularly the ligatures 'ff' and 'fi' and
+the line-drawing characters used by tbl--may not come out right.
+
+	Edit the DescDir and Device definitions in Imakefile (or the DESCDIR
+	and DEVICE macros in Makefile) to point to the appropriate directories.
+
+There is one potential complication:  The font description tables in DESCDIR
+are "compiled" from ASCII versions by a program called devconfig (makedev
+in some versions of ditroff).  Unfortunately, there seem to be a couple of
+incompatible versions of this program floating around.  The incompatibilities
+concern the definition of 'struct dev' in dev.h.  Compare the version there
+with the version in the 'driver' subdirectory of your ditroff distribution
+and make sure you use the same version in both places.  (You can simply
+replace the version of dev.h in this directory with the version included with
+ditroff.)
+
+2. Local configuration
+
+2a. Using Imake
+
+If xproof source directory lies in the usual place, $(TOP)/contrib/xproof, then
+you should rebuild the Makefile after editing Imakefile by typing "make
+Makefile".  Otherwise, you may have to type "make TOP=<whatever> Makefile",
+where <whatever> is the top of the source directory.  The Makefile supplied
+with this distribution (and the one made by "make Makefile") looks for
+an execuatable 'imake' in $(TOP)/util/imake, doing a 'make imake' there
+if necessary.  If you do not want to use the imake in the source tree
+(for example, if your source tree is littered with binaries for a different
+architecture; see also the next paragraph), you can use 'xmkmf'.
+If you don't want to use imake, you will have to hand-edit this rather
+ungainly Makefile, but see also the next paragraph.
+
+Installation of xproof requires certain things from the X11 R5 distribution
+that normally live only in the source directory.  If you don't have the
+source tree handy, you will have to fetch the following items, edit
+Imakefile, and regenerate Makefile (or edit Makefile directly).
+The items, and their default locations, are as follows:
+	BDFFONTS  = $(TOP)/fonts/bdf
+		Directory containing fonts in "bitmap distribution format" (.bdf)
+	FONTC        = $(TOP)/fonts/bdftopcf/bdftopcf
+		Font compiler: translate from .bdf format to .pcf format.
+	MKFONTDIR = $(TOP)/fonts/mkfontdir/mkfontdir
+		Makes a "table of contents" for a font directory.
+
+Only BDFFONTS is defined in the Imakefile:
+	BDFFONTS = $(FONTSRC)/bdf
+The macros FONTC, MKFONTDIR, and FONTSRC are defined in the X distribution in
+$(TOP)/imake.includes/Imake.tmpl.
+
+2b. Editing the Imakefile.
+
+The following macros are defined near the top of Imakefile.
+
+#define UsePixmap -DUSEPIXMAP=\"true\"
+	The current server for the Digital Equipment Corporation "qdss" display
+	(used on color and grey-scale VAXStations) does graphics operations to
+	offscreen Pixmaps EXTREMELY slowly (about two orders of magnitude slower
+	than the same operations done directly to the display).  If you have one
+	of these devices, or another device with the same behavior, you should
+	insert an appropriate version of UsePixmap.  If you set the USEPIXMAP
+	option to false, when true would be more appropriate, xproof will still
+	work ok, but a bit slower.  It will also fail to properly refresh its
+	window if input is coming from stdin rather than a file.
+
+	The value given is the default value of the UsePixmap resource.
+
+	If you NEVER want to default to this kludge (none of your servers have the
+	problem), use the definition
+		#define UsePixmap -DUSEPIXMAP=\"true\"
+	I you ALWAYS want to default to this kludge
+		#define UsePixmap -DUSEPIXMAP=\"false\"
+	or simply delete these lines (USEPIXMAP=\"false\" is the default).
+
+#define DescDir -DDESCDIR=\"/usr/lib/font\"
+	Location of the ditroff font-description files (see above).
+
+#define Device -DDEVICE=\"psc\"
+	Name of the target device (see above).
+
+The preceding three defines expand to the following in the Makefile:
+DEFINES = -DDESCDIR=\"/usr/lib/font\" -DDEVICE=\"psc\" -DUSEPIXMAP=\"true\"
+
+#define FontInstDir $(FONTDIR)
+FONTINSTDIR = $(DESTDIR)/usr/lib/X11/fonts
+	Destination for "fixed-up" fonts (see below).  By default, the new fonts
+	go in the same directory where other 75 and 100 dots-per-inch fonts are installed
+	(other resolutions are not currently supported).  There should not be any
+	name conflicts.  However, if you want to put these fonts elsewhere,
+	be sure to use xset to inform the server about their location:
+		xset fp+ /wherever
+		xset fp rehash
+
+#undef InstalledLibraries
+	A flag indicating whether the libraries -lXaw, -lXmu, -lXt, -lXext, and
+	-lX11 have already been installed in /usr/lib (or whereverver) and
+	all the #include files have been installed in
+	/usr/include/X11 (or whatever).  Change 'undef' to 'define' if you want
+	to use the installed libraries.  Leave it as 'undef' if you prefer to
+	use the libraries and #include files directly from the source tree.
+
+DITROFF = ditroff -t
+	The command used to process a file with ditroff and send the output
+	to standard output (rather than a printer).  It is used by 'make test'
+	in the following way:
+		ditroff -t -man xproof.man >xproof.prf
+
+2c. Rebuilding Makefile
+Type "make Makefile" (and, if you like, "make depend").
+
+3. Installing new fonts.
+
+Previous versions of xproof were distributed with their own X fonts.  Release 4
+of X11 comes with a nice set of 75dpi and 100dpi fonts contributed by Adobe.
+Unfortunately, these fonts cannot be simply used "right out of the box".
+The charset mapping of these fonts was messaged by the X people to conform
+to ISO standard 8859.  The bad news is that ISO 8859 Latin-1 doesn't include
+some of the characters used by ditroff, especially the ligatures \(fi and
+\(ff.  The good news is that the distributed fonts do contain the glyphs
+for all these characters, they're just not mapped to any position--in effect,
+they're "commented out".  The program fixfont.c restores the charset encoding
+to Adobe's standard.  In the process various other characters--particularly
+lots of accented characters for misc languages--become inaccessible, but
+ditroff doesn't use them anyhow.
+
+The files dithack*.bdf contain a few characters used by tbl for drawing boxes
+and eqn for drawing large braces and the like.  These files are created by
+the "drawhacks" program included in this distribution.
+
+The command "make install-fonts" installs all the new and fixed fonts.
+By default, these fonts are installed in the same directory where the
+distributed 75 and 100 dpi fonts are installed, so you may have to run this
+command as root.  Alternatively, you might want to put the new fonts somewhere
+else (see above).
+
+4. Compiling xproof.
+
+5. Testing xproof.
+The command "make test" runs the xproof manual page through ditroff
+and then uses xproof to look at it.  You must do "make install-fonts" before
+this step.  You may have to edit the definition of DITROFF in the Imakefile
+(or Makefile) before this step.
+
+6. Installation
+The command "make install" only installs the executable xproof.  The fonts
+are separately installed by "make install-fonts".
+
+Good luck, and let me know how it works out.
+
+------------------------------------------------------------------------
+Update history:
+
+Tue Jun 13 10:14:38 CDT 1989  Added -V flag.  Updated this documentation
+	somewhat.  This is the first stable "released" version (3.1, patch 0).
+Mon Apr 10 11:40:24 CDT 1989  Added warning about bug-fix to MenuBox.
+	Other rewriting of these instructions.  Added patchlevel.h.
+Mon Mar  6 13:12:59 CST 1989  Added drawhacks.c program to create characters
+	for eqn, tbl, etc.  Added warning about bad font to the README file.
+Sun Feb 19 08:23:18 CST 1989  Major rewrite for release 3 of X11.  Uses
+	distributed fonts.  Added magnification features.  Major rewrite of
+	the README file.
+Fri Aug 26 07:00:25 CDT 1988  Added Imakefiles and the option of using
+	either imake or ad hoc Makefiles.  Updated README files accordingly.
+Wed Aug 10 11:21:42 CDT 1988  Fixed to work on multi-plane (color and grey)
+	displays.  Added NOPIXMAP kludge.
+Fri Jul 22 15:22:26 CDT 1988  Initial release.

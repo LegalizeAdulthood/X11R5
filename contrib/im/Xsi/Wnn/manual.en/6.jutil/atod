@@ -1,0 +1,46 @@
+ATOD(4)
+
+NAME
+    atod - To convert the UJIS format of dictionary to binary format.
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/atod [-s word_number] [-R] [-S] [-U] [-r] [-N] [-n]
+			     [-P password_file_name]
+			     [-p frequency_password_file_name]
+			     <binary_dictionary>
+
+DESCRIPTION
+    Atod converts a UJIS format dictionary of standard input info specified
+    binary format dictionary.
+    "-s" specfies the quantity of memory, but normaly it does not need.
+    When atod exit with a message ne memory, the "-s" option must be used.
+
+    atod accepts the following options:
+
+	-s word_number
+	    Specifies the number is more than the number of words, The default
+	    is 70000.
+
+	-R  To convert a UJIS format dictionary into a reverse format
+	    dictionary. (default)
+
+	-S  To convert a UJIS format dictionary into a static format
+	    dictionary.
+
+	-U  To convert a UJIS format dictionary into a registerable format
+	    dictionary.
+
+	-r  To convert the yomi and kanji in UJIS format dictionary.
+
+	-P password_file_name
+	    Specifies the password file of dictionary.
+
+	-p frequency_password_file_name
+	    Specifies the password file of frequency file.
+
+	-N  To set the password of dictionary to "*".
+
+	-n  To set the password of frequency file to "*".
+
+SEE ALSO
+    dtoa(4), wnntouch(4), UJIS_format_dictionary(6)

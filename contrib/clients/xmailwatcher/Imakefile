@@ -1,0 +1,6 @@
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+           SRCS = xmailwatcher.c box.c
+           OBJS = xmailwatcher.o box.o
+
+ComplexProgramTarget(xmailwatcher)

@@ -1,0 +1,64 @@
+.\" Copyright 1991 by James J. Dempsey <jjd@bbn.com>
+.\" 
+.\" Permission to use, copy, modify, distribute, and sell this software and its
+.\" documentation for any purpose is hereby granted without fee, provided that
+.\" the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation, James J. Dempsey makes no representations about the
+.\" suitability of this software for any purpose.  It is provided "as is"
+.\" without express or implied warranty.
+.TH XRLOGIN 1 "Release 5" "X Version 11"
+.SH NAME
+xrlogin \- start an xterm that uses rlogin or telnet to connect to a remote host
+.SH SYNOPSIS
+.B xrlogin
+[-l username] [-telnet] remote-host
+.SH DESCRIPTION
+.I Xrlogin
+opens an xterm window and runs rlogin or telnet to login to a remote host.
+.PP
+Xrlogin
+automatically passes the -name argument to xterm with a value of
+"xterm-hostname" where hostname is the name of the remote host.  This
+allows the user to specify resources in their server's resource
+manager which are specific to xterms from a given host.  For example,
+this feature can be used to make all xterm windows to a given remote
+host be the same color or use a specific font or start up in a
+specific place on the screen.  Xrsh(1) passes the same string so they
+are compatible in this regard.  
+.PP
+Xrlogin specifies 
+that the default title for the new xterm will be "hostname"
+where hostname is the name of the remote host.  
+.PP
+One could also use xrlogin's sister command xrsh(1) to open a window
+to a remote host.  In the case of xrsh, the xterm would run on the
+remote host and use X as the connection protocol while xrlogin would
+run the xterm on the local host and use rlogin or telnet as the
+connection protocol.  See xrsh(1) for a discussion of the merits of
+each scheme.
+.SH OPTIONS
+.IP "\fB-l username\fP"
+When not using -telnet, use username as the id to login to the remote
+host.
+.IP "\fB-telnet\fP"
+Use the -telnet protocol to open the connection instead of rlogin.  In
+general rlogin is preferred because it can be configured to not prompt
+the user for a password.  Rlogin also automatically propagates window
+size change signals (SIGWINCH) to the remote host so that applications
+running there will learn of a new window size.  Use of telnet
+provided mostly for hosts that don't support rlogin.
+.SH COMMON PROBLEMS
+Make sure that the local host is specified in the .rhosts file on the
+remote host or in the remote hosts /etc/hosts.equiv file.  See
+rlogin(1) for more information.
+.SH EXAMPLES
+.IP "xrlogin yoda"
+Start a local xterm which connects to the remote host yoda using rlogin.
+.IP "xrlogin -telnet c70"
+Open a local xterm which connects to the remote host c70 using telnet.
+.SH SEE ALSO
+.PP
+xrsh(1), rlogin(1), telnet(1)
+.SH AUTHOR
+Stephen Gildea <gildea@expo.lcs.mit.edu> and James J. Dempsey <jjd@bbn.com>.

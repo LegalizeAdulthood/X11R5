@@ -1,0 +1,186 @@
+/***********************************************************
+Copyright 1991 by Digital Equipment Corporation, Maynard, Massachusetts,
+and the Massachusetts Institute of Technology, Cambridge, Massachusetts.
+
+                        All Rights Reserved
+
+Permission to use, copy, modify, and distribute this software and its 
+documentation for any purpose and without fee is hereby granted, 
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in 
+supporting documentation, and that the names of Digital or MIT not be
+used in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.  
+
+DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+DIGITAL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+SOFTWARE.
+
+X Window System is a trademark of Massachusetts Institute of Technology.
+RasterOps is a registered trademark of RasterOps Corporation.
+
+******************************************************************/
+/*
+** File: 
+**
+**   README --- Guide to building Xv into your X Window System(TM)
+**
+**              The kit Now includes a full sample server implementation 
+**              for the DECStation 5000/TX (RasterOps) display.
+**
+**              I want to acknowledge the great efforts of Ed Goei
+**              (Digital's Western Software Labs), in contributing
+**              the TX device support code.
+**              
+** Author: 
+**
+**   David Carver (Digital Workstation Engineering/Project Athena)
+**
+*/
+
+       The Xv distribution kit contains an Xv extension source tree
+  and a core server tree which contains files that were modified to
+  link the Xv server into an X11R5 server.
+
+  This distribution also contains the files necessary to build the Xtx
+  server for a DECStation5000/RasterOps display running a version of
+  ULTRIX newer than 4.2.  These modules include
+
+	ddx/cfb32			/* 24 plane drawing code */
+	ddx/dec/tx			/* display specific code */
+	ddx/dec/ws			/* binding to ws interface */
+
+  It should be noted that this code hasn't been well tested.  It is
+  provided because it might be useful in porting software to similar
+  display systems.  The 24 plane drawing code is really the cfb
+  drawing code compiled for 24 planes, with a few modifications for
+  allowing the mixing of 8 and 24 plan drawing.
+
+
+  Xv Changes
+  ----------
+
+      No changes have been made to the Xv protocol since the alpha
+  release earlier in the summer.  Several bugs have been fixed in the
+  RasterOps bindings and but the DI code has undergone minimal change.
+
+
+  Xv Sources
+  ----------
+
+  The Xv extension source tree contains the following directories
+
+	./extensions/xv
+	./extensions/xv/doc		/* library and protocol documents */
+	./extensions/xv/include		/* header files */
+	./extensions/xv/lib		/* library modules */
+	./extensions/xv/server		/* server modules */
+	./extensions/xv/test		/* test programs */
+	./extensions/xv/man		/* library man pages */
+
+  The extension sources can be integrated with an X11R5 build tree in
+  one of two ways: either by moving the entire directory tree:
+
+	./extensions/xv ---> $(TOP)/extensions
+
+  or by moving the individual subdirectories into their respective
+  X11R5 extension subdirectories:
+
+	./extensions/xv/server ---> $(TOP)/extensions/server
+	./extensions/xv/lib ---> $(TOP)/extensions/lib
+	./extensions/xv/include ---> $(TOP)/extensions/include
+	./extensions/xv/test ---> $(TOP)/extensions/test
+
+  In either case you must edit the parent directory Imakefile(s) and add
+  xv to the SUBDIRS macro.
+
+  Look in ./extensions to see how the first method was implemented.
+
+
+  New Adaptor Types
+  -----------------
+
+  For new adaptor types, one or more adaptor dependent Xv files must
+  be added to the Xv server directory.  The Xv server Imakefile must
+  be modified to build modules for the the new adaptor types.  Look in
+  ./extensions/xv/server/Imakefile to see how the Xv server Imakefile
+  is structured for existing adaptors.  
+
+  We have included an Xv adaptor dependent module for the
+  RasterOps(TM) Picture In a Picture, or PIP, video adaptor.  The
+  ./extensions/xv/xvrop.c modules interfaces with the PIP device
+  interface found in ./server/ddx/dec/tx for the DECStation 5000.
+
+
+  Modified Files
+  --------------
+
+  $(TOP)/server/Imakefile needs to be modified to reference and link
+  with the Xv extension.  Look in ./server/Imakefile to see how our
+  server Imakefile is structured.  Look in Imakefile.diff for a list
+  of difference between the X11R5 Imakefile and ours.
+
+  $(TOP)/server/ddx/mi/miinitext.c needs to reference the Xv extension
+  initialization procedure added.  Look in ./server/ddx/mi/miinitext.c
+  to see how we made the additions.
+
+  Somewhere in your device dependent screen initialization you need to
+  call the appropriate Xv adaptor initialization procedures.  Look in
+  ./extensions/xv/server/xvrop.c for an example of how a adaptor
+  screen initialization procedure might be structured.
+
+
+  Configuration
+  -------------
+
+  To inform the X11R5 build that you wish to include the Xv extension
+  you need to edit your configuration file(s).  The following symbol
+  definition needs to made
+
+	#define BuildXvExt YES
+
+  To inform X11R5 modules that have conditional Xv references to
+  include those references, you much modify the build symbol
+  ExtensionDefines:
+
+	#define ExtensionOSDefines ... -DXV ...
+
+  To inform the Xv server build of what video adaptors you wish to
+  support you need to define one or more symbols of the following
+  form:
+
+	#define BuildXvParallax YES
+	#define BuildXvRasterOps YES
+	#define BuildXvYOURADAPTORNAME YES
+
+  Look in ./extensions/xv/server/Imakefile to see how those symbols
+  are used.  If you define no such symbols, the Xv extension will be
+  build correctly and included into your server, but support for your
+  special video adaptors will be missing.
+
+  Note that for the DS5000/RasterOps system, the server name is Xtx.
+  The configuration file needs to define the appropriate symbol:
+
+	#define XtxServer YES
+
+  Of course the corresponding changes need to be made to the server
+  Imakefile file.  For examples of these changes see our versions of
+  the files included with the kit.
+
+  If you wish to build an Xtx server, you must first install (copy)
+  the ddx/cfb32 and ddx/dec/tx directory trees into your server build
+  tree, and copy the contents of the ddx/dec/ws directory into the
+  corresponding directory in your build tree.
+
+  Building
+  --------
+
+  If you perform a `make World' after making the above changes
+  everything should build fine.  If you are going to do an incremental
+  build, note that before the Xv library and test files will build you
+  need to do get the header files into $(TOP)/X11/extensions
+  directory.  Normally the `make includes' pass does this.

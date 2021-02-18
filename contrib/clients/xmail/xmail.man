@@ -1,0 +1,997 @@
+.\"
+.\" @(#)xmail.l 1.4 91/09/27 NSC;
+.\"
+.\" Copyright 1990,1991 by National Semiconductor Corporation.
+.\"
+.\" Permission to use, copy, modify, and distribute this software and its
+.\" documentation for any purpose is hereby granted without fee, provided that
+.\" the above copyright notice appear in all copies and that both that
+.\" copyright notice and this permission notice appear in supporting
+.\" documentation, and that the name of National Semiconductor Corporation not
+.\" be used in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.  National Semiconductor
+.\" Corporation makes no representations about the suitability of this software
+.\" for any purpose. It is provided "as is" without express or implied warranty.
+.\"
+.\" NATIONAL SEMICONDUCTOR CORPORATION DISCLAIMS ALL WARRANTIES WITH REGARD TO
+.\" THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+.\" FITNESS, IN NO EVENT SHALL NATIONAL SEMICONDUCTOR CORPORATION BE LIABLE FOR
+.\" ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+.\" RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+.\" CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+.\" CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\" Author:  Michael C. Wagnitz - National Semiconductor Corporation
+.\"
+.ds nS National Semiconductor Corporation
+.ds xM xmail
+.if n .ds Q \&"
+.if n .ds U \&"
+.if t .ds Q ``
+.if t .ds U ''
+..
+.\"
+.TH XMAIL 1 "September 27, 1991" "NSC"
+.SH NAME
+xmail \- X11 visual interface to the mail program
+.SH SYNOPSIS
+.B \*(xM
+.RB "[\|" \-\fItoolkitoptions\fP "\|]"
+.RB "[\|" \-\fIxmailoptions\fP "\|]"
+.SH DESCRIPTION
+.B \*(xM
+is an X11 window based visual interface to the
+.B Mail
+program.  It offers functionality similar to the SunView mailtool, but with
+some differences. 
+
+Users may use mouse button actions in the index window to select a message for
+further processing (by pressing the left mouse button), or automatically read
+the selected message (by pressing the right mouse button).
+
+Folder specification is aided by a selection menu which can walk down through
+the user's folder directory hierarchy. 
+
+Message composition and modification is provided by the user's preferred
+editor (/usr/ucb/vi by default).  Editor preference may be specified using
+either the user's process or Mail environment variable
+.SB VISUAL, 
+or the xmail \fBeditorCommand\fR command line or application resource.
+
+A short description of the command button action is presented in the
+status window whenever the cursor enters any of the xmail command button
+windows.  Additional help information is presented for any command button or
+other part of xmail, by pressing the middle mouse button on the window or
+command button while holding down either Shift key.
+
+Support is also provided for displaying the content of an X-Face mail header,
+and for adding your own X-Face header to outgoing mail if present.
+.SH OPTIONS
+An unrecognized or illegal command line option specification will cause
+display of a usage statement and termination of \*(xM.
+.TP
+\fB\-toolkitoptions\fR
+All standard X11 toolkit options are accepted on the command line.
+.TP
+\fB\-xmailoptions\fR
+\*(xM also accepts the following additional options:
+.RS
+.TP
+\fB\-buttonfont \fIfontname\fR
+specifies the font to use when creating command buttons.  This option overrides
+the \*(xM resource specification \*Q\fB*buttonFont: \fIfontname\fR\*U.
+.TP
+\fB\-e\fR
+Sets the \*(xM resource specification \*Q\fB*expert: \fITrue\fR\*U.  This
+resource determines whether \*Q\fBconfirm\fR\*U popups will be presented
+when committing changes to a folder or deleting a new message composition.
+By default the resource is False, which means confirm popups will be used.
+.TP
+\fB\-editorCommand \fI<quoted command string>\fR
+Specifies the editor resource that \*(xM should use when editing a message
+composition.  The quoted command must be an \fIsprintf\fR\-able format string
+containing two string declarations.  The first of these declarations will be
+replaced with the name of the display connection for the xmail process, to
+allow the edit window to appear on the correct display screen.  The second
+declaration will be replaced with the name of the file to be edited.
+If \*(xM cannot locate the two separate string declarations in the command,
+the command will be rejected and processing will default to the older
+.SM VISUAL
+methodology.
+.TP
+\fB\-f\ \fI+foldername\fR
+tells Mail to start by processing the specified folder.
+This is also a Mail program option, passed to it during startup.
+The option can also be specified as an \*(xM resource
+using the specification \*Q\fB*MFileName: \fI+foldername\fR\*U.
+.TP
+\fB\-fn\ \fI+fontname\fR
+tells \*(xM to use the indicated font for all windows and buttons.
+.TP
+\fB\-font\ \fI+fontname\fR
+tells \*(xM to use the indicated font for all windows and buttons.
+.TP
+\fB\-h\fR
+tells \*(xM to include the host name in the icon window when displaying
+the icon.  The option can also be specified as an \*(xM resource
+using the specification \*Q\fB*icon*useHost: \fITrue\fR\*U.
+.TP
+\fB\-helpfont \fIfontname\fR
+specifies the font to use when displaying help text.  This option overrides
+the \*(xM resource specification \*Q\fB*helpFont: \fIfontname\fR\*U.
+.TP
+\fB-iconGeometry \fI[+-]XOff[+-]YOff\fR
+provides a command line option for specifying the preferred geometry
+location for the \*(xM icon window.  This overrides any \*(xM resource
+specification for \*Q\fB*iconGeometry: \fI[+-]XOff[+-]YOff\fR\*U.
+.TP
+\fB\-ls\fR
+tells \*(xM to \fBnot\fR show the last message of a folder by default.  This
+option is equivalent to setting the \*(xM resource \fB*Show_Last\fR to
+\fIFalse\fR.  If disabled, \*(xM (actually Mail) will display the default
+(usually first) message of a folder when switching to or re-reading a folder.
+By default, \*(xM attempts to read the latest (or last) message of a folder.
+.TP
+\fB\-n\fR
+tells Mail to \fBnot\fR initialize from the system default Mail.rc file.
+This option is actually a Mail program option, which is passed on to it during
+startup from \*(xM.
+The option can also be specified as an \*(xM resource
+using the specification \*Q\fB*mailopt_n: \fITrue\fR\*U.
+.TP
+\fB\-nb\fR
+tells \*(xM to \fBnot\fR ring the terminal bell when issuing status and
+error messages.  This is equivalent to setting the \*(xM resource
+specification \*Q\fB*bellRing: \fIFalse\fR\*U.  The default will be to
+ring the bell for error and appropriate status messages.
+.TP
+\fB\-noinfo\fR
+tells \*(xM to \fBnot\fR display info messages when entering or leaving a
+command button window with the mouse cursor.  Normally, the enter/leave
+window events will change the text displayed in the status window, to show
+information about the command button currently under the mouse cursor.  This
+option allows you to disable this new feature, if desired.
+This is equivalent to setting the \*(xM resource specification
+\*Q\fB*show_Info: \fIFalse\fR\*U.
+.TP
+\fB\-nx\fR
+tells \*(xM to \fBnot\fR include any X-Face header strings when displaying the
+text of an incoming message.  This is equivalent to setting the \*(xM resource
+specification \*Q\fB*No_X_Hdr: \fITrue\fR\*U.  The default will be to include
+all text of the incoming message, including any X-Face header strings.  Either
+setting will not deter the display of the X-Face bitmap if it exists in the
+message headers (and the X_FACE option was specified during compilation).
+.TP
+\fB\-rv\fR
+tells \*(xM to reverse the foreground and background colors of the icon
+window when displaying the icon.  The option can also be specified as an
+\*(xM resource using the specification \*Q\fB*icon*reverseVideo: \fITrue\fR\*U.
+.TP
+\fB\-textfont \fIfontname\fR
+specifies the font to use when creating text windows.  This option overrides
+the \*(xM resource specification \*Q\fB*textFont: \fIfontname\fR\*U.
+.TP
+\fB\-u\fR
+tells \*(xM to include the user login name in the icon window when displaying
+the icon.  The option can also be specified as an \*(xM resource
+using the specification \*Q\fB*icon*useName: \fITrue\fR\*U.
+.TP
+\fB\-U\fR
+tells Mail to convert internet style addresses into uucp format.
+This option also is a Mail option, passed on to it during startup.
+The option can also be specified as an \*(xM resource
+using the specification \*Q\fB*mailopt_U: \fITrue\fR\*U.
+.RE
+.SH USAGE
+The \*(xM shell appearance is similar in layout to mailtool.
+A title bar decorates the top of the shell, and carries the name and
+version of the program, as well as information about the current mail folder
+and its content.
+
+Immediately below the title bar, an index window displays header information
+for the current mail folder.
+Message selection is indicated by a \fBgreater-than '>'\fR symbol located at
+the beginning of the header line for the particular message.
+New and unread messages are indicated by '\fBN\fR' and '\fBU\fR' characters
+respectively, preceding the message number.
+Deleted messages not yet removed from the index list have the letter '\fBD\fR'
+preceding the message number.
+Saved messages are now marked with the letter '\fBS\fR', to denote that the
+message would normally disappear from your system folder when you finally
+commit the changes.
+Messages that are marked for preservation in the system folder are now marked
+with the letter '\fBP\fR' until the folder changes are committed.
+Keyboard keys can be used to scroll the index window,
+in addition to the more traditional mouse on scrollbar mechanism.
+
+Below the index
+window, the status window displays information, status, and error messages.
+As the cursor is moved between the various command button windows in the xmail
+program, a short description of the particular button's action(s) is displayed
+in the status window.  Leaving the command button window restores the default
+information about obtaining help on any part of xmail.
+Error and status messages are also displayed in this same status window.
+The terminal bell is usually rung to draw attention to these messages.
+The status bell can be disabled from the command line or user resource file.
+
+Immediately below the status window and attached to it, the xmail
+shell displays a panel with a selection of commonly used Mail commands.
+Pressing and then releasing (\fIalso known as \*Q\fBclicking\fP\*U)\fR
+the \fBleft\fR mouse button while the cursor is within a
+particular command button box invokes that Mail command.
+
+A grip at the top right corner of the command panel permits the user to slide
+the status window/command panel combination up and down in the \*(xM shell, to
+accommodate those times when the user is reviewing a short list of longer than
+average messages, or a longer list of relatively short messages.
+
+Each button in the command panel also offers an expanded menu of choices.
+Pressing the \fBright\fR mouse button presents the user with the
+expanded menu.  \fBDragging\fR the cursor over one of these selections
+\fIwhile still holding down the right button\fR causes the particular
+selection to highlight.  A description of the highlighted command's action is
+also displayed in the status window.  \fBReleasing\fR the right button while a
+selection is highlighted invokes that particular command action.
+
+Keyboard accelerators for these actions are indicated by appropriate entries
+in the command menus.  Users may take advantage of these accelerators by
+holding down the Shift and/or Control key(s) prior to clicking the left mouse
+button on the desired command, in lieu of raising the command popup menu.
+
+Message text is displayed in the bottom window of the \*(xM shell.
+Like the index window above, scroll bars provide easy access to any portion of
+the text.  Keyboard keys can also be used to scroll the text window.  If the
+displayed message contains an X-Face header string, the content of that string
+is displayed as a bitmap in the upper right-hand corner of the text window.
+(\fIThis feature is a compile time option, and requires the existence of the
+\fBcompface\fP library routines, which are not supplied with the xmail sources.
+See the section on \s-1X-FACE HEADERS\s+1 for details on acquiring
+this library.\fR)
+
+In addition, both the text window and index window have duplicate keyboard
+definitions to supplant using the
+mouse on the command buttons for normal \*(xM command operation.  Like many of
+the resources for xmail, these key bindings are now declared in the application
+resource file, to allow the use to modify them as desired.
+
+A modified mailWatch widget (ala xwatch) is used as the \*(xM icon
+window.  The mailbox flag will be raised and mail shown inside the box,
+whenever new mail arrives.
+In the non-iconic state, the \fBNewmail\fR command button is highlighted
+to signal new mail arrival.  Clicking on the Newmail button will
+reset the flag and highlighting, and deliver the new mail to your display.
+
+Pressing the \fBmiddle\fR mouse button on any window or command button of
+the \*(xM shell while holding down either \fBShift\fR key will cause help
+information relating to that window (or button) to be displayed in
+the text (\fIbottom\fR) window.
+Releasing the mouse button will cause that help information to be removed.
+Pressing the '\fB?\fR' key in the text window will cause a second page
+of help information, relating to the default bindings for the keyboard keys,
+to appear.
+Pressing the '\fBLineFeed\fR' key will cause that second help window
+to be removed.
+
+During command execution, the cursor is changed to a watch face
+to indicate that \*(xM is busy.  Upon completion of the activity, the
+cursor is restored to its previous value.
+.\"
+.SH "ENVIRONMENT"
+Several process environment variables are of a special interest to \*(xM.
+.sp
+.RS
+.TP 3
+\fBDEAD\fR
+Normally specified in the user's \&.mailrc file,
+this variable indicates the name of the file to use when storing dead or
+canceled letters.
+If unspecified, it defaults to \*Qdead.letter\*U in the user's HOME directory.
+.TP 3
+\fBHOME\fR
+Defines the path to the user's home directory, and is used in determining
+the complete path for mail folder and dead letter files.
+.TP 3
+\fBMAILRC\fR
+If defined, denotes the full name of the user preferred Mail program startup
+file, used to define various mail state variables.  By default, Mail (and
+\*(xM) will look for the file \&.mailrc, in your home directory.
+.TP 3
+\fBMBOX\fR
+Normally specified in the user's \&.mailrc file, this variable denotes the
+preferred file to use when storing letters that are
+no longer to be preserved in the system mail folder, and letters copied or
+saved to no other specific file.
+.TP 3
+\fBUSER\fR
+Defines the login name of the current user, and is used in determining the
+name of the author of any message compositions.
+.TP 3
+\fBVISUAL\fR
+Normally specified in the user's \&.mailrc file,
+this variable denotes the preferred editor to use when composing messages in
+\*(xM.
+.TP 3
+\fBXMAILER\fR
+If defined, points to the particular executable to be used as the Mail
+program.  Normally, \*(xM establishes connections with Mail in the default
+path of the process (assumed to be at least \*Q/bin /usr/bin /usr/ucb\*U).
+If need be, the XMAILER
+environment variable can be used to provide a specific path to the Mail
+program.  Note: \*(xM may not work correctly with any mail program
+other than the intended Berkeley Mail program.
+.RE
+.\"
+.SH FOLDERS
+If the \fBright\fR mouse button is pressed while the cursor is within the
+command panel \fBFolder\fR button, \*(xM will display a menu of available
+mail folders.  (\fIIf the user has not set their mail \fRfolders\fP variable,
+a message will be displayed instead.\fR)
+Dragging the cursor while still holding the right mouse button down will allow
+the user to highlight a particular folder name.  Releasing the right button
+while a name is highlighted causes a copy of that name to be written in
+the command panel file window.  The menu list is then unmapped.
+Releasing the right button while outside
+any folder selection causes the folder menu list to disappear.
+
+Folders which are actually directories (that might possibly contain additional
+folder files)
+are displayed with a trailing slash character.  Clicking the \fBleft\fR mouse
+button within a directory folder while still holding down the right
+mouse button (\fIalso known as 'expanding'\fR) causes \*(xM to expand that
+directory and display (on a new menu level) any files found there.  Dragging
+the cursor over
+one of these selections and releasing the right mouse button copies the
+complete folder path name to the file window.  This nesting of folder names
+may be repeated as often as there are legitimate folder directories.  Clicking
+the left mouse button on an empty folder directory rings the terminal bell.
+Dragging the cursor beyond one of these nested menu levels causes that menu to
+disappear, without making a selection.  Re-clicking the left mouse button on
+the directory folder redisplays the nested menu.
+
+Because of the methodolgy utilized in determining the folder list menu widget
+heirarchy, certain restrictions must apply when declaring folder directories.
+No folder directory name may contain an embedded period (.) or asterisk (*),
+since these
+items are utilized by the resource manager (and toolkit function
+XtNameToWidget) to indicate the potential widget heirarchy.  If a folder
+directory name
+exists at any level with one or more of these characters embedded in its name,
+attempts to access that folder directory will result in a beep and no further
+expansion.
+
+The first request for the folder menu extracts (from Mail or the system) the
+necessary information to create the menu.  Subsequent requests simply redisplay
+that menu.  To force \*(xM to recalculate the folder menu content, use the
+\fBNewmail\fR button option which causes \*(xM to destroy all current folder
+menus.  This provides access for folders created after the startup of \*(xM.
+Pressing the right mouse button
+on the Newmail command box will present the Newmail command menu, which has a
+choice to drop the current folder list.  This same option is also available
+using the designated accelerator key and left mouse button on the Newmail
+command button box.
+.\"
+.SH FONTS
+Separate fonts may now be specified for mail message (and index) text, help
+message text, and for the command buttons.  (\fISee the options descriptions
+for a list of the command line options to use.\fP)  You may also declare all
+fonts using the resource declaration \fB*Font: <fontname>\fP, or the command
+line option \fB-fn\fP <\fIfontname\fP> or \fB-font\fP <\fIfontname\fP>, which
+cause all three fonts specifications to utilize the same font.
+Previous restrictions against the use of proportional width fonts have now
+been hopefully resolved.  Although the result of choosing such a font may still
+produce less than optimal results, the window shell should be of a reasonable
+size, and the support menu entries should now be readable.  Of course, no
+amount of coding can overcome inappropriate font selections.
+.\"
+.SH ICONIFICATION
+\*(xM establishes access to a dummy mail folder whenever the application is
+in the iconified state.
+This is done to prevent potential corruption of a real mail folder, should the
+user choose to read their mail from another process while \*(xM is running.
+Because of this action, iconifying \*(xM \fBalways\fR
+.SB COMMITS
+changes made to the current folder, prior to switching to the dummy folder.  No
+confirmation for committing folder changes will occur when iconifying \*(xM.
+
+The original folder being read by the user will be 
+automatically reinstated as current whenever \*(xM is again de-iconified.
+This action will flush any deleted messages from the index headers and renumber
+the remaining messages in the folder.  The last message in the folder will then
+become the current message displayed (unless \*(xM was started with the
+\fB*Show_Last\fR resource option disabled, in which case the first message
+would be made current).
+
+If the \*Qcurrent\*U folder was the user's system folder, any new mail
+received since the iconification would be automatically included by the
+re-access.  If some other folder were current (\fIor no folder, due to initial
+conditions of no mail for the user\fR), de-iconification would not cause the
+reading of any new mail.  Under those circumstances the user must press the
+\fBNewmail\fR command button to change to the system mail folder (\fIand read
+the new mail\fR).
+
+The icon window also supports an auxiliary identification mechanism,
+for users that might have more than one account, possibly on more than
+one machine, and that wish to be able to identify otherwise duplicate \*(xM
+icons.  Pressing the '\fBh\fR' key while the mouse cursor is within the icon
+window will cause the icon to be tagged with the mail host name.
+Pressing the '\fBu\fR' key will cause the mail user name to be displayed.
+Pressing the '\fBspace\fR' bar will clear the icon window of either name.
+Changing the tag space content of the icon will also change the title of the
+application for window managers.  This allows the user to distinguish between
+several xmail invocations from the window (or icon) selection menus of the
+various window managers.
+Either the mail host or user name may also be pre-selected using either
+command line options or resource declarations if desired.
+
+Iconification is typically promoted by user definable button events which are
+particular to the window manager in use at the time.  Pressing the \*(nS logo
+displayed at the left of the title bar will also cause xmail to issue a window
+manager request for iconification.  ICCCM compliant window managers should
+honor that request by iconify the xmail application.
+.\"
+.SH "KEYBOARD ACCELERATORS"
+The index and text windows support two methods of scrolling displayable
+text.  The use of the mouse buttons in the scrollbar region is standard.
+In addition, keyboard keys have been defined in keeping with conventions
+used in text display programs such as \*Qmore\*U and \*Qless\*U.
+
+These keyboard accelerators will \fBonly\fP be available if the resources are
+declared either in the application defaults file (\fIwhich must be properly
+installed\fP) or the
+user adds the necessary declarations to their local default resources.
+
+The following table lists the key definitions and their respective actions.
+The abbreviation \*QCtrl\*U means to press down and hold the \fBControl\fR
+key while pressing the specified letter key.  \*QMeta\*U likewise refers
+to the \fBmeta\fR keys (\fIlabeled \*QLeft\*U and \*QRight\*U on some
+Sun keyboards\fR).
+.sp
+.RS
+.nf
+Key Name 		Action Taken
+--------		-----------------------------
+ Ctrl V 		move to the next page
+ space  		move to the next page
+ Meta V 		move to the previous page
+   b    		move to the previous page
+ Ctrl Z 		scroll one line up
+ Return 		scroll one line up
+   j    		scroll one line up
+ Meta Z 		scroll one line down
+   k    		scroll one line down
+   -    		scroll one line down
+   \'    		move to the beginning of file
+ Meta < 		move to the beginning of file
+ Meta > 		move to the end of file
+Shift G 		move to the end of file
+.fi
+.RE
+.sp
+.LP
+In addition to the scroll key definitions, both windows also support
+keyboard accelerators for most of the command buttons.  Where possible,
+these keyboard keys replicate the actual commands that would be typed
+if the user were running the native mail program.  Thus, to begin
+sending a mail message to some recipient, the user could press the \*Qm\*U key,
+and to delete a current message, the user could press the \*Qd\*U key.
+.sp
+.RS
+.nf
+Key Name 		Command Action Taken
+--------		-----------------------------
+Shift A 		reply to all, include the current message
+Shift C 		copy the message to the author's name
+Shift F 		forward the current mail message
+Shift M 		reply to a mail message
+Shift N 		bring new mail into your system folder
+Shift P 		send the current message to the printer
+Shift R 		include the current message in a reply
+Shift S 		save the message to the author's name
+   a    		reply to all recipients of a message
+   c    		copy the message to the indicated folder
+   d    		delete the current message
+   f    		read the full header of the message
+   i    		incorporate new mail without commit
+   m    		mail (compose) a new mail message
+   n    		read the next mail message
+   p    		read the previous mail message
+   q    		quit xmail, committing any changes
+   r    		read the current mail message
+   s    		save current message in specified folder
+   u    		undelete the most recently deleted message
+   w    		writes the message to the indicated file
+   x    		exit xmail, without committing changes
+   ?    		displays help for these key definitions
+ <LF>   		removes help for these key definitions
+.fi
+.RE
+.\"
+.SH RESOURCES
+Most of the options and features of this version of \*(xM depend heavily on
+the installation of the application default resources file in the proper
+location (\fItypically /usr/bin/X11/app-defaults/XMail\fP).  If this file is
+not installed, xmail will still run, but only in a severely restricted manner,
+and with almost none of the features mentioned in this man page.
+The resource declarations were moved from the program sources to the defaults
+file to allow for a greater degree of flexibility in the appearance and actions
+of \*(xM at the discretion of the user.
+
+\*(xM recognizes resource definitions for each of its component windows and
+command buttons.  Wherever possible, button resources have been named for the
+label (or first word in the label) of the command button.  (\fIThe exception
+is the preserve \*Qset\*U menu, whose resources are identified by the second
+word in each label.\fR)
+Thus :
+.RS
+.TP 3
+\fB*read\fR
+specifies resources for the \fIread\fR command button
+.TP 3
+\fB*save\fR
+specifies resources for the \fIsave\fR command button
+.TP 3
+\fB*autoprint\fR
+specifies resources for the \fIset autoprint\fR command button, and
+.TP 3
+\fB*noautoprint\fR
+specifies resources for the \fIset noautoprint\fR command button.
+.RE
+.LP
+Color may be added (on a color display device) to enhance
+the appearance of \*(xM.  Example resources in the application defaults file
+have been left in a commented condition.  They may be implemented by
+uncommenting the appropriate lines in the defaults file, or
+overridden by designations in the user's \&.Xdefaults file, or (\fIin some
+cases\fR) by command line options.
+Resources specified in the user's \&.Xdefaults file should be preceded with
+either the \fB\*(xM\fR application or \fBXMail\fR Class resource identifier.
+
+In addition to those resources named for a particular \*(xM command button,
+the following additional resource names are recognized:
+.sp
+.RS
+.TP 3
+\fB*buttonFont: \fI<fontname>\fR
+denotes a preferred font to use when creating the command buttons.  The width
+of the \*(xM shell, and thus its general appearance is controlled by the
+font specified for buttons.  If different fonts are specified for buttons and
+text, and the font for text is of a larger point size than that specified for
+buttons, then text in the index and text windows will most likely wrap during
+display.
+.TP 3
+\fB*Bcc\fR
+controls resources for the \fIBcc:\fR entry window
+.TP 3
+\fB*bellRing: \fI<boolean>\fR
+Normally true, this boolean enables ringing of the terminal bell during
+status and error message display.
+.TP 3
+\fB*Cc\fR
+controls resources for the \fICc:\fR entry window
+.TP 3
+\fB*commandPanel\fR
+controls resources for the \fIcommand panel\fR
+.TP 3
+\fB*editorCommand: \fI<quoted command string>\fR
+Specifies the editor resource that \*(xM should use when editing a message
+composition.  The quoted command must be an \fIsprintf\fR\-able format
+containing two string declarations.  The first of these declarations will be
+replaced with the name of the display connection for the xmail process, to
+allow the edit window to appear on the correct display screen.  The second
+declaration will be replaced with the name of the file to be edited.
+If \*(xM cannot locate the two separate string declarations in the command,
+the command will be rejected and processing will default to the older
+.SM VISUAL
+methodology.
+.TP 3
+\fB*expert: \fI<boolean>\fR
+This boolean defines whether the \*(xM user requires confirmation of
+folder commits or composed message deletions.  Whenever an action
+would make a permanent un-recoverable change to the \*(xM environment, a
+popup confirmation window will be presented for the user, to assure that
+the action should take place.  These confirmations include changing a
+folder when deletions have occurred, or deleting the text of a newly
+composed message instead of sending it.  Setting this resource to True
+eliminates those confirmation popups.
+.TP 3
+\fB*fileWindow\fR
+controls resources for the \fIfile window\fR within the command panel
+.TP 3
+\fB*Font\fR
+provides font specifications for the three optionally separate fonts used in
+\*(xM, buttonFont, helpFont, and textFont.
+.TP 3
+\fB\&.geometry: \fI[+-]XOff[+-]YOff\fR
+This resource defines the initial startup location for the \*(xM window.
+Note the dot (.) just in front of the geometry resource name.
+Users are cautioned to \fBnot\fR specify this resource with the
+wildcard (*) designation, as this would force all popup windows (help, menus,
+and send/reply) to orient to that same starting location, rather than be
+anchored to the intended window.
+.TP 3
+\fB*helpFont: \fI<fontname>\fR
+denotes a preferred font to use when displaying help information.
+.TP 3
+\fB*icon\fR
+controls resources for the \fIicon\fR window.  In addition to 
+specifications of foreground and background colors, it is also possible
+to specify the following mailWatch widget resources :
+.RS
+.TP 3
+\fB*icon*useHost: \fI<Boolean>\fR
+If set to true, tells \*(xM to include the mail host name in the icon window
+when displaying the icon.  This option is now alterable at runtime by keypress
+in the icon window.  \*Q\fBh\fR\*U sets the host name, \*Q\fBu\fR\*U sets the
+user name, and \*Q\fBspace\fR\*U clears either entry.
+.TP 3
+\fB*icon*useName: \fI<Boolean>\fR
+If set to true, tells \*(xM to include the user login name in the icon window
+when displaying the icon.
+.TP 3
+\fB*icon*reverseVideo: \fI<boolean>\fR
+If set to true, reverses the foreground and background colors for the icon.
+.TP 3
+\fB*icon*update: \fI<seconds>\fR
+Specifies the update interval for checking new mail (default is 30 seconds).
+.TP 3
+\fB*icon*bell: \fI<boolean>\fR
+If set to False, prevents the mailWatch widget from ringing the bell when
+new mail arrives.  See also the \&.mailrc variable setting for \fIbell\fR.
+.RE
+.TP 3
+\fB*iconic: \fI<boolean>\fR
+This boolean defines whether the \*(xM application should be started in
+iconic state or not.  It is highly recommended that only the application
+resource identifier be used if specifying this resource.
+Use of the \fBXMail\fR Class identifier would also constrain any
+message entry windows to be started iconic, which could prove confusing
+to the unaware user.
+.TP 3
+\fB*iconGeometry: \fI[+-]XOff[+-]YOff\fR
+This resource defines an initial location for the icon, whenever the
+\*(xM application is iconified.
+.TP 3
+\fB*indexWindow\fR
+controls resources for the \fIindex\fR window
+.TP 3
+\fB*list\fR
+controls resources for the \fIfolder list\fR popup window
+.TP 3
+\fB*mailFlag:\fP \fI<string>\fP
+is the resource which defines the icon bitmap (or XPM pixmap) to use when
+indicating new mail.  If the XPixMap (XPM) compile time option was not
+specified, a string
+to bitmap resource convertor is supplied which automatically converts
+the specified string to a bitmap.  If the XPM option was declared at compile
+time, an internal conversion of string to pixmap is performed.  If the
+string does not define an XPM pixmap, an attempt is made to convert the
+string to a bitmap.  Thus, with the XPM option, either an XPM pixmap or
+a standard bitmap may be declared.  Without the XPM option, only a standard
+bitmap file may be specified.  In either case, if the conversion should fail,
+the program would default to an appropriate internal representation.
+.TP 3
+\fB*mailopt_n: \fI<boolean>\fR
+Normally false, this resource
+duplicates the effect of the \fI-n\fR command line option.
+.TP 3
+\fB*mailopt_U: \fI<boolean>\fR
+Normally false, this resource
+duplicates the effect of the \fI-U\fR command line option.
+.TP 3
+\fB*menu\fR
+controls resources for all of the command button popup menus
+.TP 3
+\fB*MFileName: \fI<foldername>\fR
+Normally null, this resource
+duplicates the effect of the \fI-f folder\fR command line option.
+.TP 3
+\fB*noMailFlag:\fP \fI<string>\fP
+is the resource which defines the icon bitmap to use when indicating that new
+mail is not available.
+.TP 3
+\fB*No_X_Hdr:\fP \fI<boolean>\fP
+Normally False, if set to True this resource
+tells \*(xM to \fBnot\fP include any X-Face header strings when displaying the
+text of an incoming message.  This is equivalent to specifying the \*(xM
+command line option \fB-nx\fP.  Either setting will not deter the display of
+the X-Face bitmap if it exists in the message headers.
+.TP 3
+\fB*Show_Info: \fI<boolean>\fR
+Normally true, this boolean enables display of command button information
+messages in the status window, whenever the mouse cursor enters or leaves one of
+the command button windows.  Information messages are also displayed for each
+of the popup sub-menus as well.  Setting this resource to false prevents these
+information messages from being displayed.
+.TP 3
+\fB*Show_Last: \fI<boolean>\fR
+Normally true, this boolean enables display of the last message in a folder,
+providing no other is newer or unread.  Setting this resource to false causes
+folder displays to start with the first (or new or unread) message.
+.TP 3
+\fB*statusWindow\fR
+controls resources for the \fIstatus\fR window
+.TP 3
+\fB*Subject\fR
+controls resources for the \fISubject:\fR entry window
+.TP 3
+\fB*textFont: \fI<fontname>\fR
+denotes a preferred font to use when creating text and index windows.
+.TP 3
+\fB*textWindow\fR
+controls resources for the \fItext\fR window
+.TP 3
+\fB*titleBar\fR
+controls resources for the \fItitleBar\fR window
+.TP 3
+\fB*To\fR
+controls resources for the \fITo:\fR entry window
+.RE
+
+A set of default resource definitions are provided in the
+file \fB/usr/lib/X11/app-defaults/XMail\fR.  User's may wish to include
+appropriate alternate definitions in their ~/.Xdefaults file, to tailor
+preferences for colors and/or fonts.
+.\"
+.SH "SENDING MESSAGES"
+All send and reply operations invoke the user's preferred editor to create or
+modify the message.  The editor preference may be specified using either the
+.SB VISUAL
+\&.mailrc environment specification, or the newer \fBeditorCommand\fR resource
+specification (\fIor \-editorCommand command line option\fR).
+
+The editorCommand resource must define a string with two \fBsprintf\fR\-able
+format declarations, one for the name of the X11 server display connection,
+and one for the name of the file to be edited.  The editorCommand specification
+must also ensure the proper creation of an appropriate X11 window for
+completing the desired editing session.
+
+The resource may be specified on the command line, either as an option, or as
+a resource manager string.  It may also be specified in the user's applications
+default file as an xmail resource.  Examples of editorCommand specification
+strings include:
+
+.RS
+.nf
+\fBxmail\ \-editorCommand\ 'emacs\ \-display\ %s\ \-name\ XMail\ %s'
+.sp
+\fBxmail\ \-xrm\ '*editorCommand:\ xterm\ \-display\ %s\ \-e\ vi\ %s'
+.sp
+xmail.editorCommand:\ \ xedit\ -name XMail_Edits \-display\ %s\ %s
+.sp
+xmail.editorCommand:\ \ emacs\ \-display\ %s\ %s
+.sp
+xmail.editorCommand:\ \ xterm\ \-display\ %s\ -name XMail -e vi %s
+.fi
+.RE
+
+If the editorCommand resource fails to provide the required string declarations
+for the display and file names, or it is not defined, \*(xM will default to
+the older method of utilizing the information in the user or Mail process
+.SB VISUAL
+environment variable.
+The \fIdefault\fR editor will be \fBvi\fR, if no
+.SM VISUAL
+(\fImailrc or process\fR) environment variable definition exists.
+
+Upon completion of the send/reply editing session, a popup window will be
+displayed containing \fITo:\fR, \fISubject:\fR, \fICc:\fR, and \fIBcc:\fR
+fields for the current message composition.  Help is available for each of
+these fields, as it is for all of \*(xM.
+
+A menu of mail aliases (\fIextracted from the user's .mailrc file\fR) is
+available for access from any of the To:, Cc:, or Bcc: windows.  Pressing the
+right mouse button while the mouse
+cursor is in any of these input fields causes the alias names menu to be
+displayed.  If the user has not defined any mail aliases, the terminal bell
+will be rung instead, to indicate that no alias names menu is available.
+
+Like the \fIFile:\fR window used to enter file and mail folder names, the
+content of the send window popup fields may be modified by the user as needed.  
+Backspace and delete keys remove the previous character, control_W
+deletes the previous word, and control_U deletes the entire
+line of information.  Pressing the Return key in any of these four
+fields causes the cursor to automatically warp to the next field.
+
+Users may append their \fISign\fP or \fIsign\fP autograph (see \fBMail(1)\fR)
+once only to the end of the composed message text.  If the user does not set
+a [Ss]ign value in their .mailrc file, this version of xmail will also look in
+their home directory for either a .signature or .Signature file (\fIdepending
+on which of the two [Aa]utograph buttons was pressed\fP) to append to the
+message text.
+
+Pressing the \fIRe-Edit\fR button allows the message to be re-edited,
+while the \fICancel\fR button terminates delivery but saves any partial
+composition in your dead.letter file.
+Pressing the \fIAbort\fR button cancels delivery but does not save the
+composition, while the
+\fIDeliver\fR button causes the message to be delivered to the sendmail daemon.
+
+Mail forwarded to another user will be bracketed by a \*Q\fIBegin Forwarded
+Message/End Forwarded Message\fR\*U string
+pair when using the \*Q\fIforward message\fR\*U Send command menu option.  Also 
+included will be a \*Q\fIForwarded: Mail from ...\fR\*U line in the mail header.
+
+Reply messages will include a \*Q\fIIn-Reply-To: Mail from ...\fR\*U string
+in the mail
+header.  Like the \*Q\fIForwarded:\fR\*U header described above, it will include
+the name of the original sender, as well as the date the original message was
+received.
+
+If an X-Face header exists for the user, it will be inserted in the mail header
+section of the outgoing message.  This header must be stored in the file
+\fB\&.face\fR located in the user's home directory.
+.\"
+.SS "X-FACE HEADERS"
+X-Face headers are compressed bitmap images, typically of the face of the
+person owning such a header.  The compressed header contains only printable
+characters, which allows it to be included in a mail message.
+The \s-1USENIX\s+1 (\fI\s-1UNIX\s+1 Users Association\fR)
+FaceSaver project is the typical
+source for these bitmaps, which are compressed into X-Face header
+format using the \fBcompface\fR software tools written and distributed by
+James Ashton <jaa@cs.su.oz.au>.  The compface library is also included with the
+distribution of the \fBfaces\fR software, written and distributed by Rich
+Burridge, and is available from the
+Rich Burridge Archive Service <rb-archive-server@Aus.Sun.COM>.
+.\"
+.SS "EDITING RESOURCES"
+The editing session invoked within \*(xM runs as a child process of the
+\*(xM application.  As such, it does not use those resources that were declared
+for the \*(xm process.  Resources for the editing session should be tied to the
+use of the \fB\-name\fR toolkit option in the editorCommand specification.
+
+The default
+.SM VISUAL
+mechanism invokes the vi editor in an xterm window, using the \*(xM Class
+resource as it's name identifier.  This allows message composition window
+resources to be declared
+using the \*(xM Class resource name followed by the xterm terminal resources
+identifier \*Qvt100\*U, as in \*Q\fBXMail*vt100.\fI<resource: value>\fR\*U.
+
+For example, the author uses the following resource definitions in his
+\&.Xdefaults file, to control the size and placement of message composition
+windows.
+.sp
+.RS
+.nf
+XMail*vt100.geometry:           80x27+30+100
+XMail*vt100.font:               fg-22
+XMail*vt100.foreground:         white
+XMail*vt100.background:         blue
+XMail*vt100.mouse:              white
+.fi
+.RE
+.\"
+.SH "VARIABLES"
+\*(xM also uses the existence and value of several Mail environment
+variables (\fIdefined in the user's \&.mailrc file\fP) to aid in controlling
+it's operation.
+.sp
+.RS
+.TP 3
+\fBalwaysignore\fR
+If set, causes \*(xM to ignore those header fields specified with the
+\fIignore\fR \&.mailrc environment variable, when printing messages 
+or when including message text in a send/reply composition.  This variable
+can be altered during the execution of \*(xM.  (See the section below
+on \fIChanging Variables\fR.)
+.TP 3
+\fBautoprint\fR
+If enabled, causes the current message text to be displayed when deleting or
+undeleting messages.  If \fInot\fR enabled, users must select or read the
+desired
+message.  This variable can also be altered within the current \*(xM execution.
+.TP 3
+\fBbell=\fIvalue\fR
+If defined, determines the number of times the terminal bell would be rung to
+indicate the arrival of new mail.  A minimum of once and a maximum of five
+times is the permissible range.  Whether the terminal bell rings at all when
+new mail arrives is controlled by the \*Q\fB*icon*bell: \fI<boolean>\fR\*U
+resource (\fIor \fB\-nb\fP command line option\fR) described above.
+.TP 3
+\fBhold\fR
+Like mailtool, \*(xM sets \*Qhold\*U on the user's system mail folder,
+unless \*Qnohold\*U has been \fIexplicitly\fR specified in the user's
+\&.mailrc file.  This variable can also be altered during \*(xM execution.
+.TP 3
+\fBprintmail=\fIprinter command\fR
+This variable, originally created for the Sunview mailtool, allows the user
+to specify a preferred command to use when printing messages.  The default
+command is \*Qlpr -p\*U.  If the user is not using Sun's version of the mail
+handler, then the print mechanism will first copy the selected message to a
+temporary file before printing it.  This implies that the printmail command
+must also remove this temporary file when the print job has been completed.
+This is typically accomplished by including the \fB\-r\fP (\fIremove\fP) option
+when specifying the printmail command.  This is the default for non-Sun
+specific printing in the xmail program.
+.TP 3
+\fBsendmail=\fIshell-command\fR
+If set, specifies an alternate procedure to use in lieu of the default
+\&/usr/lib/sendmail for delivering mail. User supplied procedures must be
+prepared to search the message file for recipients and ignore or process
+unexpected options (which ultimately must be passed on to the real sendmail
+program).
+.RE
+.LP
+Some Mail variables have no effect on \*(xM operation, and are in fact ignored
+if found to be set.
+.RS
+.TP 3
+\fBreplyall\fR
+has no effect on the meaning of commands within \*(xM.  This prevents confusion
+due to a difference between how a command is labeled, and how it reacts in use.
+.TP 3
+\fBcmd=\fI<value>\fR
+is ignored, and is always defeated.  This provides a mechanism to determine if
+the pipe command is supported in the user's mail environment, and determines
+the method to use when printing a message on the system printer (\fIusing the
+default or user specified\fP \fBprintmail\fP \fIcommand\fP).
+.TP 3
+\fBcrt=\fI<value>\fR
+is ignored, and always defaults to \fBnocrt\fR.  This prevents user specified
+paging mechanisms from interfering with full message delivery to \*(xM.
+.TP 3
+\fBscreen=\fI<value>\fR
+The current release of \*(xM can safely handle up to a
+maximum of 10,000 mail message in any one mail folder.  Users with more than
+10,000 messages in any one folder should seriously consider either creating
+some additional sub-folders, or at least deleting older messages.
+.\"
+.SS "CHANGING VARIABLES"
+\*(xM provides a mechanism for altering the values of four of the Mail
+environment variables used to control \*(xM (and Mail) operations.
+The states of \fBalwaysignore, autoprint, hold,\fR and
+\fBexpert\fR can now be \*Qtoggled\*U from a special menu attached to the
+\fBpreserve\fR command button.
+.LP
+Pressing the right mouse button while the
+mouse pointer is within the preserve command button box presents a
+menu of \*Qset\*U
+commands which indicate the state the environment variables would be changed
+to,
+if the mouse button were released while one of these commands was highlighted.
+.LP
+Changing the state of the variable alters the next presentation of the menu,
+such that the opposite state will always be presented as the command option.
+.RE
+.\"
+.SH "SEE ALSO"
+Mail(1)
+.\"
+.SH BUGS
+All known bugs have hopefully been resolved.  If the user finds a problem in
+this xmail application, they are encouraged to notify the author at the
+indicated address.  A complete (as possible) description of the problem, and
+a context diff of the changes needed to fix the flaw, if available, would be
+greatly appreciated.  I will make every effort to fix any such bugs reported.
+
+Send any bug reports or other requested changes to:
+
+.RS
+.nf
+Michael C. Wagnitz                        M/S D3-677
+National Semiconductor Corporation
+2900 Semiconductor Drive  Santa Clara, CA 95052-8090
+
+Domain: michael@berlioz.nsc.com  Phone: 408/721-3266
+UUCP: {apple|decwrl|hplabs|sun}!nsc!berlioz.nsc.com!michael
+.fi
+.RE
+.\"
+.SH AUTHOR
+.ce 3
+Copyright 1989, 1990, 1991 - \*(nS
+ALL RIGHTS RESERVED
+
+Michael Wagnitz, \*(nS, Santa Clara, CA
+.LP
+Much of the original design and insight for \*(xM was provided by
+contributions from the following authors:
+
+The xdbx contribution by Po Cheung (po@volta.ece.utexas.edu)
+.RS
+Copyright 1989 The University of Texas at Austin
+.RE
+
+The mailWatch widget by Dan Heller (argv@sun.com)
+was used as the source for the \*(xM icon window.

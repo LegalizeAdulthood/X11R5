@@ -1,0 +1,9 @@
+#include <imake.local>
+#define IHaveSubdirs
+#define PassCDebugFlags /* as nothing */
+
+/* tit2cit must be built before tit directory */
+SUBDIRS = tit2cit tit
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

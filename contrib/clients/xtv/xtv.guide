@@ -1,0 +1,593 @@
+
+/*
+ * Copyright (c) 1991 Old Dominion University.
+ * Copyright (c) 1991 University of North Carolina at Chapel Hill.
+ * All rights reserved.
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted, provided
+ * that the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation.  Old Dominion University and the University of North
+ * Carolina at Chapel Hill make no representations about the
+ * suitability of this software for any purpose.  It is provided "as is"
+ * without express or implied warranty.
+ */
+
+
+			XTV: A User's Guide
+
+		   Revision 2.1 - August 8, 1991
+
+			  M. Justin Cecil
+
+Section I:  What is XTV?
+------------------------
+
+	The idea of shared applications in the computing environment has
+been around for a long time.  Until recently, these shared applications 
+were limited to ASCII text, or they could only be executed on specific 
+display hardware.  
+	XTV, or X Terminal View, is a system by which single-user applica-
+tions using the MIT X11R4 windowing protocol may be shared among many
+users.  It allows users at multiple sites to view and manipulate (via a
+floor-passing system) the output from a single X application. 
+XTV requires no special hardware and no special coding techniques to
+distribute the use of X applications, including those using graphics.
+	The multiplexing of single-user applications naturally lends it-
+self to training.  A teacher may own and control a tool while his/her stu-
+dents watch a demonstration.  On the instructor's command, the students can
+individually take a hands-on approach with the tool, one at a time, each 
+from his/her own X station.  The instructor watches each of the student's 
+use of the client, and can regain control at any time.
+	Videoconferencing is another possible application of this tech-
+nology.  Development personnel at a videoconferencing site may demon-
+strate their latest advancements without having to be on-site at the actual
+conference.  The audience may interact with the remote demonstration.  
+Groups that cannot attend a live demonstration because of distance may par-
+ticipate from a site located nearer to them.
+	Researchers may collaborate by viewing and manipulating the output 
+from tools simultaneously even though they are at different physical loca-
+tions.  Many may watch one researcher manipulate the tool, and can suggest 
+or execute alternative methods or corrections, all from sites that may be
+virtually anywhere.
+	This is a guide to the operation of XTV.  It is intended for users
+who are familiar with the MIT X Window System Version 11, Release 4.  
+	Terms used in the guide are:
+
+	Button: Usually a rectangular area of a window which is labeled
+		as having a function.
+
+	Chairman: The Participant who initiated the XTV session.  Has 
+		ultimate control over the XTV session.
+
+	Child Window:  Sub-window produced by an application and con-
+		trolled by that application.
+
+	Client: An application for use with the X windowing protocol.
+
+	Dialog Box: A pop-up window usually containing several buttons
+		labeled for "choices" and/or an area to enter text.
+
+	Participant: A user who has either created or joined an XTV
+		session.
+
+	Pointer: The cursor controlled by movement of the mouse.
+
+	Press (a Button):  Position the pointer over a button on the 
+		screen.  Press and release the left mouse button.
+
+	Select:	Position the pointer over a section of text (in a list). 
+		Press the left button on the mouse to highlight the text 
+		object desired.  No dragging is required in the XTV con-
+		trol areas.
+
+	Session: The time in which a chairman and participants are 
+		using XTV to share applications.
+
+	Floor:	A conceptual object that exists for each active tool in
+		the XTV environment.  Each floor is passed from partici-
+		pant to participant, allowing the holder to control the 
+		corresponding tool.
+
+	Tool:   An X11R4 application running under the XTV environment.
+
+Section II: How To Start XTV
+-----------------------------
+
+	Before starting XTV, your environment should be set up properly.
+Set your DISPLAY environment variable to screen zero of the machine at 
+which you are seated.  For instance, if you are on "xtv01.somewhere.edu," 
+then you should type the following:
+
+	% setenv DISPLAY xtv01.somewhere.edu:0
+
+If you have obtained resources for XTV, and you wish to have them incorpo-
+rated into your environment, you should include them in your .Xresources
+file or your .Xenv file before you start the X server.  If the server has
+already started, you may incorporate the XTV resources by typing the fol-
+lowing (For this example, the XTV resources are in a file called
+"XTVresources."  Substitute the appropriate filename for your system.) :
+
+	% xrdb -merge XTVresources 
+
+A.  Starting a session
+
+	When you start a session of XTV, you become the "chairman" of that
+session.  That is, you have ultimate control over the session and the 
+clients active within it.  
+	To become a chairman, simply type the following at the shell
+prompt:
+
+	% xtv &
+
+Make sure that XTV starts as a background process (Include "&" at the end
+of the command line).
+
+B.  Joining a session
+
+	When you join a session of XTV that is already in progress, you 
+become a "participant."  This means that you will be able to request con-
+trol of the active applications, and you will be able to see their output
+windows on your screen.
+	To become a participant in an XTV session, you must know two 
+things:  what machine is controlling the session, and what number the ses-
+sion is.  To join a session on any machine, enter the following:
+
+	% xtv <machinename> <session #>
+
+For example, if you wanted to join session 1 in progress on a machine
+called "xtv01" you would type the following at the shell prompt:
+
+	% xtv xtv01 1 &
+
+Be sure to start XTV as a background process.
+	
+C.  What you should see
+
+	As XTV starts, you should see the outline of a control panel ap-
+pear.  Move it to the desired location on your display and press the left 
+mouse button to place the control panel.  If you are joining a session in
+progress, you should also see the outlines of windows for active tools. 
+Place them wherever you want.
+
+D.  General areas of the control panel
+
+	The control panel has three main areas: "Participants," "Tools,"
+and "Message." 
+	In the "Participants" area, you will see a list of all active
+participants, including the chairman.  They should be specified by their
+login name and the machine that they are logged into.  In contexts where
+you will need to indicate a specific participant, such as when you request
+information about a participant, you may do so by moving the pointer over
+the name of the participant in the list, and pressing the left mouse but-
+ton.
+	In the "Tools" area, there is a list of all of the tools 
+currently available to you.  Selecting a specific tool also takes place
+by pointing at the appropriate tool in the list, and pressing the left
+mouse button.
+	The "Message" area holds all of the messages that XTV displays, and
+the answers to queries you have made.
+	There are three scrollbars on the control panel.  Each scrolls 
+through the text that has appeared in its area since the session
+started, this allows you to view text that has already "scrolled" off the
+screen.  Placing the pointer on the scrollbar and pressing the left mouse 
+button will scroll text upward in the window proportionately to the dis-
+tance the pointer has been placed from the top of the scrollbar.  Simi-
+larly,  the right mouse button will scroll text downward.  Placing the 
+pointer in the scrollbar and pressing the center mouse button will allow 
+you to drag the text both up and down.  Releasing the center button
+causes the appropriate text to remain displayed.
+
+Section III:  How Do I Use A Tool?
+----------------------------------
+
+	After observing the various tools that are active on your display,
+you may decide to take control of a tool.  
+	You must ask for control of any tool.  Select the tool you want to
+control from the list in the "Tools" area.  Then request control by pres-
+sing the "Get_Floor" button in the "Tools" area.  You should see a message
+in the "Message" area:
+
+	You will get the <toolname> floor shortly.
+
+	Requesting the floor for a tool places you on a queue for that 
+floor. The queue is first-come, first-served.  If you request a particu-
+lar floor after you have already been queued, you will receive a polite
+message stating that you are already queued for that floor.
+	After you have requested a floor, you will have gained control of
+the tool when you receive a message similar to the following:
+
+	You now have the floor for <toolname>.
+
+	When you have the floor for a tool, the tool behaves as if it 
+were a single-user application controlled by you.  This means that you 
+may terminate a tool through normal methods, such as a "quit" button. 
+	Other participants do not have control over the tools for which
+you have the floors, except the chairman, who may terminate a tool or
+retrieve the floor at any time.
+	If you want to know who has a particular floor, or who is queued 
+for a floor, you may query XTV for that information.  Select the tool
+from the "Tools" list, then press the "Floor_Info" button in the "Tools"
+section.  XTV will respond with a message like the following:
+
+	Floor Information for tool <toolname> 
+
+	Floor Holder is:
+	 <participantname1> 
+
+	Queued participants:
+	 <participantname2> 
+	 <participantname3> 
+
+	If another participant wants a floor that you have, you will be
+prompted to drop the floor with a message similar to the following:
+
+	<participantname> wants the floor
+	for tool <toolname>.
+	Select <toolname> tool and press [Drop Floor]
+
+At this point you should select the tool from the list in the "Tools"
+section and press "Drop_Floor."  The floor will pass to the requester.
+To confirm that the floor has passed from your control, XTV will respond
+with a message similar to the following:
+
+	<participantname> has the floor
+	for tool <toolname>.
+
+	You may drop a floor if no-one has requested it.  If no-one has 
+requested a floor which has been dropped, it is simply passed back to the
+chairman.
+	If you have requested a floor, and have not received it, you may
+cancel that request by simply dropping the tool you are queued for.  You
+will receive a confirmation of your queue deletion in a message like the
+following:
+
+	<toolname> floor request canceled.
+
+	From time to time, it may be necessary to obtain information
+about a specific participant.  This is obtained with the "Participant_
+Info"  button in the "Participants" area.  Select the name of the partici-
+pant for which you would like information from the list in the "Partici-
+pants" area.  Press "Participant_Info."  You will see:  
+
+	1)  the participant's full name
+
+	2)  the tools active on his/her display.  This is indicated
+	    by saying that the user "has" a tool.
+	    (Note:  Active tools and floors for them will only be 
+	     reported if the tools are active on your display also)
+
+	3)  the floors he/she has 
+
+	4)  the floors for which he/she is queued
+
+The message from XTV will look like the following:
+
+	Participant Info: <participantname@machinename>
+	  Full name: <participant full name>
+
+	  <participantname> has floor: tool1
+
+	  <participantname> has tool2
+			      tool3
+
+	  <participantname> queued #<queuenum> for: tool4
+
+Section IV:  How Do I Add a Tool?
+----------------------------------
+
+	XTV can support almost any number of tools at one time.  Adding 
+tools to a session is relatively simple.
+	Press the "New_Tool" button in the "Tools" area.  A dialog box
+will appear, in which you type the name of the tool you wish to add.  (Re-
+call that "tools" are X clients.)  If the tool resides on your machine,
+simply press the "host" button in the dialog box.  If the tool resides on a
+remote machine, press the "Remote" button in the dialog box.  You will then
+be instructed to log into the remote machine in a message that will also
+contain the value to which the remote machine's DISPLAY must be set.  After
+logging in, set the DISPLAY environment variable according to the message
+that appeared on the XTV control panel.  Invoke the tool from the command
+line.  Note: it is not necessary for the remote machine to "be part of"
+the XTV session.
+	When a tool has been accepted, XTV will respond to all partici-
+pants with a message like the following:
+
+	Tool <toolname> has just been connected.
+
+The outline of a window will appear on each participant's display, at
+which time each participant may place the window where he/she wishes.
+	After adding a tool, the floor unconditionally gets passed to the
+chairman.  The creator of the tool is queued immediately for the floor.  
+The chairman is then informed about who added the tool, and is prompted to 
+drop the floor for it.  If the chairman has added a tool, no message 
+prompting the chairman to drop the floor is displayed.
+
+Section V:  What Tools can I Add?
+---------------------------------
+
+	The tools you may add to a session are limited to X clients only.
+That is, the applications which you choose must rely wholly upon X for
+their input and output.  If you attempted to add a tool that was not an X 
+client, the tool will not be connected, and no message will appear.
+	In order to be recognized, a tool's associated windows (pop up
+menus, dialog boxes, etc.) must be child windows of a valid XTV tool.  If
+not, they will not be recognized as part of the XTV session.  For example,
+the client xeyes may be started from within a tool called xterm.  Since the
+xeyes window is independent of the xterm tool, it will not be considered
+part of the XTV session, and will not be multiplexed to other participant's
+machines.
+	Graphically intensive applications, such as visualization tools,
+may be used as tools under XTV.  However, due to the multiplexing
+overhead, and the resultant network loads, you may notice a considerable
+slowdown in the response of these applications as compared to their use
+in a single-user environment.
+
+Section VI:  How do I Terminate a Tool?
+---------------------------------------
+
+	During an XTV session, you may decide that you no longer need a
+particular tool.  You may remove that tool from your list of active tools.
+	Select the tool you wish to terminate from the "Tools" list.  Press
+the "Terminate_Tool" button in the "Tools" area.  A dialog box will ap-
+pear, asking for confirmation of the termination.  Press the "Con-
+firmTermTool" button to release the tool.
+	If you are the chairman, terminating a tool will terminate the
+tool for all participants and kill the tool's process.  If you are not the 
+chairman, the tool remains active, but is removed from your display.  There
+is no way to retrieve a tool which you have terminated.
+	If you were holding the tool's floor when you terminated the tool, 
+it will be passed to the next person in the queue (the chairman, if there 
+is no-one queued). 
+
+Section VII:  How do I Quit XTV?
+--------------------------------
+
+	Quitting XTV is simple.  Press the "Exit XTV" button in the "Mes-
+sage" area.  A dialog box will appear requesting confirmation of your de-
+cision to exit from the XTV session.  Press the "ConfirmQuit" button in the
+dialog box.
+	If you are the chairman, all tools will be terminated for all
+participants and each participant will receive the following message: 
+
+	The Host has ended the session.
+	Press [Exit XTV] to exit.
+
+	If you are a participant, quitting XTV will cause two messages to 
+appear.  For the chairman, the message is:
+
+	<Participantname> has left the session.
+
+For the participants, the message is:
+
+	<Participantname> has been ejected from the session.
+
+Much like when a tool is terminated, quitting a session causes all floors 
+in your possession to be passed to the next participant in their respective
+queues, or the chairman by default.
+
+Section IX:  Command Line Options.
+----------------------------------
+
+	When invoking XTV the options below may be used on the command
+line:
+
+	-v	Verbose mode ON.  Echoes X events to standard output for
+		the shell in which you invoked XTV.  Also echoes the
+		actions attempted by XTV.
+
+	-h	Displays a help message without invoking XTV.
+
+	The following options are available only to the chairman:
+
+	-j	Disables the "dynamic joining" feature.  Participants
+		joining the session will not receive tools already 
+		active.
+
+	-p	Disables pop-up menus from tools.
+
+	-r n	Causes the message which reminds a floor holder that
+		the floor is needed elsewhere to be repeated every
+		n seconds.  The default is 30 seconds.
+
+Section VIII: Notes for the Chairman.
+-------------------------------------
+
+	The chairman has a control panel to which has been added
+necessary features.
+	If the need arises, the chairman may find it necessary to remove a
+participant from a session.  For example, a participant may have been 
+called away from a demonstration for an extended period of time, forget-
+ting that he/she was part of an XTV session.  
+	The chairman panel has a button which allows you to drop any par-
+ticipant from a session.  Select the name of the participant from the list
+in the "Participants" area.  Press the button labeled "Drop_Participant" in
+the "Participants" area.  Messages indicating that the appropriate parti-
+cipant has been ejected will appear on the control panel of all partici-
+pants.  Floors for tools are handled as if the participant had willingly 
+exited the session.
+	If one participant appears to have had the floor for a particular
+tool longer than necessary, it may become necessary to take the floor away
+from that participant.  A button in the "Tools" area labeled "Snatch_To-
+ken" is provided on the chairman panel for exactly that purpose.  The
+chairman selects the tool for which he/she wants the floor and presses the 
+"Snatch_Floor" button. The floor for the tool he/she selected will uncondi-
+tionally be passed to him/her.  A message will appear on each of the par-
+ticipant's control panels which states:
+
+	The chairman has the floor for <toolname>.
+
+On the participant's panel from which the floor was taken, the message will
+read:
+
+	The chairman has snatched
+	the floor for tool <toolname>.
+
+	When tools are created, their floor is started in the chairman's
+possession.  The creator of the tool is also immediately queued for the
+tool.  As a chairman, and if appropriate, it is important that you remem-
+ber to relinquish the floor to the creator immediately.  
+
+Section X:  XTV Resources
+-------------------------
+
+	The complete list of resources available for XTV and their default
+values is listed below:
+
+Listing:  XTV resources
+
+
+xtv.ttitle: XTV Main Control Panel
+xtv*font: -adobe-courier-bold-r-normal--18-180-75-75-m-110-iso8859-1
+xtv*resizable:TRUE
+xtv*top:Rubber
+xtv*bottom:Rubber
+xtv*left: Rubber
+xtv*right: Rubber
+xtv*MainBox.foreground: White
+xtv*MainBox.background:Blue
+!
+!xtv*MainBox.Password.label:Unused
+!
+!xtv*MainBox.Password.label: Set Password
+!
+!xtv*MainBox.Password.sensitive: FALSE
+!xtv*MainBox.Password.fromVert: ToolPanel
+!xtv*MainBox.QuitButton.fromHoriz: Password
+xtv*MainBox.MessageLabel.label: Message from system:
+xtv*MainBox.MessageLabel.fromVert:ToolPanel
+xtv*MainBox.QuitButton.foreground: Yellow
+xtv*MainBox.QuitButton.background: Red
+xtv*MainBox.QuitButton.label: Exit XTV
+xtv*MainBox.QuitButton.fromVert: ToolPanel
+xtv*MainBox.QuitButton.fromHoriz: MessageLabel
+!!
+!
+! Begin Murray Addition
+!
+xtv*MainBox.MessageBar.fromVert:MessageLabel
+xtv*MainBox.MessageBar.height:200
+xtv*MainBox.MessageBox.fromVert:MessageLabel
+xtv*MainBox.MessageBox.height:200
+xtv*MainBox.MessageBox.fromHoriz:MessageBar
+!
+! End Murray Addition
+!
+!!
+!
+!xtv*MainBox.TestButton.label: Unused
+!
+!xtv*MainBox.TestButton.label: Test
+!
+!xtv*MainBox.TestButton.fromVert: ToolPanel
+!xtv*MainBox.TestButton.fromHoriz: QuitButton
+xtv*PartPanel*foreground: Black
+xtv*PartPanel*background: ivory
+xtv*Chairman.label: Chairman is :
+xtv*Chairman.height: 30
+xtv*PartPanel.fromVert: Chairman
+xtv*PartPanel.Label.label: [Participants] In Session No: 
+xtv*PartPanel.Label.resizable: FALSE
+xtv*PartPanel.Label.borderWidth:0
+xtv*PartPanel.VPort.allowVert:TRUE
+xtv*PartPanel.VPort.forceBars:TRUE
+xtv*PartPanel.VPort.resizable:TRUE
+xtv*PartPanel.VPort.fromVert: Label
+xtv*PartPanel.VPort.height: 50
+xtv*PartPanel.VPort.width: 400
+xtv*PartPanel.VPort.PartList.defaultColumns:2
+xtv*PartPanel.VPort.PartList.forceColumns:TRUE
+xtv*PartPanel.VPort.PartList.sensitive:FALSE
+xtv*PartPanel.VPort.PartList.columnSpacing:20
+!
+!xtv*PartPanel.ViewOnly.label: Unused
+!
+!xtv*PartPanel.ViewOnly.label:View_Only
+!
+!xtv*PartPanel.ViewOnly.sensitive:FALSE
+!xtv*PartPanel.ViewOnly.fromVert: VPort
+!
+!xtv*PartPanel.Talk.label: Talk
+!
+!xtv*PartPanel.Talk.label: Unused
+!xtv*PartPanel.Talk.sensitive:FALSE
+!xtv*PartPanel.Talk.fromHoriz: ViewOnly
+!xtv*PartPanel.Talk.fromVert: VPort
+!!
+! Begin Murray Addition
+!
+xtv*PartPanel.InfoPart.label: Participant_Info
+xtv*PartPanel.InfoPart.sensitive: FALSE
+xtv*PartPanel.InfoPart.fromVert: VPort
+!xtv*PartPanel.InfoPart.fromHoriz: DropPart
+!
+! End Murray Addition
+!!
+xtv*PartPanel.DropPart.label: Drop_Participant
+xtv*PartPanel.DropPart.sensitive:FALSE
+xtv*PartPanel.DropPart.fromHoriz: InfoPart
+xtv*PartPanel.DropPart.fromVert: VPort
+xtv*PartPanel.DropPart.foreground: Yellow
+xtv*PartPanel.DropPart.background: Red
+!
+xtv*ToolPanel*foreground:Black
+xtv*ToolPanel*background:cyan
+xtv*ToolPanel.fromVert:PartPanel
+xtv*ToolPanel.Label.label: [Tools]
+xtv*ToolPanel.Label.borderWidth:0
+xtv*ToolPanel.VPort.allowVert:TRUE
+xtv*ToolPanel.VPort.forceBars:TRUE
+xtv*ToolPanel.VPort.fromVert:Label
+xtv*ToolPanel.VPort.height: 50
+xtv*ToolPanel.VPort.width: 400
+xtv*ToolPanel.VPort.ToolList.defaultColumns:3
+xtv*ToolPanel.VPort.ToolList.forceColumns:TRUE
+xtv*ToolPanel.VPort.ToolList.sensitive:FALSE
+! 
+xtv*ToolPanel.GToken.label: Get_Floor
+xtv*ToolPanel.GToken.sensitive:FALSE
+xtv*ToolPanel.GToken.fromVert:VPort
+xtv*ToolPanel.GToken.foreground: Black
+xtv*ToolPanel.GToken.background: LightYellow
+!
+xtv*ToolPanel.DToken.label: Drop_Floor
+xtv*ToolPanel.DToken.sensitive:FALSE
+xtv*ToolPanel.DToken.fromVert: VPort
+xtv*ToolPanel.DToken.fromHoriz: GToken
+xtv*ToolPanel.DToken.foreground: Black
+xtv*ToolPanel.DToken.background: LightYellow
+!
+xtv*ToolPanel.SToken.label: Snatch_Floor
+xtv*ToolPanel.SToken.sensitive:FALSE
+xtv*ToolPanel.SToken.fromVert: Label
+xtv*ToolPanel.SToken.fromHoriz: VPort
+xtv*ToolPanel.SToken.foreground: Yellow
+xtv*ToolPanel.SToken.background: Red
+!
+xtv*ToolPanel.NewTool.label: New_Tool
+xtv*ToolPanel.NewTool.sensitive:TRUE
+xtv*ToolPanel.NewTool.fromVert: GToken
+xtv*ToolPanel.NewTool.foreground: Red
+xtv*ToolPanel.NewTool.background: LightYellow
+!
+xtv*ToolPanel.IToken.label: Floor_Info
+xtv*ToolPanel.IToken.sensitive:FALSE
+xtv*ToolPanel.IToken.fromVert: VPort
+xtv*ToolPanel.IToken.fromHoriz: DToken
+xtv*ToolPanel.IToken.foreground: Black
+xtv*ToolPanel.IToken.background: White
+!
+xtv*ToolPanel.TermTool.label: Terminate_Tool
+xtv*ToolPanel.TermTool.sensitive:FALSE
+xtv*ToolPanel.TermTool.fromVert: GToken
+xtv*ToolPanel.TermTool.fromHoriz: DToken
+xtv*ToolPanel.TermTool.foreground: Yellow
+xtv*ToolPanel.TermTool.background: Red
+!
+xtv*value:
+xtv*NewToolDialog*label: Enter new tool:
+xtv*NewToolDialog.Host.label: Host
+xtv*NewToolDialog.Remote.label:Remote
+xtv*NewToolDialog.CancelNewTool.label:Cancel
+!The following is the translation needed
+!to for the dialoge to respond to Carrige Return
+xtv*NewToolDialog*translations: #override <Key>Return: defaultHost()

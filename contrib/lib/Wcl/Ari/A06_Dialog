@@ -1,0 +1,14 @@
+Ari.wcChildren:		dialog
+Ari.title:		A06_Dialog
+
+*dialog.wcClassName:	Dialog
+*dialog.wcChildren:	ok
+*dialog*Font:		*times-bold-i-*-80-*
+
+*dialog.label:		I am a Dialog widget.
+*dialog.label.font:	*new century schoolbook-bold-r-*-140-*
+
+*dialog.value:		Enter new value here.
+
+*ok.wcClassName:	Command
+*ok.callback:		WcExitCB

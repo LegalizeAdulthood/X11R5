@@ -1,0 +1,190 @@
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!%                                                                             %
+!%                                                                             %
+!%                                                                             %
+!%                      COPYRIGHT 1991 HUBERT RECHSTEINER                      %
+!%                                                                             %
+!%                                                                             %
+!%  Permission to use, copy, modify, distribute, and sell this software and    %
+!%  its documentation for any purpose is hereby granted without fee, provided  %
+!%  documentation, and that the name of the author not be used in advertising  %
+!%  or publicity pertaining to distribution of the software without specific,  %
+!%  written prior permission. The author makes no representations about the    %
+!%  suitability of this software for any purpose.  It is provided "as is"      %
+!%  without express or implied warranty.                                       %
+!%                                                                             %
+!%  THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,          %
+!%  INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN        %
+!%  NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR           %
+!%  CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS        %
+!%  OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE      %
+!%  OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE         %
+!%  USE OR PERFORMANCE OF THIS SOFTWARE.                                       %
+!%                                                                             %
+!%                                                                             %
+!%  Software Design       : Hubert Rechsteiner January 1991                    %
+!%                                                                             %
+!%  Further developments  : Doris Hirt                                         %
+!%                          Nicolas Repond                                     %
+!%                          Hubert Rechsteiner                                 %
+!%                          October 1991                                       %
+!%                                                                             %
+!%                                                                             %
+!%  Please send any improvements, bug fixes, useful modifications, and         %
+!%  comments to:  selfmoving@uliis.unil.ch                                     %
+!%                                                                             %
+!%                                                                             %
+!%                                                                             %
+!%                                                                             %
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!This is the resource file for the mo_demo.c program.
+!Please set your XENVIRONMENT variable to that file.
+!/*SccsId "@(#)mo_demo.dat	3.1 	 10/4/91"*/
+
+mo_demo*geometry : 800x500+100+100
+*option_menu.x : 20
+*option_menu.y : 450
+
+mo_demo*main*background : mediumturquoise
+mo_demo*main*HrSelfMoving*background : mediumturquoise
+mo_demo*main*foreground :  red
+
+!Resources for all SelfMoving
+*HrSelfMoving.accelerators :#override \n\
+	    		~Ctrl Shift<ButtonPress>  	: Shiftbuttondown_acc() \n\
+    			Shift Ctrl<ButtonPress>	: Erase_acc()	   \n\
+                        		<ButtonPress>   	  	: Buttondown_acc()      \n\
+			<Btn1Motion>    	   	: Buttonmotion_acc()    \n\
+			<Btn1Up>		: Buttonup_acc()
+
+
+
+!Resources for all SelfMoving
+*HrSelfMoving.DiagonalHandle : SIZING_HANDLE
+*HrSelfMoving.sizingHandlesWidth : 5
+*HrSelfMoving.sizingHandlesBorderWidth : 0
+mo_demo*main*HrSelfMoving.Core.background : blue
+mo_demo*new_window*HrSelfMoving.Core.background : blue
+*HrSelfMoving.borderWidth : 0 
+*HrSelfMoving.gridOn : true
+*HrSelfMoving.grid : 20
+!*XmText.resizeHeight : false
+
+
+*selfmovingtitle1.x : 100
+*selfmovingtitle1.y : 10
+*title1label.labelString : Selfmoving demo! 
+*title1label.fontList    : *-Helvetica-*-O-*-240-*
+*selfmovingtitle1.selectInReverseVideo : on
+*title1label.borderWidth : 0
+*selfmovingtitle1.DiagonalHandle : HORIZONTAL_SIZING_HANDLE
+
+
+*selfmovingtext1.x : 130
+*selfmovingtext1.y : 100
+!*selfmovingtext1.borderWidth : 2
+!*text1.editMode : SINGLE_LINE_EDIT
+*text1.editMode : MULTI_LINE_EDIT
+*text1.wordWrap : True
+*text1.rows   : 1
+*selfmovingtext1.showHorizontalLine : true
+*new_window2.text1.value : " edit me..."
+*text1.value : "Please edit me..."
+
+*selfmovingtext2.x : 130
+*selfmovingtext2.y : 150
+*text2.editMode : MULTI_LINE_EDIT
+*text2.wordWrap : True
+*selfmovingtext3.showHorizontalLine : true
+*text2.rows   : 1
+*text2.value : "Please edit me..."
+
+*selfmovingtext3.x : 130
+*selfmovingtext3.y : 200
+*text3.editMode : MULTI_LINE_EDIT
+*text3.wordWrap : True
+*selfmovingtext2.showHorizontalLine : true
+*text3.rows   : 1
+*selfmovingtext3.DiagonalHandle : HORIZONTAL_SIZING_HANDLE
+*text3.value : "Please edit me..."
+
+
+*selfmovinglabel1.x : 50
+*selfmovinglabel1.y : 100
+*selfmovinglabel1.selectInReverseVideo : on
+*label1.labelString: Name
+*selfmovinglabel1.VerticalHandle: NO_HANDLE
+*selfmovinglabel1.HorizontalHandle: NO_HANDLE
+*selfmovinglabel1.DiagonalHandle : NO_HANDLE
+*selfmovinglabel1.borderWidth : 1
+*selfmovinglabel1.showHorizontalLine : true
+*selfmovinglabel1.borderWidth : 0
+
+
+*selfmovinglabel2.x : 50
+*selfmovinglabel2.y : 150
+*selfmovinglabel2.selectInReverseVideo : on
+*selfmovinglabel2.VerticalHandle: NO_HANDLE
+*selfmovinglabel2.HorizontalHandle: NO_HANDLE
+*selfmovinglabel2.DiagonalHandle : NO_HANDLE
+*label2.labelString: Surname
+*selfmovinglabel2.showHorizontalLine : true
+
+*selfmovinglabel3.x : 50
+*selfmovinglabel3.y : 200
+*selfmovinglabel3.selectInReverseVideo : on
+*selfmovinglabel3.VerticalHandle: NO_HANDLE
+*selfmovinglabel3.HorizontalHandle: NO_HANDLE
+*selfmovinglabel3.DiagonalHandle : NO_HANDLE
+*label3.labelString: City
+*selfmovinglabel3.showHorizontalLine : true
+
+
+*selfmoving4.x : 200
+*selfmoving4.y : 300
+*son4.borderWidth : 1
+*son4_1.y : 30
+*son4_2.y : 80
+*son4_3.x : -20
+*son4_3.y : -20
+*son4_3.width : 200
+*son4_3.height : 200
+*selfmoving4.maxWidth  : 200
+*selfmoving4.maxHeight : 200
+*selfmoving4.minWidth : 100
+*selfmoving4.minHeight : 20
+*selfmoving4.VerticalHandle: HORIZONTAL_SIZING_HANDLE
+*selfmoving4.HorizontalHandle: HORIZONTAL_SIZING_HANDLE
+*selfmoving4.DiagonalHandle : SIZING_HANDLE
+*selfmoving4.sizingHandlesBorderWidth : 1
+*selfmoving4.Core.borderColor : White
+*selfmoving4.selectInReverseVideo : on
+
+
+*selfmoving5.x : 50
+*selfmoving5.y : 250
+*selfmoving5.borderWidth : 0
+*son5.width : 500
+*selfmoving5.VerticalHandle: NO_HANDLE
+*selfmoving5.HorizontalHandle: HORIZONTAL_SIZING_HANDLE
+*selfmoving5.DiagonalHandle : NO_HANDLE
+
+*new_window.background:yellow
+*child.background:black
+*button_child.foreground:red
+*new_window.geometry : 700x400+100+100
+*option_menu_child.x : 20
+*option_menu_child.y : 450
+*selfmovingtitlechild.x : 100
+*selfmovingtitlechild.y : 10
+*child.x : 300
+*child.y : 300
+*child.borderWidth : 0
+*titlechildlabel.labelString : Independency! 
+*titlechildlabel.fontList    : *-Helvetica-*-O-*-240-*
+*selfmovingtitlechild.selectInReverseVideo : on
+*titlechildlabel.borderWidth : 0
+*selfmovingtitlechild.DiagonalHandle : VERTICAL_SIZING_HANDLE

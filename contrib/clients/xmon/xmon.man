@@ -1,0 +1,354 @@
+.\"/*
+.\"
+.\"Copyright 1991 by OTC Limited
+.\"
+.\"
+.\"Permission to use, copy, modify, distribute, and sell this software and its
+.\"documentation for any purpose is hereby granted without fee, provided that
+.\"the above copyright notice appear in all copies and that both that
+.\"copyright notice and this permission notice appear in supporting
+.\"documentation, and that the name of OTC Limited not be used in advertising
+.\"or publicity pertaining to distribution of the software without specific,
+.\"written prior permission. OTC Limited makes no representations about the
+.\"suitability of this software for any purpose. It is provided "as is"
+.\"without express or implied warranty.
+.\"
+.\"Any person supplied this software by OTC Limited may make such use of it
+.\"including copying and modification as that person desires providing the
+.\"copyright notice above appears on all copies and modifications including
+.\"supporting documentation.
+.\"
+.\"The only conditions and warranties which are binding on OTC Limited in
+.\"respect of the state, quality, condition or operation of this software
+.\"are those imposed and required to be binding by statute (including the
+.\"Trade Practices Act 1974). and to the extent permitted thereby the
+.\"liability, if any, of OTC Limited arising from the breach of such
+.\"conditions or warranties shall be limited to and completely discharged
+.\"by the replacement of this software and otherwise all other conditions
+.\"and warranties whether express or implied by law in respect of the
+.\"state, quality, condition or operation of this software which may
+.\"apart from this paragraph be binding on OTC Limited are hereby
+.\"expressly excluded and negatived.
+.\"
+.\"Except to the extent provided in the paragraph immediately above OTC
+.\"Limited shall have no liability (including liability in negligence) to
+.\"any person for any loss or damage consequential or otherwise howsoever
+.\"suffered or incurred by any such person in relation to the software
+.\"and without limiting the generality thereof in particular any loss or
+.\"damage consequential or otherwise howsoever suffered or incurred by
+.\"any such person caused by or resulting directly or indirectly from any
+.\"failure, breakdown, defect or deficiency of whatsoever nature or kind
+.\"of or in the software.
+.\"
+.\"*/
+.\"
+.TH xmon 1 "November, 1990" "X Version 11"
+.SH NAME
+xmon \- interactive X protocol monitor
+.SH SYNOPSIS
+.B xmonui
+[
+.B
+options
+] |
+.B
+xmond
+[
+.B
+options
+]
+.SH DESCRIPTION
+Xmon interactively monitors the byte-stream connections between an
+X server and a number of X clients. Xmon recognizes all X requests,
+events, errors and replies sent between the clients and the server
+which are part of the X protocol. The contents of these messages are
+displayed on standard output at a user settable degree of detail
+from none to every bit and byte. Xmon also allows the user to
+select a number of requests or events to be monitored at a different
+degree of detail.  Xmon will also block the transmission
+of selected requests from the clients to the server and selected events
+from the server to the clients. Xmon also keeps statistics of the
+number of requests, events, and errors received.
+.PP
+Xmon is made up of two separate processes. The core of xmon is xmond
+which monitors the X protocol streams and displays the protocol
+messages on standard output. The interactive interface is
+handled by xmonui. These two processes communicate via a pipe from
+the standard output of xmonui to the standard input of xmond.
+.PP
+The following diagram shows the relationships between xmonui
+and xmond, and the clients and the server.
+.PP
+.if n \{
+                          ----------
+                          | xmonui |
+                          ----------
+                              |
+                              v
+     ------------         ----------
+     | client 1 |<------->|        |
+     ------------         |        |       ----------
+          :               | xmond  |<----->| server |
+          :               |        |       ----------
+     ------------         |        |
+     | client n |<------->|        |
+     ------------         ----------
+                              |
+                              v
+                    monitor output to stdout
+.\}
+.if t \{
+.PS
+XMOND:        box "xmond"
+      arrow <- up from XMOND.n
+      box "xmonui"
+      arrow <-> left from XMOND.nw
+CLNT1:        box ht boxht * .3 "client 1"
+
+      arrow <-> left from XMOND.sw
+CLNTN:        box ht boxht * .3 "client n"
+
+      line dotted from CLNT1.s to CLNTN.n
+
+      arrow down from XMOND.s
+      box invis "monitor output to stdout"
+
+      arrow <-> right from XMOND.e
+      box "server"
+.PE
+.\}
+
+.PP
+In the diagram the vertical connections are pipes and the horizontal
+connections are normal X socket connections.
+.PP
+Xmond sits transparently between the X clients and an X server.
+To the clients it behaves just like an X server and to the server
+it behaves just like a number of X clients.
+.SH OPTIONS TO XMOND
+.TP
+.B "-server \fIdisplay_name\fP:\fIdisplay_number\fP"
+This option sets the X display which xmond connects to.
+\fIdisplay_name\fP can be a name or numerical network address.
+The default for both values is the value of the DISPLAY environment
+variable. If this is not set, then the
+default for \fIdisplay_name\fP is the local host and the
+default for \fIdisplay_number\fP is 0.
+.TP
+.B "-port \fIdisplay_number\fP"
+This option sets the 
+port on which xmond listens for client connections. This port is always
+on the host where xmond is running.
+Default is 1.
+.SH OPTIONS TO XMONUI
+Xmonui accepts all of the standard X Toolkit command line options.
+In particular
+.TP
+.B "-display \fIdisplay_name\fP:\fIdisplay_number\fP"
+Indicates where to display the user interface window.
+.SH EXAMPLES
+1) To monitor connections made to the local host use the following
+command line
+.PP
+xmonui | xmond
+.PP
+Connections made to the display \fIlocalhost:1\fP will appear on
+the display \fIlocalhost:0\fP.
+The xmonui user interface will
+appear on the display \fIlocalhost:0\fP.
+.PP
+When starting up the application that you want to monitor, be sure to set
+it's display correctly.
+When you normally start up an X application, and if
+you have not done anything special, it
+will by default start up on display 0 of your local host.
+But xmon by default
+is listening as if it is display 1 of your local host. Assuming your X
+application
+is called "myclient" and your local host name is "dolphin" then type the
+following to start up your application:
+
+myclient -display dolphin:1
+
+Another way to do the same thing is to change the DISPLAY environment
+variable. If you are using a C shell you can do this:
+
+setenv DISPLAY dolphin:1
+.br
+myclient
+
+If you are not using a C shell, you may have to do something
+different to change the DISPLAY environment variable.
+Also, most clients understand the -display option, but there are those
+that do not.
+To determine the name of your local host try
+the \fIhostname\fP command (although it may not be available
+on all machines).
+.PP
+2) If you are on the host \fIsquiggle\fP which has two X servers using
+the displays \fIsquiggle:0\fP and \fIsquiggle:1\fP, and want to monitor
+connections made to the server running on the display
+\fIjuggler:0\fP, enter the following command line.
+.PP
+xmonui -display squiggle:0 | xmond -server juggler:0 -port 2
+.PP
+Connections now made to the "display" \fIsquiggle:2\fP will
+appear on the display \fIjuggler:0\fP.
+The xmonui user interface will
+appear on the display \fIsquiggle:0\fP.
+Monitor output will appear in the window where the command was entered.
+.SH THE USER INTERFACE
+The user interface is divided into four parts: output detail,
+statistics, selected requests and selected events.
+.PP
+In the \fIoutput detail\fP section, the amount of detail contained
+in the output of xmon can be selected. Different levels of detail can
+be selected for each of the message types: requests,
+events, errors and replies. The detail setting for errors also applies to
+setup messages sent at client connection and the end-of-file "message" sent
+at client shutdown.
+The meaning of each level is as follows.
+.TP
+.I off
+No monitor output is produced.
+.TP
+.I names
+Only the names of the messages are output.
+.TP
+.I main
+The most interesting fields of the message are output.
+.TP
+.I full
+All fields of the message are output.
+.TP
+.I hex
+All fields of the message are output, as well as a hexadecimal dump.
+.PP
+Note that synthetic events (events sent by XSendEvent) are 
+monitored in the same way as normal events but are identified as
+being "SYNTHETIC".
+.PP
+Also in this section is the \fIshow packet size\fP toggle. If this is
+turned \fIon\fP, xmon will display the size of each packet received from
+both clients and servers. The file descriptor of the client or server
+which sent the packet is also displayed. The first client file
+descriptor is 4. File descriptors 0, 1 and 2 are used by standard
+input, standard output and standard error and file descriptor 3 is where
+xmon listens for new connections.
+.PP
+In the \fIstatistics\fP section, the counting of requests, events and
+errors can be controlled as follows.
+.TP
+.I start
+Enable the taking of statistics.
+.TP
+.I stop
+Disable the taking of statistics.
+.TP
+.I clear
+Clear the counts for this message group.
+.TP
+.I print
+Print the name and number of occurrences of each message in this group,
+excluding messages received zero times.
+.TP
+.I print zero
+Print the names of messages in this group that have been received zero times.
+.PP
+In the \fIselected requests\fP section, selected requests can be monitored
+at a different level of detail, or can be blocked from transmission.
+Requests can be selected by clicking on their names in the scrollable list.
+Clicking again de-selects the request.
+Selected requests are indicated
+by an asterisk (*) in the scrollable list.
+.PP
+The \fIdetail\fP toggle is
+of the same form as in the \fIoutput detail\fP section, but applies only
+to those requests selected in the left scrollable list.
+.PP
+If the \fIblocking\fP toggle in set to \fIon\fP,
+all selected requests in the right hand scrollable list are blocked by xmon.
+They are not forwarded to the server, although they are monitored and
+counted normally.
+If the \fIblocking\fP toggle in set to \fIoff\fP, all requests are
+forwarded to the server.
+.PP
+The \fIselected events\fP section is similar to the above section but
+deals with events received from the server.
+.SH USING XMOND WITHOUT XMONUI
+Normally xmonui is used as an interactive interface to xmond. However,
+for some testing procedures it may be better to run xmond by itself
+initialising it with some standard setup.
+The interface between xmonui and xmond is made up of simple ascii
+strings.
+Pressing buttons on xmonui causes it to write these strings to
+standard output which are then usually read by xmond.
+You can just run xmond by itself
+and type in the strings, or, even better, use a file as input to xmond.
+There are too many strings to list here, but
+if you run xmonui by itself, you will see the strings being printed to
+standard output.
+Run
+
+xmonui > command.file
+
+to create a file of strings that can be used as input to xmond.
+For example, a file which will cause xmond to monitor the Bell request
+and also print the names of all events would contain the lines:
+
+monitor_request_on 104
+.br
+event_verbose 1
+
+Running
+
+xmond < command.file
+
+will then set up xmond in the same way each time. Note that when
+running xmond by itself, it does not
+exit on reading end-of-file and so it must be killed. (I use
+CONTROL-C to kill.
+Your kill character may be different.)
+.PP
+It is also possible to initialise xmond with a file, and then
+take further commands from xmonui by running
+
+xmonui | cat command.file - | xmond
+
+The cat command first sends the command.file to xmond and then passes the
+output of xmonui to xmond. Please note that in this case xmonui will not
+show the new state of xmond correctly.
+For example, xmonui starts up assuming that
+no requests have been selected, even if the command.file has initialised
+xmond by selecting some requests.
+This inconsistency does not effect the usability of xmon
+but may be confusing.
+.PP
+The string
+
+quit
+
+will cause xmond to exit, so make sure that this does not occur in
+any input file. Also it is meaningless to use the statistics commands
+from within an input file because these will be read before any X clients
+have connected.
+.SH BUGS
+No provision is included for extensions to the base protocol.
+.PP
+Xmon only handles TCP socket connections.
+UNIX domain sockets and DECnet are not supported.
+.PP
+There should be a better way of initialising the state of xmond and having
+this new state reflected in xmonui.
+.SH SEE ALSO
+X(1)
+.PP
+X Window System Protocol, MIT X Consortium Standard, X Version 11, Release 4,
+by Robert W. Scheifler.
+.SH AUTHORS
+Greg McFarlane, OTC, Australia, from the xscope program
+written by James L Peterson, MCC.
+.PP
+Please send any bug reports or modifications to
+.PP
+    gregm@otc.otca.oz.au

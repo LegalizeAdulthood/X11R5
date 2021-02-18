@@ -1,0 +1,360 @@
+! This example is taken from the periodic demo which came with Motif 1.0
+! and was developed by Michael K. Yee at OSF.  To quote the original
+! README:
+! 
+! 	Periodic is a demo of the displayable widgets in 
+!	Motif.  Periodic presents many Motif widgets for 
+!	your visual and sensual enjoyment.
+!
+
+Mri.wcChildren:	main
+Mri.title:	M08_Periodic
+
+*background:	Turquoise
+*fontList:	-adobe-new century schoolbook-medium-r-normal--10-*
+
+*main.wcConstructor:		XmCreateMainWindow
+*main.wcChildren:		menuBar, table
+
+! If you want scrollbars, uncomment this line
+!*main.scrollingPolicy:	AUTOMATIC
+
+!#################################################################
+! Minimal menu bar
+!#################################################################
+
+*menuBar.wcConstructor:	XmCreateMenuBar
+*menuBar.wcCallback:	WcSetValueCB(*main.menuBar: this)
+*menuBar.wcChildren:	fileMenu, File, Edit, Help
+*menuBar*fontList:	-b&h-lucida-medium-i-normal-sans-12-120-*
+
+*fileMenu.wcConstructor:	XmCreatePulldownMenu
+*fileMenu.wcChildren:		Quit
+*fileMenu.wcManaged:		false
+
+*Quit.wcConstructor:	XmCreateCascadeButton
+*Quit.activateCallback:	WcExitCB
+
+*File.wcConstructor:	XmCreateCascadeButton
+*File.subMenuId:	*fileMenu
+
+*Edit.wcConstructor:	XmCreateCascadeButton
+
+*Help.wcConstructor:	XmCreateCascadeButton
+*Help.wcCallback:	WcSetValueCB( ^.menuHelpWidget: this )
+
+!#################################################################
+! Table Widget for Periodic Table
+!#################################################################
+
+*table.wcClassName:	Table
+*table.wcCallback:	WcSetValueCB(*main.workWindow: this)
+*table.wcChildren:	title, \
+			02, 03, 04, 05, 06, 62, \
+			17, 27, 47, 57, \
+			Ia, 1, 2, 3, 4, 5, \
+			IIa, 6, 7, 8, 9, \
+			IIIb, 10, \
+			IVa, 11, 12, 16, \
+			Va, 13, 14, 15, dialogs, 19
+!				name	c r cs rs opt	
+*table.layout:			title	2 1  4  1	;\
+	Ia 1 1;\
+02 0 2;	1  1 2;	IIa 2 2;				Va 5 2;	62 6 2;\
+03 0 3;	2  1 3;	6   2 3; IIIb 3 3;	IVa 4 3;	13 5 3;\
+04 0 4;	3  1 4;	7   2 4; 10 3 4 1 3;	11  4 4;	14 5 4;\
+05 0 5;	4  1 5;	8   2 5;		12  4 5;	15 5 5;\
+06 0 6;	5  1 6;	9   2 6;		16  4 6 2 1;\
+	17 1 7;	27  2 7;		47  4 7;	57 5 7;\
+	dialogs 1 8 5 1;\
+	19 1 9;
+
+*title.wcConstructor:	XmCreateLabel
+*title.labelString:	The Periodic Table Of Motif Widgets
+*title.fontList:	-b&h-lucida-bold-i-normal-sans-34-240-*
+
+! The following are simply for spacing.  Composite is
+! perhaps the simplest Motif widget which can be created.
+*table.Composite.Width:		120
+*table.Composite.Height:	120
+*table.Composite.borderWidth:	0
+*table.02.wcClassName:	Composite
+*table.02.width:		20
+*table.03.wcClassName:	Composite
+*table.03.width:		20
+*table.04.wcClassName:	Composite
+*table.04.width:		20
+*table.05.wcClassName:	Composite
+*table.05.width:		20
+*table.06.wcClassName:	Composite
+*table.06.width:		20
+*table.62.wcClassName:	Composite
+*table.62.width:		20
+*table.17.wcClassName:	Composite
+*table.17.height:		20
+*table.27.wcClassName:	Composite
+*table.27.height:		20
+*table.47.wcClassName:	Composite
+*table.47.height:		20
+*table.57.wcClassName:	Composite
+*table.57.height:		20
+*table.19.wcClassName:	Composite
+*table.19.height:		20
+
+! Labels above the columns:  I use the same "display box"
+! as for widget types, but I just null out the label strings
+! and change the type fo the bottom widget to label.  
+
+*filler.wcClassName:	XmLabel
+*filler.labelString:
+
+*table.Ia.wcClassName:		Table
+*table.Ia.wcChildren:		filler, Ia
+*table.Ia.layout: 		filler 0 0; Ia 0 1 hH;
+*table.Ia.borderWidth:		0
+*table.Ia.Ia.wcClassName:	XmLabel
+
+*table.IIa.wcClassName:		Table
+*table.IIa.wcChildren:		filler, IIa
+*table.IIa.layout: 		filler 0 0; IIa 0 1 hH;
+*table.IIa.borderWidth:		0
+*table.IIa.IIa.wcClassName:	XmLabel
+
+*table.IIIb.wcClassName:	Table
+*table.IIIb.wcChildren:		filler, IIIb
+*table.IIIb.layout: 		filler 0 0; IIIb 0 1 hH;
+*table.IIIb.borderWidth:	0
+*table.IIIb.IIIb.wcClassName:	XmLabel
+
+*table.IVa.wcClassName:		Table
+*table.IVa.wcChildren:		filler, IVa
+*table.IVa.layout: 		filler 0 0; IVa 0 1 hH;
+*table.IVa.borderWidth:		0
+*table.IVa.IVa.wcClassName:	XmLabel
+
+*table.Va.wcClassName:		Table
+*table.Va.wcChildren:		filler, Va
+*table.Va.layout: 		filler 0 0; Va 0 1 hH;
+*table.Va.borderWidth:		0
+*table.Va.Va.wcClassName:	XmLabel
+
+! These are the widget display boxes:
+
+*table*Table.WcChildren:	an, w, n
+*table*Table.Layout:		an 1 0 1 1 hH; w 0 1 2 1 ; n 0 2 2 1 hH;
+*table*Table.rowSpacing:	10
+*table*Table.borderWidth:	1
+*table.Table.an.wcClassName:	XmLabel
+*table.Table.an.alignment:	ALIGNMENT_END
+*table*Table.n.wcClassName:	XmPushButton
+
+*1.wcClassName:		Table
+*1.an.labelString:	1
+*1.w.wcClassName:	XmSeparator
+*1.n.labelString:	XmSeparator
+
+*2.wcClassName:		Table
+*2.an.labelString:	2
+*2.w.wcClassName:	XmArrowButton
+*2.n.labelString:	XmArrowButton
+
+*3.wcClassName:		Table
+*3.an.labelString:	3
+*3.w.wcClassName:	XmPushButton
+*3.w.labelString:	Format Disk
+*3.n.labelString:	XmPushButton
+
+*4.wcClassName:		Table
+*4.an.labelString:	4
+*4.w.wcClassName:	XmToggleButton
+*4.w.labelString:	Lights
+*4.n.labelString:	XmToggleButton
+
+*5.wcClassName:		Table
+*5.an.labelString:	5
+*5.w.wcClassName:	XmLabel
+*5.w.labelString:	Don't Panic
+*5.n.labelString:	XmLabel
+
+! Note that we must have a resource name with more componenets in
+! order to override the common specification for Table.WcChildren above!
+!
+*6.wcClassName:		Table
+*table*6.wcChildren:	an, colorOptions, w, n
+*6.an.labelString:	6
+*6.colorOptions.wcConstructor:	XmCreatePulldownMenu
+*6.colorOptions.wcManaged:	False
+*6.colorOptions.wcChildren:	red, orange, yellow, green, blue, purple
+*6*colorOptions.red.wcClassName:	XmPushButton
+*6*colorOptions.orange.wcClassName:	XmPushButton
+*6*colorOptions.yellow.wcClassName:	XmPushButton
+*6*colorOptions.green.wcClassName:	XmPushButton
+*6*colorOptions.blue.wcClassName:	XmPushButton
+*6*colorOptions.purple.wcClassName:	XmPushButton
+! ^	Note the asterisk needed here!!  colorOptions is actually
+!	a child of a menu shell created by XmCreatePulldownMenu.
+*6.w.wcConstructor:	XmCreateOptionMenu
+*6.w.labelString:	color
+*6.w.subMenuId:		*6*colorOptions
+*6.n.labelString:	XmOptionMenu
+
+*7.wcClassName:		Table
+*7.an.labelString:	7
+*7.w.wcClassName:		XmScale
+*7.w.wcChildren:		min, |, max
+*7.w.decimalPoints:		1
+*7.w.maximum:			50
+*7.w.orientation:		HORIZONTAL
+*7.w.processingDirection:	MAX_ON_RIGHT
+*7.w.showValue:			True
+*7.w.titleString:		Warp Factor
+*7.w.min.wcClassName:		XmLabel
+*7.w.min.labelString:		0
+*7.w.|.wcClassName:		XmLabel
+*7.w.max.wcClassName:		XmLabel
+*7.w.max.labelString:		5
+*7.n.labelString:	XmScale
+
+*8.wcClassName:		Table
+*8.an.labelString:	8
+*8.w.wcConstructor:	XmCreateRadioBox
+*8.w.wcChildren:	WFNX, WCRB, WHKY
+*8.w.WFNX.wcClassName:	XmToggleButtonGadget
+*8.w.WCRB.wcClassName:	XmToggleButtonGadget
+*8.w.WHKY.wcClassName:	XmToggleButtonGadget
+*8.n.labelString:	XmRadioBox
+
+*9.wcClassName:		Table
+*9.an.labelString:	9
+*9.w.wcClassName:	XmText
+*9.w.value:		Hello World
+*9.n.labelString:	XmText
+
+*10.wcClassName:	Table
+*10.an.labelString:	10
+*10.w.wcClassName:	XmFileSelectionBox
+*10.w.dirMask:		*.c
+*10.n.labelString:	XmFileSelectionBox
+
+*11.wcClassName:	Table
+*table.11.rowSpacing:	30
+*11.an.labelString:	11
+*11.w.wcClassName:	XmScrollBar
+*11.w.orientation:	HORIZONTAL
+*11.w.height:		20
+*11.n.labelString:	XmScrollBar
+
+! Remember that XmCreateScrolledList creates an intermediate
+! parent named wSW, and that is the widget the table lays out.
+!
+*12.wcClassName:	Table
+*table.12.layout:	an 1 0 1 1 hH; wSW 0 1 2 1 ; n 0 2 2 1 hH;
+*12.an.labelString:	12
+*12.w.wcConstructor:	XmCreateScrolledList
+*12*w.items:		Foobar, Mumble, Glorp, Reggae, Rock, and, Roll
+*12*w.itemCount:	7
+*12*w.visibleItemCount:	3
+*12*w.listMarginWidth:	3
+*12.n.labelString:	XmScrolledList
+
+! Note that the XmCascadeButton which pops-up the demoMenu
+! MUST be a child of an XmRowColumn.  I used XmCreateMenuBar
+! to create the row column, because that it usually what
+! you will use when you've got pull-down menus.  If the
+! cascade button is not a child of an XmRowColumn, you
+! will get a core dump in Motif.  Sorry, I can't fix that here.
+!
+*13.wcClassName:	Table
+*13.an.labelString:	13
+*13.n.labelString:	XmPulldownMenu
+*13.w.wcConstructor:	XmCreateMenuBar
+*13.w.wcChildren:	demoMenu, menuButton
+*13.w.menuButton.wcClassName:	XmCascadeButton
+*13.w.menuButton.labelString:	Press For Menu
+*13.w.menuButton.subMenuId:	*13.w*demoMenu
+*13.w.demoMenu.wcConstructor:	XmCreatePulldownMenu
+*13.w.demoMenu.wcManaged:	False
+*13.w.demoMenu.wcChildren:	title, Black, Blue, Coral, LimeGreen, \
+				Cyan, Goldenrod, Magenta, Pink
+*13.w*demoMenu.title.wcConstructor:	XmCreateLabel
+*13.w*demoMenu.title.labelString:	Choose Color of XmDrawingArea:
+*13.w*demoMenu.title.fontList:	-b&h-lucida-bold-i-normal-sans-12-120-*
+*13.w*demoMenu*FontList:	-b&h-lucida-medium-r-normal-sans-12-120-*
+!    ^	Note the asterisk needed here!!  demoMenu is actually
+!	a child of a menu shell created by XmCreatePulldownMenu.
+
+
+*13*Black.wcClassName:		XmCascadeButton
+*13*Blue.wcClassName:		XmCascadeButton
+*13*Coral.wcClassName:		XmCascadeButton
+*13*LimeGreen.wcClassName:	XmCascadeButton
+*13*Cyan.wcClassName:		XmCascadeButton
+*13*Goldenrod.wcClassName:	XmCascadeButton
+*13*Magenta.wcClassName:	XmCascadeButton
+*13*Pink.wcClassName:		XmCascadeButton
+
+*13*Black.activateCallback:	WcSetValueCB(*14.w.background: Black)
+*13*Blue.activateCallback:	WcSetValueCB(*14.w.background: Blue)
+*13*Coral.activateCallback:	WcSetValueCB(*14.w.background: Coral)
+*13*LimeGreen.activateCallback:	WcSetValueCB(*14.w.background: LimeGreen)
+*13*Cyan.activateCallback:	WcSetValueCB(*14.w.background: Cyan)
+*13*Goldenrod.activateCallback:	WcSetValueCB(*14.w.background: Goldenrod)
+*13*Magenta.activateCallback:	WcSetValueCB(*14.w.background: Magenta)
+*13*Pink.activateCallback:	WcSetValueCB(*14.w.background: Pink)
+
+*14.wcClassName:	Table
+*14.an.labelString:	14
+*14.w.wcClassName:	XmDrawingArea
+*14.w.background:	RoyalBlue
+*14.n.labelString:	XmDrawingArea
+
+*15.wcClassName:	Table
+*15.an.labelString:	15
+*15.w.wcClassName:	XmDrawnButton
+*15.n.labelString:	XmDrawnButton
+
+*16.wcClassName:	Table
+*16.an.labelString:	16
+*16.w.wcClassName:	XmPanedWindow
+*16.w.wcChildren:	text1, text2
+*16.w.text1.wcClassName:	XmText
+*16.w.text1.value:		Motif Resource Interpreter
+*16.w.text2.wcClassName:	XmText
+*16.w.text2.value:		Version 1.04
+*16.n.labelString:	XmPanedWindow
+
+! Again, there is another wcChildren specification earlier which says
+! all Table children of *table have three children, named an, w, and n.
+! In order to override that specification, we've got to give a LONGER
+! specification here:
+*dialogs.wcClassName:	Table
+*table*dialogs.wcChildren:	error, info, question, warn, work
+*table.dialogs.borderWidth: 0
+*table.dialogs.layout:	error 0 0; info 1 0; question 2 0; warn 3 0; work 4 0;
+*table.dialogs.columnSpacing:	10
+
+*dialogs.XmMessageBox.borderWidth: 1
+
+*error.wcClassName:	XmMessageBox
+*error.dialogType:	DIALOG_ERROR
+*error.messageString:	Error Dialog
+
+*info.wcClassName:	XmMessageBox
+*info.dialogType:	DIALOG_INFORMATION
+*info.messageString:	Information Dialog
+
+*message.wcClassName:		XmMessageBox
+*message.dialogType:		DIALOG_MESSAGE
+*message.messageString:		Message Dialog
+
+*question.wcClassName:		XmMessageBox
+*question.dialogType:		DIALOG_QUESTION
+*question.messageString:	Question Dialog
+
+*warn.wcClassName:		XmMessageBox
+*warn.dialogType:		DIALOG_WARNING
+*warn.messageString:		Warning Dialog
+
+*work.wcClassName:		XmMessageBox
+*work.dialogType:		DIALOG_WORKING
+*work.messageString:		Working Dialog

@@ -1,0 +1,2507 @@
+%!
+%%Pages: (atend)
+%%DocumentFonts: (atend)
+%%EndComments
+%
+% Frame Maker PostScript Prolog 1.3, for use with Maker 1.3
+% Copyright (c) 1986-1988 by Frame Technology, Inc.  All rights reserved.
+%
+% Known Problems:
+%	Due to bugs in Transcript, the 'PS-Adobe-' is omitted from line 1
+/FMversion (1.2) def 
+/FrameDict 123 dict def 
+% The readline in 23.0 doesn't recognize cr's as nl's on AppleTalk
+FrameDict /tmprangecheck errordict /rangecheck get put 
+errordict /rangecheck {FrameDict /bug true put} put 
+FrameDict /bug false put 
+mark 
+% Some PS machines read past the CR, so keep the following 3 lines together!
+currentfile 5 string readline
+00
+0000000000
+cleartomark 
+errordict /rangecheck FrameDict /tmprangecheck get put 
+FrameDict /bug get { 
+	/readline {
+		/gstring exch def
+		/gfile exch def
+		/gindex 0 def
+		{
+			gfile read pop 
+			dup 10 eq {exit} if 
+			dup 13 eq {exit} if 
+			gstring exch gindex exch put 
+			/gindex gindex 1 add def 
+		} loop
+		pop 
+		gstring 0 gindex getinterval true 
+		} def
+	} if
+/FMVERSION {
+	FMversion ne {
+		/Times-Roman findfont 18 scalefont setfont
+		100 100 moveto
+		(Maker version does not match postscript_prolog!)
+		dup =
+		show showpage
+		} if
+	} def 
+/FMLOCAL {
+	FrameDict begin
+	0 def 
+	end 
+	} def 
+	/gstring FMLOCAL
+	/gfile FMLOCAL
+	/gindex FMLOCAL
+	/landscape FMLOCAL
+	/docheight FMLOCAL
+	/docwidth FMLOCAL
+	/yscale FMLOCAL
+	/xscale FMLOCAL
+	/orgxfer FMLOCAL
+	/orgproc FMLOCAL
+	/organgle FMLOCAL
+	/orgfreq FMLOCAL
+/FMDOCUMENT {
+	array /FMfonts exch def
+	/#copies exch def
+	FrameDict begin
+	0 ne /landscape exch def 
+	/docheight exch def
+	/docwidth exch def
+	/yscale exch def
+	/xscale exch def
+	currenttransfer cvlit /orgxfer exch def
+	currentscreen cvlit /orgproc exch def
+		/organgle exch def /orgfreq exch def
+	end 
+	} def 
+	/pagesave FMLOCAL
+	/orgmatrix FMLOCAL
+/FMBEGINPAGE {
+	FrameDict begin 
+	/pagesave save def
+	
+	2 setlinecap
+	xscale yscale scale
+	landscape {
+		90 rotate
+		0 docheight neg translate
+		/fillprocs /fillprocs90 load store
+		}
+		{/fillprocs /fillprocs0 load store}
+		ifelse
+	/orgmatrix matrix def
+	gsave 
+	} def 
+/FMENDPAGE {
+	grestore 
+	pagesave restore
+	end 
+	showpage
+	} def 
+	/fontname FMLOCAL
+	/fontscale FMLOCAL
+	/fontnum FMLOCAL
+	/fontdict FMLOCAL
+/FMDEFINEFONT {
+	FrameDict begin
+	/fontname exch def
+	/fontscale exch def
+	/fontnum exch def
+	/fontdict fontname findfont fontscale scalefont def
+	fontdict /Encoding get StandardEncoding eq
+	{
+		fontdict DiacriticEncode 
+		/fontdict exch def
+	} {
+		fontdict NonDiacriticEncode
+		/fontdict exch def
+	} ifelse
+	FMfonts fontnum
+		fontnum fontdict definefont
+	put
+	end 
+	} def 
+/FMLINEWIDTHS { 
+	FrameDict begin
+	dup array /FMlinewidths exch def 
+	1 sub -1 0 {exch FMlinewidths 3 1 roll lnormalize put} for
+	end 
+	} def 
+/FMNORMALIZEGRAPHICS { 
+	newpath
+	0.0 0.0 moveto
+	1 setlinewidth
+	0 setlinecap
+	0 setgray
+	} bind def
+/FMBEGINEPSF {
+	end 
+	/FMEPSF save def
+	/showpage {} def 
+	FMNORMALIZEGRAPHICS
+	[/fy /fx /fh /fw /ury /urx /lly /llx] {exch def} forall 
+	fx fy translate 
+	fw urx llx sub div fh ury lly sub div scale 
+	llx neg lly neg translate 
+	} bind def
+ 
+/FMENDEPSF {
+	FMEPSF restore
+	FrameDict begin 
+	} bind def
+ 
+FrameDict begin 
+/savematrix {
+	orgmatrix currentmatrix pop
+	} bind def
+/restorematrix {
+	orgmatrix setmatrix
+	} bind def
+/dmatrix matrix def
+/dpi	72 0 dmatrix defaultmatrix dtransform
+	dup mul exch   dup mul add   sqrt
+def
+/max	{2 copy lt {exch} if pop} bind def
+/min	{2 copy gt {exch} if pop} bind def
+/DiacriticEncoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /space /exclam /quotedbl
+/numbersign /dollar /percent /ampersand /quotesingle /parenleft
+/parenright /asterisk /plus /comma /hyphen /period /slash /zero /one
+/two /three /four /five /six /seven /eight /nine /colon /semicolon
+/less /equal /greater /question /at /A /B /C /D /E /F /G /H /I /J /K
+/L /M /N /O /P /Q /R /S /T /U /V /W /X /Y /Z /bracketleft /backslash
+/bracketright /asciicircum /underscore /grave /a /b /c /d /e /f /g /h
+/i /j /k /l /m /n /o /p /q /r /s /t /u /v /w /x /y /z /braceleft /bar
+/braceright /asciitilde /.notdef /Adieresis /Aring /Ccedilla /Eacute
+/Ntilde /Odieresis /Udieresis /aacute /agrave /acircumflex /adieresis
+/atilde /aring /ccedilla /eacute /egrave /ecircumflex /edieresis
+/iacute /igrave /icircumflex /idieresis /ntilde /oacute /ograve
+/ocircumflex /odieresis /otilde /uacute /ugrave /ucircumflex
+/udieresis /dagger /.notdef /cent /sterling /section /bullet
+/paragraph /germandbls /registered /copyright /trademark /acute
+/dieresis /.notdef /AE /Oslash /.notdef /.notdef /.notdef /.notdef
+/yen /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/ordfeminine /ordmasculine /.notdef /ae /oslash /questiondown
+/exclamdown /logicalnot /.notdef /florin /.notdef /.notdef
+/guillemotleft /guillemotright /ellipsis /.notdef /Agrave /Atilde
+/Otilde /OE /oe /endash /emdash /quotedblleft /quotedblright
+/quoteleft /quoteright /.notdef /.notdef /ydieresis /Ydieresis
+/fraction /currency /guilsinglleft /guilsinglright /fi /fl /daggerdbl
+/periodcentered /quotesinglbase /quotedblbase /perthousand
+/Acircumflex /Ecircumflex /Aacute /Edieresis /Egrave /Iacute
+/Icircumflex /Idieresis /Igrave /Oacute /Ocircumflex /.notdef /Ograve
+/Uacute /Ucircumflex /Ugrave /dotlessi /circumflex /tilde /macron
+/breve /dotaccent /ring /cedilla /hungarumlaut /ogonek /caron
+] def
+	/basefontdict FMLOCAL
+	/newfontdict FMLOCAL
+/DiacriticEncode {
+	/basefontdict exch def
+	/newfontdict basefontdict maxlength dict def
+	basefontdict
+	{exch dup /FID ne
+		{dup /Encoding eq
+			{exch pop DiacriticEncoding}
+			{exch}
+			ifelse
+			newfontdict 3 1 roll put
+			}
+		{pop pop}
+		ifelse
+		} forall
+	newfontdict
+	} bind def
+/NonDiacriticEncode {
+	/basefontdict exch def
+	/newfontdict basefontdict maxlength dict def
+	basefontdict
+	{exch dup /FID ne
+		{exch newfontdict 3 1 roll put}
+		{pop pop}
+		ifelse
+		} forall
+	newfontdict
+	} bind def
+	/freq FMLOCAL
+	/bwidth FMLOCAL
+	/bpside FMLOCAL
+	/bstring FMLOCAL
+	/onbits FMLOCAL
+	/offbits FMLOCAL
+	/xindex FMLOCAL
+	/yindex FMLOCAL
+	/x FMLOCAL
+	/y FMLOCAL
+/setpattern {
+	 /freq    exch def
+	 /bwidth  exch def
+	 /bpside  exch def
+	 /bstring exch def
+	 /onbits 0 def  /offbits 0 def
+	 freq 0 {/y exch def
+		 /x exch def
+		 /xindex x 1 add 2 div bpside mul cvi def
+		 /yindex y 1 add 2 div bpside mul cvi def
+		 bstring yindex bwidth mul xindex 8 idiv add get
+		 1 7 xindex 8 mod sub bitshift and 0 ne
+		 {/onbits  onbits  1 add def 1}
+		 {/offbits offbits 1 add def 0}
+		 ifelse
+		}
+		setscreen
+	 {} settransfer
+	 offbits offbits onbits add div setgray
+	} bind def
+/grayness {
+	setgray
+	orgxfer cvx settransfer
+	orgfreq organgle orgproc cvx setscreen
+	} bind def
+/normalize {
+	transform cvi exch cvi exch itransform
+	} bind def
+/dnormalize {
+	dtransform cvi exch cvi exch idtransform
+	} bind def
+/lnormalize { 
+	0 dtransform exch cvi 2 idiv 2 mul 1 add exch idtransform pop
+	} bind def
+/fillprocs0
+	[{0.00 grayness}
+	 {0.10 grayness}
+	 {0.30 grayness}
+	 {0.50 grayness} 
+	 {0.70 grayness}
+	 {0.90 grayness}
+	 {0.97 grayness} 
+	 {1.00 grayness} 
+	 {<0F1E3C78F0E1C387> 8 1 dpi 16 div setpattern} 
+	 {<0F87C3E1F0783C1E> 8 1 dpi 16 div setpattern} 
+	 {<CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern} 
+	 {<FFFF0000FFFF0000> 8 1 dpi 16 div setpattern} 
+	 {<8142241818244281> 8 1 dpi 16 div setpattern} 
+	 {<03060C183060C081> 8 1 dpi 16 div setpattern} 
+	 {<8040201008040201> 8 1 dpi 16 div setpattern} 
+	 {}
+	 {1.00 grayness}
+	 {0.90 grayness}
+	 {0.70 grayness}
+	 {0.50 grayness} 
+	 {0.30 grayness}
+	 {0.10 grayness}
+	 {0.03 grayness} 
+	 {0.00 grayness} 
+	 {<F0E1C3870F1E3C78> 8 1 dpi 16 div setpattern} 
+	 {<F0783C1E0F87C3E1> 8 1 dpi 16 div setpattern} 
+	 {<3333333333333333> 8 1 dpi 16 div setpattern} 
+	 {<0000FFFF0000FFFF> 8 1 dpi 16 div setpattern} 
+	 {<7EBDDBE7E7DBBD7E> 8 1 dpi 16 div setpattern} 
+	 {<FCF9F3E7CF9F3F7E> 8 1 dpi 16 div setpattern} 
+	 {<7FBFDFEFF7FBFDFE> 8 1 dpi 16 div setpattern} 
+	 {}
+	] def
+/fillprocs90
+	 [{0.00 grayness}
+	 {0.10 grayness}
+	 {0.30 grayness}
+	 {0.50 grayness}
+	 {0.70 grayness}
+	 {0.90 grayness}
+	 {0.97 grayness}
+	 {1.00 grayness}
+	 {<87c3e1f0783c1e0f> 8 1 dpi 16 div setpattern}
+	 {<f0e1c3870f1e3c78> 8 1 dpi 16 div setpattern}
+	 {<0000ffff0000ffff> 8 1 dpi 16 div setpattern}
+	 {<cccccccccccccccc> 8 1 dpi 16 div setpattern}
+	 {<8142241818244281> 8 1 dpi 16 div setpattern}
+	 {<81c06030180c0603> 8 1 dpi 16 div setpattern}
+	 {<0102040810204080> 8 1 dpi 16 div setpattern}
+	 {}
+	 {1.00 grayness}
+	 {0.90 grayness}
+	 {0.70 grayness}
+	 {0.50 grayness}
+	 {0.30 grayness}
+	 {0.10 grayness}
+	 {0.03 grayness}
+	 {0.00 grayness}
+	 {<783c1e0f87c3e1f0> 8 1 dpi 16 div setpattern}
+	 {<0f1e3c78f0e1c387> 8 1 dpi 16 div setpattern}
+	 {<ffff0000ffff0000> 8 1 dpi 16 div setpattern}
+	 {<3333333333333333> 8 1 dpi 16 div setpattern}
+	 {<7ebddbe7e7dbbd7e> 8 1 dpi 16 div setpattern}
+	 {<7e3f9fcfe7f3f9fc> 8 1 dpi 16 div setpattern}
+	 {<fefdfbf7efdfbf7f> 8 1 dpi 16 div setpattern}
+	 {}
+	] def
+/fillprocs /fillprocs0 load def
+/H { 
+	FMlinewidths exch get setlinewidth
+	} bind def
+/X { 
+	fillprocs exch get exec
+	} bind def
+/V { 
+	gsave eofill grestore
+	} bind def
+/N { 
+	gsave stroke grestore 
+	} bind def
+/M {newpath moveto} bind def
+/E {lineto} bind def
+/D {curveto} bind def
+/O {closepath} bind def
+	/n FMLOCAL
+/L { 
+ 	/n exch def
+	newpath
+	normalize
+	moveto 
+	2 1 n {pop normalize lineto} for
+	} bind def
+/Y { 
+	L 
+	closepath
+	} bind def
+/K { 
+ 	/n exch def
+	newpath
+	moveto 
+	3 1 n {pop curveto} for
+	} bind def
+/J { 
+ 	/n exch def
+	newpath
+	moveto 
+	1 1 n {pop curveto} for
+	} bind def
+	/x1 FMLOCAL
+	/x2 FMLOCAL
+	/y1 FMLOCAL
+	/y2 FMLOCAL
+/R { 
+	/y2 exch def
+	/x2 exch def
+	/y1 exch def
+	/x1 exch def
+	x1 y1
+	x2 y1
+	x2 y2
+	x1 y2
+	4 Y 
+	} bind def
+/C { 
+	grestore
+	gsave
+	R 
+	clip
+	} bind def
+/U { 
+	grestore
+	gsave
+	} bind def
+/F { 
+	FMfonts exch get
+	setfont
+	} bind def
+/T { 
+	moveto show
+	} bind def
+/P { 
+	moveto
+	0 32 3 2 roll widthshow
+	} bind def
+/S { 
+	moveto
+	0 exch ashow
+	} bind def
+/B { 
+	moveto
+	0 32 4 2 roll 0 exch awidthshow
+	} bind def
+/Q { 
+	moveto
+	gsave show grestore
+	} bind def
+	/x FMLOCAL
+	/y FMLOCAL
+	/dx FMLOCAL
+	/dy FMLOCAL
+	/dl FMLOCAL
+	/t FMLOCAL
+	/t2 FMLOCAL
+	/Cos FMLOCAL
+	/Sin FMLOCAL
+	/r FMLOCAL
+/W { 
+	dnormalize
+	/dy exch def
+	/dx exch def
+	normalize
+	/y  exch def
+	/x  exch def
+	/dl dx dx mul dy dy mul add sqrt def
+	dl 0.0 gt {
+		/t currentlinewidth def
+		savematrix
+		/Cos dx dl div def
+		/Sin dy dl div def
+		/r [Cos Sin Sin neg Cos 0.0 0.0] def
+		/t2 t 2.5 mul 3.5 max def
+		newpath
+		x y translate
+		r concat
+		0.0 0.0 moveto
+		dl t 2.7 mul sub 0.0 rlineto
+		stroke
+		restorematrix
+		x dx add y dy add translate
+		r concat
+		t 0.67 mul setlinewidth
+		t 1.61 mul neg  0.0 translate
+		0.0 0.0 moveto
+		t2 1.7 mul neg  t2 2.0 div     moveto
+		0.0 0.0 lineto
+		t2 1.7 mul neg  t2 2.0 div neg lineto
+		stroke
+		t setlinewidth
+		restorematrix
+		} if
+	} bind def
+/G { 
+	gsave
+	newpath
+	normalize translate 0.0 0.0 moveto 
+	dnormalize scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	closepath eofill
+	grestore
+	} bind def
+	/x FMLOCAL
+	/y FMLOCAL
+	/w FMLOCAL
+	/h FMLOCAL
+	/xx FMLOCAL
+	/yy FMLOCAL
+	/ww FMLOCAL
+	/hh FMLOCAL
+/A { 
+	/y exch def
+	/x exch def
+	/h exch def
+	/w exch def
+	x y normalize /yy exch def /xx exch def
+	w h dnormalize /hh exch def /ww exch def
+	ww abs hh abs xx ww add yy hh sub
+	gsave
+	savematrix
+	newpath
+	translate
+	scale
+	0.0 0.0 1.0 5 3 roll arc
+	0 setlinecap
+	restorematrix
+	stroke
+	grestore
+	} bind def
+	/FMsaveobject FMLOCAL
+	/FMoptop FMLOCAL
+	/FMdicttop FMLOCAL
+/BEGINPRINTCODE {
+	/FMdicttop countdictstack 1 add def 
+	/FMoptop count 6 sub def 
+	/FMsaveobject save def
+	userdict begin 
+	/showpage {} def 
+	translate
+	FMNORMALIZEGRAPHICS
+	} bind def
+/ENDPRINTCODE {
+	count -1 FMoptop {pop pop} for 
+	countdictstack -1 FMdicttop {pop end} for 
+	FMsaveobject restore 
+	} bind def
+/gn { 
+	0 
+	{	46 mul 
+		cf read pop 
+		32 sub 
+		dup 46 lt {exit} if 
+		46 sub add 
+		} loop
+	add 
+	} bind def
+	/str FMLOCAL
+/cfs { 
+	/str sl string def 
+	0 1 sl 1 sub {str exch val put} for 
+	str def 
+	} bind def
+/ic [ 
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0223
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0223
+	0
+	{0 hx} {1 hx} {2 hx} {3 hx} {4 hx} {5 hx} {6 hx} {7 hx} {8 hx} {9 hx}
+	{10 hx} {11 hx} {12 hx} {13 hx} {14 hx} {15 hx} {16 hx} {17 hx} {18 hx}
+	{19 hx} {gn hx} {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12}
+	{13} {14} {15} {16} {17} {18} {19} {gn} {0 wh} {1 wh} {2 wh} {3 wh}
+	{4 wh} {5 wh} {6 wh} {7 wh} {8 wh} {9 wh} {10 wh} {11 wh} {12 wh}
+	{13 wh} {14 wh} {gn wh} {0 bl} {1 bl} {2 bl} {3 bl} {4 bl} {5 bl} {6 bl}
+	{7 bl} {8 bl} {9 bl} {10 bl} {11 bl} {12 bl} {13 bl} {14 bl} {gn bl}
+	{0 fl} {1 fl} {2 fl} {3 fl} {4 fl} {5 fl} {6 fl} {7 fl} {8 fl} {9 fl}
+	{10 fl} {11 fl} {12 fl} {13 fl} {14 fl} {gn fl}
+	] def
+	/sl FMLOCAL
+	/val FMLOCAL
+	/ws FMLOCAL
+	/im FMLOCAL
+	/bs FMLOCAL
+	/cs FMLOCAL
+	/len FMLOCAL
+	/pos FMLOCAL
+/ms { 
+	/sl exch def 
+	/val 255 def 
+	/ws cfs 
+	/im cfs 
+	/val 0 def 
+	/bs cfs 
+	/cs cfs 
+	} bind def
+400 ms 
+/ip { 
+	is 
+	0 
+	cf cs readline pop 
+	{	ic exch get exec 
+		add 
+		} forall 
+	pop 
+	
+	} bind def
+/wh { 
+	/len exch def 
+	/pos exch def 
+	ws 0 len getinterval im pos len getinterval copy pop
+	pos len 
+	} bind def
+/bl { 
+	/len exch def 
+	/pos exch def 
+	bs 0 len getinterval im pos len getinterval copy pop
+	pos len 
+	} bind def
+/s1 1 string def
+/fl { 
+	/len exch def 
+	/pos exch def 
+	/val cf s1 readhexstring pop 0 get def
+	pos 1 pos len add 1 sub {im exch val put} for
+	pos len 
+	} bind def
+/hx { 
+	3 copy getinterval 
+	cf exch readhexstring pop pop 
+	} bind def
+	/h FMLOCAL
+	/w FMLOCAL
+	/lb FMLOCAL
+	/bitmapsave FMLOCAL
+	/is FMLOCAL
+	/cf FMLOCAL
+/BEGINBITMAP { 
+	gsave
+	translate scale /h exch def /w exch def
+	/lb w 7 add 8 idiv def 
+	sl lb lt {lb ms} if 
+	/bitmapsave save def 
+	/is im 0 lb getinterval def 
+	ws 0 lb getinterval is copy pop 
+	/cf currentfile def 
+	w h 1 [w 0 0 h neg 0 h] 
+	{ip} image 
+	bitmapsave restore 
+	grestore
+	} bind def
+/ENDBITMAP {
+	} bind def
+end 
+%%EndProlog
+%%BeginSetup
+(1.2) FMVERSION
+1. 1. 612. 792. 0 1 6 FMDOCUMENT
+0 10. /Times-Roman  FMDEFINEFONT
+1 18. /Helvetica  FMDEFINEFONT
+2 12. /Times-Roman  FMDEFINEFONT
+3 12. /Courier  FMDEFINEFONT
+4 14. /Helvetica  FMDEFINEFONT
+5 24. /Helvetica  FMDEFINEFONT
+0.5 1. 3. 4. 4 FMLINEWIDTHS
+%%EndSetup
+%%Page: "1" 1
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 72. 749. T
+(Acm Guide) 72. 36. T
+(Page  1) 510.56 749. T
+(Revision 2.1) 489.44 36. T
+1 F
+(What is acm?) 72. 706. T
+2 F
+1.28 (Acm is a LAN-oriented, multiplayer aerial combat simulation.  My main design objec-) 108. 677. P
+1.41 (tive was to provide source code that could be easily compiled and executed on a wide) 108. 663. P
+1.07 (variety of platforms.  To that end, acm is written entirely in C, exploiting the program-) 108. 649. P
+(ming features of Unix, X11, and the BSD socket interface.) 108. 635. T
+2.75 (Players engage in air to air combat against one another using heat seeking missiles) 108. 607. P
+(and cannons.) 108. 593. T
+1.82 (Acm exists as two programs.  The first, named "acm", is a small program that, when) 108. 565. P
+4.25 (invoked, starts a flight session on a given workstation.  The second component,) 108. 551. P
+1.89 (named "acms", is a server process that manages the multiplayer environment.  It also) 108. 537. P
+1.75 (manages the flight simulation and display management that is required.  Most players) 108. 523. P
+2.52 (will prefer to run the acms process on a back-end server system on their local area) 108. 509. P
+2.88 (network.  Players at client workstations can then invoke the acm program to begin) 108. 495. P
+(play.) 108. 481. T
+1.71 (I play acm using a server that is a Mips RC3240 \050rated at roughly 18.5 SPECmarks\051.) 108. 453. P
+1.42 (I get very adequate display performance using a Mips RS2030 color workstation \05010.0) 108. 439. P
+2.06 (SPECmarks\051 or an NCD monochrome X terminal.  My choice of servers is probably) 108. 425. P
+2.3 (overkill.  I suspect that an 10+ SPECmark system could handle a typical mutiplayer) 108. 411. P
+(load.) 108. 397. T
+1.1 (This is the second release of acm.  The original version has been ported to a variety of) 108. 369. P
+(Unix derivatives and system architectures.) 108. 355. T
+1.87 (This document was prepared as a guide to acm programmers and players.  In the us-) 108. 327. P
+2.2 (er\325s section of this document, I make frequent references to the keyboard commands) 108. 313. P
+1.96 (that control acm.  A complete reference to these keystrokes can be found in the acm) 108. 299. P
+(man pages.) 108. 285. T
+(Riley Rainey) 108. 257. T
+(February 12, 1991) 108. 243. T
+FMENDPAGE
+%%Page: "2" 2
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 478.9 749. T
+(Acm Guide) 493.62 36. T
+(Page  2) 72. 749. T
+(Revision 2.1) 72. 36. T
+1 F
+(Building acm) 72. 706. T
+2 F
+1.54 (There are two main directories in the acm source tree: V and fsim.  V contains a 3-D) 108. 677. P
+(animation library and fsim holds the main flight simulator sources.) 108. 663. T
+1.63 (Both imake and make files are provided with the source tree.  If you have imake, the) 108. 635. P
+(simplest way to build acm is to type:) 108. 621. T
+3 F
+(% imake Makefile) 144. 594. T
+(% make Makefiles) 144. 580. T
+(% make) 144. 566. T
+2 F
+1.81 (The Makefiles were built with a stand-alone version of imake that is described in the) 108. 537. P
+1.34 (file acm.def.  If you don\325t have imake, you will certainly need to modify the Makefile) 108. 523. P
+3 F
+(CDEBUGFLAGS) 108. 509. T
+2 F
+( in each source directory.  Other changes may be needed, as well.) 187.2 509. T
+1.61 (A successful acm build will produce two executables in the fsim directory: ) 108. 480. P
+3 F
+1.61 (acms) 489.25 480. P
+2 F
+1.61 ( and) 518.05 480. P
+3 F
+1.65 (acm) 108. 465. P
+2 F
+1.65 (.  ) 129.6 465. P
+3 F
+1.65 (acms) 141.89 465. P
+2 F
+1.65 ( is the a server process that runs on a given system.  acm players invoke) 170.69 465. P
+1.59 (the ) 108. 450. P
+3 F
+1.59 (acm) 127.25 450. P
+2 F
+1.59 ( program with an argument that is the name of that server hostname.  Further) 148.85 450. P
+(information about starting acm can be found in the ) 108. 435. T
+3 F
+(acm.man) 354.3 435. T
+2 F
+( man pages.) 404.7 435. T
+1 F
+(What acm pilots should know) 72. 382. T
+2 F
+1.05 (You\325ll probably get alot more enjoyment out of acm if you have at least a basic under-) 108. 353. P
+(standing of how to fly an airplane.) 108. 339. T
+1.09 (You\325ll also survive alot longer in the air if you have some understanding of air combat) 108. 311. P
+2.34 (tactics.  This document will not cover that subject in any depth, but there are many) 108. 297. P
+1.7 (books on the subject that can be found at your local bookstore.  A readable reference) 108. 283. P
+1.32 (is "Modern Figher Combat" by Mike Spick; an Arco Military Press book published by) 108. 269. P
+(Prentice Hall \050ISBN 0-13-451055-0\051.) 108. 255. T
+FMENDPAGE
+%%Page: "3" 3
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 72. 749. T
+(Acm Guide) 72. 36. T
+(Page  3) 510.56 749. T
+(Revision 2.1) 489.44 36. T
+2 F
+(A mission in acm goes something like this:) 108. 711. T
+(Takeoff) 144. 683. T
+(Intercept a target) 144. 655. T
+(Lots of dogfighting) 144. 627. T
+(Get shot down or run out of ammunition) 144. 599. T
+(Break away and land, if you still have a plane to fly) 144. 571. T
+(Re-arm and fly again) 144. 543. T
+1.22 (The current version of acm doesn\325t support the notion of specific scenarios, but it isn\325t) 108. 501. P
+(hard to get a few people together and create some of your own.) 108. 487. T
+1 F
+(Stick, Rudder, and Throttle) 72. 435. T
+2 F
+1.82 (The mouse is your stick.  The stick is centered when the mouse pointer is positioned) 108. 406. P
+1.57 (on the small circle at the center of the Head-Up Display \050see the diagram on page 4\051.) 108. 392. P
+1.33 (Stick deflection is controlled by moving the mouse within the acm view window only.) 108. 378. P
+1.4 (If the mouse pointer is moved outside of that window, the stick will hold its last sam-) 108. 364. P
+1.76 (pled deflection inside the window until it is returned.  Other than that, the mouse be-) 108. 350. P
+1.36 (haves pretty much as a normal control stick: pull back for up-elevator, away from you) 108. 336. P
+(for down-elevator, left and right movements introduce corresponding aileron inputs.) 108. 322. T
+2.49 (The rudder is controlled by the \050ZXC\051 keys on the keyboard.  Pressing the \050Z\051 key) 108. 294. P
+1.57 (applies left rudder.  Repeated key presses increase the left rudder deflection.  Similar-) 108. 280. P
+2.53 (ly, the \050C\051 key incrementally causes a right rudder deflection.  The \050X\051 key centers) 108. 266. P
+(the rudder. ) 108. 252. T
+2.65 (The throttle is controlled by the \0501234\051 keys on the alphanumeric keypad.  The \0504\051) 108. 224. P
+3.01 (key set the throttle to one hundered percent power.  The \0501\051 key idles the engine.) 108. 210. P
+3.15 (The \0502\051 and \0503\051 keys, respectively decrement and increment the current power set-) 108. 196. P
+(ting.  The \050A\051 key toggles the afterburner.) 108. 182. T
+FMENDPAGE
+%%Page: "4" 4
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 478.9 749. T
+(Acm Guide) 493.62 36. T
+(Page  4) 72. 749. T
+(Revision 2.1) 72. 36. T
+72. 72. 540. 720. C
+72. 324. 540. 720. C
+72. 324. 540. 720. R
+7 X
+V
+0 X
+514 526 246.72 252.48 183. 395.52 
+
+%%BeginBinary:  6077     
+BEGINBITMAP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+F"8"J$
+F987?C3FFFCF%J$
+E1FFFE3F?1FFFF0F"8"J$
+C97F?3FFFE4F%J%
+F9FFFCFF>FE7FFFFCI"J%
+8F<F8700647I"J%
+67<F3300633I"J%
+F3<FF3FFE79J$
+O"F03006J"
+O"E7G$J%
+FC7E67=3FFF33E3F%J(
+C03C7F0F<F09FFF87E3E01FF%JR
+FFFFFFFF<
+
+
+
+
+
+J$
+LF0FE1FJ$
+LE67CCFJ#
+LEF3CJ$
+LFE79E7J#
+LF8F9J#
+LFE79J"a":"a#
+9C03FC07F39JS:S
+9J$
+LEF3CCFJ#
+LE67CJ$
+LF0FE1FJ$
+LFFFFFF
+
+
+
+
+
+J"
+O'FCJ"
+O'F0J"
+O'E4G#J"
+C07FBFCG#
+FFFF
+J#
+O%E000J#
+O%FFFF
+
+J#
+O'E01FJ#
+O'FFFF
+G#
+C07FG#
+FFFF
+J#
+O%E03FJ#
+O%FFFF
+
+
+
+
+G#
+C07FG#
+FFFF
+J#
+O%E03FC$J#
+FE1FC3CFFFFC$
+FCCF99C#
+FDE7C$
+FFCF3CD"
+1FD"
+CFD&
+E73CF0007FF$
+FFFFFFC$
+FDE799C#J#
+FCCFDE03FC$J#
+FE1FC3CFFFFC$
+FFFFFF
+
+
+
+G#
+C07FG#
+FFFF
+J#
+O%E03FJ#
+O%FFFFJ"
+O2BF
+J%
+O'F87FFE03J%
+O'F33FFE7F
+G#J#
+C07FBE79FG#J"
+FFFFE07J"
+O*73J#8#
+O%E000FFF3J$:#
+LF0FE1FFFFFJ$<#
+LE67CCFF33FJ#>$
+LEF3C3E3E67J$<%
+LFF39E7F87E3E0FJ%
+O'FFFFFFFFJ#
+LFE79G#<"a":"a#
+C07FC03FC07CF9G#<S:R"
+FFFFF9J$
+LF3FCCFJ#;#
+LE73CE03FJ$:#
+LE03E1FFFFFJ$
+LFFFFFF
+
+
+
+G#E"
+C07FF8G#E#
+FFFFF77F
+J#
+O%E03FC$H#E#
+FE1F01F8FFFFFFC$H"
+FCCF3FFFC#
+FDE7C"
+FFE"
+03D#
+CF39D&
+9FF9F0007FD)J%
+3FF9FFFFC000000F:0000003FC#9%J%
+FE7FFFFFFFFF:FFFFFFFFC$J#
+FCE733CE03FD#J#
+0707CFFFFC$
+FFFFFF
+
+
+
+G#
+C07FG#
+FFFF
+J#
+O%E03FJ#
+O%FFFF
+
+J#
+O'F87FJ#
+O'F33F
+G#J#
+C07FBE79FG#
+FFFFJ"
+BFDJ#
+O%E000J#
+O%FFFFJ#
+O'F33F
+J#
+O'F87FJ#
+O'FFFFJ#
+BF07FG#E#
+C07FCF9FG#E#
+FFFFBFEFJ#
+B7FF7J$
+AFEFFFB
+J$
+AFDFFFD
+J'
+@F001FFFC007FJ'
+@FFFDFFFDFFFF
+G#D$
+C07FFEFFFBG#
+FFFFJ$
+AFF7FF7J#
+BBFEFC$H#
+FE1FC3CF9FC$H#
+FCCF99F07FC#I#
+FDE7FFFFC$
+FFE73C
+D"J$
+CF=FE7F0FD&J$
+9F3CF0007F9F87E67D&J"
+3F3CFFFFFF9F2C$J$
+FE7F99<FE7CF3C#
+FCE7D#
+07C3C$?"a":"a"
+FFFFFFE03FC03EJS:R"
+9FEJ#
+M7E67
+J$
+LF00F0FG#J$
+C07F9FFFFFFG#
+FFFF
+
+
+
+
+
+
+
+G#
+C07FG#
+FFFF
+
+
+
+
+
+
+
+G#
+C07FG#
+FFFF
+
+
+
+
+
+
+
+
+
+
+
+
+J$:$;"
+:FC3E03FC3FC3F9J$:$;"
+:F99E7FF99F1FE1E&<#;$;"@&
+E7F0FC3E1FFBCEFBCF3FC980FF3F3F8FE*8#;$;"@&
+87E6799CCFFFE1E03FFF9EFF9E7FF99FFE3C3F27E";$8$:$G%
+27F9F39FFE3E07FE3E47FC393E73E*8$:$G%
+E7CF33CE1FFFF0F3CFFF9E73FF9E33F93F3F77H'9#;#F#8"
+CFE3FFF6F39FCFF3CE7981F38FI&J$8"
+0FFFE6703F;FC9CF727H#8#8"<"G'
+CC7F739FFBFBF23CE73F3E73H'8$:$E%
+CF87FFE073CFF99E67F99F33E6CCE01FF(9$:$;#>%
+E6799F33FFCF33FC3E0FFC3F87C03F8F70FF3FJ"8$:$;#>#8#
+79FFFFFFFFFFFFFFFFF3F983F27E*J(
+00F0FC3F87FF86003F:FC7F833C18078FETJ(
+:FAFFDFCFFFFFFFJ"<"<">%
+;FDFDFDE5FFEFF3J&
+O$D3FFF7FC7FJ"8#
+O$2FFF9FJ'
+O#FEDFFFFBFFE7J"<"@'
+?DFDFF9BFFFFDFFF9J(
+O#F77FFFFEFFFE7FJ#9#
+O#CEFFFF9FJ"8%
+O#B9FF7FFFE7J#9$
+O"FE77BFFFF9J"9"8"9"8"<#9%
+;FFFFFFFFFFFDEFDFFFFE7FJ"C#;#
+BFDFBDFFF8FJ#9"8"
+O"E7BFEFF3J#9"8"
+O"DE7FF7FCJ#<#
+O"3DFFFF3FB%J#:"9"
+0F03C78F?FEFBFBCFB%J#:"9"
+CF99E79F?F9F7FDF3B%J#:"9"
+879CE31F?F7EFFEFCB"J#>#
+B7BCFDFFF3FB$>$J#:#9"
+3399E080601F5BF3FFF7FC7C$H"A$;"9"
+83E49FFFFE7EFFBFF9B#?$J#@#
+0399FFFFFF4FDFDFE7FA%J#<"9#
+FE799CE7?F3FBDFFF9FJ#<":"
+O EFF7EFE7A&J#<":"
+FC3004430F>9FCFF7F9APJ#A#
+>7FBFFE7Fj"
+O23FZ"D&
+MF807FFFFFFBFJZ
+M0
+
+
+
+B"<#
+8FF87FB+
+27FFF0F80478FFF331E3A,
+FE73FFFCFF3E79FFE799E7A(8#
+FF77FFF87F3E3198C7B$:#
+8FFFFBF318B+
+27FFF33F3E0180789807A#:&
+FE7349807F9927D"9#D#
+F0FFFFC01FD%8#B#
+E79F3E7939E7CF9FA#<"D#
+FF27FE8F8FB+B#
+8FFFC3080430FFF0F0C3BFEFBU
+J#
+B3FE7J#
+B7DF7
+J"
+B7FJ$
+AFEFFFB
+
+J$
+AFCFDF9J$
+AFDFDFD
+J$
+AF9FDFCJ$
+AFBFFFEJ"
+BFDJ"8"
+AF37F
+J$
+AF7FFFFJ"
+BFDJ"8"
+AE73FJ"8"
+AEFBFJ"
+BFF"J"8"
+3F@CF9F#J$
+C001@FDFFDF%J"
+FFFE000F=DF7&J"8"
+FFFFF0007F;9FCF"8%J"
+1FFFFF8003;FF#9%J"8"
+E003FFFC003F8BFEF%8%J"8"
+FFFC003FFFFFC00173FE77%9%J"
+FFFFC007FFFE000F6FD9%8&I"8"
+FFF8007FFFFFF0007F7FF7:%9%
+FFFF800FFFFF8003<$:%E"9"
+FFF000FFFC003FFEF3=%9%F"
+FFFF001FFFFFC001FF?$:%C"8"
+FFE001FFFE000FFFFB@%9&@"9"
+FFFE003FFFFFF0007FFCF9A%:%
+FFFFC003FFFF8003C%:%="9"
+FFFC007FFFFC003FFDFDD%:%<&
+FFFF8007FFFFC001F9FFFDFFFCF$;%
+FFF800FFFE000FG%:&
+FFFF000FFFFFF0007FI$;'9#
+FFF001FFFF8003FFF3FE7FJ%;%
+4FFFE001FFFFC0033J%;&
+5FFFFE003FFFFC001FFJ%;&
+7FFFC003FF7FE000FFFJ%:'
+8FFFFC007E7FFFFF0003FJ%;%
+:FFF8007FFFFF0003J%<%
+;FFFF800F3FFC003FJ%:&
+=FFF000CF9FFFFFC001j";$:"8#9j"
+83FFFFFFFFFFFFF33FJ"j"
+820301
+
+
+
+
+
+
+
+
+
+
+
+
+
+J"
+B04C#
+3FFCB%
+03C003C0B%C"?"
+1C0000381001B"8"J$
+6006F01FFC0A#8#G"I$
+01800180001FFFFCA#8#J%
+02000040EFE003F80A":"J&
+0C30D03601C0360A":"B"?"C&
+1008000005801C00D0A":"J&
+2004D1E0008003CA":"J"9"
+4002D380EA":"J'
+8001DE00000000380@#:#J(
+01000080B01400018000140@"<"J(
+0240B028000240000A0@"<"J#9#
+0420B05000250@"<"J":#
+0810B060130J":#
+O&0C0398@"<"J":#
+1008B18060C@"<"J$
+2004E180000J"8"8"
+O&300006@"<"J";"
+4002B5005J#J";"
+827C4:6003@"<"<#J";#
+8001204A:A00280J"J";"
+991:C001J#
+82111?#<#;$G"<#;#
+0100008023911F3F018000C0J$G"
+820510001
+J#
+8244A?">";#J#<"
+024023849030060J#
+82000J$8#
+O&0231800C60J$8#
+O&064A401090J$9"
+O&72FFC097J(
+O&524A7FF8000C95J(
+O&724A4000001297J";"
+O&0290J$8#
+O&0731800C60J$8#
+O&0000000000
+J'8"
+O%018000073910C0?">"J#
+0180C04A5J"
+O*B0J$
+O(073950J&8#
+O%00C00006210180?#<#J$
+00800100C05A110J$9"
+O&A0000402J"`#
+O&600300@"<"J";"
+4002B5005J";"
+O&3006@"<"J";"
+2004B180CJ&
+O'1000630004@"<"J(
+1008B0CB00094800698@"<"J#9#
+0810B06600330J(
+O&05200064800250@"<"J(
+0420B028000948000A0@"<"J#9#
+0240B01400140@"<"J(
+0180B00E00063000380@#:#J'
+00800100C380008000E00A":"J"9"
+4002D1E3CA":"J&
+2004D05801400D0A":"J&
+1008D03601C0360A":"J&
+0C30D00FE003F80A":"J%
+0240E1FFFFC00A#8#J$
+01800180E01FFC0A#8#J$
+00600600E000000B"8"
+1C38B%>#<&="
+03C003C02F801FF00401FF3FB%>#<&="
+003FFC00200000080A020001C#H$
+0000041104J$
+A022088J$
+A014050J$
+A008020J#
+B0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+J-
+O'1C03E20801880003E00001BFJ&8%
+O'220026140000801000J%
+O'20004A22J"8'
+O)428F1C00873C70J$8'
+O'3C008288A200889008J";"9"
+O'229878J#9"9"
+O(01028488J$8"8"
+O(310214A292J-
+O'1C210F8801CF1C00870C79FFJ#d"
+O'00403FJ"
+O(00J#
+827C4J#
+8204AE$="
+01FFFC91E%;#
+3F7777FF2111E&:$G"
+DEEEEEEEFF23911F3FD(9$G"
+01DDDDDDDDDDF820510001E(
+5BBBBBBBBBDFC0E(8#
+5F77777777BFFC244AD"P'J*
+007FFFC0002384:0F9C03E73E0188000AEd#J'
+2000:082200288200J#9"
+O)488412J"8*
+O&0B4088008F1C12C722B0J-
+O&0C9E00811C0088A22328A2C8J&8#8"
+O&0082008202984280J#9"
+O(010484J&8%
+O&08A2310822A28228A6J,
+O&071C210F9C01CF1C82271AJ$d
+O&000040J"
+O(00D#:"
+01F310E":"
+0128H$
+010044F%
+0E78E380E&
+E101451100E%
+010F44C0F$
+114420G%>"?"
+791100281001E'C"
+038F40E3801004D(
+00000040010000H"
+00G"
+00J"?"
+=0000J"
+B00J#?#
+<07C47C40J#?#
+<004A04A0J"?#
+=910910J#?"
+<011111J#?"
+<039139J#?"
+<005105
+J#?#
+<044A44A0J#?#
+<03843840J#?#
+<00000000
+
+ENDBITMAP
+
+%%EndBinary
+1 H
+3 X
+450. 549. -63. 18. W
+171. 639. 63. -72. W
+396. 657. -18. -27. W
+234. 657. 18. -27. W
+450. 504. -45. 18. W
+468. 459. -54. -9. W
+441. 414. -18. 0. W
+234. 369. 9. 27. W
+351. 378. -27. 36. W
+171. 423. 63. 27. W
+4 F
+0 X
+2.42 (Angle of Attack) 360. 666. P
+(G-Meter) 207. 660. T
+(Airspeed) 108. 655. T
+(Ladder) 108. 637. T
+2.54 (\050248 kts\051) 108. 619. P
+-1.14 (Rate of) 459. 495. P
+(climb) 459. 481. T
+(Engine) 477. 459. T
+-0.45 (RPM %) 477. 445. P
+(Fuel) 450. 421. T
+(remaining) 450. 409. T
+(&) 476. 394. T
+(consumption) 450. 381. T
+(Radar) 360. 369. T
+(Display) 360. 355. T
+(Flap) 198. 360. T
+(indicator) 198. 346. T
+(Threat) 117. 432. T
+(Display) 117. 418. T
+(\050TEWS\051) 117. 404. T
+3 X
+450. 630. -126. -72. W
+0 X
+(Flight) 459. 639. T
+(path) 459. 625. T
+(marker) 459. 611. T
+(Altitude) 459. 558. T
+(Ladder) 459. 544. T
+0.65 (\050210 ft\051) 459. 530. P
+3 X
+162. 531. 63. -18. W
+162. 486. 144. 27. W
+0 X
+(Weapon) 99. 534. T
+(Discretes) 99. 516. T
+(Heading) 90. 486. T
+(Ladder) 90. 472. T
+5 F
+1.43 (The  acm Cockpit) 214. 690. P
+4 F
+(Throttle) 99. 576. T
+0 H
+3 X
+153. 576. 81. -45. W
+72. 72. 540. 720. C
+U
+1 F
+0 X
+(The Head Up Display \050HUD\051) 72. 304. T
+2 F
+1.91 (The HUD is a collection of instruments that permits pilots to focus their attention on) 108. 275. P
+2.46 (what\325s going on outside of the cockpit.  These instruments are projected onto a flat) 108. 261. P
+3.49 (pane of glass located near the windscreen.  Much of the information is displayed) 108. 247. P
+(graphically to give the pilot a quicker understanding of his or her immediate situation.) 108. 233. T
+4 F
+(Ladders) 72. 198. T
+2 F
+2.2 (Four tape-style "ladders" display basic flight information.  On the left, is the plane\325s) 108. 170. P
+1.51 (true airspeed.  Each minor tick on the airspeed ladder represents 10 nautical miles per) 108. 156. P
+(hour \050also known as knots and abbreviated "kts"\051.) 108. 142. T
+1.82 (On the right is the altitude ladder.  Each tick represents 100 feet. In acm, the ground) 108. 114. P
+2.41 (is completely flat \050except for a few mountains\051 and located at sea level.  A rate-of-) 108. 100. P
+2.18 (climb readout is located just below this ladder; rate-of-climb is expressed in feet per) 108. 86. P
+FMENDPAGE
+%%Page: "5" 5
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 72. 749. T
+(Acm Guide) 72. 36. T
+(Page  5) 510.56 749. T
+(Revision 2.1) 489.44 36. T
+2 F
+(minute.) 108. 711. T
+(In the lower center is a horizontal heading ladder.  Each tick represents five degrees.) 108. 683. T
+2.63 (In the center is an attitude ladder.  Each line corresponds to ten degrees of aircraft) 108. 655. P
+(pitch.  The ladder rolls as the aircraft does, providing an artificial horizon.) 108. 641. T
+4 F
+(Angle of Attack) 72. 606. T
+2 F
+1.59 (The acm HUD has two indicators to give the pilot cues as to the planes current angle) 108. 578. P
+1.44 (of attack and sideslip.  First, above the altitude ladder, is a readout of the plane\325s cur-) 108. 564. P
+1.69 (rent angle of attack in degrees.  The acm F-16 will stall at a positive angle of 30 de-) 108. 550. P
+(grees and a negative angle of -15 degrees.) 108. 536. T
+1.66 (Additionally, a plane-shaped "flight path marker" indicates the aircraft\325s current direc-) 108. 508. P
+0.94 (tion of travel.  Level flight occurs when the flight path marker is aligned with the zero-) 108. 494. P
+(degree artificial horizon line.) 108. 480. T
+4 F
+(The G-Meter) 72. 445. T
+2 F
+2.77 (A readout of the current vertical G-force on the pilot is located above the airspeed) 108. 417. P
+(ladder.) 108. 403. T
+4 F
+(Throttle Setting) 72. 368. T
+2 F
+2.48 (A readout below the airspeed indicator shows the current throttle setting.  An "AB") 108. 340. P
+2.4 (flag, or "discrete", to the right of this indicator shows the state of the afterburner --) 108. 326. P
+(an "AB" indication means that the afterburner is on.) 108. 312. T
+4 F
+(Weapon State) 72. 277. T
+2 F
+2.03 (Below the throttle indicator are discretes that show the state of the currently selected) 108. 249. P
+(weapon system.) 108. 235. T
+1 F
+(The Radar System) 72. 171. T
+2 F
+1.45 (The acm radar system has a field of view that extends 130 degrees laterally and verti-) 108. 142. P
+1.34 (cally from the front of the aircraft.  The radar set\325s range is about 80 nm.  All aircraft) 108. 128. P
+(within that range and field of view will appear as a box on the radar display.) 108. 114. T
+4.76 (If any objects are radar-visible, the set will automatically lock onto the closest) 108. 86. P
+FMENDPAGE
+%%Page: "6" 6
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 478.9 749. T
+(Acm Guide) 493.62 36. T
+(Page  6) 72. 749. T
+(Revision 2.1) 72. 36. T
+2 F
+1.56 (threat.  With radar lock acquired, your display will provide detailed information about) 108. 711. P
+1.47 (the locked, or "primary", target\325s disposition.  A primary target appears as a solid box) 108. 697. P
+1.88 (on the radar display -- the display provides information on the primary target\325s range) 108. 683. P
+1.83 (and altitude, as well as it\325s current heading, your desired relative heading to intercept) 108. 669. P
+(and the rate of closure of your two aircraft.) 108. 655. T
+72. 72. 540. 720. C
+72. 264. 540. 636. C
+72. 264. 540. 636. R
+7 X
+V
+72. 264. 540. 636. C
+72. 246. 540. 636. R
+7 X
+V
+5 F
+0 X
+1.48 (The  Radar  Display) 198. 588. P
+4 F
+(Target\325s) 423. 532. T
+(Altitude) 423. 514. T
+1.96 (\05012-13,000 ft\051) 423. 496. P
+175 178 168. 170.88 222. 352.12 
+
+%%BeginBinary:  949      
+BEGINBITMAP
+
+
+
+
+
+"J"
+074E1"j"
+04421
+
+
+
+
+
+
+;"@#
+8010E0:#@#
+01403110:#@"
+022051F"
+10G"
+20G"
+40G"
+80:#;":#
+0140801100:#@#
+00807DF0;"@#
+000000;"@"
+0220
+A"
+00
+
+;"@"
+0000
+
+
+
+
+
+
+
+
+
+
+
+7#
+F8807#
+09407#
+12207"
+227$F#
+7223E007E17$F#
+0A20000021
+7#
+89407#
+70807#
+0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A#
+0FE0
+
+
+#<'<#
+05F003FE008FFFE007E1#<'<#
+04000001014FE0000021?$
+00822F@$
+441100@#
+280A@#
+1004@#
+0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+G$
+011F7CG$
+030140G%
+05024003G&
+01045804A1H#
+0E647#E%
+F880010403217#G"
+0940007#E#
+122011447"E$
+2207CE387$C&
+7223E000000007E17$F#
+0A20000021
+7#
+89407#D&
+7080011F3807A17#D&
+00000301440461G#
+0502G#
+0104H%
+0E3807A1H%
+01440521J#
+404A1H"8"
+1161G$
+07CE38G&
+0000000021
+
+
+G&
+01043803A1G&
+030C440461G#8"
+051421G$
+010404F%
+01F10408;"@%
+0220010410A"="
+8020I$
+400461G&
+07DF7C03A1G&
+0000000021;"@"
+0000A"
+00;#>#
+F8800F88;#>#
+09400094;#>#
+12200122;"?"
+2202;"?"
+7207;"?#
+0A00A2
+;#>#
+89400894;#>#
+70800708;#>#
+00000000
+"Z"
+074E1j"
+501Z
+6
+
+
+
+
+
+ENDBITMAP
+
+%%EndBinary
+222. 353. 390. 523. R
+0 H
+4 X
+N
+1 H
+3 X
+414. 519. -54. -9. W
+0 X
+(Target\325s) 423. 438. T
+(heading) 423. 424. T
+(Relative) 423. 393. T
+1.62 (heading to) 423. 379. P
+(target) 423. 365. T
+(Closure) 351. 312. T
+1.66 (rate  \050-112 kts\051) 351. 298. P
+3 X
+369. 330. 0. 36. W
+414. 384. -27. 9. W
+414. 438. -45. -27. W
+0 X
+0.19 (Range to) 117. 537. P
+(target) 117. 523. T
+2.11 (\0500-1 nm\051) 117. 509. P
+3 X
+189. 519. 63. -9. W
+290. 380. 296. 386. R
+7 X
+N
+3 X
+189. 411. 108. 27. W
+0 X
+(Primary) 141. 414. T
+(target) 143. 400. T
+2.3 (Other target) 220. 315. P
+3 X
+261. 339. 27. 36. W
+72. 264. 540. 636. C
+72. 72. 540. 720. C
+U
+2 F
+0 X
+2.78 (The radar set\325s ability to establish a positive lock on a target extends for a shorter) 108. 253. P
+1.94 (range than the radar\325s maximum detection range  -- radar lock is limited to about 60) 108. 239. P
+(nm on the F-16 and 30 nm on the MIG-23.) 108. 225. T
+1.16 (If multiple targets are plotted on your radar display, you can lock onto other targets by) 108. 197. P
+(pressing the target designator key \050Q\051.) 108. 183. T
+1.54 (The radar on/standby key \050R\051 can be used to toggle your radar set between its normal) 108. 155. P
+2.12 (operating mode and a standby state.  When your radar is in standby mode, your air-) 108. 141. P
+(craft emits no radar energy and can be more difficult to detect.) 108. 127. T
+FMENDPAGE
+%%Page: "7" 7
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 72. 749. T
+(Acm Guide) 72. 36. T
+(Page  7) 510.56 749. T
+(Revision 2.1) 489.44 36. T
+1 F
+(Electronic Countermeasures) 72. 706. T
+4 F
+(Threat Warning \050TEWS\051) 72. 670. T
+2 F
+2.34 (Each aircraft is equipped with an ECM receiver called a Threat Early Warning Sys-) 108. 642. P
+2.31 (tem \050TEWS\051.  It\325s display is the round "CRT" to the left of the radar display.  The) 108. 628. P
+1.18 (ECM receiver can detect radar emissions from other aircraft and will plot a box on the) 108. 614. P
+(TEWS display representing the relative direction of that radar threat.) 108. 600. T
+1.37 (This receiver cannot detect aircraft that have their radar units directed away from your) 108. 572. P
+2.56 (aircraft, nor is it capable of detecting aircraft that have their radar sets turned com-) 108. 558. P
+(pletely off.) 108. 544. T
+1 F
+(Weapon Systems) 72. 480. T
+2 F
+4.37 (Your aircraft is equipped with heat-seeking missiles and a 20-millimeter cannon.) 108. 451. P
+0.93 (Weapon information is displayed in the lower left-hand corner of your HUD.  Different) 108. 437. P
+2.11 (weapons may be selected by pressing mouse button 3.  The currently selected weap-) 108. 423. P
+(on is fired by pressing mouse button 2.) 108. 409. T
+4 F
+(Missiles) 72. 360. T
+2 F
+2.76 (The missiles are patterned after U.S. AIM-9M Sidewinders.  They can detect infra-) 108. 332. P
+1.83 (red \050IR\051 targets at any aspect \050not just from the rear\051.  Their range varies dramatical-) 108. 318. P
+2.03 (ly with the altitude and closure rate.  The missile subsystem couples with your radar) 108. 304. P
+(set to provide time-to-impact information when AIM-9\325s are selected.) 108. 290. T
+FMENDPAGE
+%%Page: "8" 8
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 478.9 749. T
+(Acm Guide) 493.62 36. T
+(Page  8) 72. 749. T
+(Revision 2.1) 72. 36. T
+72. 72. 540. 720. C
+72. 495. 540. 720. C
+72. 495. 540. 720. R
+7 X
+V
+72. 495. 522. 720. C
+54. 495. 522. 729. R
+7 X
+V
+0 X
+206 108 197.76 103.68 289. 573.32 
+
+%%BeginBinary:  707      
+BEGINBITMAP
+
+
+=#
+F01F=#
+FFFF
+
+
+
+
+
+
+
+=#
+F01F=#
+FFFF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+J#
+4CFC3J#
+40F99<%?$
+FC7C0787FE4FBC<%?$
+F93CE733FFCFFC<#
+F39F<%A"
+FBBFCF87F9<%A"
+FC7FCFF8F3<%A"
+F93F9FC3E7<%A"
+F39F9F1FCF?"A"
+E19C>#?$
+3FCCFE0180<#A$
+F93FFFFFFF<%
+FC7F3FE1<%
+FFFFFFFFJ"
+57F
+
+
+G"<"
+F7F7
+
+
+
+G"9"8"
+FFFFFFJ"
+97F
+
+C#
+E03F8(:"
+03F07E14218040E78)9"
+CFE738C673CE663FFF:&:#
+39E667CFE7FE7F9(
+CF93FE4FCDE79F<#;#
+1FC1FCFF<#G"
+0FCDFF8#8#
+CE4F67CF9(9"
+6739E667CE673FF9:&
+38C673CE668)
+00707E1C118040FF8R:"
+FF
+
+
+
+
+
+
+8"<#
+E3FE1F8+
+C9FFFC3E011E3FFCCC788+
+9CFFFF3FCF9E7FF9E6798'9"
+DDFFFE1FCF8C318"8"9#
+E3DFFCC68+
+C9FFFCCFCF80601E26018":&
+9C92601FE649;"8#
+0F7FFF:%8#
+F9E7CF9ECE798"="
+C98E8+
+E3FFF0C2010C3FFC3C308U
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ENDBITMAP
+
+%%EndBinary
+4 F
+2.44 (Missile\325s IR seeker is) 99. 680. P
+1.28 (locked onto the target and) 99. 666. P
+1.13 (is ready to launch.) 99. 652. P
+1 H
+3 X
+243. 655. 54. -27. W
+0 X
+1.06 (Eight missiles of this) 81. 592. P
+(type remain.) 81. 578. T
+3 X
+216. 601. 81. 0. W
+0 X
+7.86 (AIM-9M Sidewinders) 205. 547. P
+3.74 (are selected) 205. 533. P
+3 X
+297. 558. 36. 34. W
+423. 583. -27. 27. W
+0 X
+0.6 (Time to impact) 405. 567. P
+3.55 (Missile  Discretes) 244. 507. P
+72. 495. 540. 720. C
+72. 72. 540. 720. C
+U
+2 F
+0 X
+2.13 (This missile has a solid rocket motor that burns for about 15 seconds.  After that, it) 108. 463. P
+2.14 (will still track towards its intended target but may lose speed too rapidly to catch it.) 108. 449. P
+3.7 (Your heat seeking missiles don\325t arm themselves until three seconds after launch.) 108. 435. P
+(You should not fire at a target that is closer than four seconds of flight time away.) 108. 421. T
+4 F
+(Cannon) 72. 372. T
+2 F
+1.78 (Cannon can be used to engage targets at closer range.  Your cannon is modeled after) 108. 344. P
+0.98 (the U.S. M61A1 Vulcan.  Aircraft typically begin a mission with 500 rounds of ammu-) 108. 330. P
+1.62 (nition; the cannon fires at 3000 rounds per minute so you only have enough ammuni-) 108. 316. P
+(tion for a ten second continuous burst: use it carefully.) 108. 302. T
+(.) 72. 288. T
+72. 72. 540. 720. C
+72. 81. 540. 283. C
+72. 81. 540. 283. R
+7 X
+V
+126. 114. 540. 252. C
+126. 114. 594. 252. R
+7 X
+V
+0 X
+190 84 182.4 80.64 162. 151.36 
+
+%%BeginBinary:  732      
+BEGINBITMAP
+A#
+801F?%
+FE007FFF>%
+F801FFFF=$
+E007FF<$
+801FFF:%
+FC007FFF9%
+F003FFFF8$
+C00FFF7$
+003FFF$
+00FFFF"
+FF
+J#
+5F3F0J$
+5C3E67F;&A$
+FCFE1F87C393EF3F;*=$
+F0FCCF3399FFFC3C07F3FE7F;";$>#
+E4FF3E73F8FF;*>#
+FCF9E679C3FFFE1E79FE7F?&>#
+FC7FFEDE73FF3F?&
+E1FFFCCE07?"9">"
+8F73EF?"8#>#
+F00E79E67F<(>$
+FCCF33E67FF9E68070FFC"=#
+73FFFF;*
+E01E1F87F0FFF0C007;T
+J"
+6DF
+
+
+H"
+FD
+
+
+
+H"9"
+FFFF
+
+
+
+8&
+81FC2E0FC28&
+E7F18CE7989%
+F3CCE73C9%
+E7F9F31F<"
+87<"
+E19"8"
+27F89%
+33CCE73C9%
+318CE7198&
+803C3E0F438P
+
+
+
+
+
+
+
+8%:&
+C07C3F0F87E7FFFE7F8-
+CFF99E67FF8F1FFE3F87E1F8=(
+CF3FFE7F27F9F29,
+F3CCF3FFC63FFCFFE7F0FE8"=$
+C08FE7F68#9(
+CE73C0300C67E7E67E8":"8"
+FEC9F3>#8"
+3FFCE09&:#
+799E67FFCFCF3E8#;#
+CCF9FE678.
+C1FC3F0FFF861FFF0F0086100F8X
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ENDBITMAP
+
+%%EndBinary
+4 F
+5.27 (Lead-computing optical) 369. 187. P
+2.25 (sight mode selected) 369. 172. P
+1.42 (Rounds remaining \050500\051) 180. 124. P
+5.84 (M61A1 cannon) 369. 203. P
+1 H
+3 X
+360. 196. -135. 0. W
+360. 187. -81. -9. W
+198. 142. -9. 18. W
+72. 81. 540. 283. C
+4 F
+0 X
+2.42 (Cannon  Discretes) 252. 88. P
+72. 72. 540. 720. C
+U
+FMENDPAGE
+%%Page: "9" 9
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 72. 749. T
+(Acm Guide) 72. 36. T
+(Page  9) 510.56 749. T
+(Revision 2.1) 489.44 36. T
+2 F
+1.63 (On the HUD, a circular aiming reticle is displayed.  The HUD couples with the radar) 108. 711. P
+2.3 (set to provide a visible cue of the target\325s current range -- the aiming reticle is sur-) 108. 697. P
+1.34 (rounded by 12 ticks.  An inner arc represents the current range to the target:  each arc) 108. 683. P
+2.55 (tick represents 1000 feet of distance.  The aiming reticle moves across the HUD to) 108. 669. P
+2.62 (show a good aiming point based on the target\325s range and your aircraft\325s pitch and) 108. 655. P
+1.67 (turn rate.  If the range is large and or your pitch and turn rates are fast, you may see) 108. 641. P
+(no reticle at all:  the aiming point is simply out of the HUD\325s  field of view.) 108. 627. T
+72. 72. 540. 720. C
+72. 345. 540. 622. C
+72. 345. 540. 622. R
+7 X
+V
+72. 382. 540. 579. C
+72. 382. 540. 579. R
+7 X
+V
+0 X
+204 273 195.84 262.08 209. 349.92 
+
+%%BeginBinary:  1704     
+BEGINBITMAP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+J#
+587F0J$
+533E67FJ"
+579J$
+5F9CF3F
+B">"
+F7F3J#
+403E7H%
+F800FFCFG(
+C007FFFF9FE67FF$8"
+003FFF39@)9$
+FBFF003FF000FFFF01F0FFA&;#
+F0F7C207FFFFFF@&
+FDCFFFFCEFA%
+3FF83F2F>(
+01FFFCFFFFC7CF<&8#
+C000FFFFFAF8D7:%8"8#
+F8003FFFE7FF798&9"9"
+FE0007FFFFDF9E8$;"9#
+01FFFFBFEF7F8";)
+FFFC00000001FFF7BF>)
+FDFEFFFFFDFFFBDFD"
+FD?":$
+9DFEEE7F?":$
+E3FF71FF?";"
+F9A7?";"
+F7BBE"
+DB?";"
+EFED
+?";"
+DFEEE"
+F6
+
+?";#
+BFFB7F
+@"
+FCA"
+7F>%9#
+F01FFFFFFA03>#;#
+FDBFFB7F
+
+
+
+?";#
+DFF6FF
+
+E"
+EE?";"
+EFED
+?";"
+F7DBE"
+BB>&8"
+FC00000001A7>&8"
+FFE3FFFFFF71?":$
+9DFEEE7F?":$
+FEFDDFFFD"
+FB?#9#
+FF7FF7BF@"9#
+BFEF7F@"9#
+DF9EFF@&
+E7FFBFFF79@"8#
+FAF8D7@"8#
+FCC7CF@&
+FD3F803F2FA%
+CFBFFCEF@&
+FBF0B7C3F7A$
+E0003F@&
+FFFFB7FFFF
+
+A#
+FE07A#
+F9B3A#
+F7BDA#
+EFFEA$
+DFFF7F
+A$>#
+BFFFBF9FC3J$
+5FE1F99?'<#
+FE003FFF800FFC9F?'<$
+FFFFBFFFBFFFFF9F3C
+A$
+DFFF7FJ#
+4F80FA$:%
+EFFEFFFE0007FFA#:%8"
+F7FDC001FFFF99A#8%
+F9F3F0003FFFA(9$
+FE0FFFF80FFFFFFC03C3AP;$
+FFFFFF
+
+>#
+F80F<%8"
+FE0007FF1F;%8#
+C001FFFFFEEF9%
+F0003FFF8%
+F80FFFFF8#=#
+FFFFFF1FB"
+FF
+
+
+
+
+J"
+9EFJ"
+9FF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+J#
+6FC3FJ#
+6F99F
+J#
+6F3CF
+
+J#
+5E033I%
+F8001FF3H'
+0007FFFFF99FF%
+C000FFFFE$:#
+E03FFFFC3FE#;#
+FFFFFFFF
+?#
+E03F=%
+F8001FFF<%
+0007FFFF:%F#
+C000FFFFE00F9$F%
+E03FFF00001FFF9#D'
+FFFFF80000FFFFFFG&
+E00007FFFFE&
+00001FFFFFC&
+8000FFFFFFA%
+FE007FFF@%
+F801FFFF?$
+E007FF>$
+801FFF<%
+FE007FFF;%
+F801FFFF:$
+E007FF9$
+801FFF7%
+FE007FFF%
+F801FFFF#
+07FF"
+FF
+
+
+
+
+
+
+
+
+
+
+>#;$
+F3F0F3FF3F>$:#
+C3E67FC3FE>$:#
+93EF3F93FC"=$:#
+07F3FE7FF3F9">#;"
+73F8FFF3">#;"
+79FE7FF7">#;"
+73FF3FE7"E#
+07E01F">"<#
+73EFFF3F">#
+79E67F>$:$
+8070FF807C1F"=#;$
+73FFFFFFFFFF"
+07"
+FF?"<"
+DFDF
+
+
+;"<"<"
+FDFDFD
+
+
+
+;"9"8"9"8"
+FFFFFFFFFFB"
+BF
+
+
+
+
+
+
+
+B"
+FF
+
+
+
+
+
+ENDBITMAP
+
+%%EndBinary
+4 F
+(Aiming) 414. 553. T
+(Reticle) 414. 539. T
+1 H
+3 X
+405. 553. -63. -9. W
+414. 499. -90. 36. W
+0 X
+1.76 (The inner arc) 423. 508. P
+2.08 (indicates that the) 423. 494. P
+3.4 (target\325s range) 423. 480. P
+1.97 (is about) 423. 466. P
+-0.27 (6000 feet.) 423. 452. P
+(Target) 117. 508. T
+(designator) 117. 494. T
+(box) 117. 480. T
+3 X
+180. 508. 90. 27. W
+72. 345. 540. 622. C
+4 F
+0 X
+1.57 (The cannon aiming reticle) 222. 358. P
+72. 72. 540. 720. C
+U
+1 F
+0 X
+(Piloting an acm Fighter) 72. 314. T
+2 F
+1.57 (When you first enter acm, you and your fighter are positioned at the end of a runway) 108. 285. P
+3.1 (at your team\325s airfield.  Pilots on team one are assigned F-16C\325s, while team two) 108. 271. P
+(gets Mig-23\325s.) 108. 257. T
+1.69 (First, it\325s a good idea to familiarize yourself with the acm display as it\325s described in) 108. 229. P
+2.98 (the previous sections of this document.  Press the mouse button 3; notice how the) 108. 215. P
+(weapon display changes when the cannon is selected.) 108. 201. T
+1.29 (The engine RPM readout is not a direct indication of the amout of thrust that your en-) 108. 173. P
+3.61 (gine is producing.  For instance, while 100 percent RPM will generate maximum) 108. 159. P
+1.34 (thrust, 60% RPM generates thrust closer to 36 percent of the maximum.  Your plane\325s) 108. 145. P
+(flight idle position is 25%; corresponding to about 6 percent of maximum.) 108. 131. T
+1. (Acm allows you to taxi your plane on the ground.  To taxi, you must increase your en-) 108. 103. P
+1.32 (gine RPM to the 33-38 percent range to begin moving.  Once moving, you can reduce) 108. 89. P
+1.74 (the throttle slightly to keep from taxiing at an awkwardly high speed.  Steering while) 108. 75. P
+FMENDPAGE
+%%Page: "10" 10
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 478.9 749. T
+(Acm Guide) 493.62 36. T
+(Page  10) 72. 749. T
+(Revision 2.1) 72. 36. T
+2 F
+(taxiing is accomplished by the nose wheel. ) 108. 711. T
+1.67 (The nose wheel position is determined by the lateral position of the mouse within the) 108. 683. P
+2.93 (acm view window.  Your plane us capable of extremely sharp turns with the nose) 108. 669. P
+(wheel; small control inputs go a long way.) 108. 655. T
+(The \050B\051 key controls wheel brakes.) 108. 627. T
+4 F
+(Takeoff) 72. 578. T
+2 F
+2.07 (Center the stick by moving the mouse pointer to the center of the HUD.  Lower the) 108. 550. P
+3.12 (flaps to the 20 degree setting \050press \050H\051 twice\051.  Apply full throttle \050press the \0504\051) 108. 536. P
+(key on the main keypad\051, and then light-off your afterburner \050press \050A\051\051.) 108. 522. T
+2.19 (Your speed will build rapidly.  As your airspeed passes about 75 knots, apply about) 108. 494. P
+2.02 (3/4 up elevator by moving the mouse pointer about 3/4 of the way down the bottom) 108. 480. P
+2. (half of the acm view screen.  Your jet will pitch up and begin to climb.  Notice the) 108. 466. P
+1.65 (movement of the artificial horizon, the flight path marker and your rate-of-climb indi-) 108. 452. P
+(cator.  Raise your the flaps as your airspeed passes 250 knots  \050press \050Y\051 twice\051.) 108. 438. T
+2.15 (Let your jet\325s flight path increase to about 15-20 degrees of climbing pitch and then) 108. 410. P
+0.73 (slowly ease off on the elevator to maintain that angle of climb.  You will notice quickly) 108. 396. P
+(that precise flying generally requires gentle control inputs and planning ahead.) 108. 382. T
+2.77 (After your climb has been established and your airspeed passes 400 knots, turn off) 108. 354. P
+2.48 (your afterburner \050press \050A\051 again\051.  You should be able to easily maintain a 11,000) 108. 340. P
+(fpm rate of climb at 400 kts with a flight path angle of about 20 degrees.) 108. 326. T
+3.36 (As you altitude passes 14,000 feet, slowly apply down elevator to level off; level) 108. 298. P
+2.96 (flight is attained when the flight path marker is even with the zero degree attitude) 108. 284. P
+(marker.  After you level off, your airspeed with increase to about 600 kts.) 108. 270. T
+1.65 (Practice maintaining a specific altitude.  This is a good way to get a feel for how the) 108. 242. P
+1.1 (aircraft will respond at higher speeds.  You will find the controls fairly sensitive; slow,) 108. 228. P
+(gentle inputs are what\325s required for this mode of flying.) 108. 214. T
+1.92 (If you accidentally start to bank the aircraft to one side, use gentle lateral control in-) 108. 186. P
+(puts to roll the plane back to level flight.) 108. 172. T
+(Try flying straight and level for a few moments to get the hang of the controls.) 108. 144. T
+FMENDPAGE
+%%Page: "11" 11
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 72. 749. T
+(Acm Guide) 72. 36. T
+(Page  11) 505.56 749. T
+(Revision 2.1) 489.44 36. T
+4 F
+(Turns) 72. 709. T
+2 F
+1.42 (Turns are accomplished by rolling the aircraft in the desired direction and applying up) 108. 681. P
+1.84 (elevator, or "back pressure" as it is commonly called.  Elevator back pressure pitches) 108. 667. P
+1.49 (the aircraft into the turn while increasing the aircraft\325s lift to help make you turn fast-) 108. 653. P
+2.07 (er.  At slower speeds, it\325s helpful to use the rudder in conjunction with normal stick) 108. 639. P
+1.41 (control.  Try a turn to a heading of 180 degrees \050"18" on the heading indicator\051.  Roll) 108. 625. P
+1.61 (left and the apply enough back pressure to keep the plane roughly level.  The sharper) 108. 611. P
+1.6 (the turn, the more back pressure is required to keep the plane level.  After a few sec-) 108. 597. P
+1.22 (onds of turn, you\325ll notice the aircraft starting to roll out of the turn on it\325s own.  This) 108. 583. P
+1.18 (is normal; you will need to compensate for it in order to maintain a smooth turn.  Roll) 108. 569. P
+(out of the turn as the heading comes to 180 degrees.) 108. 555. T
+1.06 (You will notice that your plane will lose airspeed in a turn.  The extra lift that your el-) 108. 527. P
+2.5 (evator back pressure generates in turn generates extra drag that causes much of this) 108. 513. P
+2.39 (effect. More back pressure loses speed more quickly.  If you want to maintain your) 108. 499. P
+1.85 (airspeed in a sharp turn, the afterburner might be a good way to get an extra kick of) 108. 485. P
+(thrust to do just that.) 108. 471. T
+4 F
+(Landing) 72. 422. T
+2 F
+1.3 (Ideally, you should try to descend to the runway on a path that declines at an angle of) 108. 394. P
+2.76 (three degrees.  This is the angle that most modern instrument "glide slopes" use at) 108. 380. P
+1.65 (today\325s airports around the world.  Fly some distance away from the airport; you will) 108. 366. P
+0.98 (want alot of space to get the hang of this.  Thirty miles is probably a good starting dis-) 108. 352. P
+(tance.) 108. 338. T
+1.5 (Maintain an altitude of 5,000 feet with a throttle setting of about 60 percent.  Line up) 108. 310. P
+2.36 (with the main runway.  The main runways of both airfields are oriented north-south) 108. 296. P
+1.23 (\05018-36 in pilot parlance\051.  Maintain 5,000 feet inbound until the end of the runway ap-) 108. 282. P
+2.78 (pears to be three degrees below level;  that is, it should appear three tenths of the) 108. 268. P
+(way from the zero degree horizon marker to the minus ten degree marker.) 108. 254. T
+3.6 (Reduce your throttle to 56 percent.  Completely lower your flaps \050press \050H\051 four) 108. 226. P
+2.31 (times\051.  Maintain level flight until your airspeed drops to 210 kts and then establish) 108. 212. P
+(your descent towards the near end of the runway.) 108. 198. T
+1.32 (You should be able to maintain 210 kts on a three degree glide path at this power set-) 108. 170. P
+1.62 (ting without too much difficulty.  In this flight configuration, a good rule of thumb is) 108. 156. P
+2.38 (that "throttle controls altitude and elevator controls airspeed".  If you begin to over-) 108. 142. P
+1.55 (shoot the runway, lower your power setting.  Conversely, add power to slow your de-) 108. 128. P
+(scent and use the elevator to maintain airspeed control.) 108. 114. T
+2.77 (Cut the throttle as you cross the end of the runway.  Apply both the speed brakes) 108. 86. P
+FMENDPAGE
+%%Page: "12" 12
+FMBEGINPAGE
+0 F
+0 X
+(February, 1991) 478.9 749. T
+(Acm Guide) 493.62 36. T
+(Page  12) 72. 749. T
+(Revision 2.1) 72. 36. T
+2 F
+(\050the \050S\051 key\051 and wheel brakes \050B\051 after touchdown.) 108. 711. T
+1.51 (It will take alot of practice to gain the expertise required to land reliably on a runway) 108. 683. P
+2.11 (instead of in the weeds.  Fortunately, though, acm isn\325t very particular about exactly) 108. 669. P
+(where you touch) 108. 655. T
+1.94 (down provided that you don\325t stray more than three miles from the center of the air-) 108. 641. P
+(field.) 108. 627. T
+FMENDPAGE
+%%Trailer
+%%Pages: 12 1
+%%DocumentFonts: Times-Roman
+%%+ Helvetica
+%%+ Courier

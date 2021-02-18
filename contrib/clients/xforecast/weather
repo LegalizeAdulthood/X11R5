@@ -1,0 +1,156 @@
+#!/usr/local/bin/perl
+#
+# A perl script to connect to the 'weather server' at
+# Michigan and get the forcast for whatever city
+# you want (3 letter code -- columbus 'cmh' by default).
+#
+# Alternatively, you can get the current information for
+# a state if you enter a 2 letter code.
+#
+# Thanks to J Greely for the original network code, and
+# Tom Fine for assistance and harassment.
+#
+# Copyright 1991 Frank Adelstein.  All Rights Reserved.
+#
+# Permission to use, copy, modify, and distribute this
+# software is hereby granted without fee, provided that
+# the copyright notice and permission notice are not removed.
+#
+# --FNA 6/28/91
+
+$SERVER = "madlab.sprl.umich.edu";
+$PORT   = "3000";
+$SHOWIT = 0;
+$FIRSTTIME  = 1;
+$SECONDTIME = 1;
+$CHANGESCROLL = 1;
+
+$CITY = $ARGV[0]; 
+
+if ($CITY eq "") {
+	$CITY = "cmh";
+}
+
+if (length ($CITY)  == 3 ) {
+	$ISSTATE = 0;
+} elsif (length ($CITY) == 2 ) {
+	$ISSTATE = 1;
+} else {
+	print "Must be either a 2 letter state code or 3 letter city code.\n";
+	exit (1);
+}
+
+local($sockaddr,$here,$there,$response,$tries) = ("Snc4x8");
+$here  = pack($sockaddr,2,0,&getaddress("localhost"));
+$there = pack($sockaddr,2,$PORT,&getaddress($SERVER));
+print "\nConnecting to $SERVER.";
+die "socket: $!\n" if (!socket(S,2,1,6));
+        print ".";
+        die "connect: $!\n" if (!connect(S,$there));
+        print ".connected\n";
+        select(S);$|=1;
+        select(STDOUT); $| = 1;       # make unbuffered
+
+
+
+while (read(S,$c,1)) {
+
+	if ($c eq "\n") {
+		if ($SHOWIT == 1) {
+			print $curline, "\n";
+		}
+		$curline = ""; 
+		next; 
+	}
+	if ($c eq "\r") { next; }
+	$curline .= $c;
+	
+        if ($curline =~ / \?\) Help/) {
+		if  ($FIRSTTIME == 1) {
+			$FIRSTTIME = 0;
+&maybeprint ("showit on (help)\n");
+			$SHOWIT = 1;
+			printf S "%s\n", $CITY;
+			$curline = "";
+		} else {
+			printf S "X\n";
+		}
+	}
+        elsif ($curline =~ / X\) Exit program/ && $ISSTATE == 1 && $SECONDTIME == 0) {
+		if  ($FIRSTTIME == 1) {
+			$FIRSTTIME = 0;
+&maybeprint ("showit on (exit)\n");
+			$SHOWIT = 1;
+			printf S "1\n";
+			printf S "%s\n", $CITY;
+			$curline = "";
+		} else {
+			printf S "X\n";
+		}
+	}
+	elsif ($curline =~ / C\) Change scrolling to screen/) {
+		if ($CHANGESCROLL == 1) {
+			printf S "C\n4\n";
+			$CHANGESCROLL = 0;
+		} elsif ($ISSTATE == 0) {
+			printf S "1\n";
+		} else {
+			$SECONDTIME = 0;
+			printf S "3\n";
+		}
+	}
+        elsif ($curline =~ / Invalid 3-letter city code./) {
+		printf S "X\n";
+		printf "%s is an invalid 3 letter city code.\n", $CITY;
+&maybeprint ("showit off (3 letter)\n");
+		$SHOWIT = 0;
+        }
+	elsif ($curline =~ / Invalid city or state code./) {
+		printf S "X\n";
+		printf "%s is an invalid 3 letter city code.\n", $CITY;
+&maybeprint ("showit off (invalid)\n");
+		$SHOWIT = 0;
+	}
+	elsif ($curline =~ / Press return to display [^,]*, M to display main menu: /) {
+		printf S "M\n";
+&maybeprint ("showit off (M to display)\n");
+		$SHOWIT = 0;
+	}
+        elsif ($curline =~ /Enter 2-letter code of state or province: /) {
+		$curline = "";
+        }
+        elsif ($curline =~ / CITY FORECAST MENU/ && $FIRSTTIME == 0) {
+&maybeprint ("showit off (city forecast)\n");
+		$SHOWIT = 0;
+        }
+        elsif ($curline =~ / CURRENT WEATHER MENU/ && $FIRSTTIME == 0) {
+&maybeprint ("showit off (city forecast)\n");
+		$SHOWIT = 0;
+        }
+	elsif ($curline =~ / Press Return to display [^,]*, M for menu: /) {
+		$curline = "";
+&maybeprint ("showit on (Return to display statement)\n");
+		$SHOWIT = 1;
+		printf S "\n";
+	}
+        elsif ($curline =~ / Press Return to continue printing or M to return to menu: /) {
+		printf S "\n";
+		$curline = "";
+&maybeprint ("showit on (Return to continue printing)\n");
+		$SHOWIT = 1;
+        }
+}
+close(S);
+exit(0);
+
+
+sub getaddress {
+        local($host) = @_;
+        local(@ary);
+        @ary = gethostbyname($host);
+        return(unpack("C4",$ary[4]));
+}
+
+sub maybeprint {
+#	print @_;
+}

@@ -1,0 +1,22 @@
+#ifndef WcTopDir
+#define WcTopDir ..
+#endif
+
+#include "../Wc.tmpl"
+
+SRCS    = Mri.c
+OBJS    = Mri.o
+APPDEFS = M01_Hello M02_Goodbye M03_Menubar M04_DoOpt M04_OptMenu M05_Dialogs \
+          M06_ListRowCol M06_ListTable M07_TwoLists M08_Periodic M09_Multi \
+          M10_Popup M11_FSB M12_Modal M13_Instancing
+
+      INCLUDES  = -I$(TOP) $(X11INC)
+LOCAL_LIBRARIES = $(SHRLIBDIR) $(XMPLIB) $(WCLIB) $(XMLIB) \
+                  $(X11LIBDIR) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+ComplexProgramTarget(Mri)
+
+MakeDirectories(install,$(INSTAPP)/mri)
+InstallMultipleFlags($(APPDEFS),$(INSTAPP)/mri,$(INSTAPPFLAGS))
+
+

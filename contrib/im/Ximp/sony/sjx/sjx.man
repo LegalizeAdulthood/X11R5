@@ -1,0 +1,76 @@
+.\"
+.\" $Header: sjx.1,v 4.300 91/06/07 22:51:21 root Rel41 $ SONY;
+.\"
+.\"	
+.TH SJX 1 "October 1990"
+.SH NAME
+sjx \- Japanese language input front end processor for X Window System
+.SH SYNOPSIS
+.B sjx
+[ \fB\-help\fP ] [ \fB-o\fP ] [ \fB\-display\fP display ]
+[ \fB\-fn\fP font ] [ \fB\-jfn\fP japanese font ]
+[ \fB\-fg\fP foreground ] [ \fB\-bg\fP background ]
+.SH DESCRIPTION
+.I sjx
+is a Japanese language input front end processor that performs kana-kanji conversion for applications running over X Window System.
+.PP
+.I sjx
+communicates with applications running over X Window System and performs kana-kanji conversion on the Roman letter or half-width kana data it receives. The results are then passes to the application.
+.PP
+When 
+.I sjx
+is run, the setup file `.sjrc' in the home directory is read and the settings it contains are then used for the operation of the program. If there is no `.sjrc' file, the default settings are used.
+.SH OPTIONS
+.TP 15
+.B \-help
+Displays a description of available options; does not run 
+.I sjx.
+.TP 15
+.B \-display \fIdisplay\fP
+This option specifies which X server is connected.
+.TP 15
+.B \-fn \fIfont\fP
+This option specifies the half-width kana font.
+.TP 15
+.B \-jfn \fIjapanese font\fP
+This option specifies the kanji font.
+.TP 15
+.B \-fg \fIforeground\fP
+This option specifies the foreground color.
+.TP 15
+.B \-bg \fIbackground\fP
+This option specifies the background color.
+.PP
+.SH X DEFAULTS
+.I sjx
+reads in the defaults using the \fIXGetDefault(3X)\fP routine.
+.PP
+.TP 15
+.B font
+Specifies the half-width kana font.
+.PP
+.TP 15
+.B japaneseFont
+Specifies the kanji font.
+.PP
+.TP 15
+.B foreground
+Specifies the foreground color.
+.PP
+.TP 15
+.B background
+Specifies the background color.
+.PP
+.SH FILES
+.PD 0
+.TP 15
+/usr/sony/dict/sj3/sj3main.dic
+Main kana-kanji conversion dictionary
+.TP
+/usr/sony/dict/sj3/user/*
+User-defined kana-kanji conversion dictionary
+.TP
+.SH SEE ALSO
+sj3(1), sj3dic(1), sj3lib(3)
+.PP
+The chapter on Japanese input in the NEWS-OS User's Manual and the chapter on Japanese input in the NEWS-OS Programmer's Manual

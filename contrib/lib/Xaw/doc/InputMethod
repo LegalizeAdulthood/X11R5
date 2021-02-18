@@ -1,0 +1,105 @@
+.bp
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 8\fP\s-1
+
+\s+1\fBInput Method\fP\s-1
+
+.nr H1 8
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+Xaw-i18n supports an input method of X11R5. MultiTextWidget
+is able to use an input method. Xaw-i18n has VendorExtShell
+Widget for the input method.
+.NH 2
+Input method of MultiText Widget
+.XS
+	Input method of MultiText Widget
+.XE
+.LP
+MultiText Widget is able to input the multibyte text which is encoded
+in the current locale by using an Input Method of X11R5.
+.LP
+When creating a MultiText widget instance, it attempts to open
+Input Mehtod(IM) and create Input Context(IC). the MultiText widget
+refers to two resources of VendorExtShell widget. One is XtNinputMethod,
+other is XtNpreeditType.
+For further infomation about these resources, please see Section 8.2
+VendorExtShell Widget.
+.NH 2
+VendorExtShell Widget
+.LP
+.XS
+	VendorExtShell Widget
+.XE
+.IN "VendorExtShell widget" "" "@DEF@"
+.Ds 0
+.TA 2.0i
+.ta 2.0i
+.sp
+Application header file <X11/Xaw/XawIm.h>
+.IN "XawIm.h" ""
+Class header file	<X11/Xaw/VendorEP.h>
+.IN "VendorEP.h" ""
+Class	xawvendorShellExtWidgetClass
+.IN "xawvendorShellExtWidgetClass" ""
+Class Name	XawVendorShellExt
+.IN "XawVendorShellExt widget" "class name"
+Superclass	Core
+.sp
+.De
+.LP
+This widget is a part of a VendorShell widget and is created automatically
+at creation time of a VendorSell widget.
+.NH3
+Resources
+.LP
+When creating a VendorExtShell widget(VendorShell widget) instance,
+the following resources are retrieved from the argument list or from
+the resource databese:
+.LP
+.IN "VendorExtShell widget" "resources"
+.ps 9
+.nr PS 9
+.vs 11
+.nr VS 11
+.TS H
+expand;
+lw(1i) lw(1i) lw(1i) lw(.5i) lw(2i).
+_
+.sp 3p
+.TB
+Name    Class   Type    Notes   Default Value
+.sp 3p
+_
+.TH
+.R
+.sp 3p
+inputMethod       InputMethodd      String                         NULL
+preeditType       PreeditType       String                         NULL
+.sp 3p
+_
+.TE
+.ps 11
+.nr PS 11
+.vs 13
+.nr VS 13
+.IP \fBinputMethod\fP 1.5i
+The string used to set the modifier \fB"im"\fP which specifies the input
+manager. For example, the input method is \fBxwnmo\fP, this resource is
+\fB"_XWNMO"\fP.
+.IP \fBpreeditType\fP 1.5i
+The string used to set the input style of input method.
+The recognized strings are \fB"OverTheSpot"\fP, \fB"OffTheSpot"\fP and
+\fB"Root"\fP. If this string is \fBNULL\fP or a unrecognized string,
+"Root" style is used.
+.br
+\fB"OverTheSpot"\fP relates to: \fB(XIMPreeditPosition | XIMStatusArea)\fP
+.br
+\fB"OffTheSpot"\fP relates to: \fB(XIMPreeditArea | XIMStatusArea)\fP
+.br
+\fB"Root"\fP relates to: \fB(XIMPreeditNothing | XIMStatusNothing)\fP

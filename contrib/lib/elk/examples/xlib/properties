@@ -1,0 +1,36 @@
+;;; -*-Scheme-*-
+;;;
+;;; Display all properties of all windows (with name, type, format,
+;;; and data).
+
+(require 'xlib)
+
+(define (properties)
+  (let ((dpy (open-display)))
+    (unwind-protect
+     (let* ((w (car (query-tree (display-root-window dpy))))
+	    (l (map (lambda (win) (cons win (list-properties win)))
+		    (cons (display-root-window dpy) (vector->list w))))
+	    (tab (lambda (obj n)
+		   (let* ((s (format #f "~s" obj))
+			  (n (- n (string-length s))))
+		     (display s)
+		     (if (positive? n)
+			 (do ((i 0 (1+ i))) ((= i n)) (display #\space)))))))
+       (for-each
+	(lambda (w)
+	  (format #t "Window ~s:~%" (car w))
+	  (for-each
+	   (lambda (p)
+	     (tab (atom-name dpy p) 20)
+	     (display "= ")
+	     (let ((p (get-property (car w) p #f 0 20 #f)))
+	       (tab (atom-name dpy (car p)) 18)
+	       (tab (cadr p) 3)
+	       (format #t "~s~%" (caddr p))))
+	   (vector->list (cdr w)))
+	  (newline))
+	l))
+     (close-display dpy))))
+
+(properties)

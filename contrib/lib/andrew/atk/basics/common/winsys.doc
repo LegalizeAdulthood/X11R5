@@ -1,0 +1,62 @@
+\begindata{text,270526892}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Winsys}
+
+
+
+\section{Quick reference list for Windowsystem}
+
+
+
+\fixedtext{struct cursor *\bold{windowsystem_}CreateCursor 
+}\fixedindent{(struct windowsystem *\paramname{windowsystem});} 
+
+\fixedtext{struct fontdesc *\bold{windowsystem_}CreateFontdesc 
+}\fixedindent{(struct windowsystem *\paramname{windowsystem});} 
+
+\fixedtext{struct graphic *\bold{windowsystem_}CreateGraphic 
+}\fixedindent{(struct windowsystem *\paramname{windowsystem});} 
+
+\fixedtext{struct im *\bold{windowsystem_}CreateIM }\fixedindent{(struct 
+windowsystem *\paramname{windowsystem});} 
+
+\fixedtext{struct offscrwin *\bold{windowsystem_}CreateOffScreenWindow 
+}\fixedindent{(struct windowsystem *\paramname{windowsystem}, char 
+*\paramname{host}, long \paramname{width}, long \paramname{height});} 
+
+\fixedtext{void \bold{windowsystem_}FlushAllWindows }\fixedindent{(struct 
+windowsystem *\paramname{windowsystem});} 
+
+\fixedtext{boolean \bold{windowsystem_}HandleFiles }\fixedindent{(struct 
+windowsystem *\paramname{windowsystem}, long \paramname{WaitTime}, boolean 
+\paramname{beCheap});} 
+
+\enddata{text,270526892}

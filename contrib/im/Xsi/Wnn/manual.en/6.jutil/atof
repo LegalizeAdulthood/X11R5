@@ -1,0 +1,11 @@
+ATOF(1)
+
+NAME
+    atof - To convert the UJIS format Fuzokugo file into data format.
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/atof filename
+
+DESCRIPTION
+   Atof converts the UJIS format Fuzokugo file of standard input into
+   data format.

@@ -1,0 +1,80 @@
+#include "../../config.sh"
+
+            YFLAGS = -d
+         IROHAROOT = ../..
+          SOLIBREV = 1
+
+          IROHADIR = .
+             RKDIR = ../RK
+            RKCDIR = ../RKC
+             XNDIR = ../Xn
+
+           HEADERS = iroha.h sglobal.h japanren.h jpdef.h
+            IRSRCS = $(COOKSRCS) $(HEADERS)
+           MAPSRCS = alphamap.c defaultmap.c
+          COOKSRCS = jrbind.c jrtaiwa.c $(CORESRCS)
+          CORESRCS = lex.c gram.c $(MAPSRCS) \
+			bushu.c commondata.c empty.c henkan.c hex.c \
+			ichiran.c jishu.c kakutei.c kctrl.c keydef.c \
+			kigo.c mode.c multi.c onoff.c parse.c romaji.c \
+			uiutil.c uldefine.c uldelete.c ulhinshi.c ulkigo.c \
+			ulmount.c ulserver.c util.c yesno.c bunsetsu.c
+            RKSRCS = $(RKDIR)/RKroma.c $(RKDIR)/RKkana.c
+           RKCSRCS = $(RKCDIR)/rkc.c $(RKCDIR)/rkcConvert.c
+              SRCS = $(IRSRCS) $(RKSRCS) $(RKCSRCS)
+
+           IRIOBJS = $(COOKOBJS)
+           MAPOBJS = alphamap.o defaultmap.o
+          COOKOBJS = jrbind.o jrtaiwa.o $(COREOBJS)
+          COREOBJS = lex.o gram.o $(MAPOBJS) \
+			bushu.o commondata.o empty.o henkan.o hex.o \
+			ichiran.o jishu.o kakutei.o kctrl.o keydef.o \
+			kigo.o mode.o multi.o onoff.o parse.o romaji.o \
+			uiutil.o uldefine.o uldelete.o ulhinshi.o ulkigo.o \
+			ulmount.o ulserver.o util.o yesno.o bunsetsu.o
+            RKOBJS = $(RKDIR)/RKroma.o $(RKDIR)/RKkana.o
+           RKCOBJS = $(RKCDIR)/rkc.o $(RKCDIR)/rkcConvert.o
+              OBJS = $(COOKOBJS) $(RKOBJS) $(RKCOBJS)
+
+          INCLUDES = -I$(IROHAROOT) -I$(IROHAROOT)/include -I.
+           DEFINES = $(UILIB_DEFINES)
+   LOCAL_LIBRARIES = 
+     LOCAL_LDFLAGS = 
+          LINTLIBS = $(RKDIR)/llib-lRK.ln \
+			$(RKCDIR)/llib-lRKC.ln
+
+all:: libiroha.a
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(iroha,$(OBJS))
+InstallLibrary(iroha,$(USRLIBDIR))
+
+NormalLintTarget(*.c)
+LintLibraryTarget(iroha,*.c)
+
+lex.c: lex.l gram.h
+	lex $(LFLAGS) lex.l
+	echo '#include "sglobal.h"' > lex.c
+	cat lex.yy.c >> lex.c
+	$(RM) lex.yy.c
+
+gram.h gram.c: gram.y
+	yacc $(YFLAGS) gram.y
+	$(MV) y.tab.c gram.c
+	$(MV) y.tab.h gram.h
+
+$(RKOBJS): $(RKSRCS)
+	(cd $(RKDIR) ; $(MAKE) $(RKOBJS))
+
+$(RKCOBJS): $(RKCSRCS)
+	(cd $(RKCDIR) ; $(MAKE) $(RKCOBJS))
+
+depend:: lex.c gram.h gram.c
+
+clean::
+	$(RM) y.tab.h y.tab.c lex.yy.c gram.h gram.c lex.c
+
+DependTarget()
+
+LinkFileList(includes,$(HEADERS), \
+	$(IROHAROOT)/include/iroha,../../lib/iroha)

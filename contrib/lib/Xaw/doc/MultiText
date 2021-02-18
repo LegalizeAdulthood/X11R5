@@ -1,0 +1,168 @@
+.NH 2
+Multilingual Text Widget
+.LP
+.XS
+	MultiText Widget
+.XE
+.IN "MultiText widget" "" "@DEF@"
+.LP
+.Ds 0
+.TA 2.0i
+.ta 2.0i
+Application Header file	<X11/Xaw/MultiText.h>
+.IN "MultiText.h" ""
+ClassHeader file	<X11/Xaw/MultiTextP.h>
+.IN "MultiTextP.h" ""
+Class		multiTextWidgetClass
+.IN "multiTextWidgetClass" ""
+Class Name	Text
+.IN "MultiText widget" "class name"
+Superclass	Text
+Sink Name	textSink
+Source Name	textSource
+.De
+.sp 1
+.LP
+The MultiText widget coheres MultiSrc object with MultiSink together to
+make a multilingual editor whose encoding is classified as 3 types:
+multibyte, COMPOUND_TEXT and wchar_t text.  An application, liking to use
+the multibyte editor, should use the multiTextWidgetClass only.
+Some of
+the resources listed below are not actually resources of the
+MultiText, but belong to the MultiSrc or MultiSink.  This is
+.IN "MultiSrc object" ""
+.IN "MultiSink object" ""
+is noted in the explanation of each resource where it applies.  When
+specifying these resources in a resource file be sure to use
+\fI*MultiText*resource_name\fP instead of
+\fI*MultiText.resource_name\fP, since they actually belong to the
+children of the MultiText widget, and not the MultiText widget itself.
+However, these resources may be set directly on the MultiText widget at
+widget creation time, or via \fBXtSetValues\fP.
+.NH 3
+Resources
+.LP
+When creating a MultiText widget instance, the following resources are
+retrieved from the argument list or from the resource database:
+.LP
+.IN "MultiText widget" "resources"
+.ps 9
+.nr PS 9
+.vs 11
+.nr VS 11
+.TS H
+expand;
+lw(1i) lw(1i) lw(1.1i) lw(.5i) lw(1.9i).
+_
+.sp 3p
+.TB
+Name	Class	Type	Notes	Default Value
+.sp 3p
+_
+.TH
+.R
+.sp 3p
+accelerators	Accelerators	AcceleratorTable		NULL
+ancestorSensitive	AncestorSensitive	Boolean	D	True
+autoFill	AutoFill	Boolean		False
+background	Background	Pixel		XtDefaultBackground
+backgroundPixmap	Pixmap	Pixmap		XtUnspecifiedPixmap
+borderColor	BorderColor	Pixel		XtDefaultForeground
+borderPixmap	Pixmap	Pixmap		XtUnspecifiedPixmap
+borderWidth	BorderWidth	Dimension		1
+bottomMargin	Margin	Position		2
+callback	Callback	XtCallbackList		NULL
+colormap	Colormap	Colormap		Parent's Colormap
+cursor	Cursor	Cursor		XC_xterm
+cursorName	Cursor	String		NULL
+dataCompression	DataCompression	Boolean		True
+depth	Depth	int	C	Parent's Depth
+destroyCallback	Callback	XtCallbackList		NULL
+displayCaret	Output	Boolean		True
+displayNonprinting	Output	Boolean		True
+displayPosition	TextPosition	XawTextPosition		0
+echo	Output	Boolean		True
+editType	EditType	XawTextEditType		XawtextRead
+fontSet	FontSet	XFontSet		XtDefaultFontSet
+foreground	Foreground	Pixel		XtDefaultForeground
+height	Height	Dimension	A	Font height + margins
+insensitiveBorder	Insensitive	Pixmap		GreyPixmap
+insertPosition	TextPosition	int		0
+leftMargin	Margin	Dimension		2
+length	Length	int	A	length of \fBstring\fP
+mappedWhenManaged	MappedWhenManaged	Boolean		True
+pieceSize	PieceSize	XawTextPosition		BUFSIZ
+pointerColor	Foreground	Pixel		XtDefaultForeground
+pointerColorBackground	Background	Pixel		XtDefaultBackground
+resize	Resize	XawTextResizeMode		XawtextResizeNever
+rightMargin	Margin	Position		2
+screen	Screen	Screen	R	Parent's Screen
+scrollHorizontal	Scroll	XawTextScrollMode		XawtextScrollNever
+scrollVertical	Scroll	XawTextScrollMode		XawtextScrollNever
+selectTypes	SelectTypes	XawTextSelectType*		See above
+sensitive	Sensitive	Boolean		True
+string	String	String		NULL
+textCode	TextCode	XawTextCode	C	XawTextMB
+textSink	TextSink	Widget		An MultiSink
+textSource	TextSource	Widget		An MultiSrc
+topMargin	Margin	Position		2		
+translations	Translations	TranslationTable		See above
+type	Type	XawMultiType		XawMultiString
+useStringInPlace	UseStringInPlace	Boolean		False
+width	Width	Dimension		100
+wrap	Wrap	WrapMode		XawtextWrapNever
+x	Position	Position		0
+y	Position	Position		0
+.sp 3p
+_
+.TE
+.ps 11
+.nr PS 11
+.vs 13
+.nr VS 13
+.Ac
+.As
+.Af
+.Bg
+.Gp
+.Bc
+.Bp
+.Bw
+.Tm
+.Oc MultiText
+.Cm
+.Cu
+.Cn
+.Md MultiText
+.Dp
+.Dc
+.Tc
+.Sd MultiText	
+.Td
+.Oe MultiText
+.Sh MultiText
+.Ms MultiText
+.Sg MultiText
+.Hw
+.Ib
+.Ti
+.Ol MultiText
+.Mm
+.Pf
+.Pb
+.Mp MultiText
+.Tz
+.Sc
+.Ts
+.St
+.Se
+.Mx MultiText
+.Me
+.To
+.Tr
+.Mt MultiText
+.Mu MultiText
+.Tw
+.Xy
+
+

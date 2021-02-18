@@ -1,0 +1,611 @@
+# @(#)fm.label.po 1.4 90/11/06; SMI
+#
+domain "fm.label"
+#
+# fm.cmd.c: line number: 367
+msgid "NewFolder"
+msgstr "新規フォルダ"
+#
+# fm.cmd.c: line number: 374
+msgid "NewDocument"
+msgstr "新規ドキュメント"
+#
+# fm.cmd.c: line number: 828
+msgid "File Manager: Shell"
+msgstr "ファイルマネージャ: シェル"
+#
+# fm.cmd.c: line number: 957
+msgid "Enter Command"
+msgstr "コマンドを入力"
+#
+# fm.cmd.c: line number: 975
+msgid "Command:"
+msgstr "コマンド:"
+#
+# fm.cmd.c: line number: 981
+msgid "Enter"
+msgstr "入力"
+#
+# fm.cmd.c: line number: 1002
+msgid "Enter Command..."
+msgstr "コマンドを入力..."
+#
+# fm.cmd.c: line number: 1005
+msgid "Shell..."
+msgstr "シェル..."
+#
+# fm.cmd.c: line number: 1250
+msgid "Path"
+msgstr "パス"
+#
+# fm.cmd.c: line number: 1251
+msgid "Tree"
+msgstr "ツリー"
+#
+# fm.cmd.c: line number: 1254
+msgid "File"
+msgstr "ファイル"
+#
+# fm.cmd.c: line number: 1258
+msgid "With 'Goto' Arguments"
+msgstr "'Goto' 引き数を付ける"
+#
+# fm.cmd.c: line number: 1262
+msgid "In Document Editor"
+msgstr "ドキュメント・エディタ内"
+#
+# fm.cmd.c: line number: 1269
+msgid "Open"
+msgstr "オープン"
+#
+# fm.cmd.c: line number: 1273
+msgid "Print File"
+msgstr "ファイルの印刷"
+#
+# fm.cmd.c: line number: 1277
+msgid "Create Folder"
+msgstr "フォルダ作成"
+#
+# fm.cmd.c: line number: 1281
+msgid "Create Document"
+msgstr "ドキュメント作成"
+#
+# fm.cmd.c: line number: 1285
+msgid "Remote Copy..."
+msgstr "リモートコピー..."
+#
+# fm.cmd.c: line number: 1289
+msgid "Your Commands"
+msgstr "ユーザのコマンド"
+#
+# fm.cmd.c: line number: 1298
+msgid "File"
+msgstr "ファイル"
+#
+# fm.cmd.c: line number: 1309
+msgid "Icon"
+msgstr "アイコン"
+#
+# fm.cmd.c: line number: 1314
+msgid "List"
+msgstr "リスト"
+#
+# fm.cmd.c: line number: 1329
+msgid "Name"
+msgstr "名前順"
+#
+# fm.cmd.c: line number: 1334
+msgid "Date"
+msgstr "日付順"
+#
+# fm.cmd.c: line number: 1339
+msgid "Size"
+msgstr "サイズ順"
+#
+# fm.cmd.c: line number: 1344
+msgid "Type By Name"
+msgstr "形式ごとに名前順"
+#
+# fm.cmd.c: line number: 1356
+msgid "Hide Subfolders"
+msgstr "サブフォルダ非表示"
+#
+# fm.cmd.c: line number: 1360
+msgid "Show All Subfolders"
+msgstr "全サブフォルダ表示"
+#
+# fm.cmd.c: line number: 1364
+msgid "Begin Tree Here"
+msgstr "ここからツリーを開始"
+#
+# fm.cmd.c: line number: 1368
+msgid "Add Tree's Parent"
+msgstr "ツリーの親フォルダを追加"
+#
+# fm.cmd.c: line number: 1372
+msgid "Folder Display"
+msgstr "フォルダ表示"
+#
+# fm.cmd.c: line number: 1376
+msgid "Sort By"
+msgstr "表示順序"
+#
+# fm.cmd.c: line number: 1387
+msgid "View"
+msgstr "表示"
+#
+# fm.cmd.c: line number: 1397
+msgid "Cut to Wastebasket"
+msgstr "カットしてごみ箱へ"
+#
+# fm.cmd.c: line number: 1401
+msgid "Move to Clipboard"
+msgstr "クリップボードに移動"
+#
+# fm.cmd.c: line number: 1405
+msgid "Really Delete"
+msgstr "本当に削除しますか？"
+#
+# fm.cmd.c: line number: 1412
+msgid "Select All"
+msgstr "すべてを選択"
+#
+# fm.cmd.c: line number: 1416
+msgid "Link"
+msgstr "リンク"
+#
+# fm.cmd.c: line number: 1420
+msgid "Copy"
+msgstr "コピー"
+#
+# fm.cmd.c: line number: 1424
+msgid "Paste"
+msgstr "ペースト"
+#
+# fm.cmd.c: line number: 1428
+msgid "Cut"
+msgstr "カット"
+#
+# fm.cmd.c: line number: 1432
+msgid "Show Clipboard"
+msgstr "クリップボード表示"
+#
+# fm.cmd.c: line number: 1447
+msgid "Edit"
+msgstr "編集"
+#
+# fm.cmd.c: line number: 1457
+msgid "Path Commands"
+msgstr "パスコマンド"
+#
+# fm.cmd.c: line number: 1458
+msgid "Open"
+msgstr "オープン"
+#
+# fm.cmd.c: line number: 1466
+msgid "Hide Subfolders"
+msgstr "サブフォルダ非表示"
+#
+# fm.cmd.c: line number: 1470
+msgid "Show All Subfolders"
+msgstr "全サブフォルダ表示"
+#
+# fm.cmd.c: line number: 1474
+msgid "Begin Tree Here"
+msgstr "ここからツリーを開始"
+#
+# fm.cmd.c: line number: 1478
+msgid "Add Tree's Parent"
+msgstr "ツリーの親を追加"
+#
+# fm.cmd.c: line number: 1482
+msgid "File Properties..."
+msgstr "ファイルプロパティ..."
+#
+# fm.cmd.c: line number: 1493
+msgid "Folder Commands"
+msgstr "フォルダコマンド"
+#
+# fm.cmd.c: line number: 1494
+msgid "Open"
+msgstr "オープン"
+#
+# fm.cmd.c: line number: 1498
+msgid "Print File"
+msgstr "ファイルの印刷"
+#
+# fm.cmd.c: line number: 1502
+msgid "Select All"
+msgstr "すべてを選択"
+#
+# fm.cmd.c: line number: 1506
+msgid "Link"
+msgstr "リンク"
+#
+# fm.cmd.c: line number: 1510
+msgid "Copy"
+msgstr "コピー"
+#
+# fm.cmd.c: line number: 1514
+msgid "Paste"
+msgstr "ペースト"
+#
+# fm.cmd.c: line number: 1518
+msgid "Cut"
+msgstr "カット"
+#
+# fm.cmd.c: line number: 1522
+msgid "Show Clipboard"
+msgstr "クリップボード表示"
+#
+# fm.cmd.c: line number: 1526
+msgid "File Properties..."
+msgstr "ファイルプロパティ..."
+#
+# fm.cmd.c: line number: 1530
+msgid "Up"
+msgstr "上"
+#
+# fm.cmd.c: line number: 1541
+msgid "File Properties..."
+msgstr "ファイルプロパティ..."
+#
+# fm.cmd.c: line number: 1545
+msgid "Tool Properties..."
+msgstr "ツールプロパティ..."
+#
+# fm.cmd.c: line number: 1561
+msgid "Props"
+msgstr "プロパティ"
+#
+# fm.cmd.c: line number: 1579
+msgid "Home"
+msgstr "ホーム"
+#
+# fm.cmd.c: line number: 1594
+msgid "Find...    "
+msgstr "検索..."
+#
+# fm.cmd.c: line number: 1605
+msgid "Goto:"
+msgstr "フォルダ変更:"
+#
+# fm.edit.c: line number: 397
+msgid "(NONE)"
+msgstr "(なし)"
+#
+# fm.edit.c: line number: 441
+msgid "Text Editor: %s%s"
+msgstr "テキストエディタ: %s%s"
+#
+# fm.edit.c: line number: 442
+msgid " (edited)"
+msgstr " (編集済み)"
+#
+# fm.find.c: line number: 136
+msgid "File Manager: Find"
+msgstr "ファイルマネージャ: 検索"
+#
+# fm.find.c: line number: 157
+msgid "Find files in and below folder:"
+msgstr "これおよびその下のフォルダ内のファイルを検索:"
+#
+# fm.find.c: line number: 158
+msgid "Filename:"
+msgstr "ファイル名:"
+#
+# fm.find.c: line number: 159
+msgid "Owner:"
+msgstr "所有者:"
+#
+# fm.find.c: line number: 160
+msgid "Modified After:"
+msgstr "以後に修正:"
+#
+# fm.find.c: line number: 161
+msgid "Modified Before:"
+msgstr "以前に修正:"
+#
+# fm.find.c: line number: 162
+msgid "File Type:"
+msgstr "ファイル型:"
+#
+# fm.find.c: line number: 163
+msgid "Search Files Containing String:"
+msgstr "検索文字列:"
+#
+# fm.find.c: line number: 185
+msgid "Included"
+msgstr "含む"
+#
+# fm.find.c: line number: 185
+msgid "Excluded"
+msgstr "含まない"
+#
+# fm.find.c: line number: 198
+msgid "Included"
+msgstr "含む"
+#
+# fm.find.c: line number: 198
+msgid "Excluded"
+msgstr "含まない"
+#
+# fm.find.c: line number: 212
+msgid "(mm/dd/yy)"
+msgstr "(月/日/年)"
+#
+# fm.find.c: line number: 227
+msgid "(mm/dd/yy)"
+msgstr "(月/日/年)"
+#
+# fm.find.c: line number: 255
+msgid "Ignore Case"
+msgstr "大/小文字を無視"
+#
+# fm.find.c: line number: 260
+msgid "Find"
+msgstr "検索"
+#
+# fm.find.c: line number: 267
+msgid "Stop"
+msgstr "中止"
+#
+# fm.find.c: line number: 273
+msgid "Open"
+msgstr "オープン"
+#
+# fm.info.c: line number: 267
+msgid "File Manager: File Properties"
+msgstr "ファイル・マネジャ: ファイル・プロパティ"
+#
+# fm.info.c: line number: 304
+msgid "Name:"
+msgstr "ファイル名:"
+#
+# fm.info.c: line number: 305
+msgid "Owner:"
+msgstr "所有者:"
+#
+# fm.info.c: line number: 306
+msgid "Group:"
+msgstr "グループ:"
+#
+# fm.info.c: line number: 307
+msgid "Size:"
+msgstr "サイズ:"
+#
+# fm.info.c: line number: 308
+msgid "Last Modified:"
+msgstr "最終修正時刻:"
+#
+# fm.info.c: line number: 309
+msgid "Last Accessed:"
+msgstr "最終アクセス時刻:"
+#
+# fm.info.c: line number: 310
+msgid "Type:"
+msgstr "型:"
+#
+# fm.info.c: line number: 311
+msgid "Permissions"
+msgstr "パーミッション"
+#
+# fm.info.c: line number: 312
+msgid "Owner:"
+msgstr "所有者:"
+#
+# fm.info.c: line number: 313
+msgid "Group:"
+msgstr "グループ:"
+#
+# fm.info.c: line number: 314
+msgid "World:"
+msgstr "その他"
+#
+# fm.info.c: line number: 315
+msgid "Mount Point:"
+msgstr "マウントポイント:"
+#
+# fm.info.c: line number: 316
+msgid "Mounted From:"
+msgstr "マウント元"
+#
+# fm.info.c: line number: 317
+msgid "Free Space:"
+msgstr "フリースペース:"
+#
+# fm.info.c: line number: 372
+msgid " Read  Write Execute"
+msgstr " 読み出し　書き込み　実行"
+#
+# fm.info.c: line number: 394
+msgid "Contents"
+msgstr "内容"
+#
+# fm.info.c: line number: 403
+msgid "Apply"
+msgstr "適用"
+#
+# fm.info.c: line number: 410
+msgid "Reset"
+msgstr "リセット"
+#
+# fm.info.c: line number: 475
+msgid "Link to "
+msgstr "リンク先 "
+#
+# fm.info.c: line number: 477
+msgid "nowhere"
+msgstr "なし"
+#
+# fm.info.c: line number: 502
+msgid "%s bytes"
+msgstr "%s バイト"
+#
+# fm.info.c: line number: 533
+msgid "Unknown"
+msgstr "不明"
+#
+# fm.info.c: line number: 552
+msgid "%s kbytes (%d%%)"
+msgstr "%s kバイト (%d%%)"
+#
+# fm.info.c: line number: 716
+msgid "%s blocks"
+msgstr "%s ブロック"
+#
+# fm.info.c: line number: 719
+msgid "%s bytes"
+msgstr "%s バイト"
+#
+# fm.props.c: line number: 108
+msgid "File Manager: Tool Properties"
+msgstr "ファイルマネジャ: ツールプロパティ"
+#
+# fm.props.c: line number: 126
+msgid "List Options:"
+msgstr "リストオプション:"
+#
+# fm.props.c: line number: 127
+msgid "Hidden Files:"
+msgstr "隠しファイル:"
+#
+# fm.props.c: line number: 128
+msgid "Display by:"
+msgstr "表示種別:"
+#
+# fm.props.c: line number: 129
+msgid "Deletions:"
+msgstr "削除:"
+#
+# fm.props.c: line number: 130
+msgid "Default Document Editor:"
+msgstr "デフォルトのドキュメントエディタ:"
+#
+# fm.props.c: line number: 131
+msgid "Default Icon Color:"
+msgstr "デフォルトのアイコンカラー:"
+#
+# fm.props.c: line number: 132
+msgid "Default Print Script:"
+msgstr "デフォルトのプリントスクリプト:"
+#
+# fm.props.c: line number: 133
+msgid "See Filter Pattern:"
+msgstr "フィルタパターン表示:"
+#
+# fm.props.c: line number: 134
+msgid "Longest Filename:"
+msgstr "ファイル名最大長:"
+#
+# fm.props.c: line number: 144
+msgid "Permissions"
+msgstr "パーミッション"
+#
+# fm.props.c: line number: 145
+msgid "Links"
+msgstr "リンク"
+#
+# fm.props.c: line number: 146
+msgid "Owner"
+msgstr "所有者"
+#
+# fm.props.c: line number: 147
+msgid "Group"
+msgstr "グループ"
+#
+# fm.props.c: line number: 148
+msgid "Size"
+msgstr "サイズ"
+#
+# fm.props.c: line number: 149
+msgid "Date"
+msgstr "作成日"
+#
+# fm.props.c: line number: 159
+msgid "Invisible"
+msgstr "表示しない"
+#
+# fm.props.c: line number: 160
+msgid "Visible"
+msgstr "表示する"
+#
+# fm.props.c: line number: 174
+msgid "Columns"
+msgstr "列"
+#
+# fm.props.c: line number: 175
+msgid "Rows"
+msgstr "行"
+#
+# fm.props.c: line number: 189
+msgid "Confirm"
+msgstr "確認する"
+#
+# fm.props.c: line number: 190
+msgid "Don't Confirm"
+msgstr "確認しない"
+#
+# fm.props.c: line number: 206
+msgid "texteditor"
+msgstr "テキストエディタ"
+#
+# fm.props.c: line number: 206
+msgid "Other:"
+msgstr "その他:"
+#
+# fm.props.c: line number: 230
+msgid "Folder:"
+msgstr "フォルダ:"
+#
+# fm.props.c: line number: 230
+msgid "Document:"
+msgstr "ドキュメント:"
+#
+# fm.props.c: line number: 230
+msgid "Application:"
+msgstr "アプリケーション:"
+#
+# fm.props.c: line number: 283
+msgid "Apply"
+msgstr "適用"
+#
+# fm.props.c: line number: 290
+msgid "Reset"
+msgstr "リセット"
+#
+# fm.rcp.c: line number: 99
+msgid "File Manager: Remote Copy"
+msgstr "ファイルマネージャ: リモートコピー"
+#
+# fm.rcp.c: line number: 120
+msgid "Source Machine:"
+msgstr "元のホスト名:"
+#
+# fm.rcp.c: line number: 129
+msgid "Source Path:"
+msgstr "ソースのパス:"
+#
+# fm.rcp.c: line number: 139
+msgid "Destination Machine:"
+msgstr "宛先ホスト名:"
+#
+# fm.rcp.c: line number: 147
+msgid "Destination Path:"
+msgstr "宛先パス:"
+#
+# fm.rcp.c: line number: 156
+msgid "Copy"
+msgstr "コピー"
+#
+# fm.util.c: line number: 278
+msgid "File Manager%s:%s%s %s"
+msgstr "ファイルマネージャ%s:%s%s %s"
+#
+# fm.util.c: line number: 279
+msgid " Wastebasket"
+msgstr "くずかご"
+#
+# fm.util.c: line number: 280
+msgid " filter: "
+msgstr " フィルタ: "

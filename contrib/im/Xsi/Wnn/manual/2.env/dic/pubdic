@@ -1,0 +1,39 @@
+ＰＵＢＤＩＣ（５＿ＪＴ）
+
+
+名称
+    PUBDIC  −  固定形式辞書
+
+形式
+    /usr/local/lib/wnn/dic/pubdic/*.dic
+
+機能説明
+      uum(1_JT) のかな漢字変換で使用される固定形式辞書である。
+    辞書の設定方法は、wnnenvrc(4_JT) を参照のこと。
+    各ユーザごとの頻度ファイルは、uum が起動される時に、デフォルトを
+
+        JSERVER_DIR/usr/ユーザ名/頻度ファイル名
+
+    の形に作成する。(ただし、path は、uumrc(4_JT) の内容に依存する。)
+    JSERVER_DIR は、jserverrc(4_JT) の中で、jserver_dir によって設定される。
+
+    また、当システムが用意している固定形式辞書は、以下の１０本である
+    (上記 * の部分)。
+
+    	kihon        基本辞書    (第１水準)		約22,000語
+    	tankan       単漢辞書    (第１水準)		約 3,000語
+    	chimei       地名辞書    (第１水準)		約 5,000語
+    	jinmei       人名辞書    (第１水準)		約 2,000語
+    	setsuji      接頭接尾語辞書    (第１水準)	約   900語
+    	computer     情報処理辞書      (第１水準)	約   800語
+    	bio	     生物学関連用語    (第１水準)	約   500語
+    	koyuu        人名地名以外の固有名詞辞書(第１水準)
+							約   200語
+    	koyuu        記号の一般呼称辞書(第１水準)	約   200語
+    	special      特殊語辞書   (第１水準)		約    20語
+	
+
+
+関連項目
+      uum(1_JT), jserver(1_JT), wnnenvrc(4_JT), jserverrc(4_JT),
+    dtoa(1_JT), atod(1_JT).

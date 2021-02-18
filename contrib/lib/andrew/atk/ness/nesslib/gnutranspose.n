@@ -1,0 +1,18 @@
+-- Gnu Emacs style character transpose
+--
+--	Installation:  
+--		1. install this file in <full pathname of this file>
+--		2. change ~/.atkinit to include
+--			load ness
+--			call ness-load <full pathname of this file>
+--	(after patch 10, this file will be in $ANDREWDIR/lib/ness)
+--
+--	Usage:
+--		In any textview, type control-t. 
+--		The two characters adjacent to the caret will be interchanged
+--		and the caret will advance to after the second.
+
+extend "view:textview" on keys "\024"
+	textview_forward_character(currentinset)
+	textview_twiddle_chars(currentinset)
+end keys end extend

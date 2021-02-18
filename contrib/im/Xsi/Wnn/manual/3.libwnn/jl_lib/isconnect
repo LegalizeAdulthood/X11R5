@@ -1,0 +1,29 @@
+JL_ISCONNECT( )
+
+名称
+
+	jl_isconnect	サーバと接続されているかの判定
+	jl_isconnect_e	サーバと接続されているかの判定
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_isconnect(buf)
+	struct wnn_buf *buf;
+
+	int
+	jl_isconnect_e(env)
+	struct wnn_env *env;
+
+機能
+
+	jl_isconnect は、バッファ buf の環境のサーバと接続されているかを調べる。
+	jl_isconnect_e は、環境 env のサーバと接続されているかを調べる。
+
+リターンバリュー
+
+	接続されていれば、1 を返す。
+	接続されていなければ、0 を返す。
+

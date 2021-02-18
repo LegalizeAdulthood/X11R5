@@ -1,0 +1,62 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;                                                                   ;;;;
+;;;;       Copyright IBM Corporation 1988,1991 - All Rights Reserved   ;;;;
+;;;;      For full copyright information see:'andrew/config/COPYRITE'  ;;;;
+;;;;                                                                   ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; $Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/overhead/eli/elifiles/RCS/ints.eli,v 1.3 1991/09/13 17:06:09 bobg Exp $
+; $Source: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/overhead/eli/elifiles/RCS/ints.eli,v $
+
+;;;
+;;; Numeric functions
+;;;
+
+;;
+;; ZEROP
+;;   integer x
+;; returns t if x is 0, nil otherwise
+;;
+(defun zerop (x)
+  (eq x 0))
+
+;;
+;; MOD
+;;   integer x
+;;   integer y
+;; returns the integer remainder of x divided by y
+;;
+(defun mod (x y)
+  (- x (* (div x y) y)))
+
+;;
+;; BIT-AND
+;;   integer x
+;;   integer y
+;; returns the bitwise-and of x and y
+;;
+(defun bit-and (x y)
+  (cond ((or (zerop x)
+	     (zerop y))
+	 0)
+	(t
+	 (+ (* (mod x 2) (mod y 2))
+	    (* 2 (bit-and (div x 2) (div y 2)))))))
+
+;;
+;; <
+;;   integer x
+;;   integer y
+;; returns t if x is less than y, nil otherwise
+;;
+(defun < (x y) (lessp x y))
+
+;;
+;; >
+;;   integer x
+;;   integer y
+;; returns t if x is greater than y, nil otherwise
+;;
+(defun > (x y) (not (or (lessp x y)
+			(eq x y))))
+

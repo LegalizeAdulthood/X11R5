@@ -1,0 +1,56 @@
+/*
+ * mips RISC/os should add "-systype bsd43" to CDEBUGFLAGS.
+ *
+ * dec 5000 series systems should add -Ddec to CDEBUGFLAGS.  Once
+ * again, I don't know the symbol, so I can't do it right here.
+ *
+ * System V systems needs -DSYSV, but I think that's done
+ * automatically by the Imake configuration files for System V-like
+ * systems, so you probably shouldn't have to worry about it.
+ */
+
+/*
+ *  For Mips RISC/OS:
+ */
+#if defined(MipsArchitecture) && !defined(UltrixArchitecture)
+CDEBUGFLAGS = -systype bsd43 -O -float
+EXTRA_LIBRARIES =
+#endif
+
+#if HasVoidSignalReturn == YES
+DEFINES=	-DSIGVOID
+#endif
+
+SRCS1= 		ibuild.c
+OBJS1=		ibuild.o
+DEPLIBS1=
+
+SRCS2= 		horizon.c
+OBJS2=		horizon.o
+DEPLIBS2=
+
+PROGRAMS=	ibuild horizon
+STD_INCLUDES=	-I../fsim -I../V/lib
+LOCAL_LIBRARIES = -L../V/lib -lV -lm
+
+OBJS= $(OBJS1)
+SRCS= $(SRCS1)
+
+AllTarget($(PROGRAMS))
+
+NormalProgramTarget(ibuild,$(OBJS1),$(DEPLIBS1),$(LOCAL_LIBRARIES),)
+SaberProgramTarget(ibuild,$(SRCS1),$(OBJS1),$(LOCAL_LIBRARIES),)
+
+NormalProgramTarget(horizon,$(OBJS2),$(DEPLIBS2),$(LOCAL_LIBRARIES),)
+SaberProgramTarget(horizon,$(SRCS2),$(OBJS2),$(LOCAL_LIBRARIES),)
+
+DependTarget()
+LintTarget()
+
+all::
+	./ibuild TF16_CnBeta >f16.tables
+	./ibuild TF16_ClBeta >>f16.tables
+	./ibuild TF16_CDb >>f16.tables
+	./ibuild TGeneric_Thrust >>f16.tables
+	./ibuild TGeneric_ABThrust >>f16.tables
+	cp f16.tables ../fsim/

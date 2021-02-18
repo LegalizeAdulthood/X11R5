@@ -1,0 +1,31 @@
+JS_ACCESS( )
+
+名称
+
+	js_access	ファイルのアクセス権を調べる。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_access(env,path,amode)
+	struct	wnn_env *env;	/* 環境 */
+	char 	*path;		/* パス名 */
+	int	amode;		/* モード */
+
+機能
+
+	path で指定されたファイルをサーバ自身のアクセス権で調べる。
+	amode は、access(2) と同じである。
+		04   read
+		02   write
+		01   execute (search)
+		00   check existence of file
+	path と amode を持って、jserver の権限で access(2) を実行する。	
+	path の最大文字数は、128文字である。
+
+リターンバリュー
+
+	access(2) と同じである。
+

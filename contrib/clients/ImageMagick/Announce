@@ -1,0 +1,66 @@
+ImageMagick, an X11 image processing and display utility, is now available
+on export.lcs.mit.edu as contrib/ImageMagick.tar.Z.  It is also available in
+any comp.sources.x archive as imagemagic, volume 13, issue 17.
+
+cristy@dupont.com
+
+---
+
+Display
+
+    Display is a machine architecture independent image processing and
+    display program.  It can display any image in the MIFF format on
+    any workstation display running an X server.  Display first
+    determines the hardware capabilities of the workstation.  If the
+    number of unique colors in the image is less than or equal to the
+    number the workstation can support, the image is displayed in an X
+    window.  Otherwise the number of colors in the image is first
+    reduced to match the color resolution of the workstation before it
+    is displayed.
+
+    This means that a continuous-tone 24 bits/pixel image can display
+    on a 8 bit pseudo-color device or monochrome device.  In most
+    instances the reduced color image closely resembles the original.
+    Alternatively, a monochrome or pseudo-color image can display on a
+    continuous-tone 24 bits/pixels device.
+
+Import
+
+    Import is an X Window System window dumping utility.  Import allows
+    X users to store window images in a specially formatted dump file.
+    This file can then be read by the Display utility for redisplay,
+    printing, editing, formatting, archiving, image processing, etc.
+    The target window can be specified by id or name or be selected by
+    clicking the mouse in the desired window.  The keyboard bell is
+    rung once at the beginning of the dump and twice when the dump is
+    completed.
+
+XtoPS
+
+    XtoPS is an X Window System window dumping utility.  XtoPS reads an
+    image from any visible window on an X server and outputs it to
+    encapsulated Postscript file.  You can view this file with any
+    Postscript compatible viewer or printer.  The image is displayed in
+    color on viewers or printers that support color Postscript,
+    otherwise it is displayed as grayscale.  The target window can be
+    specified by id or name or be selected by clicking the mouse in the
+    desired window.  The keyboard bell is rung once at the beginning of
+    the dump and twice when the dump is completed.
+
+Animate
+
+     Animate displays a sequence of images in the MIFF format on
+     any workstation display running an X server.  Animate first
+     determines the hardware capabilities of the workstation.  If
+     the number of unique colors in an image is less than or
+     equal to the number the workstation can support, the image
+     is displayed in an X window.  Otherwise the number of colors
+     in the image is first reduced to match the color resolution
+     of the workstation before it is displayed.
+
+Montage
+
+     Montage creates a composite image by combining several
+     separate images.  The images are tiled on the composite
+     image with the name of the image appearing just above the
+     individual tile.

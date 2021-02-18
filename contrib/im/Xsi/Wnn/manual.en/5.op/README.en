@@ -1,0 +1,14 @@
+How to use this manual
+
+(1) Parts of figures and tables put other files as dump files.
+    This dump files are printed out to use this command.
+
+    xdpr -scale 2 [filename]
+
+
+(2) Cut out the figures and tables, and paste it in a corresponding place 
+    of the text. 
+
+
+(3) Print out the text at 50 lines.
+

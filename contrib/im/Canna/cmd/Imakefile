@@ -1,0 +1,15 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+#if !defined(sony) && !defined(bsd43)
+ICUSTOM = icustom
+#endif
+
+SUBDIRS = ckhinshi crrdic crxdic crxgram dicar \
+	dpromdic dpxdic dpxgram forcpp forsort hindoup \
+	$(ICUSTOM) itow mergewd splitwd wtoi scripts
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs($(SUBDIRS))
+MakeLintSubdirs($(SUBDIRS),install.ln,install.ln)

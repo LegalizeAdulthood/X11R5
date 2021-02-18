@@ -1,0 +1,36 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+LOCALINCLUDES = -I../machdep/machine
+
+DependTarget()
+
+NormalObjectRule()
+
+#ifndef _IBMR2
+#ifndef LIBDL_ENV
+LibraryTarget(libclass.a, class.o classproc.o ../machdep/machine/entry.o ../machdep/machine/doload.o mapping.o classind.o ../machdep/machine/globals.o)
+#else /* LIBDL_ENV */
+libclass.a:  class.o classproc.o ../machdep/machine/entry.o ../machdep/machine/doload.o mapping.o classind.o ../machdep/machine/globals.o
+	$(RM) $@
+	ld $(SHLIBLDFLAGS) -o $@ shared/class.o classproc.o ../machdep/machine/entry.o \
+	    ../machdep/machine/shared/doload.o shared/mapping.o \
+	    shared/classind.o ../machdep/machine/shared/globals.o
+#endif /* LIBDL_ENV */
+#else /* _IBMR2 */
+libclass.a:  class.o classproc.o ../machdep/machine/entry.o ../machdep/machine/doload.o mapping.o classind.o ../machdep/machine/globals.o
+	$(RM) $@
+	ld -o shr.o class.o classproc.o ../machdep/machine/entry.o ../machdep/machine/doload.o mapping.o classind.o ../machdep/machine/globals.o -bE:../machdep/machine/libclass.exp -bM:SRE -b I:../machdep/machine/libclass.imp -lc
+	$(AR) $@  shr.o
+	$(RM) shr.o
+#endif /* _IBMR2 */
+
+#ifdef LIBDL_ENV
+install.time:: libclass.a
+	$(INSTALL) $(INSTLIBFLAGS) libclass.a $(DESTDIR)/lib
+#else /* LIBDL_ENV */
+InstallLibrary(libclass.a, $(DESTDIR)/lib)
+#endif /* LIBDL_ENV */
+InstallFile(class.h, $(INSTINCFLAGS), $(DESTDIR)/include)
+InstallFile(mapping.h, $(INSTINCFLAGS), $(DESTDIR)/include)

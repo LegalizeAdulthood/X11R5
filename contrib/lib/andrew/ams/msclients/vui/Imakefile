@@ -1,0 +1,82 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#define  IHaveSubdirs
+SUBDIRS = doc
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#else
+RESOLVER_LIB =
+#endif /* RESOLVER_ENV */
+
+LOCALINCLUDES	=	-I${BASEDIR}/include/ams
+
+#ifdef SNAP_ENV
+    PRODUCTS 	=	vuin vuis vuit
+#else /* SNAP_ENV */
+    PRODUCTS 	=	vuin
+#endif /* SNAP_ENV */
+
+ANDVOBJS	=	andmach.o andmpc.o andpnlm.o
+
+PCVOBJS	=	pcmach.o pcmpc.o pcpnlm.o
+
+OBJS		=	${ANDVOBJS} cmdargs.o \
+			lmenus.o panelp.o vui.o vuibase.o vuipnl.o \
+			vuiscrns.o vuisend.o vuimenus.o vuimsgs.o
+
+LIBS		=	${BASEDIR}/lib/libmail.a ${BASEDIR}/lib/liberrors.a \
+			${MALLOCLIB} ${UTILLIB} \
+			${RESOLVER_LIB}
+
+NOSNAPLIBS	=	${BASEDIR}/lib/libcui.a ${BASEDIR}/lib/libcuin.a \
+			${BASEDIR}/lib/libmssrv.a ${BASEDIR}/lib/libmsshr.a \
+			${BASEDIR}/lib/libeli.a ${BASEDIR}/lib/librxp.a \
+			${LIBS} ${PRSLIB}
+
+#define parameterized_snap_libs(kind_of_snap) \ @@\
+	${BASEDIR}/lib/libcui.a \ @@\
+	${BASEDIR}/lib/libcuis.a \ @@\
+	${BASEDIR}/lib/kind_of_snap.a \ @@\
+	${BASEDIR}/lib/libmsshr.a \ @@\
+	${BASEDIR}/lib/librxp.a \ @@\
+	${LIBS} \
+
+NormalObjectRule()
+
+#ifdef sys_rt_aix221
+CURSESLIBS = -lcurses
+#else
+CURSESLIBS = -lcurses  -ltermcap
+#endif
+
+#ifdef SNAP_ENV
+#if defined(USE_MMDF_ENV) || defined(USE_MLD_ENV)
+ProgramTarget(vuis, ${OBJS}, parameterized_snap_libs(libsnap), ${CURSESLIBS} ${NETLIBS} ${SUPLIBS} ${MMDFLIBS}  ${BSDLIB})
+ProgramTarget(vuit, ${OBJS}, parameterized_snap_libs(libsnapt), ${CURSESLIBS} ${NETLIBS} ${SUPLIBS} ${MMDFLIBS}  ${BSDLIB})
+#else
+ProgramTarget(vuis, ${OBJS}, parameterized_snap_libs(libsnap), ${CURSESLIBS} ${NETLIBS} ${SUPLIBS}  ${BSDLIB})
+ProgramTarget(vuit, ${OBJS}, parameterized_snap_libs(libsnapt), ${CURSESLIBS} ${NETLIBS} ${SUPLIBS}  ${BSDLIB})
+#endif /* MMDF */
+#endif /* SNAP_ENV */
+#if defined(USE_MMDF_ENV) || defined(USE_MLD_ENV)
+ProgramTarget(vuin, ${OBJS}, ${NOSNAPLIBS}, ${CURSESLIBS} ${NETLIBS} ${SUPLIBS} ${MMDFLIBS}  ${BSDLIB})
+#else
+ProgramTarget(vuin, ${OBJS}, ${NOSNAPLIBS}, ${CURSESLIBS} ${SUPLIBS} ${NETLIBS} ${BSDLIB})
+#endif
+
+InstallMultiple(${PRODUCTS}, ${INSTPROGFLAGS}, ${DESTDIR}/bin/)
+InstallLink(${DESTDIR}/bin/vuin, ${DESTDIR}/bin/vui)
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(vui.help, ${DESTDIR}/help)
+InstallDocs(vui.tutr, ${DESTDIR}/help)
+InstallDocs(VuiInternals.d HowToPC.d PanelsNMenus.d, ${DESTDIR}/doc/ams)
+InstallHelpAlias(vui, pcmessages pcmsgs visualuserinterface ams-vui)

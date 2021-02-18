@@ -1,0 +1,30 @@
+/**/#
+/**/#  This Imakefile makes the programs cpicker and pixedit.  They
+/**/#  are used to select colors
+/**/#
+/**/#  This Imakefile was produced by Dana Chee (dana@bellcore.com)
+/**/#	
+CSRCS = color.c Bargraph.c Slide.c Cpick.c
+COBJS = color.o Bargraph.o Slide.o Cpick.o
+	
+SRCS1 = cpicker.c $(CSRCS)
+OBJS1 = cpicker.o $(COBJS)
+
+SRCS2 = pixedit.c $(CSRCS)
+OBJS2 = pixedit.o $(COBJS)
+
+PROGRAMS = cpicker pixedit
+
+SYS_LIBRARIES = -lm
+
+#ifdef UseInstalled
+LOCAL_LIBRARIES = XawClientLibs
+DEPLIBS = 
+#else	
+LOCAL_LIBRARIES = XawClientDepLibs
+DEPLIBS = $(LOCAL_LIBRARIES)
+#endif
+
+ComplexProgramTarget_1(cpicker, $(LOCAL_LIBRARIES), )
+	
+ComplexProgramTarget_2(pixedit, $(LOCAL_LIBRARIES), )

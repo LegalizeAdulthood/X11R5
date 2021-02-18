@@ -1,0 +1,16 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+node_expert: ackerman@athena.mit.edu
+expiration_date: 08/16/93
+last_modifier: ack@amt.media.mit.edu
+last_mod_date: 09/02/91
+mod_num: 2
+@end(header)
+Motif widget set/Prog_Motif
+ Using a Motif routine/Motif_Routine
+ Using a Motif widget/Motif_Widgets_General
+ Motif Administration/Motif_Admin
+ Debugging Motif/Motif_Debug
+ Using an Xt routine/Prog_Xt

@@ -1,0 +1,310 @@
+\begindata{text,537409664}
+\textdsversion{12}
+\template{help}
+\define{footnote
+}
+\define{title
+}
+\chapter{PSinset: PostScript inclusion in EZ
+
+}
+\section{What \typewriter{ps} insets are
+
+}\leftindent{
+A \typewriter{ps} inset is an\italic{ inset} which allows you to include a 
+piece of PostScript text -- a chart, picture, specially formatted text, 
+another document, or anyting else in the PostScript language.
+
+
+The following is a \typewriter{ps} inset:
+
+\begindata{ps,537554688}
+516 137 1 288 36 
+\title{PostScript}
+\begindata{text,537410048}
+\textdsversion{12}
+%!
+
+0.5 0.5 scale
+
+/IM \{
+
+	gsave
+
+		translate
+
+		scale
+
+		image
+
+	grestore
+
+\} bind def
+
+/PR \{
+
+	gsave
+
+		newpath
+
+		findfont	exch scalefont setfont
+
+		moveto false charpath closepath
+
+		gsave 1.0 setgray fill grestore
+
+		2 setlinewidth stroke
+
+	grestore
+
+\} bind def
+
+
+/fountain 256 string def
+
+0 1 255 \{ fountain exch dup 255 exch sub put \} bind for
+
+256 1 8 [256 0 0 1 0 0] \{fountain\}
+
+576 72 0 0 IM
+
+(ATK and PostScript) 4 12
+
+64 /Helvetica PR
+
+\enddata{text,537410048}
+\enddata{ps,537554688}
+\view{psview,537554688,0,0,0}
+Click once on its title bar to close it.  Click once on the funny character to 
+open it.
+
+
+If your server supports Display PostScript, you may choose the \bold{View} 
+menu option on the \bold{PostScript} menu card to preview the PostScript in 
+your Ez window.  Use the \bold{Edit }menu option on the same card to switch 
+back to the text editting mode.
+
+
+The \typewriter{ps} inset is a text object with a scrollbar whose purpose is 
+to hold postscript commands and to print them correctly in the document.
+
+}
+\section{Overview
+
+}
+\leftindent{This help file will introduce you to the use of ez PostScript 
+insets.  It assumes that you are reasonably familiar with some of the general 
+options discussed in the introductory  \italic{ez } help file.  This document 
+has the following sections:
+
+
+\leftindent{Making a \typewriter{ps} inset
+
+Resizing a \typewriter{ps} inset
+
+Deleting a \typewriter{ps} inset
+
+Printing and Previewing with \typewriter{ps} insets
+
+Popup Menu meanings
+
+Warnings
+
+Advice
+
+Related Tools.
+
+}}
+\section{Making a \typewriter{ps} inset
+
+
+}\leftindent{To insert a \typewriter{ps} inset into a working document, 
+position the text caret where you want the \typewriter{ps} inset to appear, 
+and select \bold{Insert PostScript }from the \bold{Special} menu card or type 
+<ESC><TAB> \typewriter{ps} (the escape key followed by the tab key, then 
+"\typewriter{ps}" when prompted for the name of the object.).  EZ places a 
+PostScript inset at that point to indicate the presence of a PostScript 
+program. You may then all the usual EZ commands to put PostScript commands 
+into this box.
+
+}	
+
+\section{Resizing a \typewriter{ps} inset}
+
+
+\leftindent{The size of the "PostScript" inset on the screen and the size of 
+the area which will be reserved blank for its contents to fit themselves into 
+when the ez file is previewed or printed are totally unrelated.
+
+
+\subsection{Resizing the box on the screen}
+
+
+Position the cursor precisely over either the right or bottom border of the 
+PostScript box, until the cursor changes to a double arrow.  Click and hold 
+the left or right mouse button, and drag the border out to its new position, 
+then release the mouse button.
+
+
+\subsection{Resizing the printing space of the inset}
+
+
+Select from the \italic{PostScript} menu card either \bold{Set Inch Size} to 
+specify the size in inches, or \bold{Set Point Size} to specify the size in 
+points.  You will be prompted for first the width and then the height of the 
+area to be reserved blank when the document is previewed or printed so that 
+your PostScript may be printed there (see\bold{ Warnings} and\bold{ Advice} 
+below).
+
+}
+\section{Deleting a \typewriter{ps} inset}
+
+\leftindent{
+To delete a PostScript entry, position the text caret to the right of the 
+PostScript inset and type either the delete or backspace key.  The message,
+
+
+\leftindent{Really delete inset(s)?}
+
+
+is printed in a dialogue box.  Click in the appropriate box: either \bold{yes} 
+to  confirm or \bold{no} to abort the deletion.  When properly deleted, the 
+entire PostScript entry vanishes leaving only the text caret in its place.}
+
+
+
+\section{Printing and Previewing with \typewriter{ps} insets}\leftindent{
+
+}
+\leftindent{To see how the document will appear in the final printout, choose 
+the \bold{Preview} option from the \italic{File} menu.  EZ opens a separate 
+Preview window that displays a picture of the final document as it will appear 
+when printed.  For more information, see the \italic{preview }help document.
+
+
+A space which can be set with the Set Pixel Size and Set Inch Size commands 
+will be reserved blank at th elocation of the \typewriter{ps} inset in the 
+document.  The PostScript code will not be translated and will not appear in 
+the window -- you will only see the position and size of the spave left for 
+it.  To see what the translated PostScript will look like, you must use the 
+\bold{Print} option from the\italic{ File} menu.  See \bold{Warnings 
+}and\bold{ Advice }below.
+
+}
+\section{Pop-up menu meanings
+
+}\leftindent{
+\subsection{View
+
+}Allows you to preview your PostScript code in your Ez window.  This menu item 
+is only available with X servers which support the Display PostScript 
+extension.
+
+
+\subsection{Edit
+
+}Will allow you to return to the edit mode from the view mode.  This menu item 
+is only available with X servers which support the Display PostScript 
+extension.
+
+
+\subsection{Set Inch Size}
+
+Prompts first for width and then for height of the area to be reserved in the 
+previewed or printer document for the PostScript program, in inches.
+
+
+\subsection{Set Point Size}
+
+Prompts first for width and then for height of the area to be reserved in the 
+previewed or printer document for the PostScript program, in points.  There 
+are 72 points per inch.
+
+
+\subsection{Scan for bounds}
+
+Looks inside of the PostScript code for the BoundingBox header (which is 
+required in any PostScript program which conforms to the Adobe Document 
+Structuring Conventions, which includes Encapsulated PostScript or EPS files). 
+ The \typewriter{ps} inset will use the bounding box information to set the 
+point size for you (see above), and will also insert a \typewriter{translate} 
+command before your PostScript code to cause the image to be shifted into the 
+printable region.
+
+
+See \bold{Warnings }and \bold{Advice}.
+
+}
+\section{Warnings
+
+}\leftindent{
+You are entirely responsible for the validity and visibility of your 
+PostScript code included in the inset.  No interpretation or checking of the 
+PostScript is done at this time.
+
+
+The size of the open PostScript inset on the screen and the size of the blank 
+area reserved for the code in the previewed or printer document are totally 
+unrelated.
+
+
+Use the \bold{Scan for bounds}, \bold{Set Point Size}, or \bold{Set Inch Size} 
+menu commands to ensure a proper area on the page, and then test and check 
+your PostScript code to see that it fits where the space is reserved for it. 
+ The PostScript inset will  clip the figure to the size you gave unless your 
+PostScript code issues its own \typewriter{clip} command.  Also, watch out for 
+PostScript code that uses \typewriter{initgraphics}.
+
+
+}\section{Advice
+
+
+}\leftindent{It is easy and nearly default to create a valid PostScript 
+inclusion which obligingly places itself several inches off the page where you 
+told it to go, so that it is completely invisible when printed.
+
+
+Check for boundingbox, scale, and rotation commands, and include them as early 
+in the PostScript text if possible.  Future versions of \typewriter{ps} inset 
+will try to make sure that the included PostScript and the area allocated for 
+it on the page are compatible, but at this point keeping an  image to the 
+lower left of the page when creating it, and scaling it down with, for 
+example, ".3 .3 scale" when first attempting to proofread the document will 
+help keep it from being printed over the text above it on the page or, worse 
+yet, somewhere off the page where it can't be seen.
+
+
+Rotating a PostScript page rotates it about its upper left corner, effectively 
+placing it off the page unless an appropriate offset is also used.
+
+}
+\section{Related tools}  
+
+
+\leftindent{Select (highlight) one of the italicized names and choose "Show 
+Help on Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{\italic{ez
+
+ez-contents
+
+ez-index
+
+ezprint
+
+insets
+
+preview
+
+
+}}}\leftindent{
+}\section{Program Authors}
+
+
+\leftindent{Paul Boutin, MIT Project Athena, paul@athena.mit.edu
+
+DPS and BoundingBox scan extensions by Michael McInerny, ITC/CMU, 
+mcinerny+@andrew.cmu.edu
+
+}\enddata{text,537409664}

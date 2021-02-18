@@ -1,0 +1,70 @@
+.TH XcuBmgrTypeR 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuBmgrTypeR \- XcuBmgrType resource for the XcuBmgr widget.
+.sp
+.in -3
+.ps -1
+.TS
+tab(;);
+|c s s s s|.
+_
+XcuBmgrType Resource
+.T&
+|lB |lB |lB |lB s|.
+_
+Name;Type;Converter Registration;Converts
+.T&
+|lB |lB |lB |lB lB|.
+ ; ; ;From;To
+=
+.T&
+|lB l l l l|.
+XtNbmgrType;XcuBmgrType;XcuAddStringToBmgrTypeConverter();"AnyOfMany";XcuBMGR_ANY_OF_MANY
+.T&
+|lB l l l l|.
+ ; ; ;"OneOfMany";XcuBMGR_ONE_OF_MANY
+ ; ; ;"SingleToggle";XcuBMGR_SINGLE_TOGGLE
+ ; ; ;"DoubleToggle";XcuBMGR_DOUBLE_TOGGLE
+ ; ; ;"Transient";XcuBMGR_TRANSIENT
+_
+.TE
+.ps +1
+.in +3
+.sp
+Actually, each of the above strings can be substituted by a variety of strings.
+Underscores are stripped out, uppercase is converted to lowercase, and
+leading "xcubmgr" sequences are stripped off.
+For example, "AnyOfMany" could also be set to: "any_of_many", "anyOfMany",
+"Any_of_many", "XcuBMGR_ANY_OF_MANY", etc.
+.ne 4
+.SH DESCRIPTION
+\ 
+The XcuBmgrType resource is used by the XcuBmgr widget to determine the
+semantics for a group of XcuButton widgets.
+.ne 4
+.SH NOTE
+\ 
+.br
+XcuAddStringToBmgrTypeConverter() is
+automatically called by the class_initialize procedures of \fBXcuBmgr\fR and
+\fBXcuWlm\fR.
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

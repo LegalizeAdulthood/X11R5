@@ -1,0 +1,25 @@
+        IROHAROOT = ../..
+
+#ifdef Debug
+          DEFINES = -DDebug
+#endif
+
+    OBJS = RKtempdic.o RKpermdic.o RKdicsw.o RKngram.o RK2bun.o RKcontext.o \
+	RKdebug.o RKnword.o RKncache.o RKnheap.o RKroma.o RKkana.o \
+	RKdic.o RKfile.o
+
+    SRCS = RKdicsw.c RKpermdic.c RKtempdic.c RKngram.c RKcontext.c RK2bun.c \
+	RKdebug.c RKnheap.c RKncache.c RKnword.c RKroma.c RKkana.c \
+	RKdic.c RKfile.c
+
+  HEADER = RK.h
+ HEADERS = $(HEADER) RKintern.h RKdic.h ncommon.h
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(RK,$(OBJS))
+NormalLintTarget($(SRCS))
+LintLibraryTarget(RK,$(SRCS))
+DependTarget()
+
+LinkFileList(includes,$(HEADER),$(IROHAROOT)/include/iroha,../../lib/RK)
+LinkFileList(includes,$(HEADERS),$(IROHAROOT)/include,../lib/RK)

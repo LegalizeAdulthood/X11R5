@@ -1,0 +1,7 @@
+*ximp.inputserver : off
+*ximp.startkeysym : Henkan_Mode
+*ximp.preedit.foreground : white
+*ximp.preedit.background : black
+*ximp.status.foreground : black
+*ximp.status.background : white
+

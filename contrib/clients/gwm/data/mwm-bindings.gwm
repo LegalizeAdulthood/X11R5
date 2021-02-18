@@ -1,0 +1,172 @@
+
+;;File: mwm-bindings.gwm --
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+
+; The standard behaviors & grabs :
+(: root-std-grabs ())
+(: window-std-grabs ())
+(: icon-std-grabs ())
+(: root-std-behavior ())
+(: window-std-behavior ())
+(: icon-std-behavior ())
+
+
+; KEY-BINDINGS-MAKE :
+; =================
+(df key-bindings-make args
+(with (
+       theResult	  '(root (() ()) window (() ()) icon (() ()))
+       ;			  ^  ^
+       ; state -------------------+  |
+       ; grabs ----------------------+
+      )
+ (for key-item args
+  (with (
+	 key 		  (# 0 (# 0 key-item))
+	 modifier 	  (# 1 (# 0 key-item))
+	 context 	  (# 1 key-item)
+	 fctn 		  (# 2 key-item)
+	 fctn.name 	  (# 0 fctn)
+	 fctn.name.string (match "[.]\\(.*\\)" fctn.name 1)
+	 theTransition	  ()
+	 theGrab	  ()
+	)
+   (: theTransition
+	(list 'on (list 'keypress (key-make key) modifier)
+	      (list 'if (eval (atom (+ "e." fctn.name.string))) fctn)
+	)
+   )
+   (: theGrab (list (eval (list 'keypress (key-make key) modifier))))
+   (for ctxt context
+	; state :
+	(## 0 (# ctxt theResult)
+	 (state-make (eval theTransition) (# 0 (# ctxt theResult))))
+	; grabs :
+	(## 1 (# ctxt theResult)
+	 (+ (# 1 (# ctxt theResult)) theGrab))
+   )
+  )
+ )
+theResult
+))
+
+
+(de general-ctxt (ctxt)
+ (if (= ctxt 'root) "root"
+     (= ctxt 'icon) "icon"
+     "window"
+ )
+)
+
+; BUTTON-BINDINGS-MAKE :
+; ====================
+(df button-bindings-make args
+(with (
+       theResult	'(root (press (()()()()) release (()()()())
+				click (()()()()) double-click (()()()())
+			       ) 
+			  window (press (()()()()) release (()()()())
+				click (()()()()) double-click (()()()())
+				 )
+			  frame (press (()()()()) release (()()()())
+				click (()()()()) double-click (()()()())
+				)
+			  icon (press (()()()()) release (()()()())
+				click (()()()()) double-click (()()()())
+			       )
+			  title (press (()()()()) release (()()()())
+				click (()()()()) double-click (()()()())
+				)
+			  border (press (()()()()) release (()()()())
+				click (()()()()) double-click (()()()())
+				 )
+			  app (press (()()()()) release (()()()())
+				click (()()()()) double-click (()()()())
+			      ) 
+			  app-grabs ()
+			 )
+      )
+ (for button-item args
+  (with (
+	 button		  (# 0 button-item)
+	 trigger	  (if (= 'buttonpress (# 0 button)) 'press 
+			      (= 'buttonrelease (# 0 button)) 'release
+			      (= 'button (# 0 button)) 'click 'double-click
+			  )
+	 nbutton	  (# 1 button)
+	 modifier	  (# 2 button)
+	 context	  (# 1 button-item)
+	 fctn 		  (# 2 button-item)
+	 fctn.name 	  (# 0 fctn)
+	 fctn.name.string (match "[.]\\(.*\\)" fctn.name 1)
+	)
+   (for ctxt context
+	(if (= fctn.name.string "menu")
+	 (progn
+	 (set (atom (+ (general-ctxt ctxt) "-std-behavior"))
+	  (state-make 
+	     (with (wob (menu-wob (eval (# 1 fctn)))) (# 'wfsm wob-property))
+	     (eval (atom (+ (general-ctxt ctxt) "-std-behavior")))
+	  ))
+	 (set (atom (+ (general-ctxt ctxt) "-std-grabs"))
+	  (+ (eval (atom (+ (general-ctxt ctxt) "-std-grabs")))
+	     (with (wob (menu-wob (eval (# 1 fctn)))) (# 'wgrabs wob-property))))
+	 )
+	)
+	(## nbutton (# trigger (# ctxt theResult))
+	 (+ (list (atom (+ "m" (itoa (eval modifier))))
+			(list 'if (eval (atom (+ "e." fctn.name.string))) fctn))
+	    (# nbutton (# trigger (# ctxt theResult)))))
+	(if (= ctxt 'app)
+	 (## 'app-grabs theResult (+ (# 'app-grabs theResult) (list button))))
+   )
+  )
+ )
+theResult
+)
+)
+
+; DO-BINDING-BUTTON :
+; =================
+(de do-binding-button (nbutton modifier trigger context)
+ (for ctxt context
+ (eval (# (atom (+ "m" (itoa modifier))) 
+	(# nbutton
+	 (# trigger (# ctxt buttonBindings)))))
+ )
+)
+
+
+; DO-BINDINGS-STATE :
+; =================
+(de do-bindings-state (context)
+(: context (list quote context))
+(eval
+ (list
+ 'state-make 
+  (list
+  'on '(buttonpress any any)
+    (list 'do-binding-button '(current-event-code) '(current-event-modifier)
+	''press context))
+  (list
+  'on '(buttonrelease any any)
+    (list 'do-binding-button '(current-event-code) '(current-event-modifier)
+	''release  context))
+  (list
+  'on '(button any any)
+    (list 'do-binding-button '(current-event-code) '(current-event-modifier)
+	''click  context))
+  (list
+  'on '(double-button any any)
+    (list 'do-binding-button '(current-event-code) '(current-event-modifier)
+	''double-click  context))
+ )
+))
+
+

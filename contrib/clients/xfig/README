@@ -1,0 +1,6 @@
+Openwindows has scalable fonts so xfig must be compiled with the -DOPENWIN
+flag in order to handle this.
+
+There is also a bug in OpenWindows 2.0 which relates to pixmaps in widgets.
+You must compile xfig with the -DOPENWIN_BUG option for this problem.
+

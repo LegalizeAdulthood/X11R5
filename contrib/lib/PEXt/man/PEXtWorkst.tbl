@@ -1,0 +1,223 @@
+.\" $Header: PEXtWorkst.tbl,v 1.0 91/10/04 17:02:11 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtWorkstation 3PEXt "" "" "" ""
+.SH NAME
+\fBPEXtWorkstation \(em the Workstation widget class\fP.
+.iX "Workstation"
+.iX "widget class" "Workstation"
+.sp 1
+.SH SYNOPSIS
+\fB#include <PEXt/Workstati.h>\fP
+.sp 1
+Widget PEXtCreateWorkstation (\fIparent, name, arglist, argcount\fP)
+.br
+.ta .5i 1.5i
+	Widget	\fIparent\fP;
+.br
+	String	\fIname\fP;
+.br
+	ArgList	\fIarglist\fP;
+.br
+	Cardinal	\fIargcount\fP;
+.fi
+.sp 1
+.SH DESCRIPTION
+Workstation is an empty widget that provides the functionality of a PHIGS
+workstation (of workstation class output only) in a widget.  The widget
+defines policies for exposure and resizing of the X window in which the
+PHIGS workstation has been opened.  Other than this behaviour, the widget
+defines no semantics.  \fBPEXtCreateWorkstation\fP is a convenience
+function for creating an instance of this widget class.
+.PP
+Workstation is a subclass of \fBCore\fP.
+.sp 1
+.SS "Classes"
+Workstation inherits behavior and resources from the \fBCore\fP
+classe.
+.PP
+The class pointer is \fBpextWorkstationWidgetClass\fP.
+.PP
+The class name is \fBPEXtWorkstation\fP.
+.sp 1
+.SS "New Resources"
+The following table defines a set of widget resources used by the programmer
+to specify data.  The programmer can also set the resource values for the 
+inherited classes to set attributes for this widget.  To reference a
+resource by name or by class in a .Xdefaults file, remove the \fBPEXtN\fP or
+\fBPEXtC\fP prefix and use the remaining letters.  To specify one of the
+defined values for a resource in a .Xdefaults file, remove the \fBPEXt\fP
+prefix and use the remaining letters (white space and capitalization are
+ignored).  The codes in the access column indicate if the given resource can be
+set at creation time (\fBC\fP), set by using \fBXtSetValues\fP (\fBS\fP), 
+retrieved by using \fBXtGetValues\fP (\fBG\fP), or is not applicable
+(\fBN/A\fP).  A default value of <wsdep> indicates that the default value
+for that resource is taken from the default PHIGS workstation description
+table entry for the given workstation type.
+.sp 1
+.KS
+.TS
+center;
+cBp9 ssss
+lBp8 lBp8 lBp8 lBp8 lBp8
+lp8 lp8 lp8 lp8 lp8.
+PEXtWorkstation Resource Set
+Name	Class	Type	Default	Access
+_
+PEXtNworkstationId	PEXtCWorkstationId	int	1	CG
+PEXtNworkstationType	PEXtCWorkstationType	Pwstype	drawable	CG
+PEXtNhlhsrMode	PEXtCHLHSRMode	int	none	CSG
+PEXtNdeferralMode	PEXtCDeferralMode	Pdefer_mode	<wsdep>	CSG
+PEXtNmodificationMode	PEXtCModificationMode	Pmod_mode	<wsdep>	CSG
+PEXtNresizePolicy	PEXtCResizePolicy	PEXtResizePolicy	none	CSG
+PEXtNresizeGravity	PEXtCGravity	int	center	CSG
+PEXtNresizeCallback	PEXtCResizeCallback	XtCallbackList	NULL	CSG
+PEXtNtraversalPolicy	PEXtCTraversalPolicy	PEXtTraversalPolicy	none	CSG
+PEXtNtraversalCallback	PEXtCTraversalCallback	XtCallbackList	NULL	CSG
+PEXtNcontrolFlag	PEXtCControlFlag	Pctrl_flag	conditionally	CSG
+PEXtNunrealizeCallback	PEXtCUnrealizeCallback	XtCallbackList	NULL*	CSG
+.TE
+.KE
+.sp 1
+.IP "\fBPEXtNworkstationId\fP"
+Specifies the workstation identifier used in the call to \fBpopen_ws\fP when
+the PHIGS workstation is openned in the widget's realize method.
+.IP "\fBPEXtNworkstationType\fP"
+Specifies the workstation type used for the workstation.  PEX supports
+workstation types \fBtool\fP and \fBdrawable\fP.  The PEX-SI documentation
+describes a workstation of type \fBtool\fP as creating a separate PHIGS
+monitor process to handle PHIGS style input.  The PEX Toolkit makes no
+attempt at handling PHIGS style input and hence a workstation of type
+\fBdrawable\fP is recommended.
+.IP "\fBPEXtNhlhsrMode\fP"
+Specifies the hidden line, hidden surface removal mode for the workstation.
+.IP "\fBPEXtNdeferralMode\fP"
+Specifies the deferral mode for the workstation.  The default value is
+workstation type dependant.
+.IP "\fBPEXtNmodificationMode\fP"
+Specifies the modification mode for the workstation.  The default value is
+workstation type dependant.
+.IP "\fBPEXtNresizePolicy\fP"
+Specifies the resize policy for the workstation.  When a workstation's window
+is resized, the widget may adjust the workstation transformation to redirect
+the display of graphical data to the newly sized region of the X window in
+which the workstation was openned.  Possible values include
+\fBPEXtResizeNone\fP (perform no action upon resizing of the window),
+\fBPEXtResizeCallback\fP (invoke the resize callback list upon resize),
+\fBPEXtResizeContainer\fP (the workstation transformation will be adjusted
+to be the largest portion of the window which completely contains NPC space),
+\fBPEXtResizePorthole\fP (the workstation transformation will be adjusted
+to be the largest portion of NPC space that completely contains the window).
+.IP "\fBPEXtNresizeGravity\fP"
+When the window is resized and the widget has a resize policy of
+\fBPEXtResizePorthole\fP, or \fBPEXtResizeContainer\fP, there may be a portion
+of NPC space or the window, respectively, in which 3D graphics is not
+displayed.  The gravity attribute specifies which portion of NPC space, or
+the window, respectively, is to be used.  The possible values include
+\fBNorthWestGravity\fP, \fBNorthGravity\fP, \fBNorthEastGravity\fP,
+\fBWestGravity\fP, \fBCenterGravity\fP, \fBEastGravity\fP,
+\fBSouthWestGravity\fP, and \fBSouthEastGravity\fP.
+.IP "\fBPEXtNresizeCallback\fP"
+Specifies a list of callbacks that is called when the workstation is
+resized and the resize policy is set to \fBPEXtResizeCallback\fP.  The callback
+reason is \fBPEXtCR_RESIZE\fP.
+.IP "\fBPEXtNtraversalPolicy\fP"
+Specifies behaviour of the workstation when it receives expose events.
+The possible values include \fBPEXtTraversalNone\fP (perform no action),
+\fBPEXtTraversalCallback\fP (invoke the traversal callback) or
+\fBPEXtTraversalRedraw\fP (call \fBREDRAW ALL STRUCTURES\fP on the
+workstation).  Multiple exposures are compressed by the Intrinsics into
+a single event.
+.IP "\fBPEXtNtraversalCallback\fP"
+Specifies a list of callbacks that is called when the workstation
+receives an exposure event and the traversal policy is set to
+\fBPEXtTraversalCallback\fP.  The callback reason is \fBPEXtCR_TRAVERSE\fP.
+.IP "\fBPEXtNcontrolFlag\fP"
+Specifies the update control flag used in the \fBREDRAW ALL STRUCTURES\fP
+call in the traversal.
+.IP "\fBPEXtNunrealizeCallback\fP"
+This callback list is initialized to contain a callback that closes the
+associated PHIGS workstation when the widget becomes unrealized.
+.sp 1
+.SS "Inherited Resources"
+DrawingArea inherits behavior and resources from the following   
+superclasses.  For a complete description of these resources, refer to the
+man page for that superclass.
+.sp 1
+.DS
+.TS
+center;
+cBp9 ssss
+cBp8 cBp8 cBp8 cBp8 cBp8
+lp8lp8lp8lp8lp8.
+Core Resource Set 
+Name	Class	Type	Default	Access
+_
+XtNaccelerators	XtCAccelerators	XtTranslations	NULL	CSG
+XtNancestorSensitive	XtCSensitive	Boolean	True	G
+XtNbackground	XtCBackground	Pixel	dynamic	CSG
+XtNbackgroundPixmap	XmCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XtNborderColor	XtCBorderColor	Pixel	Black	CSG
+XtNborderPixmap	XtCPixmap	Pixmap	XmUNSPECIFIED_PIXMAP	CSG
+XtNborderWidth	XtCBorderWidth	Dimension	0	CSG
+XtNcolormap	XtCColormap	Colormap	XtCopyFromParent	CG
+XtNdepth	XtCDepth	int	XtCopyFromParent	CG
+XtNdestroyCallback	XtCCallback	XtCallbackList	NULL	C
+XtNheight	XtCHeight	Dimension	0	CSG
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	True	CSG
+XtNscreen	XtCScreen	Pointer	XtCopyScreen	CG
+XtNsensitive	XtCSensitive	Boolean	True	CSG
+XtNtranslations	XtCTranslations	XtTranslations	NULL	CSG
+XtNwidth	XtCWidth	Dimension	0	CSG
+XtNx	XtCPosition	Position	0	CSG
+XtNy	XtCPosition	Position	0	CSG
+.TE
+.DE
+.sp 1
+.SS "Callback Information"
+The following structure is returned with each callback.
+.sp 1
+.nf
+.ta .25i 1.1i
+\fBtypedef struct\fP
+{
+	\fBint\fP	\fIreason\fP;
+	\fBint\fP	\fIwidth\fP, \fIheight\fP;
+	\fBXEvent *\fP	\fIevent\fP;
+} \fBPEXtWorkstationCallbackStruct\fP;
+.fi
+.fi
+.sp 1
+.IP "\fIreason\fP" .75i
+Indicates why the callback was invoked.
+.IP "\fIwidth\fP, \fIheight\fP"
+Indicate the new width and height of the window when the reason is
+\fBPEXtCR_RESIZE\fP.
+.IP "\fIevent\fP" .75i
+Points to the \fBXEvent\fP that triggered the callback.
+.sp 1
+.SS "Actions"
+The workstation widget registers a Traverse() action that invokes the
+workstations traversal method.  It is used by the expose method so that
+the application can obtain a custom traversal during expose events through
+the traversal callback.
+.sp 1
+.SS "Default Translations"
+The workstation defines no translations.
+.sp 1
+.na
+.SH SEE ALSO
+.nf
+\fBPEXtRegisterConverters(3)\fP
+\fBCore(3X)\fP 
+\fBpopen_ws(3)\fP	
+\fBpredraw_all_structs(3)\fP
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

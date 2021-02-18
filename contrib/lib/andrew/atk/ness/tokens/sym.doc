@@ -1,0 +1,628 @@
+\begindata{text,269318624}
+\textdsversion{12}
+\define{formatnote
+menu:[Region~4,FormatNote~60]
+attr:[Flags PassThru Int Set]
+attr:[Flags NoFill Int Set]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]}
+\define{chapter
+menu:[Title~3,Chapter~20]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 16]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{italic
+menu:[Font~1,Italic~11]
+attr:[FontFace Italic Int Set]}
+\define{paragraph
+menu:[Title~3,Paragraph~23]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 12]}
+\define{majorheading
+menu:[Title~3,MajorHeading~10]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Italic Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 12]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fieldheading
+menu:[Region~4,Fieldheading]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fieldtext
+menu:[Region~4,Fieldtext]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\formatnote{\chapter{sym}}
+
+
+Sym, short for \italic{symbol table}, is a useful general purpose 
+implementation of a hash table.  Each instance of sym is an entry in this 
+table which has a name and a scope associated with it.  Additional properties 
+can be added by subclassing sym.
+
+
+
+\section{Scopes}
+
+
+A \italic{scope} is defined in sym.ch as follows:
+
+
+\fixedindent{typedef long sym_ScopeType;
+
+
+#define sym_GLOBAL ((sym_ScopeType) 0L)
+
+}
+There is an intrinsic tree structure to scopes with the root of this tree 
+being the global scope.  New scopes can be created as \italic{subscopes} of 
+sym_GLOBAL with calls to the classprocedure sym_NewScope.  Each class which 
+uses sym should create such a subscope which it can further subdivide as 
+necessary.
+
+
+
+\section{Sub-classing sym}
+
+
+It is far more common to subclass sym than to instantiate it directly.  Since 
+most of sym's operations are classprocedures which will not be inherited, new 
+classprocedures (or perhaps methods) will have to be declared which call sym's 
+classprocedures and provide some of the lost functionality.  Although sym's 
+classprocedures can be redeclared unaltered, it is often useful to devise a 
+new interface which is more appropriate to the subclass.
+
+
+\section{Examples}
+
+
+Ness provides two subclasses of sym -- type and toksym.  These are both good 
+examples of how sym can be used.
+
+
+\begindata{bp,269836408}
+\enddata{bp,269836408}
+\view{bpv,269836408,360,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_GetName}
+
+				
+
+\majorheading{Get the name of a sym}
+
+______________________________________________________
+
+
+\fixedtext{\bold{sym_GetName }(}\fixedindent{
+
+struct sym *\paramname{sym});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{This macro expands to the name of \italic{sym}.}
+
+
+
+
+
+
+\view{bpv,269836408,361,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_GetScope}
+
+				
+
+\majorheading{Get the scope of a sym}
+
+______________________________________________________
+
+
+\fixedtext{\bold{sym_GetScope }(}\fixedindent{
+
+struct sym *\paramname{sym});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{This macro expands to the scope in which sym was declared.}
+
+
+
+
+
+
+\view{bpv,269836408,362,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_SetScope}
+
+				
+
+\majorheading{Set the scope of a sym}
+
+______________________________________________________
+
+
+\fixedtext{\bold{sym_SetScope }(}\fixedindent{
+
+struct sym *\paramname{sym},
+
+\paramname{newScope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{This macro will set the scope of \italic{sym} to \italic{newScope}.}
+
+
+
+
+
+
+\view{bpv,269836408,366,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_NewScope}
+
+				
+
+\majorheading{Create a new scope.}
+
+______________________________________________________
+
+
+\fixedtext{sym_ScopeType \bold{sym_NewScope }(}\fixedindent{sym_ScopeType 
+\paramname{enclosingScope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{Creates a new scope as a subscope of \italic{enclosingScope}.}
+
+
+
+\fieldheading{Return Value}
+
+\fieldtext{The new scope}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{The section titled \italic{scopes}.}
+
+
+
+
+
+
+\view{bpv,269836408,367,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_DestroyScope}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{sym_DestroyScope }(}\fixedindent{sym_ScopeType 
+\paramname{scope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{Destroys a scope as well as all of the symbols and scopes which are 
+defined in it.}
+
+
+
+
+
+
+\view{bpv,269836408,368,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_ParentScope}
+
+				
+
+\majorheading{Get the enclosing scope of a scope.}
+
+______________________________________________________
+
+
+\fixedtext{sym_ScopeType \bold{sym_ParentScope }(}\fixedindent{sym_ScopeType 
+\paramname{scope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{Locates the parent scope of \italic{scope} in the scope tree.
+
+		 
+
+}
+\fieldheading{Return Value}
+
+\fieldtext{The enclosing scope.}
+
+
+
+
+
+
+\view{bpv,269836408,369,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_Define}
+
+				
+
+\majorheading{Create a new sym.}
+
+______________________________________________________
+
+
+\fixedtext{struct sym *\bold{sym_Define }(}
+
+\fixedindent{unsigned char *\paramname{name},
+
+struct sym *\paramname{proto},
+
+sym_ScopeType \paramname{scope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{This creates an entry in the scope of the symbol table designated 
+by scope.  This entry will not necessarily be of type sym, but will be of the 
+same type as \italic{proto, }which must be either sym or a subclass of 
+sym.}\fieldtext{		 
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?Although the type of the return value is listed 
+as sym, it will in fact be of the same type as \italic{proto}, which will be 
+either sym or a subclass of sym.}
+
+
+
+
+
+
+\view{bpv,269836408,370,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_Undefine}
+
+				
+
+\majorheading{Destroy a sym}
+
+______________________________________________________
+
+
+\fixedtext{boolean \bold{sym_Undefine }(}
+
+\fixedindent{unsigned char *\paramname{name},
+
+sym_ScopeType \paramname{scope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{Undefines the entry identified by \italic{name} and 
+\italic{scope}}, but does not destroy it.\fieldtext{
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{TRUE if successful, FALSE if no entry exists in \italic{scope} with 
+\italic{name}.}
+
+
+
+
+
+
+\view{bpv,269836408,371,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_Find}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{struct sym *\bold{sym_Find }(}\fixedindent{unsigned char 
+*\paramname{name},
+
+sym_ScopeType \paramname{scope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{Attempts to find a match for \italic{name} in \italic{scope}.  If 
+\italic{name} is not found in \italic{scope}, the search will continue 
+recursively up the scope tree until the root is reached.}\fieldtext{		 
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{The sym if it is found, NULL otherwise.}
+
+
+
+
+
+
+\view{bpv,269836408,372,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_Locate}
+
+				
+
+\majorheading{Find a sym.  If it does not exist, create it.}
+
+______________________________________________________
+
+
+\fixedtext{struct sym *\bold{sym_Locate }(}
+
+\fixedindent{unsigned char *\paramname{name},
+
+struct sym *\paramname{proto},
+
+sym_ScopeType \paramname{scope},
+
+boolean *\paramname{new});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{If sym_Find(name, scope) is not NULL, return sym_Find(name, scope) 
+and set *new to FALSE.  Otherwise, sym_Define(name, proto, scope) and set *new 
+to TRUE.}
+
+\fieldtext{		 
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{A match for (name, scope).}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{This is useful for efficent parsing when you want to either create 
+a new symbol or examine the old entry.}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{sym_Define, sym_Find.}
+
+
+
+
+
+
+\view{bpv,269836408,373,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_FindAll}
+
+				
+
+\majorheading{Iterate over all the syms in a branch of the scope tree.}
+
+______________________________________________________
+
+
+\fixedtext{long \bold{sym_FindAll }(}
+
+\fixedindent{unsigned char *\paramname{name},
+
+sym_ScopeType \paramname{scope},
+
+long (*\paramname{proc})(),
+
+long \paramname{rock});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{Finds all of \italic{name}'s matches that are defined in 
+\italic{scope} or any of \italic{scope}'s descendent scopes.  For each match, 
+\italic{proc} is called with the match and \italic{rock}.  proc should be 
+declared as:
+
+
+\fixedindent{long \bold{proc}(\fixedindent{
+
+struct sym *\paramname{sym},
+
+long \paramname{rock}});
+
+}
+if a call to \italic{proc} returns a value other than NULL, the search is 
+terminated, and FindAll will return that value.  Otherwise, FindAll will 
+return NULL.
+
+		 
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{Either NULL, or the non-NULL value returned by \italic{proc} to 
+terminate the search.}
+
+
+
+
+
+
+\view{bpv,269836408,374,0,0}
+______________________________________________________				
+
+
+\paragraph{sym_printtable}
+
+				
+
+\majorheading{Print all defined syms to stdout.}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{sym_printtable }(}\fixedindent{);}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{Prints the entire contents of the symbol table to stdout.}
+
+
+
+
+\enddata{text,269318624}

@@ -1,0 +1,19 @@
+.TH GL_MainLoop 3GL "18Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_MainLoop \- Give up control to the library.
+.SH SYNTAX
+void GL_MainLoop(mainwin)
+.br
+	Window mainwin;
+.SH ARGUMENTS
+.IP mainwin 1i
+This is the primary window of the application.
+
+.SH DESCRIPTION
+This is the call that is made once all of the application initialization is 
+finished, because this call will never exit.  This call will also map all
+of the subwindows of the mainwin along with mapping the mainwin, so this
+does not have to be dealt with by the initialization code.
+
+.SH "SEE ALSO"
+GL_InitGraphics.3GL, GraphLib Programming Manual.

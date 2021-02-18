@@ -1,0 +1,866 @@
+.TH XcuWlm 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuWlm \- A Widget Layout Manager
+.ne 6
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / Composite / XcuWlm
+
+.ne 6
+.SH NEW RESOURCES
+\ 
+.br
+.TS
+allbox tab(;);
+c s s s.
+XcuTbl Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNfile;String;NULL;file containing layout description
+.TE
+
+.ne 6
+.SH OVERVIEW
+\ 
+.br
+The \fBXcuWlm\fR widget layout manager
+is a container for a collection of widgets.
+Its basic function is to permit a user to specify the hierarchical layout
+of widgets with a grammar.  The \fBXcuWlm\fR
+parses this grammar and generates a widget tree.
+The grammar also contains notations for "directives" which provide a
+mechanism for widgets in a tree to send messages to each other.
+Public functions of the
+\fBXcuWlm\fR allow it to intercept callbacks from the widget to the client,
+permitting the \fBXcuWlm\fR to be
+treated as a device that can be
+queried in request, event, or sample modes.
+Other public functions allow the client to specify program variables that
+can be modified by the \fBXcuWlm\fR without the need for a client
+callback routine.
+.sp
+With the layout grammar and public functions taken together,
+use of the \fBXcuWlm\fR permits the programmer to create complex menu
+semantics with virtually no client involvement.
+
+.ne 6
+.SH USAGE
+\ 
+.br
+The \fBXcuWlm\fR widget is instanced just as one would normally instance
+any other widget.  It in turn will instantiate the remainder of the widget
+tree.  Although \fBXcuWlm\fR can find just about everything it needs to know
+from the widgets themselves, it needs a client routine to tell it what
+the WidgetClass pointers are that correspond to the class names given in
+the description language.  This routine, \fBmake_tag_class_list()\fR, can
+be automatically generated from the description language.   See wlc(3X).
+The compiled description language is contained in a file with a ".wc"
+extension.
+
+.ne 6
+.SH PUBLIC FUNCTIONS
+\ 
+.br
+There are three kinds of public functions:\ \ \ association, device, and convenience.
+.ne 6
+.sp
+.ce
+.ps +2
+\fBAssociation Functions\fR
+.ps -2
+.sp
+The client can make useful associations with the widget callbacks via
+the \fBXcuWlm\fR public functions.
+These associations are of two kinds: those that link widget
+callbacks with client procedures, and those that link widget callbacks
+with actions on client variables.
+The \fBXcuWlm\fR can have these associations executed directly or it can take note
+of their execution and generate what will be termed "\fIWEvents\fR".
+It is \fIWEvents\fR that enable directives to be processed and for the \fBXcuWlm\fR
+to be treated as an input device.
+
+In all the association functions,
+the second argument determines whether a \fIWEvent\fR is
+generated, and whether or not sampling is enabled.
+A null argument indicates that \fIWEvents\fR are enabled and sampling is
+disabled.
+\fBXcuWLM_BYPASS\fR and \fBXcuWLM_SAMPLING\fR may be or'd into the second argument
+to override the respective defaults.
+(\fBXcuWLM_EVENTS\fR and \fBXcuNO_SAMPLING\fR may be used instead of a null
+argument to explicitly state the default action.)
+.sp
+.ne 6
+void XcuWlmAddCallback
+.in +6
+.TS
+l l.
+(	 
+XcuWlmWidget	widget_id,
+XcuWlmConnectionType	connection_type,
+String	widget_class,
+String	widget_name,
+String	callback_name,
+XtCallbackProc	callback_proc,
+caddr_t	client_data
+)	 
+.TE
+.in -6
+.sp
+.in +3
+\fBXcuWlm\fR adds the client callback to the callback list specified
+by the String 3-tuple.
+.in -3
+
+.sp
+.ne 6
+void XcuWlmGetFloat
+.in +6
+.TS
+l l.
+(	 
+XcuWlmWidget	widget_id,
+XcuWlmConnectionType	connection_type,
+String	widget_class,
+String	widget_name,
+String	callback_name,
+float	*target,
+)	 
+.TE
+.in -6
+.sp
+.in +3
+\fBXcuWlm\fR adds its own callback procedure to the callback list specified
+by the String 3-tuple.
+When the procedure is called,
+it stores the floating point value contained in call_data at the target address.
+.in -3
+
+.sp
+.ne 6
+XcuWlmGetInt(), XcuWlmGetBoolean(), and XcuWlmGetString()
+operate in the same fashion as XcuWlmGetFloat().
+
+.sp
+.ne 6
+void XcuWlmSetFloat
+.in +6
+.TS
+l l.
+(	 
+XcuWlmWidget	widget_id,
+XcuWlmConnectionType	connection_type,
+String	widget_class,
+String	widget_name,
+String	callback_name,
+float	*target,
+float	value
+)	 
+.TE
+.in -6
+.sp
+.in +3
+\fBXcuWlm\fR adds its own callback procedure to the callback list specified
+by the String 3-tuple.
+When the procedure is called,
+it stores the floating point value at the target address.
+.in -3
+
+.sp
+.ne 6
+XcuWlmSetInt(), XcuWlmSetBoolean(), and XcuWlmSetString()
+operate in the same fashion as XcuWlmSetFloat().
+
+.sp
+.ne 6
+void XcuWlmScan
+.in +6
+.TS
+l l.
+(	 
+XcuWlmWidget	widget_id,
+XcuWlmConnectionType	connection_type,
+String	widget_class,
+String	widget_name,
+String	callback_name,
+String	format,
+caddr_t	arg1, arg2, ..., arg20
+)	 
+.TE
+.in -6
+.sp
+.in +3
+\fBXcuWlm\fR adds its own callback procedure to the callback list specified
+by the String 3-tuple.
+When the procedure is called,
+it uses the call_data as an argument to a sscanf():
+.sp
+.in +5
+sscanf (call_data, format, arg1, arg2, ..., arg20) ;
+.in -5
+.sp
+In other words, call_data is taken to be a string with ascii-encoded values,
+which are decoded according to the format and stored in the list of targets.
+.sp
+.in -3
+
+.ne 6
+.ce
+.ps +2
+\fBDevice Functions\fR
+.ps -2
+.sp
+The \fBXcuWlm\fR can be treated as an input device with three modes:
+sample, request, and event.
+Sample mode is primarily a method by which the state of a client
+can be initialized.
+Request and event modes depend on the state of the queue in which \fIWEvents\fR
+are stored.
+.sp
+.ne 6
+\fBvoid XcuWlmRequest (XcuWlmWidget)\fR
+.sp
+.in +3
+This function blocks until a \fIWEvent\fR is available in the queue.
+.in -3
+.sp
+.ne 6
+\fBBoolean XcuWlmEvent (XcuWlmWidget)\fR
+.sp
+.in +3
+This function checks to see if a \fIWEvent\fR is in the queue.
+If there is, it executes this event and returns True;
+if not, it immediately returns False.
+.in -3
+.sp
+.ne 6
+\fBvoid XcuWlmSample (XcuWlmWidget)\fR
+.sp
+.in +3
+This function activates every \fIWEvent\fR for which sampling has been enabled.
+If sampling has been enabled on a \fIWEvent\fR arising from a widget callback,
+sampling is accomplished by \fBXcuWlm\fR calling the procedure tagged "Sample"
+in the widget's XtNprocedureList.
+This procedure has two arguments: the widget id and the callback name.
+When called this procedure should activate the specified callback
+with the appropriate current value of call_data.
+.in -3
+
+.sp
+.ne 6
+.ce
+.ps +2
+\fBConvenience Functions\fR
+.ps -2
+.sp
+.ne 6
+Widget XcuWlmInquireWidget
+.in +6
+.TS
+l l.
+(	 
+XcuWlmWidget	widget_id,
+String	widget_class,
+String	widget_name
+)	 
+.TE
+.in -6
+.sp
+.in +3
+The widget id of the corresponding widget is returned.
+This permits the client to access the widgets directly without 
+\fBXcuWlm\fR mediation.
+.in -3
+
+.sp
+.ne 6
+void XcuWlmSetValue
+.in +6
+.TS
+l l.
+(	 
+XcuWlmWidget	widget_id,
+String	widget_class,
+String	widget_name,
+String	resource_name,
+String	resource_value
+)	 
+.TE
+.in -6
+.sp
+.in +3
+This routine performs an XtSetValues() on the designated widget with
+the specified resource name and resource value.
+.in -3
+
+.sp
+.ne 6
+void XcuWlmGetValue
+.in +6
+.TS
+l l.
+(	 
+XcuWlmWidget	widget_id,
+String	widget_class,
+String	widget_name,
+String	resource_name,
+caddr_t	target_address
+)	 
+.TE
+.in -6
+.sp
+.in +3
+This routine performs an XtGetValues() on the designated widget with
+the specified resource name and has the returned value stored at the
+supplied address.
+.in -3
+
+.ne 6
+.SH THE WIDGET LAYOUT DESCRIPTION LANGUAGE (WLDL)
+\ 
+.br
+Simply, the language is:
+.sp
+.in +10
+\fIwidget_class\fR
+.in +5
+.br
+{
+.br
+ default_resource ...
+.br
+ widget_resource ...
+.br
+ wlm_directive ...
+.br
+ child ...
+.br
+}
+.in -5
+.in -10
+.sp
+Resources, directives, and children are optional and 
+may appear in any order within the
+widget body, but a likely convention is to put all items of the same kind
+together and then put the four groups in the order shown above.
+.sp
+In the following examples, \fBbold\fR indicates keywords in the grammar,
+\fIitalics\fR indicate strings which are to be substituted by the programmer,
+and words in regular font indicate sample substitutions.
+.sp
+.ps +2
+.ce
+\fBWidget Resources\fR
+.ps -2
+.sp
+Widget resources are specified as:
+.sp
+.in +5
+\fIresource_name\fR \fB"\fIresource_value\fB"\fR
+.sp
+borderWidth \fB"\fR5\fB"\fR
+.br
+label \fB"\fREXIT\fB"\fR
+.in -5
+.sp
+\fIresource_name\fR is the same string that the widget uses, and 
+\fIresource_value\fR is the string representation of the value.
+The \fBXcuWlm\fR is somewhat lenient about the strings
+it accepts as resource names.
+For example, if the widget has defined the resource name for border color as:
+.sp
+.in +5
+#define XtNborderColor "borderColor"
+.in -5
+.sp
+then the strictly proper string to use is "borderColor", but the
+\fBXcuWlm\fR will also convert "border_color" and "XtNborderColor"
+to the proper string.
+.sp
+White space is significant within the quotes, and newlines may be embedded
+with an actual newline character or the two character sequence "\\n".
+A backslash newline sequence is ignored.
+Needless to say, there must exist an appropriate converter from the string
+representation to 
+the actual resource representation type.
+.sp
+.ps +2
+.ce
+\fBDefault Resources\fR
+.ps -2
+.sp
+Default resources can be used to modify the resource database for all widgets
+in the tree rooted at the widget in which the declaration appears.
+These resources are specified by an incomplete resource specification
+that begins with an asterisk.
+E.g.,
+.sp
+.in +5
+\fB*\fIincomplete_specification \fB"\fIresource_value\fB"\fR
+.sp
+\fB*\fRBackground \fB"\fRpink\fB"\fR
+.in -5
+.sp
+will cause the default background for widgets in the subtree to be pink,
+overriding the default established at Toolkit initialization time.
+.sp
+.ps +2
+.ce
+\fBXcuWlm Directives\fR
+.ps -2
+.sp
+\fBXcuWlm\fR directives have two closely related forms, depending on whether
+the inter-widget communication is performed by XtSetValues() or by
+calling a public function of a widget.
+To modify a widget resource, the directive is of the form:
+.sp
+.in +5
+\fBif \fIcallback_name \fB(\fItrigger\fB)\fR
+.in +2
+.br
+\fBXtSetValues\ \ \ (\fItarget_widget\fB,\ \ \ \fIresource_name
+ \fB"\fRresource_value\fB"\fB)\fR
+.in -2
+.in -5
+.sp
+.in +5
+\fBif \fRcallback \fB(\fRInt \fB"\fR10\fB"\fR \fB==\fR x\fB)\fR
+.in +2
+.br
+\fBXtSetValues\ \ \ (\fRLabel\ \ \ \fB"\fRlabel0\fB",
+\ \ \ \fRlabel\fB\ \ \ "\fRValue: 10\fB")\fR
+.in -2
+.in -5
+.sp
+The resource_name and the resource_value may be optionally separated by
+a comma, so that it looks like the true XtSetValues().
+.sp
+When the resource_value is the special string "CALL", the call_data of
+the widget callback is used as the resource value.
+.sp
+An \fBXcuWlm\fR
+callback routine is registered with the specified callback list of the current
+widget.  When this routine is activated, the trigger is examined, and if it
+is True, XtSetValues() is called for the target widget and resource.
+The trigger is zero or more logically separated comparisons of the form:
+.sp
+.in +5
+\fIcall_data_representation\fR\ \ \ \fB"\fR\fIcall_data_value\fR\fB"\fR
+\ \ \ \fIcomparison_operator\fR\ \ \ \fIcall_data_variable\fR
+.in -5
+.sp
+The order of the operands of the comparison_operator may be reversed.
+In the example above,
+the trigger is True when the call_data of the widget callback
+has the value 10.
+The call_data may be somewhat more complicated than a single value.
+For example, if a an array of floats is returned,
+then the following might be entered as the trigger:
+.sp
+.in +5
+x[0]\ \ \ 
+\fB==\fR\ \ \ 
+Float \fB"\fR1\fB"\fR\ \ \
+\ \ \ \fB&&\fR\ \ \
+x[1]
+\ \ \ 
+\fB<=\fR
+\ \ \ 
+Float \fB"\fR3.14159\fB"\fR
+.in -5
+.sp
+The name "x" in these examples is arbitrary, but some name is required.
+The comparison operators are "==", "!=", "<", "<=", ">", and ">=".
+The logical operators at present consist only of "&&", and no parenthetical
+grouping is recognized.
+.sp
+If there is a null trigger, then it is always True.
+.sp
+To call a widget's public function, the directive is of the form:
+.sp
+.in +5
+\fBif\fR\ \ \ \fIcallback_name\ \ \ \fB(\fItrigger\fB)
+.in +3
+.br
+\fIfunction_name\ \ \ \fB(\fItarget_widget\fB,\ \ \ \fIarguments\fB)\fR
+.in -3
+.in -5
+.sp
+.in +5
+\fBif\fR\ \ \ \fIsetCallback\ \ \ \fB(\fRString\fB "\fRcmd0\fB"\ \ \ \fB==\ \ \ \fRx\fB)\fR
+.in +3
+.br
+\fIXcuDeckRaiseWidget\ \ \ \fB(\fRXcuDeck\fB "\fRmenu_deck\fB",
+\ \ \ \fRXcuCommand \fB"\fRdraw_cmd\fB")\fR
+.in -3
+.in -5
+.sp
+If there are no arguments, there is no comma following the target widget.
+.sp
+Since the X Toolkit provides no mechanism for getting a handle on functions
+with names as it does for resources, widgets which are to be targets of
+public function directives must have an
+"XtNprocedureList" resource which has as its value a null-terminated XtProcedureList of name/procedure pairs at widget initialization time.
+XtProcedureList is typedef'd as follows:
+.in +5
+typedef struct
+.br
+.in +3
+{
+.br
+String name ;
+.br
+XtProc procedure ;
+.br
+} XtProcedureList ;
+.in -8
+
+.sp
+.ps +2
+.ce
+\fBChildren\fR
+.ps -2
+.sp
+Although the treatment of most children is obvious, using the XcuWlm widget
+as a child requires some explanation.
+Each XcuWlm widget needs to have its own input file.  Thus, one cannot
+include the hierarchical layout of an XcuWlm widget within the layout
+description of another.
+The XtNfile resource string specifies the widget layout description
+file for a child XcuWlm widget.  The file so named also must start with
+"XcuWlm" as the root widget class, but its name and file resources are
+ignored.  The following example should clarify this discussion.
+.sp
+.mk 1
+Parent WLDL
+.ps -1
+.vs -1
+.sp
+XcuWlm
+.br
+   {
+.br
+   ...
+.br
+   XcuWlm
+.br
+      {
+.br
+      name "ChildWlm"
+.br
+      file "child"
+.br
+      }
+.br
+   ...
+.br
+   }
+.br
+.ps +1
+.vs +1
+.mk 2
+.sp |\n1u
+.in +22
+Child WLDL (in file "child")
+.ps -1
+.vs -1
+.sp
+XcuWlm
+.br
+   {
+.br
+   ...
+.br
+   }
+.br
+.in -22
+.ps +1
+.vs +1
+.sp |\n2u
+
+.sp
+.ps +2
+.ce
+\fBInclude Files\fR
+.ps -2
+.sp
+Include files may be included with either of the following two syntaxes:
+.sp
+.in +3
+include "\fIfilename\fR"
+.br
+#include "\fIfilename\fR"
+.in -3
+.sp
+
+.bp
+.SH EXAMPLE
+\ 
+.br
+.mk 1
+.DS
+.in -3
+    Layout Description
+.ps -1
+.vs -1
+.sp
+  1 XcuWlm
+  2   {
+  3   XcuTbl
+  4    {
+  5    *Background "yellow"
+  6
+  7    equal_columns  "True"
+  8    formatString   "padding(10);\\nc c\\n c\\n c\\n c c c."
+  9
+ 10    XcuCommand  {
+ 11         name "INPUT"
+ 12         if callback ()
+ 13             XcuDeckRaiseWidget (XcuDeck "pages", XcuLabel "PAGE0")
+ 14         if callback ()
+ 15             XtSetValues (XcuCommand "one", label "1")
+ 16         }
+ 17
+ 18    XcuCommand  {
+ 19         name "OUTPUT"
+ 20         if callback ()
+ 21             XcuDeckRaiseWidget (XcuDeck "pages", XcuLabel "PAGE1")
+ 22         if callback ()
+ 23             XtSetValues (XcuCommand "one", label "ONE")
+ 24         }
+ 25
+ 26    XcuDeck {
+ 27         name     "pages"
+ 28         if callback (XcuLabel "PAGE0" == x[0])
+ 29             XcuDeckRaiseWidget (XcuDeck "pots", XcuLabel "INPUT RANGE")
+ 30         if callback (XcuLabel "PAGE1" == x[0])
+ 31             XcuDeckRaiseWidget (XcuDeck "pots", XcuLabel "OUTPUT RANGE")
+ 32         XcuLabel { name "PAGE0" }
+ 33         XcuLabel { name "PAGE1" }
+ 34         }
+ 35
+ 36    XcuDeck {
+ 37     name "pots"
+ 38         XcuLabel { name "INPUT RANGE" }
+ 39         XcuLabel { name "OUTPUT RANGE" }
+ 40         }
+ 41
+ 42    XcuCommand { name "one"  label "1" }
+ 43    XcuCommand { name "two"  label "2" }
+ 44    XcuCommand { name "four" label "4" }
+ 45
+ 46    /* include "empty_widget" */
+ 47    }
+ 48  }
+.ps +1
+.vs +1
+.in +3
+.DE
+.mk 2
+.sp |\n1u
+.in +22
+    Program Fragment
+.ps -1
+.vs -1
+.sp
+|    1  XtSetArg (&wlm_arg, XtNfile, argv[1]) ;
+.br
+|    2  wlm = XtCreateManagedWidget ("wlm",
+.br
+|    3         xcuWlmWidgetClass, toplevel, &wlm_arg, ONE) ;
+.br
+|    4
+.br
+|    5  XcuWlmAddCallback (wlm, NULL,
+.br
+|    6         "XcuDeck", "pages", "callback",
+.br
+|    7         page_callback, "SUCCESS") ;
+.br
+|    8
+.br
+|    9  XcuWlmSetInt (wlm, XcuWLM_BYPASS,
+.br
+|  10         "XcuCommand", "one", "callback", &x, 1) ;
+.br
+|  11
+.br
+|  12  XcuWlmSetInt (wlm, XcuWLM_BYPASS,
+.br
+|  13         "XcuCommand", "two", "callback", &x, 2) ;
+.br
+|  14
+.br
+|  15  XcuWlmSetInt (wlm, XcuWLM_BYPASS,
+.br
+|  16         "XcuCommand", "four", "callback", &x, 4) ;
+.br
+|  17
+.br
+|  18  XtRealizeWidget (toplevel) ;
+.br
+|  19
+.br
+|  20  for (;;)
+.br
+|  21      {
+.br
+|  22      XcuWlmRequest (wlm) ;
+.br
+|  23      }
+.in -22
+.bp
+.ps +1
+.vs +1
+Note that since \fBXcuWlm\fR does not perform geometry management
+other than to contain its
+child, it will usually have a geometry manager as its child.
+In this case, the child is the
+\fBXcuTbl\fR geometry manager, and it manages seven children.
+.sp
+The first two children are \fBXcuCommand\fR widgets (layout lines 10 and 18),
+and each has two directives.
+Since the triggers are null, these directives will be executed each
+time there is a callback from the command widget.
+The first directive (layout lines 12 and 20)
+calls a public function of the \fBXcuDeck\fR widget (layout line 26)
+which instructs the \fBXcuDeck\fR
+to raise a specific widget to the top of the stacking order.
+The second directive (layout lines 14 and 22)
+calls \fBXtSetValues()\fR to change the text of the
+command widget in line 42.
+.sp
+The third child is a \fBXcuDeck\fR widget (layout line 26).
+It also has two directives, but the triggers (layout lines 28 and 30) are
+different, so they will fire at different times.
+The \fBXcuDeck\fR callback is made whenever the stacking order of its children
+changes, and it returns as its call_data an array of widgets in stacking order.
+The triggers examine the first widget in the array, and when a match is made
+they call the XcuDeckRaiseWidget function of the fourth child (the XcuDeck in layout line
+36).
+This illustrates that a directive can cause other directives to fire.
+After its directives have fired, if any, the XcuDeck then makes a callback to the
+client.
+Notice that a client procedure called \fBpage_callback()\fR has been registered
+with this widget's callback list in program line 5.
+.sp
+The \fBXcuCommand\fR widgets in layout lines 42-44 have all had associations made
+(program lines 9, 12, and 15) with the client variable \fBx\fR. 
+Whenever one of these widgets makes a callback, the variable \fBx\fR is set to
+the value of 1, 2, or 4.
+.sp
+The request in program line 22 will block until a callback has been made
+to \fBpage_callback()\fR, since the other three associations have all
+been instructed to bypass the production of \fIWEvents\fR.
+.sp
+Two other elements of the WLDL are illustrated in layout line 46: comments
+and include files.
+C style comments are recognized, and
+an include file may appear anywhere a widget appears in the WLDL.
+"Include" may also be "#include".
+.sp
+There is, at present, one widget that is handled specially by the WLDL:
+the button manager widget, \fBXcuBmgr\fR.
+It is handled differently because it shares children with the geometry managers
+in the widget tree.
+Its children have to be separately registered with it.
+By separating the layout of buttons from the semantics of combinations of
+buttons, it is possible for the \fBXcuBmgr\fR to manage children which are under
+the control of more than one geometry manager, or to have multiple \fBXcuBmgr\fRs
+that control different children of a single geometry manager.
+The \fBXcuBmgr\fR widgets may appear as direct children of the \fBXcuWlm\fR widget
+or they may appear in the widget tree, presumably near the children, and the
+\fBXcuWlm\fR will bypass them while constructing the widget tree, eventually
+creating them as children of the \fBXcuWlm\fR.
+The children of the \fBXcuBmgr\fRs are specified with the \fBmanage\fR resource
+name.
+The name \fBmanage\fR is not a true resource for a \fBXcuBmgr\fR, but
+the \fBXcuWlm\fR recognizes it and uses it to find the children which it later
+registers with the \fBXcuBmgr\fR widgets via the \fBXcuBmgrManage()\fR public
+function of the \fBXcuBmgr\fR widget class.
+This "resource" may have more than one value string following it, each of
+which is the name of a \fBButton\fR widget for the \fBXcuBmgr\fR to manage.
+Multiple children of a \fBmanage\fR may optionally be separated by commas.
+There may also be multiple occurrences of the \fBmanage\fR resource, so any
+of the following are among the
+legitimate ways to specify three children for a \fBXcuBmgr\fR:
+.sp
+	\fBmanage\fR "child1" "child2" "child3"
+.sp
+	\fBmanage\fR "child1", "child2", "child3"
+.sp
+	\fBmanage\fR "child1"
+.br
+	\fBmanage\fR "child2"
+.br
+	\fBmanage\fR "child3"
+.sp
+Each child may also be followed by a value specification that will be 
+returned as the call_data of the \fBXcuBmgr\fR.
+The value specification consists of a colon, a representation type, and a
+value.
+The default call_data is the child widget's name, shown explicitly as follows:
+.sp
+	\fBmanage\fR "child1" : String "child1",  "child2" : String "child2"
+.sp
+A more useful example is when it is desirable for the \fBXcuBmgr\fR to return
+a numeric value, for example:
+.sp
+	\fBmanage\fR "PI" : Float "3.14159",  "2*PI" : Float "6.28318"
+.sp
+See the \fBXcuBmgr\fR manual for more information.
+.ne 6
+.SH DIAGNOSTICS
+\ 
+.br
+The following situations cause fatal errors:
+.sp
+.in +5
+.vs -4
+layout description file not readable
+.sp
+lex and yacc parsing errors (badly formed layout descriptions)
+.sp
+a widget class was referred to in the description language that was not
+found in the make_tag_class_list() function.
+.sp
+a widget name was referred to in the description language that was not
+present in the description language.
+.sp
+first argument to a public function is not a xcuWlmWidgetClass widget.
+.br
+.vs +4
+.in -5
+
+.ne 6
+.SH FUTURE ENHANCEMENTS
+\ 
+.br
+The trigger should be a full-fledged parenthesized expression.
+.sp
+Probably an endless list...
+
+.ne 6
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

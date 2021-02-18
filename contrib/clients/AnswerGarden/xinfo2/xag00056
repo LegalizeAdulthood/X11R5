@@ -1,0 +1,906 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 07/03/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 07/03/91
+mod_num: 1
+@end(header)
+Return-Path: xpert-request@athena.mit.edu
+Received: by expo.lcs.mit.edu; Sun, 20 Nov 88 18:16:57 EST
+Received: by ATHENA.MIT.EDU (5.45/4.7) id AA10928; Sun, 20 Nov 88 18:16:49 EST
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA19460@BLOOM-BEACON.MIT.EDU>; Sun, 20 Nov 88 18:01:27 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@athena.mit.edu (xpert@athena.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 20 Nov 88 22:56:57 GMT
+From: mit-vax!josh@bloom-beacon.mit.edu  (Joshua Marantz)
+Organization: MIT LCS, Cambridge, MA
+Subject: Basic questions on X Toolkit Intrinsics
+Message-Id: <5119@mit-vax.LCS.MIT.EDU>
+Sender: xpert-request@athena.mit.edu
+To: xpert@athena.mit.edu
+
+
+[Summary:  I would like to call XtMainLoop recursively.]
+
+What are the best ways for a Toolkit client to query the user and wait
+for a response?  I understand that this goes against the spirit of the
+toolkit, which is to have the program respond to the user rather than
+vice versa, but there are situations in which it is necessary:
+
+For example, an exceptional condition is discovered while processing a
+Return-Path: converse
+Received: by expo.lcs.mit.edu; Tue, 15 Aug 89 15:41:07 EDT
+From: converse@expo.lcs.mit.edu (Donna Converse)
+Message-Id: <8908151941.AA26642@expo.lcs.mit.edu>
+To: ncar!redcloud!clyne@gatech.edu (John Clyne)
+Cc: xpert
+Subject: Re: help (with a popup prompt design)
+In-Reply-To: Your message of 14 Aug 89 23:10:24 GMT.
+             <3982@ncar.ucar.edu> 
+Organization: X Consortium, MIT Laboratory for Computer Science
+Date: Tue, 15 Aug 89 15:41:06 -0400
+
+
+> I want to have a generic warning routine, call it display_warning(),
+> that when invoked will popup and display a warning message
+> (under the Xt instrinics) and require the user to select a proceed or 
+> cancel button.  The problem
+> is that I want display_warning() to return a value depending on the 
+> user's selection. How do I get display_warning() to wait until a selection
+> has been made before returning?.
+
+I think the programming model for control flow needs to be changed from a
+computational one to an event driven model.  The user is out there doing 
+stuff that causes your program to get notification of events.  Your program 
+cannot control or anticipate the order of events, or the timing between events.
+Instead, your code is a collection of responses to events, with callbacks and 
+client data and some global variables as "chewing gum and paperclips" holding 
+it all together.
+
+When you (the application programmer) popup the warning, you can't block 
+at the next line of code waiting for the user to press a button.  You 
+probably already understand this, at least intuitively.  Consider how the
+application processes events -- XtAppMainLoop, usually.  After you popup the
+warning, let the control return to the main loop.  Otherwise, what is going to
+process the event of the user pushing a button in the popup?
+
+The problem of knowing which button was pressed can be solved by registering
+a different callback procedure with each button in the popup, or by giving
+each button different data to pass to a single callback.  The confirm
+callback can actually do the body of the computation, the work requested.
+
+
+Donna Converse
+converse@expo.lcs.mit.edu
+
+
+Return-Path: xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Tue, 15 Aug 89 18:16:35 EDT
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA18937@BLOOM-BEACON.MIT.EDU>; Tue, 15 Aug 89 18:05:51 EDT
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 15 Aug 89 21:37:10 GMT
+From: odi!mlm@uunet.uu.net  (Mitchell Model)
+Organization: Object Design, Inc.
+Subject: Re: help
+Message-Id: <1989Aug15.213710.3103@odi.com>
+References: <3982@ncar.ucar.edu>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <3982@ncar.ucar.edu> clyne@redcloud.ucar.edu (John Clyne) writes:
+
+   This should not be too hard to do but I haven't been able to figure out
+   a simple solution: I want to have a generic warning routine, call it
+   display_warning(), that when invoked will popup and display a warning message
+   (under the Xt instrinics) and require the user to select a proceed or 
+   cancel button. The problem
+   is that I want display_warning() to return a value depending on the 
+   user's selection. How do I get display_warning() to wait until a selection
+   has been made before returning?. display_warning() also needs to know
+   which selection has been made and indicate this in the return. Is there
+   a simple way to due this?
+
+
+One way is to do the following after XtPopup(shell, XtGrabExclusive):
+	flag = True;
+	while (flag) ProcessOneEvent(XtDisplay(shell));
+	return result;
+
+with:
+
+	void ProcessOneEvent(display)
+	    Display *display;
+	{
+	    static XEvent event;
+
+	    XNextEvent(display, &event);
+	    XtDispatchEvent(&event);
+	}
+
+There's a further trick, though: your callback functions have to set
+result, popdown shell, and set flag to false.  There are various ways
+to do this, all awkward, including global variables and packaging up
+stuff like this into a record that you provide as the client_data for
+the callback.
+
+Here's the complete code for a Yes/No confirmation widget.  I
+originally took this code from contrib/hacks/xpostit/confirm.c then
+hacked it up to wait for user response as well as add some other
+features my application needed (in particular warping the cursor back
+to where it was before the confirmation popped up).  Thanks to David Curry,
+xpostit author, for xpostit: a really useful utility and a source
+of well-structured, commented, and X-instructive code.
+
+
+	Mitchell L Model
+	Director, HeadStart Program
+	Object-Design, Inc.
+	One New England Park
+	Burlington MA 01803
+	(617) 270-9797
+	mlm@odi.com
+
+==============================================================================
+/* confirm -- copied from $x/contrib/hacks/xpostit/confirm.c and xpostit.h
+   then modified to be simpler -- not use callbacks, just return true or false
+*/
+
+
+/* mlm:
+
+   5-17-89      added wait loop
+
+   3-17-89	changed to just return Bool
+
+   3-16-89	added toplevel to ConfirmIt arg list,
+   		to make this completely independent
+
+*/
+
+#include <X11/Xlib.h>			/* for Bool, etc. */
+
+#include <X11/StringDefs.h>
+#include <X11/Intrinsic.h>
+#include <X11/Label.h>
+#include <X11/Command.h>
+#include <X11/Shell.h>
+#include <X11/Form.h>
+#include <stdio.h>
+
+#include "confirm.h"
+#include "xutil.h"
+
+/* from xpostit.h */
+#define SetArg(which, val)	XtSetArg(args[nargs], (which),\
+					(XtArgVal) (val)); nargs++
+
+
+typedef struct _result
+{
+    Bool *popflg, *var;
+    int root_x, root_y;
+    Window root;
+    Widget shell;
+} *Result;
+
+static Result MakeResult(shell, popflg, resultvar, root, root_x, root_y)
+    Bool *popflg, *resultvar;
+    Window root;
+    int root_x, root_y;
+    Widget shell;
+{
+    Result rec = (Result) malloc(sizeof(struct _result));
+
+    rec->popflg = popflg;
+    rec->var = resultvar;
+    rec->root = root;
+    rec->root_x = root_x;
+    rec->root_y = root_y;
+    rec->shell = shell;
+    
+    return rec;
+}
+
+
+
+/* ARGSUSED */
+
+/*
+ * ClearConfirm - get rid of the confirmation box.
+ */
+/* ARGSUSED */
+void
+ClearConfirm(w, val, result)
+    Widget w;
+    Bool val;
+    Result result;
+{
+    Display *display = XtDisplay(w);
+
+    XtPopdown(result->shell);
+    XtDestroyWidget(result->shell);
+    *result->popflg = False;
+    *result->var = val;
+
+    XWarpPointer(display, None, result->root, 0, 0, 0, 0,
+		 result->root_x, result->root_y);
+}
+
+/* ARGSUSED */
+static void Yes(w, result, call_data)
+    Widget w;
+    Result result;
+    caddr_t call_data;			/* unused */
+{
+    ClearConfirm(w, True, result);
+}
+
+/* ARGSUSED */
+static void No(w, result, call_data)
+    Widget w;				/* unused */
+    Result result;
+    caddr_t call_data;
+{
+    ClearConfirm(w, False, result);
+}
+
+
+#define btnsepr 8
+
+static void adjust(label, yes, no)
+    Widget label, yes, no;
+{
+    Arg args[2];
+    int nargs;
+    
+    int labelwidth, yeswidth, btnborder, btnwidth;
+
+    if (!label)
+	labelwidth = 0;
+    else
+	{
+	    nargs = 0;
+	    SetArg(XtNwidth, NULL);
+	    XtGetValues(label, args, 1);
+	    labelwidth = args[0].value;
+	}
+    
+    nargs = 0;
+    SetArg(XtNwidth, NULL);
+    SetArg(XtNborder, NULL);
+    XtGetValues(yes, args, 2);
+    yeswidth = args[0].value;
+    btnborder = args[1].value;
+
+    btnwidth = (labelwidth-btnsepr-4*btnborder)/2;
+    if (btnwidth < yeswidth) btnwidth = yeswidth;
+
+    nargs = 0;
+    SetArg(XtNwidth, btnwidth);
+    XtSetValues(yes, args, 1);
+    XtSetValues(no, args, 1);
+    
+}
+
+/*
+ * Confirm - put up a window asking for confirmation.
+ */
+Bool Confirm(toplevel, prompt)
+    Widget toplevel;
+    char* prompt;
+{
+    static Arg args[4];
+    register int nargs;
+    static Bool inited = False;
+    Bool poppedup=False, result=False;
+    static Widget shell, form, label, yes, no;
+    static int root_x, root_y, child_x, child_y, buttons;
+    static Window root, child;
+    static Result resultrec;
+
+    inited = False;			/* recreate each time for now */
+    
+
+    /*
+     * Find out where the mouse is, so we can put the confirmation
+     * box right there.
+     */
+    XQueryPointer(XtDisplay(toplevel), XtWindow(toplevel),
+		  &root, &child,
+		  &root_x, &root_y, &child_x, &child_y, &buttons);
+
+    /*
+     * If we need to construct the confirmation box do that,
+     * otherwise just reset the position and callbacks and
+     * put it up again.
+     */
+    if (!inited)
+	{
+
+	    nargs = 0;
+	    SetArg(XtNx, root_x);
+	    SetArg(XtNy, root_y);
+	    SetArg(XtNinput, True);
+	    shell = XtCreatePopupShell("Confirm", transientShellWidgetClass,
+				       toplevel, args, nargs);
+
+	    nargs = 0;
+	    form = XtCreateManagedWidget("form", formWidgetClass,
+				  shell, args, nargs);
+
+	    if (!prompt)
+		label = NULL;
+	    else
+		{
+		    nargs = 0;
+		    SetArg(XtNlabel, prompt);
+		    SetArg(XtNborderWidth, 0);
+		    label = XtCreateManagedWidget("prompt", labelWidgetClass,
+						 form, args, nargs);
+		}
+
+	    nargs = 0;
+	    if (prompt)
+		{
+		    SetArg(XtNfromVert, label);
+		    SetArg(XtNvertDistance, 12);
+		}
+	    yes = XtCreateManagedWidget("yes", commandWidgetClass,
+				       form, args, nargs);
+
+	    nargs = 0;
+	    SetArg(XtNfromHoriz, yes);
+	    SetArg(XtNhorizDistance, btnsepr);
+	    if (prompt)
+		{
+		    SetArg(XtNfromVert, label);
+		    SetArg(XtNvertDistance, 12);
+		}
+	    no = XtCreateManagedWidget("no", commandWidgetClass,
+					   form, args, nargs);
+
+	    adjust(label, yes, no);
+	    XtRealizeWidget(shell);
+	    inited = True;
+	}
+    else {
+	/*
+	 * Reset the confirmation box position.
+	 */
+	nargs = 0;
+	SetArg(XtNx, root_x);
+	SetArg(XtNy, root_y);
+	XtSetValues(shell, args, nargs);
+    }
+
+    resultrec = MakeResult(shell, &poppedup, &result, root, root_x, root_y);
+    XtAddCallback(yes, XtNcallback, Yes, resultrec);
+    XtAddCallback(no, XtNcallback, No, resultrec);
+
+    XtPopup(shell, XtGrabExclusive);
+    poppedup = True;
+
+    while(poppedup) ProcessOneEvent(XtDisplay(shell));
+
+    return result;
+}
+
+#undef btnsepr
+	    
+
+-- 
+
+	Mitchell L Model
+	Director, HeadStart Program
+	Object-Design, Inc.
+
+
+Return-Path: converse
+Received: by expo.lcs.mit.edu; Tue, 15 Aug 89 18:30:28 EDT
+From: converse@expo.lcs.mit.edu (Donna Converse)
+Message-Id: <8908152230.AA28759@expo.lcs.mit.edu>
+To: clyne@redcloud.ucar.edu (John Clyne)
+Cc: converse
+Subject: Re: help (with a popup prompt design) 
+In-Reply-To: Your message of Tue, 15 Aug 89 14:21:50 MST.
+             <8908152021.AA08616@redcloud.UCAR.EDU> 
+Organization: X Consortium, MIT Laboratory for Computer Science
+Date: Tue, 15 Aug 89 18:30:27 -0400
+
+
+	My problem is that I am trying to separate the functionality 
+	of my application as much as possible from the interface. The 
+	"model" of control flow that I want is one of poll and wait. I guess
+	it should have been fairly intuitive that an event driven interface
+	does not support this.
+
+Ok, I'll take you up on this.  
+
+With regard to the poll & wait model of control flow vs the messages (events 
+and their resultant callbacks) and objects (user interface abstractions) of 
+widget programming: in what way does poll & wait improve the separation of
+functionality and interface over widget programming, or in what way does 
+widget programming violate the abstraction?   I don't understand your
+objection.
+
+My second point is that you *can* get poll and wait semantics in X if you
+program your own event processing loop.  You can put the loop
+right in line in your code, at the point where the popup goes up, inside of
+the display_warning routine, effectively blocking on the user inside of the
+event processing loop, and breaking out of the loop only when the user
+responds to the popup. Poll and wait is exactly what XtAppNextEvent does.
+
+I have to go now.  I was reading section 7.4 in the Intrinsics.
+
+Donna
+
+
+Return-Path: xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Wed, 16 Aug 89 21:22:25 EDT
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA08548@BLOOM-BEACON.MIT.EDU>; Wed, 16 Aug 89 19:58:58 EDT
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 16 Aug 89 22:35:22 GMT
+From: usc!cs.utexas.edu!pp!kauai!duanev@bloom-beacon.mit.edu  (Duane Voth)
+Organization: MCC, Austin, TX
+Subject: Re: help (with a popup prompt design)
+Message-Id: <304@kauai.ACA.MCC.COM>
+References: <3982@ncar.ucar.edu>, <8908151941.AA26642@expo.lcs.mit.edu>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <8908151941.AA26642@expo.lcs.mit.edu>, converse@EXPO.LCS.MIT.EDU (Donna Converse) writes:
+> 
+> > I want to have a generic warning routine, call it display_warning(),
+> > that when invoked will popup and display a warning message
+> > (under the Xt instrinics) and require the user to select a proceed or 
+> > cancel button.  The problem
+> > is that I want display_warning() to return a value depending on the 
+> > user's selection. How do I get display_warning() to wait until a selection
+> > has been made before returning?.
+> 
+> I think the programming model for control flow needs to be changed from a
+> computational one to an event driven model.  The user is out there doing 
+> stuff that causes your program to get notification of events.  Your program 
+> cannot control or anticipate the order of events, or the timing between
+> events. Instead, your code is a collection of responses to events, with
+> callbacks and client data and some global variables as "chewing gum and,
+> paperclips" holding it all together.
+
+I ran into this same problem.  A function like display_warning() forces
+the user to focus his attention on a very specific point.  The application
+is basically helpless until the user deals with the warning.  In addition,
+the warining popup focuses input thus severely restricting the kinds
+of "application" events that occur.   So why force returning all the
+way back to the main event handler.
+
+
+Bottom line is: the application code looks MUCH nicer if a function like
+display_warning() can return a 1 or a 0.
+
+The way I did this is as follows:
+
+
+#define WAITING 0
+#define PROCEED 1
+#define CANCEL  2
+
+static int warning_response;
+
+proceed_button_callback()
+{
+	warning_response = PROCEED;
+}
+
+cancel_button_callback()
+{
+	warning_response = CANCEL;
+}
+
+display_warning()
+{
+	XEvent event;
+
+	/* popup warning window... */
+
+	warning_response = WAITING;
+	while (warning_response == WAITING) {
+		XtAppNextEvent(appContext, &event);
+		XtDispatchEvent(&event);
+	}
+
+	/* popdown and cleanup */
+
+	return(warning_response);
+}
+
+
+Clean, efficient, functional.
+
+duane
+
+-- 
+--- duane voth             duanev@mcc.com
+----           ALL systems are arbitrary!
+--- effectiveness is the measure of Truth
+--
+
+
+
+Return-Path: xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Thu, 17 Aug 89 01:42:44 EDT
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA13775@BLOOM-BEACON.MIT.EDU>; Wed, 16 Aug 89 23:14:57 EDT
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 17 Aug 89 01:26:43 GMT
+From: arisia!janssen%holmes@lll-winken.llnl.gov  (Bill Janssen)
+Organization: PARC.Xerox.COM
+Subject: Re: help (with a popup prompt design)
+Message-Id: <2523@arisia.Xerox.COM>
+References: <3982@ncar.ucar.edu>, <8908151941.AA26642@expo.lcs.mit.edu>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+The one problem with the approach that converse@EXPO.LCS.MIT.EDU suggests
+is that the display_warning() routine will return from the warning-box
+creation routine prematurely.  To get around this, recursively call the
+main loop, and have the callback for the button return from the recursive
+call when pressed, thereby returning to the code in display_warning(), and
+then return from display_warning with the appropriate value.
+
+Bill
+--
+ Bill Janssen        janssen.pa@xerox.com      (415) 494-4763
+ Xerox Palo Alto Research Center
+ 3333 Coyote Hill Road, Palo Alto, California   94304
+
+
+Return-Path: xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Thu, 17 Aug 89 12:43:23 EDT
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA01570@BLOOM-BEACON.MIT.EDU>; Thu, 17 Aug 89 12:08:09 EDT
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 17 Aug 89 15:44:13 GMT
+From: paperboy!osf!dean@husc6.harvard.edu  (Dean Anderson)
+Organization: Open Software Foundation
+Subject: Re: help (with a popup prompt design)
+Message-Id: <445@paperboy.OSF.ORG>
+References: <3982@ncar.ucar.edu>, <8908151941.AA26642@expo.lcs.mit.edu>, <2523@arisia.Xerox.COM>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <2523@arisia.Xerox.COM> janssen@holmes (Bill Janssen) writes:
+>The one problem with the approach that converse@EXPO.LCS.MIT.EDU suggests
+>is that the display_warning() routine will return from the warning-box
+>creation routine prematurely.  To get around this, recursively call the
+>main loop, and have the callback for the button return from the recursive
+>call when pressed, thereby returning to the code in display_warning(), and
+
+Recursively call XtMainLoop?  How do you propose to get XtMainLoop to
+return? (Without using setjmp) I think the point of what Donna
+Converse was originally trying to say has been missed.  Instead of
+trying to force flow of control, you should adopt a model in which the
+program takes actions in response to "external" events whose order the
+program has no control over.
+
+For example, If you want to force the user to respond to a dialog, try
+popping up the dialog menu with a pointer grab.  When the user responds,
+take whatever action is necessary in the callback (possibly save the
+response data for use in modifying the actions for other events, etc).
+ 
+Motif includes facilities for modal dialog widgets which do exactly
+what it is I think that you want to do:  Make the user respond before any
+further processing within the application.
+
+            Dean
+
+Dean Anderson                     |  Views Expressed do not represent those of  
+dean@osf.org  uunet!osf.org!dean  |  either my employer or myself!
+OPEN Software Foundation          |
+
+
+Return-Path: aparisi@bbn.com
+Received: from SPCB.BBN.COM by expo.lcs.mit.edu; Thu, 17 Aug 89 20:33:49 EDT
+Message-Id: <8908180033.AA00450@expo.lcs.mit.edu>
+Received: by SPCB.BBN.COM id aa05338; 17 Aug 89 19:50 EDT
+Date:     Thu, 17 Aug 89 15:13:17 EDT
+From: Corporal Jones <aparisi@bbn.com>
+To: Dean Anderson <paperboy!osf!dean@husc6.harvard.edu>
+Cc: xpert@expo.lcs.mit.edu
+Subject:  Re:  help (with a popup prompt design)
+
+Actually, there may be a very good reason to nest an event loop.
+
+Say you need to implement a command-driven style of interaction within a
+toolkit application.  I know we are trying to avoid this at all costs in
+the Brave New World of the future, but there are some large, monolithic,
+command-driven applications out there that people are converting to X.
+Often a first step in the conversion is to provide GUI front ends to a
+subset of the functionality, and provide a command-driven escape hatch (for
+example, a DECWindows Command widget) for the non-converted functionality.
+
+In this scenario, the application will want the main thread to be blocked
+on a command read until a command is actually entered.  The way to do the
+block is to nest an event loop (NOT XtMainLoop, naturally-- as you said,
+how will it return?) in the procedure that does the read from the command
+widget.  The event loop would terminate when a command is entered.  (It
+probably detects this using a semaphore that is set by the command widget's
+commandEntered callback).
+
+Tony Parisi
+BBN Software Products
+Cambridge, MA
+
+
+Return-Path: @bloom-beacon.mit.edu:xpert-request@expo.lcs.mit.edu
+Received: from lcs.mit.edu (MINTAKA.LCS.MIT.EDU) by expo.lcs.mit.edu; Tue, 22 Aug 89 09:23:56 EDT
+Received: from BLOOM-BEACON.MIT.EDU by mintaka.lcs.mit.edu id aa17589;
+          19 Aug 89 13:50 EDT
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA09122@BLOOM-BEACON.MIT.EDU>; Fri, 18 Aug 89 17:37:38 EDT
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 18 Aug 89 20:18:46 GMT
+From: Dick Schoeller <haven!decuac!shlump.nac.dec.com!engage.dec.com!lbduck.dec.com!schoeller@purdue.edu>
+Organization: Digital Equipment Corporation, Maynard, Massawhat?
+Subject: Re:  help (with a popup prompt design)
+Message-Id: <1264@engage.dec.com>
+References: <8908180033.AA00450@expo.lcs.mit.edu>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <8908180033.AA00450@expo.lcs.mit.edu>, aparisi@BBN.COM
+(Corporal Jones) writes:
+> Actually, there may be a very good reason to nest an event loop.
+> 
+> Say you need to implement a command-driven style of interaction within a
+> toolkit application.  I know we are trying to avoid this at all costs in
+> the Brave New World of the future, but there are some large, monolithic,
+> command-driven applications out there that people are converting to X.
+> Often a first step in the conversion is to provide GUI front ends to a
+> subset of the functionality, and provide a command-driven escape hatch (for
+> example, a DECWindows Command widget) for the non-converted functionality.
+> 
+> In this scenario, the application will want the main thread to be blocked
+> on a command read until a command is actually entered.  The way to do the
+> block is to nest an event loop (NOT XtMainLoop, naturally-- as you said,
+> how will it return?) in the procedure that does the read from the command
+> widget.  The event loop would terminate when a command is entered.  (It
+> probably detects this using a semaphore that is set by the command widget's
+> commandEntered callback).
+> 
+
+Command driven applications are the easiest to port to event driven
+(after all, events are just graphical commands  8^{).  There is really
+no need to go through all the above mess about blocking and multiple
+threads.   There is usually no reason to use some other looping structure
+than XtMainLoop either. 
+
+The simplest approach is to take the routines that would have been called
+in response to the original command and put them in the callback for the
+applicable widget.  If there are any operations which have not been moved
+to a specific widget, you simply parse them out in the callback from a
+command entry widget.
+
+The applications that ARE hard to deal with in the X Toolkit are AST driven
+applications or application driven users.  These are the situations where
+XtMainLoop falls short.  (Esp. AST driven since Xt is not AST re-entrant).
+
+Dick Schoeller			| schoeller@gvriel.enet.dec.com
+Digital Equipment Corporation	| 508-493-1670 
+129 Parker Street, PKO3-1/H21	| 
+Maynard, MA 01754-2571		| This author has no opinions to disclaim!
+
+
+Return-Path: @bloom-beacon.mit.edu:xpert-request@expo.lcs.mit.edu
+Received: from lcs.mit.edu (MINTAKA.LCS.MIT.EDU) by expo.lcs.mit.edu; Mon, 21 Aug 89 20:13:14 EDT
+Received: from BLOOM-BEACON.MIT.EDU by mintaka.lcs.mit.edu id aa17570;
+          19 Aug 89 13:49 EDT
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA15459@BLOOM-BEACON.MIT.EDU>; Fri, 18 Aug 89 22:38:07 EDT
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 19 Aug 89 00:28:34 GMT
+From: Bill Janssen <arisia!janssen%holmes@lll-winken.llnl.gov>
+Organization: PARC.Xerox.COM
+Subject: Re: help (with a popup prompt design)
+Message-Id: <2584@arisia.Xerox.COM>
+References: <8908151941.AA26642@expo.lcs.mit.edu>, <2523@arisia.Xerox.COM>, <445@paperboy.OSF.ORG>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <445@paperboy.OSF.ORG>, dean@osf (Dean Anderson) writes:
+>In article <2523@arisia.Xerox.COM> janssen@holmes (Bill Janssen) writes:
+>>...
+>>creation routine prematurely.  To get around this, recursively call the
+>>main loop, and have the callback for the button return from the recursive
+>...
+>Recursively call XtMainLoop?  How do you propose to get XtMainLoop to
+>return? (Without using setjmp) I think the point of what Donna
+>...
+
+Well, I confess that I don't use the vanilla XtMainLoop.  My callback
+routines return a boolean which indicates to the event dispatcher whether
+or not to return from the event dispatching loop.  Thus my pop-up
+confirmers can pop up the widget and call the event dispatching loop.
+When the event loop returns, the application knows that the pop-up
+structure contains the appropriate state (having been stored there by
+the callback for the pop-up, which returned "return-from-event-loop"
+to the event dispatching routine).
+
+This is equivalent to the schemes being posted here and there, except
+that the user does not have to re-write the event dispatching loop for
+each confirmer.  In addition, my dispatcher also looks for input on
+other streams, not just the X stream, so that the whole application is
+not locked up just because the interface is.
+
+There are objections to this approach, along the lines of "The
+user should not be able to do anything until the confirmer has been
+dealt with."  I think that is the worst kind of wrong-headed thinking,
+probably due to inexperience with confirmer systems.  The user should
+be able to investigate the environment before making an informed response
+to the confirmer.  This means that they should be able to pop up windows,
+look at files, etc.  I'll agree that there needs to be some attention
+focussing method, so that the confirmer doesn't get forgotten, but it
+should *never* block other input.
+
+On the other hand, I can imagine an implementation of a blocking
+confirmer that uses a re-entrant dispatching loop...
+
+Bill
+--
+ Bill Janssen        janssen.pa@xerox.com      (415) 494-4763
+ Xerox Palo Alto Research Center
+ 3333 Coyote Hill Road, Palo Alto, California   94304
+
+
+Return-Path: phil@goldhill.com
+Received: from goldhill.com (goddard.goldhill.com) by expo.lcs.mit.edu; Tue, 22 Aug 89 09:47:05 EDT
+Received: from god.goldhill.com by goddard.goldhill.com; Tue, 22 Aug 89 09:46:07 EDT
+Received: by god.goldhill.com (4.0/SMI-4.0)
+	id AA02511; Tue, 22 Aug 89 09:45:09 EDT
+Date: Tue, 22 Aug 89 09:45:09 EDT
+From: phil@goldhill.com
+Message-Id: <8908221345.AA02511@god.goldhill.com>
+To: arisia!janssen%holmes@lll-winken.llnl.gov
+Cc: xpert@expo.lcs.mit.edu
+In-Reply-To: Bill Janssen's message of 19 Aug 89 00:28:34 GMT <2584@arisia.Xerox.COM>
+Subject: help (with a popup prompt design)
+
+
+There are cases where the user should not be allowed to do anything except
+respond to the popup. I have popup's that block all input in the case when
+a malloc has failed - the popup is to notify the user that such a condition
+has arisen and inform them that cleanup is about to occur and that a "safe"
+state in the application is to be returned to.
+
+I also have popups that don't block all other processing and are "well
+behaved" with respect to other users of the server.
+
+The fact that conditions arise with varying degrees of severity indicates
+that atleast two types of popups are needed and should be planned for
+when building and designing the UI for an application. 
+
+Phil Stanhope                                       
+Gold Hill Computers, Inc.                           
+Cambridge, MA.                                      
+phil@goldhill.com                                   
+
+
+Return-Path: janssen@holmes.parc.xerox.com
+Received: from arisia.xerox.com by expo.lcs.mit.edu; Tue, 22 Aug 89 14:39:57 EDT
+Received: from holmes.parc.Xerox.COM by arisia.xerox.com with SMTP
+	(5.61+/IDA-1.2.8/gandalf) id AA05814; Tue, 22 Aug 89 11:37:12 -0700
+Received: by holmes.parc.xerox.com
+	(5.61+/IDA-1.2.8/gandalf) id AA14026; Tue, 22 Aug 89 11:40:39 PDT
+Received: from Version.6.23.N.CUILIB.3.44.SNAP.NOT.LINKED.holmes.Unknown.Machine.Type
+          via MS.5.5.holmes.sun3_35;
+          Tue, 22 Aug 89 11:40:38 -0700 (PDT)
+Message-Id: <YYwNsaoB0KGWEqkllo@holmes>
+Date: Tue, 22 Aug 89 11:40:38 -0700 (PDT)
+From: Bill Janssen <janssen@arisia.xerox.com>
+To: phil@goldhill.com
+Subject: Re: help (with a popup prompt design)
+Cc: xpert@expo.lcs.mit.edu
+In-Reply-To: <8908221345.AA02511@god.goldhill.com>
+References: <8908221345.AA02511@god.goldhill.com>
+
+> *Excerpts from mail: 22-Aug-89 help (with a popup prompt d..*
+> *phil@goldhill.com (891)*
+
+> The fact that conditions arise with varying degrees of severity indicates
+> that atleast two types of popups are needed and should be planned for
+> when building and designing the UI for an application.
+
+
+Yes, I'm not really as dogmatic as I tend to sound on that issue.  Though I
+still wouldn't use the pop-up mechanism to block, but would rather have the
+`block-input-from-user' function packaged by itself, independent of the
+pop-ups,   so that the ``severe'' case you mention would be handled by:
+
+        BlockUserInput();
+        PopUpMessage ("Environment trashed.  Unwinding.");
+
+rather than
+
+        PopUpMessageBlocking(""Environment trashed.  Unwinding.");
+
+Note that BlockUserInput() only blocks events that come from the user, such as
+keystrokes and mouse-strokes.  The Expose events that cause the pop-up to be
+painted go through just as they normally would.
+
+A tougher trick is to block input only on windows that were created *before*
+the critical event occurred, but not on later-created windows.  For this, some
+kind of stack in the event-dispatcher is needed.  The timestamp in the
+MapNotify event of a newly-created window could be used, or the client could
+use XSendEvent to send an event through that window, and use that timestamp,
+when the window is registered with the event-dispatcher.  Then BlockUserInput()
+would push a timestamp (where does it get it?  from the server again?) onto an
+input-blocking stack, and only user events on windows with later timestamps
+than the head of the stack would be allowed to dispatch to their windows' event
+handlers.
+
+Bill
+--
+ Bill Janssen        janssen.pa@xerox.com      (415) 494-4763
+ Xerox Palo Alto Research Center
+ 3333 Coyote Hill Road, Palo Alto, California   94304
+
+
+Return-Path: mouse@larry.mcrcim.mcgill.edu
+Received: from ATHENA (ATHENA.MIT.EDU) by expo.lcs.mit.edu; Wed, 23 Aug 89 21:33:36 EDT
+Received: from Larry.McRCIM.McGill.EDU ([132.206.1.1]) by ATHENA.MIT.EDU (5.45/4.7) id AA27142; Wed, 23 Aug 89 21:33:10 EDT
+Received: by Larry.McRCIM.McGill.EDU (5.61)
+	id <8908240132.AA07940@Larry.McRCIM.McGill.EDU>; Wed, 23 Aug 89 21:32:29 -0400
+Date: Wed, 23 Aug 89 21:32:29 -0400
+From: der Mouse  <mouse@larry.mcrcim.mcgill.edu>
+Message-Id: <8908240132.AA07940@Larry.McRCIM.McGill.EDU>
+To: xpert%expo.lcs.mit.edu@athena.mit.edu
+Subject: Re:  help (with a popup prompt design)
+
+> From: phil@goldhill.com
+
+> There are cases where the user should not be allowed to do anything
+> except respond to the popup.
+
+Perhaps, but I don't think this is it.  The only case where I can see
+any excuse for hijacking all user input is when the entire window
+system, not just one application, is threatening to be unusable.  For
+example, a window manager popping up an alert "ill-behaved application
+on the rampage, do you want to XKillClient or let it run?".
+
+> I have popup[']s that block all input in the case when a malloc has
+> failed - the popup is to notify the user that such a condition has
+> arisen and inform them that cleanup is about to occur and that a
+> "safe" state in the application is to be returned to.
+
+So why force the user to respond?  There's nothing they can do about
+it; why not simply make *your application* freeze until the popup is
+responded to?  I certainly know I might well want to switch to another
+window and look at a doc file, or run gcore...or perhaps even trash the
+whole program.  I would be most annoyed if I had to go find a terminal
+and log in again to get a chance to look at something - probably enough
+so that I'd either trash the program entirely or fix it before
+proceeding further.
+
+					der Mouse
+
+			old: mcgill-vision!mouse
+			new: mouse@larry.mcrcim.mcgill.edu
+
+

@@ -1,0 +1,32 @@
+#!/bin/sh
+#
+# Create an interpreter that is linked together with your extensions
+# (on machines that don't support incremental linking).
+# 
+# The first argument is the executable to be created, the remaining
+# arguments are the .o-files of your extensions and libraries.
+#
+# If you're using gcc, replace /usr/local/lib/gcc-gnulib by the filename
+# of gcc's library on your system, else delete it.
+#
+# Replace /users/net/scm by the name of the directory where you unpacked
+# the distribution.
+#
+# On non-MIPS-based systems you probably have to remove the -Wl stuff.
+#
+if [ $# = 0 ]
+then
+    echo Usage: "$0: output-file [object-files]"
+    exit 1
+fi
+AOUT=$1
+if [ -f $AOUT ]
+then
+    echo $AOUT already exists.
+    exit 1
+fi
+shift
+cc -o $AOUT -Wl,-D,800000 /users/net/scm/src/*.o /users/net/scm/lib/util/*.o\
+    $* -lm /usr/local/lib/gcc-gnulib
+chmod +x $AOUT
+exit 0

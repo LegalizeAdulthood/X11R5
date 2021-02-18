@@ -1,0 +1,20 @@
+lclock -- Logo clock -- yet another clock demo
+
+this requires R5 libraries and a server that supports SHAPE.
+
+its been tested with NCDwm, uwm, twm, tvtwm, olwm and swm (including
+swm's virtual desktop), and is happiest with those WM in that order:
+NCDwm, uwm & twm don't get in its way at all, and olwm and swm (at
+least the versions i have) don't understand SHAPE, so things don't look
+right.
+
+it shouldn't be too difficult to modify Clock.c to use any
+logo as the clock face.  just replace the calls to XmuDrawLogo()
+with another drawing routine.
+
+Bugs:
+Two of the inner sides have no border.  This is due to the
+way XmuDrawLogo() calculates its polygons.
+
+Dave Lemke				ARPA: lemke@ncd.com
+Network Computing Devices, Inc. 	UUCP: uunet!ncd!lemke

@@ -1,0 +1,73 @@
+/**/#
+/**/# $Id: Imakefile,v 1.2 1991/09/12 07:48:20 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+    JLIBDEFINES = -DWRITE_CHECK
+       INCLUDES = -I$(WNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(WNNDEFINES) $(CWNNLANGDEF) $(JLIBDEFINES)
+   INSTALLFLAGS = $(INSTBINFLAGS)
+       LINTLIBS = 
+
+SRC1= js.c \
+	wnnerrmsg.c \
+	jl.c
+OBJ1= js.o \
+	wnnerrmsg.o \
+	jl.o
+SRC2= getopt.c
+OBJ2= getopt.o
+SRC3= $(WNNETCSRC)/msg.c
+OBJ3= msg.o
+LOCAL_RKSRCS= $(WNNROMKANSRC)/rk_bltinfn.c \
+	$(WNNROMKANSRC)/rk_main.c \
+	$(WNNROMKANSRC)/rk_modread.c \
+	$(WNNROMKANSRC)/rk_read.c \
+	$(WNNROMKANSRC)/rk_vars.c
+
+LOCAL_RKOBJS= $(WNNROMKANSRC)/rk_bltinfn.o \
+	$(WNNROMKANSRC)/rk_main.o \
+	$(WNNROMKANSRC)/rk_modread.o \
+	$(WNNROMKANSRC)/rk_read.o \
+	$(WNNROMKANSRC)/rk_vars.o
+
+SRCS= $(SRC1) $(SRC3)
+OBJS= $(OBJ1) $(OBJ3) $(LOCAL_RKOBJS)
+
+LibraryObjectRule()
+AllTarget($(OBJS) libwnn.a)
+
+NormalLibraryTarget(getopt,$(OBJ2))
+LintLibraryTarget(getopt,$(SRC2))
+
+js.o : js.c \
+	$(WNNETCSRC)/bdic.c \
+	$(WNNETCSRC)/pwd.c \
+	$(WNNETCSRC)/gethinsi.c
+
+NormalLintTarget($(SRC2))
+
+SingleProgramTarget(kankana,kankana.o,$(WNNJLIB),)
+
+NormalLibraryTarget(wnn,$(OBJS))
+LintLibraryTarget(wnn,$(SRCS))
+
+instlib:: install
+
+InstallLibrary(wnn,$(USRLIBDIR))
+
+#if ProfileLibJlib
+ProfiledLibraryTarget(wnn,$(OBJS))
+InstallLibrary(wnn_p,$(USRLIBDIR))
+#endif
+
+WnnSpecialObjectRule($(OBJ3),$(SRC3),$(WNNETCSRC),)
+
+$(LOCAL_RKOBJS) : $(LOCAL_RKSRCS)
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	cd $(WNNROMKANSRC); echo "making all in $(WNNROMKANSRC)"; \
+	$(MAKE) 'CDEBUGFLAGS=$(CDEBUGFLAGS)' $(MFLAGS)
+
+DependTarget()

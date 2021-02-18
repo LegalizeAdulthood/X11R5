@@ -1,0 +1,14 @@
+INSTALLFLAGS = $(INSTDATFLAGS)
+
+LCFILES = basic_setting C japanese
+
+all::
+
+depend::
+
+install::
+	LibMkdir($(LIBDIR)/share)
+	LibMkdir($(LIBDIR)/share/locale)
+	LibMkdir($(LIBDIR)/share/locale/props)
+
+InstallMultiple($(LCFILES),$(LIBDIR)/share/locale/props/C)

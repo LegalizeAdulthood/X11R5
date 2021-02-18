@@ -1,0 +1,31 @@
+This directory contains a simple client-side library for the kinput2
+protocol, and a patch for kterm that makes kterm use kinput2 protocol
+and over-the-spot conversion.
+
+* Files
+	convlib.c	-- a simple client-side library
+
+	kconvert.c
+	kterm.patch	-- patch for kterm.
+
+
+* How to make kterm with over-the-spot conversion capability?
+
+1. Since this release doesn't contain kterm source, you have to obtain
+   one from somewhere. This patch is for kterm version 4.1.0, but
+   can be used for 4.1.2 as well.
+
+
+2. Replace convlib.c and kconvert.c in the kterm source directory
+   with those in this directory, copy ../include/ConvProto.h,
+   then apply kterm.patch.
+
+	% cp convlib.c kconvert.c kterm.patch <kterm source directory>
+	% cp ../include/ConvProto.h <kterm source directory>
+	% cd <kterm source directory>
+	% patch < kterm.patch
+
+4. Now you can build kterm with xmkmf and make.
+
+	% xmkmf
+	% make

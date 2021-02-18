@@ -1,0 +1,44 @@
+
+INSTMANDIR = /usr/local/man/mann
+INSTBINDIR = /usr/local/bin
+INSTDEFDIR = /usr/lib/X11/app-defaults
+
+INCLUDES = -I/usr/include/X11
+
+# for debugging
+#CFLAGS = -g $(INCLUDES)
+#LFLAGS = -g
+# for most production systems
+CFLAGS = -O $(INCLUDES)
+LFLAGS = -n
+# for Tektronix 431x
+#CFLAGS = -O1 $(INCLUDES)
+#LFLAGS = -n
+
+COLORFILE = -DCOLORFILE=\"/usr/lib/X11/rgb.txt\"
+ICON = palette.xbm
+MAXCOLORS = -DMAXCOLORS=512
+
+TARGETS = palette
+OBJS = palette.o paletteCB.o
+
+LOCAL_LIBS = -lXO -lXaw -lXt -lXmu -lX11
+
+all: palette
+
+palette: $(OBJS)
+	cc $(LFLAGS) $(OBJS) $(LOCAL_LIBS) -o $@
+
+palette.o: palette.c $(ICON)
+	cc $(CFLAGS) $(COLORFILE) $(MAXCOLORS) -c palette.c
+
+paletteCB.o: paletteCB.c
+	cc $(CFLAGS) -c paletteCB.c
+
+clean:
+	rm -f $(OBJS) $(TARGETS)
+
+install: $(TARGETS)
+	/usr/local/bin/install -c -s -o bin -g bin -m 755 palette $(INSTBINDIR)
+	/usr/local/bin/install -c palette.man $(INSTMANDIR)/palette.n
+	/usr/local/bin/install -c palette.ad $(INSTDEFDIR)/palette

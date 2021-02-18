@@ -1,0 +1,21 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DependTarget()
+
+NormalObjectRule()
+
+.spp.o:
+	-$(RM) $@ ,$*.s ,$*.c
+	$(CP) $*.spp ,$*.c
+	$(CC) -E -I. $(LOCALINCLUDES) $(CFLAGS) ,$*.c > ,$*.s
+	$(AS) -k -o $*.o ,$*.s
+	$(RM) ,$*.c ,$*.s
+
+all:: globals.o entry.o doload.o
+
+InstallCshScript(makedo.csh, $(DESTDIR)/bin/makedo)
+
+globals.c:
+	touch globals.c

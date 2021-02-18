@@ -1,0 +1,30 @@
+.TH XSCCD 1 "Release 5" "X Version 11"
+.SH NAME
+xsccd \- Xcms property builder
+.SH SYNOPSIS
+.B xsccd < \fIinputfile\fP > \fIoutputfile\fP
+.SH DESCRIPTION
+.I Xsccd 
+is used to create a color database for the Xcms
+color managment system.
+Xsccd takes as stdin the file produced by
+.I xcrtca
+and produces on stdout a file containing the property data loaded onto
+the root window by
+.I xcmsdb.
+The contrib/clients/xcrtca/monitors directory
+contains xcrtca output files, and xcmsdb input files created from xsccd for
+several machines at the X consortium.
+.SH CAVEATS
+This program has been coded for a Sun SparcStation and for a default visual
+with 8 bits_per_rgb.
+.SH "SEE ALSO"
+xcrtca(1), xcmsdb(1)
+.SH COPYRIGHT
+Copyright 1991 by Massachusetts Institute of Technology.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHOR
+Dave Sternlicht, Keith Packard, MIT X Consortium.
+.br
+Al Tabayoyon, Chuck Adams, Tektronix Inc.

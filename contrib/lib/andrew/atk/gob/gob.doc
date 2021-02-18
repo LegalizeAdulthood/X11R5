@@ -1,0 +1,95 @@
+\begindata{text,268849052}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Gob}
+
+
+
+This file is intended to hold the programmer's documentation for gob.  There 
+are no short-term plans for completing this document.
+
+
+
+
+\section{Quick reference list for }gob
+
+
+
+\fixedtext{struct oblist *\bold{gob_}AddArcOb }\fixedindent{(struct gob 
+*\paramname{gob}, long \paramname{x}, long \paramname{y}, long 
+\paramname{width}, long \paramname{height}, short \paramname{StartAngle}, 
+short \paramname{OffsetAngle}, short \paramname{type}, short 
+\paramname{colorwid}, short \paramname{mode});} 
+
+\fixedtext{struct oblist *\bold{gob_}AddLabelOb }\fixedindent{(struct gob 
+*\paramname{gob}, long \paramname{x}, long \paramname{y}, char 
+*\paramname{label}, struct fontdesc *\paramname{fd}, short \paramname{op}, 
+short \paramname{mode});} 
+
+\fixedtext{struct oblist *\bold{gob_}AddOvalOb }\fixedindent{(struct gob 
+*\paramname{gob}, long \paramname{x}, long \paramname{y}, long 
+\paramname{width}, long \paramname{height}, short \paramname{type}, short 
+\paramname{colorwid}, short \paramname{mode});} 
+
+\fixedtext{struct oblist *\bold{gob_}AddPathOb }\fixedindent{(struct gob 
+*\paramname{gob}, struct point *\paramname{pointlist}, short \paramname{size}, 
+short \paramname{type}, short \paramname{colorwid}, short \paramname{mode});} 
+
+\fixedtext{void \bold{gob_}ClearAllObs }\fixedindent{(struct gob 
+*\paramname{gob});} 
+
+\fixedtext{void \bold{gob_}ClearOb }\fixedindent{(struct gob *\paramname{gob}, 
+struct oblist *\paramname{ob});} 
+
+\fixedtext{void \bold{gob_}FinalizeObject }\fixedindent{(struct gob 
+*\paramname{self});} 
+
+\fixedtext{\bold{gob_}GetFirstOb }\fixedindent{(struct gob *\paramname{gob});} 
+
+
+
+\fixedtext{\bold{gob_}GetNextOb }\fixedindent{(struct gob *\paramname{gob}, 
+\paramname{pair});} 
+
+\fixedtext{boolean \bold{gob_}InitializeClass }\fixedindent{();} 
+
+\fixedtext{boolean \bold{gob_}InitializeObject }\fixedindent{(struct gob 
+*\paramname{self});} 
+
+\fixedtext{long \bold{gob_}Read }\fixedindent{(struct gob *\paramname{gob}, 
+FILE *\paramname{file}, long \paramname{id});} 
+
+\fixedtext{void \bold{gob_}SetLogicalRect }\fixedindent{(struct gob 
+*\paramname{gob}, \paramname{x}, \paramname{y}, \paramname{width}, 
+\paramname{heigth});} 
+
+\fixedtext{long \bold{gob_}Write }\fixedindent{(struct gob *\paramname{gob}, 
+FILE *\paramname{file}, long \paramname{id}, long \paramname{level});} \
+\enddata{text,268849052}

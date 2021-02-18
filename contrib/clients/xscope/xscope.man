@@ -1,0 +1,163 @@
+.TH XSCOPE 1 "8 Aug 1991" "X Version 11"
+.SH NAME
+xscope - X Window System Protocol Monitor
+.SH SYNOPSIS
+.B xscope
+[ options ] ...
+.SH DESCRIPTION
+.I xscope
+is a program that monitors connections between an X server and a client.
+\fIxscope\fP prints to stdout the contents of each request, reply, error,
+or event that is communicated between the server and client.
+This information can be useful in debugging and performance tuning
+of X servers and clients.
+.PP
+\fIxscope\fP attaches to the X server as if it were a client.
+By adjusting the host and/or display number, the client can be made to
+attach to \fIxscope\fP instead of the X server.
+.PP
+	server <-----> xscope <-----> client
+.PP
+All bytes from the server are sent to \fIxscope\fP which sends them on to
+the client.
+All bytes from the client are sent to \fIxscope\fP which passes them on
+to the server.
+\fIxscope\fP is transparent to both the server and the client.
+.SH OPTIONS
+.PP
+.TP 10
+.B \-d<display>
+Defines the display number.
+The display number is added to the input and output port to give the
+actual ports which are used by \fIxscope\fP.
+.PP
+.TP 10
+.B \-h<host>
+Determines the host that \fIxscope\fP will use to find the server.
+.PP
+.TP 10
+.B \-i<input-port>
+Specify the port that \fIxscope\fP will use to take requests from clients
+(defaults is 1).
+For X11, this port is automatically biased by 6000.
+.PP
+.TP 10
+.B \-o<output-port>
+Determines the port that \fIxscope\fP will use to connect to the server
+(defaults is 0). 
+For X11, this port is automatically biased by 6000.
+.PP
+.TP 10
+.B \-q
+Quiet output mode.  Gives only the names of requests, replies, errors, and 
+events, but does not indicate contents.
+.PP
+.TP 10
+.B \-v<print-level>
+Determines the level of verbosity which \fIxscope\fP will provide.
+The print-level can be 0 (same as quiet mode), 1, 2, 3, 4.
+The larger numbers give more and more output.
+For example, a successful setup returns a string which is the name of the
+vendor of the X server.
+At level 1, the explicit field giving the length of the string is
+suppressed since it can be inferred from the string.
+At level 2 and above the length is explicitly printed.
+.SH OPERATION
+When running with \fIxscope\fP, three processes are involved, potentially
+all on different machines:
+.PP
+.TP 5
+\fIX server\fP
+The X server will run on machine (or host) "A", display "B".
+("A" is a machine name; "B" is a display number).
+.PP
+.TP 5
+\fIxscope\fP
+\fIxscope\fP must be told where the X server is (what machine and
+what display), and, in addition, the \fIport-number\fP on which to listen
+for X clients.
+The options for \fIxscope\fP are "-h<Xserver-host>" and "-d<display-number>".
+In this example, -hA and -dB.
+Typically the \fIdisplay-number\fP is not given.
+\fIxscope\fP will not try to  connect to the server until the client
+connects to \fIxscope\fP.
+.PP
+.TP 5
+\fIX client\fP
+The client should connect to \fIxscope\fP rather than to the server.
+To avoid changing the code for the client, \fIxscope\fP listens on
+the same port as the server for connecting clients.
+If the server and \fIxscope\fP are on different machines, this works well.
+However, if the server and \fIxscope\fP are on the same machine, this 
+creates a port conflict.
+To resolve this conflict, \fIxscope\fP can be given a different
+input or output port number, as necessary, to avoid the port that
+the server is listening to.
+The client must connect to this offset port number.
+The input port for \fIxscope\fP is set by \fI-i<port-number>\fP;
+the output port is set by \fI-o<port-number>.\fP
+The default input port is 1; the default output port is 0.
+These ports are offset by the X11 base (6000) and the display number.
+The client attaches to \fIxscope\fP by changing its display number by the
+port offset.
+.SH EXAMPLES
+.LP
+.B "xscope -hbagel -i0"
+.PP
+The X server would run on "bagel", display 0 (the default).
+\fIxscope\fP and the client would both be on "cleo".
+The client program would connect to "X" on "cleo:0",
+and would be attached to \fIxscope\fP, which would then attach to
+the server on "bagel:0".
+.PP
+	server (bagel:0) <-----> xscope -hbagel -i0 <-----> client -d cleo:0
+.LP
+.B "xscope -i1"
+.PP
+Here is a case where all three processes would run on "cleo".
+\fIxscope\fP would listen on port 6001 (which is display 1 for X11).
+The client would attach to the server on "cleo:1", and \fIxscope\fP
+would connect through to the server on "cleo:0".
+.PP
+	server (cleo:0) <-----> xscope -i1 <-----> client -d cleo:1
+.LP
+.B "xscope -hcleo -d0 -o0 -i1 -v4"
+.PP
+This example is similar to the previous one, and would have \fIxscope\fP
+communicate with an X server on host ``cleo'', display 0.
+\fIxscope\fP itself would be available on the current host as display 1
+(display of 0 plus the 1 of -i1).
+Verbose level 4.
+.PP
+	server (cleo:0) <-----> xscope -hcleo -d0 -o0 -i1 -v4 <-----> client -d cleo:1
+.LP
+.B "xscope -d1 -o1 -i3 -q"
+.PP
+The X server for the current host, display 2 (1 for -d1 plus 1 for -o1)
+would be used by \fIxscope\fP, which would run as display 4 (1 for -d1 plus
+3 for -i3).
+Quiet mode (verbose level 0).
+.PP
+	server (unix:1) <-----> xscope -d1 -o1 -i3 -q <-----> client -d unix:4
+.SH LIMITATIONS
+The X Version 11 and PEX Version 5 Protocols are the only protocols recognized.
+.PP
+The command line arguments for specifying the real X server should be
+changed to be more consistent with the style since X11R3.
+.PP
+The Imakefile may be incorrect.
+.PP
+The builtin atoms have been wired in directly.
+A better solution is to pick them up from a header file.
+.PP
+There is no code yet to interpret typed commands from the keyboard.
+It would be possible for a command language at the keyboard to create
+artificial characters to be sent to the server or the client as if they were 
+generated  by the opposite side, or to dynamically alter requests or replies.
+.SH SEE ALSO
+X(1), X11 and PEX Protocol documents
+.SH AUTHOR
+.PP
+James L. Peterson (MCC)
+.PP
+Copyright 1988, MCC

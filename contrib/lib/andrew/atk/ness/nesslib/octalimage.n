@@ -1,0 +1,14 @@
+
+--  octalimage_cvt (integer i)
+--	converts the integer value to an octal string
+function octalimage_cvt (integer i)
+	marker m := newbase()
+	while i /= 0 do
+		m := textimage(i % 8) ~ m
+		i := i / 8
+	end while
+	while length(m) < 3 do
+		m := "0" ~ m
+	end while
+	return m
+end function

@@ -1,0 +1,80 @@
+.TH XcuEntry 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuEntry \- Display keyboard entry
+.ne 4
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / XcuSimple / XcuLabel / XcuCommand / XcuEntry
+.ne 4
+.SH NEW RESOURCES
+\ 
+.br
+.TS
+allbox tab(;);
+c s s s.
+XcuEntry Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNeraseChar;String;"\\\\010";Erase character key
+XtNkillChar;String;"\\\\025";Erase line key
+XtNsignalChar;String;"\\\\004";Key that signals end of entry
+XtNcolorEntry;Boolean;False;Color name text expected
+XtNprefix;String;NULL;Invariant prefixed text
+.TE
+.ne 4
+.SH DESCRIPTION
+\ 
+.br
+When the cursor is in the widget, any keyboard entry updates the label.
+When the signal character (control-D, by default) is entered, the XtNcallback
+callback list is activated.
+.sp
+When text is known to be single line entry, it is probably more convenient
+to change the signal character to "\\n".
+.sp
+The kill character erases the current line.  It will not back up to a
+previous line.  The erase character, however, will erase newlines.
+.sp
+When XtNcolorEntry is true, the background of the widget will be the
+color of the label.  The foreground will be black or white, depending
+on the intensity of the background.
+.ne 6
+.SH FUTURE ENHANCEMENTS
+\ 
+.br
+There should probably be a "clear entry" character that clears the
+entire label.
+.sp
+There are probably some full-fledged editor widgets around with which
+I won't try to compete.
+
+.ne 4
+.SH SEE ALSO
+\ 
+.br
+XcuCommand(3X), XcuLabel(3X), XcuSimple(3X)
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

@@ -1,0 +1,53 @@
+XCOMM
+XCOMM Copyright (c) 1991 Old Dominion University.
+XCOMM Copyright (c) 1991 University of North Carolina at Chapel Hill.
+XCOMM All rights reserved.
+XCOMM Permission to use, copy, modify, and distribute this software and its
+XCOMM documentation for any purpose and without fee is hereby granted, provided
+XCOMM that the above copyright notice appear in all copies and that both that
+XCOMM copyright notice and this permission notice appear in supporting
+XCOMM documentation.  Old Dominion University and the University of North
+XCOMM Carolina at Chapel Hill make no representations about the
+XCOMM suitability of this software for any purpose.  It is provided "as is"
+XCOMM without express or implied warranty.
+XCOMM
+
+
+SRCS =	connect.c htos.c main.c memory.c misc.c network.c subscriber.c \
+	packet.c popups.c protocol.c stoh.c token.c tool.c xlspecial.c \
+	xpacket.c archive.c catchup.c colormap.c cursor.c font.c gcontext.c \
+	objects.c other.c pixmap.c print.c window.c tokenInfo.c lists.c \
+	ptrlists.c particInfo.c
+
+OBJS = 	connect.o htos.o main.o memory.o misc.o network.o subscriber.o \
+	packet.o popups.o protocol.o stoh.o token.o tool.o xlspecial.o \
+	xpacket.o archive.o catchup.o colormap.o cursor.o font.o gcontext.o \
+	objects.o other.o pixmap.o print.o window.o tokenInfo.o lists.o \
+	ptrlists.o particInfo.o
+
+SYS_LIBRARIES = $(XTOOLLIB) $(XAWLIB) $(XMULIB) $(XLIB)
+
+XCOMM --------------------------------------------------------------------
+XCOMM
+XCOMM USER DEFINABLE VARIABLES
+XCOMM
+XCOMM If your machine type is different from a Sun SparcStation (Sun 4)
+XCOMM comment the following define and uncomment the appropriate one for
+XCOMM system.
+XCOMM 
+XCOMM Sun
+DEFINES = -Dsun4 -DDEBUGON=0
+XCOMM DEFINES = -Dsun3 -DDEBUGON=0
+XCOMM
+XCOMM Dec 5000
+XCOMM DEFINES = -Ddec5000 -DDEBUGON=0
+XCOMM
+XCOMM IBM rs6000
+XCOMM DEFINES = -Drs6000 -DDEBUGON=0
+XCOMM
+XCOMM --------------------------------------------------------------------
+
+CCOPTIONS =
+CDEBUGFLAGS = -g
+
+ComplexProgramTarget(xtv)

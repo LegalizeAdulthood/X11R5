@@ -1,0 +1,49 @@
+  Scrolled Lists in Tables
+  ------------------------
+
+  This resource file presents the way one must deal with scrolled lists
+  which are managed by Table widgets.  In the layout resource for the
+  Table widget, we must name the scrolled window, NOT the list:
+
+        *table.layout:          quit    0 0 1 1 hH ;\
+                                slistSW 0 1 1 1
+
+  If we simply said "slist" instead of "slistSW" then nothing
+  appears, because slist is not one of the children of table.
+  Rather, slistSW is the child of table, and slist is the
+  child of slistSW.
+
+  As an aside, the layout options hH on the quit button allow
+  resizing to work nicely.  Compare the behavior of the Table
+  with the resize behavior of XmRowColumn.  I think you will
+  prefer Table over XmRowColumn.
+
+  ----------------------------------------------------------------------
+
+!*wcTrace:	True
+
+Mri.wcChildren:		table
+Mri.title:		M06_ListTable
+
+*table.wcClassName:	Table
+*table.wcChildren:	quit, slist
+*table.layout:		quit    0 0 1 1 hH ;\
+			slistSW 0 1 1 1
+
+*quit.wcConstructor:	XmCreatePushButton
+*quit.activateCallback:	WcExitCB
+*quit.labelString:	Push To Exit
+
+*slist.wcConstructor:		XmCreateScrolledList
+*slist.items:			This demo uses the Table widget.,\
+				Try resizing the window.,\
+				You will see the list gets wider\\,,\
+				AND longer - unlike with XmRowColumn.,\
+				foo,bar, baz is a nice item,\
+				zorp,the,quick,brown,fox,\
+				jumped,over,the, lazy, dog, and, blew,\
+				the, candle, out. This\\, and that, and,\
+				more,to,come. That's all.
+*slist.itemCount:		26
+*slist.visibleItemCount:	8
+*slist.selectionPolicy:		EXTENDED_SELECT

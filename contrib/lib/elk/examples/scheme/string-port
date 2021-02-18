@@ -1,0 +1,19 @@
+;;; -*-Scheme-*-
+;;;
+;;; Test program for string ports
+
+(let ((s1 (make-string 63 #\a))
+      (s2 (make-string 66 #\b))
+      (s3 (make-string 1500 #\c))
+      (f (open-output-string)))
+  (display s1 f)
+  (display s2 f)
+  (display s3 f)
+  (display (string-append (get-output-string f) ".") f)
+  (write (string-length (get-output-string f)))
+  (display " ")
+  (print (+ 1 63 66 1500))
+  (define f (open-input-string s2))
+  (write (string-length s2))
+  (display " ")
+  (print (string-length (symbol->string (read f)))))

@@ -1,0 +1,39 @@
+JL_KANJI_LEN( )
+
+名称
+
+	jl_kanji_len		変換結果文字列の長さを得る。
+	jl_yomi_len		読みの長さを得る。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_kanji_len(buf, bun_no, bun_no2)
+	struct wnn_buf *buf;	/* バッファ */
+	int bun_no;		/* 文節番号1 */
+	int bun_no2;		/* 文節番号2 */
+
+	int
+	jl_yomi_len(buf, bun_no, bun_no2)
+	struct wnn_buf *buf;	/* バッファ */
+	int bun_no; 		/* 文節番号1 */
+	int bun_no2; 		/* 文節番号2 */
+
+機能
+
+	jl_kanji_len は、文節番号 bun_no から文節番号 bun_no2 の前までの変換結果
+	文字列の長さを得る。
+
+	jl_yomi_len は、文節番号 bun_no から文節番号 bun_no2 の前までの読みの長
+	さを得る。
+
+	文節番号は、0 から始まる。
+	文節の最後を指定する時は、bun_no2 に -1 を指定する。 
+
+リターンバリュー
+
+	jl_kanji_len は、変換結果文字列の長さを返す。
+	jl_yomi_len は、読みの長さを返す。
+

@@ -1,0 +1,25 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = panel.do dired.do diredv.do
+IHFILES = panel.ih dired.ih diredv.ih
+OBJS = panel.o dired.o diredv.o
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallFile(dired.tpl, ${INSTINCFLAGS}, ${DESTDIR}/lib/tpls)
+
+LibraryTarget(libtextobj.a, $(OBJS))
+InstallLibrary(libtextobj.a, ${DESTDIR}/lib/atk)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(drdproc.help,  ${DESTDIR}/help)
+InstallHelpAlias(drdproc, diredproc diredprocs)
+MkdirTarget(${DESTDIR}/doc/atk/textobjects)
+InstallDocs(dired.doc panel.doc,${DESTDIR}/doc/atk/textobjects)

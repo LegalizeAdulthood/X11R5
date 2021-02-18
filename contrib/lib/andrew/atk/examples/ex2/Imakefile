@@ -1,0 +1,23 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = helloa.do \
+	hellov.do
+
+IHFILES = helloa.ih \
+	hellov.ih
+
+DIRS = $(DESTDIR)/doc \
+	$(DESTDIR)/doc/atk \
+	$(DESTDIR)/doc/atk/examples 
+
+NormalObjectRule()
+NormalATKRule()
+InstallExampleClassFiles($(DOBJS), $(IHFILES), $(DESTDIR)/examples/ex2/)
+
+DependTarget()
+MkdirTarget($(DIRS))
+
+InstallDocs(ex2.doc,${DESTDIR}/doc/atk/examples)
+

@@ -1,0 +1,10 @@
+/* You will have to edit this to suit */
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = DPS PEXt Selfmoving Wcl XO Xaw Xcu Xwchar andrew dec-pexlib \
+	graphlib i18nXView2 iv pexim vroot xpm xview3
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

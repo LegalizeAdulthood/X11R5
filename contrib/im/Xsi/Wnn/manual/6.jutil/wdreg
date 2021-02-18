@@ -1,0 +1,16 @@
+WDREG
+
+名称
+
+	wdreg		───	UJISテキストを元に、単語登録を行なう。
+
+形式
+
+	wdreg [-D server_name] [-n env_name] -d dic_no	 < text dict
+	wdreg [-D server_name] [-n env_name][-L] file_name < text dict
+
+機能説明
+
+	指定された jserver の環境の辞書に、UJIS 形式の辞書 text の中の
+	単語をバッチ的に登録する。
+

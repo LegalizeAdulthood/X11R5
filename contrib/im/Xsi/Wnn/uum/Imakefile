@@ -1,0 +1,58 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:36:30 ohm Exp $
+/**/#
+# If you change WNNWNNDIR, you should change "include/config.h"
+
+       UUMOWNER = root
+       INCLUDES = -I$(WNNINCLUDESRC) -I$(WNNROMKANSRC)
+        DEFINES = $(WNNDEFINES) $(CWNNLANGDEF) $(TWNNLANGDEF)
+   INSTPGMFLAGS = $(INSTUIDFLAGS) -o $(UUMOWNER)
+LOCAL_LIBRARIES = $(WNNJLIB) $(WNNCONVLIB)
+
+SRC1= epilogue.c header.c kensaku.c kuten.c jis_in.c \
+      prologue.c touroku.c jikouho.c jutil.c w_string.c \
+      printf.c termio.c hinsi.c termcap.c \
+      ttyfdslot.c setutmp.c redraw.c history.c key_bind.c \
+      screen.c basic_op.c uif.c cursor.c jhlp.c \
+      select_ele.c inspect.c wnnrc_op.c functions.c
+OBJ1= epilogue.o header.o kensaku.o kuten.o jis_in.o \
+      prologue.o touroku.o jikouho.o jutil.o w_string.o \
+      printf.o termio.o hinsi.o termcap.o \
+      ttyfdslot.o setutmp.o redraw.o history.o key_bind.o \
+      screen.o basic_op.o uif.o cursor.o jhlp.o \
+      select_ele.o inspect.o wnnrc_op.o functions.o
+SRC2= $(WNNETCSRC)/strings.c
+OBJ2= strings.o
+SRC3= $(WNNETCSRC)/sstrings.c
+OBJ3= sstrings.o
+SRC4= $(WNNETCSRC)/bcopy.c
+OBJ4= bcopy.o
+SRC5= $(WNNETCSRC)/xutoj.c
+OBJ5= xutoj.o
+SRC6= $(WNNETCSRC)/yincoding.c
+OBJ6= yincoding.o
+SRC7= $(WNNETCSRC)/py_table.c
+OBJ7= py_table.o
+SRC8= $(WNNETCSRC)/zy_table.c
+OBJ8= zy_table.o
+LOCAL_ETCSRCS= $(SRC2) $(SRC3) $(SRC4) $(SRC5) $(SRC6) $(SRC7) $(SRC8)
+LOCAL_ETCOBJS= $(OBJ2) $(OBJ3) $(OBJ4) $(OBJ5) $(OBJ6) $(OBJ7) $(OBJ8)
+SRCS= $(SRC1) $(LOCAL_ETCSRCS)
+OBJS= $(OBJ1) $(LOCAL_ETCOBJS)
+
+AllTarget(uum)
+SingleProgramTarget(uum,$(OBJS),$(LOCAL_LIBRARIES),$(WNNTERM_LIB))
+
+instclient:: install
+
+InstallProgram(uum,$(JWNNBINDIR))
+
+WnnSpecialObjectRule($(OBJ2),$(SRC2),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ3),$(SRC3),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ4),$(SRC4),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ5),$(SRC5),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ6),$(SRC6),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ7),$(SRC7),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ8),$(SRC8),$(WNNETCSRC),)
+
+DependTarget()

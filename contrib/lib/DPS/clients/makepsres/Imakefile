@@ -1,0 +1,7 @@
+EXTRA_DEFINES = -DXENVIRONMENT
+
+SRCS = makepsres.c
+
+OBJS = makepsres.o
+
+ComplexProgramTarget(makepsres)

@@ -1,0 +1,8 @@
+;
+; $Id: 1B_BS,v 1.1 1991/09/11 02:30:43 ohm Exp $
+;
+; You must put me in the first place if you really need me.
+; This is not a bug. It's the rule of romkan.
+;						-----1B_BS
+(defvar		bs	(list '\x08'))
+(bs)		R

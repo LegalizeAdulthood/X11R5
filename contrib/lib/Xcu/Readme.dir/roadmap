@@ -1,0 +1,24 @@
+There are eight subdirectories in this directory: man, src, bin, doc,
+clients, examples, wlmCompiler, and Readme.dir.
+
+    "examples" contains test program subdirectories.
+
+    "clients" contains the directories xhearts and xcell -- programs for
+    the card game hearts and colorful 1D cellular automata
+
+    "src" contains widgets, resource converters, and utility routines.
+    src/X11/Xcu contains the include files.
+
+    "man" contains manuals in troff format.
+
+    "doc" contains a tutorial and a "hello, world" example
+    for the Widget Layout Manager widget, XcuWlm.
+
+    "wlmCompiler" contains the Widget Layout Description Language
+    Compiler required for using the XcuWlm widget.
+
+    "bin" contains some executable scripts useful for Makefiles
+    that use the XcuWlm widget.
+
+    "Readme.dir" contains various READMEs
+

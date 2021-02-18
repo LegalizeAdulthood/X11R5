@@ -1,0 +1,141 @@
+#
+# $Id: xj.msg.zh_CN,v 1.2 1991/09/16 21:35:35 ohm Exp $
+#
+#
+# Copyright 1989, 1990, 1991 by OMRON Corporation
+# Copyright 1991 by Massachusetts Institute of Technology
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the names of OMRON and MIT not be used in
+# advertising or publicity pertaining to distribution of the software without
+# specific, written prior permission.  OMRON and MIT make no representations
+# about the suitability of this software for any purpose.  It is provided
+# "as is" without express or implied warranty.
+#
+# Wnn consortium is one of distributors of the official Wnn source code
+# release.  Wnn consortium also makes no representations about the
+# suitability of this software for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+# OMRON, MIT AND WNN CONSORTIUM DISCLAIM ALL WARRANTIES WITH REGARD TO
+# THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+# FITNESS, IN NO EVENT SHALL OMRON, MIT OR WNN CONSORTIUM BE LIABLE FOR ANY
+# SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+# RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+# CONTRACT, NEGLIGENCE OR OTHER TORTUOUS ACTION, ARISING OUT OF OR IN
+# CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+00	返回前面
+01	品词选择
+02	 主显示器 
+03	 次  页 
+04	 前  页 
+05	 是的 
+06	不是的
+07	ＯＫ？
+08	实行
+09	参数变更
+10	解析文节数
+11	小文节的最大数
+12	频度权值
+13	小文节长权值
+14	自立语长权值
+15	最近使用状况权值
+16	字典优前度权值
+17	小文节的评价值权值
+18	大文节长权值
+19	小文节数权值
+20	数字的频度
+21	カナ的频度
+22	英数的频度
+23	记号的频度
+24	闭括弧的频度
+25	附属语的频度
+26	开括弧的频度
+27	现在使用
+28	文节解析法。
+29	用什么文节解析法 ?
+30	现在的
+31	是
+32	
+33	什么时候 ? 
+34	请输入数字。
+35	请输入正的数字。
+36	字典检索
+37	字典消除
+38	使用/不使用
+39	命令
+40	遗憾、字典太大。
+41	字典一览
+42	字典一个也没有。
+43	使用中
+44	中断中
+45	附属语文件
+46	请输入附属语文件名
+47	字典追加
+48	次一个
+49	请输入新的字典名
+50	请输入频度文件名
+51	请指定字典的优先度的数字
+52	使用字典更新摸式吗?
+53	使用频度更新摸式吗?
+54	No.
+55	Type
+56	注释
+57	文件名
+58	频度文件名
+59	词条数
+60	优先度
+61	可以登录
+62	频度可以更新
+63	使用中吗
+64	登录password
+65	频度更新password
+66	 没有。(怎么办?)
+67	消除
+68	使用/不使用
+69	检索
+70	读取
+71	这种词语没有。
+72	缺省的uumkey异常。
+73	不能展开。
+74	的键二重定义。
+75	初期化　不能malloc。
+76	环境变量「HOME」异常。
+77	字典
+78	消除。
+79	的使用中止。
+80	重新使用。
+81	请输入命令。
+82	固定形式的字典的条目不能消除。
+83	只读的字典的条目不能消除。
+84	「
+85	」消除了。
+86	只读的频度不能变更。
+87	」重新使用。
+88	」的使用中止。
+89	固定形式字典的条目的命令不能变更。
+90	只读字典的条目的命令不能变更。
+91	请输入命令。
+92	字典登录
+93	开始登录:
+94	登录结束:
+95	读取:
+96	品词:
+97	字典:
+98	    字典    
+99	登录可能形式的字典一个也没有。
+100	登录范围长度超过。
+101	缺省的uumrc没有。
+102	字典文件
+103	没有。
+104	创建?(Y/N)
+105	频度文件
+106	字典和频度
+107	的整合性没有。制作?(Y/N)
+108	password_file
+109	创建了。
+110	directry

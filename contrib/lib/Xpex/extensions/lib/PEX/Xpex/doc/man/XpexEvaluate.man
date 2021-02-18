@@ -1,0 +1,125 @@
+.\" $Header: XpexEvaluate.man,v 2.5 91/09/11 16:01:50 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\"
+.TH XpexEvaluate 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexEvaluateViewOrientationMatrix \-
+.br
+XpexEvaluateViewOrientationMatrix2D \-
+.br
+XpexEvaluateViewMappingMatrix \-
+.br
+XpexEvaluateViewMappingMatrix2D \-
+.SH "Synopsis"
+.nf
+int XpexEvaluateViewOrientationMatrix(view_reference_point,
+.br
+	view_plane_normal, view_up_vector, view_orientation_matrix)
+.br
+	XpexCoord3D *view_reference_point;
+.br
+	XpexVector3D *view_plane_normal; 
+.br
+	XpexVector3D *view__up_vector;
+.br
+	XpexMatrix view_orientation_matrix; /* RETURN */
+.sp
+int XpexEvaluateViewOrientationMatrix2D(view_reference_point,
+.br
+	view_up_vector, view_orientation_matrix)
+.br
+	XpexCoord2D *view_reference_point;
+.br
+	XpexVector2D *view_up_vector;
+.br
+	XpexMatrix3X3 view_orientation_matrix; /* RETURN */
+.sp
+int XpexEvaluateViewMappingMatrix(view_mapping, view_mapping_matrix)
+.br
+	XpexViewMapping *view_mapping;  
+.br
+	XpexMatrix view_mapping_matrix; /* RETURN */
+.sp
+int XpexEvaluateViewMappingMatrix2D(view_map, view_mapping_matrix)
+.br
+	XpexViewMapping2D *view_mapping;  
+.br
+	XpexMatrix3X3 view_mapping_matrix; /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIview_mapping\fP 1i
+To be added
+.IP \fIview_mapping_matrix\fP 1i
+To be added 
+.SH "Description"
+Refer to the description in the PEX-SI PHIGS Reference Manual.
+.SH "Structures"
+typedef struct {
+.br
+	XpexLimit2D window_limits;  
+.br
+	XpexLimit3D viewport_limits; 
+.br
+	XpexProjectionType projection_type;
+.br
+	XpexCoord3D projection_ref_point;  
+.br
+	XpexFloat view_plane_distance;
+.br
+	XpexFloat back_plane_distance;
+.br
+	XpexFloat front_plane_distance;
+.br
+} XpexViewMapping;
+.sp
+typedef struct {
+.br
+	XpexLimit2D window_limits;
+.br
+	XpexLimit2D viewport_limits;
+.br
+} XpexViewMapping2D;
+.sp
+typedef struct {
+.br
+	XpexCoord2D min;
+.br
+	XpexCoord2D max;
+.br
+} XpexLimit2D;
+.sp
+typedef struct {
+.br
+	XpexCoord3D min;
+.br
+	XpexCoord3D max;
+.br
+} XpexLimit3D;
+.SH "Errors"
+To be added 
+.SH "Related Commands"
+To be added 

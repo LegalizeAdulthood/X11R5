@@ -1,0 +1,18 @@
+Mri.wcChildren:		form
+Mri.title:		M07_TwoLists
+
+*form.wcConstructor:	XmCreateForm
+*form.wcChildren:	one, two
+
+*one.wcConstructor:	XmCreateScrolledList
+*one.items:		Foobar, Mumble, Glorp, Reggae, Rock, and, Roll
+*one.itemCount:		7
+*one.visibleItemCount:	3
+*oneSW.leftAttachment:	ATTACH_FORM
+
+*two.wcConstructor:	XmCreateScrolledList
+*two.items:		title, Black, Blue, Coral, LimeGreen
+*two.itemCount:		5
+*two.visibleItemCount:	4
+*twoSW.leftAttachment:	ATTACH_POSITION
+*twoSW.leftPosition:	50

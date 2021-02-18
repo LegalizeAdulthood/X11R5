@@ -1,0 +1,8 @@
+#include "../../config.sh"
+
+       IROHAROOT = ../..
+        INCLUDES = -I$(IROHAROOT)/include/iroha \
+			-I$(IROHAROOT)/include
+ LOCAL_LIBRARIES = $(IROHAROOT)/lib/RK/libRK.a
+
+SimpleProgramTarget(crxgram)

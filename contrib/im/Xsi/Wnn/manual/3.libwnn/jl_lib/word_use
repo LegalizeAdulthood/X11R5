@@ -1,0 +1,38 @@
+JL_WORD_USE( )
+
+名称
+
+	jl_word_use	エントリの無効/有効をトグルさせる。
+	jl_word_use_e	エントリの無効/有効をトグルさせる。
+
+形式
+
+	#include "jllib.h"
+
+	extern int wnn_word_use_initial_hindo;
+
+	int
+	jl_word_use(buf, dic_no, entry)
+	struct wnn_buf *buf;	/* バッファ */
+	int dic_no;		/* 辞書番号 */
+	int entry;		/* エントリ番号 */
+
+	int
+	jl_word_use_e(env, dic_no, entry)
+	struct wnn_env *env;	/* 環境 */
+	int dic_no;		/* 辞書番号 */
+	int entry;		/* エントリ番号 */
+
+機能
+
+	辞書番号 dic_no のエントリ番号 entry の単語無効/有効をトグルさせる。
+
+	無効であったエントリを有効状態にした時の、頻度値、今使ったよビット値は、
+	グローバル変数 wnn_word_use_initial_hindo により、仮頻度で操作する。
+	デフォルトは、頻度 = 0、 今使ったよビット = off である。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

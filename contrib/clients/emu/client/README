@@ -1,0 +1,6 @@
+This directory contains the code for a sample client of both the term
+and termCanvas widgets, handing interaction between them using the
+appropriate hooks to support menus, scrollbars and the like.
+
+Usage should be pretty much straight-forward.  If this code doesn't
+work, try to build stand-alone examples first.

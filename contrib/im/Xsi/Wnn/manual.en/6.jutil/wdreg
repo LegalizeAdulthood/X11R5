@@ -1,0 +1,33 @@
+WDDEL(1)
+
+NAME
+    wddel - To delete the word as batch operation
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/wddel [-D host_name] [-nenv_name] [-d dictionary_number]
+			      [-L] [-C|E|H] [file_name] < text
+
+DESCRIPTION
+    Wddel deletes the word in dictionary as batch operation. The text must
+    includes a serial number of deleting word at top of each line.
+
+    Wddel accepts the following options:
+
+	-D  host_name
+	    Specifies the hostname of jserver. If no hostname is specified,
+	    the one specified by the environment variable JSERVER will be
+	     used.  And if it is not specifies too, UNIX_domain will be used.
+
+	-n  user_name
+	    Specifies the user name for the client. The default is "wddel".
+
+	-d  dictionary_number
+	    Specifies the serial number of the dictionary.
+
+	-C  To set a comment instead of deleting.
+
+	-H  To set a frequency instead of deleting.
+
+	-E  To delete. (default)
+
+	-L  To use the dictionary of local host.

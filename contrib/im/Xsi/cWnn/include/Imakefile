@@ -1,0 +1,44 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:31:48 ohm Exp $
+/**/#
+INSTALLFLAGS = $(INSTINCFLAGS)
+
+LINKS = commonhd.h config.h copyright.h demcom.h hinsi_file.h jd_sock.h \
+    jdata.h jh.h jlib.h jllib.h jslib.h msg.h rk_spclval.h wnn_malloc.h \
+    wnn_string.h wnnerror.h cplib.h
+
+HEADERS = jllib.h \
+	jslib.h \
+	rk_spclval.h \
+	wnnerror.h
+
+all::
+
+includes:: $(LINKS)
+
+LinkSourceFile(commonhd.h,$(WNNINCLUDESRC))
+LinkSourceFile(config.h,$(WNNINCLUDESRC))
+LinkSourceFile(copyright.h,$(WNNINCLUDESRC))
+LinkSourceFile(demcom.h,$(WNNINCLUDESRC))
+LinkSourceFile(hinsi_file.h,$(WNNINCLUDESRC))
+LinkSourceFile(jd_sock.h,$(WNNINCLUDESRC))
+LinkSourceFile(jdata.h,$(WNNINCLUDESRC))
+LinkSourceFile(jh.h,$(WNNINCLUDESRC))
+LinkSourceFile(jlib.h,$(WNNINCLUDESRC))
+LinkSourceFile(jllib.h,$(WNNINCLUDESRC))
+LinkSourceFile(jslib.h,$(WNNINCLUDESRC))
+LinkSourceFile(msg.h,$(WNNINCLUDESRC))
+LinkSourceFile(rk_spclval.h,$(WNNINCLUDESRC))
+LinkSourceFile(wnn_malloc.h,$(WNNINCLUDESRC))
+LinkSourceFile(wnn_string.h,$(WNNINCLUDESRC))
+LinkSourceFile(wnnerror.h,$(WNNINCLUDESRC))
+LinkSourceFile(cplib.h,$(WNNINCLUDESRC))
+
+instlib:: install
+
+InstallMultipleDest(install, $(HEADERS),$(CWNNINCDIR))
+
+depend::
+
+clean::
+	$(RM) $(LINKS)

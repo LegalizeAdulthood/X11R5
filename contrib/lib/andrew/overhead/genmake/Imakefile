@@ -1,0 +1,17 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOC = genmake.help
+
+all:: mkgenmk gen1 gen2 gen3
+	$(RM) genmake
+	$(CSHELL) ./mkgenmk ${IMAKE} DEFAULT_ANDREWDIR_ENV
+	chmod +x genmake
+
+InstallProgram(genmake, $(DESTDIR)/bin)
+
+
+InstallDocs($(DOC), $(DESTDIR)/help)
+
+CleanTarget(genmake)

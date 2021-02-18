@@ -1,0 +1,39 @@
+.TH PIXEDIT 1
+.SH NAME
+pixedit \- pixel color editor for X11
+.SH SYNTAX
+.B /usr/bin/X11/pixedit
+.SH DESCRIPTION
+.I Pixedit
+makes temporary changes to the installed colormap, allowing the
+user to observe the effects.  It's useful for trying to pick that
+perfect color or find the appropriate color combination for an
+application.
+.PP
+When pixedit first starts, the cursor changes to a crosshair.  Click
+on the screen pixel whose color and whose colormap you wish to edit.
+Then, in the upper right there will be a box containing the current
+color along with a label showing the current RGB values in X11 hex format.
+.PP
+To adjust the current color you can use one of the nine sliders, each
+controlling one of the RGB, HSV, or CMY values for the current color.
+Or you can click on a cell displayed in the palette to use its color.
+The palette button underneath the hex label switches between the three
+palettes: range, narrow, and wide.  You can also click on the hex label
+to directly enter new RGB hex values.
+.PP
+If you click on the "match" button, the palette will change to the
+colors in the file /usr/lib/X11/rgb.txt which are closest to the
+current color.  As you select these colors, their names appear below
+the bottom buttons.  Use the palette button to return the palette
+to an ordinary selection.
+.PP
+The "select" button allows you to choose another cell to edit, the
+"cancel" button restores the current color to its original value,
+the "restore" button restores all the cells of the colormap to their
+original value, and the "quit" button exits out of pixedit.
+.SH "SEE ALSO"
+cpicker(1)
+.SH AUTHOR
+Mike Yang, Silicon Graphics, Inc.
+

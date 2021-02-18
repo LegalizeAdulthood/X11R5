@@ -1,0 +1,90 @@
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+#/* ************************************************************ *\
+# Configuration build instructions for the post office and bboard machines.
+#\* ************************************************************ */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+CSHS= postlog.csh \
+	list-subscribe.csh list-de-subscribe.csh \
+	pomachine.proto.csh bbmachine.proto.csh pobbmachine.proto.csh \
+	pomachineBD.proto.csh bbmachineBD.proto.csh pobbmachineBD.proto.csh \
+	bbnnmachine.proto.csh pobbnnmachine.proto.csh \
+	bbnnmachineBD.proto.csh pobbnnmachineBD.proto.csh \
+	butler.conf.csh syslog.conf.csh \
+	AMS-Server.csh Postmaster.csh \
+	pobbconfig.defs.csh make-pobbconfig.defs.csh
+
+MSHS= pobb-install.msh rc.local.msh sendmail.cf.msh BBD.msh butlertelnetd.msh \
+	mailq.msh startmailsystem.msh po.clean.msh FlushOld.msh wpi.flames.msh \
+	cron.BBD.msh cron.movelogs.msh getlist.cron.msh gettables.msh gettables.cron.msh \
+	Dmovelogs.msh bbd.msh qmd.msh config.monitor.msh pobb.shutdown.msh \
+	hosts.equiv.msh user.permits.msh config.awk.msh post-netnews.msh \
+	post.office.msh uses.processes.msh sampdoc.mss.msh dj-startup.msh \
+	uses.sendmail.msh uses.named.msh uses.cuin.msh uses.nntp.msh \
+	main-inetd.conf.msh main-netd.conf.msh \
+	butler-inetd.conf.msh butler-netd.conf.msh \
+	buildwp.cron.msh runmakeboth.msh buildwp.msh package.Makefile.msh \
+	restart.msh getlistoflists.msh gettables.sub.msh nntp-purge.msh \
+	msdaemon.dj.msh msdaemon.external.msh msdaemon.extnonetnews.msh \
+	msdaemon.local.msh msdaemon.localhigh.msh msdaemon.locallow.msh  \
+	msdaemon.netnews.msh \
+	msdaemon.locextnonetnews.msh msdaemon.takehints.msh \
+	msonce.extnonetnews.msh msonce.netnews.msh \
+	ckmbs.msh list-newsgroups.msh newaddr.msh \
+	queueBBD.msh runBBD.msh
+
+#ifdef ANDREW_MALLOC_ENV
+LIBS=	${BASEDIR}/lib/libmail.a \
+	${BASEDIR}/lib/libmalloc.a \
+	${UTILLIB}
+#else /* #ifdef ANDREW_MALLOC_ENV */
+LIBS=	${BASEDIR}/lib/libmail.a \
+	${UTILLIB}
+#endif /* #ifdef ANDREW_MALLOC_ENV */
+
+.SUFFIXES: .csh .msh .mpp .pobb .o .c
+
+.pobb.csh:	pobbscpt
+	-$(RM) $*.csh
+	./pobbscpt $*.pobb $*.csh
+
+.pobb.msh:	pobbconfig.defs pobbscpt
+	-$(RM) $*.msh $*.mpp
+	mpp $*.pobb > $*.mpp
+	./pobbscpt $*.mpp $*.msh
+	-$(RM) $*.mpp
+
+NormalObjectRule()
+
+ProgramTarget(pobbscpt,pobbscpt.o pobbconf.o,${LIBS}, ${BSDLIB})
+
+${MSHS}:	pobbconfig.defs pobbscpt
+
+${CSHS}:	pobbscpt
+
+all::	pobbconfig.defs
+
+all::	${CSHS}
+
+all::	${MSHS}
+
+pobbconfig.defs:	pobbconfig.defs.csh make-pobbconfig.defs.csh
+	chmod +x make-pobbconfig.defs.csh
+	./make-pobbconfig.defs.csh
+
+install::
+#talk about self-modifying code...
+	chmod +x pobb-install.msh
+	./pobb-install.msh "${INSTALL}" "${DESTDIR}/" "${AFSBASEDIR}"
+
+CleanTarget(*.mpp *.msh *.csh pobbconfig.defs)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(mailq.help, ${DESTDIR}/help)

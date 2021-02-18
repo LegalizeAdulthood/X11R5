@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) 1991 Old Dominion University.
+ * Copyright (c) 1991 University of North Carolina at Chapel Hill.
+ * All rights reserved.
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted, provided
+ * that the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation.  Old Dominion University and the University of North
+ * Carolina at Chapel Hill make no representations about the
+ * suitability of this software for any purpose.  It is provided "as is"
+ * without express or implied warranty.
+ */
+
+This source directory contains the code necessary to compile xtv.
+
+Edit the IMakefile so the proper defines will be set for your machine type. 
+The section of the IMakefile which contains commented portions for different
+architectures is under the section ``USER DEFINABLE VARIABLES''
+of the Makefile. The default is for Sun Sparcstations.
+
+
+Create the Makefile from the Imakefile by typing: xmkmf
+Then type: make depend
+Finally type: make
+
+That will compile the sources and build the xtv program.
+To use xtv see xtv.man, xtv.qkref and xtv.guide. 
+To know more about xtv see the files under paper.dir
+
+HELP: mail to wahab@cs.odu.edu
+      or call 804-683-4529
+          - OR-
+      mail to jeffay@cs.unc.edu
+      or call 919-962-1938

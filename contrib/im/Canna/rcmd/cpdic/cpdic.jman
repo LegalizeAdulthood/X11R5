@@ -1,0 +1,25 @@
+.TH CPDIC 1
+.SH "名前"
+cpdic \- ユーザ辞書コピーツール
+.SH "形式"
+.B "cpdic [{\-is|\-irohaserver} \fIiroha-server\fP] [\-i|\-u \fIuser-name\fP] \fIfrom-dic\fP \fIto-dic\fP"
+.SH "説明"
+.PP
+ユーザ辞書\fIfrom-dic\fPを\fIto-dic\fPにコピーし辞書目録ファイル dics.dir 
+を書き換えます。
+.PP
+ユーザ辞書ディレクトリが存在しない場合は、ユーザ辞書ディレクトリを作成
+して、ユーザ辞書ディレクトリしたに dics.dir を作成します。
+.PP
+\-iを指定するとシステム辞書を、\-uを指定すると他のユーザ辞書をコピーす
+ることができます。
+.SH "オプション"
+.IP "\-is \fIiroha-server\fP (または \-irohaserver \fIiroha-server\fP)" 12
+コピーしたい辞書のあるサーバマシンを指定します。
+.IP "\-i" 12
+システム辞書をコピーします。
+.IP "\-u \fIuser-name\fP"
+指定されたユーザの辞書をコピーします。
+.SH "関連情報"
+.PP
+lsdic(1), mkdic(1), mvdic(1), rmdic(1)

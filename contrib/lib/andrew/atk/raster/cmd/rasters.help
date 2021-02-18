@@ -1,0 +1,127 @@
+\begindata{text,268624292}
+\textdsversion{12}
+\template{help}
+\define{italic
+menu:[Font,Italic]
+attr:[FontFace Italic Int Set]}
+\define{bold
+menu:[Font,Bold]
+attr:[FontFace Bold Int Set]}
+\define{chapter
+menu:[Title,Chapter]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{section
+menu:[Title,Section]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 2]}
+\define{subsection
+menu:[Title,Subsection]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{paragraph
+menu:[Title,Paragraph]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Italic Int Set]}
+\define{bigger
+menu:[Font,Bigger]
+attr:[FontSize PreviousFontSize Point 2]}
+\define{indent
+menu:[Region,Indent]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]}
+\define{typewriter
+menu:[Font,Typewriter]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]}
+\define{display
+menu:[Region,Display]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]
+attr:[Justification LeftJustified Point 0]}
+\define{example
+menu:[Region,Example]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]}
+\define{description
+menu:[Region,Description]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[Indent LeftEdge Inch -32768]}
+\define{quotation
+menu:[Region,Quotation]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]
+attr:[FontFace Italic Int Set]}
+\define{subscript
+menu:[Font,Subscript]
+attr:[Script PreviousScriptMovement Point 2]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{superscript
+menu:[Font,Superscript]
+attr:[Script PreviousScriptMovement Point -6]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{smaller
+menu:[Font,Smaller]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{heading
+menu:[Title,Heading]
+attr:[LeftMargin LeftMargin Inch -13107]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{majorheading
+menu:[Title,MajorHeading]
+attr:[Justification Centered Point 0]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{formatnote
+menu:[Region,FormatNote]
+attr:[Flags PassThru Int Set]}
+\define{subheading
+menu:[Title,Subheading]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{center
+menu:[Justify,Center]
+attr:[Justification Centered Point 0]}
+\define{flushleft
+menu:[Justify,FlushLeft]
+attr:[Justification LeftJustified Point 0]}
+\define{flushright
+menu:[Justify,FlushRight]
+attr:[Justification RightJustified Point 0]}
+\define{leftindent
+menu:[Region,LeftIndent]
+attr:[LeftMargin LeftMargin Inch 32768]}
+\chapter{\center{/usr/andrew/lib/rasters: 
+
+A Library of Raster Images}}
+
+
+\section{What Rasters are}
+
+
+\leftindent{A raster image is one constructed of individual black or white 
+dots.  Such images are available in the Andrew Toolkit with the \italic{raster} 
+inset.  Andrew provides a library of existing raster images for your 
+entertainment or use;  they are in the subdirectories of 
+
+
+\leftindent{/usr/andrew/lib/rasters}
+
+}
+\section{Related Tools}
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" to see the help document for:
+
+\leftindent{\italic{
+raster
+
+ez
+
+insets\
+}}\enddata{text,268624292}

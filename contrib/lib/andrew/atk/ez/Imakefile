@@ -1,0 +1,40 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif 
+
+DOBJS = eza.do
+IHFILES = eza.ih
+OBJS = eza.o
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicObject(eza, ${BASEDIR}/lib/atk/libframe.a ${BASEDIR}/lib/atk/libbasics.a ${UTILLIB}, ${BSDLIB})
+
+LibraryTarget(libez.a, ${OBJS})
+InstallLibrary(libez.a, $(DESTDIR)/lib/atk)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+#ifdef CMU_ENV
+InstallFileToFile(ezinit.cmu, ${INSTINCFLAGS}, ${DESTDIR}/lib/global.ezinit)
+#else
+InstallFileToFile(ezinit, ${INSTINCFLAGS}, ${DESTDIR}/lib/global.ezinit)
+#endif
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(ez.help ezcomm.help ezext.help ezkeys.help ezstyle.help eztroff.help ezps.help ez.chng ezproc.help, ${DESTDIR}/help)
+InstallHelpAlias(ezcomm, ez-command ez-comm)
+InstallHelpAlias(ezext,  ez-extensions extensions extension ez-ext)
+InstallHelpAlias(ezkeys, ez-keys ez-keystrokes)
+InstallHelpAlias(ezstyle, ez-styles styles style)
+InstallHelpAlias(eztroff, ez-troff)
+InstallHelpAlias(ezps, ez-ps ez-postscript)
+InstallHelpAlias(ezproc, ezprocs ez-procs ez-proc)
+

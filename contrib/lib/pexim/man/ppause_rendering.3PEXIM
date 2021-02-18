@@ -1,0 +1,65 @@
+."		"@(#)ppause_rendering.3PEXIM	1.2 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.ppause_rendering.3PEXIM
+."	
+.TH "PAUSE RENDERING" 3PEXIM "5-Jun-91"
+.SH NAME
+PAUSE RENDERING \- Suspend rendering in specified renderer
+.IX "Renderer" "PAUSE RENDERING"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+ppause_rendering ( wkid )
+Pint	wkid;	\fIRenderer ID given by the application\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine allows you to suspend rendering in the specified renderer
+without releasing the associated X resources.  You can then use the
+\s-1RESUME RENDERING\s+1 routine to start rendering again in any paused renderer.
+.SS C Input Parameters
+.IP \fIwkid\fP
+The \s-1ID\s+1 by which the application identifies the
+renderer.  The application specifies the \s-1ID\s+1 when it opens the renderer
+(using \s-1OPEN RENDERER\s+1).  A renderer \s-1ID\s+1 is synonymous with
+a workstation identifier and is passed to other \s-1PHIGS\s+1 workstation
+routines to set views or lights.
+.SS Execution
+Required state of specified renderer before execution: \s-1PEXIM_RENDERING\s+1
+.br
+Specified renderer's state after execution: \s-1PEXIM_PAUSED\s+1
+.SS Function Return
+\f3ppause_rendering\f1 returns an integer status.  A value of \s-1POK\s+1 indicates
+successful execution.
+.SH ERRORS
+.IP \s-1PEXIMERRB\s+1ad\s-1WKID\s+1
+Specified \fIwkid\f1 parameter is not the identifier of the current renderer.
+.IP \s-1PEXIMERRN\s+1ot\s-1R\s+1endering
+The renderer state is not \s-1PEXIM_RENDERING\s+1.
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "RESUME RENDERING"
+.SM "OPEN RENDERER"
+.SM "BEGIN RENDERING"
+.SM "INQUIRE RENDERER STATE"
+.fi

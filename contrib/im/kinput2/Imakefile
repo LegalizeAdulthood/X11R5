@@ -1,0 +1,18 @@
+/*
+ *	Imakefile for kinput2
+ */
+
+#include "Kinput2.conf"
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+/*
+ * maybe you should set TOP to make imake work correctly
+ */
+/*     TOP = ../../../mit */
+
+SUBDIRS = lib cmd ccdef sj3def
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

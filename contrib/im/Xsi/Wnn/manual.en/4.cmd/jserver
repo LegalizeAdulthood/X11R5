@@ -1,0 +1,48 @@
+JSERVER(1)
+
+NAME
+    jserver - Multi-client Japanese server
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/jserver [-f file] [-s file]
+
+DESCRIPTION
+    Jserver provides the services and resources required by the users (clients) 
+    during the conversion.
+    The input environment is provided by the front-end processor (uum(1)),
+    which sends the conversion request to the jserver, which is charge of
+    japanese grammar analysis.
+
+    Normaly, The startup of jserver can be set in "/etc/rc"  to be executed
+    automatically in the Unix system.
+
+    When the jserver command is executed, all the files defined in
+    "/usr/local/lib/wnn/ja_JP/jserverrc" will be read and the appropriate
+    operations will be performed.
+    Besides, all dictionaries and frequency files of the clients will be 
+    maintained by the jserver. The directory for maintainance of these is
+    specified the entry jserver_dir in jserverrc.
+
+EXEC_SYNOPSIS
+    Normaly, The startup of jserver can be set in "/etc/rc" to be executed
+    automatically, but the method how to execute manually is as follows.
+
+	/usr/local/bin/Wnn4/jserver
+
+    jserver accepts the following options:
+
+	-f file
+	    "file" will be set as the initialization file, which replaces the 
+	    default jserverrc.
+
+	-s file
+	    "file" will be set as the logfile of jserver.
+	    When "file" is defined as "-", the logfile will be sent to the 
+	    standard error output.
+
+FILE
+    /tmp/jd_sockV4 
+    /tmp/JSERVER.EXIST4
+
+SEE ALSO
+    jserverrc(4)

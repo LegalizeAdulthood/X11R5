@@ -1,0 +1,31 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#else
+RESOLVER_LIB =
+#endif /* RESOLVER_ENV */
+
+LIBS	=	${BASEDIR}/lib/libmail.a \
+		${UTILLIB} \
+		${BASEDIR}/lib/liberrors.a \
+		${MALLOCLIB} \
+		${PRSLIB}
+
+NormalObjectRule()
+ProgramTarget(trymail, trymail.o weak.o, ${LIBS} ${RESOLVER_LIB}, ${BSDLIB})
+ProgramTarget(switchmail, trymail.o strong.o, ${LIBS} ${RESOLVER_LIB}, ${BSDLIB})
+InstallProgram(trymail, ${DESTDIR}/etc)
+InstallProgram(switchmail, ${DESTDIR}/etc)
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(msplus.help dlists.help, ${DESTDIR}/help)
+InstallHelpAlias(msplus, ms-plus + plus hash hashmark pound poundsign fs-members fs-groups +fs-members+ +dir-insert+ dir-insert)
+InstallHelpAlias(dlists, ams-mailinglists dlist d-list d-lists distribution distributionlist dlist mailinglist mailinglists messages.dlists ms-mailinglist ms-mailinglists +dist+)

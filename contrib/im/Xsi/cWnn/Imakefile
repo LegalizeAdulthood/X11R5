@@ -1,0 +1,56 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:29:35 ohm Exp $
+/**/#
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SERVERSUBDIRS= cd jserver cdic
+CLIENTSUBDIRS= cd fuzokugo jutil uum
+LIBRARYSUBDIRS= include jlib
+SUBDIRS= include cd conv etc romkan jlib fuzokugo jserver jutil uum cdic
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+install:: mkwnndir
+
+instserver:: mkwnndir
+
+instclient:: mkwnndir
+
+instlib:: 
+
+checkwnnid::
+	@A=`egrep "^$(WNNOWNER):" /etc/passwd | cat` ;\
+	if [ -z "$$A" ] ;\
+	then \
+		echo "!!  Stop install" ;\
+		echo "!!  Please make an entry of 'wnn' id in /etc/passwd" ;\
+		exit 1 ;\
+	fi
+
+MakeDirectories(mkwnndir,$(WNNWNNDIR))
+
+instclient::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(CLIENTSUBDIRS) ;\
+	do \
+		(cd $$i ; echo "installing" "in $(CURRENT_DIR)/$$i..."; \
+		$(MAKE) $(MFLAGS) DESTDIR='$(DESTDIR)' instclient); \
+	done
+
+instserver::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SERVERSUBDIRS) ;\
+	do \
+		(cd $$i ; echo "installing" "in $(CURRENT_DIR)/$$i..."; \
+		$(MAKE) $(MFLAGS) DESTDIR='$(DESTDIR)' instserver); \
+	done
+
+instlib::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(LIBRARYSUBDIRS) ;\
+	do \
+		(cd $$i ; echo "installing" "in $(CURRENT_DIR)/$$i..."; \
+		$(MAKE) $(MFLAGS) DESTDIR='$(DESTDIR)' instlib); \
+	done

@@ -1,0 +1,21 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = rutil \
+	addwords \
+	catdic \
+	cpdic \
+	delwords \
+	irohacheck \
+	irohastat \
+	ishost \
+	lsdic \
+	mkdic \
+	mvdic \
+	rmdic
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs($(SUBDIRS))
+MakeLintSubdirs($(SUBDIRS),install.ln,install.ln)
+

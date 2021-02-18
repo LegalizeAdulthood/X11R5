@@ -1,0 +1,317 @@
+; PLACEMENTS
+; ==========
+
+;;File: placements.gwm -- functions to automatically place windows on screen
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 2.0 -- Nov 24 1989
+;;State: Exp
+;;GWM Version: 1.5
+
+; asks the user to place window if geometry wasn't specified
+
+(de user-positioning (flag)
+    (if flag
+	(if (not (or window-was-on-screen
+		     window-starts-iconic
+		     (and window-user-set-position
+			  (= window-status 'window))
+		     window-is-transient-for
+		     ))
+	    (progn (: l (current-mouse-position))
+		   (meter-open-in-place)
+		   (meter-update	(+ "Window: " 
+					   (window-client-class) "."
+					   (window-client-name) "."
+					   (window-name) "@"
+					   (window-machine-name)))
+		   (: x (# 0 l))
+		   (: y (# 1 l))
+		   (move-window x y)
+		   (process-exposes)
+		   (: new-window window)
+		   (move-window)
+		   (meter-close))
+	  (if (< window-y 0)(move-window window-x 0))
+	  ))))))
+
+(defun meter-open-in-place ()
+  (with (position (meter 'x 0 'y 0))
+    (meter-open (nth 1 position) (nth 3 position) " ")))
+
+; placed lists package required
+
+(if (not (boundp 'Dlists)) (load "dlists.gwm")))))
+
+; rows package
+; struct row:
+;   0 dlist
+;   1 start of list [coords]
+;   2 func: coords from cur window [() -> coords]
+;   3 func: move window at coords [(x y) ->()]
+;   4 separator [int]
+;   5 flag t if horiz
+;   6 end of list [first coord]
+;   7 func: "width" of current window
+;   8 func: sorting function
+;   9 atom: row name
+
+(setq rows.length 10)
+
+;
+; all functions must have current row in var "row"
+; rows:
+
+(defname 'top-left screen.)
+(defname 'top-right screen.)
+(defname 'right-top screen.)
+(defname 'right-down screen.)
+(defname 'down-right screen.)
+(defname 'down-left screen.)
+(defname 'left-down screen.)
+(defname 'left-top screen.)
+
+(defname 'rows.top-left screen.
+  '(list (Dlists.make top-left)
+	 '(0 0)
+	 (lambda () (list (+ window-x window-width (wbw) (# 4 row))
+			  window-y))
+	 (lambda (x y) (rows.move x y))
+	 0
+	 t
+	 screen-width
+	 (lambda () (+ window-y window-height (wbw)))
+	 ()
+	 'rows.top-left
+	 )))
+
+(defname 'rows.top-right screen.
+  '(list (Dlists.make top-right)
+	 '(0 0)
+	 (lambda () (list (+ screen-width (# 4 row) (- window-x)) window-y))
+	 (lambda (x y) (rows.move (- screen-width x window-width (wbw)) y))
+	 0
+	 t
+	 screen-width
+	 (lambda () (+ window-y window-height (wbw)))
+	 ()
+	 'rows.top-right
+	 )))
+
+(defname 'rows.right-top screen.
+  '(list (Dlists.make right-top)
+	 '(0 0)
+	 (lambda () (list (+ window-y window-height (wbw) (# 4 row))
+			  (- screen-width window-x window-width (wbw))))
+	 (lambda (x y) (rows.move (- screen-width y window-width (wbw)) x))
+	 0
+	 ()
+	 screen-height
+	 (lambda () (- screen-width window-x))
+	 ()
+	 'rows.right-top
+	 )))
+
+(defname 'rows.right-down screen.
+  '(list (Dlists.make right-down)
+	 '(0 0)
+	 (lambda () (list (+ screen-height (# 4 row) (- window-y))
+			  (- screen-width window-x window-width (wbw))))
+	 (lambda (x y) (rows.move (- screen-width y window-width (wbw))
+			    (- screen-height x window-height (wbw))))
+	 0
+	 ()
+	 screen-height
+	 (lambda () (- screen-width window-x))
+	 ()
+	 'rows.right-down
+	 )))
+
+(defname 'rows.down-right screen.
+  '(list (Dlists.make down-right)
+	 '(0 0)
+	 (lambda () (list (+ screen-width (# 4 row) (- window-x))
+			  (- screen-height window-y window-height (wbw))))
+	 (lambda (x y) (rows.move (- screen-width x window-width (wbw))
+			    (- screen-height y window-height (wbw))))
+	 0
+	 t
+	 screen-width
+	 (lambda () (- screen-height window-y))
+	 ()
+	 'rows.down-right
+	 )))
+
+(defname 'rows.down-left screen.
+  '(list (Dlists.make down-left)
+	 '(0 0)
+	 (lambda () (list (+ window-x window-width (wbw) (# 4 row))
+			  (- screen-height window-y window-height (wbw))))
+	 (lambda (x y) (rows.move x (- screen-height y window-height (wbw))))
+	 0
+	 t
+	 screen-width
+	 (lambda () (- screen-height window-y))
+	 ()
+	 'rows.down-left
+	 )))
+
+(defname 'rows.left-down screen.
+  '(list (Dlists.make left-down)
+	 '(0 0)
+	 (lambda () (list (+ screen-height (# 4 row) (- window-y)) window-x))
+	 (lambda (x y) (rows.move y (- screen-height x window-height (wbw))))
+	 0
+	 ()
+	 screen-height
+	 (lambda () (+ window-x window-width (wbw)))
+	 ()
+	 'rows.left-down
+	 )))
+
+(defname 'rows.left-top screen.
+  '(list (Dlists.make left-top)
+	 '(0 0)
+	 (lambda () (list (+ window-y window-height (wbw) (# 4 row)) window-x))
+	 (lambda (x y) (rows.move y x))
+	 0
+	 ()
+	 screen-height
+	 (lambda () (+ window-x window-width (wbw)))
+	 ()
+	 'rows.left-top
+	 )))
+
+(defun rows.top-left.placement (f) (rows.placement rows.top-left f))
+(defun rows.top-right.placement (f) (rows.placement rows.top-right f))
+(defun rows.right-top.placement (f) (rows.placement rows.right-top f))
+(defun rows.right-down.placement (f) (rows.placement rows.right-down f))
+(defun rows.down-right.placement (f) (rows.placement rows.down-right f))
+(defun rows.down-left.placement (f) (rows.placement rows.down-left f))
+(defun rows.left-down.placement (f) (rows.placement rows.left-down f))
+(defun rows.left-top.placement (f) (rows.placement rows.left-top f))
+
+(defun rows.pack args
+  (if (not args)
+      (: args (list rows.top-left rows.top-right rows.right-top
+		    rows.right-down rows.down-right rows.down-left
+		    rows.left-down rows.left-top )))
+  (for row args
+       (rows.update row 0)))
+
+(defun rows.placement (row flag)
+  (if flag      
+      (progn				; open new
+	(Dlists.append (# 0 row) window)
+	(## 'update-placement
+	    window
+	    (list 'rows.update (# 9 row) 0))
+	(## 'row window row)
+	(rows.update row (- (length (eval (# 0 row))) 1)))
+    (with (index-win (Dlists.remove (# 0 row) window)) ; close win
+      (rows.update row index-win))))
+
+; place all windows in row from index i
+
+(defun rows.update (row i)
+  (with (dlist (eval (# 0 row))
+	       dummy (if (# 8 row)	; sort list
+			 (progn
+			   (setq i 0)
+			   (sort dlist (# 8 row))))
+	       last+1 (length dlist)
+	       coords (if (= i 0) (# 1 row)
+			(with (wob (# (- i 1) dlist))
+			      ((# 2 row))))
+	       )
+	(while (< i last+1)
+	  (with (wob (# i dlist))
+		(setq coords (rows.place row coords i)))
+	  (: i (+ i 1))
+	)))))
+
+; place new (current) window at coords, moves it there and returns new coords
+
+(defun rows.place (row coords i)
+  (with (new-coord (+ (# 0 coords) (# 4 row)
+		      (if (# 5 row) window-width window-height))
+		   )
+	(if (> new-coord (# 6 row))
+	    (setq coords (rows.fold-row i)))
+	(eval (+ (list (# 3 row)) coords))
+	((# 2 row))
+	)))))
+
+(defun rows.move (x y)
+    (if (not (and (= x window-x) (= y window-y)))
+	  (move-window x y))))))
+
+(defunq wbw () (* 2 wob-borderwidth))))
+
+; update 
+
+(defun rows.limits args
+  (with (row (# 0 args)
+	     i 1)
+	(if (or (< (length args) 1)
+		(not (= (type row) 'list))
+		(not (= (length row) rows.length)))
+	    (trigger-error "rows.limit: first arg must be a row, was " row))
+	(while (< i (length args))
+	  (if (= 'separator (# i args))
+	      (## 4 row (# (+ i 1) args))
+	    (= 'start (# i args))
+	    (## 0 (# 1 row) (# (+ i 1) args))
+	    (= 'offset (# i args))
+	    (## 1 (# 1 row) (# (+ i 1) args))
+	    (= 'end (# i args))
+	    (## 6 row (# (+ i 1) args))
+	    (= 'sort (# i args))
+	    (## 8 row (# (+ i 1) args))
+	    (trigger-error "rows.limit: unknown key " (# i args)))
+	  (: i (+ i 2))
+	  )
+))))
+					 
+; starts a new row (modifies "coords")
+
+(defun rows.fold-row (index)
+  (with (i 0
+	   new-offset 0
+	   tmp 0
+	   window window)
+	(while (< i index)
+	  (window (# i (# 0 row)))
+	  (if (> (: tmp ((# 7 row))) new-offset)
+	      (: new-offset tmp))
+	  (: i (+ 1 i))
+	  )
+	(list (# 0 (# 1 row)) (+ new-offset (# 4 row)))
+)))))
+
+; backwards compatibility
+
+(: right-placement rows.right-top.placement)
+
+; evaluates the function needed to clean window
+
+(defun update-placements ()
+  (eval (# 'update-placement window)))
+
+; an example of a sorting function:
+; sort-icon will look in a icon-order list for a "weight" of a class
+; Class will be sorted in ascending weight orders,
+; and windows of same class will be sorted by name
+
+(setq icon-order '(Xmh 10 XPostit 5 XRn 20 XClock 2 XBiff 1 XLoad 20))
+(setq icon-order-default 100)
+
+(defun sort-icons (w1 w2)
+  (with (a1 (atom (progn (: window w1) window-client-class))
+	    n1 window-name
+	    a2 (atom (progn (: window w2) window-client-class))
+	    n2 window-name
+	    res (compare (or (# a1 icon-order) icon-order-default)
+			 (or (# a2 icon-order) icon-order-default)))
+    (if (= 0 res)
+	(compare n1 n2)
+      res)))

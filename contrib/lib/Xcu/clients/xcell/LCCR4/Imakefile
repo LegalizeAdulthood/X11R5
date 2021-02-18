@@ -1,0 +1,13 @@
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+CELL     = FileDir/Cell/LCCR4
+
+FAMILIES =  family
+
+AllTarget()
+
+MakeDirectories(install,$(CELL))
+InstallMultiple($(FAMILIES),$(CELL))
+
+DependTarget()
+

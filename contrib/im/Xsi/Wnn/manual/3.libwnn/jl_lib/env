@@ -1,0 +1,21 @@
+JL_ENV( )
+
+名称
+
+	jl_env		バッファの環境を取り出す。
+
+形式
+
+	#include "jllib.h"
+
+	jl_env(buf)
+	struct wnn_buf *buf;    /* バッファ */
+
+機能
+
+	バッファ buf の環境を取り出す。
+
+リターンバリュー
+
+	環境を返す。
+

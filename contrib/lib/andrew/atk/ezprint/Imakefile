@@ -1,0 +1,25 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+DOBJS = ezprinta.do
+IHFILES = ezprinta.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+DynamicObject(ezprinta,,${SUPLIBS} ${BSDLIB})
+InstallLink(runapp, ${DESTDIR}/bin/ezprint)
+InstallFileToFile(prscribe.csh,${INSTPROGFLAGS},${DESTDIR}/bin/printscribe)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(ezprint.help ezprint.chng, ${DESTDIR}/help)
+InstallHelpAlias(ezprint, ez-print prez printez)

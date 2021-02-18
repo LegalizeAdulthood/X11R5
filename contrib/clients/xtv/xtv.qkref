@@ -1,0 +1,106 @@
+
+/*
+ * Copyright (c) 1991 Old Dominion University.
+ * Copyright (c) 1991 University of North Carolina at Chapel Hill.
+ * All rights reserved.
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted, provided
+ * that the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation.  Old Dominion University and the University of North
+ * Carolina at Chapel Hill make no representations about the
+ * suitability of this software for any purpose.  It is provided "as is"
+ * without express or implied warranty.
+ */
+
+XTV Quick Reference
+
+Starting a Session
+
+	% xtv &
+
+Joining a Session
+
+	% xtv <host machine> <session number> &
+
+	example:  Joining session 1 hosted on seth.cs.odu.edu
+
+	% xtv seth.cs.odu.edu 1 &
+
+Adding a Tool
+
+	Position pointer over [New_Tool].  Press the left mouse button.
+	When the dialogue box appears, enter the name of the tool you 
+		wish to add.
+	Position the pointer over [Host] in the dialogue box and press the
+		left mouse button.
+	Position the new tool window and press the left mouse button.
+
+Adding a Tool Residing on a Remote Machine
+
+	Position pointer over [New_Tool].  Press the left mouse button.
+	When the dialogue box appears, enter the name of the tool you
+		wish to add.
+	Position the pointer over [Remote] in the dialogue box and press
+		the left mouse button.
+	Login to the remote machine.
+	Set the DISPLAY environment variable according to the directions
+		in the "Message" area of your control panel.
+	Invoke the tool from the command line of the remote machine.
+
+Requesting a Floor (Control of a Tool)
+
+	Position the pointer over the name of the tool whose floor you
+		wish to request.
+	Press the left mouse button.
+	Position the pointer over [Get_Floor] and press the left mouse
+		button.
+
+Releasing a Floor
+
+	Position the pointer over the name of the tool whose floor you
+		wish to release.
+	Press the left mouse button.
+	Position the pointer over [Drop_Floor] and press the left mouse
+		button.
+
+Terminating a Tool
+
+	Position the pointer over the name of the tool which you wish
+		to terminate.
+	Press the left mouse button.
+	Position the pointer over [Terminate_Tool] and press the left
+		mouse button.
+
+Information About Tools
+
+	Position the pointer over the name of the tool for which you
+		want information.
+	Press the left mouse button.
+	Position the pointer over [Floor_Info] and press the left 
+		mouse button.
+
+Information About Participants
+
+	Position the pointer over the name of the participant for which
+		you want information.
+	Press the left mouse button.
+	Position the pointer over [Participant_Info] and press the left
+		mouse button.
+
+Dropping a Participant (Chairman Only)
+
+	Position the pointer over the name of the participant whom
+		you wish to delete.
+	Press the left mouse button.
+	Position the pointer over [Drop_Participant] and press the left
+		mouse button.
+
+Getting a Floor Unconditionally (Chairman Only)
+
+	Position the pointer over the name of the tool whos floor you
+		want.
+	Press the left mouse button.
+	Position the pointer over [Snatch_Floor] and press the left mouse
+		button.
+

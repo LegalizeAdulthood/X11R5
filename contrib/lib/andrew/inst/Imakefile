@@ -1,0 +1,15 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+LOCALINCLUDES = -I../config -I../config/$(SYS_IDENT)
+# Make modified install
+
+NormalObjectRule()
+
+ProgramTarget(pinstall, inst.o,,)
+
+install.time::
+	./pinstall ${INSTPROGFLAGS} pinstall ${DESTDIR}/etc/install
+
+DependTarget()

@@ -1,0 +1,264 @@
+\chapter{Overview}
+
+\sloppy
+
+{\GWM} like any other window manager is in charge of all that is {\bf
+exterior} to other application windows on the display. It performs its task
+by {\bf decorating} the existing windows on the screen with its own windows.
+The appearance and behavior of these windows are described by the user through
+programs written in the lisp-like {\WOOL} language, which are interpreted by
+the built-in {\WOOL} interpreter of {\GWM}.
+
+The {\GWM} Window manager is composed of 2 modules: the window manager itself,
+{\GWM}, and the lisp interpreter {\WOOL}. The role of the garbage-collected
+{\WOOL} objects is to build shared descriptors that will be used by {\GWM}
+to build its (non-shared and non-garbage-collected) objects.
+
+\section{GWM Window OBjects: the wobs}
+
+{\GWM} is built upon the notion of a {\bf wob}, which, not unlike an X {\sl
+Widget} is an object composed of:
+
+\begin{description} 
+
+\item[an X11 window] used to display the wob on the screen (output)
+
+\item[a {\WOOL} finite state machine] used to trigger {\bf WOOL}
+functions in response to X11 events sent to the wob (input)
+
+\end{description}
+
+Wobs are not directly created with {\WOOL} contructors, they are {\bf
+described}, and {\GWM} uses this description to physically create the
+wobs when it needs to, when decorating a new client window for instance.
+
+Like any X11 window, the user can choose the width, color(s), and tiling
+pixmap of the border of the wob (which is considered to be in the wob for
+input purposes). There are four kinds of wobs:
+
+\begin{description}
+
+\item[Window] An X11 application, such as XTERM(1) or XCLOCK(1) usually opens
+one or more windows directly on the screen (in fact the {\em root window}).
+We will call these windows, which are not created by {\GWM}, {\bf client
+windows}.  {\GWM} will ``decorate'' these client windows by {\em
+reparenting} them, i.e. by creating a {\bf Window} wob and making the client
+window a son of this newly created window.
+
+A window is a wob made by creating a new toplevel X window, reparenting  the
+client window as its child, and framing it with four (optional) {\em bars},
+children of the new toplevel window. Note that the inside of a window wob is
+thus never visible, since it is entirely covered by the bars and the client
+window.
+
+\item[Bar] The only extensible wob, it has a width and an extensible length.
+It is a line (vertical or horizontal) of {\em plugs} centered on the axis of
+the bar with optional stretchable space between them.
+
+\item[Plug] The simplest of all wobs, its contents is just a graphic
+which is displayed in their X window. It acts thus like some kind of button.
+Current graphics are text and pixmaps.
+
+\item[Menu] A bar of bars (horizontal menus consist of a
+horizontal bar of vertical bars, vertical menus are a vertical bar of
+horizontal ones).
+
+Menus are the only ``stand-alone'' wobs, their windows are directly created
+by {\GWM} on the screen. They can be used to implement pop-up, pull-down or
+fixed menus, control panels, message windows and icon boxes.
+
+\end{description}
+
+\subsubsection{Other GWM objects}
+
+Other gwm objects are just X objects (fonts, pixel colors ...) that are
+referenced by their X id, and are accessed via encapsulating
+{\WOOL} types, such as Numbers or Pixmaps.
+
+\section{WOOL objects}
+
+{\WOOL} is a lisp interpreter of a special kind, since it has some important
+design differences from ``real'' lisps:
+
+\begin{description}
+
+\item[incremental garbage collection] {\WOOL} has a {\sl reference-count}
+driven memory management scheme. This means that the load of memory
+management is evenly distributed on all phases of computing, thus avoiding
+the dreadful garbage collection pauses. But, since reference count memory
+management doesn't work with circular lists, no {\WOOL} function allows the
+user to do physical replacements on lists\footnote{In fact, some do, but are
+flagged as ``for experts only'' in the documentation}. 
+
+\item[no real lists, but arrays] {\WOOL} lists are internally stored as
+arrays, speeding up list scanning. We do not really need the
+generality of the chained cells model, since we do not want to have circular
+lists.
+
+\item[monovalued atoms] In classical lisp dialects, you can give a variable
+and a function the same name without conflict. In {\WOOL}, an atom can only
+have one value.
+
+\item[internally typed objects] All of the {\WOOL} interpreter is written in
+an object oriented way. This is not visible to the user, since we do not
+offer a way to define user types, but it greatly improves the modularity of
+the code, and allows us to provide generic functions, such as the \verb"+"
+function operating on numbers, lists, or strings.
+
+\end{description}
+
+The different {\WOOL} objects are:
+
+\begin{description}
+
+\item[atoms] associates any {\WOOL} object to any other via a hash table.
+Only one wool object can be referenced, which implies that a \verb"(setq foo
+1)" assignment will remove any function definition made by \verb"(defun foo
+...)". There is {\bf no} limit on the length of atom names. Atom names can
+be composed of any printable ASCII character except {\tt " ' ( )}, and
+cannot begin by a digit.
+
+\item[active values] are predefined atoms that can be used as atoms or
+functions. If \verb"foo" is an active value, then \verb"foo" and
+\verb"(foo)" give the same result, and the calls \verb"(setq foo obj)" and
+\verb"(foo obj)" have the same effect.
+
+Active values are just like other atoms, but setting and evaluating them
+trigger specific functions to allow for greater expressive power. For
+instance, just setting a wob's \verb"borderwidth" will actually resize the
+corresponding X window's border, and declaring a local value for it by a
+\verb"(with (wob-borderwidth 3) ...)" will actually change the borderwidth
+of the current wob on the screen during the execution of the \verb"with"
+body, and then revert to the previous value.
+
+\item[numeric variables] are atoms that can only store integer values. Like
+active values, they can be used as variables or functions. Setting them to 
+\verb"()" or \verb"t" equivalent to setting them to \verb"0" or \verb"1".
+
+\item[namespaces] are sets of variable names that have a different value for 
+each state of the namespace. For instance, the most useful namespace is the
+\verb"screen." one, having one state for each screen. So each name in this
+namespace, such as \verb"white", can hold a screen-dependent value that will
+always eval to the correct value relative to the screen.
+
+\item[integers] are 32-bit signed integer values.
+
+\item[strings] are 8-bit strings of characters, with no size limit.
+
+\item[functions] may evaluate or not their arguments and have a fixed
+or variable arity.
+
+\item[fsms] the finite state machines. They are {\WOOL} objects shared by
+wobs and respond to both X events and {\WOOL}-made events, the so-called
+``user'' events.
+
+\item[wobs descriptors: plug, bar, menu, client] are used by {\GWM} to build
+its wobs.
+
+\item[X objects: pixmaps, cursors, events, labels] allow X
+resources to be shared via the {\WOOL} memory management.
+
+\item[internal objects] used to improve efficiency (These include
+collections and quoted expressions).
+
+\end{description}
+
+\section{Operation}
+
+When you start {\GWM}, it:
+
+\begin{itemize}
+
+\item connects to the display it must manage to initialize its X11 structures
+
+\item reads and interprets the user's {\WOOL} profile (searched for in a
+user-defined path, see usage). This profile must define at least two
+{\WOOL} functions:
+
+\begin{description}
+\item[describe-window] which will be called by {\GWM} to know how to decorate
+any client window and must return a list of two window descriptors, one for
+the window itself, and one for the associated icon;
+\item[describe-screen] which will be called by {\GWM} for each managed
+screen and must return a window descriptor;
+\end{description}
+
+\item looks to see if it is the only window manager running; if not, it
+aborts.
+
+\item decorates the managed screens by calling the user-defined {\tt
+describe-screen} function for each one, with the \verb"screen" active value
+being set to the current screen.
+
+\item decorates all already mapped client windows, by calling {\tt
+describe-window} with the current client window being set to each window.
+
+\item executes the (user-defined) opening function for each screen.
+
+\item enters {\GWM} main loop, which consists in:
+
+\begin{itemize}
+\item waiting for an X event
+
+\item examining the received event, and if it is for an existing wob, sends
+it to the {\em fsm} of this wob, else if it is a new window which is being
+mapped for the first time, decorates it (by calling {\tt describe-window})
+\end{itemize}
+
+When an event is sent to a {\em fsm}, it is matched against the
+transitions in the current state of the fsm, and as soon as one matches, the
+corresponding {\WOOL} expression is evaluated, and the fsm changes state if
+necessary. If no transition is waiting for the event, it is discarded.
+
+\end{itemize}
+
+\section{Lazy evaluation}
+
+For sub-wobs of wobs, i.e., bars of a window, plugs of a bar, bars of a
+menu, and menu of any wob, lazy evaluation is performed. That is, on the
+realization of the wob the field is re-evaluated if the result is not
+of the expected type. This allows for constructs such as:
+
+{\exemplefont\begin{verbatim}
+        (plug-make '(label-make window-name))
+\end{verbatim}}
+
+which creates a plug whose text is fetched as the name of the
+window on each realization, you do not have to explicitly \verb"eval" a
+quoted expression.
+
+\section{Screen-dependent objects}
+
+An invocation of {\GWM} can manage all screens attached to a display (there
+is one keyboard and mouse per display), but in X, screens are very distinct
+worlds. If you create a pixmap or a color on a screen, you cannot use it on
+another one. The list of objects created on one screen that cannot be used
+on another is:
+
+\desc{pixmaps}{Objects}{made by}{
+colors & color-make\\
+pixmaps & pixmap-make, label-make, active-label-make\\
+cursor & cursor-make\\
+menus & menu-make\\
+}
+
+And of course, all the wobs and windows are screen-specific.
+
+\section{Sending commands to GWM}
+
+Any program can make {\GWM} execute any {\WOOL} code by putting the {\WOOL}
+code to execute as an ASCII string in the {\bf GWM\_EXECUTE}
+\label{GWM_EXECUTE} property on any root window or client window
+of the screens managed by {\GWM}, which will parse and evaluate the given
+string with the current window being the one on which the property was set.
+
+This feature is built in, so that it will work regardless of the
+profile used.
+
+\section{Checking that GWM is running}
+
+On each screen it manages, {\GWM} will maintain a hidden window whose
+X Id will be given as a 32-bit Id in the {\bf GWM\_RUNNING} property
+on the root window {\bf and} the hidden window itself. Thus, if this
+window exists, and has the {\bf GWM\_RUNNING} property set, you can be
+sure that the screen is managed by {\GWM}.

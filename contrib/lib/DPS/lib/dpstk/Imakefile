@@ -1,0 +1,70 @@
+#define DoProfileLib ProfileLibDps
+#define DoDebugLib DebugLibDps
+#include "Library.tmpl"
+
+  DPS_INCLUDES = ../../include
+EXTRA_INCLUDES = -I${DPS_INCLUDES}
+        PSWRAP = ../../clients/pswrap/pswrap
+
+#if HasMotif
+MOTIFSRCS = FSBwraps.psw FontSample.c FontSB.c
+MOTIFOBJS = FSBwraps.o FontSample.o FontSB.o
+#else
+MOTIFSRCS =
+MOTIFOBJS =
+#endif
+
+#ifndef DefaultResourcePath
+#define DefaultResourcePath NULL
+#endif
+RESPATH = DefaultResourcePath
+
+#if NoStrstr
+ EXTRA_DEFINES = -DNO_STRSTR_AVAILABLE -DDEFAULT_RESOURCE_PATH=${RESPATH}
+#else
+ EXTRA_DEFINES = -DDEFAULT_RESOURCE_PATH=${RESPATH}
+#endif
+
+
+DERIVED_FILES = FSBwraps.c FSBwraps.h XDPSpwraps.c XDPSpwraps.h\
+	XDPSswraps.c XDPSswraps.h
+
+SRCS = $(MOTIFSRCS) \
+	XDPSpwraps.psw XDPSswraps.psw XDPSshare.c XDPSpreview.c \
+	XDPSuserpath.c
+
+OBJS = $(MOTIFOBJS) \
+	XDPSpwraps.o XDPSswraps.o XDPSshare.o XDPSpreview.o \
+	XDPSuserpath.o
+
+.SUFFIXES: .psw
+
+.psw.o :
+	$(PSWRAP) -o $*.c -h $*.h $<
+#if DebugLibDps
+	$(CC) -g -c $(CFLAGS) $*.c
+	$(MV) $*.o debugger/$*.o		
+#endif
+	$(CC) -c $(CFLAGS) $*.c
+	$(RM) $*.c
+
+LibraryObjectRule()
+
+NormalLibraryTarget(dpstk,$(OBJS))
+InstallLibrary(dpstk,$(USRLIBDIR))
+
+#if DebugLibDps
+DebuggedLibraryTarget(dpstk,$(OBJS))
+InstallLibrary(dpstk_d,$(USRLIBDIR))
+#endif
+#if ProfileLibDps
+ProfiledLibraryTarget(dpstk,$(OBJS))
+InstallLibrary(dpstk_p,$(USRLIBDIR))
+#endif
+
+#if HasMotif
+InstallAppDefaults(FontSelect)
+#endif
+
+clean ::
+	${RM} $(DERIVED_FILES)

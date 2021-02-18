@@ -1,0 +1,12 @@
+-- swap.n
+--	Example function 
+--	Swaps the current selection with the next word
+
+function swap_Words()
+	marker word;
+	marker sel;
+	sel := newbase() ~ currentselection();
+	replace(currentselection(), "");
+	textview_forward_word();
+	replace(currentselection(), " "~ sel);
+end function;

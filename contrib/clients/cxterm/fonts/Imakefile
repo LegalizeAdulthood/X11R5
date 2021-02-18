@@ -1,0 +1,16 @@
+OBJS =	FontObj(cclib16st) FontObj(cclib16fs) FontObj(cclib24st) \
+	FontObj(hku-ch16)
+
+FONTINSTDIR = $(FONTDIR)/chinese
+
+MakeFonts()
+
+FontTarget(cclib16st)
+FontTarget(cclib16fs)
+FontTarget(cclib24st)
+FontTarget(hku-ch16)
+
+InstallFonts($(FONTINSTDIR))
+InstallFontAliases($(FONTINSTDIR))
+
+depend::

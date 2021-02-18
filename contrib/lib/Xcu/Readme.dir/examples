@@ -1,0 +1,9 @@
+The following subdirectories are found in subdirectory "examples".
+You should probably try them out in the order given...
+
+xtbl	: Tbl examples
+xcursors: another WLDL example (slow, but actually useful!)
+xworld  : simple Wlm client
+xwldl	: tutorial WLDL examples
+xwlm	: tutorial Wlm public function examples
+xmake	: How to set up a useful makefile with Wlm

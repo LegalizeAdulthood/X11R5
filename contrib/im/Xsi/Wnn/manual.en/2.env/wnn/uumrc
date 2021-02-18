@@ -1,0 +1,178 @@
+uumrc(4)
+  
+NAME
+    uumrc  -  Kana to Kanji conversion front-end processer(uum(1))
+	      initialization file.
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/uumrc (default)
+
+DESCRIPTION
+    uumrc file sets up the environment for the uum. Individual settings
+    can be specified for each user.  Duplicate entries will be overwritten.
+    Lines that start with a semicolon (;) are comments.
+
+    The following settings are specified in this file.
+
+	include  <path> 
+	     Read in all the initialization files defined in <path>. 
+	     Used when user needs to add his own definitions. 
+
+	setconvenv <wnnenvrc_path>
+	setconvenv <wnnenvrc_path> sticky
+	setconvenv  <host> <wnnenvrc_path>
+	setconvenv  <host> <wnnenvrc_path> sticky
+	    Specifies the path of Kana-To-Kanji conversion environment
+	    setting file.
+	    The default path is "/usr/local/lib/wnn/ja_JP/wnnenvrc".
+	    If <host> is given, the environment will be created on the
+	    If sticky, the environment will be left in server after
+	    uum exited. That environment will be used at next connection.
+	    It is for performance.
+
+	setkankanaenv <wnnenvrc_path>
+	setkankanaenv <wnnenvrc_path> sticky
+	setkankanaenv  <host> <wnnenvrc_path>
+	setkankanaenv  <host> <wnnenvrc_path> sticky
+	    Specifies the path of Kanji-To-Kana conversion environment
+	    setting file.
+	    The default is "/usr/local/lib/wnn/ja_JP/wnnenvrc_R".
+	    If <host> is given, the environment will be created on the
+	    If sticky, the environment will be left in server after
+	    uum exited. That environment will be used at next connection.
+	    It is for performance.
+
+	uumkey <uumkey_path>
+	    Specifies the keyboard function definition file.
+	    The default is "/usr/local/lib/wnn/ja_JP/uumkey".
+
+	setrkfile <romkan_path>
+	    Specifies the romkan definition file.
+	    The default is "/usr/local/lib/wnn/ja_JP/rk/mode".
+
+	setconvkey <convert_key_path>
+	setconvkey <terminal_name> <convert_key_path>
+	    Specifies the file that absorbes the differrece of key bind
+	    between terminals.
+	    The default is "/usr/local/lib/wnn/ja_JP/cvt_key_tbl".
+	    The terminal name must correspond to that defined in the
+	    environment variable TERM, or else the definitions will
+	    be invalid. "*" can be used for the terminal name.
+
+	not_send_ascii_char
+	    When the input line is empty, ASCII characters will be sent to the 
+	    conversion buffer (default).
+
+	send_ascii_char 
+	    When the input line is empty, ASCII characters will not be sent to
+	    the conversion buffer.
+
+	waking_up_in_henkan_mode 
+	    To set the conversion mode to ON after the startup of the uum.
+
+	waking_up_no_henkan_mode 
+	    To set the conversion mode to OFF after the startup of the uum.
+
+	setjishopath <path>
+	    Specifies the path of the dictionary files when adding dictionaries
+	    to the system. Default path is NULL.
+
+	sethindopath <path>
+	    Specifies the path of the frequency files when adding dictionaries
+	    to the system. Default path is NULL.
+
+	setfuzokugopath <path>
+	    Specifies the path of the grammar files when adding dictionaries
+	    to the system. Default path is NULL.
+
+	setmaxchg  <number> 
+	    Specifies the maximum number of characters allowed for conversion
+	    at one time. Default number is 80.
+
+	setmaxbunsetsu   <number> 
+	    Specifies the maximum number of words allowed for conversion
+	    at one time.  The maximum value is 400 and default is 80.
+
+	setmaxichirankosu   <number> 
+	    Specifies the number of candidates to be displayed at one time.
+	    This will depend on the width of the screen.  Default number is 36.
+
+	setmaxhistory  <number> 
+	    Specifies the maximum number of entries for the conversion history.
+	    Default value is 11.
+
+	excellent_delete
+	    When user delete string in automaton(romkan) conversion,
+	    the last character will be converted back to the original input
+	    string and last one character will be delete. (default)
+
+	simple_delete
+	    When user delete string in automaton(romkan) conversion,
+	    the last character will be delete.
+
+	flow_control_on 
+	    To set the flow control of tty to ON (default).
+
+	flow_control_off 
+	    To set the flow control of tty to OFF.
+
+	convkey_not_always_on 
+	    When the input mode is set to OFF, all related conversion function
+	    keys are invalid (default).
+
+	convkey_always_on 
+	    When the input mode is set to ON, all related conversion function
+	    keys are still valid.
+
+	remove_cs 
+	    To remove cs from termcap.
+
+	not_remove_cs 
+	    Do not remove cs from termcap.
+
+	touroku_comment 
+	    During the addition of a new word, comments can be input.
+
+	touroku_no_comment 
+	    During the addition of a new word, comments cannot be input.
+
+    In top of include, setuumkey, setrkfile, setconvkey, setconvenv,
+    setjishopath, sethindopath, setfuzokugopath, setkankanaenv,
+    the following abbreviations can be used : ~, ~username, @HOME
+    @LIBDIR, @LANG
+	~ 		The value of environment variable HOME .
+	usrname 	The home directory for the user in "/etc/passwd".
+	@HOME 		The value of environment variable HOME .
+	@LIBDIR 	The path "/usr/local/lib/cwnn".
+	@LANG 		The first 5 character of environment variable LANG.
+
+    In setjishopath and sethindopath, first @USR is the user name
+    of uum (refer to uum(1)).
+
+EXAMPLE
+	setconvenv	@LIBDIR/@LANG/wnnenvrc
+	setkankanaenv	@LIBDIR/@LANG/wnnenvrc_R
+
+	setjishopath    @LIBDIR/@LANG/dic/pubdic/
+	sethindopath    @LIBDIR/@LANG/dic/usr/@USR/
+
+	setuumkey	@LIBDIR/@LANG/uumkey
+	setrkfile	@LIBDIR/@LANG/rk
+
+	setconvkey      	@LIBDIR/cvt_key_tbl
+	setconvkey      ST*	@LIBDIR/cvt_key_tbl.ST
+	setconvkey      kterm*	@LIBDIR/cvt_key_tbl.kt
+	setconvkey      xterm*	@LIBDIR/cvt_key_tbl.kt
+
+	waking_up_no_henkan_mode
+	flow_control_on
+	send_ascii_char
+
+CAUSION
+    The file name of Dictionaries or frequency files are in the machine of
+    jserver to which uum will connect. If the specified user dictionaries or
+    frequency files are not exist, these will be created in the machine of
+    jserver
+
+SEE ALSO
+	uum(1), jserver(1), uumkey(4), cvt_key_tbl(4)

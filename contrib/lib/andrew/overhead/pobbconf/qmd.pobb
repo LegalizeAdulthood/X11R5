@@ -1,0 +1,31 @@
+#!/bin/csh -f
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+%include pobbconfig.defs
+#
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+%ifdef pobb_RunAMSDelivery
+
+# Start up specified queuemail demons
+
+set nonomatch
+
+# Start daemons
+foreach Q ($$*)
+    /bin/echo -n " "
+    if ($$Q =~ ?[SlowQueueNamePrefix]*) then
+	?[queuemail] ?[QueuemailCommonArgs] -P -q ?[CellCommonPrefix]?[WorkstationCell]?[CellCommonSuffix]?[CellCommonMailQueueDirSuffix]/$$Q -w ?[QueuemailSlowInterval]
+    else if ($$Q =~ ?[MailQueueNamePrefix]*) then
+	?[queuemail] ?[QueuemailCommonArgs] -p -q ?[CellCommonPrefix]?[WorkstationCell]?[CellCommonSuffix]?[CellCommonMailQueueDirSuffix]/$$Q -w ?[QueuemailNormalInterval]
+    else
+	/bin/echo "(Bad argument to qmd: $$Q) "
+    endif
+    /bin/echo "q ?[CellCommonPrefix]?[WorkstationCell]?[CellCommonSuffix]?[CellCommonMailQueueDirSuffix]/$$Q" >& ?[BigLocalDir]/config/qm.$$Q
+    /bin/echo -n $$Q
+end
+
+%endif pobb_RunAMSDelivery

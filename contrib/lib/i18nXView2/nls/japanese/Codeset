@@ -1,0 +1,45 @@
+NAME	EUC
+
+CODESET0
+    Length	1
+    GL
+    Encoding
+	iso8859-1	GL
+	jisx0201.1976-0	GL
+	sunolcursor-1	GL
+	sunolglyph-1	GL	
+    Font
+	iso8859-1	GL
+	jisx0201.1976-0	GL
+	sunolcursor-1	GL
+	sunolglyph-1	GL
+
+CODESET1
+    Length	2
+    GR
+    Encoding
+	jisx0208.1983-0 GR
+	jisx0208.1983-0 GL
+	jisx0208.1983-1 GL
+	jisx0208.1983-1 GR
+	sunolcursor-1	GL
+	sunolglyph-1	GL	
+    Font
+	jisx0208.1983-1 GR
+	jisx0208.1983-0 GL
+	sunolcursor-1	GL
+	sunolglyph-1	GL
+#   EXT_Font
+#	GAIJI		GL
+
+CODESET2
+    Length	1
+    GR
+    Encoding
+	jisx0201.1976-0 GR
+	sunolcursor-1	GL
+	sunolglyph-1	GL	
+    Font
+	jisx0201.1976-0 GR
+	sunolcursor-1	GL
+	sunolglyph-1	GL

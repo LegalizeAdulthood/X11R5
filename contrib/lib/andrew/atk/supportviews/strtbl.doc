@@ -1,0 +1,95 @@
+\begindata{text,272817968}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Stringtable}
+
+
+
+\section{Quick reference list for Stringtbl}
+
+
+
+\fixedtext{short \bold{stringtbl_}AddString }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, unsigned char *\paramname{s});} 
+
+\fixedtext{void \bold{stringtbl_}ClearBits }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl});} 
+
+\fixedtext{void \bold{stringtbl_}Clear }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl});} 
+
+\fixedtext{void \bold{stringtbl_}FinalizeObject }\fixedindent{(struct 
+stringtbl *\paramname{self});} 
+
+\fixedtext{boolean \bold{stringtbl_}GetBitOfEntry }\fixedindent{(struct 
+stringtbl *\paramname{stringtbl}, short \paramname{accnum});} 
+
+\fixedtext{boolean \bold{stringtbl_}GetBit }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, unsigned char *\paramname{s});} 
+
+\fixedtext{unsigned char *\bold{stringtbl_}GetStringOfEntry 
+}\fixedindent{(struct stringtbl *\paramname{stringtbl}, short 
+\paramname{accnum});} 
+
+\fixedtext{boolean \bold{stringtbl_}InitializeObject }\fixedindent{(struct 
+stringtbl *\paramname{self});} 
+
+\fixedtext{\bold{stringtbl_}IthString }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, short \paramname{i});} 
+
+\fixedtext{\bold{stringtbl_}NStrings }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl});} 
+
+\fixedtext{\bold{stringtbl_}NumAcc }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl});} 
+
+\fixedtext{long \bold{stringtbl_}Read }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, FILE *\paramname{file}, long \paramname{id});} 
+
+\fixedtext{void \bold{stringtbl_}RemoveEntry }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, short \paramname{accnum});} 
+
+\fixedtext{void \bold{stringtbl_}RemoveString }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, unsigned char *\paramname{s});} 
+
+\fixedtext{void \bold{stringtbl_}SetBitOfEntry }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, short \paramname{accnum}, boolean \paramname{val});} 
+
+\fixedtext{void \bold{stringtbl_}SetBit }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, unsigned char *\paramname{s}, boolean 
+\paramname{val});} 
+
+\fixedtext{char *\bold{stringtbl_}ViewName }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl});} 
+
+\fixedtext{long \bold{stringtbl_}Write }\fixedindent{(struct stringtbl 
+*\paramname{stringtbl}, FILE *\paramname{file}, long \paramname{id}, long 
+\paramname{level});} \
+\enddata{text,272817968}

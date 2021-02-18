@@ -1,0 +1,44 @@
+ＳＥＲＶＥＲＤＥＦＳ（４）
+
+
+名称
+    serverdefs - Wnnライブラリのサーバとの接続環境設定ファイル
+
+形式
+    /usr/local/lib/wnn/serverdefs (固定)
+
+機能説明
+
+    serverdefsは、変換サーバとの接続環境を設定するものである。Wnnライブラリは、
+    このファイルを参照し、変換サーバと接続する。
+
+    ';' で始まる行はコメントになる。
+    書式は以下の通りである。
+
+    <lang名> <サーバのホスト名> <UNIX_DOMAINのソケット名> <サービス名>
+
+    lang名 :
+	ランゲージを指定する。Wnnライブラリのランゲージと一致した行が
+	参照される。Wnnライブラリのランゲージが null の場合、デフォルト
+	として ja_JP が指定されている行が参照される。
+
+    サーバのホスト名 :
+	サーバのホスト名を指定する。Wnnライブラリのホスト名が null の場合、
+	このホストのサーバに接続を行なう。もし、接続が失敗した
+	場合、あるいは、ホスト名に NULL を指定した場合は、unix domain の 
+	socket で接続を行なう。
+
+    UNIX_DOMAINのソケット名 :
+	unix domain の socket で接続を行なう場合の socket の終端を指定する。
+
+    サービス名 :
+	inet domain の socket で接続を行なう場合の tcp のサービス名を指定する。
+	
+設定例
+    ;lang_name  machine_name  unix_domain_socket_name  service_name
+    ja_JP	jserver		/tmp/jd_sockV4 		wnn4
+    zh_CN	cserver		/tmp/cd_sockV4 		wnn4_Cn
+
+関連項目
+
+    uum(1), jserver(1)

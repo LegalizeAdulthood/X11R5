@@ -1,0 +1,1076 @@
+\input texinfo  @c -*-texinfo-*-
+@comment %**start of header (This is for running Texinfo on a region.)
+@comment $Header: /a2/hubbard/emu/doc/RCS/emu.texinfo,v 1.3 1990/11/20 17:42:03 jkh Exp hubbard $
+@setfilename emu
+@settitle Emu Reference Manual
+@synindex vr fn
+@synindex ty fn
+
+@comment
+@comment $Log: emu.texinfo,v $
+Revision 1.3  1990/11/20  17:42:03  jkh
+Alpha.
+
+Revision 1.2  90/10/25  14:48:41  jkh
+Various rearrangements.
+
+@comment
+@comment %**end of header (This is for running Texinfo on a region.)
+
+@ifinfo
+This file documents the features of the @code{emu} terminal emulation
+system.
+
+Copyright (C) 1990 PCS Computer Systeme, GmbH
+
+                        All Rights Reserved
+
+Permission to use, copy, modify, and distribute this software and its 
+documentation for any purpose and without fee is hereby granted, 
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in 
+supporting documentation, and that the names of PCS or the authors not
+be used in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+OF THIS SOFTWARE.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+@ignore
+Permission is granted to process this file through @TeX{} and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+(this paragraph not being relevant to the printed manual).
+
+@end ignore
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided also that the
+section entitled ``Copyright Information'' is included exactly as in the
+original, and provided that the entire resulting derived work is distributed
+under the terms of a permission notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that the section entitled ``Copyright Information'' and this
+permission notice may be included in translations approved by
+PCS Computer Systeme, GmbH instead of in the original English.
+@end ifinfo
+
+@setchapternewpage odd
+@titlepage
+@sp 12
+@center @titlefont{The Emu Manual}
+@sp 4
+@center by Jordan K. Hubbard
+@center with Michael W. Elbel
+@center and Thomas A. Bagli
+@sp 2
+@center Edition 1.0
+@sp 2
+@center August 1991
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 1990 - 1991 PCS Computer Systeme, GmbH
+@sp 2
+Published by PCS Computer Systeme, GmbH
+Pfaelzer-Wald-Str. 36
+D-8000 Munich, 90.
+West Germany
+
+Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided also that the
+copyright notice and section entitled ``Copyright Information'' is
+included exactly as in the original.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that the section entitled ``Copyright Information'' may be
+included in a translation approved by PCS Computer Systeme, GmbH instead
+of in the original English.
+@end titlepage
+@page
+
+@node Top, Introduction, , (DIR)
+
+@menu
+* Introduction::		Introductory comments.
+* Copyright Information::	Important copyright information.
+* Overview::			A brief description of how it all works.
+* Emu client::			How to use the @code{emu} sample client.
+* Term Widget::			Using the @code{term} widget.
+* TermCanvas Widget::		Using the @code{termCanvas} widget.
+* Index::			Index of features and concepts.
+* References::			Other material of interest.
+@end menu
+
+@node Introduction, Terms, , (DIR)
+@unnumbered Introduction
+@cindex introduction
+
+One of the oldest and, perhaps, most used X utilities is the ubiquitous
+@code{xterm} program.  An indispensible part of the @dfn{X Window
+System}, it is nonetheless showing its age.  Due largely to creeping
+featurism and the somewhat strenuous process of being ported to a number
+of varied and idiosyncratic platforms, the @code{xterm} source has also
+reached a state where further extension and maintainance has become
+a non-trivial exercise.
+
+Almost a year ago, we faced the choice of either further extending
+@code{xterm} or starting over from scratch.  After a long evaluation,
+we came to the conclusion that further attempts to modify @code{xterm}
+would benefit neither us or the X community at large.
+
+About 9 months ago, we suddenly had a need for a feature that
+@code{xterm} did not have.  @quote{Ah,} said we.  @quote{Should be easy
+to add it in.} We looked at the code.  We looked away again hastily.
+Clearly, even lint could not save this code; it was one enormous ball of
+fur.
+
+Combining our altruistic impulses with a genuine need for a VT220
+compliant @code{xterm} (@quote{Can you make the cursor blink in
+@code{xterm}?} said our database people.  @quote{We can't find the
+cursor in our inverted text! We need blinking text too! Argh!}), we then
+set out to completely rewrite @code{xterm} from scratch.  Using some of
+the lessons learned from the original @code{xterm} (design vs creeping
+mutation) and taking full advantage of having a nice toolkit to work
+with (something, to be fair, the original designers did not have), we
+managed to add many new features without significantly exceeding the
+size of the old @code{xterm} program.  We were also able to use the
+toolkit's widget mechanism almost exclusively as a framework, a major
+win in and of itself.
+
+A secondary, but by no means trivial, design goal was to release not so
+much @quote{an @code{xterm} done right} but also a set of tools with
+which users could go well beyond what is initially offered here.  Given
+that the needs of users are many and varied, we focused more on
+providing a logical and portable framework than on providing a
+single-purpose canned solution.  Using this system, users can easily add
+custom terminal emulators, display @code{canvases}, menus and other
+@quote{decorations} using either an @code{Athena} or @code{Motif}
+@emph{look and feel} as desired.  Application writers will also now find
+it quite simple to use a @dfn{slave} @code{xterm} from a larger
+application; one simply creates a couple of widgets and takes advantage
+of the hooks provided for getting at the incoming and outgoing data
+streams.  A number of programmers accustomed to fighting with the old
+@code{xterm}'s @emph{slave mode} should now find life much easier.  Like
+the @code{X Toolkit} itself, we have attempted to provide mechanism, not
+policy, wherever possible.
+
+The end result, after almost 2 man years of work, is something both
+simpler and more complicated than the original @code{xterm}.  As we were
+stuck for a really clever name, we decided to call it @dfn{emu}, which
+is short for emu-lator.  Whether or not the code makes one think of
+large, hairy, flightless birds is purely a subjective issue and we
+refuse to touch it.
+
+Being the kind souls that we are, we present this code free of charge to
+the X user community for their collective enjoyment and/or amusement.
+Caveat Emptor.
+
+@node Terms, Copyright Information, Introduction, (DIR)
+@unnumbered Glossary of Terms
+@cindex terms
+
+In this manual, a number of special terms will be used that should be
+understood before going any further.  Some of them may not make much
+sense initially, but it will at least be clear what the various
+buzzwords and abbreviations mean (each abbreviation will also be
+expanded the first time it's used, so it's not necessary to memorize
+everything at this juncture).
+
+@table @samp
+@item auxTrans
+An AUXilliary TRANSlation.  Used by the @code{termCanvas} widget to
+change the meanings of various keycodes (I.E. the keyboard mapping) on
+the fly. @xref{auxTrans Entries}. @refill
+
+@item canvas
+Generally refers to the @code{termCanvas} widget, though it can refer to
+any @code{canvas} widget being used for character or graphics I/O by the
+@code{term} widget. @xref{termCanvas widget}. @refill
+
+@item comblock
+A data structure used by the @code{comblock communications protocol} for
+data exchange, as well as a permanent @quote{scratch pad} for @code{IOP}
+programs to store data of general interest. @refill
+
+@item comblock communications protocol
+This mouthful refers to a specialized protocol used by the @code{term}
+widget and its @code{canvas} to pass @code{requests} and ancillary
+information back and forth. @xref{ComBlock Communications}. @refill
+
+@item emu
+Refers both to the @code{emu} client program and the system as a whole.
+@xref{Emu client}. @refill
+
+@item emulation
+A collection of @code{FLUT}s, @code{auxTrans} entries, @code{ROP}s and
+@code{input sequences} that describe a complete terminal emulation. @refill
+
+@item FLUT
+A Font LookUp Table. Used by the @code{termCanvas} widget to map ASCII
+characters to actual font glyphs. @xref{Flut Entries}. @refill
+
+@item IOP
+An Intermediate OPeration. Used by the @code{canvas} and @code{term}
+widgets as well as the menu package. @code{IOP}'s are the workhorses of
+the @code{emu} package and, aggregated, form a small but functional
+programming language. @xref{IOPS}. @refill
+
+@item parser
+Escape sequence parsers come in two flavors, @emph{hard} and
+@emph{soft}. A @code{hard} parser is one compiled directly into the
+@code{term} widget for a specific terminal type. A @code{soft} parser is
+defined wholly in the resource database and can be modified without
+having to recompile anything. @xref{Parsers}. @refill
+
+@item request
+A unique integer id identifying some @code{canvas} action to be
+performed. A request may or may not take parameters, which are then
+found in the @code{comblock}. @refill
+
+@item request list
+A comma separated list of one or more @code{requests}. @code{Request
+Lists} are only encountered as parts of @code{Input Sequences} and
+@code{ROPs}. @xref{requests}. @refill
+
+@item ROP
+A Reverse OPeration. This is basically the mirror image of an
+@code{Input Sequence}. Rather than describing characters going in, it
+describes an @quote{outgoing} action to be performed (though this need
+not necessarily result in any characters being output). @xref{ROP
+Sequences}. @refill
+
+@item input sequence
+A @code{request list} followed by a bracket delimited string of tokens.
+Each token describes either a character to be expected as input or an
+@code{IOP} to be performed along the way. Refer to @xref{Sequences} for
+more information, as this is somewhat complicated.
+
+@item input sequence list
+One or more @code{input sequences} that, as a unit, form part of an
+@code{emulation}.
+@refill
+
+@item term
+Refers to the @code{term} widget which wraps around the @code{canvas}
+and any ancillary widgets. @refill
+@end table
+
+@node Copyright Information, General Structure, Terms, Top
+@unnumbered Copyright Information
+@center Version 1, August 1
+
+@display
+Copyright @copyright{} 1990 PCS Computer Systeme, GmbH Pfaelzer-Wald-Str
+36. D-8000 Munich, 90. West Germany.
+
+Everyone is permitted to copy, modify and distribute copies of this
+license document, provided that the section ``Copyright Information'' is
+included exactly as in the original.
+@end display
+
+                        All Rights Reserved
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation, and that the names of PCS or the authors not
+be used in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+PCS Computer Systeme, GmbH would also like to request that any
+enhancements to this software, or its documentation, be sent back to PCS
+(or one of the authors) for inclusion in subsequent releases. While you
+are certainly not in any way legally required to do so, such cooperation
+will result in a better emu for all concerned and is thus kindly
+requested.
+
+PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL PCS
+OR THE AUTHORS BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
+ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+THIS SOFTWARE.
+
+@node General Structure, Emu Client, Copyright Information, Top
+@chapter Structure of the @code{Emu} System.
+@cindex structure
+@cindex emu, system
+
+What has been referred to so far as @emph{The Emu System} is really
+nothing more than two widgets and a sample client (@pxref{Emu Client}).
+What makes it a @emph{system} is more the way it all fits together and
+provides a framework for future expansion.
+
+To better understand the system, it is probably a good idea at this
+point to break it down into its component parts and attempt to describe,
+briefly, what each part does. What follows should only be considered a
+brief overview since each topic is described in much more detail in its
+own section of this manual.
+
+The first item of interest is the @code{term} widget, which basically
+manages all aspects of the operating system dependent interface: PTY
+allocation, process management, and terminal mode manipulation. To put
+it another way, the @code{term} widget can be thought of as analgous to
+the communications hardware of an actual terminal, minus the screen and
+keyboard.
+
+The @code{term} widget also handles all parsing of special input
+sequences (more commonly referred to as @quote{escape sequences}) from
+the process, turning them into @quote{operations} (@pxref{Requests})
+that the @code{canvas} understands. @xref{Parsers}.
+
+Finally, the @code{term} widget provides a number of features and hooks
+for applications that want to do fancier I/O control and/or additional
+widget management. While the @code{term} widget typically manages just
+one @code{canvas} child, it can also manage other children (even
+additional canvases) as necessary (@pxref{Term Widget}).
+
+The second (and complimentary) widget of interest is the @code{canvas}.
+The @code{canvas} is in charge of all @quote{screen} output, as well as
+the translation of @code{keycode} sequences into ascii characters and
+mouse controlled cut and paste operations. Using the @quote{actual
+terminal} analog again, the @code{canvas} widget would be the CRT and
+keyboard part.
+
+The @code{canvas} compliments the @code{term} widget by supporting a set
+of generic operations, such as moving the cursor, inserting or deleting
+text, etc, which the @code{term} widget then @quote{requests}
+(@pxref{Requests}) it to perform as its recognises various input
+sequences in its parser description. Likewise, the @code{canvas} relies
+on the @code{term} widget to communicate with the process when
+dispatching of I/O from the keyboard or cut buffer/selection mechanism
+is required.
+
+As stated earlier, the term @quote{canvas} actually refers to any widget
+that supports a certain protocol with the @code{term} widget
+(@pxref{Comblock Communications Protocol}) in general; not any specific
+particular widget. In theory, any number of @code{canvas} widgets can,
+and may, exist for doing various types of display I/O. At the time of
+this writing, one @code{canvas}, called the @code{termCanvas}
+(@pxref{TermCanvas Widget}), exists for doing reasonably sophisticated
+text display (basic text + VT220 attributes). In time, there will
+probably be a number of additional canvases that support generic
+graphics operations, auxilliary input devices, etc. A client application
+will then have the option of creating any number of
+@code{term}/@code{canvas} pairs (or one @code{term} with multiple
+@code{canvases}) to suit a particular need. @refill
+
+The final part of the system is the @code{emu} sample client, which will
+typically be all the average user sees or cares about. Most of the
+client is rather simple. It first creates a shell widget to interact
+with the window manager, as is normal, providing a number of command
+line options to get directly at various @code{term} and
+@code{termCanvas} resources. It then creates a @code{term} widget as its
+child and, in turn, a @code{termCanvas} widget and several optional
+control widgets under it.  As previously stated, the @code{term} widget
+does not really care about any widgets other than its @code{canvas},
+though it will readily manage them. This feature is used by the
+@code{emu} client to optionally create a scrollbar and menu bar. Since
+the @code{term} widget does not know or care about either of these, the
+management of their size and position is left to the @code{emu} client
+itself. This is handled through a @dfn{callback} provided by the
+@code{term} widget which is called whenever a @dfn{Resize},
+@code{GeometryRequest} or @code{Realize} occurs. The @code{emu} client
+then adjusts things accordingly. The scrollbar callbacks are likewise
+handled by the client with the scrollbar motion being translated into
+@code{canvas} scroll requests.
+
+While this approach may seem to put an undue burden on the client
+program, it has helped to keep the @code{term} and @code{termCanvas}
+widgets free of application specific code.
+
+Also part of the @code{emu} client is the configurable @code{menu}
+package. Through the toolkit translation mechanism, any number of menus
+can be automatically attached to the @code{term} widget without it
+having to know or care. Unlike the menu code in the old @code{xterm}
+program, a menu's actions (as well as appearance) are completely user
+configurable. @xref{Menus}.
+
+The general philosophy of the @code{emu} system was to provide two, very
+general purpose, communication and text manipulation widgets with ample
+room for future expansion. All @quote{decoratations} like scrollbars,
+menu bars and menus are implemented on the client side through hooks
+made available by the widgets for that purpose. This approach also
+allowed the @code{emu} client to provide either @dfn{Athena} or
+@dfn{Motif} widget look-and-feel at very little added cost.
+
+@node Emu Client, Menus, General Structure, Top
+@chapter Using The @code{Emu} Client
+@cindex client
+@cindex emu, client
+
+The @code{emu} client is used in much the same way as the old
+@code{xterm} program was, though there are a few new command line
+options. Since the @code{emu} system also relies much more heavily on
+resources than the old @code{xterm}, installation of the application
+defaults is almost mandatory before @code{emu} will work properly.
+
+@node term widget, termCanvas widget, emu client, Usage
+@section The term Widget
+@cindex term widget
+
+@node termCanvas widget, , term widget, Usage
+@section The termCanvas Widget
+@cindex termCanvas widget
+
+@node Configuration, Emulators, Usage, Top
+@chapter Configuring @code{Emu}.
+@cindex configuring
+@cindex configuration
+
+Virtually all aspects of the @code{emu} system are user configurable with
+almost nothing being assumed about specific terminal types, keyboards,
+output fonts or menus.
+
+Of course, should the standard @code{VT220 Emulation} included with
+@code{emu} be sufficient for your needs, you won't need to worry
+about any of this. @xref{Emulations}.
+
+@menu
+* Emulation Design::	Designing a new emulation.
+* Menu Configuration::	Configuring menus in the @code{emu} client.
+@end menu
+
+@node Emulation Design, Menu Configuration, , Configuration
+@section Designing a New Emulation.
+@cindex emulations, writing
+
+Writing a new (or modifying an existing) @code{Emulation} generally consists
+of 3 basic steps:
+
+@itemize @bullet
+@item
+Determining which set of escape sequences are to be emulated and how
+the terminal generally behaves. Most terminals have various quirks that
+must be taken into account when writing @code{Input} and @code{ROP} sequences
+for them, so it is important to understand the terminal in question
+fairly well before writing any configuration code.
+
+@item
+Familiarizing yourself with the different requests the canvas supports
+and begin mapping out the correspondence between terminal features and
+canvas request types.
+
+@item
+Writing the first @code{ROP Sequences} for initializing the terminal to
+get a feel for writing @code{IOP} code. Start with a very basic subset of
+the terminal's escape sequence step and work your way up, testing your
+emulation carefully as you go along. It's easy to introduce grammer
+ambiguities by injudicious use of @code{%s} and @code{%d} sequences
+(@pxref{IOPS}), so new sequences should be added with care.
+@end itemize
+
+@menu
+* IOPS::		All about IOPs.
+* Input Sequences::	Constructing a sequence based parser.
+* ROP Sequences::	Writing output and auxilliary work sequences.
+* Canvas Requests::	Making requests of the canvas.
+@end menu
+
+@node IOPS, ROP Sequences, , Emulation Design
+@section IOP (Intermediate OPeration) lists.
+@cindex IOP
+
+The @code{IOP} is the low-level workhorse of the @code{emu} package,
+doing everything from on-the-fly coordinate transformation in
+@code{Input Sequences} to setting flags, sending signals or invoking
+processes from menus!
+
+@code{IOP} code looks something like the @code{Forth} language,
+on which it is in fact loosely based. Like @code{Forth}, IOPs have a stack
+on which they can store and manipulate data. Also provided are 128
+typed registers for long term storage of data and inter-widget communication
+(@pxref{ComBlock Communications}).
+
+@code{IOPs} can be (and usually are) imbeded in @code{ROP} or @code{Input}
+sequences by using the special @code{Meta} characters @key{%} and/or
+@kbd{\{\}}.
+
+For example, take the following IOP sequence:
+
+@example
+			%ga%1%+%2%*%pa
+@end example
+
+While this may look like a line of tty noise to the uninitiated user,
+it's actually quite simple. The first @code{IOP} is @var{%ga}, which
+means @quote{Get register @var{a} and push it on the stack.} The next
+@code{IOP}, @var{%1} simply pushes a literal integer `1' onto the stack.
+The @var{%+} @code{IOP} pops off two stack items (in this case, the
+contents of register `a' and 1) and adds them together, pushing the
+result onto the stack.  Finally, @var{%2} is pushed and @var{%*} pops
+it, and the earlier result from @var{%+}, multiplying them together and
+pushing the result. Finally, @var{%pa} @quote{Pops the stack into
+register @var{a}} and we are finished.
+
+Another way of specifying @code{IOP} sequences is to use the `%{}'
+delimiters, which mean @quote{treat all characters in the following
+sequence as @code{IOP} characters.} The above sequence could thus also
+be expressed as:
+
+@example
+			%{ga 1 + 2 * pa}
+@end example
+
+The whitespace between @code{IOP} characters is not generally required
+(thus you could also say: %{ga1+2*pa}), but serves to make the code more
+readable and is encouraged.
+
+String, character and numeric constants be pushed on the stack as
+`psudeo IOPS' in the following manner:
+
+@table @code
+@item nnn
+Where @code{nnn} is one or more decimal digits.
+
+@item 'n'
+Where @code{n} is a single character or character specifier (e.g. \nnn,
+^n, etc).
+
+@item @quote{n..n}
+Where @code{n..n} is one or more ascii characters. As with character
+constants, the standard `C style' character escapes are supported.
+@end table
+
+The following @code{IOP} characters are supported by @code{emu}:
+
+@table @var
+@item +
+Adds the top two stack items, pushing the result.
+
+@item &
+Bitwise AND's the top two stack items, pushing the result.
+
+@item ba
+Pops a string from the stack and appends it to the input stream
+buffer.
+
+@item bs
+Pops a string from the stack and replaces the input stream with
+it, discarding any previous contents.
+
+@item C
+Pops an integer from the stack and sends it as a @code{Request} ID to
+the @code{Canvas}.
+
+@item @@
+Pops two stack items, using the topmost item as a type
+(@pxref{Emulation Design}) into which the second item is converted (cast).
+This is typically used to convert strings into numbers, or vice-versa.
+
+@item c
+When used in a @code{ROP}, will .. END HERE.. GO ON VACATION.
+@end table
+
+#define META_ADD		'+'
+#define META_AND		'&'
+#define META_BUFFER		'b'	/* parm */
+#define META_CALL		'C'
+#define META_CAST		'@'
+#define META_CHAR		'c'
+#define META_COMP		'~'
+#define META_DIV		'/'
+#define META_DROP		'X'
+#define META_DUP		'D'
+#define META_ELSE		':'
+#define META_ENDIF		';'
+#define META_EQ			'='
+#define META_FREE		'f'
+#define META_GET		'g'	/* parm */
+#define META_GOTO		'j'	/* parm */
+#define META_GOTOU		'\012'  /* unsatisfied goto */
+#define META_GT			'>'
+#define META_IF			'?'
+#define META_IGET		'G'
+#define META_INT		'd'
+#define META_IPOP_TO_REG	'P'
+#define META_LABEL		'L'	/* parm */
+#define META_LAND		'A'
+#define META_LNOT		'!'
+#define META_LOR		'O'
+#define META_LT			'<'
+#define META_MENU		'M'
+#define META_MOD		'm'
+#define META_MUL		'*'
+#define META_NOP		';'
+#define META_NOT		'^'
+#define META_OR			'|'
+#define META_POP_TO_REG		'p'	/* parm */
+#define META_ROP		'R'
+#define META_SIGNAL		'I'
+#define META_STR		's'
+#define META_STRLEN		'l'
+#define META_SUB		'-'
+#define META_SWAP		'S'
+#define META_TITLE		't'
+#define META_TOKEN		'$'
+#define META_TTY		'T'	/* parm */
+#define META_UP			'U'
+
+/* Sub-selector (parm) types for various ops */
+#define TTY_GET			'g'
+#define TTY_SET			's'
+#define TTY_IGET		'i'
+#define TTY_SGET		'd'
+
+@node Menu Configuration, , Canvas Configuration, Configuration
+@section Configuring the Menus
+@cindex menus, configuring
+
+@node Emulations, Index, Configuration, Top
+
+@node Index, References, Emulations, Top
+@unnumbered Index
+
+@printindex cp
+@printindex fn
+@contents
+
+@node References, , Index, Top
+@chapter References
+
+[1] McCormack, Joel. Asente, Paul and Swick, Ralph R. @i{X Toolkit Intrinsics
+- C Language Interface} Massachusetts Institute of Technology, 1985, 1986,
+1987, 1988
+
+[2] Swick, Ralph R. and Weissman, Terry. @i{X Toolkit Athena Widgets - C
+Language Interface}  Massachusetts Institute of Technology, 1985, 1986, 1987,
+ 1988
+
+@bye
+
+@node The Comblock Interface, , ,Top   
+@comment  node-name,  next,  previous,  up
+
+The various parts of @code{emu} use the @code{comblock interface} to exchange
+information.
+
+A comblock is a structure which is defined as:
+@samp{
+typedef struct _comblock @{
+     int opcode;			/* operation code */
+     unsigned char buffer[BUF_SZ];	/* data buffer (1024 bytes) */
+     int nbytes;			/* data buffer size */
+     Register regs[CB_NREGS];		/* register array (256 regs) */
+@} ComBlock, *ComBlockPtr;
+}
+
+Registers are defined as:
+@samp{
+typedef struct _reg @{
+     int type;				/* data type */
+     Generic data;			/* data ptr */
+@} Register;
+}
+
+@samp{Generic} is a generic Pointer to the data.
+
+@samp{comblock.opcode} tells a called part which supports different functions,
+which one is called.
+
+@samp{comblock.buffer} is used to transmit general strings.
+
+@samp{comblock.nbytes} tells how long the @samp{buffer} is.
+
+@samp{comblock.regs} forms a set of (currently) 128 registers. Registers should
+be adressed via character constands e.g. @samp{comblock.regs['a'].data}.
+
+Each register can hold several types of data:
+@samp{CB_INT_TYPE}, @samp{CB_STR_TYPE}, @samp{CB_CHAR_TYPE} and  @samp{CB_ANY_TYPE}.
+
+The comblock is allocated in the @code{term widget}, registers and buffer
+are used to transfer data between parser, reverse parser and canvas and
+for private storage of the parser and reverse parser.
+Policy is to use registers 'a' to 'd' and 'x' to 'z' to pass arguments and
+return values.
+Registers in lower case letters and numbers should only be used for private
+data of the parser.
+Upper case letters should only be used by the reverse parser.
+
+Our choice for the emulator was to do it via the Resource Manager. This
+was both for ease of development and, later, ease of configurability for
+the user. The tradeoff was that emu would take longer to launch.  This
+was far outweighed by the fact that whole emulations or pieces of
+emulations could be added or subtracted simply by changing the
+application defaults, and restarting emu again. This decision, though,
+does not preclude replacing this mechanism with a hard-wired, say, vt200
+emulation. The code is, once again, modular. The same may be said of the
+canvas, the menus and all other parts of emu.
+
+END OF INTRO texinfo
+
+
+
+START OF MENU DOC texinfo
+
+@setfilename emu-menu-info
+
+@node Menus, , ,
+@chapter Menu Configuration
+@cindex menus
+
+Simplicity is beauty. And emu's menus are simple.  The menu module, as
+with the rest of emu, provides the mechanism, but not the policy.  The
+module provides facilities for creating, managing, popping-up, and
+attaching policy (functionality) to menus.  But, it does not dictate how
+many menus or menu items exist, what is in each menu, what functions it
+performs, or how it is popped up.  This is all user configurable, and is
+specified via the resource manager.  Menus are, therefore, fully
+extensible and configurable.
+
+@menu
+* Menu Resources:: What can be configured and how, examples.
+* Menu Item Resources:: What can be configured and how, examples.
+@end menu
+
+@node Menu Resources, Menu Item Resources, , Menu Configuration
+@section Menu Resources
+@cindex menu configuration parameters
+
+The emu menus are configurable through the resource file.  All
+Athena Form, MenuButton (both for menu bar), SimpleMenu, Sme, SmeBSB,
+and SmeLine, or Motif XmRowColumn, XmCascadeButton (both for menu bar),
+XmPopupMenu, XmPushButtonGadget, XmLabelGadget, and XmSeparatorGadget
+resources are available for customization.  Please see the appropriate
+Intrinsics, Athena or Motif documentaion for further clarification of
+these resources.
+
+In addition to these standard widget resources, the number of menus, the
+number of menu items, and the position of menu item separators are settable
+via resources.  For each menu item it is also possible to specify what
+functionality (action) lies behind it.
+
+@node Menu Translations - Names - ROPs, Menu Item Resources, Menu Resources, Menu Configuration
+@cindex menu translations, menu names, menu ROPs
+
+Menus are configured via the screen translations by specifying a menu
+name to pop-up and a key/button sequence indicating how to activate it.
+For example, the default configuration could look like:
+
+@example
+    *term.screen.Translations: #override\n\
+        Ctrl ~Shift<Btn1Down>:          XpEmuPopupMenu(menu1) \n\
+        Ctrl ~Shift<Btn2Down>:          XpEmuPopupMenu(menu2, 302) \n\
+        Ctrl ~Shift<Btn3Down>:          XpEmuPopupMenu(menu3, 303) \n\
+        Ctrl  Shift<Btn3Down>:          XpEmuPopupMenu(menu4) \n
+@end example
+
+These translations show that pressing @quote{Ctrl}, but not
+@quote{Shift}, pops-up a menu called @quote{menu1}.  The name
+@quote{menu1} actually becomes the name of the menu widget when it is
+created.  It is necessary to have this name since it is used further for
+qualifying resources.  The second and third menus are specified in a
+similar fashion but by pressing (mouse) button2 and button3,
+respectively.  The fourth menu is also activated by pressing button3,
+but this time the @quote{Ctrl} and @quote{Shift} keys must be pressed.
+
+@quote{XpEmuPopupMenu} expects at least a menu name as a parameter.  If
+other actions (ROPs) are desired on a per menu, not menu item, basis
+then additional parameters (ROP numbers) may be declared after the menu
+name.  These actions are performed each time just before the menu is
+popped-up.  The second and third menu declarations illustrates such a
+situation.
+
+
+@node Menu Item Resources, , Menu Resources, Menu Configuration
+@section Menu Item Resources
+@cindex menu item configuration parameters
+
+@node Number Of Menu Items, Menu Item Labels, Menu Item Resources, Menu Configuration
+@section Number Of Menu Items
+The menu package creates the number of user specified items.  The
+default configuration for @quote{menu1} might look like:
+
+@example
+    *menu1.numberItems:             8
+@end example
+
+This resource must be given.
+
+@node Menu Item Labels, Menu Item Line Separators, Menu Item Resources, Menu Configuration
+@section Menu Item Labels
+
+It is not necessary to specify menu item labels; the toolkit default is
+to use the menu item widget name, which is, e.g., @quote{item1}.  The
+resource file, however, does specify item label defaults for the
+declared menus.  The @quote{menu1} defaults could be:
+
+@example
+    *menu1*item1.label:             Redraw
+    *menu1*item2.label:             Reset all
+    *menu1*item3.label:             Set TTY sane
+    *menu1*item4.label:             Set TTY origin
+    *menu1*item5.label:             Send INT signal
+    *menu1*item6.label:             Send HUP signal
+    *menu1*item7.label:             Send TERM signal
+    *menu1*item8.label:             Send KILL signal
+@end example
+
+@node Menu Item Line Separators, Menu Item Actions, Menu Item Labels, Menu Configuration
+@section Menu Item Line Separators
+
+In order that menu items within a menu may be functionally (or otherwise)
+grouped, line separators may be specified in the resource file.  Items after
+which to put line separators are indicated as such:
+
+@example
+    *menu1.itemLines:               item1 item4
+@end example
+
+@node Menu Item Actions, , Menu Item Line Separators, Menu Configuration
+@section Menu Item Actions
+
+In most cases, it is necessary that for each menu item an action is
+specified.  The action resource is, in effect, the function that is
+invoked when the menu item is selected.  This resource may either be a
+number (ROP action) or a string (emulation action).  For example,
+@quote{menu1}'s items could have ROP action numbers as given below:
+
+@example
+    *menu1*item1.action:            310
+    *menu1*item2.action:            311
+    *menu1*item3.action:            312
+    *menu1*item4.action:            313
+    *menu1*item5.action:            314
+    *menu1*item6.action:            315
+    *menu1*item8.action:            316
+    *menu1*item9.action:            317
+    *menu1*item10.action:           318
+    *menu1*item11.action:           319
+@end example
+
+An example of emulation action specification is shown by the possible
+default @quote{menu4} action resources:
+
+@example
+    *menu4*item1.action:            tty
+    *menu4*item2.action:            xterm+
+@end example
+
+Code
+
+Menus are created at that moment the user first clicks a particular
+button.
+
+The menu package has three explicit contact points to the rest of the
+emu program.  The first is for initialization, which simply registers
+the exportable actions (XpEmuPopupMenu) with the translation manager.
+This initialization routine (XpEmuInitializeMenus) is the only routine
+that must be called by the emu client program.
+
+The second point of contact is for the dispatching of actions
+(XpEmuMenuDispatch) when menu items are clicked.  This is done indirectly
+via the single menu item callback (DoInteract).  The callback passes the
+respective menu item ROP action number or emulation action string, specified
+in the resource file, to the emu program.  If no ROP number or emulation
+name exists for the selected menu item, the widget label, or lastly, the
+widget name are used.  This indicates the selection is an emulation.
+
+The third contact point is the complement of the second.  It is for the
+emu program to tell the menu module to perform some action
+(XpEmuMenuAction).  The actions the menu package can perform are limited
+to activating/deactivating (sensitizing) and marking/unmarking menu items.
+
+The making of a menu consists of detecting the number of items and
+possible separator lines via the resource manager, and then creating the
+menu with the single menu callback.  No local menu call data exists; all
+necessary menu information is stored in and derived from the resource
+manager or the toolkit.  In this way, no local data structures are necessary,
+no local memory is allocated, and therefore, the number of menus and the
+number of menu items are dynamic and may be of any size.  Also, by using a
+single callback with user specifiable ROP actions, functionality is attached
+at menu realization time by the resource manager.
+
+END OF MENU DOC texinfo
+
+The reTRIEval parser is a relatively simple finite state automata builder
+for parsing special character sequences from a process running under the
+term widget. During the explanation that follows, several basic terms will
+be used:
+
+INPUT SEQUENCE LIST
+	One or more atoms comprising a terminal definition.
+
+INPUT SEQUENCE
+	A collection of characters containing one or more matches,
+        iops and actions.
+
+ACTION
+	A unique integer identifier passed to the canvas specifying
+	a canvas internal operation to be performed or an output operation
+	(rparse) to be encapsulated.
+
+IOP
+	An Intermediate OPeration. Imbeded in an sequence, an iop specifies
+	some high level operation to be performed in-situ before one or more
+	final actions are performed.
+
+MATCH
+	A literal character or character range specifier expected to
+	directly match some portion of an input sequence's definition.
+
+
+The basic role of an sequence is to trigger a canvas action upon receipt
+of one or more characters from the term widget's input source (typically
+a subprocess). This is probably best explained by giving a few examples:
+
+	OP_CLEAR_SCREEN<FOO> OP_RING_BELL<BAR>
+
+The above is an sequence list containing two sequences. The first sequence
+says that the canvas operation OP_CLEAR_SCREEN is to be invoked when the
+literal string "FOO" is seen on the input. The second invokes operation
+OP_RING_BELL when "BAR" is seen. Any character between the '<>' brackets
+is considered to be a literal character to expect on the input, unless
+that character is made "magic" with the '%' character (more on that later).
+
+The canvas action codes OP_CLEAR_SCREEN and OP_RING_BELL are actually
+predefined integer constants provided by a system-wide include file
+distributed with emu. Users are expected to include this file in their
+.Xdefault files. @xref{action codes}.
+
+Non-printing characters can also be represented in a sequence using
+the standard C convention for escaping control characters. A number
+of "terminfo" conventions, such as \E and ^<char> are also supported
+for user convenience. Here, for example, is a small sequence list fragment
+from the vt100 definition:
+
+	OP_CLEAR_SCREEN<\E[2J> OP_DELETE_TO_EOL<\E[K>
+
+Upon receiving the sequence <ESC>[2J, emu will clear the screen. Likewise,
+<ESC>[K will cause characters from the current cursor position to the end of
+the line to be erased.
+
+
+So far, we've only seen sequences limited to simple character matches. In
+order to support even the simplest of today's display terminals, however,
+much more complicated parameter manipulation mechanisms are required.
+In emu, these are provided through special IOP (Intermediate OPeration)
+characters imbeded in the sequence. IOP characters are always preceeded
+by the percent ('%') character and are executed in lexical order (I.E.
+as they're encountered). As usual, this is probably best explained with
+an example:
+
+	OP_MOVE_ABS<\E[%d%{1}%-%py;%d%{1}%-%pxH>
+
+This is the vt100 "move cursor" command, expressed as a sequence. What
+looks rather complicated in sequence notation is simply a step-by-step
+breakdown of:
+
+	<ESC>[<y>;<x>H
+
+Where "<y>" and "<x>" are expressed as integers. The extra complexity
+mainly derives from the fact that emu always expects the upper left
+hand corner of the screen to be addressed as coordinate 0, 0. vt100
+terminals, in turn, start at 1, 1. In order to map things properly, some
+more advanced features must be called into play. We'll now break the sequence
+down step by step:
+
+OP_MOVE_ABS	Action is "move absolute cursor position"
+<	- start sequence
+\E	- simple, just matches 'escape'
+[	- likewise, matches '['
+%d	- expect a sequence of decimal digits, pushing final result on stack.
+%{1}	- push literal 1 on stack.
+%-	- subtract top two stack elements, push result.
+%py	- pop stack, storing into register 'y'.
+%d	- expect another sequence of digits, push as integer.
+%{1}	- push a 1.
+%-	- subtract, push result.
+%px	- pop into register x
+H	- match 'H'
+>	- end of sequence
+
+As you can see, this will gather the x and y coordinates, subtract one
+from each and finally generate an OP_MOVE_ABS request to the "canvas"
+portion of emu. You're probably wondering about those two magic
+"registers" x & y at this point. IOPs have two areas available
+for intermediate calculations at their disposal. The stack, which you've
+probably already figured out, and the 26 registers 'a' - 'z'. Not all
+registers are created exactly equal, however. Some (like x & y) are used
+specifically for passing arguments to canvas actions. The registers
+'k' - 'z' are reserved by the canvas for argument passing. 'a' - 'j'
+are for the user and may be used as scratchpad registers, or even to hold
+longer term state information since the emu parser/canvas protocol
+guarantees that these registers will not be touched.
+
+The following IOP's are currently supported by emu:
+
+%d	number			(with implicit stack push)
+%c	character		( "	" )
+%s	string			( "	" )
+%(..)	repeating sequence
+%n	numeric constant n
+%'n'	character constant n
+%"n"	string constant n
+%{.,.}	grouping of multiple ops (sticky %)
+%pn	pop into register 'n'
+%gn	push register 'n'
+%P	pop register indirect (register number is second stack item)
+%G	push register indirect ( " " )
+%+	add
+%-	subtract
+%*	multiply
+%/	divide
+%m	modulus
+%&	and
+%|	or
+%^	not
+%~	complement
+%A	AND (boolean)
+%O	OR  (boolean)
+%!	NOT (boolean)
+%=	equals
+%<	less than
+%>	greater than
+%?	if
+%e	else
+%;	if-else terminator (or null op).
+%C	pop stack and directly call as canvas action.
+
+Most of these ops are pretty straight-forward, with the possible exception
+of %() and %{} which are special purpose "grouping" ops.
+
+%() is used to specify a sub-sequence that will be repeated one or more
+times. An example of this is the vt100 "set attribute" command, an
+example of which might look something like: <ESC>[1;3;4;5N
+Since any number of "<num>;" specifiers might be seen, one would need a way
+of specifying "one or more of the following." This is where the %() construct
+comes in handy:
+
+	<Example>
+
+%{} is used to specify a number of IOPS in a row, without having to tediously
+specify the '%' character each time (think of it as a temporarily sticky '%').
+The vt100 cursor motion sequence given earlier, for instance, could be
+expressed more succintly as:
+
+	OP_MOVE_ABS<\E[%{d,1,-,py};%{d,1,-,px}H>
+
+
+Sequence lists are added or deleted from the parser by calling the routines:
+
+parse_add(char *s)
+
+	Adds the list of sequences in "s" to the parser trie structure.
+
+parse_sub(char *s)
+
+	Subtracts the list of sequences in "s" from the parser's trie structure.

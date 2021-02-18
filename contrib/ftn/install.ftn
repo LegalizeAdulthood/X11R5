@@ -1,0 +1,53 @@
+#!/bin/csh
+
+#
+# @(#)install_fortran_bind 91/09/18 FJ
+#
+#  Copyright (c) 1991 by FUJITSU. LTD.
+#
+#  Cshell script to install PEX-SI FORTRAN binding source into an X11R5 tree
+#
+#  USAGE: install_fortran_bind  X11R5_root_tree [tape device]
+#
+#       This file should've been extracted from the tar tape via:
+#
+#               tar xvf <favorite_tape_device> ./install_fortran_bind
+#
+#  Print out document of FORTRAN binding:
+#
+#               cd ./f_binding/doc
+#
+#               troff -t -ms FORTRAN.1.0 | lpr -t
+#
+##############################################
+if ( $#argv < 1 )  then
+             echo "Aborted installation."
+             exit 1
+endif
+set ORIG_DIR='pwd'
+if ( $#argv =~ 1 )  then
+	set TAR="tar xvf /dev/rmt8"
+	echo "tape device = /dev/rmt8"
+else
+	set TAR="tar xvf $2"
+	echo "tape device = $2"
+endif
+##############################################
+
+echo -n "Is PEX tape mounted and ready?  (y/n) "
+
+set Answer=$< 
+if ( $Answer !~ y*  &&  $Answer !~ Y* ) then
+             echo "Aborted installation."
+             exit 2
+endif
+cd $1
+cd ./extensions/lib/PEX
+if ( $2 =~ /dev/* )  mt  -f $2  rew
+${TAR}
+
+echo "########################################################################"
+echo -n "PEX FORTRAN binding installation completed.  "
+echo "########################################################################"
+date
+exit

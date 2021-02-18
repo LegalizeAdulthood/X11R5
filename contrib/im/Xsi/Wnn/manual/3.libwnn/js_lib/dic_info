@@ -1,0 +1,27 @@
+JS_DIC_INFO( )
+
+名称
+
+	js_dic_info	辞書情報の取り出し。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_dic_info(env,dic_no,ret)
+	struct wnn_env *env;	/* 環境 */
+	int     dic_no;		/* 辞書番号 */
+	WNN_DIC_INFO *ret;	/* 辞書情報 */
+
+機能
+
+	辞書番号 dic_no の辞書の情報を得る。
+	現在使用中の辞書に関する情報を ret に取り出す。
+	辞書番号の辞書がない場合、何もしない。
+
+リターンバリュー
+
+	正常終了時には、辞書番号を返す。
+	異常終了時には、-1 を返す。
+

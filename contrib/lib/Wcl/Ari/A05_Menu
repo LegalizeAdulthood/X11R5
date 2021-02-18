@@ -1,0 +1,22 @@
+! Example showing how to use Athena Menus
+
+Ari.wcChildren:		menuButton
+Ari.title:		A05_Menu
+
+*menuButton.wcClass:	menuButtonWidgetClass
+*menuButton.wcPopups:	menu
+
+*menu.wcClass:		simpleMenuWidgetClass
+*menu.wcManaged:	False
+*menu.wcChildren:	menuEntry1, menuEntry2, menuLine, \
+			menuEntry3, menuEntry4, menuEntry5
+
+*menuLine.wcClass:      smeLineObjectClass
+*menuEntry1.wcClass:    smeBSBObjectClass
+*menuEntry2.wcClass:    smeBSBObjectClass
+*menuEntry3.wcClass:    smeBSBObjectClass
+*menuEntry4.wcClass:    smeBSBObjectClass
+*menuEntry5.wcClass:    smeBSBObjectClass
+*menuEntry5.label:	quit
+*menuEntry5.callback:	WcExitCB
+

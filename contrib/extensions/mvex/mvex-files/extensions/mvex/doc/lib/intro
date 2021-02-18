@@ -1,0 +1,102 @@
+.\" $Header: /n/lacey/usr/local/src/video/MVEX/doc/lib/RCS/intro,v 1.13 1991/09/26 04:54:34 toddb Exp $
+.OH ''''
+.OH ''''
+.EF ''''
+.OF ''''
+.ps 11
+.nr PS 11
+.de rV
+.ds vS "\fBVersion \\$2\fP
+..
+.rV $Revision: 1.13 $
+\&
+.sp 8
+.ce 4
+\s+2\fBMVEXlib\fP\s-2
+\s+1\fBVideo Extension to X Client Library\fP\s-1
+\*(vS
+.sp 6
+.ce 4
+.ps 11
+.nr PS 11
+\s-1Todd Brunhoff
+.br
+Scott Hennes
+.sp 6p
+Tektronix, Inc.
+\&
+.ps 9
+.nr PS 9
+.sp 8
+.LP
+X Window System is a trademark of M.I.T.
+.LP
+Copyright \(co 1990, 1991
+Tektronix, Inc.
+.LP
+.nh
+Permission to use, copy, modify, and distribute this document
+for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and
+that both that copyright notice and this permission
+notice are retained, and that the name of Tektronix not be used
+in advertising or publicity pertaining to this document without
+specific, written prior permission.
+Tektronix makes no representations about the suitability of this
+document or the protocol defined in this document for any purpose.
+It is provided ``as is'' without express or implied warranty.
+.ps 11
+.nr PS 11
+.OH '\fBMVEX Library\fP'\*(vS'\fBX11, Release 5\fP'
+.EH '\fBMVEX Library\fP'\*(vS'\fBX11, Release 5\fP'
+.bp
+.EF ''\fB % \fP''
+.OF ''\fB % \fP''
+\&
+.sp 1
+.ce 3
+\s+1\fBSection 1\fP\s-1
+
+\s+1\fBIntroduction\fP\s-1
+.sp 2
+.nr H1 8
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.LP
+.XS
+Section 1: Introduction
+.XE
+.LP
+This document describes
+.PN MVEXlib ,
+the client library for the Video Extension to X.
+It assumes the reader is familiar with Xlib and with the MVEX Protocol.
+This initial draft does not attempt to duplicate much of the MVEX Protocol
+document and the reader must rely on that document to understand the
+semantics of many MVEXlib routines and data structures.
+.LP
+.PN MVEXlib 
+does not have an explicit initialization routine.  Each routine will attempt
+to initialize the library if it is not already initialized.  A client
+can determine whether or not the MVEX extension is available in a server
+by using the core routine,
+.PN XQueryExtension.
+This routine must also be used to obtain the MVEX event and error base numbers.
+The name of the extension is "MVEX".
+.LP
+Library initialization does an implicit call to
+.PN MVEXQueryVideo .
+Client access to information sent in the server reply is through these
+routines:
+.PN MVEXOverlapsOfScreen ,
+.PN MVEXTimestamps ,
+.PN MVEXGetVisualInfo ,
+.PN MVEXGetVins
+and
+.PN MVEXGetVouts .
+All information returned by these routines remains valid for the life of
+the connection.
+.bp

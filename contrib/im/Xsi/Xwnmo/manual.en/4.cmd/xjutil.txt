@@ -1,0 +1,66 @@
+
+
+
+XJUTIL(4)           UNIX Programmer's Manual            XJUTIL(4)
+
+
+
+NAME
+     xjutil - Dictionary Utirity Manager
+
+SYNOPSIS
+     /usr/bin/xjutil _d_i_s_p_l_a_y-_n_a_m_e _a_t_o_m-_n_a_m_e _a_c_o_u_n_t
+
+DESCRIPTION
+     The _x_j_u_t_i_l is a dictionary utility manager operates dic-
+     tionaries of _W_n_n. It is executed by _x_w_n_m_o automatically.
+
+OPARATIONS
+     _X_j_u_t_i_l has the following operations for dictionary of _W_n_n.
+
+     Add dictionary:
+             You can add new dictionary in your conversion
+             environment.
+
+     Output list of dictionaries:
+             You can see a list of current loaded dictionaries in
+             your conversion environment.
+
+     Registry:
+             You can registry new word in your private diction-
+             ary.
+
+     Search: You can search word in dictionary. And if you push
+             any button on one word , you can operate its word.
+             (_d_e_t_e_l_e/_d_i_s_a_b_l_e/_e_n_a_b_l_e/_c_o_m_m_e_n_t)
+
+     Change parameters:
+             You can change some parameter of conversion environ-
+             ment.
+
+     Output information of dictionaries:
+             You can see feather infomations of dictionaries. And
+             if you push any button on one dictionary, you can
+             operate its dictionary.
+             (_d_e_t_e_l_e/_d_i_s_a_b_l_e/_e_n_a_b_l_e/_c_o_m_m_e_n_t)
+
+     Change Accessory Vocabulary:
+             You can change a accessory vocabulary file.
+
+SEE ALSO
+     xwnmo(1X)
+
+COPYRIGHT
+     Copyright 1991 by OMRON Corporation
+     Copyright 1991 by Massachusetts Institute of Technology
+
+AUTHOR
+     Seiji Kuwari (OMRON Corporation)
+
+
+
+
+Printed 8/30/91             Release 5                           1
+
+
+

@@ -1,0 +1,696 @@
+.TH XMETER 1 "14 August 1989" "X Version 11"
+.SH NAME
+xmeter - rstat display for X
+.SH SYNOPSIS
+.B xmeter
+[-\fItoolkitoption\fP ...] [-\fIoption\fP ...] [-\fIstat\fP] hosts ...
+.SH DESCRIPTION
+.I Xmeter 
+displays a periodically updating histogram of the system statistics
+gathered by rstat(3) for the specified hosts.  Meters can be
+displayed in a vertical, horizontal or rectangular arrangement.  As
+statistics range between 4 user defineable levels (OK, WARN, ERROR
+or FATAL), the background, foreground, highlight, border and internal
+border colors, and the background bitmap of each meter can be changed.
+.LP
+.I Xmeter
+uses the StripChart widget of the Athena Widget Set to graph each
+statistic.  StripCharts automatically scale the graph as the value
+varies, by drawing a number of horizontal lines across the StripChart.
+Each line represents an increment of a user settable value.  For
+example, if the statistic being graphed is number of pages paged in
+per second, and the scale is set to 10, then each horizontal line
+would represent 10 pages per second.  Each time a graph is updated,
+.I xmeter
+will examine the current value of the statistic and the current scale.
+As the number of scale lines increases above
+.I wlevel
+and
+.I elevel
+the background colors and bitmaps of each meter are modified as specified.
+The current scale value can be examined by clicking any mouse button
+while the mouse pointer is in the StripChart.  If the host is down the
+time it's been down will also be displayed.
+.LP
+Each meter has its own label displaying the host name and statistics name.
+The statistic being graphed may be modified while
+.I xmeter
+is running by moving the mouse pointer into the label part of a meter,
+clicking any mouse button, and sliding down to the desired stat.
+.SH OPTIONS
+.PP
+.I Xmeter
+accepts all of the standard X Toolkit command line options along with the 
+following additional options:
+.PP
+.TP 8
+.B \-cols \fIcols\fP
+This option specifies the number of columns the meters should be
+displayed in.  If both
+.I cols
+and
+.I rows
+are specified,
+.I cols
+takes precedence.  The default is 1 column.
+.PP
+.TP 8
+.B \-ebd \fIcolor\fP
+Set error level border color.
+.PP
+.TP 8
+.B \-ebg \fIcolor\fP
+Set error level background color.
+.PP
+.TP 8
+.B \-efg \fIcolor\fP
+Set error level foreground color.
+.PP
+.TP 8
+.B \-ehl \fIcolor\fP
+Set error level highlight color.
+.PP
+.TP 8
+.B \-eibd \fIcolor\fP
+Set error level internal border color.
+.PP
+.TP 8
+.B \-elevel \fIinteger\fP
+This option specifies the level at which the background color is changed
+to ebg.  The default is 6.
+.PP
+.TP 8
+.B \-ep \fIprogram\fP
+.I program
+should be the name of a program to be invoked when the meter enters the
+error state.
+.I program
+will be passed 3 arguments, oldstate, newstate and the hostname being
+monitored.  Oldstate and newstate will be integers ranging from 0 to
+3, corresponding to levels OK, WARN, ERROR and FATAL.
+.PP
+.TP 8
+.B \-fbd \fIcolor\fP
+Set fatal level border color.
+.PP
+.TP 8
+.B \-fbg \fIcolor\fP
+Set fatal level background color.
+.PP
+.TP 8
+.B \-ffg \fIcolor\fP
+Set fatal level foreground color.
+.PP
+.TP 8
+.B \-fhl \fIcolor\fP
+Set fatal level highlight color.
+.PP
+.TP 8
+.B \-fibd \fIcolor\fP
+Set fatal level internal border color.
+.PP
+.TP 8
+.B \-fp \fIprogram\fP
+.I program
+should be the name of a program to be invoked when the monitored host is
+down.
+.I program
+will be passed 3 arguments, oldstate, newstate and the hostname being
+monitored.  Oldstate and newstate will be integers ranging from 0 to
+3, corresponding to levels OK, WARN, ERROR and FATAL.
+.PP
+.TP 8
+.B \-h \fIpixels\fP
+This option specifies the height of each chart
+.I xmeter
+will display.  The default is 80.
+.PP
+.TP 8
+.B \-lebg \fIcolor\fP
+Set error level background color in menubutton.
+.PP
+.TP 8
+.B \-lefg \fIcolor\fP
+Set error level foreground color in menubutton.
+.PP
+.TP 8
+.B \-lfbg \fIcolor\fP
+Set fatal level background color in menubutton.
+.PP
+.TP 8
+.B \-lffg \fIcolor\fP
+Set fatal level foreground color in menubutton.
+.PP
+.TP 8
+.B \-lobg \fIcolor\fP
+Set ok level background color in menubutton.
+.PP
+.TP 8
+.B \-lofg \fIcolor\fP
+Set ok level foreground color in menubutton.
+.PP
+.TP 8
+.B \-lwbg \fIcolor\fP
+Set warn level background color in menubutton.
+.PP
+.TP 8
+.B \-lwfg \fIcolor\fP
+Set warn level foreground color in menubutton.
+.PP
+.TP 8
+.B \-obd \fIcolor\fP
+Set ok level border color.
+.PP
+.TP 8
+.B \-obg \fIcolor\fP
+Set ok level background color.
+.PP
+.TP 8
+.B \-ofg \fIcolor\fP
+Set ok level foreground color.
+.PP
+.TP 8
+.B \-ohl \fIcolor\fP
+Set ok level highlight color.
+.PP
+.TP 8
+.B \-oibd \fIcolor\fP
+Set ok level internal border color.
+.PP
+.TP 8
+.B \-op \fIprogram\fP
+.I program
+should be the name of a program to be invoked when the meter enters WARN
+state.
+.I program
+will be passed 3 arguments, oldstate, newstate and the hostname being
+monitored.  Oldstate and newstate will be integers ranging from 0 to
+3, corresponding to levels OK, WARN, ERROR and FATAL.
+.PP
+.TP 8
+.B \-rows \fIrows\fP
+This option specifies the number of rows the meters should be
+displayed in.  If both
+.I cols
+and
+.I rows
+are specified,
+.I cols
+takes precedence.  The default is 1 column.
+.PP
+.TP 8
+.B \-rt \fIretries\fP
+This option specifies the number of times to retry failed RPC calls.
+The default is 2.
+.PP
+.TP 8
+.B \-scoll \fIinteger\fP
+Set scale for collisions.  The default is 1.
+.PP
+.TP 8
+.B \-scpu \fIinteger\fP
+Set scale for cpu time.  The default is 20.
+.PP
+.TP 8
+.B \-sdisks \fIinteger\fP
+Set scale for total number of disk I/O.  The default is 40.
+.PP
+.TP 8
+.B \-serr \fIinteger\fP
+Set scale for total number of errors (ierr+oerr).  The default is 1.
+.PP
+.TP 8
+.B \-sierr \fIinteger\fP
+Set scale for input errors.  The default is 1.
+.PP
+.TP 8
+.B \-sintr \fIinteger\fP
+Set scale for interrupts.  The default is 50.
+.PP
+.TP 8
+.B \-sipkt \fIinteger\fP
+Set scale for input packets.  The default is 20.
+.PP
+.TP 8
+.B \-sload \fIinteger\fP
+Set scale for load average.  The default is FSCALE (see param.h).
+.PP
+.TP 8
+.B \-sn
+If specified strips off domain part of host name in menubuttons.
+.PP
+.TP 8
+.B \-soerr \fIinteger\fP
+Set scale for output errors.  The default is 1.
+.PP
+.TP 8
+.B \-sopkt \fIinteger\fP
+Set scale for output packets.  The default is 20.
+.PP
+.TP 8
+.B \-spage \fIinteger\fP
+Set scale for pages paged in and out.  The default is 10.
+.PP
+.TP 8
+.B \-spgpgin \fIinteger\fP
+Set scale for pages paged in.  The default is 10.
+.PP
+.TP 8
+.B \-spgpgout \fIinteger\fP
+Set scale for pages paged out.  The default is 10.
+.PP
+.TP 8
+.B \-spkts \fIinteger\fP
+Set scale for total number of packets (ipkt+opkt).  The default is 40.
+.PP
+.TP 8
+.B \-spswpin \fIinteger\fP
+Set scale for pages swapped in.  The default is 5.
+.PP
+.TP 8
+.B \-spswpout \fIinteger\fP
+Set scale for pages swapped out.  The default is 5.
+.PP
+.TP 8
+.B \-sswap \fIinteger\fP
+Set scale for pages swapped in and out.  The default is 5.
+.PP
+.TP 8
+.B \-sswt \fIinteger\fP
+Set scale for context switches.  The default is 30.
+.PP
+.TP 8
+.B \-ssys \fIinteger\fP
+Set scale for sys time.  The default is 20.
+.PP
+.TP 8
+.B \-suser \fIinteger\fP
+Set scale for user time.  The default is 20.
+.PP
+.TP 8
+.B \-to \fIseconds\fP
+This option specifies the timeout for RPC calls.  The default is 5 seconds.
+.PP
+.TP 8
+.B \-update \fIseconds\fP
+This option specifies the frequency in seconds at which
+.I xmeter
+updates its display.  The minimum amount of time allowed between updates
+is 5 seconds.  The default is 60 seconds.
+.PP
+.TP 8
+.B \-v
+Print version number and exit.
+.PP
+.TP 8
+.B \-w \fIpixels\fP
+This option specifies the width of each chart
+.I xmeter
+will display.  The default is 80.
+.PP
+.TP 8
+.B \-wbd \fIcolor\fP
+Set warn level border color.
+.PP
+.TP 8
+.B \-wbg \fIcolor\fP
+Set warn level background color.
+.PP
+.TP 8
+.B \-wfg \fIcolor\fP
+Set warn level foreground color.
+.PP
+.TP 8
+.B \-whl \fIcolor\fP
+Set warn level highlight color.
+.PP
+.TP 8
+.B \-wibd \fIcolor\fP
+Set warn level internal border color.
+.PP
+.TP 8
+.B \-wlevel \fIinteger\fP
+This option specifies the level at which the background color is changed
+to wbg.  The default is 3.
+.PP
+.TP 8
+.B \-wp \fIprogram\fP
+.I program
+should be the name of a program to be invoked when the meter enters
+WARN state.
+.I program
+will be passed 3 arguments, oldstate, newstate and the hostname being
+monitored.  Oldstate and newstate will be integers ranging from 0 to
+3, corresponding to levels OK, WARN, ERROR and FATAL.
+.SH STATISTICS
+.PP
+.TP 8
+.B \-coll
+Graph number of collisions per second.
+.PP
+.TP 8
+.B \-cpu
+Graph percentage of non idle time for the specified host.
+.PP
+.TP 8
+.B \-disks
+Graph number of disk I/O per second (first four drives).
+.PP
+.TP 8
+.B \-err
+Graph number of total errors per second.
+.PP
+.TP 8
+.B \-intr
+Graph number of interrupts per second.
+.PP
+.TP 8
+.B \-ipkt
+Graph number of input packets per second.
+.PP
+.TP 8
+.B \-load
+Graph 1 minute load average.
+.PP
+.TP 8
+.B \-oerr
+Graph number of output errors per second.
+.PP
+.TP 8
+.B \-opkt
+Graph number of output packets per second.
+.PP
+.TP 8
+.B \-page
+Sum of pgpgin and pgpgout values.
+.PP
+.TP 8
+.B \-pgpgin
+Graph number of pages paged in per second.
+.PP
+.TP 8
+.B \-pgpgout
+Graph number of pages paged out per second.
+.PP
+.TP 8
+.B \-pkts
+Graph number of total packets per second.
+.PP
+.TP 8
+.B \-pswpin
+Graph number of swapins per second.
+.PP
+.TP 8
+.B \-pswpout
+Graph number of swapouts per second.
+.PP
+.TP 8
+.B \-swap
+Graph number of total pages swapped per second.
+.PP
+.TP 8
+.B \-swt
+Graph number of context switches per second.
+.PP
+.TP 8
+.B \-sys
+Graph percentage of system time for the specified host.
+.PP
+.TP 8
+.B \-user
+Graph percentage of user time for the specified host.
+.SH "WIDGET HIERARCHY"
+The widget hierarchy for
+.I xmeter
+is given below.  Class names are given first, followed by instance
+names.
+.sp
+.nf
+XMeter xmeter
+	Form form
+		SimpleMenu statmenu
+			SmeBSB <stat>
+		Paned <hostname>
+			MenuButton menu
+			StripChart load
+.SH "RESOURCES"
+The following resources are defined.  Resource instance names
+are specified first, followed by class name.
+.PP
+.TP 8
+.B columns Columns
+Set number of columns of display.
+.PP
+.TP 8
+.B defStat DefStat
+Default statistic to graph, the default is \fBload\fP.
+.PP
+.TP 8
+.B errorBack Background
+Error level background color.
+.PP
+.TP 8
+.B errorBd Foreground
+Error level border color.
+.PP
+.TP 8
+.B errorBitmap Bitmap
+Error level background bitmap.
+.PP
+.TP 8
+.B errorFore Foreground
+Error level foreground color.
+.PP
+.TP 8
+.B errorHl Foreground
+Error level highlight color.
+.PP
+.TP 8
+.B errorIbd Foreground
+Error level internal border color.
+.PP
+.TP 8
+.B errorLevel ErrorLevel
+When a statistic is above this value colors and bitmaps are
+set to the appropriate error level value.
+.PP
+.TP 8
+.B errorProg Program
+Program to be invoked when a meter enters error state.
+.PP
+.TP 8
+.B fatalBack Background
+Background color of dead hosts.
+.PP
+.TP 8
+.B fatalBd Foreground
+Border color of dead hosts.
+.PP
+.TP 8
+.B fatalBitmap Bitmap
+Background bitmap of dead hosts.
+.PP
+.TP 8
+.B fatalFore Foreground
+Foreground color of dead hosts.
+.PP
+.TP 8
+.B fatalHl Foreground
+Highlight color of dead hosts.
+.PP
+.TP 8
+.B fatalIbd Foreground
+Internal border color of dead hosts.
+.PP
+.TP 8
+.B fatalProg Program
+Program to be invoked when a meter enters fatal state.
+.PP
+.TP 8
+.B lErrorBack Background
+Error level background color of menubutton widget.
+.PP
+.TP 8
+.B lErrorFore Foreground
+Error level foreground color of menubutton widget.
+.PP
+.TP 8
+.B lFatalBack Background
+Fatal level background color of menubutton widget.
+.PP
+.TP 8
+.B lFatalFore Foreground
+Fatal level foreground color of menubutton widget.
+.PP
+.TP 8
+.B lOkBack Background
+Ok level background color of menubutton widget.
+.PP
+.TP 8
+.B lOkFore Foreground
+Ok level foreground color of menubutton widget.
+.PP
+.TP 8
+.B lWarnBack Background
+Warn level background color of menubutton widget.
+.PP
+.TP 8
+.B lWarnFore Foreground
+Warn level foreground color of menubutton widget.
+.PP
+.TP 8
+.B okBack Background
+Ok level background color.
+.PP
+.TP 8
+.B okBd Foreground
+Ok level border color.
+.PP
+.TP 8
+.B okBitmap Bitmap
+Ok level background bitmap.
+.PP
+.TP 8
+.B okFore Foreground
+Ok level foreground color.
+.PP
+.TP 8
+.B okHl Foreground
+Ok level highlight color.
+.PP
+.TP 8
+.B okIbd Foreground
+Ok level internal border color.
+.PP
+.TP 8
+.B okProg Program
+Program to be invoked when a meter enters ok state.
+.PP
+.TP 8
+.B retries Retries
+Number of retries for RPC calls.
+.PP
+.TP 8
+.B rows Rows
+Number of rows to display.
+.PP
+.TP 8
+.B scaleColl ScaleColl
+Scale for interface collisions.
+.PP
+.TP 8
+.B scaleCpu ScaleCpu
+Scale for percentage cpu usage.
+.PP
+.TP 8
+.B scaleIerr ScaleIerr
+Scale for interface input errors.
+.PP
+.TP 8
+.B scaleIerr ScaleIntr
+Scale for interface interrupts.
+.PP
+.TP 8
+.B scaleIpkt ScaleIpkt
+Scale for interface input packets.
+.PP
+.TP 8
+.B scaleLoad ScaleLoad
+Scale for load average.
+.PP
+.TP 8
+.B scaleOerr ScaleOerr
+Scale for interface output errors.
+.PP
+.TP 8
+.B scaleOpkt ScaleOpkt
+Scale for interface output packets.
+.PP
+.TP 8
+.B scalePage ScalePage
+Scale for paging (sum of pageins and pageouts).
+.PP
+.TP 8
+.B scalePgpgin ScalePgpgin
+Scale for pages paged in.
+.PP
+.TP 8
+.B scalePgpgout ScalePgpgout
+Scale for pages paged out.
+.PP
+.TP 8
+.B scalePswpin ScalePswpin
+Scale for swap ins.
+.PP
+.TP 8
+.B scalePswpout ScalePswpout
+Scale for swap outs.
+.PP
+.TP 8
+.B scaleSwt ScaleSwt
+Scale for context switches.
+.PP
+.TP 8
+.B scaleSys ScaleSys
+Scale for percentage system time.
+.PP
+.TP 8
+.B scaleUser ScaleUser
+Scale for percentage user time.
+.PP
+.TP 8
+.B shortName ShortName
+Trim domains off host names.
+.PP
+.TP 8
+.B timeout Timeout
+Timeout for RPC calls.
+.PP
+.TP 8
+.B update Interval
+Interval between updates.
+.PP
+.TP 8
+.B warnBack Background
+Warn level background color.
+.PP
+.TP 8
+.B warnBd Foreground
+Warn level border color.
+.PP
+.TP 8
+.B warnBitmap Bitmap
+Warn level Background bitmap.
+below ErrorLevel.
+.PP
+.TP 8
+.B warnFore Foreground
+Warn level foreground color.
+.PP
+.TP 8
+.B warnHl Foreground
+Warn level highlight color.
+.PP
+.TP 8
+.B warnIbd Foreground
+Warn level internal border.
+.PP
+.TP 8
+.B warnLevel WarnLevel
+When statistic is above this level and below ErrorLevel background colors
+and bitmaps are set to WarnBack and WarnBitmap.
+.PP
+.TP 8
+.B warnProg Program
+Program to be invoked when a meter enters warn state.
+.SH BUGS
+When a host doesn't respond it can sometimes take a while for the labels
+in the menubuttons to update.
+.LP
+The width and height of the stripchart widgets need to be initialized
+to a non zero value or the error "Widget has zero width and/or height"
+will be printed by the X toolkit.  This can be done by the user or
+in the application defaults file.  The supplied application defaults
+file initializes width and height to 80.
+.SH AUTHOR
+Bob Schwartzkopf, The RAND Corporation.  Based on xload from MIT.

@@ -1,0 +1,88 @@
+/**/#
+/**/# Imakefile for gwm
+/**/# Use Makefile.noXtree if you do want to use imake
+/**/#
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+SUBDIRS = data xpm
+/* If you edit this, You must change GWMDIR value in data/Imakefile too!!! */
+GWMDIR = $(LIBDIR)/gwm
+XPMSRC = xpm
+XPMLIB = $(XPMSRC)/libXpm.a
+DEPXPMLIB = $(XPMLIB)
+
+OPTIONSDEFS = -DX11R5 -DSECURE -DSTATS -DUSER_DEBUG  -DWOOL_APP_NAME=\"GWM\" \
+	 -DWOOL_APP_name=\"gwm\" -DGWM
+
+PATHDEFS = -DINSTALL_PATH=\"$(GWMDIR)\" \
+	-DINSTALL_DIR=\"$(GWMDIR)\" -DDEFAULT_DEFAULT_WLPATH=\"$(GWMDIR)\"
+EXTRA_INCLUDES=-I$(INCDIR)/extensions
+
+#ifdef SYSV
+OSDEFS = -DSYSV
+#endif
+
+#if defined(VaxArchitecture) && (HasGcc == NO)
+CONFIGDEFS = -DSTUPID
+#endif
+#ifdef HPArchitecture
+CONFIGDEFS = +Ns2000 +Nd2000
+#endif
+#ifdef IBMArchitecture
+#ifdef RsArchitecture
+CONFIGDEFS = -DIBM_RT
+#else
+CONFIGDEFS = -DIBM_RT -Nn3000
+#endif
+#endif
+#ifdef sm90
+CONFIGDEFS = -DSTUPID -DSYSV
+#endif
+#ifdef gould
+CONFIGDEFS = -DDOUBLE_ALIGN
+InstallProgram(sxpm,$(BINDIR))
+#endif
+#ifdef sequent
+EXTRA_LIBRARIES = -lseq
+#endif
+
+LOCAL_LIBRARIES = $(XPMLIB) $(EXTENSIONLIB) $(XLIB)
+DEPLIBS         = $(DEPXPMLIB) $(DEPEXTENSIONLIB) $(DEPXLIB)
+DEFINES         = $(OPTIONSDEFS) $(PATHDEFS) $(OSDEFS) $(CONFIGDEFS)
+ 
+SRCS1 = 	bar.c client.c error.c gwm.c icccm.c machine.c malloc.c \
+	menu.c plug.c reference.c revision.c screen.c user.c \
+	wl_active.c wl_atom.c wl_bar.c wl_client.c wl_coll.c \ 
+	wl_cursor.c wl_event.c wl_fsm.c wl_func.c wl_label.c wl_list.c \
+	wl_menu.c wl_name.c wl_number.c wl_pixmap.c wl_plug.c \
+	wl_pointer.c wl_string.c wob.c wool-gwm.c wool.c wops.c 
+
+OTHERSRCS = wool.yac wool.lex
+
+OBJS1 = 	y.tab.o \
+ 	bar.o client.o error.o gwm.o icccm.o machine.o malloc.o \
+	menu.o plug.o reference.o revision.o screen.o user.o \
+	wl_active.o wl_atom.o wl_bar.o wl_client.o wl_coll.o \ 
+	wl_cursor.o wl_event.o wl_fsm.o wl_func.o wl_label.o wl_list.o \
+	wl_menu.o wl_name.o wl_number.o wl_pixmap.o wl_plug.o \
+	wl_pointer.o wl_string.o wob.o wool-gwm.o wool.o wops.o 
+
+ComplexProgramTarget_1(gwm,$(LOCAL_LIBRARIES), /**/)
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+depend:: lex.yy.c y.tab.c
+
+lex.yy.c: wool.lex
+	lex wool.lex
+
+y.tab.c: wool.yac 
+	yacc wool.yac
+
+y.tab.o: lex.yy.c y.tab.c
+
+clean::
+	$(RM) lex.yy.c y.tab.c
+
+all:: gwm

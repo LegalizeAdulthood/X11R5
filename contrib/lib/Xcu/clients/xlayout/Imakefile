@@ -1,0 +1,9 @@
+INCLUDES = $(XCUINCFLAG)
+
+           SRCS = xlayout.c
+           OBJS = xlayout.o
+
+LOCAL_LIBRARIES = $(XCULIB) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+ComplexProgramTarget(xlayout)
+

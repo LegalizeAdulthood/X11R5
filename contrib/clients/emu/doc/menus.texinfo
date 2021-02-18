@@ -1,0 +1,228 @@
+START OF INTRO texinfo
+
+@comment TITLE QUOTE
+@comment		"I can save the day, Daffy, ...
+@comment		hand me the widgetmacallit!"
+@comment			- attributed to Mickey Mouse
+
+
+Our motivation was both selfish (someone here needed some vt220 facilities
+for their terminal applications; the database people couldn't find the
+cursor in their reversed text, curses application - "Can't you make it
+blink?", was the cry) and altruistic (the world needed another xterm).
+We took the long hard look and decided that to try and find the blinking
+cursor pellet in this rat's maze (the current xterm) was asking for a date
+with the Minotaur - the world did need a better rat trap.  Hence, emu was
+born.
+
+Since the problem with xterm was not necessarily a lack of functionality,
+but an adhoc implementation, an organizational problem, the solution seemed
+straightforward - modularization and widgetization, maintainability and
+configurability.  Let the rat design his own maze; let him make his own
+flavor pellets.  The major parts of emu are:
+
+@example
+    parser		system / tty
+    canvas		menus
+    xterm+ widget
+@end example
+
+and they are all modularized and/or widgetized.
+
+
+
+Our choice for the emulator was to do it via the Resource Manager.  This
+was both for ease of development and, later, ease of configurability for
+the user.  The tradeoff was that emu would take longer to launch.
+This was far outweighed by the fact that whole emulations or pieces of
+emulations could be added or subtracted simply by changing the application
+defaults, and restarting emu again.  This decision, though, does not
+preclude replacing this mechanism with a hard-wired, say, vt200 emulation.
+The code is, once again, modular.  The same may be said of the canvas, the
+menus and all other parts of emu.
+
+END OF INTRO texinfo
+
+
+
+START OF MENU DOC texinfo
+
+@setfilename xterm+-menu-info
+
+@node Menus, , ,
+@chapter Menu Configuration
+@cindex menus
+
+Simplicity is beauty.  And emu's menus are simple.  The menu module,
+as with the rest of emu, provides the mechanism, but not the
+policy.  The module provides facilities for creating, managing,
+popping-up, and attaching policy (functionality) to menus.  But, it
+does not dictate how many menus or menu items exist, what is in each
+menu, what functions it performs, or how it is popped up.  This is
+all user configurable, and is specified via the resource manager.
+Menus are, therefore, fully extensible and configurable.
+
+@menu
+* Menu Resources:: What can be configured and how, examples.
+* Menu Item Resources:: What can be configured and how, examples.
+@end menu
+
+@node Menu Resources, Menu Item Resources, , Menu Configuration
+@section Menu Resources
+@cindex menu configuration parameters
+
+The emu menus are configurable through the resource file.  All
+Athena Form, MenuButton (both for menu bar), SimpleMenu, Sme, SmeBSB,
+and SmeLine, or Motif XmRowColumn, XmCascadeButton (both for men bar),
+XmPopupMenu, XmPushButtonGadget, XmLabelGadget, and XmSeparatorGadget
+resources are available for customization.  Please see the appropriate
+Intrinsics, Athena or Motif documentaion for further clarification of
+these resources.
+
+In addition to these standard widget resources, the number of menus, the
+number of menu items, and the position of menu item separators are settable
+via resources.  For each menu item it is also possible to specify what
+functionality (action) lies behind it.
+
+@node Menu Translations - Names - ROPs, Menu Item Resources, Menu Resources, Menu Configuration
+@cindex menu translations, menu names, menu ROPs
+
+Menus are configured via the screen translations by specifying a menu
+name to pop-up and a key/button sequence indicating how to activate it.
+For example, the default configuration could look like:
+
+@example
+    *xterm+.screen.Translations: #override\n\
+        Ctrl ~Shift<Btn1Down>:          XpXtermPopupMenu(menu1) \n\
+        Ctrl ~Shift<Btn2Down>:          XpXtermPopupMenu(menu2, 302) \n\
+        Ctrl ~Shift<Btn3Down>:          XpXtermPopupMenu(menu3, 303) \n\
+        Ctrl  Shift<Btn3Down>:          XpXtermPopupMenu(menu4) \n
+@end example
+
+These translations show that pressing "Ctrl", but not "Shift", pops-up
+a menu called "menu1".  The name "menu1" actually becomes the name of
+the menu widget when it is created.  It is necessary to have this name
+since it is used further for qualifying resources.  The second and
+third menus are specified in a similar fashion but by pressing (mouse)
+button2 and button3, respectively.  The fourth menu is also activated
+by pressing button3, but this time the "Ctrl" and "Shift" keys must
+be pressed.
+
+"XpXtermPopupMenu" expects at least a menu name as a parameter.  If other
+actions (ROPs) are desired on a per menu, not menu item, basis then
+additional parameters (ROP numbers) may be declared after the menu name.
+These actions are performed each time just before the menu is popped-up.
+The second and third menu declarations illustrates such a situation.
+
+
+@node Menu Item Resources, , Menu Resources, Menu Configuration
+@section Menu Item Resources
+@cindex menu item configuration parameters
+
+@node Number Of Menu Items, Menu Item Labels, Menu Item Resources, Menu Configuration
+@section Number Of Menu Items
+The menu package creates the number of user specified items.  The
+default configuration for "menu1" might look like:
+
+@example
+    *menu1.numberItems:             8
+@end example
+
+This resource must be given.
+
+@node Menu Item Labels, Menu Item Line Separators, Menu Item Resources, Menu Configuration
+@section Menu Item Labels
+
+It is not necessary to specify menu item labels; the toolkit default is to
+use the menu item widget name, which is, e.g., "item1".  The resource file,
+however, does specify item label defaults for the declared menus.  The
+"menu1" defaults could be:
+
+@example
+    *menu1*item1.label:             Redraw
+    *menu1*item2.label:             Reset all
+    *menu1*item3.label:             Set TTY sane
+    *menu1*item4.label:             Set TTY origin
+    *menu1*item5.label:             Send INT signal
+    *menu1*item6.label:             Send HUP signal
+    *menu1*item7.label:             Send TERM signal
+    *menu1*item8.label:             Send KILL signal
+@end example
+
+@node Menu Item Line Separators, Menu Item Actions, Menu Item Labels, Menu Configuration
+@section Menu Item Line Separators
+
+In order that menu items within a menu may be functionally (or otherwise)
+grouped, line separators may be specified in the resource file.  Items after
+which to put line separators are indicated as such:
+
+@example
+    *menu1.itemLines:               item1 item4
+@end example
+
+@node Menu Item Actions, , Menu Item Line Separators, Menu Configuration
+@section Menu Item Actions
+
+In most cases, it is necessary that for each menu item an action is
+specified.  The action resource is, in effect, the function that is invoked
+when the menu item is selected.  This resource may either be a number (ROP
+action) or a string (emulation action).  For example, "menu1"'s items could
+have ROP action numbers as given below:
+
+@example
+    *menu1*item1.action:            310
+    *menu1*item2.action:            311
+    *menu1*item3.action:            312
+    *menu1*item4.action:            313
+    *menu1*item5.action:            314
+    *menu1*item6.action:            315
+    *menu1*item8.action:            316
+    *menu1*item9.action:            317
+    *menu1*item10.action:           318
+    *menu1*item11.action:           319
+@end example
+
+An example of emulation action specification is shown by the possible
+default "menu4" action resources:
+
+@example
+    *menu4*item1.action:            tty
+    *menu4*item2.action:            xterm+
+@end example
+
+
+Code
+
+Menus are created at that moment the user first clicks a particular
+button.
+
+The menu package has three explicit contact points to the rest of the
+emu program.  The first is for initialization, which simply registers
+the exportable actions (XpXtermPopupMenu) with the translation manager.
+This initialization routine (XpXtermInitializeMenus) is the only routine
+that must be called by the emu client program.
+
+The second point of contact is for the dispatching of actions
+(XpXtermMenuDispatch) when menu items are clicked.  This is done indirectly
+via the single menu item callback (DoInteract).  The callback passes the
+respective menu item ROP action number or emulation action string, specified
+in the resource file, to the emu program.  If no ROP number or emulation
+name exists for the selected menu item, the widget label, or lastly, the
+widget name are used.  This indicates the selection is an emulation.
+
+The third contact point is the complement of the second.  It is for the
+emu program to tell the menu module to perform some action
+(XpXtermMenuAction).  The actions the menu package can perform are limited
+to activating/deactivating (sensitizing) and marking/unmarking menu items.
+
+The making of a menu consists of detecting the number of items and
+possible separator lines via the resource manager, and then creating the
+menu with the single menu callback.  No local menu call data exists; all
+necessary menu information is stored in and derived from the resource
+manager or the toolkit.  In this way, no local data structures are necessary,
+no local memory is allocated, and therefore, the number of menus and the
+number of menu items are dynamic and may be of any size.  Also, by using a
+single callback with user specifiable ROP actions, functionality is attached
+at menu realization time by the resource manager.
+
+END OF MENU DOC texinfo

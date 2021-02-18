@@ -1,0 +1,4 @@
+.TH wlmInclMake 1 ""
+.UC 4
+.SH NAME
+wlmInclMake \- script required by makefiles for XcuWlm clients.

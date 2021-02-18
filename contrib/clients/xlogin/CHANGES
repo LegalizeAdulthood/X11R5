@@ -1,0 +1,18 @@
+xlogin-2.01
+    o xlogin is now able to handle more than one "motd" file.
+    o -lines and .lines have been removed;
+      a warning is issued if still found.
+    o -sysFiles, -userFiles and .userFiles have been added to allow
+      more than one "motd" file to be handled.
+    o .backgroundBitmapFile has been added;
+      this allowd to specify a pixmap as background for the Form widget,
+      which contains all the "motd" Text Widgets.
+    o .noLastLoginLabel has been added;
+      message that is display, when no lastlogin information could be
+      found.
+    o .changedLabel and .unchangedLabel have been added;
+      this resources determine, which text is to appear in the
+      Label widgets preceding the "motd" Text widgets. These strings
+      may contain %F, which will be substituted by the filename and
+      %P, which will be substituted by the full pathname of the file
+      displayed in the according Text widget.

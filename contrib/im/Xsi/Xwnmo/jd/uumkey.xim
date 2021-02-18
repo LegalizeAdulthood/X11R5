@@ -1,0 +1,17 @@
+;
+; $Id: uumkey.xim,v 1.1 1991/09/11 02:28:15 ohm Exp $
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;key bind table for xwnmo :
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;	Version 4.0
+;
+;
+
+include         @LIBDIR/@LANG/uumkey
+
+; Commands			Codes
+
+change_locale			0x85
+change_locale_ct		0x86

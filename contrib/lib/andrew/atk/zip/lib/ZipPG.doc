@@ -1,0 +1,226 @@
+\begindata{text,270144448}
+\textdsversion{12}
+\define{italic
+menu:[Font,Italic]
+attr:[FontFace Italic Int Set]}
+\define{bold
+menu:[Font,Bold]
+attr:[FontFace Bold Int Set]}
+\define{chapter
+menu:[Title,Chapter]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{section
+menu:[Title,Section]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 2]}
+\define{subsection
+menu:[Title,Subsection]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{paragraph
+menu:[Title,Paragraph]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Italic Int Set]}
+\define{bigger
+menu:[Font,Bigger]
+attr:[FontSize PreviousFontSize Point 2]}
+\define{indent
+menu:[Region,Indent]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]}
+\define{typewriter
+menu:[Font,Typewriter]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]}
+\define{display
+menu:[Region,Display]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]
+attr:[Justification LeftJustified Point 0]}
+\define{example
+menu:[Region,Example]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]}
+\define{itemize
+menu:[Region,Itemize]
+attr:[LeftMargin LeftMargin Inch 32768]}
+\define{description
+menu:[Region,Description]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[Indent LeftEdge Inch -32768]}
+\define{enumerate
+menu:[Region,Enumerate]
+attr:[LeftMargin LeftMargin Inch 32768]}
+\define{programexample
+menu:[Region,ProgramExample]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFamily Helvetica Int 0]}
+\define{quotation
+menu:[Region,Quotation]
+attr:[LeftMargin LeftMargin Inch 32768]
+attr:[RightMargin RightMargin Inch 32768]
+attr:[FontFace Italic Int Set]}
+\define{subscript
+menu:[Font,Subscript]
+attr:[Script PreviousScriptMovement Point 6]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{superscript
+menu:[Font,Superscript]
+attr:[Script PreviousScriptMovement Point -6]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{smaller
+menu:[Font,Smaller]
+attr:[FontSize PreviousFontSize Point -2]}
+\define{heading
+menu:[Title,Heading]
+attr:[LeftMargin LeftMargin Inch -13107]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{majorheading
+menu:[Title,MajorHeading]
+attr:[Justification Centered Point 0]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{notetotypesetter
+menu:[Region,NoteToTypesetter]
+attr:[Flags PassThru Int Set]}
+\define{subheading
+menu:[Title,Subheading]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]}
+\define{center
+menu:[Justify,Center]
+attr:[Justification Centered Point 0]}
+\define{flushleft
+menu:[Justify,FlushLeft]
+attr:[Justification LeftJustified Point 0]}
+\define{flushright
+menu:[Justify,FlushRight]
+attr:[Justification RightJustified Point 0]}
+\define{underline
+menu:[Font,Underline]
+attr:[Flags Underline Int Set]}
+\define{title
+menu:[Heading,Title]
+attr:[Justification Centered Point 0]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{appendix
+menu:[Heading,Appendix]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 4]}
+\define{ibm
+menu:[Font,IBM]
+attr:[FontFamily ibm Int 0]}
+\define{centre
+menu:[Region,Centre]
+attr:[Justification Centered Point 0]}
+\define{passthrough
+menu:[Region,Passthrough]
+attr:[Flags PassThru Int Set]}
+\define{sans
+menu:[Font,Sans]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize PreviousFontSize Point -2]}
+
+
+
+\begindata{bp,270150964}
+\enddata{bp,270150964}
+\view{bpv,270150964,58,0,0}
+\center{
+
+
+
+
+
+
+
+
+
+
+\bigger{\bigger{\bold{\bigger{\bigger{Zip}}
+
+
+Programming Guide}}}
+
+
+
+
+
+
+Information Technology Center
+
+Carnegie-Mellon University
+
+
+TC Peters
+
+6/3/84
+
+(8/21/89)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bold{ Working Draft }
+
+\bold{SUBJECT  TO  SIGNIFICANT  REVISION }
+
+\bold{(c) IBM Corporation  1989}}
+
+
+\begindata{bp,270167548}
+\enddata{bp,270167548}
+\view{bpv,270167548,59,0,0}
+\bold{Preface}
+
+
+
+
+\begindata{bp,270167104}
+\enddata{bp,270167104}
+\view{bpv,270167104,60,0,0}
+\bold{Introduction}
+
+
+
+
+\begindata{bp,270166488}
+\enddata{bp,270166488}
+\view{bpv,270166488,61,0,0}
+\chapter{1	Concepts}
+
+
+\begindata{bp,270165976}
+\enddata{bp,270165976}
+\view{bpv,270165976,62,0,0}
+\chapter{2	Facilities}
+
+
+\enddata{text,270144448}

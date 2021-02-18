@@ -1,0 +1,315 @@
+#define DoProfileLib ProfileLibDps
+#define DoDebugLib DebugLibDps
+#include "Library.tmpl"
+
+  DPS_INCLUDES = ../../include
+EXTRA_INCLUDES = -I${DPS_INCLUDES}
+ EXTRA_DEFINES = -DXDPS
+           CAT = cat
+           SED = sed
+           AWK = awk
+          SORT = sort
+        PSWRAP = ../../clients/pswrap/pswrap
+
+
+COMMONOBJECTFILES = \
+	dpsclient.o\
+	dpsprintf.o\
+	dpsexcept.o\
+	dpsdict.o
+
+COMMONSOURCEFILES = \
+	dpsclient.c\
+	dpsprintf.c\
+	dpsexcept.c\
+	dpsdict.c
+
+XOBJECTFILES =\
+	dpsXclient.o\
+	dpssysnames.o\
+	dpsXpriv.o\
+	XDPS.o\
+	dpsXcmu.o
+
+XSOURCEFILES =\
+	dpsXclient.c\
+	dpssysnames.c\
+	dpsXpriv.c\
+	XDPS.c\
+
+DPSOPSSOURCES = \
+    dpsclrops.psw\
+    dpsctrlops.psw\
+    dpsctxtops.psw\
+    dpsdataops.psw\
+    dpsfontops.psw\
+    dpsgsttops.psw\
+    dpsioops.psw\
+    dpsmathops.psw\
+    dpsmtrxops.psw\
+    dpsmiscops.psw\
+    dpspntops.psw\
+    dpspathops.psw\
+    dpssysops.psw\
+    dpswinops.psw\
+    dpsopstack.psw\
+    dpsXops.psw
+
+PSOPSSOURCES = \
+    psclrops.psw\
+    psctrlops.psw\
+    psctxtops.psw\
+    psdataops.psw\
+    psfontops.psw\
+    psgsttops.psw\
+    psioops.psw\
+    psmathops.psw\
+    psmtrxops.psw\
+    psmiscops.psw\
+    pspntops.psw\
+    pspathops.psw\
+    pssysops.psw\
+    pswinops.psw\
+    psopstack.psw\
+    psXops.psw
+
+DPSOPSOBJECTS = \
+    dpsclrops.o\
+    dpsctrlops.o\
+    dpsctxtops.o\
+    dpsdataops.o\
+    dpsfontops.o\
+    dpsgsttops.o\
+    dpsioops.o\
+    dpsmathops.o\
+    dpsmtrxops.o\
+    dpsmiscops.o\
+    dpspntops.o\
+    dpspathops.o\
+    dpssysops.o\
+    dpswinops.o\
+    dpsopstack.o\
+    dpsXops.o
+
+PSOPSOBJECTS = \
+    psclrops.o\
+    psctrlops.o\
+    psctxtops.o\
+    psdataops.o\
+    psfontops.o\
+    psgsttops.o\
+    psioops.o\
+    psmathops.o\
+    psmtrxops.o\
+    psmiscops.o\
+    pspntops.o\
+    pspathops.o\
+    pssysops.o\
+    pswinops.o\
+    psopstack.o\
+    psXops.o
+
+DPSOPSHEADERFILES = \
+    dpsclrops.h\
+    dpsctrlops.h\
+    dpsctxtops.h\
+    dpsdataops.h\
+    dpsfontops.h\
+    dpsgsttops.h\
+    dpsioops.h\
+    dpsmathops.h\
+    dpsmtrxops.h\
+    dpsmiscops.h\
+    dpsopstack.h\
+    dpspntops.h\
+    dpspathops.h\
+    dpssysops.h\
+    dpswinops.h\
+    dpsXops.h
+
+PSOPSHEADERFILES = \
+    psclrops.h\
+    psctrlops.h\
+    psctxtops.h\
+    psdataops.h\
+    psfontops.h\
+    psgsttops.h\
+    psioops.h\
+    psmathops.h\
+    psmtrxops.h\
+    psmiscops.h\
+    pspntops.h\
+    pspathops.h\
+    pssysops.h\
+    pswinops.h\
+    psopstack.h\
+    psXops.h
+
+DPSOPSCFILES = \
+    dpsclrops.c\
+    dpsctrlops.c\
+    dpsctxtops.c\
+    dpsdataops.c\
+    dpsfontops.c\
+    dpsgsttops.c\
+    dpsioops.c\
+    dpsmathops.c\
+    dpsmtrxops.c\
+    dpsmiscops.c\
+    dpsopstack.c\
+    dpspntops.c\
+    dpspathops.c\
+    dpssysops.c\
+    dpswinops.c\
+    dpsXops.c
+
+PSOPSCFILES = \
+    psclrops.c\
+    psctrlops.c\
+    psctxtops.c\
+    psdataops.c\
+    psfontops.c\
+    psgsttops.c\
+    psioops.c\
+    psmathops.c\
+    psmtrxops.c\
+    psmiscops.c\
+    pspntops.c\
+    pspathops.c\
+    pssysops.c\
+    pswinops.c\
+    psopstack.c\
+    psXops.c
+
+DPSOPSANSIHEADERFILES = \
+    dpsclrops.ah\
+    dpsctrlops.ah\
+    dpsctxtops.ah\
+    dpsdataops.ah\
+    dpsfontops.ah\
+    dpsgsttops.ah\
+    dpsioops.ah\
+    dpsmathops.ah\
+    dpsmtrxops.ah\
+    dpsmiscops.ah\
+    dpsopstack.ah\
+    dpspntops.ah\
+    dpspathops.ah\
+    dpssysops.ah\
+    dpswinops.ah\
+    dpsXops.ah
+
+PSOPSANSIHEADERFILES = \
+    psclrops.ah\
+    psctrlops.ah\
+    psctxtops.ah\
+    psdataops.ah\
+    psfontops.ah\
+    psgsttops.ah\
+    psioops.ah\
+    psmathops.ah\
+    psmtrxops.ah\
+    psmiscops.ah\
+    pspntops.ah\
+    pspathops.ah\
+    pssysops.ah\
+    pswinops.ah\
+    psopstack.ah\
+    psXops.ah
+
+#
+# Unless you have a completely and thoroughly ANSI-C environment, dont run
+# pswrap on the singleops with -a (ANSI C).  Many of the procedures have float
+# arguments, and if you run pswrap with -a these become really and truly floats
+# instead of the doubles they are automatically promoted to under non-ANSI C.
+# The resulting library cannot be linked with code compiled with a non-ANSI C
+# compiler.
+#
+
+SRCS = \
+	${COMMONSOURCEFILES} \
+	${XSOURCEFILES} \
+	${DPSOPSSOURCES} \
+	${PSOPSSOURCES}
+
+OBJS = \
+	${COMMONOBJECTFILES} \
+	${XOBJECTFILES} \
+	${DPSOPSOBJECTS} \
+	${PSOPSOBJECTS}
+
+DERIVED_FILES = $(DPSOPSHEADERFILES) $(PSOPSHEADERFILES) \
+		$(DPSOPSANSIHEADERFILES) $(PSOPSANSIHEADERFILES) \
+		$(DPSOPSCFILES) $(PSOPSCFILES)
+
+.SUFFIXES: .psw .ah .h
+
+.psw.o :
+	$(PSWRAP) -o $*.c -h $*.h $<
+#if DebugLibDps
+	$(CC) -g -c $(CFLAGS) $*.c
+	$(MV) $*.o debugger/$*.o		
+#endif
+	$(CC) -c $(CFLAGS) $*.c
+	$(RM) $*.c
+
+.psw.ah :
+	$(PSWRAP) -a -h $*.ah $< > /dev/null
+
+.psw.h :
+	$(PSWRAP) -h $*.h $< > /dev/null
+	
+LibraryObjectRule()
+
+NormalLibraryTarget(dps,$(OBJS))
+InstallLibrary(dps,$(USRLIBDIR))
+
+#if DebugLibDps
+DebuggedLibraryTarget(dps,$(OBJS))
+InstallLibrary(dps_d,$(USRLIBDIR))
+#endif
+#if ProfileLibDps
+ProfiledLibraryTarget(dps,$(OBJS))
+InstallLibrary(dps_p,$(USRLIBDIR))
+#endif
+
+all :: psops.h dpsops.h
+
+psops.h : $(PSOPSHEADERFILES) $(PSOPSANSIHEADERFILES)
+	$(RM) $@
+	${CAT} $(PSOPSHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .ttt
+	${CAT} $(PSOPSANSIHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D'\
+		-e 's/float \([^*]\)/double \1/g' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .attt
+	${CAT} psname.txt header.txt psifdef.txt .ttt else.txt .attt\
+		psendif.txt > psops.h
+	${RM} .sort .ttt .attt
+	${CP} psops.h ${DPS_INCLUDES}/DPS
+
+dpsops.h : $(DPSOPSHEADERFILES) $(DPSOPSANSIHEADERFILES)
+	$(RM) $@
+	${CAT} $(DPSOPSHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .ttt
+	${CAT} $(DPSOPSANSIHEADERFILES) |\
+	    ${SED} -e '/^$$/D' -e '/#/D' -e '/^\//D'\
+	        -e '/^   gener/D' -e '/^.\//D'\
+		-e 's/float \([^*]\)/double \1/g' |\
+	    ${SORT} > .sort
+	${AWK} '/;/ {print; printf("\n");}' .sort > .attt
+	${CAT} dpsname.txt header.txt dpsifdef.txt .ttt else.txt .attt\
+		dpsendif.txt > dpsops.h
+	${RM} .sort .ttt .attt
+	${CP} dpsops.h ${DPS_INCLUDES}/DPS
+
+clean ::
+	${RM} $(DERIVED_FILES) .sort .ttt .att psops.h dpsops.h

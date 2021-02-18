@@ -1,0 +1,250 @@
+			*****************************************
+			*	Chapter 1	INTERODUCTION	*
+			*****************************************
+
+
+
+
+   1.1  OVERVIEW    
+   =============
+
+	This manual introduces the cWnn Chinese Input System, which is based on Unix 
+workstations. 
+
+	Currently, most of the Chinese Input Systems are developed on personal computers.
+In  terms  of all aspects,  personal  computers  are  not  as  powerful as  workstations, 
+especially in the network capabilities.  With  the advance of technology, Unix has begun 
+to popularize as it supports  multi-windows, multi- users  as well as  multi-environment.
+Based on  these features, cWnn is developed to cater for various input methods and other 
+useful facilities.
+
+The input methods offered by cWnn are divided into two categories :
+
+1. Phonetic  
+~~~~~~~~~~~
+This is  a method of inputing Chinese characters using their pronunciations.  The common
+phonetic symbols for  Chinese are Hanyu Pinyin and Zhuyin, with Hanyu Pinyin  being used 
+commonly in  Mainland China and Singapore.  The Zhuyin phonetic symbols were used before 
+Hanyu Pinyin was introduced.  It is  now less  common but  is still  used  in Taiwan and 
+Hong Kong.
+
+Currently,  some of the  Chinese input systems  are based on monosyllabic word, that is, 
+only a single Chinese character is input at a time. However, cWnn is able to convert any 
+arbitrary length  of pronunciations to  Chinese characters at one time. The system has a 
+good monitoring feature on the Chinese pronunciations. It performs an automatic checking 
+for all inputs entered by the user, making sure that they are legal. This provides users 
+with  a good input environment and  at the same time, caters for error tolerance in four 
+tones and pronunciation.  This is a great help to users who cannot master the four tones 
+of  Chinese pronunciation.  Besides,  cWnn  has  a  standardization  of  Pinyin, Zhuyin, 
+together with the four tones of Pinyin.
+
+As such, cWnn provides an ideal phonetic input environment for the users.
+
+
+
+
+
+
+
+
+					- 1-1 -
+2. Radical 
+~~~~~~~~~~
+In  this  method, a  Chinese  character is input  by breaking  up the character into its 
+components, which are subsequently entered one by one.  Currently, a few hundred of such 
+input  methods  have  been  developed.  cWnn offers the most commonly used Radical input 
+methods  such as Wubi and Cangji.  In this system, any input methods can be easily added 
+by simply installing the code table into the system.
+
+
+
+	With  the strong  network capabilities of Unix, together with the multi-user and 
+multi-window features, cWnn is able to achieve sharing of resources and at the same time,
+supports multi-environment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 1-2 -
+
+   1.2  CWNN SYSTEM STRUCTURE   
+   ==========================
+
+	Based  on  the strong network  capabilities of Unix, cWnn adopts a Client-Server
+Model.  This  model consists of a server, a  socket and several clients.  One server can 
+serve many clients at one time and they are able to run on different machines as well as 
+the same machine. 
+	The clients are the front-end of the system  and  they interact  with the users.
+The clients execute on the  Unix shell and  request for services from the server through 
+the socket. 
+	The server receives  service requests from the client, performs the request, and 
+passes the result back to the client via the socket.  
+
+	The  server  manages all the resources, such as dictionaries and usage frequency 
+files, and  maintains an input  environment  for  each of its clients. To the user, each 
+client  supports  different  input  methods  which can be provided by different servers.  
+Hence,  cWnn is a multi-environment  system, with  its structure  shown in the following 
+figures. 
+ 
+
+	+---------------------+     	 	+----------+
+	| client	      |			| server   |
+	| front-end processor |--+--------------| Cserver  |
+	+---------------------+  |		+----------+
+				 |		    |
+				 |		    |
+				 |		    |
+	+---------------------+  |		+-------------------------------------+
+	| client	      |  |		| System Resources : Dictionaries,    |
+	| front-end processor |--|		|		     Frequency files  |
+	+---------------------+  |		| 		     and Grammar      |
+	 	:		 |		| 		     files   	      |
+		:		 |		|				      |
+		:		 |		| Environment Resources : A env,      |
+	+--------------------+   |		|			  B env ...   |
+	| client             |---+		+-------------------------------------+
+	| front-end processor|   
+	+--------------------+ 
+
+			  Figure 1.1 : cWnn System Structure
+			  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
+
+					- 1-3 -
+
+   1.3  SPECIAL FEATURES ON THE SYSTEM STRUCTURE    
+   =============================================
+
+	The  main feature of cWnn is its system independency.  Each environment can have 
+its  own environment files  according to the needs of the user, and each user can choose 
+his own environment setup.  The flexible environment setup includes the following :
+
+1. Input Automaton Setting
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Input automaton is  a front-end  processor which allows the user to define his own input 
+environment according  to his needs.  Through this setting, interfaces like the keyboard 
+layout and function keys can be selected. For more details, please refer to Chapter 6.
+
+2. Environment Setting
+~~~~~~~~~~~~~~~~~~~~~~
+The  environment  setting  provided  by the server includes the definition of conversion
+methods and  grammer,  conversion parameters, dictionaries etc.  These can be set before 
+the  startup  of  the  front-end  processor.   Please  refer  to Chapter 5  for detailed 
+descriptions.   The  environment  can also  be set  after the  startup of  the front-end 
+processor, via keyboard command.  Refer to Chapter 3 for details.
+
+3. Creation of Dictionary and Grammer Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The system enables a user to have a choice of different dictionaries  and also to create 
+his own  dictionary  according to  his needs.  For example, a computer  professional can 
+create  his  own  dictionary  which  consists  of all  the  computer terms needed.  This 
+dictionary can be added to the system, hence enriching the resources.
+
+4. Encoded Input Method
+~~~~~~~~~~~~~~~~~~~~~~~
+As mentioned, besides phonetic input method, cWnn supports several radical input methods 
+such as Wubi and Qianma. Any input method can be installed easily in cWnn, which supports 
+any type of encoded input method.  For details, please refer to Chapter 5.
+
+5. Keyboard Definition
+~~~~~~~~~~~~~~~~~~~~~~
+All the  different  types of  operations in  cWnn's input environment can be set via the 
+keyboard.   Different  users  have  different  keyboard  function  needs.  As such, this 
+keyboard  definition  enables  different  users  to  have different user interfaces. For 
+details, please refer to Chapter 5.
+
+
+
+
+
+
+
+
+					- 1-4 -
+
+   1.4  HARDWARE AND SOFTWARE CONFIGURATIONS	    
+   =========================================
+
+	Besides  the above features,  cWnn is also hardware, operating system and window 
+system independent.  It  is  developed  on  the  Omron Luna Unix Workstation, and is now 
+portable to other operating systems and Unix workstations as shown below.
+ 
+	+-----------------------------------------------------------------+
+	|Software Environment   |  Operating System  |  Supporting Window |
+	|-----------------------+--------------------+--------------------|  
+	|	LUNA   	        |	Unios-U      |     X and GMW      |
+	|  		        |		     |	            	  |
+	|	LUNA   	        |	Unios-B      |     X and GMW      |
+	|		        |		     |	       	   	  |  
+	|	SUN3   	        |	SUNOS        |     X 	          | 
+	|		        |		     |		    	  |   
+	|	SUN4   	        |	SUNOS        |     X              |
+	|		        |		     |	           	  |    
+	|	LUNA88K         |	Mach   	     |     X              |
+	+-----------------------------------------------------------------+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 1-5 -

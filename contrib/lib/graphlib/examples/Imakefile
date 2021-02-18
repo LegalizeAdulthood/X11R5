@@ -1,0 +1,9 @@
+#define IHaveSubdirs
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+MakeSubdirs ($(SUBDIRS))
+DependSubdirs ($(SUBDIRS))
+
+SUBDIRS = label menus buttons
+

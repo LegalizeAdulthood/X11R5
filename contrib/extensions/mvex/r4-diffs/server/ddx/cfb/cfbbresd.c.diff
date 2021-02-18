@@ -1,0 +1,71 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/cfb/RCS/cfbbresd.c,v 
+*** 1.3.1.1	1991/09/22 02:25:59
+--- 1.3.1.2	1991/09/22 18:30:18
+***************
+*** 204,210 ****
+  		    	addrl += yinc;
+  		    	e += e3;
+  	    	    }
+! 	    	    if (!bit)
+  	    	    {
+  		    	bit = leftbit;
+  		    	addrl++;
+--- 204,210 ----
+  		    	addrl += yinc;
+  		    	e += e3;
+  	    	    }
+! /*	    	    if (!bit) */
+  	    	    {
+  		    	bit = leftbit;
+  		    	addrl++;
+***************
+*** 228,234 ****
+  		    	addrl += yinc;
+  		    	e += e3;
+  	    	    }
+! 	    	    if (!bit)
+  	    	    {
+  		    	bit = rightbit;
+  		    	addrl--;
+--- 228,234 ----
+  		    	addrl += yinc;
+  		    	e += e3;
+  	    	    }
+! /*	    	    if (!bit) */
+  	    	    {
+  		    	bit = rightbit;
+  		    	addrl--;
+***************
+*** 252,258 ****
+  	    	    if (e >= 0)
+  	    	    {
+  		    	bit = SCRRIGHT(bit,1);
+! 		    	if (!bit)
+   		    	{
+  			    bit = leftbit;
+  			    addrl++;
+--- 252,258 ----
+  	    	    if (e >= 0)
+  	    	    {
+  		    	bit = SCRRIGHT(bit,1);
+! /*		    	if (!bit) */
+   		    	{
+  			    bit = leftbit;
+  			    addrl++;
+***************
+*** 276,282 ****
+  	    	    if (e >= 0)
+  	    	    {
+  		    	bit = SCRLEFT(bit,1);
+! 		    	if (!bit)
+   		    	{
+  			    bit = rightbit;
+  			    addrl--;
+--- 276,282 ----
+  	    	    if (e >= 0)
+  	    	    {
+  		    	bit = SCRLEFT(bit,1);
+! /*		    	if (!bit) */
+   		    	{
+  			    bit = rightbit;
+  			    addrl--;

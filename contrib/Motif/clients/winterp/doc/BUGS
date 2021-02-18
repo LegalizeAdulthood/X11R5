@@ -1,0 +1,163 @@
+# 
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard, David Betz and
+# Niels Mayer not be used in advertising or publicity pertaining to distribution
+# of the software without specific, written prior permission.  Hewlett-Packard,
+# David Betz and Niels Mayer makes no representations about the suitability of
+# this software and documentation for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+
+There following describes bugs in WINTERP, all of which surfaced with Motif
+1.1, and will hopefully go away in Motif 1.2 and/or X11r5. Despite these
+bugs, we've managed to run a number of WINTERP applications successfully --
+it is important to know the cause of these problems, and have knowledge of
+what sorts of operations will cause trouble.
+
+			--------------------
+
+The first bug occurs whenever a shell containing a popup or option menu is
+closed.  This causes an erroneous XtWarning:
+
+	"Warning: Attempt to remove non-existant passive grab"
+
+The warning itself is harmless. However, if you start up WINTERP with
+resource "Winterp.enableXtWarningBreak" set to TRUE (or specify the command
+line flag "-enable_xtwarn_brk"), you will notice problems. When
+enableXtWarningBreak is set, any XtWarnings will break out of the routine
+that caused the XtWarning and go to the XLISP error handling routine. For
+many XtWarnings, that works out just fine, allowing you to trace the exact
+call which cause the toolkit to balk. Unfortunately, for the "Attempt to
+remove non-existant passive grab" warning, it seems to leave Motif/Xt in an
+indeterminate state that can result in odd behavior, program freezes, or
+core dumps. After a popup menu gets popupped up, any subsequent attempts at
+"closing" the shell containing the popup-menu or option-menu don't work
+correctly. By "closing" I mean using the window-manager's "close" menu
+entry (f.kill). Upon doing a "close" on a shell containing a popup menu,
+I've seen a number of things happen:
+   (1) The "close" is ignored, but subsequent attempts at closing a
+       different WINTERP shell result in a core dump.
+   (2) Doing the "close" generates the message:
+	error: X Toolkit Warning:
+		Attempt to remove non-existant passive grab
+       Doing the "close" again, on either the same shell, or a different
+       WINTERP shell will result in the following sort of error message:
+	XIO:  fatal IO error 32 (Broken pipe) on X server "unix:0.1"
+	after 19581 requests (19573 known processed) with 0 events remaining.
+	The connection was probably broken by a server shutdown or KillClient.
+
+The workaround for the above problem is simple -- don't set resource
+"Winterp.enableXtWarningBreak" to TRUE. The default for WINTERP 1.13 is to
+set the resource to FALSE so as to avoid the problem.
+
+Typically, you will also want to deliver WINTERP applications with
+"Winterp.enableXtWarningBreak" set to the default FALSE value. XtWarnings
+can occur when your X server runs out of colors, or can't find a particular
+font, etc -- such situations often warrant continuing program operation
+normally (after issuing a warning), rather than causing a Lisp break.
+
+The only reason why you'd want to set "Winterp.enableXtWarningBreak" to
+TRUE is during debugging a program -- enableXtWarningBreak combined with
+'baktrace' will allow you to figure out which particular call in your
+program caused the warning to be issued.
+
+			--------------------
+
+The second major problem is related to X11r4&Motif-1.1's flaw of not being
+able to destroy widgets properly when running in nested Xt eventloops
+(XtAppMainLoop(), or XtAppNextEvent()+XtDispatchEvent()). This had not been
+a problem in Motif 1.0/X11r3 which was WINTERP's original design platform,
+and the bug has supposedly been fixed in Motif 1.2 and X11r5.
+
+WINTERP uses nested event loops in its handling of XLISP's debug breakloop.
+Problems seem to arise when XLISP is set up such that Lisp, Motif, Xt, or X
+errors throw into the Lisp break loop "at the wrong time".  This mode is
+not the default for XLISP -- it must be explicitly enabled by setting
+variable *BREAKENABLE* to T, by evaluating the function DEBUG (defined in
+examples/initialize.lsp), or by turning on the "debug" toggle-button in
+examples/w_ctrlpnl.lsp.
+
+The symptoms of the problem are that on certain occasions, when
+*BREAKENABLE* is set, and a previous error has thrown you into the
+breakloop, you will not be able to destroy widgets or close windows using
+the window manager "close" (f.kill) function. Sometimes you will also see
+subsequent core dumps and other strange behavior indicating that Motif is
+stepping on its own memory.
+
+The problem will simply not arise if *BREAKENABLE* is not set. There are
+even occasions where *BREAKENABLE* can be set and you won't see this
+problem.  Unfortunately, that may make debugging WINTERP programs difficult
+because you won't be able to find out which particular section of code
+caused an error and you will have to rely on the information presented by
+the error message.
+
+The problem is seems to be caused by entering/exiting out of a break-level
+through a callback, which was how WINTERP 1.12's w_ctrlpnl.lsp implemented
+the Err-Cont (continue), Err-^Level (clean-up), and Err-~Level (top-level)
+commnands. Likewise, the problem will manifest itself if an error occurs
+while loading a file out of a callback (an error will throw into a
+different nesting of event loop). The workaround is to prevent such cases
+from arising out of callbacks.
+
+WINTERP 1.13's w_ctrlpnl.lsp implements (kludges, hacks,...) the workaround
+to this problems by having "Load File", "Err-Cont", "Err-^Level", and
+"Err-~Level" not move between break-levels through callbacks. Instead, they
+call WINTERP's eval-server through the kludge of calling the Winterp-Lisp
+client 'wl' through SYSTEM. While this is certainly less direct/efficient
+means of interacting with XLISP than presented in WINTERP 1.12's
+w_ctrlpnl.lsp, users will not notice this as a problem since the operation
+occurs once per click on the "Load File", "Err-Cont", "Err-^Level", or
+"Err-~Level" buttons (i.e. it's a non-inner loop sort of operation).
+
+The only real problem caused by this workaround to w_ctrlpnl.lsp is that
+you will not be able to use the control panel with a WINTERP that doesn't
+have an eval-server running (i.e. you must not specify -no_unix_server
+command line flag or resource "Winterp.enableUnixServer: false"). Of
+course, w_ctrlpnl.lsp now requires that the executable 'wl' be on your
+search path. Note that for Motif 1.0, none of this is a problem --
+w_ctrlpnl.lsp knows which version of Motif you are running and will adjust
+it's behavior accordingly, such that the "normal" callback-based "Load
+File", "Err-Cont", "Err-^Level", and "Err-~Level" functions will occur.
+
+When interacting with WINTERP through the gnu-emacs interface
+(src-client/winterp.el), the eval-server is used by default, which means
+you will not be incurring the problem of entering/exiting the breakloop out
+of a callback.
+
+I'm looking into better solutions for this problem in WINTERP release 1.14.
+Until then, please note the above warnings such that you can avoid
+problems, or at least understand which actions you took are causing
+problems. At worst, while debugging, you'll have to restart WINTERP
+occasionally, which is still far better than restarting a C application
+every time a trivial error occurs. Typically, delivered WINTERP
+applications will never enter a break-level, and when they do, it may make
+the most sense to pop up a dialog box and exit.
+
+			--------------------
+
+The last problem of note in WINTERP 1.13 and Motif 1.1 is that option menus
+created via XmCreateSimpleOptionMenu() (see examples/RowColumn.lsp) invoke
+yet another widget destroy problem. Basically, anytime I destroy a shell
+containing a simple option menu, I get a core dump, typically containgin
+the following C backtrace:
+| __XtDoPhase2Destroy+0x44:       _XtCreateApplicationShell+0x1CA (0x1F1538)
+| _XtDispatchEvent+0x46:  __XtDoPhase2Destroy     (0x151E88, 0x1)
+| _main+0x9FE:    _XtDispatchEvent(0xFFEFFCB8)
+
+This problem, seems to be fixed in WINTERP 1.14, which will be released
+real soon now. Put yourself on the WINTERP mailing list
+(winterp-request@hplnpm.hpl.hp.com) or watch
+comp.windows.x/comp.windows.x.motif for annoucements of that release.
+
+-------------------------------------------------------------------------------
+	    Niels Mayer -- hplabs!mayer -- mayer@hplabs.hp.com
+		  Human-Computer Interaction Department
+		       Hewlett-Packard Laboratories
+			      Palo Alto, CA.
+				   *

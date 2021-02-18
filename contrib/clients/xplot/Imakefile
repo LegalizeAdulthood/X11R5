@@ -1,0 +1,6 @@
+
+	DEFINES = -DWideLabel -DKeepScale -DResize_Yes
+	SRCS = main.c openpl.c plotting.c readin.c plot.c alabel.c
+	OBJS = main.o openpl.o plotting.o readin.o plot.o alabel.o
+
+ComplexProgramTarget(xplot)

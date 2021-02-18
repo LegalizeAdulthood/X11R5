@@ -1,0 +1,892 @@
+
+;;File: mwm-icon.gwm --
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+
+(: icon.size.width (+ (# 0 iconImageMaximum) 12))
+
+(df icon-menu-open ()
+ (if iconClick
+         (with (theIcon    window
+                window     window-window
+                theMenu    (window-menu)
+                theMenuWob (menu-wob theMenu)
+                window     theIcon
+                x          window-x
+                y          (- window-y (height theMenuWob))
+               )
+          (if (< y 0) (: y (+ window-y window-height)))
+          (if (> (+ x (width theMenuWob)) screen-width)
+                 (: x (- screen-width (width theMenuWob))))
+          (move-window theMenuWob x y)
+          (menu.pop (window-menu) 1 'here)
+          (with (wob  theMenuWob) (## 'current-valid-item wob 0))
+          (send-user-event 'goto-activable  theMenuWob)
+          (send-user-event 'select-item (# 0 (valid-items  theMenuWob)))
+         )
+ )
+)
+
+
+; MWM-ICON-FSM :
+; ============
+(: icon-standard-behavior
+ (state-make
+        (on focus-out (maintain-focus-out))
+        (on focus-in (maintain-focus-in))
+       	(on (buttonrelease 1 alone) 
+		(progn
+	  	 (: double-click-required window)
+	 	 (: time-of-last-release (current-event-time))
+	 	 (icon-menu-open)
+		)
+	)
+        (if (= keyboardFocusPolicy 'explicit)
+         (on (buttonpress 1 alone)
+           (if (not (# 'got-focus window-property))
+            (progn
+	     (set-focus)
+             (: resize-flag ())
+             (if passSelectButton (ungrab-server-and-replay-event ()))
+             (unset-grabs (buttonpress 1 alone) )
+            )
+            (if (= double-click-required window)
+	     (progn
+              (if (< (- (current-event-time) time-of-last-release) doubleClickTime)
+               (send-user-event 'double-click double-click-required)
+              )
+              (: double-click-required ())
+	     )
+              (: double-click-required ())
+            )
+           )
+         )
+        )
+        (if (= keyboardFocusPolicy 'explicit)
+         (on enter-window 
+	  (if (not (# 'got-focus window-property))
+			(set-grabs (replayable-event (buttonpress 1 alone)))
+	  )
+	 )
+         (on enter-window (set-focus)) 
+	)
+        (if (not (= keyboardFocusPolicy 'explicit))
+         (on leave-window (send-user-event 'leave-window))
+	)
+        (if (not (= keyboardFocusPolicy 'explicit))
+	 (on (user-event 'leave-window)
+	  (if (or (not completeIconNameOnFocusIn) (in-menu-name-test))
+	  (if (not (current-event-from-grab)) (set-focus ())
+          (with (cmp (current-mouse-position)
+                 cmpx (- (# 0 cmp) window-x) cmpy (- (# 1 cmp) window-y)
+                )
+           (if (not (and (> cmpx 0) (> cmpy 0) (< cmpx window-width) (< cmpy window-height)))
+                (set-focus ())
+           )
+          )
+	  )
+	  )
+	 )
+	)
+	(on (user-event 'test-in-icon)
+		(: in-icon (and (> x window-x) (> y window-y)
+				(< x (+ window-x window-width)) (< y (+ window-y window-height))
+			   )
+		)
+	)
+	(on (user-event 'double-click) (mwm-de-iconify-window))
+ )
+)
+
+(df in-menu-name-test ()
+ (if (# 'focus-in-menu-name-placed window)
+  (with (cmp (current-mouse-position) x (# 0 cmp) y (# 1 cmp))
+	(: in-menu-name ())
+	(send-user-event 'test-in-menu-name (menu-wob (# 'focus-in-menu-name window)))
+  (not in-menu-name)
+  )
+ )
+)
+
+(df mwm-icon-fsm ()
+ (fsm-make
+  (state-make
+	(# 0 (# 'icon keyBindings))
+	(# 'wfsm (menu-wob menu))
+	icon-standard-behavior
+	(do-bindings-state '(icon))
+  )
+ )
+)
+
+; MWM-ICON-FRAME-FSM :
+; ------------------
+(: mwm-icon-frame-fsm
+ (fsm-make
+  (state-make
+        (on (user-event 'focus-in)  (: wob-tile (# 'activepixmap wob)) )
+        (on (user-event 'focus-out) (: wob-tile (# 'pixmap wob)) )
+        (on (buttonpress 1 alone) 
+	  (progn
+                (if (= double-click-required window)
+		 (progn
+                  (if (< (- (current-event-time) time-of-last-release) doubleClickTime)
+                   (send-user-event 'double-click double-click-required)
+		   (progn
+		    (do-binding-button 1 alone 'press '(icon))
+                    (if (deltabutton) (f.move))
+		   )
+                  )
+                  (: double-click-required ())
+                 )
+		 (progn
+                  (: double-click-required ())
+		  (do-binding-button 1 alone 'press '(icon))
+                  (if (deltabutton) (f.move))
+		 )
+		)
+	  )
+	)
+        (on (buttonrelease 1 alone) 
+		(progn
+		 (: double-click-required window)
+		 (: time-of-last-release (current-event-time))
+		 (icon-menu-open)
+		)
+	)
+        (do-bindings-state '(icon))
+  )
+ )
+)
+
+
+; THE BARS :
+; ========
+
+(de shadow-focus-in-menu-name-pixmap.make (top)
+ (with (
+	foreground iconActiveBottomShadowColor
+	h (+ 1 clientFontList.height (* 2 label-vertical-margin))
+	theTile (pixmap-make 2 h)
+       )
+  (if top
+	(with (foreground iconActiveTopShadowColor)
+		(draw-line theTile 0 0 0 (- h 1))
+		(draw-line theTile 1 0 1 (- h 2))
+	)
+	(progn
+	(with (foreground iconActiveTopShadowColor)
+		(draw-line theTile 0 0 0 1)
+	)
+	(with (foreground iconActiveBottomShadowColor)
+		(draw-line theTile 0 1 1 1)
+	)
+	)
+  )
+  theTile
+ )
+)
+	
+
+(: left-focus-in-menu-name-plug
+ (with (
+	cursor        frame-cursor
+	fsm           () ;mwm-icon-frame-fsm
+	tile	      (shadow-focus-in-menu-name-pixmap.make t)
+	borderwidth   0
+	menu ()
+       )
+  (plug-make tile)
+ )
+)
+
+(: right-focus-in-menu-name-plug
+ (with (
+        cursor        frame-cursor
+        fsm           () ;mwm-icon-frame-fsm
+        tile          (shadow-focus-in-menu-name-pixmap.make ())
+        borderwidth   0
+	menu ()
+       )
+  (plug-make tile)
+ )
+)
+
+(: focus-in-menu-name-tile
+ (with (foreground iconActiveBackground
+        h (+ 1 clientFontList.height (* 2 label-vertical-margin))
+	w (+ icon.size.width (/ icon.size.width 2))
+	theTile (pixmap-make w h)
+       )
+  (with (foreground iconActiveTopShadowColor)
+	(draw-line theTile 0 0 (- w 1) 0)
+	;(draw-line theTile 0 1 (- w 1) 1)
+  )
+  (with (foreground iconActiveBottomShadowColor)
+	(draw-line theTile 0 (- h 1)  (- w 1) (- h 1))
+	(draw-line theTile 0 (- h 2)  (- w 1) (- h 2))
+  )
+  theTile
+ )
+)
+
+(: focus-in-menu-min-width-bar
+ (with (
+	foreground iconActiveTopShadowColor
+	fsm ()
+	borderwidth 0
+       )
+  (bar-make (plug-make (pixmap-make (+ icon.size.width (/ icon.size.width 2)) 1) ) ())
+ )
+)
+
+
+(: icon-right-bar 
+	(with (
+	       cursor        frame-cursor
+	       fsm           mwm-icon-frame-fsm
+	       pixmap        (pixmap-make iconBackground 
+		              "mwm-icrt" iconTopShadowColor
+		              "mwm-icrb" iconBottomShadowColor
+			     )
+	       activepixmap  (pixmap-make iconActiveBackground 
+		              "mwm-icrt" iconActiveTopShadowColor
+		              "mwm-icrb" iconActiveBottomShadowColor
+                             )
+	       property      (list 'pixmap pixmap 'activepixmap activepixmap)
+	       tile          pixmap
+	       borderwidth   0
+	       bar-min-width 5
+	      )
+	(bar-make ())
+        )
+)
+
+(: icon-left-bar 
+	(with (
+	       cursor        frame-cursor
+	       fsm           mwm-icon-frame-fsm
+	       pixmap        (pixmap-make iconBackground 
+		              "mwm-iclt" iconTopShadowColor
+		              "mwm-iclb" iconBottomShadowColor
+			     )
+	       activepixmap  (pixmap-make iconActiveBackground 
+		              "mwm-iclt" iconActiveTopShadowColor
+		              "mwm-iclb" iconActiveBottomShadowColor
+			     )
+	       property      (list 'pixmap pixmap 'activepixmap activepixmap)
+	       tile          pixmap
+	       borderwidth   0
+	       bar-min-width 5
+	      )
+	(bar-make ())
+        )
+)
+
+
+(: icon-tl-plug
+	(with (
+	       pixmap       (pixmap-make iconBackground 
+			     "mwm-ictlt" iconTopShadowColor
+		             "mwm-ictlb" iconBottomShadowColor)
+	       activepixmap (pixmap-make iconActiveBackground 
+			     "mwm-ictlt" iconActiveTopShadowColor
+		             "mwm-ictlb" iconActiveBottomShadowColor)
+	       property     (list 'pixmap pixmap 'activepixmap activepixmap)
+	       fsm          mwm-icon-frame-fsm
+	       borderwidth  0
+	       cursor       frame-cursor
+	      )
+	(plug-make pixmap)
+	)
+)
+
+(: icon-tr-plug
+	(with (
+	       cursor       frame-cursor
+	       pixmap       (pixmap-make iconBackground 
+			     "mwm-ictrt" iconTopShadowColor
+		             "mwm-ictrb" iconBottomShadowColor)
+	       activepixmap (pixmap-make iconActiveBackground 
+			     "mwm-ictrt" iconActiveTopShadowColor
+		             "mwm-ictrb" iconActiveBottomShadowColor)
+	       property     (list 'pixmap pixmap 'activepixmap activepixmap)
+	       fsm          mwm-icon-frame-fsm
+	       borderwidth  0
+	      )
+	(plug-make pixmap)
+	)
+)
+
+(: icon-top-bar 
+	(with (
+	       cursor        frame-cursor
+	       pixmap        (pixmap-make iconBackground 
+		              "mwm-ictt" iconTopShadowColor
+		              "mwm-ictb" iconBottomShadowColor)
+	       activepixmap  (pixmap-make iconActiveBackground 
+		              "mwm-ictt" iconActiveTopShadowColor
+		              "mwm-ictb" iconActiveBottomShadowColor)
+	       property      (list 'pixmap pixmap 'activepixmap activepixmap)
+               tile          pixmap
+	       fsm           mwm-icon-frame-fsm
+	       borderwidth   0
+	       bar-min-width 5
+	       bar-max-width 5)
+	(bar-make icon-tl-plug () icon-tr-plug)
+        )
+)
+
+(: icon-bottom-bar-width  (+ 12 (with (font iconFontList) (height "A"))))
+
+(de pixmap-make-icon-bl (active)
+ (with (tSC        (if active iconActiveTopShadowColor iconTopShadowColor)
+        bSC        (if active iconActiveBottomShadowColor iconBottomShadowColor)
+        foreground (if active iconActiveBackground iconBackground)
+        theTile    (pixmap-make 5 icon-bottom-bar-width)
+       )
+ (with (foreground tSC)
+        (draw-line theTile 0 0 0 (- icon-bottom-bar-width 1))
+        (draw-line theTile 1 0 1 (- icon-bottom-bar-width 1))
+	(draw-line theTile 4 0 4 1)
+        (draw-line theTile 0 4 4 4)
+ )
+ (with (foreground bSC)
+        (draw-line theTile 1 3 4 3)
+        (draw-line theTile 1 (- icon-bottom-bar-width 1) 4 (- icon-bottom-bar-width 1))
+        (draw-line theTile 2 (- icon-bottom-bar-width 2) 4 (- icon-bottom-bar-width 2))
+ )
+ (with (foreground (if active iconActiveBackground iconBackground))
+	(draw-line theTile 3 1 4 1)
+ )
+ )
+)
+
+
+
+(: icon-bl-plug
+        (with (
+	       cursor       frame-cursor
+	       fsm          mwm-icon-frame-fsm
+               pixmap       (pixmap-make-icon-bl ())
+               activepixmap (pixmap-make-icon-bl t)
+               property     (list 'pixmap pixmap 'activepixmap activepixmap)
+               borderwidth  0
+              )
+        (plug-make pixmap)
+        )
+)
+
+(de pixmap-make-icon-br (active)
+ (with (tSC        (if active iconActiveTopShadowColor iconTopShadowColor)
+        bSC        (if active iconActiveBottomShadowColor iconBottomShadowColor)
+        foreground (if active iconActiveBackground iconBackground)
+        theTile    (pixmap-make 5 icon-bottom-bar-width)
+       )
+ (with (foreground bSC)
+        (draw-line theTile 4 0 4 (- icon-bottom-bar-width 1))
+        (draw-line theTile 3 0 3 (- icon-bottom-bar-width 1))
+        (draw-line theTile 0 (- icon-bottom-bar-width 1) 4 (- icon-bottom-bar-width 1))
+        (draw-line theTile 0 (- icon-bottom-bar-width 2) 4 (- icon-bottom-bar-width 2))
+        (draw-line theTile 0 3 4 3)
+ )
+ (with (foreground tSC)
+        (draw-line theTile 0 0 0 1)
+        (draw-line theTile 0 4 3 4)
+ )
+ (with (foreground (if active iconActiveBackground iconBackground))
+	(draw-line theTile 0 1 1 1)
+ )
+ )
+)
+
+
+(: icon-br-plug
+        (with (
+	       cursor       frame-cursor
+	       fsm          mwm-icon-frame-fsm
+               pixmap       (pixmap-make-icon-br ())
+               activepixmap (pixmap-make-icon-br t)
+               property     (list 'pixmap pixmap 'activepixmap activepixmap)
+               borderwidth  0
+              )
+        (plug-make pixmap)
+        )
+)
+
+(de tile-make-icon-bottom-bar (active)
+ (with (tSC        (if active iconActiveTopShadowColor iconTopShadowColor)
+        bSC        (if active iconActiveBottomShadowColor iconBottomShadowColor)
+        foreground (if active iconActiveBackground iconBackground)
+        theTile    (pixmap-make 2 icon-bottom-bar-width)
+       )
+ (with (foreground tSC)
+        (draw-line theTile 0 0 1 0)
+        (draw-line theTile 0 4 1 4)
+ )
+ (with (foreground bSC)
+        (draw-line theTile 0 3 1 3)
+        (draw-line theTile 0 (- icon-bottom-bar-width 1) 1 (- icon-bottom-bar-width 1))
+        (draw-line theTile 0 (- icon-bottom-bar-width 2) 1 (- icon-bottom-bar-width 2))
+ )
+ )
+)
+
+(: icon-tile-bottom-bar (tile-make-icon-bottom-bar ()))
+(: icon-active-tile-bottom-bar (tile-make-icon-bottom-bar t))
+
+
+
+; THE LABEL-PLUG :
+; ==============
+(: icon-label-plug 
+'(with (borderwidth 0
+        fsm (fsm-make
+             (state-make
+               (on (user-event 'focus-in)
+                   (progn
+                         (: wob-background iconActiveBackground)
+                         (wob-tile (with (foreground iconActiveForeground)
+                                     (active-label-make (# 'theLabel wob) iconFontList)))
+                   ) )
+               (on (user-event 'focus-out)
+                   (progn
+                         (: wob-background iconBackground)
+                         (wob-tile (with (foreground iconForeground)
+                                     (active-label-make (# 'theLabel wob) iconFontList)))
+                   ) )
+               (on (user-event 'name-change)
+                   (progn
+			 (## 'theLabel wob window-icon-name)
+                         (wob-tile
+                           (with (foreground 
+					(if (= wob-background iconActiveBackground)
+                                                iconActiveForeground iconForeground))
+                                (active-label-make window-icon-name iconFontList))
+                   	 )
+              	   )
+	        ) 
+                (on (buttonpress 1 alone)
+                  (progn
+                        (if (= double-click-required window)
+                         (progn
+                          (if (< (- (current-event-time) time-of-last-release) doubleClickTime)
+                           (send-user-event 'double-click double-click-required)
+                           (progn
+                            (do-binding-button 1 alone 'press '(icon))
+                            (if (deltabutton) (f.move))
+                           )
+                          )
+                          (: double-click-required ())
+                         )
+                         (progn
+                          (do-binding-button 1 alone 'press '(icon))
+                          (if (deltabutton) (f.move))
+                          (: double-click-required ())
+                         )
+                        )
+                  )
+                )
+        	(on (buttonrelease 1 alone) 
+			(progn
+		  	 (: double-click-required window)
+		 	 (: time-of-last-release (current-event-time))
+		 	 (icon-menu-open)
+			)
+		)
+        	(do-bindings-state '(icon))
+	    ))
+
+              background iconBackground
+              foreground iconForeground
+              font iconFontList
+	      property (list 'theLabel window-icon-name)
+          )
+ (plug-make (label-make window-icon-name)))
+)
+
+(: icon-bottom-bar
+       	(with (
+               cursor        frame-cursor
+               foreground    iconForeground
+               pixmap        icon-tile-bottom-bar
+               activepixmap  icon-active-tile-bottom-bar
+               property      (list 'pixmap pixmap 'activepixmap activepixmap)
+      	       tile          pixmap
+      	       fsm           mwm-icon-frame-fsm
+       	       bar-min-width icon-bottom-bar-width
+	       borderwidth   0
+       	      )
+       	(bar-make icon-bl-plug () icon-label-plug () icon-br-plug))
+)
+
+(: focus-in-menu-name-bar
+ (with (
+	cursor        frame-cursor
+	tile          focus-in-menu-name-tile
+	fsm           () ;mwm-icon-frame-fsm
+	bar-min-width (+ 1 iconFontList.height (* 2 label-vertical-margin))
+	borderwidth   0
+	menu ()
+       )
+       (bar-make left-focus-in-menu-name-plug () icon-label-plug
+		 () right-focus-in-menu-name-plug)
+ )
+)
+
+
+(df center-icon-blank-pixmap ()
+ (with (foreground iconImageBackground
+	MaxX (+ (# 0 iconImageMaximum) 1)
+	MaxY (+ (# 1 iconImageMaximum) 1)
+  	theTile (pixmap-make (+ MaxX 1) (+ MaxY 1))
+       )
+  (with (foreground iconImageTopShadowColor)
+   (draw-line theTile 0    0    MaxX 0   )
+   (draw-line theTile 0    0    0    MaxY)
+  )
+  (with (foreground iconImageBottomShadowColor)
+   (draw-line theTile 0    MaxY MaxX MaxY)
+   (draw-line theTile MaxX 1    MaxX MaxY)
+  )
+ theTile
+ )
+)
+
+(df anonymous-icon-pixmap ()
+ (pixmap-make iconImageBackground 
+              (center-icon-blank-pixmap) iconImageBackground
+	      "X.xbm" iconImageForeground
+ )
+)
+
+
+; Fsm of the center plug :
+(: icon-center-plug-fsm 
+ (fsm-make
+    (state-make
+     (on (user-event 'icon-pixmap-change)
+	 (wob-tile
+	  (with (iconImageBackground (get-res-value 'iconImageBackground)
+		 iconImageForeground (get-res-value 'iconImageForeground)
+	         iconImageBottomShadowColor (get-res-value
+					     'iconImageBottomShadowColor)
+		 iconImageTopShadowColor (get-res-value
+					  'iconImageTopShadowColor)
+		 simple-icon-decoration.wip (window-icon-pixmap)
+				     )
+	    (pixmap-make  iconImageBackground
+			  (center-icon-blank-pixmap) iconImageBackground
+			  simple-icon-decoration.wip iconImageBackground
+			  ))))
+     (on (buttonpress 1 alone)
+	 (progn
+	   (if (= double-click-required window)
+	       (progn
+		 (if (< (- (current-event-time) time-of-last-release)
+			doubleClickTime)
+		     (send-user-event 'double-click double-click-required)
+                   (progn
+		     (do-binding-button 1 alone 'press '(icon))
+		     (if (deltabutton) (f.move))))
+		 (: double-click-required ()))
+	     (progn
+	       (do-binding-button 1 alone 'press '(icon))
+	       (: double-click-required ())
+	       (if (deltabutton) (f.move))
+	       ))))
+     (on (buttonrelease 1 alone) 
+	(progn
+	  (: double-click-required window)
+	  (: time-of-last-release (current-event-time))
+	  (icon-menu-open)
+	  )
+	)
+     (do-bindings-state '(icon))
+    )
+ )
+)
+
+(: focus-in-menu-name-fsm
+ (fsm-make
+  (state-make 
+   (on (user-event 'test-in-menu-name)
+	(: in-menu-name (and (> x (- wob-x 1)) (> y (- wob-y 1))
+				(< x (+ wob-x wob-width)) (< y (+ wob-y wob-height))))
+   )
+   (on leave-window 
+	(with (cmp (current-mouse-position) x (# 0 cmp) y (# 1 cmp))
+	 (: in-icon ())
+	 (send-user-event 'test-in-icon (# 'icon-father wob))
+	 (if (not in-icon) (send-user-event 'leave-window) (# 'focus-in-menu-name-placed wob))
+	)
+   )
+        (on (buttonpress 1 alone)
+          (progn
+                (if (= double-click-required window)
+                 (progn
+                  (if (< (- (current-event-time) time-of-last-release) doubleClickTime)
+                   (send-user-event 'double-click double-click-required)
+                   (progn
+                    (do-binding-button 1 alone 'press '(icon))
+                    (if (deltabutton) (f.move))
+                   )
+                  )
+                  (: double-click-required ())
+                 )
+                 (progn
+                  (: double-click-required ())
+                  (do-binding-button 1 alone 'press '(icon))
+                  (if (deltabutton) (f.move))
+                 )
+                )
+          )
+        )
+        (on (buttonrelease 1 alone)
+                (progn
+                 (: double-click-required window)
+                 (: time-of-last-release (current-event-time))
+                 (icon-menu-open)
+                )
+        )
+        (do-bindings-state '(icon))
+  )
+ )
+)
+
+; MWM-ICON.DATA :
+; =============
+(: mwm-icon.data
+  '(with (
+	   ; client specific resources :
+	    iconImageBackground (get-res-value 'iconImageBackground)
+	    iconImageForeground (get-res-value 'iconImageForeground)
+	    iconImageBottomShadowColor (get-res-value 'iconImageBottomShadowColor)
+	    iconImageTopShadowColor (get-res-value 'iconImageTopShadowColor)
+
+	    menu                       (eval (atom (get-res-value 'windowMenu)))
+	    property                   (list 'X () 'Y ()
+					'focus-in-menu-name
+					 (with (
+        					fsm focus-in-menu-name-fsm
+        					borderwidth 0
+        					menu ()
+        					cursor ()
+        					property ()
+						bar-separator 0
+       					)
+  					(menu-make focus-in-menu-min-width-bar
+							focus-in-menu-name-bar)
+ 					)
+					'focus-in-menu-name-placed ()
+					)
+	    grabs                      
+			(+ (# 1 (# 'icon keyBindings))
+			   (# 'wgrabs (menu-wob menu))
+			)
+	    cursor                     frame-cursor
+	    background                 iconImageBackground 
+	    foreground                 iconImageForeground 
+            borderwidth                0
+            simple-icon-decoration.wip (window-icon-pixmap)
+            tmp         (if (get-res-value 'iconImage)
+                            (pixmap-make (get-res-value 'iconImage))
+                            ()
+                        )
+            fsm         icon-center-plug-fsm
+            center-plug 
+			(if (window-icon-window)
+                         (window-icon-window)
+                         simple-icon-decoration.wip
+                               (plug-make
+                                (pixmap-make  iconImageBackground
+                                          (center-icon-blank-pixmap) iconImageBackground
+                                        simple-icon-decoration.wip iconImageBackground
+                                )
+                               )
+                         tmp
+                         (plug-make (pixmap-make  iconImageBackground
+                                         (center-icon-blank-pixmap) iconImageBackground
+                                        tmp iconImageForeground
+                         ))
+                         (plug-make (anonymous-icon-pixmap))
+                     	)
+
+	    fsm (mwm-icon-fsm)
+           )
+
+          (window-make
+		icon-top-bar
+		icon-left-bar
+		icon-right-bar
+		icon-bottom-bar
+		center-plug
+	)
+    )
+)
+
+
+
+		
+;(defname 'mwm-icon.data screen. ())
+(df mwm-icon () mwm-icon.data)
+
+
+; Cutting of the screen in boxes to tidy away icons :
+; -------------------------------------------------
+
+(: icon.size.width (+ (# 0 iconImageMaximum) 12))
+(: icon.size.height (+ (# 1 iconImageMaximum) 6 icon-bottom-bar-width))
+
+(: nb-icons.w (/ screen-width (+ icon.size.width iconPlacementMargin)))
+(: nb-icons.h (/ screen-height (+ icon.size.height iconPlacementMargin)))
+
+(: icon-box.w (+  icon.size.width iconPlacementMargin 
+		  (/ (% screen-width (+ icon.size.width iconPlacementMargin))
+		     nb-icons.w
+)))
+(: icon-box.h (+  icon.size.height iconPlacementMargin 
+		  (/ (% screen-height (+ icon.size.height iconPlacementMargin))
+		     nb-icons.h
+)))
+(: icon-array (list-make (* nb-icons.w nb-icons.h)))
+(: xmax (* icon-box.w (- nb-icons.w 1)))
+(: ymax (* icon-box.h (- nb-icons.h 1)))
+
+; Convert pixel-coords into array-coords :
+; --------------------------------------
+(de xy-to-XY (x y)
+ (list
+  (if (> x xmax) (- nb-icons.w 1) (/ x icon-box.w))
+  (if (> y ymax) (- nb-icons.h 1) (/ y icon-box.h))
+ )
+)
+
+; Convert array-coords into pixel-coords :
+; --------------------------------------
+(de XY-to-xy (X Y)
+ (list
+  (+ (* X icon-box.w) iconPlacementMargin)
+  (+ (* Y icon-box.h) iconPlacementMargin)
+ )
+)
+
+; Get the value (icon-wob) located at (X,Y) of the icon-array :
+; -----------------------------------------------------------
+(de get-icon-from-array (X Y)
+ (if (or (< X 0)
+	 (< Y 0)
+	 (> X (- nb-icons.w 1))
+	 (> Y (- nb-icons.h 1))
+     )
+ 'out
+ (# (+ (* Y nb-icons.w) X) icon-array)
+ )
+)
+
+; Set the value (icon-wob) located at (X,Y) of the icon-array :
+; -----------------------------------------------------------
+(de set-icon-of-array (X Y value)
+ (if (or (< X 0)
+	 (< Y 0)
+	 (> X (- nb-icons.w 1))
+	 (> Y (- nb-icons.h 1))
+     )
+ 'out
+ (## (+ (* Y nb-icons.w) X) icon-array value)
+ )
+)
+
+; Get the "icon-zone" :  top-left     = (-1 -1)
+; -------------------    top-right    = (-1 +1)
+;			 bottom-left  = (+1 -1)
+;			 bottom-right = (+1 +1)
+(de areaInBoxCoords (x y)
+ (list
+  (if (> (% x icon-box.w) (/ icon-box.w 2)) 1 -1)
+  (if (> (% y icon-box.h) (/ icon-box.h 2)) 1 -1)
+ )
+)
+
+
+; Get the neighbors of an "icon-box" in the icon-array,
+; respencting the 'iconPlacement preferences :
+; ------------------------------------------
+(de neighbors (x y)
+ (with (theBox    (xy-to-XY x y)
+	X         (# 0 theBox)
+	Y         (# 1 theBox)
+	areaInBox (areaInBoxCoords x y)
+	incX      (# 0 areaInBox)
+	incY      (# 1 areaInBox)
+	theSide   (# 1 iconPlacement)
+       )
+  (if (or (= theSide 'bottom) (= theSide 'top))
+    (list
+     (list (get-icon-from-array (+ X incX) Y) (+ X incX) Y)
+     (list (get-icon-from-array X (+ Y incY)) X (+ Y incY))
+    )
+    (list
+     (list (get-icon-from-array X (+ Y incY)) X (+ Y incY))
+     (list (get-icon-from-array (+ X incX) Y) (+ X incX) Y)
+    )
+  )
+ )
+)
+
+(: right (list 'v (- nb-icons.w 1) 0 -1))
+(: left (list 'v 0 nb-icons.w 1))
+(: bottom (list 'h (- nb-icons.h 1) 0 -1))
+(: top (list 'h 0 nb-icons.h 1))
+
+; Get the first free box in the icon-array,
+; respencting the 'iconPlacement preferences :
+; ------------------------------------------
+(de auto-get-place ()
+ (with (
+	theSide           (eval (# 1 iconPlacement))
+	thePlace          (eval (# 0 iconPlacement))
+	theSide.index     (# 1 theSide)
+	theSide.inc       (# 3 theSide)
+	theSide.direction (# 0 theSide)
+	theSide.limit     (# 2 theSide)
+	theSide.test.limit 
+		(if (= 1 theSide.inc) 
+			(list '< 'theSide.index theSide.limit)
+			(list '> 'theSide.index (- theSide.limit 1))
+		)
+	thePlace.inc       (# 3 thePlace)
+	thePlace.direction (# 0 thePlace)
+	thePlace.limit     (# 2 thePlace)
+	thePlace.test.limit 
+		(if (= 1 thePlace.inc) 
+			(list '< 'thePlace.index thePlace.limit)
+			(list '> 'thePlace.index (- thePlace.limit 1))
+		)
+	theRes ()
+       )
+  (while (and (eval theSide.test.limit) (not theRes))
+   (with (thePlace.index (# 1 thePlace))
+    (while (and (eval thePlace.test.limit) (not theRes)) 
+     (with (
+	    X       (if (= 'v theSide.direction) theSide.index thePlace.index)
+	    Y       (if (= 'h theSide.direction) theSide.index thePlace.index)
+      	    theIcon (get-icon-from-array X Y)
+	   )
+      (if (not theIcon) (: theRes (list X Y)))
+     )
+     (: thePlace.index (+ thePlace.index thePlace.inc))
+    )
+   )
+   (: theSide.index (+ theSide.index theSide.inc))
+  )
+ theRes
+ )
+)
+
+

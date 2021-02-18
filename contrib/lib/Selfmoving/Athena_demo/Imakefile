@@ -1,0 +1,12 @@
+       CDEBUGFLAGS = 
+            CFLAGS = $(CCOPTIONS) $(ALLDEFINES)
+     PROTO_DEFINES = 
+   LOCAL_LIBRARIES = XawClientLibs
+          INCLUDES = -I..
+	   
+              SRCS = aw_demo.c 
+              OBJS = aw_demo.o ../Se/SelfM.o 
+
+             PROGS = aw_demo
+
+ComplexProgramTarget(aw_demo)

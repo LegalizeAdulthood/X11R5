@@ -1,0 +1,221 @@
+Topics Covered in This README File:
+----------------------------------
+Introduction
+Contents of the donation
+Environment/Dependency
+Building the donation
+Running the donation
+Feedback Mechanisms
+
+
+Introduction
+------------
+The intention of this donation is to test the callback mechanism  
+specified in
+    "X Window System, Version 11 
+     Input Method Specifications
+     Post-Public Review Draft 1.1 - proposed"
+Please refer to Environment/Dependency section for the tested
+environment and dependency. This donation is meant to be a sample
+implementation, NOT a fully supported product.  
+Follow-on donations and support are NOT to be assumed.  Binary and
+source compatibility with existing and future SunSoft products are also
+NOT to be assumed.
+
+Contents of the donation:
+------------------------
+Following is a complete list of the donation from Sun Microsystems, Inc.
+1.  Japanese OpenWindows(JOWN) 2.0.1 based libxview. 
+2.  JOWN2.0.1 based libolgx.
+3.  JOWN2.0.1 based cmdtool, shelltool, textedit, props.
+4.  JOWN2.0.1 based olwm.
+5.  xgettext and msgfmt localized text utilities.
+6.  Japanese message files for donated clients.
+7.  Examples of i18n XView programs.
+8.  Man pages. 
+9.  Internationalized XView Programming Manual.
+10. Sample Xinitrc
+
+TOPDIR is the root of the MIT X11R5 source tree.
+
+1.  An i18n version of XView provides on-the-spot input style
+    and callback support.  In addition, it provides a default set of
+    lookup choice and auxiliary callbacks.  All of the default
+    callbacks can be overridden by using XView API to interpose
+    customized callbacks if desired.  This donation of libxview is
+    intended to work with callback supported XIM only.  In addition, it
+    requires Sun's extensions defined in <X11/XSunExt.h>, which
+    includes the data structures and definitions for lookup choice and
+    auxiliary callbacks, and IC values of Sun's extensions.
+    
+    For full API explanation, please reference
+    $(TOPDIR)/contrib/lib/i18nXView2/doc/ixvpg.ps
+    
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/lib/libxview
+Default Install Directory: /usr/lib (libxview)
+			   /usr/include/xview (xview include files)
+
+
+2.  An i18n version of libolgx supports wide character text drawing.
+    
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/lib/libolgx
+Default Install Directory: /usr/lib
+			   /usr/include/olgx (olgx include files)
+
+
+3.  i18n XView clients support both input and output of ASCII as well
+    as Kanji text.  
+    shelltool: An i18n XView client that is a command 
+             interpereter.  
+    cmdtool: Same as shelltool plus scrollable user interface.
+    textedit: An i18n XView client that is a plain text editor.
+    props: An i18n XView client that allows users to
+           set up the OpenWindows environment and the default settings
+           of the XView clients.
+    
+
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/clients
+Default Install Directory: /usr/bin/X11
+
+
+4. An i18n OPEN LOOK user interface window manager for ICCCM compliant clients.
+        
+Source Directory: $(TOPDIR)/contrib/clients/i18nOlwmV2
+Default Install Directory: /usr/bin/X11
+
+
+5. A set of utilities for extracting text string from source code, and
+   creating machine readable *.mo format message files.
+   
+   xgettext:   A command line utility for extracting text string 
+   	       within (d)gettext() call, and create *.po format
+   	       text message files.
+   
+   msgfmt:	A command line utility for producing *.mo format message 
+   		files from *.po format text message files.  *.mo format 
+   		message is machine readable format of the messages files 
+   		for the i18n XView clients.  These are error messages, 
+   		text for menus, buttons and notices.
+   
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/utilities
+Default Install Directory: /usr/bin/X11
+
+
+6.  *.po format text message files for shelltool, cmdtool, textedit, props
+    and olwm.  *.po files are used to create *.mo files
+    
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/locale/japanese/LC_MESSAGES
+Default Install Directory: /usr/lib/X11/lib/locale (*.mo files only)
+
+
+7.  Example programs for writing i18n XView clients.
+    
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/clients/examples
+
+
+8.  Man pages for 
+    i18n xview, cmdtool, shelltool, textedit, props, olwm,
+    gettext, dgettext, bindtextdomain, textdomain, xgettext,
+    msgfmt
+
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/doc/man
+Default Install Directory: /usr/man/mann
+
+
+9.  "Internationalized XView Programming Manual" in PostScript format.
+    English version only.
+    
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/doc/
+Default Install Directory: $(TOPDIR)/contrib/lib/i18nXView2/doc/
+     
+10.  A sample .xinitrc for setting up the R5 enviroment to
+     run the donation.
+  
+Source Directory: $(TOPDIR)/contrib/lib/i18nXView2/
+
+
+Environment/Dependency:
+----------------------
+The required environment for building and running this donation
+
+  o  MIT X11R5 or OpenWindows 2.X or JOWN2.X
+  o JLE1.1.1(SunOS4.1.1 based) RevA or later version
+  o libmle.so.1.4 or later.  
+    This could be found in  JOWN2.0.1 RevB and later version.
+  o MIT X11R5 Xlib compiled with "BuildXimp" flag.
+  o Htt IM server.
+	
+This release is only tested with the bundled JLE C compiler and above
+environment in japanese locale.  No other environment is tested and
+supported at this point.  This donation does not guarantee any binary
+and source compatibility with future release of XView.
+
+For more information on Htt IM server please refer to
+$(TOPDIR)/contrib/im/Ximp/sun/Htt/README
+
+
+Building the donation:
+---------------------
+TOPDIR is the root of the MIT X11R5 source tree.
+
+Before building the Sun's donation, an Ximp version of Xlib must
+be built.  This could be done by 
+	o  adding #define BuildXimp YES
+	   to the top of $(TOPDIR)/mit/config/sun.cf
+		and
+	o  changing #define BuildXimp to YES 
+	   and #define BuildXsi to NO in 
+	   $(TOPDIR)/mit/lib/X/Imakefile
+	   $(TOPDIR)/mit/lib/nls/Imakefile  
+	
+Then type "make" in $(TOPDIR)/mit/lib/X,
+and install this Xlib into the target installation directory.  
+
+
+To build & install XView and clients and man pages.  
+        In $(TOPDIR)/contrib/lib/i18nXView2
+	1.  Type "make Makefiles" for building all Makefiles 
+	2.  Type "make" for building the world
+	3.  Type "make install" for installation
+	    NOTE: This istall must be done after installing X11R5 core.
+	4.  Type "make install.man" for installation of man pages
+
+To build & install olwm.  
+        In $(TOPDIR)/contrib/clients/i18nOlwmV2
+        1.  Type "make Makefile" for building the Makefile 
+	2.  Type "make" for building olwm
+	3.  Type "make install" for installation
+
+
+Running the donation:
+--------------------
+1.  Copy $(TOPDIR)/contrib/lib/i18nXView2/Xinitrc to 
+    $(HOME)/.xinitrc
+2.  If default install directory is changed, then
+    modify INSTALL_ROOT in .xinitrc to point at the correct place.
+3.  Then run the command "xinit -- Xsun" 
+
+Feedback Mechanisms:
+-------------------
+This is a sample implementation which is NOT meant to be product
+quality.  No support is provided.  It is a proof of concept prototype
+of the "on-the-spot" user interface style using callbacks.  We are
+interested in feedback on this prototype.
+
+Topics of general interest and questions about usage can be sent to
+comp.windows.x, comp.windows.open-look or the xpert mailing alias, but
+we would prefer to have them go to i18nxview-si@sun.com.
+
+If you do not have an email connection, feedback may be faxed to
+(415) 969-9131 or telexed to 3729639 SUN UR.  Please put the
+following on the cover sheet of the fax or telex.  
+	Atten:  I18N XView Sample Implementation Feeback M/S 5-40
+Feedback may also be mailed to:
+	Sun Microsystems Inc.,
+	Atten:  I18N XView Sample Implementation Feeback M/S 5-40
+	2550 Garcia Ave.
+	Mountain View, CA 94043
+	USA
+
+
+

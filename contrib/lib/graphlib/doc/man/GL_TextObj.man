@@ -1,0 +1,43 @@
+.TH GL_TextObject 3GL 10Jul91 "GraphLib 0.5a"
+.SH NAME
+GL_TextObject \- Text string object.
+.SH SYNTAX
+GLPointer GL_Create(GL_TextObject,
+.br
+		      <option>, [args,]
+.br
+		    ...,
+.br
+		    GL_Done);
+void Change_TextObjectString(object, to);
+.br
+			     GLPointer object;
+.br
+			     char *to;
+
+.SH ARGUMENTS
+.IP GL_TextObject 1i
+Type specifier for the GL_Create call.
+.IP GL_Done 1i
+Mark to terminate variable arguments list.
+.IP object 1i
+The object to change the string of.
+.IP to 1i
+What to change the string to.
+
+.SH DESCRIPTION
+This call will create a single string which should not contain any
+escape characters or be multi line.  The text object will redisplay itself
+when the string it is displaying is changed.  It is legitimate to pass NULL
+as the value to change the string to, which will cause no string to be
+displayed.  The textobject will take no action when it is inverted, but
+it will display itself reversed if it is then exposed.  The textobject is
+displayed using the default font.
+
+.SH OPTIONS
+
+.IP "GLTO_String, <char *thestring>" 1i
+This specifies the string that the text object should display.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Object(3GL), XDrawString(3X11), GraphLib Programming Manual

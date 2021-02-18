@@ -1,0 +1,372 @@
+XcuTbl
+    {
+    /* mappedWhenManaged "False" */
+    name "visible"
+    formatString "c."
+    interHeight "10"
+    internalWidth "10"
+    internalHeight "10"
+
+    XcuTbl
+	{
+	name "translation"
+	formatString "c\nc\nc."
+	XcuTbl
+	    {
+	    name "A1"
+	    formatString "c c c."
+	    XcuLabel { name "TX" }
+	    XcuLabel { name "TY" }
+	    XcuLabel { name "TZ" }
+	    }
+	XcuTbl
+	    {
+	    name "A2"
+	    formatString "c c c."
+	    interWidth "2"
+	    XcuTbl
+		{
+		name "tx"
+		formatString "c c.\n"
+		XcuButton { name "tx_negative" label "-" set "True" }
+		XcuButton { name "tx_positive" label "+" }
+		}
+	    XcuTbl
+		{
+		name "ty"
+		formatString "c c.\n"
+		XcuButton { name "ty_negative" label "-" }
+		XcuButton { name "ty_positive" label "+" }
+		}
+	    XcuTbl
+		{
+		name "tz"
+		formatString "c c.\n"
+		XcuButton { name "tz_negative" label "-" }
+		XcuButton { name "tz_positive" label "+" }
+		}
+	    }
+
+	XcuTbl
+	    {
+	    name "A3"
+	    formatString "c c c."
+	    equalColumns "True"
+	    XcuBmgr
+		{
+		name "translate_value"
+		bmgrType "OneOfMany"
+		manage "translate.1" : Float "0.1"
+		       "translate.5" : Float "0.5"
+		       "translate1" : Float "1.0"
+		       "translate2" : Float "2.0"
+		       "translate4" : Float "4.0"
+		       "translate10" : Float "10.0"
+		XcuButton { name "translate.1" label ".1" }
+		XcuButton { name "translate.5" label ".5" }
+		XcuButton { name "translate1" label "1" set "True" }
+		XcuButton { name "translate2" label "2" }
+		XcuButton { name "translate4" label "4" }
+		XcuButton { name "translate10" label "10" }
+		}
+	    }
+	}
+
+    XcuTbl
+	{
+	name "rotation"
+	formatString "c\nc\nc."
+	XcuTbl
+	    {
+	    name "A4"
+	    formatString "c c c."
+	    XcuLabel { name "RX" }
+	    XcuLabel { name "RY" }
+	    XcuLabel { name "  " }
+	    }
+	XcuTbl
+	    {
+	    name "A5"
+	    formatString "c c c."
+	    interWidth "2"
+	    XcuTbl
+		{
+		name "rx"
+		formatString "c c.\n"
+		XcuButton { name "rx_negative" label "-" }
+		XcuButton { name "rx_positive" label "+" }
+		}
+	    XcuTbl
+		{
+		name "ry"
+		formatString "c c.\n"
+		XcuButton { name "ry_negative" label "-" }
+		XcuButton { name "ry_positive" label "+" }
+		}
+	    XcuTbl
+		{
+		name "rz"
+		formatString "c c.\n"
+		mappedWhenManaged "False"  /* Currently no rotation here */
+		layoutWhenUnmapped "True"
+		XcuButton { name "rz_negative" label "-" }
+		XcuButton { name "rz_positive" label "+" }
+		}
+	    }
+
+	XcuTbl
+	    {
+	    name "A6"
+	    formatString "c c c."
+	    equalColumns "True"
+	    XcuBmgr
+		{
+		name "rotate_value"
+		bmgrType "OneOfMany"
+		manage
+			"rotate1" : Float "1"
+		       "rotate2" : Float "2"
+		       "rotate5" : Float "5"
+		       "rotate10" : Float "10" /* 10.0 => BOMB!!! */
+		       "rotate30" : Float "30.0"
+		       "rotate90" : Float "90.0"
+		XcuButton { name "rotate1" label "1" }
+		XcuButton { name "rotate2" label "2" }
+		XcuButton { name "rotate5" label "5" set "True" }
+		XcuButton { name "rotate10" label "10" }
+		XcuButton { name "rotate30" label "30" }
+		XcuButton { name "rotate90" label "90" }
+		}
+	    }
+	}
+
+    XcuTbl
+	{
+	name "zoom_scene"
+	formatString "c\nc\nc."
+	XcuTbl
+	    {
+	    name "A7"
+	    formatString "c c c."
+	    XcuLabel { name "ZM" }
+	    XcuLabel { name "  " }
+	    XcuLabel { name "SC" }
+	    }
+	XcuTbl
+	    {
+	    name "A8"
+	    formatString "c c c."
+	    interWidth "2"
+	    XcuTbl
+		{
+		name "zm"
+		formatString "c c.\n"
+		XcuButton { name "zm_negative" label "-" }
+		XcuButton { name "zm_positive" label "+" }
+		}
+	    XcuTbl
+		{
+		name "A8a"
+		formatString "c c.\n"
+		mappedWhenManaged "False"  /* Currently no operation here */
+		layoutWhenUnmapped "True"
+		XcuButton { name " " label "-" }
+		XcuButton { name " " label "+" }
+		}
+	    XcuTbl
+		{
+		name "sc"
+		formatString "c c.\n"
+		XcuButton { name "sc_negative" label "-" }
+		XcuButton { name "sc_positive" label "+" }
+		}
+	    }
+
+	XcuTbl
+	    {
+	    name "A9"
+	    formatString "c c\nc c c."
+	    equalColumns "True"
+	    XcuBmgr
+		{
+		name "zoom_value"
+		bmgrType "OneOfMany"
+		manage
+		       "zoom0" : Float "0"
+		       "zoom.5" : Float "0.5"
+		       "zoom.9" : Float "0.9"
+		       "zoom1.1" : Float "1.1"
+		       "zoom1.5" : Float "1.5"
+		XcuButton { name "zoom0" label "RS" }
+		XcuButton { name "zoom.5" label ".5" }
+		XcuButton { name "zoom.9" label ".9" }
+		XcuButton { name "zoom1.1" label "1.1" set "True" }
+		XcuButton { name "zoom1.5" label "1.5" }
+		}
+	    }
+	}
+
+    XcuTbl
+	{
+	name "hi_yo"
+	formatString "c\nc\nc."
+	XcuTbl
+	    {
+	    equalColumns "True"
+	    formatString "c c."
+	    *foreground "black"
+	    *facetWidth "0"
+	    XcuLabel { name "HITHER" }
+	    XcuLabel { name "YON" }
+	    }
+	XcuTbl
+	    {
+	    formatString "c c."
+	    interWidth "2"
+	    XcuTbl
+		{
+		name "hi"
+		formatString "c c.\n"
+		XcuButton { name "hi_negative" label "-" }
+		XcuButton { name "hi_positive" label "+" }
+		}
+	    XcuTbl
+		{
+		name "yo"
+		formatString "c c.\n"
+		XcuButton { name "yo_negative" label "-" }
+		XcuButton { name "yo_positive" label "+" }
+		}
+	    }
+
+	XcuTbl
+	    {
+	    name "A10"
+	    formatString "c c c."
+	    equalColumns "True"
+	    XcuBmgr
+		{
+		name "hy_value"
+		bmgrType "OneOfMany"
+		manage
+		       "hy0" : Float "0"
+		       "hy.1" : Float "0.1"
+		       "hy1" : Float "1.0"
+		       "hy2" : Float "2.0"
+		       "hy4" : Float "4.0"
+		       "hy8" : Float "8.0"
+		XcuButton { name "hy0" label "RS" }
+		XcuButton { name "hy.1" label ".1" }
+		XcuButton { name "hy1" label "1" }
+		XcuButton { name "hy2" label "2" }
+		XcuButton { name "hy4" label "4" set "True" }
+		XcuButton { name "hy8" label "8" }
+		}
+	    }
+	}
+    XcuTbl
+	{
+	formatString "c c."
+	equalColumns "True"
+	XcuBmgr
+	    {
+	    name "cycle"
+	    bmgrType "DoubleToggle"
+	    manage "CYCLE ON" : Int "1" "CYCLE OFF" : Int "0"
+	    XcuButton { name "CYCLE OFF" set "True" }
+	    XcuButton { name "CYCLE ON" }
+	    }
+	}
+    XcuTbl
+	{
+	formatString "c c."
+	equalColumns "True"
+	XcuBmgr
+	    {
+	    name "up"
+	    bmgrType "DoubleToggle"
+	    manage "UP\nCONSTANT" : Int "1" "UP\nVARIABLE" : Int "0"
+	    XcuButton { name "UP\nCONSTANT" set "True" }
+	    XcuButton { name "UP\nVARIABLE" }
+	    }
+	}
+
+    XcuTbl
+	{
+	formatString "c c."
+	equalColumns "True"
+	XcuBmgr
+	    {
+	    name "dbl_buffer"
+	    bmgrType "DoubleToggle"
+	    manage "DBL\nBUFFER\nON" : Int "1" "DBL\nBUFFER\nOFF" : Int "0"
+	    XcuButton { name "DBL\nBUFFER\nON" set "True" }
+	    XcuButton { name "DBL\nBUFFER\nOFF" }
+	    }
+	}
+
+    XcuTbl
+	{
+	    name "A11"
+	formatString "c\nc\nc."
+	XcuBmgr
+	    {
+	    name "read_write"
+	    bmgrType "OneOfMany"
+	    manage "REPLAY" "RECORD" "OFF"
+	    XcuButton { name "REPLAY" }
+	    XcuButton { name "RECORD" }
+	    XcuButton { name "OFF" set "True" }
+	    }
+	}
+
+    XcuTbl
+	{
+	formatString "c."
+	XcuBmgr
+	    {
+	    name "reset"
+	    bmgrType "Transient"
+	    manage "RESET"
+	    XcuButton { name "RESET" }
+	    }
+	}
+    XcuTbl
+	{
+	formatString "c."
+	XcuBmgr
+	    {
+	    name "texture"
+	    bmgrType "Transient"
+	    manage "TEXTURE"
+	    XcuButton { name "TEXTURE" }
+	    }
+	}
+    XcuTbl
+	{
+	formatString "c."
+	XcuBmgr
+	    {
+	    name "quit"
+	    bmgrType "Transient"
+	    manage "QUIT"
+	    XcuButton { name "QUIT" }
+	    }
+	}
+    }
+
+XcuBmgr
+    {
+    name "plus_minus"
+    bmgrType "OneOfMany"
+    manage "tx_positive" "tx_negative"
+	   "ty_positive" "ty_negative"
+	   "tz_positive" "tz_negative"
+	   "rx_positive" "rx_negative"
+	   "ry_positive" "ry_negative"
+	   "zm_positive" "zm_negative"
+	   "sc_positive" "sc_negative"
+	   "hi_positive" "hi_negative"
+	   "yo_positive" "yo_negative"
+    }
+

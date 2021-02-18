@@ -1,0 +1,29 @@
+;
+; $Id: uumrc,v 1.2 1991/09/11 07:35:58 ohm Exp $
+;
+;
+setenv		PZ	/usr/local/lib/wnn/zh_CN/wnnenvrc  
+setenv_R	PZ	/usr/local/lib/wnn/zh_CN/wnnenvrc_R
+
+setenv		W	/usr/local/lib/wnn/zh_CN/wnnenvrc_Wu
+setenv_R	W	/usr/local/lib/wnn/zh_CN/wnnenvrc_WuR
+setenv		Q	/usr/local/lib/wnn/zh_CN/wnnenvrc_Qi
+setenv_R	Q	/usr/local/lib/wnn/zh_CN/wnnenvrc_QiR
+
+setuumkey	/usr/local/lib/wnn/zh_CN/uumkey
+setrkfile	/usr/local/lib/wnn/zh_CN/rk
+
+setconvkey		/usr/local/lib/wnn/cvt_key_tbl
+setconvkey	ST*	/usr/local/lib/wnn/cvt_key_tbl.ST
+setconvkey	gmw*	/usr/local/lib/wnn/cvt_key_tbl.gmw
+setconvkey	kterm*	/usr/local/lib/wnn/cvt_key_tbl.kt
+setconvkey	PIC*	/usr/local/lib/wnn/cvt_key_tbl.ST
+setconvkey	om*	/usr/local/lib/wnn/cvt_key_tbl.ST
+
+setmaxhistory	20
+
+waking_up_no_henkan_mode
+flow_control_on
+touroku_comment
+not_send_ascii_char
+simple_delete

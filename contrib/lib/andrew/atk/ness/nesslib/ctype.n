@@ -1,0 +1,43 @@
+-- ctype.n   Ness case translation library
+
+--  ctype_tolower(m)
+--	modifies the text referenced by m, replacing all upper case letters 
+--	with the corresponding lower case letters
+
+--  ctype_toupper(m)
+--	modifies the text referenced by m, replacing all lower case letters 
+--	with the corresponding upper case letters
+
+
+
+marker CaseTran		-- translation of the case of letters 
+	:= "qQwWeErRtTyYuUiIoOpPaAsSdDfFgGhHjJkKlLzZxXcCvVbBnNmM"
+
+marker lowerLetters	-- the lower case letters
+	:= "qwertyuiopasdfghjklzxcvbnm"
+
+marker upperLetters	-- the upper case letters
+	:= "QWERTYUIOPASDFGHJKLZXCVBNM"
+
+
+	function
+ctype_tolower(m)
+	marker p
+	while True do
+		p := anyof(start(m), upperLetters)
+		if p = "" or extent(p, m) = "" then return void end if
+		m := extent(next(replace (p, previous(search(CaseTran, p)))), m)
+	end while
+end function
+
+
+	function
+ctype_toupper(m)
+	marker p
+	while True do
+		p := anyof(start(m), lowerLetters)
+		if p = "" or extent(p, m) = "" then return void 
+end if
+		m := extent(next(replace (p, next(search(CaseTran, p)))), m)
+	end while
+end function

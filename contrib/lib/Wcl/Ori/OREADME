@@ -1,0 +1,48 @@
+This directory holds the beginnings of support for OLIT widgets.
+
+This directory has test programs for most of the OLIT widgets.  The files
+show some problems that I had, but should be enough to help you get started.
+
+The directory Xop has the source for OriRegisterAll.  I originally had to 
+add some test functions to get lists to work enough to do proper layout 
+without compiling (seems to be fixed in 2.5 OLIT).  
+The callbacks are still useful.  Throw them out by undef'ing INCLUDEDEMOS.
+
+This code has only been tested on sun 3 and 4.  I've never done anything for
+general use so you may have some problems.  I've not been able to get a hold
+of David Smyth in quite a time so this code is not supported by him nor
+does he know I've finished it.  I intend to send it to him when I find him (I
+belive he is in Germany).  This code has only been tested with the version
+of OLIT that came with the Sun Openwindows 2.0 release.  
+
+I've now tested this a bit with the OLIT 2.5 release.  Some of the demos
+need to be adjusted, but things work for the most part.  I currently don't
+have the documentation so I can't fix the problems.  This should happen
+soon.  I had to diddle a bit to get the 2.5 OLIT lib to work with the
+release 5 libraries.  A few symbols were made static in Converters.c that
+Xol wanted to see.  You could recompile your Xt with those visible.  I
+added the symbols to the Xop and Ori files so that things would link.  This
+probably isn't too cool, but things seem to work.  Suggestions will
+be taken!
+
+I've added a UsingOpenwindows defines in the Wc.tmpl file so that
+things will be found in the correct places on those systems.  Check
+your installation to find out if you need this defined.  This adds
+$(OPENWINHOME)/xxx directories to the include path and library path.
+
+I would be interested in hearing of problems, suggestions, or improvements
+you have--particularly if you get something to work that I couldn't--I'm
+still learning this stuff too.
+
+Kim Gillies
+National Optical Astronomy Observatories
+gillies@noao.edu
+6023259246
+October 3, 1991
+
+This directory has been slightly changed for Wcl 1.06 release. The Ori.c
+has been replaced with "standard" one, and some OLIT specific adjusments
+moved int XopRegisterAll
+
+Martin Brunecky
+October 5, 1991

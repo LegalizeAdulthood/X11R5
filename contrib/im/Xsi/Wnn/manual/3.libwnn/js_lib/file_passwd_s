@@ -1,0 +1,32 @@
+JS_FILE_PASSWORD_SET( )
+
+名称
+
+	js_file_password_set	ファイルのパスワードを更新する
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_file_password_set(env, fid, which, old, new)
+	struct wnn_env *env;	/* 環境 */
+	int fid;		/* ファイルID */
+	int which;		/* 辞書/頻度 */
+	char *old;		/* 旧パスワード */
+	char *new;		/* 新パスワード */
+
+機能
+
+	ファイル fid のファイルのパスワードを更新する。
+	which で辞書または、頻度を指定する。
+	    1: 辞書のパスワード
+	    2: 頻度のパスワード
+	    0、3: 辞書/頻度のパスワード
+	旧パスワードを old で、新パスワードを new で、指定する。
+
+
+リターンバリュー
+
+	正常終了時には 0 を返す。
+	異常終了時には -1 を返す。

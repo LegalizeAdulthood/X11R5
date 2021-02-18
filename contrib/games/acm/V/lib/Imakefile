@@ -1,0 +1,72 @@
+#if defined(MipsArchitecture) && !defined(UltrixArchitecture)
+CDEBUGFLAGS = -systype bsd43 -O -float
+#endif
+
+SRCS	= \
+	  VOpenVp.c \
+	  VResizeVp.c \
+	  VCloseVp.c \
+	  VGetEyeSpace.c \
+	  VGetPlanes.c \
+	  VReadObject.c \
+	  VWriteObject.c \
+	  VAllocColor.c \
+	  VBindColors.c \
+	  VExpBuffer.c \
+	  VCrPoly.c \
+	  VCrPoints.c \
+	  VCopyPoly.c \
+	  VDrawPoly.c \
+	  VFillPoly.c \
+	  VDrawString.c \
+	  VClipPoly.c \
+	  VDotProd.c \
+	  VCrossProd.c \
+	  VRotate.c \
+	  VTransPoly.c \
+	  VWorldToScr.c \
+	  VEyeToScr.c \
+	  VTrans.c \
+	  VIdentMat.c \
+	  VMatMult.c \
+	  VMatDet.c \
+	  VMatInvert.c \
+	  VPrintPoly.c \
+	  Vmalloc.c \
+	  strdup.c
+
+OBJS	= \
+	  VOpenVp.o \
+	  VResizeVp.o \
+	  VCloseVp.o \
+	  VGetEyeSpace.o \
+	  VGetPlanes.o \
+	  VReadObject.o \
+	  VWriteObject.o \
+	  VAllocColor.o \
+	  VBindColors.o \
+	  VExpBuffer.o \
+	  VCrPoly.o \
+	  VCrPoints.o \
+	  VCopyPoly.o \
+	  VDrawPoly.o \
+	  VFillPoly.o \
+	  VDrawString.o \
+	  VClipPoly.o \
+	  VDotProd.o \
+	  VCrossProd.o \
+	  VRotate.o \
+	  VTransPoly.o \
+	  VWorldToScr.o \
+	  VEyeToScr.o \
+	  VTrans.o \
+	  VIdentMat.o \
+	  VMatMult.o \
+	  VMatDet.o \
+	  VMatInvert.o \
+	  VPrintPoly.o \
+	  Vmalloc.o \
+	  strdup.o
+
+NormalLibraryTarget(V,$(OBJS))
+DependTarget()

@@ -1,0 +1,87 @@
+.\" $Header: XpexCreatePickMeasure.man,v 2.4 91/09/11 16:01:52 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexCreatePickMeasure 3PEX "$Revision: 2.4 $" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexCreatePickMeasure, XpexFreePickMeasure \- Functions that manage 
+the creation and freeing of pick measures.
+.SH "Synopsis"
+.nf
+XpexPickMeasure XpexCreatePickMeasure(dpy, wks_id, dev_type)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexEnumTypeIndex  dev_type;
+.sp
+void XpexFreePickMeasure(dpy, pm_id)
+.br
+	Display  *dpy;
+.br
+	XpexPickMeasure  pm_id;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIwks_id\fP 1i 
+Specifies a workstation.
+.IP \fIdev_type\fP 1i
+Specifies the pick device type.
+.IP \fIpm_id\fP 1i 
+Specifies a pick measure.
+.SH "Description"
+The \fIXpexCreatePickMeasure\fP function creates a pick measure 
+of type \fIdev_type\fP. The resource ID of the pick measure is
+specified by the value of data type \fIXpexPm\fP returned.
+.sp
+\fIXpexCreatePickMeasure\fP can generate 
+\fIBadIDChoice\fP, \fIBadPhigsWks\fP, \fIBadAlloc\fP, and 
+\fIBadValue\fP errors.
+.sp
+The \fIXpexFreePickMeasure\fP function deletes the pick measure 
+resources and frees the storage associates with it.
+.sp
+\fIXpexFreePickMeasure\fP can generate a \fIBadPickMeasure\fP
+error.
+.SH "Structures"
+None
+.SH "Errors"
+.IP \fIBadIDChoice\fP 1i
+ID already in use or not in range assigned to client
+.IP \fIPhigsWks\fP 1i
+specified PHIGS workstation resource ID is invalid
+.IP \fIBadAlloc\fP 1i
+server failed to allocate the request resource
+.IP \fIBadValue\fP 1i
+bad value for "dev_type" parameter
+.IP \fIBadPickMeasure\fP 1i
+specified pick measure resource ID is invalid
+.SH "Related Commands"
+XpexGetPickDevice, XpexChangePickDevice, 
+XpexGetPickMeasure, XpexUpdatePickMeasure

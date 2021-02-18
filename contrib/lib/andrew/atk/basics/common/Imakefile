@@ -1,0 +1,83 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+DOBJS = app.do atom.do atomlist.do bind.do cursor.do dataobj.do describe.do \
+	environ.do event.do filetype.do fontdesc.do init.do keymap.do \
+	keyrec.do keystate.do menulist.do message.do msghndlr.do \
+	namespc.do observe.do path.do proctbl.do profile.do region.do rm.do \
+	updlist.do view.do winsys.do
+
+IHFILES = app.ih atom.ih atomlist.ih bind.ih cursor.ih dataobj.ih describe.ih \
+	environ.ih event.ih filetype.ih fontdesc.ih graphic.ih im.ih init.ih \
+	keymap.ih keyrec.ih keystate.ih menulist.ih message.ih msghndlr.ih \
+	namespc.ih observe.ih path.ih pixelimg.ih proctbl.ih profile.ih region.ih rm.ih \
+	updlist.ih view.ih winsys.ih
+
+DOCS = app.doc atom.doc atomlist.doc attribs.doc basinit.doc \
+	bind.doc cursor.doc dataobj.doc describe.doc environ.doc \
+	event.doc filetype.doc fontdesc.doc graphic.doc im.doc \
+	init.doc keymap.doc keyrec.doc keystate.doc lwpstubs.doc \
+	menulist.doc message.doc msghndlr.doc namespc.doc \
+	observe.doc physical.doc pixelimg.doc point.doc proctbl.doc \
+	profile.doc rect.doc region.doc rm.doc sizes.doc updlist.doc view.doc \
+	winsys.doc
+
+#if hp9000s800
+LIBS = -L${XLIBDIR} -lX11
+#else
+LIBS = ${XLIBDIR}/libX11.a
+#endif
+
+NormalObjectRule()
+NormalATKRule()
+
+all:: basinit.o lwpstubs.o
+
+InstallMultiple(physical.h point.h rect.h attribs.h, ${INSTINCFLAGS}, $(DESTDIR)/include/atk)
+
+all:: ${IHFILES} im.o
+
+#if defined(sys_sun3_35) || defined(sys_sun4_40) || defined(sys_vax_3)
+/* Systems that have _end-related problems */
+DynamicMultiObject(im.do, im.o rect.o point.o physical.o,,)
+#else
+#if defined(ANDREW_MALLOC_ENV) || defined(DEBUG_MALLOC_ENV)
+DynamicMultiObject(im.do, im.o rect.o point.o physical.o, $(MALLOCLIB),)
+#else
+DynamicMultiObject(im.do, im.o rect.o point.o physical.o,,)
+#endif
+#endif
+
+DynamicMultiObject(cursor.do, cursor.o rect.o point.o physical.o,,)
+DynamicMultiObject(graphic.do, graphic.o rect.o point.o physical.o,,)
+DynamicMultiObject(view.do, view.o rect.o point.o,,)
+
+DynamicObject(path, ${UTILLIB}, ${BSDLIB})
+DynamicObject(event, $(UTILLIB), ${BSDLIB})
+DynamicObject(environ, ${UTILLIB},${NETLIBS} ${BSDLIB})
+DynamicObject(region, , ${LIBS} ${NETLIBS})
+DynamicMultiObject(pixelimg.do, pixelimg.o rect.o point.o,,${SUPLIBS})
+  
+
+InstallClassFiles($(DOBJS) graphic.do pixelimg.do, $(IHFILES))
+
+#if defined(sys_rt_r3) || defined(LIBDL_ENV)
+InstallClassFiles(im.do, im.ih)
+#endif /* sys_rt_r3 || LIBDL_ENV */
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs($(DOCS), ${DESTDIR}/doc/atk/basics)
+
+InstallDocs(initfls.help improc.help cutbuf.help menus.help, ${DESTDIR}/help)
+
+InstallHelpAlias(initfls, initfiles .atkinit .be2init .ezinit atkinit be2-init be2init ezinit ez-init atk-init)
+InstallHelpAlias(improc, improcs)
+InstallHelpAlias(cutbuf, cutbuffer cutbuff)
+InstallHelpAlias(menus, menu)

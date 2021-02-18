@@ -1,0 +1,144 @@
+# 
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard, David Betz and
+# Niels Mayer not be used in advertising or publicity pertaining to distribution
+# of the software without specific, written prior permission.  Hewlett-Packard,
+# David Betz and Niels Mayer makes no representations about the suitability of
+# this software and documentation for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+
+WINTERP: An object-oriented rapid prototyping, development and delivery
+environment for building user-customizable applications with the OSF/Motif
+UI Toolkit.
+
+------------------------------------------------------------------------------
+
+WINTERP is a Widget INTERPreter, an application development environment
+enabling rapid prototyping of graphical user-interfaces (GUI) through the
+interactive programmatic manipulation of user interface objects and their
+attached actions. The interpreter, based on David Betz's XLISP, provides an
+interface to the X11 toolkit Intrinsics (Xtk), the OSF/Motif widget set,
+primitives for collecting data from UN*X processes, and facilities for
+interacting with other UN*X processes. WINTERP thus supports rapid
+prototyping of GUI-based applications by allowing the user to interactively
+change both the UI appearance and application functionality. These features
+make WINTERP a good tool for learning and experimenting with the
+capabilities of the OSF/Motif UI toolkit, allowing UI designers to more
+easily play "what if" games with different interface styles.
+
+WINTERP is also an excellent platform for delivering extensible or
+customizable applications. By embedding a small, efficient language
+interpreter with UI primitives within the delivered application, users and
+system integrators can tailor the static and dynamic layout of the UI,
+UI-to-application dialogue, and application functionality. WINTERP's use of
+a real programming language for customization allows WINTERP-based
+applications to be much more flexible than applications using customization
+schemes provided by the X resource database or OSF/Motif's UIL (user
+interface language).
+
+An environment similar to WINTERP's already exists in the Gnu-Emacs text
+editor -- WINTERP was strongly influenced by Gnu-Emacs' successful design.
+In Gnu-Emacs, a mini-Lisp interpreter is used to extend the editor to
+provide text-browser style interfaces to a number of UN*X applications
+(e.g. e-mail user agents, directory browsers, debuggers, etc). Whereas
+Emacs-Lisp enables the creation of new applications by tying together
+C-implemented primitives operating on text-buffer UI objects, WINTERP-Lisp
+ties together operations on graphical UI objects implemented by the Motif
+widgets. Both achieve a high degree of customizability that is common for
+systems implemented in Lisp, while still attaining the speed of execution
+and (relatively) small size associated with C-implemented applications.
+
+Other features:
+	* WINTERP is free software -- available via anonymous ftp from
+	  export.lcs.mit.edu.
+	* Portable -- runs without porting on many Unix systems.	
+	* Interface to gnuemacs' lisp-mode allows code to be developed
+	  and tested without leaving the editor;
+	* Built-in RPC mechanism for inter-application communications;
+	* XLISP provides a simple Smalltalk-like object system.
+	* OSF/Motif widgets are real XLISP objects -- widgets can be
+	  specialized via subclassing, methods added or altered, etc.
+	* Automatic storage management of Motif/Xt/X data.
+	* Contains facilities for "direct manipulation" of UI components;
+
+You may obtain the latest released version of the WINTERP source,
+documentation, and examples via anonymous ftp from internet host
+export.lcs.mit.edu (18.30.0.238): in directory contrib/winterp you will
+find the compress(1)'d tar(1) file winterp-???.tar.Z. (??? represents the
+version number). Slides, papers and further documentation can be found in
+directory contrib/winterp/papers.
+
+If you do not have Internet access you may request the source code to be
+mailed to you by sending a message to winterp-source%hplnpm@hplabs.hp.com
+or hplabs!hplnpm!winterp-source.
+
+There is also a mailing list for WINTERP-related announcements and
+discussions. To get added to the list, send mail to
+winterp-request%hplnpm@hplabs.hp.com or hplabs!hplnpm!winterp-request.
+
+For discussions about XLISP, see the USENET newsgroup comp.lang.lisp.x.
+
+-------------------------------------------------------------------------------
+
+                        --------------------
+
+Here's how to ftp WINTERP 1.13: (your input denoted by ^^^^^^^^^^)
+
+hplnpm-17-/tmp> ftp export.lcs.mit.edu  (HPites, use hplnpm.hpl.hp.com)
+                ^^^^^^^^^^^^^^^^^^^^^^
+        [...]
+Name (hplnpm.hpl.hp.com:mayer): anonymous
+                                ^^^^^^^^^
+Password (hplnpm.hpl.hp.com:anonymous): <anypassword you want here>
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+331 Guest login ok, send ident as password.
+230 Guest login ok, access restrictions apply.
+ftp> cd contrib/winterp   (HPites should do "cd pub")
+     ^^^^^^^^^^^^^^^^^^
+200 CWD command okay.
+
+ftp> type image
+     ^^^^^^^^^^
+200 Type set to I.
+
+ftp> get winterp-1.13.tar.Z
+     ^^^^^^^^^^^^^^^^^^^^^^
+200 PORT command okay.
+150 Opening data connection for winterp-1.13.tar.Z (15.255.176.225,3988) (1414493 bytes).
+226 Transfer complete.
+1414493 bytes received in 690.63 seconds (1.96 Kbytes/sec)
+
+ftp> quit
+     ^^^^
+221 Goodbye.
+
+hplnpm-18-/tmp> zcat winterp-1.13.tar.Z | tar xvf -
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        [... lengthy list of files from tar ...]
+
+hplnpm-19-/tmp> rm winterp-1.13.tar.Z
+                ^^^^^^^^^^^^^^^^^^^^^
+
+   * For compilation tips, take a look at winterp-1.13/doc/COMPILING
+
+   * For running hints, take a look at winterp-1.13/doc/RUNNING
+
+   * For known (Motif 1.1 only) bugs, see winterp-1.13/doc/BUGS
+
+   * For information on the examples, look at winterp-1.13/examples/README
+
+   * For general information about WINTERP, see winterp-1.13/doc/winterp.doc
+
+------------------------------------------------------------------------------
+	    Niels Mayer -- hplabs!mayer -- mayer@hplabs.hp.com
+		  Human-Computer Interaction Department
+		       Hewlett-Packard Laboratories
+			      Palo Alto, CA.
+				   *

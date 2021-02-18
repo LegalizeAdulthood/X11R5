@@ -1,0 +1,710 @@
+			FONT SELECTION BOX
+
+Copyright (C) 1991 by Adobe Systems Incorporated.
+All rights reserved.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notices appear in all copies and that
+both those copyright notices and this permission notice appear in
+supporting documentation and that the name of Adobe Systems
+Incorporated not be used in advertising or publicity pertaining to
+distribution of the software without specific, written prior
+permission.  If any portion of this software is changed, it cannot be
+marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+its sole discretion, approves by a prior writing the quality of the
+resulting implementation.
+
+ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+
+PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+Incorporated registered in the U.S.A. and other countries.
+
+Author: Adobe Systems Incorporated
+
+--------------------------------------------------------------------------
+
+The Font Selection Box is a Motif widget that allows a user to choose a Type
+1 font from those available.  It presents the fonts that are resident on the
+workstation and any fonts that are can be located through the PSRESOURCEPATH
+environment variable (see resource location documentation).
+
+The Font Selection Box is part of the Display PostScript toolkit library,
+libdpstk.a.  This library must be linked into the application before the
+Motif library libXm.a when using the Font Selection Box.  You must also link
+in the PostScript resource location library, libpsres.a, so the canonical
+link line includes
+	-ldpstk -lpsres -lXm -lXt -ldps -lX11
+
+The Font Selection Box can bring up an associated Font Sampler, described
+below.
+
+An application that creates a Font Selection Box normally creates it as a
+child of a shell widget, usually a Transient shell.  The Font Selection Box
+can also be elsewhere in the widget heirarchy, allowing, for example, an
+application to put additional information around the Font Selection Box, but
+the application must handle popping up and popping down itself in this case.
+
+IMPORTANT NOTICE REAGARDING APPLICATION DEFAULTS!!!
+
+  Any application that uses the font panel MUST merge the contents of the
+  FontSelection defaults file into its own application defaults file.  With
+  R5, this can be done with an #include directive in the resource file.
+
+The header file is <DPS/FontSB.h>
+
+The class pointer is fontSelectionBoxWidgetClass.
+
+The class name is FontSelectionBox.
+
+The FontSelectionBox widget is a subclass of XmManager.
+
+Resources:
+
+XtNcontext - type XtRDPSContext
+	A context to use for previewing and querying the server for fonts.
+	This context will have its drawable and possibly depth changed by the
+	panel.  If context is NULL, the panel will use the shared context for
+	the display.  Default is NULL.  Note:  if you specify a context, you
+	must use the user object manipulation routines described in the
+	client library extension documentation to do anything with user
+	objects on that context.
+
+XtNpreviewString - type XtRString
+	The string to display in the preview box.  If NULL, display the font
+	name.  Default is NULL.
+
+XtNsizes - type XtRFloatList
+	List of sizes to present in menu.  Default is 8, 10, 12, 14, 16, 18,
+	24, 36, 48, 72.
+
+XtNsizeCount - type XtRInt
+	The number of entries in the XtNsizes resource.  Default is 10.
+
+XtNdefaultResourcePath - type XtRString
+	The default path parameter for ListPSResourceFiles.  Default is
+	specified at compilation time.
+
+XtNresourcePathOverride - type XtRString
+	The override parameter for ListPSResourceFiles.  Default is NULL.
+
+XtNuseFontName - type XtRBoolesn
+	Whether to use the XtNfontName or the XtNfontFamily and XtNfontFace
+	resources to chose the initial font to display.  Default is TRUE.
+
+XtNfontName - type XtRString
+	Selected font name.  Only relevant if XtNuseFontName is
+	TRUE.  If NULL, no font is selected.  Default is NULL.
+
+XtNfontNameMultiple - type XtRBoolean
+	If TRUE, displays message that multiple families and faces are
+	selected.  Default is FALSE.
+
+XtNfontFamily - type XtRString
+	Selected font family.  Only relevant if XtNuseFontName is FALSE.
+	If NULL, no family is selected.  Default is NULL.
+
+XtNfontFamilyMultiple - type XtRBoolean
+	If TRUE, displays message that multiple families are selected.
+	Default is FALSE.
+
+XtNfontFace - type XtRString
+	Selected face name.  Only relevant if XtNuseFontName is FALSE.
+	If NULL, face is selected by the XtNfaceSelectCallback resource.
+	Default is NULL.
+
+XtNfontFaceMultiple - type XtRBoolean
+	If TRUE, displays message that multiple faces are selected.  Default
+	is FALSE.
+
+XtNfontSize - type XtRFloat
+	Selected font size.  Default is 12.0.  It is hard to set this
+	resource with XtSetValues; use FSBSetFontSize instead.
+
+XtNfontSizeMultiple - type XtRBoolean
+	If TRUE indicates that multiple sizes are selected.  Default is FALSE.
+
+XtNgetServerFonts - type XtRBoolean
+	If TRUE, the server is consulted to find font family and
+	face names; if FALSE, it is assumed that one of the directories
+	in the resource path (usually in the default resource path) contains
+	a resource description file for the fonts in the server.  Default is
+	TRUE.
+
+XtNgetAFM - type XtRBoolean
+	If TRUE, the panel tries to get an AFM file before calling
+	the OKCallback or ApplyCallback.  Default is FALSE.
+
+XtNautoPreview - type XtRBoolean
+	Determines whether or not to always preview the current selection
+	or whether the user must hit the Preview button.  Default
+	is TRUE.
+
+XtNpreviewOnChange - type XtRBoolean
+	If XtN autoPreview is FALSE, controls whether the panel previews
+	changes when the application changes fontName, fontFamilyName,
+	fontFaceName, or fontSize.  Default is TRUE.
+
+XtNundefUnusedFonts - type XtRBoolean
+	Default is TRUE.
+XtNmakeFontsShared - type XtRBoolean
+	Default is TRUE.
+
+	These two resources control where fonts are defined and whether the
+	panel undefines fonts that were previewed but not selected.  The
+	possible behaviors are:
+
+	XtNundefUnusedFonts FALSE, XtNmakeFontsShared FALSE:  the panel loads
+	the fonts into private VM and never undefines fonts.
+
+	XtNundefUnusedFonts FALSE, XtNmakeFontsShared TRUE:  the panel loads
+	the fonts into shared VM and never undefines fonts.
+
+	XtNundefUnusedFonts TRUE, XtNmakeFontsShared FALSE:  the panel loads
+	the fonts into private VM and undefines unused fonts when the user
+	activates the OK, Apply, Reset, or Cancel buttons or when there are
+	more unused fonts than specified in the XtNmaxPendingDeletes resource.
+
+	XtNundefUnusedFonts TRUE, XtNmakeFontsShared TRUE:  the panel loads
+	the fonts into private VM.  When the user activates the OK or Apply
+	button all fonts downloaded into private VM are undefined and the
+	selected font is downloaded into shared VM.  Fonts are also undefined
+	if the user activates the Reset or Cancel button or when there are
+	more unused fonts than specified in the XtNmaxPendingDeletes resource.
+	
+XtNmaxPendingDeletes - type XtRInt
+	If XtNundefUnusedFonts is TRUE, this resource specifies the maximum
+	number of unused fonts that may remain before the font panel
+	undefines the least recently loaded font.  Making this value too
+	small will lead to repeated downloading during typical browsing
+	behavior.  Default is 10.
+	
+XtNshowSampler - type XtRBoolean
+	Determines whether or not the font sampler is shown.  It tracks the
+	popped-up state of the sampler, and can be used to pop the sampler
+	up or down.  Default is FALSE.
+
+XtNshowSamplerButton - type XtRBoolean
+	Determines whether or not the button to bring up the font sampler is
+	visible.  Default is TRUE.
+
+The following resources provide access to the descendants of the panel.  They
+may not be changed, and all are of type XtRWidget:
+	XtNpaneChild
+	XtNpreviewChild
+	XtNpanelChild
+	XtNfamilyLabelChild
+	XtNfamilyMultipleLabelChild
+	XtNfamilyScrolledListChild
+	XtNfaceLabelChild
+	XtNfaceMultipleLabelChild
+	XtNfaceScrolledListChild
+	XtNsizeLabelChild
+	XtNsizeTextFieldChild
+	XtNsizeOptionMenuChild
+	XtNsizeMultipleLabelChild
+	XtNpreviewButtonChild
+	XtNsamplerButtonChild
+	XtNseparatorChild
+	XtNokButtonChild
+	XtNapplyButtonChild
+	XtNresetButtonChild
+	XtNcancelButtonChild
+The name of each child is the same as the resource name without the "Child"
+suffix.  
+
+Callbacks:
+
+The following four functions pass back a pointer to an FSBCallbackRec
+structure as call data:
+
+	typedef struct {
+	    FSBCallbackReason reason;
+	    String family;
+	    String face;
+	    float size;
+	    String name;
+	    String afm_filename;
+	    FSBSelectionType family_selection;
+	    FSBSelectionType face_selection;
+	    FSBSelectionType size_selection;
+	    FSBSelectionType name_selection;
+	    Boolean afm_present;
+	} FSBCallbackRec;
+
+	The FSBCallbackReason is one of FSBOK, FSBApply, FSBReset, or
+	FSBCancel.
+
+	The ..._selection fields contain one of FSBNone, FSBOne, or
+	FSBMultiple depending upon whether the user has made no choices of
+	the information, one choice, or multiple choices.  Multiple choices
+	can only result from the application setting the corresponding
+	Multiple resource and the user not modifying the selection of that
+	type of information.  If the ..._selection field is FSBNone or
+	FSBMultiple, the corresponding data field will be NULL or 0.0.
+
+	The afm_filename is only filled out if the XtNgetAFM resource is
+	TRUE.  The afm_present field indicates whether the file name is
+	non_NULL.
+
+XtNokCallback
+	This indicates the user wants to use these choices.  The font panel
+	will go away by itself after the callback returns.
+
+XtNapplyCallback
+	This indicates the user wants to use these choices.  The font panel
+	stays.
+
+XtNrevertCallback
+	Means to revert to the passed values, which will be the same as those
+	last set with XtNfontName, XtNfontFamily, XtNfontFace, and
+	XtNfontSize.  The font panel stays.  Few applications will need to
+	use the revert callback.
+
+XtNcancelCallback
+	Means to revert to the passed values, which will be the same as those
+	last set with XtNfontName, XtNfontFamily, XtNfontFace, and
+	XtNfontSize.  The font panel goes away after the callbacks return.
+	Few applications will need to use the cancel callback.
+
+
+The next callback passes a pointer to an FSBValidateCallbackRec as call data.
+
+	typedef struct {
+	    FSBCallbackReason reason;
+	    String family;
+	    String face;
+	    float size;
+	    String name;
+	    String afm_filename;
+	    FSBSelectionType family_selection;
+	    FSBSelectionType face_selection;
+	    FSBSelectionType size_selection;
+	    FSBSelectionType name_selection;
+	    Boolean afm_present;
+	    Boolean doit;
+	} FSBValidateCallbackRec;
+
+	All fields are the same as in an FSBCallbackRec.  The doit field is
+	initially TRUE.
+
+XtNvalidateCallback
+	Called before the XtNokCallback or XtNapplyCallback; if the doit
+	field is FALSE after calling the XtNvalidateCallback the OK or Apply
+	action is cancelled.
+
+The next callback passes a pointer to an FSBFaceSelectCallbackRec as call data.
+
+	typedef struct {
+	    String *available_faces;
+	    int num_available_faces;
+	    String current_face;
+	    String new_face;
+	} FSBFaceSelectCallbackRec;
+
+	The available_faces is a list of the faces available in the new
+	family.  The num_available_faces is the length of the list.
+
+	The current_face is the currently selected face.  If this is equal to
+	one of the available faces, the pointer in current_face will have
+	the same value as the pointer in the available_faces list.  Comparing
+	the pointers for equality will give the same result as comparing the
+	pointed-to strings.
+
+	The callback should fill in the new_face field with one of the
+	entries in the available_faces field.
+
+XtNfaceSelectCallback
+	Called when the user chooses a new font family to pick the initially
+	selected face for the new family.  If, after calling this callback,
+	the new_face field is NULL or is not one of the faces in
+	available_faces, the panel choses a face using these rules:
+		- If the new family has a face with the same name as the
+		  previously selected face, pick it.
+		- If not, map attributes in the face name, such as Roman-
+		  Medium-Regular-Book and Italic-Oblique-Slanted.  If a face
+		  is found, select it.
+		- If not, select a face with one of these names, in order:
+		  Roman, Medium, Book, Regular, Light, Demi, Semibold
+		- If no name is found, select the first face.
+
+The next callback passes a pointer to an FSBCreateSamplerCallbackRec as call
+data.
+
+	typedef struct {
+	    Widget sampler;
+	    Widget sampler_shell;
+	} FSBCreateSamplerCallbackRec;
+
+XtNcreateSamplerCallback
+	If the application wishes to create the font sampler itself, rather
+	than letting the font panel create it, the application provides an
+	XtNcreateSamplerCallback.  The application must fill in the sampler
+	field with the widget ID of the FontSampler widget, and must fill in
+	the sampler_shell field with the widget ID of the shell widget that
+	contains the sampler.  An application would normally only use this
+	callback if it wished to enclose the sampler in another widget, for
+	example to display an appliction icon with the sampler.
+
+Procedures:
+
+(Note:  The Bool and double types in the procedures is to avoid problems
+combining prototyped and unprototyped objects.)
+
+void FSBSetFontName(Widget w;
+		    String font_name;
+		    Bool font_name_multiple);
+
+This procedure is equivalent to doing an XtSetValues on the XtNuseFontName,
+XtNfontName and XtNfontNameMultiple resources.  XtNuseFontName is set to TRUE.
+
+void FSBSetFontFamilyFace(Widget w;
+			  String font_family; String font_face;
+			  Bool font_family_multiple;
+			  Bool font_face_multiple);
+
+This procedure is equivalent to doing an XtSetValues on the XtNuseFontName,
+XtNfontFamily, XtNfontFace, XtNfontFamilyMultiple, and XtNfontFaceMultiple
+resources.  XtNuseFontName is set to FALSE.
+
+void FSBSetFontSize(Widget w; double font_size;
+			   Bool font_size_multiple);
+
+This procedure is equivalent to doing an XtSetValues on the XtNfontSize and
+XtNfontSizeMultiple resources.
+
+void FSBRefreshFontList(Widget w);
+
+This procedure instructs the panel to refresh its font lists, and should only
+be necessary when the application believes new fonts have been installed.
+
+void FSBGetFamilyList(Widget w, int *count_return, String **family_return);
+
+This procedure returns a list of the families known to the font panel.  The
+caller should free the list with XtFree when it is no longer needed.
+
+void FSBGetFaceList(Widget w, String family, int *count_return,
+		    String **face_return, String **font_return);
+
+This procedure returns a list of the faces and associated font names for a
+particular font family.  The caller should free the lists with XtFree when
+they are no longer needed.
+
+void FSBUndefineUnusedFonts(Widget w);
+
+This procedure undefines all fonts which were downloaded for previewing, but
+are not the currently previewed font.  This undefinition happens
+automatically when the "OK," "Apply," "Reset," or "Cancel" button is
+activated, so this procedure only needs to be called if the application has
+popped the panel down without waiting for the user to use the "OK" or
+"Cancel" button.
+
+Boolean FSBDownloadFontName(Widget w, String font_name);
+
+This procedure attempts to download the specified font_name, using the
+specified font panel's behavior parameters to find the font file and to
+decide whether to load the font into shared VM.
+
+Boolean FSBMatchFontFace(Widget w, String old_face, String new_family,
+			 String *new_face);
+
+This procedure attempts to find a face in the new family that is similar to
+the specified old face.  It invokes the same machinery as the default
+XtNfaceSelectCallback funtionality.  If the new family is not known to the
+panel, new_face is NULL and FSBMatchFontFace returns FALSE.  If the panel
+succeeds in finding a close match, it returns the new face in new_face and
+returns TRUE.  If the panel could not find a close match, it stores the best
+it could find (a "regular" face or, failing that, the first face) in new_face
+and returns FALSE.
+
+void FSBFontNameToFamilyFace(Widget w, String font_name,
+			     String *family, String *face);
+
+This procedure returns the family and face for a font name.  If the font name
+is not known to the font panel, family and face are set to NULL.
+
+void FSBFontFamilyFaceToName(Widget w, String family, String face,
+				    String *font_name);
+
+This procedure returns the font name for a family and face.  If the family
+and face are not known to the font panel, font_name is set to NULL.
+
+String FSBFindAFM(Widget w, String font_name);
+
+This procedure returns the name of the AFM file for the specified font name,
+using the specified font panel widget's parameters to determine where to look
+for the file.  If no AFM file can be found, FSBFindAFM returns NULL.
+
+String FSBFindFontFile(Widget w, String font_name);
+
+This procedure returns the name of the font file for the specified font name,
+using the specified font panel widget's parameters to determine where to look
+for the file.  If no font file can be found, FSBFindAFM returns NULL.
+
+void FSBGetTextDimensions(Widget w, String text, String font,
+			  double size, double x, double y,
+			  float *dx, float *dy,
+			  float *left, float *right,
+			  float *top, float *bottom);
+
+This procedure returns information about the size of the text string, but
+does it in a way that avoids a potential limitcheck from executing charpath
+on a string.  The dx and dy parameters return the change in the current point
+that would result from showing the text at the x, y position, using the font
+at the given size.  The left, right, top, and bottom parameters return the
+bounding box of the imaged text.  Dx and dy are the same as would be returned
+from the stringwith operator, and left, right, top, and bottom are the same
+as those that would result from the code
+	(text) false charpath flattenpath pathbbox
+but with no danger of getting a limitcheck because the resulting path exceeds
+the maximum allowed.
+
+Behavior:
+
+When the user activates the "Preview" button, the currently selected font
+name is displayed in the preview window, in that font.  Typing a "p" or a "P"
+into the size text field or double clicking in the family or face lists is
+equivalent to activating the "Preview" button.
+
+When the user activates the "OK" button, the font panel
+	- Undefines any fonts which were downloaded for preview but which do
+	  not correspond to the current selection.
+	- If the XtNgetAFM resource is TRUE and the current settings are for
+	  exactly one font, try to find the file name of the font's AFM file.
+	- Calls the XtNvalidateCallback with the current settings in the
+	  panel.  The FSBCallbackReason is FSBOK.
+	- If the doit field in the call data is now FALSE, do nothing more.
+	- Otherwise, update the resources XtNfontName, XtNfontFamily,
+	  XtNfontFace, XtNfontSize, XtNfontNameMultiple,
+	  XtNfontFamilyMultiple, XtNfontFaceMultiple, and XtNfontSizeMultiple
+	  with the current selections.
+	- Calls the XtNokCallback with the current settings.  The
+	  FSBCallbackReason is FSBOK.
+	- If the parent of the font panel is a shell, the font panel pops it
+	  down.  (Note -- if the parent is not a shell, the application should
+	  make the panel disappear in its XtNokCallback.)
+
+When the user activates the "Apply" button, the font panel performs all the
+above operations except popping down the panel's parent shell, but the
+XtNapply callback is called instead of the XtNokCallback and in all
+callbacks the FSBCallbackReason is FSBApply.
+
+When the user activates the "Reset" button, the font panel
+	- Restores the current settings to those specified by the resources
+	  XtNfontName, XtNfontFamily, XtNfontFace, XtNfontSize,
+	  XtNfontNameMultiple, XtNfontFamilyMultiple, XtNfontFaceMultiple,
+	  and XtNfontSizeMultiple.
+	- Undefines any fonts which were downloaded for preview but which do
+	  not correspond to the current settings.
+	- Calls the XtNresetCallback with the current settings.  These
+	  settings will be identical to those passed to the most recent
+	  invocation of the XtNOKCallback or the XtNapplyCallback, or the
+	  most recent settings specified by the application, whichever is
+	  most recent.  The FSBCallbackReason is FSBReset.
+
+When the user activates the "Cancel" button, the font panel performs all the
+above operations, but the XtNcancelCallback is called instead of the
+XtNresetCallback.  The FSBCallbackReason is FSBCancel.  Then,
+	- If the parent of the font panel is a shell, the font panel pops it
+	  down.  (Note -- if the parent is not a shell, the application should
+	  make the panel disappear in its XtNcancelCallback.)
+
+
+THE FONT SAMPLER
+
+The Font Sampler allows the user to see multiple fonts at the same time and
+to choose among them.  It provides a set of filters the user can specify to
+narrow the choices to fonts with particular characteristics.
+
+Normally an application need not be aware of the Font Sampler; the Font
+Selection Box normally handles creation and popping up and down.  The
+application can intervene in this by using the XtNcreateSamplerCallback
+resource described above.
+
+The header file is <DPS/FontSample.h>
+
+The class pointer is fontSamplerWidgetClass.
+
+The class name is FontSampler.
+
+The FontSampler widget is a subclass of XmManager.
+
+Resources
+
+XtNsizes - type XtRFloatList
+	List of sizes to present in menu.  Default is 8, 10, 12, 14, 16, 18,
+	24, 36, 48, 72.
+
+XtNsizeCount - type XtRInt
+	The number of entries in the XtNsizes resource.  Default is 10.
+
+XtNfontSelectionBox - type XtRWidget
+	The FontSelectionBox widget associated with this FontSampler widget.
+	This resource must be specified when the sampler is created, and may
+	not be changed.
+
+XtNminimumWidth - type XtRDimension
+	Specifies the minimum width for the work area.  If the sampler is
+	resized so that the work area is narrower than this, a horizontal
+	scroll bar appears and allows scrolling.  Default is 100.
+
+XtNminimumHeight - type XtRDimension
+	Specifies the minimum height for the work area.  If the sampler is
+	resized so that the work area is shorter than this, a vertical
+	scroll bar appears and allows scrolling.  Default is 100.
+
+XtNnoRoomMessage - type XmRXmString
+	Specifies the compound string that will be displayed if the work area
+	is too short to show a single font sample.  Default is "Current size
+	is too large or panel is too small"
+
+XtNnoFontMessage - type XmRXmString
+	Specifies the compound string that will be displayed if there are no
+	fonts to be shown; this condition should not happen.  Default is
+	"There are no fonts!" 
+
+XtNnoSelectedFontMessage - type XmRXmString
+	Specifies the compound string that will be displayed if no font is
+	selected, and the user chooses to display the selected font.  Default
+	is "No font is currently selected"
+	
+XtNnoSelectedFamilyMessage - type XmRXmString
+	Specifies the compound string that will be displayed if no font
+	family is selected, and the user chooses to display the selected
+	family.  Default is "No family is currently selected"
+
+XtNnoFamilyFontMessage - type XmRXmString
+	Specifies the compound string that will be displayed if the selected
+	font family has no fonts; this condition should not happen.  Default
+	is "Selected family has no fonts!"
+
+XtNnoMatchMessage - type XmRXmString
+	Specifies the compound string that will be displayed if no fonts
+	match the selected filters.  Default is "No fonts match filters"
+
+The following resources provide access to the descendants of the panel.  They
+may not be changed, and all are of type XtRWidget:
+	XtNpanelChild
+	XtNareaChild
+	XtNtextChild
+	XtNfontLabelChild
+	XtNscrolledWindowChild
+	XtNdisplayButtonChild
+	XtNdismissButtonChild
+	XtNstopButtonChild
+	XtNclearButtonChild
+	XtNradioFrameChild
+	XtNradioBoxChild
+	XtNallToggleChild
+	XtNselectedToggleChild
+	XtNselectedFamilyToggleChild
+	XtNfilterToggleChild
+	XtNfilterTextChild
+	XtNfilterBoxChild
+	XtNfilterFrameChild
+	XtNsizeOptionMenuChild
+	XtNsizeTextFieldChild
+	XtNsizeLabelChild
+
+Callbacks:
+
+XtNdismissCallback
+	This indicates that the user has dismissed the font sampler.  The
+	call data is NULL.
+
+Procedures:
+
+void FSBCancelSampler(Widget w);
+
+This procedure cancels any current display in process.  It should be used if
+the creator of the sampler disables it.  This is not necessary if the sampler
+is disabled by popping it down; the sampler handles this correctly already.
+
+Behavior:
+
+When the user activates the "Display" button, the sampler begins showing
+fonts that match the current display criteria:
+
+      - If the "All" toggle is set, all fonts are displayed.
+      - If the "Selected" toggle is set, the font selected in the associated
+	font panel is displayed.
+      - If the "Selected Family" toggle is set, all fonts in the family
+	selected in the associated font panel are displayed.
+      - If the "Filter" toggle is set, fonts that match the current set of
+	filters are displayed.
+
+Activating the "Display" button during an ongoing display makes the sampler
+restart the display.
+
+When the user activates the "Stop" button, any ongoing display is stopped.
+
+When the user activates the "Dismiss" button, the font sampler goes away.
+
+Displaying a set of fonts is done by showing the text from the top text field
+in each font of the set.
+
+The size field and menu control the size being displayed.
+
+The filter check boxes determine which fonts are displayed when the "Filter"
+toggle is set.  There are four sets of filters:
+
+      - The first set describes general classes of fonts:  Italic, Symbol,
+	Script, Small Caps, etc.  (Note that in this case, "Roman" means not
+	Italic and not Symbol).
+      - The second set describes condensed or expanded fonts.
+      - The third set describes font weights:  Light, Medium, Bold, etc.
+      - The fourth is a text field that is used for general matching.
+
+In order for a font to be displayed, it must match one of the check boxes in
+each class that has any boxes checked, and if the text field is not empty the
+font name must contain the string in the text field.  2 examples:
+
+      - In the first class, the Italic box is checked.  In the second class,
+	no boxes are checked.  In the third class, the Bold and Demi boxes
+	are checked.  The text field is empty.
+
+	This combination matches any italic font that is either bold or demi.
+
+      - In the first class, Roman and Italic are checked.  In the second
+	class, Condensed is checked.  In the third class, no boxes are
+	checked.  The text field contains the string "Garamond"
+
+	This combination matches all non-symbol, condensed fonts that have
+	the string "Garamond" in their name.
+
+(For the mathematically-minded, the check boxes form a conjunction of
+disjunctions.)
+
+The filtering process is based upon searching for strings in the font's full
+name.  Each check box has a set of strings that it matches; for example the
+Italic check box matches "Italic", "Oblique", "Slanted", or "Kursiv".  It is
+possible to trick the matching process:  any font containing the string
+"Symbol" in its name will be matched as a symbol font, whether or not the
+font actually contains symbols.  Similarly, a font that is "Ultra Condensed"
+will match the Black+ check box because "Ultra" is one of the strings that
+matches the Black+ category.  (To make matters more complex, some font names
+do use the phrase "Ultra Condensed" to mean both ultra-heavy and condensed.)
+
+Any changes to the text being displayed, the size of the sampled fonts, the
+check boxes, or the filter text take effect immediately.  However, changing
+the type of display (from all to filtered, for example) does not affect the
+current display.  Selecting a filter automatically changes the display type
+to filtered.
+
+If the user activates the "Reset Filters" button, all check boxes are reset
+to off and the text filter is reset to be empty.
+
+Clicking any mouse button on a displayed font sample displays the font name
+above the work area and makes that font become selected in the associated font
+panel.  The size selected in the font panel is not affected by the size
+selected in the sampler.
+

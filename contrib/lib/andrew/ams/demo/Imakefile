@@ -1,0 +1,50 @@
+/* **********************************************************************
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved  
+ *        For full copyright information see:'andrew/config/COPYRITE' 
+ *
+ * **********************************************************************
+ *
+ *	HOW TO CREATE AN AMS DEMONSTRATION FOLDER
+ *
+ *	This imkfile will automatically create an AMS demonstration folder and store it
+ *	in ${DESTDIR}/.MESSAGES/demo.  To read it, you will need to add the
+ *	directory defined by ${DESTDIR}/.MESSAGES to your mspath preference.
+ *	(Otherwise, you can type in its FULL path name to read it with "Read By Name"
+ *	or ^X^V in Messages.)
+ *
+ *	Alternatively, you can also easily create a demo folder somewhere else.
+ *	Using the "gendemo" script, found in this directory, type "gendemo folder-name" 
+ *	where "folder-name" is the name of a creatable message folder.  For example, if 
+ *	you've run an AMS application, you will have a .MESSAGES subdirectory in 
+ *	your home directory, and can type "gendemo ~/.MESSAGES/amsdemo".  
+ *	Be warned that if the directory you named already existed, it will be destroyed 
+ *	and so will any subdirectories it had!!!
+ *
+ *	Also, if you want the folder subscription announcement demo to work, you should 
+ *	make sure that the folder announcement referenced in d14.heads refers 
+ *	to a real bboard/folder.  You should do this BEFORE running gendemo, or else 
+ *	after you do it you should run gendemo again.
+ *
+ ************************************************************************ */
+
+InstallProgram(gendemo, ${DESTDIR}/etc)
+
+DIRS = $(DESTDIR)/.MESSAGES $(DESTDIR)/.MESSAGES/demo
+
+MkdirTarget($(DIRS))
+
+install.time::
+	-${DESTDIR}/bin/cui rebuild ${DESTDIR}/.MESSAGES \; exit
+	-${CSHELL} gendemo  -force -DESTDIR ${DESTDIR} ${DESTDIR}/.MESSAGES/demo
+
+InstallDocs(gendemo.help, ${DESTDIR}/help)
+
+install.time:: 
+	@cat ./cshline > amsdemo
+	@echo "setenv ANDREWDIR $(DESTDIR)" >> amsdemo
+	@echo "setenv CLASSPATH $(DESTDIR)/dlib/atk" >> amsdemo
+	@echo "$(DESTDIR)/bin/messages $(DESTDIR)/.MESSAGES/demo" >> amsdemo
+	chmod +x amsdemo
+	
+InstallProgram(amsdemo, $(DESTDIR)/etc)
+

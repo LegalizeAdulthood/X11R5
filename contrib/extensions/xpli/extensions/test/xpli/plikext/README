@@ -1,0 +1,69 @@
+                     plikext - AIX 3 kernel extension
+
+This kernel extension is neccessary to allow the X server to access the
+xpli displays over the I/O bus.
+
+Normally, the X server gains such access via the AIX 3 hft controlling
+the display that is to be used. The hft has machinery to put itself
+in monitor mode (which means that it no longer interprets ANSI 3.64
+streams) via ioctl from an application. Once in monitor mode,
+a kernel extension call to aixgsc places the hft in direct graphics
+mode. In this mode, the registers, ROM, and RAM of the display are
+mapped into the process's address space.
+
+The I/O bus mapping process proceeds as follows:
+ 1) 	a segment is acquired for the process. The segment descriptor for
+    	this segment contains a flag that routs the effective address
+	to the IOCC (a piece of hardware that controls the I/O bus).
+	It also contains a memory domain ID (0x5) which allows
+	access to pages of the bus address space which have been
+	given this memory domain ID. For IBM displays, the
+	memory domain IDs are setup when the IOCC is initialized
+	at system configuration time and the particular display or
+	displays are configured into the system.
+
+ 2)	The IOCC is setup to allow access to a region of registers
+	on the I/O bus by the X server process. Microchannel buses
+	have two address spaces (as do all Intel busses), an bus I/O
+	address space, and a bus memory address space. The POWER IO
+	architecture maps the bus I/O address space into the first
+	65K of its address space, and the bus memory address space
+	overlaps it by starting at 0 and going up to 2*24. It
+	does not harm anything to overlap these address spaces,
+	as in the Intel world, system memory occupies at least the
+	first 256KB of this address space, and in the RS-6000
+	there is no system memory whatever on the I/O bus. Therefore,
+	no microChannel adapter will ever have RAM starting at
+	bus memory address 0. Typically, they start at about 0xA0000.
+	The region of valid registers for an adapter (0x10) is a lot 
+	smaller than a page (2K), so for addresses in the first 65KB
+	the IOCC uses a limits register to allow access. This limits
+	register is normally setup by the aixgsc kernel extension
+	from device information created at configuration time and
+	kept by the hft. This region does not include the registers
+	on the WD 90C20 chip, so it must be expanded to include them.
+	They occupy 0x3C0 to 0x3DF in the address space.
+
+ 3)	Since the pli display is not a configured device, the IOCC
+	will not have been setup with its RAM addresses in the 0x5
+	memory protection domain. So, the plikext kernel extension
+	performs this setup for the WD 90C20 RAM addresses, 
+	going from 0xA0000 to 0xBFFFF.
+
+ 4)	The IOCC setup is transient, and will be changed as soon
+	as another task is dispatched. The setup information (i.e.
+	limits register contents, segment descriptor, segment
+	address) is kept in a struct which is addressed from
+	u.u_save.bus. If this pointer is nonzero, the process
+	dispatcher reloads the IOCC when the process is dispatched.
+	Therefore, the changes made to the IOCC are also made to
+	the struct addressed from u.u_save.bus.
+
+ 5)	Finally, the card bearing the WD 90C20 chip must be setup.
+	To do this, you have to know what slot the card is in.
+	Normally, this is found by scanning the slots looking for
+	a card with the proper POSID. But, the WD 90C20 card
+	had no POSID and thus, the slot appears empty. So, a
+	parameter has to be passed to plikext telling it what
+	slot holds the card. (As of 10/2/91, this is not implemented
+	and the card must be in slot 1).

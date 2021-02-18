@@ -1,0 +1,116 @@
+.TH ELK 1 "15 January 1991"
+.UC 4
+.SH NAME
+elk, scheme \- extensible Scheme interpreter
+.SH SYNOPSIS
+.B scheme
+[
+.B \-l \-|\f2file\fP
+] [
+.B \-h \f2KBytes\fP
+] [
+.B \-g
+] [
+.B \-v
+] [
+.B \-bc
+] [[
+.B \-\^\-
+] \f2args\fP]
+.LP
+.BR elk .\|.\|.
+.SH DESCRIPTION
+.I Elk
+(Extension Language Kit) is a Scheme interpreter intended
+to be used as a general extension language.
+Normally, 
+.I Elk
+is linked together with the application that uses it as its
+extension language.
+.I Elk
+can also be used as a stand-alone implementation of the
+Scheme language.
+.LP
+When called without the
+.B \-l
+option,
+.I Elk
+loads the standard \*(lqtoplevel\*(rq to start an interactive session.
+When called with
+.BR "\-l \f2file\fP" ,
+the contents of the specified file is loaded instead.
+If a `\-' is given as a filename argument,
+.I Elk
+loads from standard input.
+.LP
+The
+.B \-h \f2KBytes\fP
+option is used to specify a non-standard heap size.
+The default heap size is 512 KBytes.
+.LP
+The
+.B \-g
+option causes the interpreter to run the garbage collector each
+time memory is allocated on the heap.
+This is useful for writers of extensions who want to test the
+garbage collect behavior of an extension.
+Running
+.I Elk
+with the
+.B \-g
+option is likely to reveal GC-related bugs in extensions (such as not
+properly protected local objects), as it triggers a garbage collection
+at every possible point in time.
+A dot is written to standard output each time a garbage collection is
+performed when
+.B \-g
+has been specified.
+.LP
+The
+.B \-v
+(\f2verbose\fP) option causes the interpreter to write to standard
+output the /bin/ld-invocation used to incrementally link each object
+file that is loaded.
+This is useful when the exact options, filenames, and libraries
+passed to the system linker must be examined.
+.LP
+The
+.B \-bc
+(\f2backwards compatibility\fP or \f2bug compatibility\fP) option can
+be specified to achieve backwards compatibility with older versions of
+.IR Elk .
+This enables you to run old applications that make use of questionable
+features of earlier
+.I Elk
+versions.
+.LP
+The remaining
+.I args
+are put into a list of strings, and the Scheme variable
+.B command-line-args
+is bound to this list in the global environment.
+If arguments could be interpreted as options, `\-\^-\' can be
+used to indicate the end of the options.
+.SH FILES
+.nf
+.ta 2i
+/tmp/ldXXXXXX	Temporary files
+.br
+/bin/ld	System linker invoked for incremental linking
+.fi
+.SH AUTHOR
+Oliver Laumann
+.SH BUGS
+Redefinition of primitive procedures such as
+.B car
+or
+.B display
+can cause the toplevel to enter an endless loop that cannot be
+interrupted by typing the interrupt key.
+In this case
+.I Elk
+must be terminated by pressing the quit key or by killing it.
+.LP
+The
+.B list?
+predicate is currently not implemented.

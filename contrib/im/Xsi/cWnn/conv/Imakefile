@@ -1,0 +1,39 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:31:50 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+       INCLUDES = -I$(CWNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(CWNNDEFINES) -DWNNDEFAULT
+
+LINKS = cvt_head.h cvt_key.c cvt_read.c
+SRCS= cvt_key.c \
+	cvt_read.c
+OBJS= cvt_key.o \
+	cvt_read.o
+
+includes:: $(LINKS)
+
+LinkSourceFile(cvt_head.h,$(WNNCONVSRC))
+LinkSourceFile(cvt_key.c,$(WNNCONVSRC))
+LinkSourceFile(cvt_read.c,$(WNNCONVSRC))
+
+LibraryObjectRule()
+
+NormalLibraryTarget(convkey,$(OBJS))
+LintLibraryTarget(convkey,$(SRCS))
+
+#if ProfileLibConvkey
+ProfiledLibraryTarget(convkey,$(OBJS))
+#endif
+
+#if DebugLibConvkey
+DebuggedLibraryTarget(convkey,$(OBJS))
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))
+
+clean::
+	$(RM) $(LINKS)

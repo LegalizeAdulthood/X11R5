@@ -1,0 +1,52 @@
+    READ the file COMPILING for how to compile this.
+/*
+ *   GraphLib - A library and collection of programs to make
+ *              X programming easier.
+ *
+ *   (c) Copyright 1990,1991 Eric Anderson 
+ * Buttons and menus mostly by Jeffrey Hutzelman
+ *
+ * Our thanks to the contributed maintainers at andrew for providing
+ * disk space for the development of this library.
+ * My thanks to Geoffrey Collyer and Henry Spencer for providing the basis
+ * for this copyright.
+ *
+ * This software is not subject to any license of the American Telephone
+ * and Telegraph Company, the Regents of the University of California, or
+ * the Free Software Foundation.
+ *
+ * Permission is granted to anyone to use this software for any purpose on
+ * any computer system, and to alter it and redistribute it freely, subject
+ * to the following restrictions:
+ *
+ * 1. The authors are not responsible for the consequences of use of this
+ *    software, no matter how awful, even if they arise from flaws in it.
+ *
+ * 2. The origin of this software must not be misrepresented, either by
+ *    explicit claim or by omission.  Since few users ever read sources,
+ *    credits must appear in the documentation.
+ *
+ * 3. Altered versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.  Since few users
+ *    ever read sources, credits must appear in the documentation.
+ *
+ * 4. This notice may not be removed or altered.
+ */
+
+	This version of the Graphlib Library is to be superseeded by a 
+version which will be written in C++.  This is because we have determined
+that it is impossible to write the library in anything approximating a
+reasonable manner.  The primary location in which this occurs is GL_Create.
+I decided it would be useful to be able to create the lists passed to 
+GL_Create on the fly.  However, this is not possible under the current 
+implementation, and in C it would look like a hack to make it possible.
+However under C++, the , operator can be used to build lists, and this
+is what we are going to do.  This version was distributed because it has
+useful clients on it.  I will continue to support this version until the
+new version completely superseeds all of the functionality of this one.
+You may contact me to find out how the progress on the new library is going,
+and if you are interested to recieve alpha test versions.
+	The authors hope that you enjoy the library, and find it useful
+in building X applications.  More information on the authors can be found
+in the file Authors.  
+	-Eric Anderson (ea08+@andrew.cmu.edu)

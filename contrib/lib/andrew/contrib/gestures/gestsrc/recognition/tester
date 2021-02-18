@@ -1,0 +1,13 @@
+
+(
+echo -----------------------------------------------------
+echo Testing as of `date`
+ARGS="$*"
+TESTS="gdp coleman"
+for i in $TESTS
+do
+	echo ------- tt -t $i.train -e $i.test $ARGS
+	tt -t $i.train -e $i.test $ARGS
+done
+echo -----------------------------------------------------
+) >> test.txt

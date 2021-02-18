@@ -1,0 +1,39 @@
+Preferences
+
+MenubarShadowDepth: the width of the boxes around selected items.
+
+MenubarTitleFont: the font to use for the menu names.
+
+MenubarItemFont: the font to use on the menu cards.
+
+MenubarTitlesColor: the color to draw the menu names in.
+
+MenubarBackgroundColor: the background color to use in the menubar.
+
+MenubarItemColor: the color to draw menu items in.
+
+MenubarCardBackgroundColor: the background color to use in menu cards.
+
+MenubarGrayItemColor: the color to draw inactive menu items in.
+
+MenubarGrayItemStipple: the stipple pattern to draw inactive menu items with.
+
+MenubarGrayTitleColor: the color to draw the titles of inactive menu cards.
+
+MenubarGrayTitleStipple: the stipple pattern to draw the titles of inactive menu cards.
+
+MenubarTopShadowColor: the color to draw the top of the selection box in the menubar in.
+
+MenubarTopShadowStipple: the stipple pattern to draw the top of the selection box in the menubar with.
+
+MenubarBottomShadowColor: the color to draw the bottom of the selection box in the menubar in.
+
+MenubarBottomShadowStipple: the stipple pattern to draw the bottom of the selection box in the menubar in.
+
+MenubarCardTopShadowColor: the color to draw the top of the selection box around menu items in.
+
+MenubarCardTopShadowStipple: the stipple pattern to draw the top of the selection box around menu items with.
+
+MenubarCardBottomShadowColor: the color to draw the bottom of the selection box around menu items in.
+
+MenubarCardBottomShadowStipple: the stipple pattern to draw the bottom of the selection box around menu items with.

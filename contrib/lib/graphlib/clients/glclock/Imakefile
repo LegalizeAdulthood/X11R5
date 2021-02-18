@@ -1,0 +1,9 @@
+#include <GraphLib.tmpl>
+INCLUDES = -I$(TOP)
+DEPLIBS = GraphLibClientDepLibs
+LOCAL_LIBRARIES = $(GLSUBLIB) GraphLibClientLibs
+
+SRCS = glclock.c
+OBJS = glclock.o
+
+ComplexProgramTarget(glclock)

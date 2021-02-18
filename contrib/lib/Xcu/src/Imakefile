@@ -1,0 +1,106 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = X11/Xcu
+
+  CFLAGS = $(CDEBUGFLAGS) $(CCOPTIONS) $(ALLDEFINES)
+  INCLUDES = $(XCUINCFLAG)
+
+LINTLIBS = $(LINTXLIB) $(LINTXTOOL)
+
+SRCS = \
+	Bmgr.c \
+	BmgrR.c \
+	Button.c \
+	Command.c \
+	Deck.c \
+	Entry.c \
+	FloatR.c \
+	GravityR.c \
+	JustifyR.c \
+	Label.c \
+	ResizePR.c \
+	Simple.c \
+	SunR.c \
+	Tbl.c \
+	Tbl.l \
+	Tbl.y \
+	Wlm.c \
+	Copy_ds.c \
+	Simplify.c
+
+OBJS = \
+	Bmgr.o \
+	BmgrR.o \
+	Button.o \
+	Command.o \
+	Deck.o \
+	Entry.o \
+	FloatR.o \
+	GravityR.o \
+	JustifyR.o \
+	Label.o \
+	ResizePR.o \
+	Simple.o \
+	SunR.o \
+	Tbl.o \
+	Wlm.o \
+	Copy_ds.o \
+	Simplify.o
+
+#if DebugLibXcu && ProfileLibXcu
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXcu
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXcu
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+NormalLibraryTarget(Xcu,$(OBJS))
+LintLibraryTarget(Xcu,$(SRCS))
+InstallLibrary(Xcu,$(USRLIBDIR))
+InstallLintLibrary(Xcu,$(LINTLIBDIR))
+
+#if ProfileLibXcu
+ProfiledLibraryTarget(Xcu,$(OBJS))
+InstallLibrary(Xcu_p,$(USRLIBDIR))
+#endif
+
+#if DebugLibXcu
+DebuggedLibraryTarget(Xcu,$(OBJS))
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+Tbl.c : ;
+
+Tbl.lex.c :	Tbl.l
+	lex Tbl.l
+	sed 's/yy/ytbl/g' < lex.yy.c > Tbl.lex.c
+	rm lex.yy.c
+
+Tbl.o : Tbl.y.c
+
+Tbl.y.c :	Tbl.y Tbl.lex.c
+	@echo
+	@echo "Expect 2 shift/reduce conflicts..."
+	@echo
+	yacc Tbl.y
+	@echo
+	@echo "These conflicts are harmless... not to worry."
+	@echo "Someday I'll figure out how to make them go away."
+	@echo
+	sed 's/yy/ytbl/g' < y.tab.c > Tbl.y.c
+	rm y.tab.c
+

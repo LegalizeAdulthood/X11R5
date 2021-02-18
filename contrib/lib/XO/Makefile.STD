@@ -1,0 +1,49 @@
+
+INCFLAGS = -I.
+INSTLIBDIR = /usr/lib
+INSTINCDIR = /usr/include/X11
+
+# for debugging
+#CFLAGS = -g $(INCFLAGS)
+#LFLAGS = -g
+# for most production systems
+CFLAGS = -O $(INCFLAGS)
+LFLAGS = -n
+# for Tektronix 431x
+#CFLAGS = -O1 $(INCFLAGS)
+#LFLAGS = -n
+
+COLORFILE = -DCOLORFILE=\"/usr/lib/X11/rgb.txt\"
+
+
+XOLIB = libXO.a
+XOL_OBJS = XOColorNames.o XOCancBtn.o XOQuitBtn.o XOHelpBtn.o XOIcon.o
+
+all: $(XOLIB)
+
+$(XOLIB): $(XOL_OBJS)
+	ar cr $@ $?
+	ranlib $@
+
+XOColorNames.o: XOColorNames.c libXO.h
+	cc $(CFLAGS) -c XOColorNames.c
+
+XOHelpBtn.o: XOHelpBtn.c libXO.h
+	cc $(CFLAGS) -c XOHelpBtn.c
+
+XOCancBtn.o: XOCancBtn.c libXO.h
+	cc $(CFLAGS) -c XOCancBtn.c
+
+XOQuitBtn.o: XOQuitBtn.c libXO.h
+	cc $(CFLAGS) -c XOQuitBtn.c
+
+XOIcon.o: XOIcon.c libXO.h
+	cc $(CFLAGS) -c XOIcon.c
+
+clean:
+	rm -f $(XOLIB) $(XOL_OBJS)
+
+install: all
+	/usr/local/bin/install -c -o bin -g bin -m 755 $(XOLIB) $(INSTLIBDIR)
+	ranlib $(INSTLIBDIR)/$(XOLIB)
+	/usr/local/bin/install -c -o bin -g bin -m 644 libXO.h $(INSTINCDIR)

@@ -1,0 +1,11 @@
+\begindata{text,268762204}
+\textdsversion{12}
+\template{default}
+\chapter{ATK Version Numbering}
+
+
+
+Atkvers is the ATK version number.  When ATK is washed, the version number is 
+increased by one.  Bug reports should reference the ATK version number (as 
+well as an application version number, if any).  \
+\enddata{text,268762204}

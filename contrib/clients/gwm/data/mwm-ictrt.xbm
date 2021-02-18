@@ -1,0 +1,4 @@
+#define icon_tr_tile_tSC_width 5
+#define icon_tr_tile_tSC_height 5
+static char icon_tr_tile_tSC_bits[] = {
+   0x1f, 0x0f, 0x00, 0x00, 0x00};

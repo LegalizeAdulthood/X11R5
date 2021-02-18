@@ -1,0 +1,56 @@
+IMAKE_DEFINES = ExtensionDefines
+
+ TD_DEFINES = LibraryDefines ExtensionDefines
+CDEBUGFLAGS = LibraryCDebugFlags
+   INCLUDES = -I$(TOP) -I../include -I$(EXTENSIONSRC)/include/xv -I$(INCLUDESRC) -I$(XLIBSRC)
+       SRCS = Xv.c
+       OBJS = Xv.o
+     LINTLIBS = $(LINTXLIB)
+
+#if DebugLibXext && ProfileLibXext
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXext
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXext
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+NormalLibraryTarget(Xv,$(OBJS))
+LintLibraryTarget(Xv,$(SRCS))
+InstallLibrary(Xv,$(USRLIBDIR))
+InstallLintLibrary(Xv,$(LINTLIBDIR))
+
+#if DoInstallExtensionsIntoXlib
+MergeIntoInstalledLibrary($(USRLIBDIR)/libX11.a,libXv.a)
+#endif
+
+#if ProfileLibXv
+ProfiledLibraryTarget(Xv,$(OBJS))
+InstallLibrary(Xv_p,$(USRLIBDIR))
+#if DoInstallExtensionsIntoXlib
+MergeIntoInstalledLibrary($(USRLIBDIR)/libX11_p.a,libXv_p.a)
+#endif
+#endif
+
+#if DebugLibXv
+DebuggedLibraryTarget(Xv,$(OBJS))
+InstallLibrary(Xv_d,$(USRLIBDIR))
+#if DoInstallExtensionsIntoXlib
+MergeIntoInstalledLibrary($(USRLIBDIR)/libX11_d.a,libXv_d.a)
+#endif
+#endif
+
+#ifdef IHaveSubdirs
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

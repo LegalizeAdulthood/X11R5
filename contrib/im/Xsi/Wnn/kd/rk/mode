@@ -1,0 +1,14 @@
+;
+; $Id: mode,v 1.1 1991/09/09 22:43:46 ohm Exp $
+;
+;;; for hangul
+(defmode hangul)
+
+2A_CTRL
+;;;;
+;;;	for Hangul input
+(if hangul 
+	1B_newTOUPPER
+	2C_HANGUL
+	"[Kr ]")
+"[ q ]"

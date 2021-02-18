@@ -1,0 +1,5 @@
+;
+; $Id: 3B_quanjiao,v 1.1 1991/09/11 02:31:14 ohm Exp $
+;
+(defvar a (all))
+(a)	(toQalpha (a))

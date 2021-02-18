@@ -1,0 +1,80 @@
+The fonts in this directory are Chinese Hanzi fonts:
+
+	cclib16fs.bdf		16x16 Fang Song style, GB encoding
+	cclib16st.bdf		16x16 Song style, GB encoding
+	cclib24st.bdf		24x24 Song style, GB encoding
+	hku-ch16.bdf		16x16 Fang Song style, BIG5 encoding
+
+To use in cxterm, the fonts.alias file should be included in
+the font installation.  The aliases are as following:
+
+cclib16fs	-cclib-song-delicate-r-normal--16-*-*-*-*-*-gb2312.1980-1
+cclib16st	-cclib-song-medium-r-normal--16-*-*-*-*-*-gb2312.1980-1
+cclib24st	-cclib-song-medium-r-normal--24-*-*-*-*-*-gb2312.1980-1
+hku-ch16	-hku-fixed-medium-r-normal--16-*-*-*-*-*-big5.hku-0
+
+
+ABOUT GB ENCODING FONTS
+-----------------------
+
+Here "GB encoding" refers to the Standard "Code of Chinese Graphic Character
+for Information Interchange, Primary Set (GB2312-80)", published by National
+Standards Bureau, Beijing, China in 1980.  
+
+All the fonts are in GR encoding, i.e. the most significant bit of each octet
+of a character in the font is one (1).
+
+cclib16fs.bdf, cclib16st.bdf, cclib24st.bdf were from Institute of Software,
+Academia Sinica (ISAS), Beijing, CHINA.
+
+** Copyright Notices:
+
+(C) 1988, Institute of Software, Academia Sinica, Beijing, China
+
+Permission to use, copy, modify, and distribute these fonts for any
+purpose without fee is hereby granted, provided that the copyright
+notice is duplicated in all copies.  The names of Institute of Software,
+Academia Sinica, or ISAS, may not be used in advertising or publicity
+pertaining to the distribution of the software.
+
+The fonts are provided "as is" and we disclaim any explicit or implied
+warranties.
+
+
+ABOUT BIG5 ENCODING FONTS
+-------------------------
+
+Here "BIG5 encoding" refers the the HKU Big5 encoding, a variant of
+the widely used de facto standard, so-called "Big5".
+
+The major difference between the ETen coding, the probably most widely
+used Big5 variant, and HKU Big5 is the offset of non-frequent Big5
+Hanzi codes in the ETen coding scheme:
+
+portions of BIG5 codes    coding in ETen      coding in HKU-Ch16
+----------------------    ----------------    ----------------
+Non-Chinese symbols       0xa140 -- 0xa3bf    0xa140 -- 0xa3fe
+Frequent (5401)           0xa440 -- 0xc67e    0xa440 -- 0xc67e
+Non-frequent (7652)       0xc940 -- 0xf9d5    0xc6a1 -- 0xf755
+Non-BIG5 supplement       0xf9d6 -- ??          no
+
+hku-ch16.bdf is contributed by the Soc. of Hong Kong University Postgrad.
+on Chinese Affairs.
+
+** Copyright Notices:
+
+(C) 1990, Society of Hong Kong University Postgrad., Hong Kong.
+
+Permission to use, copy, modify, and distribute these fonts for any
+purpose without fee is hereby granted, provided that the copyright
+notice is duplicated in all copies.  The names of the Society of Hong
+Kong University Postgrad may not be used in advertising or publicity
+pertaining to the distribution of the software.
+
+The fonts are provided "as is" and we disclaim any explicit or implied
+warranties.
+
+
+Yongguang Zhang				Man-Chi Pong
+ygz@cs.purdue.edu			mcpong@uxmail.ust.hk
+

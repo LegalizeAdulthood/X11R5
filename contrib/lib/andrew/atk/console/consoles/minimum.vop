@@ -1,0 +1,258 @@
+## ###################################################################### ##
+##         Copyright IBM Corporation 1988,1991 - All Rights Reserved      ##
+##        For full copyright information see:'andrew/config/COPYRITE'     ##
+## ###################################################################### ##
+# Every vopcon file should have the following:
+@set(period 20)
+@set(externalerrorfile "/dev/console")
+@instrument(function errors, displaytype logerror)
+#@instrument(function errorlog, displaytype drawerrorwindow)
+#@instrument(text "Vice Op Console", displaytype drawprogramname, remotefunction vicecalls)
+# End of mandatory stuff
+@set(desiredheight 400,
+	desiredwidth 574
+	InternalMenus 1: "Display CPU stats~11" "Display Boot Time~11"
+	InternalMenus 2: "Display WS Stats~13" "Display Data Rates~13"
+	InternalMenus 3: "Display Disk Data~12" "Display Start Time~12"
+
+@instrument(
+	displaytype drawtitle,
+	threshhold 1,
+	text "System Control Machine is up",
+	remotefunction centralmachine)
+@instrument(
+	displaytype drawtitle,
+	ceiling 0,
+	text "System Control Machine is down",
+	remotefunction centralmachine)
+@instrument(
+	boxed,
+	unless 1
+	displaytype indicator
+	text "$ %"
+	xmin 0,
+	xmax 10
+	ymin 0
+	ymax 100,
+	leftclickstring "!@#TOGGLE 1"
+	remotefunction totalcpu)
+@instrument(
+	boxed,
+	unless 1
+	displaytype indicator
+	text "$ I/O"
+	xmin 10
+	xmax 20,
+	ymin 0,
+	ymax 100,
+	leftclickstring "!@#TOGGLE 1"
+	remotefunction totalio)
+@instrument(
+	boxed,
+	unless 1
+	displaytype indicator
+	text "$k"
+	xmin 20
+	xmax 30,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 2500,
+	highlightinvertmax 10000,
+	leftclickstring "!@#TOGGLE 1"
+	remotefunction processsize)
+@instrument(
+	boxed,
+	if 1
+	displaytype indicator
+	xmin 0
+	xmax 30,
+	ymin 0,
+	ymax 100,
+	text *
+	leftclickstring "!@#TOGGLE 1"
+	remotefunction boottime)
+@instrument(
+	boxed,
+	unless 2
+	displaytype indicator
+	text "$ ws"
+	xmin 30
+	xmax 39,
+	ymin 0,
+	ymax 100,
+	leftclickstring "!@#TOGGLE 2"
+	remotefunction workstations)
+@instrument(
+	boxed,
+	if 2
+	displaytype indicator
+	text "$ s"
+	xmin 30
+	xmax 39,
+	ymin 0,
+	ymax 100,
+	leftclickstring "!@#TOGGLE 2"
+	remotefunction storedatarate)
+@instrument(
+	boxed,
+	unless 2
+	displaytype indicator
+	text "$ aws"
+	xmin 59
+	xmax 68,
+	ymin 0,
+	ymax 100,
+	leftclickstring "!@#TOGGLE 2"
+	remotefunction activeworkstations)
+@instrument(
+	boxed,
+	if 2
+	displaytype indicator
+	text "$ f"
+	xmin 59
+	xmax 68,
+	ymin 0,
+	ymax 100,
+	leftclickstring "!@#TOGGLE 2"
+	remotefunction fetchdatarate)
+@instrument(
+	boxed,
+	if 3
+	displaytype indicator
+	text "*"
+	xmin 68,
+	xmax 100,
+	ymin 0,
+	ymax 100,
+	threshhold 1000,
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction starttime)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 68,
+	xmax 72,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk1inuse)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 72,
+	xmax 76,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk2inuse)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 76,
+	xmax 80,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk3inuse)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 80,
+	xmax 84,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk4inuse)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 84,
+	xmax 88,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk5inuse)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 88,
+	xmax 92,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk6inuse)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 92,
+	xmax 96,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk7inuse)
+@instrument(
+	boxed,
+	unless 3
+	displaytype indicator,
+	xmin 96,
+	xmax 100,
+	ymin 0,
+	ymax 100,
+	highlightinvertmin 95,
+	highlightinvertmax 120,
+	text "$"
+	leftclickstring "!@#TOGGLE 3"
+	remotefunction disk8inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	text *
+	xmin 39,
+	xmax 59,
+	ymin 0,
+	ymax 100,
+	textfont andy14b,
+	ceiling 6,
+	highlightinvertmin -1,
+	highlightinvertmax 6,
+	remotefunction ClusterName)
+@instrument(
+	displaytype indicator,
+	text "File Server * is down"
+	xmin 30,
+	xmax 68,
+	ymin 0,
+	ymax 100,
+	textfont andy14b,
+	threshhold 6,
+	highlightinvertmin 6,
+	highlightinvertmax 3000,
+	remotefunction ClusterName)

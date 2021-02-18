@@ -1,0 +1,230 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/cfb/RCS/cfbmskbits.h,v 
+*** 1.6	1991/09/24 02:42:59
+--- 1.9	1991/09/24 17:14:40
+***************
+*** 82,93 ****
+   * ==========================================================================
+   */
+  
+! #define PPW	4
+! #define PLST	3
+! #define PIM	0x03
+! #define PWSH	2
+! #define PSZ	8
+! #define PMSK	0xFF
+  
+  /* the following notes use the following conventions:
+  SCREEN LEFT				SCREEN RIGHT
+--- 82,103 ----
+   * ==========================================================================
+   */
+  
+! /*
+!  * Eight bits
+!  *
+!  * #define PPW	4
+!  * #define PLST	3
+!  * #define PIM	0x03
+!  * #define PWSH	2
+!  * #define PSZ	8
+!  * #define PMSK	0xFF
+!  */
+! #define PPW   1
+! #define PLST  0
+! #define PIM   0
+! #define PWSH  0
+! #define PSZ   24
+! #define PMSK  0x00FFFFFF
+  
+  /* the following notes use the following conventions:
+  SCREEN LEFT				SCREEN RIGHT
+***************
+*** 214,219 ****
+--- 224,240 ----
+  #define BitLeft(lw,n)	((lw) >> (n))
+  #endif	/* (BITMAP_BIT_ORDER == MSBFirst) */
+  
++ /*
++  * Reduced raster op - using precomputed values, perform the above
++  * in three instructions
++  */
++ 
++ #define DoRRop(dst, and, xor)	(((dst) & (and)) ^ (xor))
++ 
++ #define DoMaskRRop(dst, and, xor, mask) \
++     (((dst) & ((and) | ~(mask))) ^ (xor & mask))
++ 
++ #if PSZ <= 16
+  #define SCRLEFT(lw, n)	BitLeft (lw, (n) * PSZ)
+  #define SCRRIGHT(lw, n)	BitRight(lw, (n) * PSZ)
+  
+***************
+*** 231,246 ****
+      pf |= (pf << 2*PSZ); \
+  }
+  
+- /*
+-  * Reduced raster op - using precomputed values, perform the above
+-  * in three instructions
+-  */
+- 
+- #define DoRRop(dst, and, xor)	(((dst) & (and)) ^ (xor))
+- 
+- #define DoMaskRRop(dst, and, xor, mask) \
+-     (((dst) & ((and) | ~(mask))) ^ (xor & mask))
+- 
+  #define maskbits(x, w, startmask, endmask, nlw) \
+      startmask = cfbstarttab[(x)&PIM]; \
+      endmask = cfbendtab[((x)+(w)) & PIM]; \
+--- 252,257 ----
+***************
+*** 391,434 ****
+      putbitsmroplong(src,x,w,pdst); \
+  }
+  
+- #if GETLEFTBITS_ALIGNMENT == 1
+- #define getleftbits(psrc, w, dst)	dst = *((unsigned int *) psrc)
+- #endif /* GETLEFTBITS_ALIGNMENT == 1 */
+- 
+- #define getglyphbits(psrc, x, w, dst) \
+- { \
+-     dst = BitLeft((unsigned) *(psrc), (x)); \
+-     if ( ((x) + (w)) > 32) \
+- 	dst |= (BitRight((unsigned) *((psrc)+1), 32-(x))); \
+- }
+- #if GETLEFTBITS_ALIGNMENT == 2
+- #define getleftbits(psrc, w, dst) \
+-     { \
+- 	if ( ((int)(psrc)) & 0x01 ) \
+- 		getglyphbits( ((unsigned int *)(((char *)(psrc))-1)), 8, (w), (dst) ); \
+- 	else \
+- 		dst = *((unsigned int *) psrc); \
+-     }
+- #endif /* GETLEFTBITS_ALIGNMENT == 2 */
+- 
+- #if GETLEFTBITS_ALIGNMENT == 4
+- #define getleftbits(psrc, w, dst) \
+-     { \
+- 	int off, off_b; \
+- 	off_b = (off = ( ((int)(psrc)) & 0x03)) << 3; \
+- 	getglyphbits( \
+- 		(unsigned int *)( ((char *)(psrc)) - off), \
+- 		(off_b), (w), (dst) \
+- 	       ); \
+-     }
+- #endif /* GETLEFTBITS_ALIGNMENT == 4 */
+- 
+- #if (PPW*PSZ==32)
+- #define GET_VALID_BITS_FROM_LONG(l) (l)
+- #else
+- #define GET_VALID_BITS_FROM_LONG(l) ((l)&((1L<<(PPW*PSZ))-1))
+- #endif
+- 
+  /*
+   * getstipplepixels( psrcstip, x, w, ones, psrcpix, destpix )
+   *
+--- 402,407 ----
+***************
+*** 476,479 ****
+--- 449,549 ----
+      q = QuartetBitsTable[(w)] & ((ones) ? q : ~q); \
+      *(destpix) = (*(psrcpix)) & QuartetPixelMaskTable[q]; \
+  }
++ #endif
++ 
++ #else /* PSZ <= 16 */
++ 
++ /*
++  * Things are much simpler with PSZ > 16 which implies that it
++  * fits in a single longword.
++  */
++ #define SCRLEFT(lw, n)  (lw)
++ #define SCRRIGHT(lw, n)	(lw)
++   
++ #define PFILL(p) (p)
++ #define PFILL2(p, pf) pf = p;
++   
++   
++ #define maskbits(x, w, startmask, endmask, nlw) \
++     startmask = 0; \
++     endmask = 0; \
++     nlw = w;
++   
++ #define maskpartialbits(x, w, mask) \
++     mask = 0xFFFFFFFF;
++   
++ #define mask32bits(x, w, startmask, endmask) \
++     startmask = 0; \
++     endmask = 0;
++   
++ #define getbits(psrc, x, w, dst) \
++     dst = *(psrc);
++   
++   
++ #define putbits(src, x, w, pdst, planemask) \
++ if ( ((x)+(w)) <= PPW) \
++     *(pdst) = src;
++ 
++ #define putbitsmropshort(src,x,w,pdst) \
++     *pdst = (src);
++ 
++ #define putbitsrop(src, x, w, pdst, planemask, rop) \
++ { \
++     unsigned long t2; \
++     DoRop(t2, rop, SCRRIGHT((src), (x)), *(pdst)); \
++     *(pdst) = (*(pdst) & ~planemask) | (t2 & planemask); \
++ }
++ 
++ #if (BITMAP_BIT_ORDER == MSBFirst)
++ #define getstipplepixels( psrcstip, x, w, ones, psrcpix, destpix ) \
++     if (*(psrcstip) & ((unsigned long)(1 << 31) >> (x))) \
++         *(destpix) = (ones) ? *(psrcpix) : 0; \
++     else \
++         *(destpix) = (ones) ? 0 : *(psrcpix);
++ #else
++ #define getstipplepixels( psrcstip, xt, w, ones, psrcpix, destpix ) \
++     if (*(psrcstip) & (1 << (x))) \
++         *(destpix) = (ones) ? *(psrcpix) : 0; \
++     else \
++         *(destpix) = (ones) ? 0 : *(psrcpix);
++ #endif
++ 
++ #endif /* PSZ <= 16 */
++ 
++ #if GETLEFTBITS_ALIGNMENT == 1
++ #define getleftbits(psrc, w, dst)	dst = *((unsigned int *) psrc)
++ #endif /* GETLEFTBITS_ALIGNMENT == 1 */
++ 
++ #define getglyphbits(psrc, x, w, dst) \
++ { \
++     dst = BitLeft((unsigned) *(psrc), (x)); \
++     if ( ((x) + (w)) > 32) \
++ 	dst |= (BitRight((unsigned) *((psrc)+1), 32-(x))); \
++ }
++ #if GETLEFTBITS_ALIGNMENT == 2
++ #define getleftbits(psrc, w, dst) \
++     { \
++ 	if ( ((int)(psrc)) & 0x01 ) \
++ 		getglyphbits( ((unsigned int *)(((char *)(psrc))-1)), 8, (w), (dst) ); \
++ 	else \
++ 		dst = *((unsigned int *) psrc); \
++     }
++ #endif /* GETLEFTBITS_ALIGNMENT == 2 */
++ 
++ #if GETLEFTBITS_ALIGNMENT == 4
++ #define getleftbits(psrc, w, dst) \
++     { \
++ 	int off, off_b; \
++ 	off_b = (off = ( ((int)(psrc)) & 0x03)) << 3; \
++ 	getglyphbits( \
++ 		(unsigned int *)( ((char *)(psrc)) - off), \
++ 		(off_b), (w), (dst) \
++ 	       ); \
++     }
++ #endif /* GETLEFTBITS_ALIGNMENT == 4 */
++ 
++ #if (PPW*PSZ==32)
++ #define GET_VALID_BITS_FROM_LONG(l) (l)
++ #else
++ #define GET_VALID_BITS_FROM_LONG(l) ((l)&((1L<<(PPW*PSZ))-1))
+  #endif

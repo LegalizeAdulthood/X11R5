@@ -1,0 +1,228 @@
+.TH XDaliClock 1 "18-sep-91" "X Version 11"
+.SH NAME
+xdaliclock - melting digital clock
+.SH SYNOPSIS
+.B xdaliclock
+[-\fItoolkitoption\fP ...] [-\fIoption\fP ...]
+.SH DESCRIPTION
+The \fIxdaliclock\fP program displays a digital clock; when a digit
+changes, it ``melts'' into its new shape.
+
+This program was inspired by the Alto and Macintosh programs of the same
+name, written by Steve Capps in 1983 or 1984.
+.SH OPTIONS
+.I xdaliclock
+accepts all of the standard toolkit options, and also accepts the
+following options:
+.TP 8
+.B \-help
+Print a brief summary of the allowed options on the standard error output.
+.TP 8
+.B \-12
+Use a twelve hour clock.
+.TP 8
+.B \-24
+Use a twenty-four hour clock.
+.TP 8
+.B \-seconds
+Update every second.
+.TP 8
+.B \-noseconds
+Update once per minute; don't display seconds at all.
+.TP 8
+.B \-cycle
+Do color-cycling.
+.TP 8
+.B \-nocycle
+Don't do color-cycling.
+.TP 8
+.B \-shape
+Use the Shape Extension, if it's available, to make the window background be
+transparent.  
+
+This doesn't interact terribly well with the \fItwm\fP or \fItvtwm\fP window
+managers, unless they have been configured to not put a titlebar on
+the \fIxdaliclock\fP window.  If this isn't specified in your \fI.twmrc\fP
+or \fI.tvtwmrc\fP file, then the window will flicker constantly, as the
+window manager tries to add and remove the titlebar ten times each second.
+
+Also, this turns most X servers into huge cycle hogs.  This is probably
+because of inefficient implementations of the Shape extension.
+.TP 8
+.B \-noshape
+Don't use the Shape Extension.
+.TP 8
+.B \-memory low
+Use high-bandwidth, low-memory mode.  If you have a very fast connection
+between the machine this program is running on and the X server it is
+displaying on, then \fIxdaliclock\fP can work correctly by simply making
+the drawing requests it needs when it needs them.  This is \fIthe elegant
+method.\fP  However, the amount of data necessary to animate the display 
+ends up being a bit over 10 kilobytes worth of X Protocol per second.  On a
+fast machine with a local display, or over a fast network, that's almost
+negligible, but (for example) an NCD X Terminal at 38.4 kilobaud can't 
+keep up.  That is the reason for:
+.TP 8
+.B \-memory medium
+Use high-memory, low-bandwidth mode.  In this mode, \fIxdaliclock\fP
+precomputes most of the frames that it will ever need.  This is \fIthe
+sleazy copout method.\fP  The bandwidth requirements are drastically 
+reduced, because instead of telling the server what bits to draw where, 
+it merely tells it what pixmaps to copy into the window.  Aside from the 
+fact that I consider this to be \fIcheating,\fP the only downside of this
+method is that those pixmaps (about 170 of them, each the size of one
+character) are consuming server-memory.  This probably isn't a very big deal,
+unless you're using an exceptionally large font.
+.TP 8
+.B \-memory high
+With \fImemory\fP set to \fIhigh\fP, the cache is twice as 
+large (the \fIn -> n+2\fP transitions are cached as well as the \fIn -> n+1\fP
+ones).  Even with memory set to \fImedium\fP, this program can seem sluggish 
+when using the builtin font over a very slow connection to the display server.
+.TP 8
+.B \-font \fIfontname\fP
+Specifies the X font to use; \fIxdaliclock\fP can correctly animate any font
+that contains all the digits plus colon and slash, and in which the letters
+aren't excessively curly.
+
+The \fIxdaliclock\fP program contains a builtin bitmapped font, which is
+larger and more attractive than the standard X fonts.  This font will be
+used if the \fI-font\fP option is given the fontname \fBBUILTIN\fP.
+.TP 8
+.B \-builtin
+This is the same as specifying \fI-font BUILTIN\fP.
+.TP 8
+The following standard X Toolkit command line arguments are commonly 
+used with \fIxdaliclock\fP:
+.TP 8
+.B \-display \fIhost:dpy\fP
+This option specifies the X server to contact.
+.TP 8
+.B \-geometry \fIgeometry\fP
+This option specifies the prefered size and position of the clock window.
+.TP 8
+.B \-bg \fIcolor\fP
+This option specifies the color to use for the background of the window.
+The default is ``white.''
+.TP 8
+.B \-fg \fIcolor\fP
+This option specifies the color to use for the foreground of the window.
+The default is ``black.''
+.TP 8
+.B \-rv
+This option indicates that reverse video should be simulated by swapping
+the foreground and background colors.
+.TP 8
+.B \-bw \fInumber\fP
+This option specifies the width in pixels of the border surrounding 
+the window.
+.TP 8
+.B \-xrm \fIresourcestring\fP
+This option specifies a resource string to be used.
+.SH COMMANDS
+Clicking and holding any mouse button in the \fIxdaliclock\fP window will
+cause it to display the date (in \fImm\fB/\fIdd\fB/\fIyy\fP format) while
+the button is held.
+.PP
+Typing ``space'' at the \fIxdaliclock\fP window will toggle between a 
+twelve hour and twenty-four hour display.
+.PP
+Typing ``q'' or ``C-c'' at the window quits.
+
+If the \fIxdaliclock\fP window is iconified or otherwise unmapped, it
+will go to sleep until it is mapped again.
+.SH X DEFAULTS
+\fIxdaliclock\fP understands all of the core resource names and
+classes as well as:
+.PP
+.TP 8
+.B seconds (\fPclass\fB Seconds)
+Whether to display seconds.  
+If true, this is the same as the \fI-seconds\fP command line argument;
+if false, this is the same as \fI-noseconds.\fP
+.TP 8
+.B cycle (\fPclass\fB Cycle)
+Whether to do color cycling.
+If true, this is the same as the \fI-cycle\fP command line argument;
+if false, this is the same as \fI-nocycle.\fP
+.TP 8
+.B shape (\fPclass\fB Shape)
+Whether to use the Shape Extension, if available.
+If true, this is the same as the \fI-shape\fP command line argument;
+if false, this is the same as \fI-noshape.\fP
+.TP 8
+.B memory (\fPclass\fB Memory)
+This must be \fIhigh\fP, \fImedium\fP, or \fIlow\fP, the same as
+the \fI-memory\fP command-line option.
+.TP 8
+.B mode (\fPclass\fB Mode)
+Whether to display 12-hour or 24-hour time.
+If \fB12\fP, this is the same as the \fI-12\fP command line argument;
+if \fB24\fP, this is the same as \fI-24.\fP
+.TP 8
+.B font (\fPclass\fB Font)
+The same as the \fI-font\fP command line option: the font to melt.
+If this is the string \fBBUILTIN\fP, then the large builtin font is
+used; otherwise, it must be the name of a valid X font.
+.SH ENVIRONMENT
+.PP
+.TP 8
+.B DISPLAY
+to get the default host and display number.
+.TP 8
+.B XENVIRONMENT
+to get the name of a resource file that overrides the global resources
+stored in the RESOURCE_MANAGER property.
+.SH "SEE ALSO"
+X(1),
+xrdb(1),
+xlsfonts(1),
+xclock(1),
+dclock(1),
+oclock(1),
+tclock(1)
+.SH BUGS
+Other system load will sometimes cause the second-display to increment
+by more than one second at a time, in order to remain synchronized to 
+the current time.
+
+The \fI-memory\fP option is disgusting and shouldn't be necessary, but I'm
+not clever enough to eliminate it.  It has been said that hacking graphics
+in X is like finding \fIsqrt(pi)\fP with roman numerals.
+
+When using a small font (less than 48x56 or so) it's possible that shipping
+a bitmap to the server would be more efficient than sending a DrawSegments
+request (since the endpoints are specified using 16 bits each, when all that
+we really need is 6 or 7 bits.)
+
+Support for the Shared Memory Extension would be a good thing.
+
+There should be a switch to do the date in \fIdd\fB/\fImm\fB/\fIyy\fP
+or \fIyy\fB/\fImm\fB/\fIdd\fP format.  I want the day of the week in
+there somewhere, too.
+
+This should be hooked up to \fIxlock(1)\fP or something like it.
+
+Should double the size of the builtin font, for full-screen mode.
+
+The color cycling should be less predictable; it should vary saturation and
+intensity as well, and should be more careful that foreground and background
+contrast well.
+.SH COPYRIGHT
+Copyright 1991, Jamie Zawinski.  Permission to use, copy, modify, distribute,
+and sell this software and its documentation for any purpose is hereby granted
+without fee, provided that the above copyright notice appear in all copies and
+that both that copyright notice and this permission notice appear in supporting
+documentation.  No representations are made about the suitability of this
+software for any purpose.  It is provided "as is" without express or
+implied warranty.
+.SH AUTHOR
+Jamie Zawinski <jwz@lucid.com>, 18-sep-91.
+
+Please let me know if you find any bugs or make any improvements.
+
+Thanks to Ephraim Vishniac <ephraim@think.com> for explaining the format of
+the bitmap resources in the Macintosh version of this, so that I could snarf
+them for the \fI-builtin\fP option.
+
+And thanks to Steve Capps for the really great idea.

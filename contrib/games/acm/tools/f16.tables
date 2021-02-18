@@ -1,0 +1,50 @@
+
+/* This interpolation table was built by ibuild */
+
+static IEntry TF16_CnBeta_e[] = {
+	{	0.52354,	0.00596897,	-0.08125 },
+	{	0.78534,	0.0656513,	-0.112496 },
+	{	1.0472,	0.71007,	-0.618584 },
+	{	1.58,	-0.234609,	0.370682 },
+	};
+static ITable TF16_CnBeta = { 4, 0, TF16_CnBeta_e };
+
+/* This interpolation table was built by ibuild */
+
+static IEntry TF16_ClBeta_e[] = {
+	{	0.43633,	-0.00572961,	-0.0125 },
+	{	0.7854,	0.401066,	-0.189997 },
+	{	1.58,	-0.157312,	0.248553 },
+	{	3.142,	0.0800256,	-0.12644 },
+	};
+static ITable TF16_ClBeta = { 4, 0, TF16_ClBeta_e };
+
+/* This interpolation table was built by ibuild */
+
+static IEntry TF16_CDb_e[] = {
+	{	0.2,	0,	0.02 },
+	{	0.95,	-0.00666667,	0.0213333 },
+	{	1.05,	0.3,	-0.27 },
+	{	2,	-0.0157895,	0.061579 },
+	{	10,	0,	0.03 },
+	};
+static ITable TF16_CDb = { 5, 0, TF16_CDb_e };
+
+/* This interpolation table was built by ibuild */
+
+static IEntry TGeneric_Thrust_e[] = {
+	{	1.7,	0.294118,	1 },
+	{	2,	-2.2,	5.24 },
+	{	5,	-0.113333,	1.06667 },
+	};
+static ITable TGeneric_Thrust = { 3, 0, TGeneric_Thrust_e };
+
+/* This interpolation table was built by ibuild */
+
+static IEntry TGeneric_ABThrust_e[] = {
+	{	0.5,	0,	1 },
+	{	1,	0.42,	0.79 },
+	{	1.7,	0.7,	0.51 },
+	{	5,	-0.0181818,	1.73091 },
+	};
+static ITable TGeneric_ABThrust = { 4, 0, TGeneric_ABThrust_e };

@@ -1,0 +1,7 @@
+#define IHaveSubdirs
+#define PassCDebugFlags /* as nothing */
+
+        SUBDIRS = C japanese
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

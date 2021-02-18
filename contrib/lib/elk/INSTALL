@@ -1,0 +1,398 @@
+This file describes how to install the Elk Scheme interpreter and the
+extensions to the interpreter and how to port it to a machine or
+operating system not supported by this release.  You want to read the
+release notes (RELEASE) and the files ORIGIN and README in this
+directory before proceeding.
+
+
+
+SUPPORTED ENVIRONMENTS
+
+The machine/operating system combinations on which this software has
+been tested are called "supported environments".  While installing the
+software in a supported environment is simple (mainly a matter of
+typing "make"), additional efforts may be required to install it on a
+different machine or operating system.  This may be as simple as adding
+a line to a Makefile, or it may require you to write some lines of
+assembly code.
+
+Supported environments of this release are:
+
+   Sun-3 with SunOS 4.1, 4.0, or 3.X
+   Sun-4 with SunOS 4.1 or 4.0
+   Integrated Solutions 680x0 with 4.2BSD or 4.3BSD
+   Vax with 4.3BSD (or Ultrix)
+   Intel 80386 with UNIX System V Release 3
+   IBM RT with AOS
+   Sequent Symmetry
+   Sony News
+   DECStation 3100
+   HP 9000 series 300
+   HP 9000 series 800 (*)
+   NeXT with NeXT-OS/MACH
+
+(*) currently only the portable version runs in this environment
+
+It is expected that the software can be installed without modifications
+in environments closely resembling those listed above, e.g. XENIX or
+older versions of SunOS.
+
+If you want to install the software in an environment not supported by
+this release, you should first ask the author (me) whether it has
+already been ported by someone else since this release has been
+published.  This may save you the effort of applying the necessary
+modifications yourself, and it avoids duplication of work.
+
+Likewise, if you have ported the software to a new environment, you can
+help saving other people's work if you send me the modifications (my
+electronic mail address is in the file ORIGIN).  This helps me
+increasing the number of supported environments in the next release,
+and it enables me to act as a "clearing house" for official
+modifications to the software.
+
+If you want to port the software to a new environment, read the chapter
+"PORTING THE SOFTWARE" below, then come back to this point.
+
+
+
+INSTALLING THE SOFTWARE
+
+Before compiling the sources, you have to modify a few lines in the
+Makefile in this directory.  This Makefile invokes "make" on the
+individual Makefiles in the sub-directories to make the interpreter
+and the extensions.  Don't modify one of the Makefiles in the
+sub-directories or directly invoke "make" in a sub-directory, since
+the CFLAGS and other definitions are propagated from the top level
+Makefile to the "inferior" Makefiles.
+
+1) First insert the absolute pathname of the current directory
+   into the line beginning with TOP_DIR=.  This is usually the top
+   level directory of the distribution.  The Makefile appends /scm and
+   /lib to this pathname to obtain the directories from where Scheme
+   files and object files are loaded during runtime.  If you want to
+   move the Scheme and/or object files to a different directory (e.g.
+   /usr/local/lib/scm), you must set TOP_DIR and/or SCM_DIR and LIB_DIR
+   accordingly.
+
+   If your system only has an alloca() library function that uses
+   malloc/free (i.e. one that doesn't actually extend the stack),
+   and there is no alloca.s for your machine in the "src" directory,
+   and you have the GNU C-compiler (gcc), insert CC=gcc into the top
+   level Makefile (gcc has a built-in alloca).
+
+   (Note that on MIPS-based systems, certain versions of "gcc" can't
+   correctly compile files that make use of "varargs".  In this case,
+   you must compile the files src/error.c and src/print.c with "cc".)
+
+2) Insert a symbol indicating the type of processor into the line beginning
+   with MACHTYPE=.  MACHTYPE is used to determine which of the assembly
+   files in the src directory will be used; it is a filename suffix for
+   src/stack.s and src/alloca.s.
+
+   If there is no version of the assembly files for your machine and
+   if you can't or don't want to write one yourself, you can make the
+   "portable version" of Elk.  To do this, set MACHTYPE to "port" and
+   insert "#define PORTABLE" into src/config.h.
+
+   The portable version has the following restrictions:
+
+      o  it doesn't support re-entrant continuations (i.e. only continuations
+         that behave like Lisp's "catch" or setjmp/longjmp in C),
+
+      o  it may be slower than the "full version", as calls to alloca()
+	 are replaced by malloc/free.
+
+3) Decide which CFLAGS and LDFLAGS you want to use.  Remove the '#' in
+   front of the correct definitions for CFLAGS and LDFLAGS and comment
+   the lines out that have previously been in effect.  Note that under SunOS
+   -Bstatic has to be used to make sure that the interpreter is statically
+   linked.  When you want to use the GNU C-compiler, on some systems
+   it may be necessary to add -ftraditional in order to correctly compile
+   the include file <sys/ioctl.h>.
+
+4) Look into the file MACHINES in this directory for additional machine-
+   specific installation advice (especially if you are installing the
+   software on a MIPS-based machine).
+
+   If you don't have the GDBM package installed on your machine, edit
+   lib/Makefile and delete the lines with "gdbm".
+
+5) Type "make".  This makes the interpreter (in src) and all extensions
+   (lib, lib/xlib, lib/xt, lib/xaw and lib/xm).  If you don't want
+   to compile everything (e.g. when you don't have the X window system)
+   invoke "make" with a list of TARGETS, e.g. "make TARGETS=src" to
+   only make the core interpreter.
+
+   Never invoke "make" directly in one of the sub-directories, since in
+   this case the correct definitions for CFLAGS etc. will not be in effect.
+
+6) When the compilation has finished, the Scheme interpreter is in the
+   file src/scheme.  Invoke it and load some programs from the tst and
+   scm directories to see if it works.  If you have the X window
+   system try to load the demonstration programs in lib/xlib/examples
+   and lib/xt/examples.  If "dumping" is supported on your system,
+   try something like "(dump 'foo)", exit the interpreter, and then
+   try to execute "foo".
+   
+   If everything works fine you should make the interpreter available
+   to all users of your system by moving it to /usr/local (or
+   where-ever you install new executables).  Do not strip the
+   executable; the symbol table is required for dynamic loading
+   and "dumping".
+
+7) On systems that do not support dynamic loading (typically System V),
+   the extensions that you are going to use (e.g. the interface to the
+   Xlib) must be linked together with the interpreter statically, since
+   they cannot be loaded during runtime.  Since there is no rule in
+   src/Makefile to accomplish this, you should either add the names of
+   the object files (e.g. ../lib/xlib.o) to the rule for "scheme" or
+   link the object files by hand:
+
+      cd src
+      cc -o scheme *.o ../lib/xlib.o [other extensions] -lm
+
+   Then rename the interpreter to something different from "scheme"
+   (e.g. "xscheme").  This causes the interpreter to initialize the
+   extensions on startup (by reading its own symbol table and invoking
+   all initialization functions and C++ static constructors).
+   In general, this kind of initialization is performed if
+      
+      1)  INIT_OBJECTS is defined in src/config.h and
+      2)  the name of the interpreter is not equal to "scheme".
+
+
+
+PORTING THE SOFTWARE
+
+0) Requirements on the target environment:
+
+   The C language implementation must support alloca().  The semi-portable
+   alloca() based on malloc/free cannot be used; alloca() must actually
+   extend the stack.  You can find out whether your system's alloca() is
+   usable for the interpreter by extracting alloca.o from your C library
+   and look whether malloc/free occur in its name list:
+
+      ar x /usr/lib/libc.a alloca.o; nm alloca.o
+
+   If malloc and free don't show up, this alloca() can probably be used.
+
+   If for some reason your system or C compiler can't support alloca(),
+   you must use the "portable version" of the software; see 2) above.
+   In this case set MACHTYPE to "port" in the top level Makefile and
+   #define PORTABLE in src/config.h.
+
+   The C compiler must be able to accept long input lines (at least
+   2500 characters).
+
+   The current release of the software probably cannot be easily ported
+   to systems with less than 32 bits for the representation of pointers
+   and integers.  It has not yet been tested on systems with larger
+   representations; in this case it may be necessary to modify the
+   representation of Scheme objects (src/object.h).
+
+   The operating system should provide for blocking and re-enabling
+   signals for critical sections without the danger of signals getting
+   lost due to this blocking.
+
+1) If you are porting the software to a type of machine not mentioned
+   in the list of supported environments, and you need to install the
+   full version (not the portable version), you must provide a working
+   version of the assembly file src/stack.s.  The file doc/stack.txt
+   contains instructions how to write a new stack.s; the directory
+   "stk" holds two simple test programs that should be used to make
+   sure that the new stack.s is working correctly.
+
+   Then move the new stack.s to src/stack.s.MACH, where MACH identifies
+   the type of the target system and insert MACH into the line beginning
+   with MACHTYPE= in the top level Makefile.
+
+   If you have to use your own implementation of alloca(), move it to
+   src/alloca.s.MACH.  Otherwise create an empty src/alloca.s.MACH.
+
+2) Find a predefined C preprocessor symbol that identifies your target
+   environment (such as is68k, vax, i386, etc.).  You can try to obtain
+   a list of predefined preprocessor symbols by calling something like
+   "strings /lib/cpp".  If you can't find such a symbol, invent one and
+   define it in the top level Makefile's CFLAGS by means of the -D option.
+
+   Put the relevant #define statements for the target environment into the
+   configuration file src/config.h; enclose the group of definitions by
+      
+      #ifdef XYZ
+       ...
+      #endif
+
+   where XYZ is the symbol identifying the type of environment.
+   You may want to look at the definitions for the already supported
+   environments in the same file.  One or more of the following
+   symbols can be #defined:
+
+
+   PORTABLE
+
+   This symbol must be defined if the portable version of the interpreter
+   is installed (see above).
+
+
+   POINTER_CONSTANT_HIGH_BITS
+
+   If addresses in the data segment on the machine have constant high
+   order bits (e.g. when the data segment always starts at, say,
+   0x10000000), define POINTER_CONSTANT_HIGH_BITS accordingly.  If this
+   constant is defined, its value is or'ed onto a pointer value when it
+   is extracted from a Scheme object.
+
+   ALIGN8
+
+   Some systems require heap addresses to be aligned to 8-byte
+   boundaries.  If ALIGN8 is not defined, addresses will be aligned
+   to 4-byte boundaries.
+
+   VFORK
+
+   indicates that your system has the vfork() library function.
+   fork() will be used if VFORK is undefined.
+
+   VFPRINTF
+
+   indicates that your system has the vprintf() library function.
+   If VPRINTF is undefined, vprintf() will be simulated by means of
+   _doprnt().  If your system provides neither vprintf() nor _doprnt(),
+   you will have to modify the relevant parts of src/print.c.
+
+   TIME_H
+
+   should point to the location of the system include file time.h.
+   This usually is either <time.h> or <sys/time.h>.
+
+   DIRENT
+
+   indicates that the readdir() library function returns a pointer to a
+   "struct dirent" and requires the include file <dirent.h>.  If DIRENT
+   is undefined, readdir() will be assumed to return a pointer to a
+   "struct direct" and <sys/dir.h> will be included.
+
+   TERMIO
+
+   indicates that your system supports the "termio" terminal interface
+   and ioctl commands.  If TERMIO is undefined, the BSD-style interface
+   will be assumed instead.
+
+   UNISTD
+
+   Define UNISTD to indicate that usage of access() requires the
+   file <unistd.h> to be included.  If UNISTD is undefined, it will
+   be assumed that the relevant constants are defined in <sys/file.h>.
+
+   USE_SIGNAL
+
+   If this symbol is defined, signal() will be used instead of sigblock()
+   and sigsetmask() to block and re-enable signals (typically under System V).
+
+   FORGETS_SIGNAL_HANDLER
+
+   Define this symbol if the handler for a signal must be re-installed
+   each time the signal occurs (typically under System V).
+
+   STACK_SIZE
+
+   If the target system does not provide the BSD-style getrlimit()
+   function to obtain the maximum size of the process's stack segment,
+   STACK_SIZE can be defined to hold the maximum stack size as a constant
+   (a reasonable value for STACK_SIZE is 512 KBytes).
+   However, if your system provides a different function to obtain the
+   maximum stack size, you should modify the function Get_Stack_Limit()
+   in src/main.c accordingly.
+
+   MAX_OFILES
+   SYSCONF
+
+   If your system does not provide the BSD-style getdtablesize()
+   function, either MAX_OFILES should indicate the maximum number
+   of open files for a process, or define SYSCONF to indicate that
+   sysconf(_SC_OPEN_MAX) can be used to determine the maximum number
+   of open files.
+
+   FCHMOD_BROKEN
+
+   If there is no fchmod() library function on your system, define
+   FCHMOD_BROKEN.  In this case chmod() will be used instead.
+
+   Dynamic loading:
+
+      CAN_LOAD_OBJ
+      COFF
+      ECOFF
+
+      Define CAN_LOAD_OBJ if the target system enables dynamic loading
+      of object files.
+      
+      This requires that the system linker (/bin/ld) supports the -A
+      and -T (-R under HP-UX) options for incremental linking and that
+      the data space in the interpreter is executable, i.e. that it is
+      possible to derive a function pointer to an object that has been
+      loaded into data space.
+
+      In addition, it requires that your system supports either the
+      BSD-style a.out format, COFF (define COFF in this case), MIPS's
+      version of COFF (define ECOFF in this case), or the HP-UX a.out
+      format.
+
+      XFLAG_BROKEN
+
+      In addition to CAN_LOAD_OBJ you should define XFLAG_BROKEN if
+      the system linker is broken so that the -x option cannot be
+      used together with -A.  This is true for certain releases
+      of SunOS (among others).
+
+      INIT_OBJECTS
+
+      If dynamic loading is not supported, you should define the symbol
+      INIT_OBJECTS to instruct the interpreter to initialize statically
+      linked extensions on startup.  See also point 7) of INSTALLING
+      THE SOFTWARE above.
+
+   Dumping:
+
+      CAN_DUMP
+      COFF
+      ECOFF
+      PAGESIZE
+
+      Define the symbol CAN_DUMP if the target environment allows
+      to create an executable file from a running process.
+
+      Dumping requires that the a.out file format supported by the
+      system is either the BSD-style a.out format, the COFF format
+      (define COFF in this case), MIPS's version of COFF (define ECOFF
+      in this case), or the HP9000s300 a.out format.
+      
+      If COFF is defined, it will be assumed that the "ld" library is
+      present on your system (a collection of functions that provide
+      access to the parts of an object file), and PAGESIZE must hold
+      the system's page size (measured in bytes).  You must probably
+      add -lld to the CFLAGS in the top level Makefile to have the
+      linker search the "ld" library.
+
+      SEGMENT_SIZE
+      FILE_TEXT_START
+      MEM_TEXT_START
+      TEXT_LENGTH_ADJ
+
+      If neither COFF nor ECOFF are undefined, the symbols SEGMENT_SIZE,
+      FILE_TEXT_START, MEM_TEXT_START, and TEXT_LENGTH_ADJ must be defined
+      in addition to CAN_DUMP.  SEGMENT_SIZE is the segment size of the
+      system's memory management unit, i.e. the number to a multiple of
+      which the size of an a.out segment (e.g. .text) is rounded up;
+      FILE_TEXT_START is the file offset at which the text segment
+      starts in an a.out file; MEM_TEXT_START is the starting address
+      of the text segment in memory; TEXT_LENGTH_ADJ must be set to
+      "sizeof (struct exec)" if the length of the text segment stored
+      in the a.out header includes the a.out header itself.
+
+      The COFF support and ECOFF support use their own set of symbols;
+      see src/config.h.
+
+3) If everything is working, send me the "diffs" and especially the
+   new stack.s so that I'm able to incorporate your modifications
+   into the next release of the software.

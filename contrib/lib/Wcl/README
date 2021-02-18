@@ -1,0 +1,133 @@
+
+Widget Creation Library Version 1.06 Distribution
+-------------------------------------------------
+Martin Brunecky, Auto-trol Technology Corporation, Denver, CO
+marbru@auto-trol.com (303)252-2499
+*******************************************************************************
+* Copyright 1990,91 by Auto-trol Technology Corporation, Denver, Colorado.
+*
+*                        All Rights Reserved
+*
+* Permission to use, copy, modify, and distribute this software and its
+* documentation for any purpose and without fee is hereby granted, provided
+* that the above copyright notice appears on all copies and that both the
+* copyright and this permission notice appear in supporting documentation
+* and that the name of Auto-trol not be used in advertising or publicity
+* pertaining to distribution of the software without specific, prior written
+* permission.
+*
+* Auto-trol disclaims all warranties with regard to this software, including
+* all implied warranties of merchantability and fitness, in no event shall
+* Auto-trol be liable for any special, indirect or consequential damages or
+* any damages whatsoever resulting from loss of use, data or profits, whether
+* in an action of contract, negligence or other tortious action, arising out
+* of or in connection with the use or performance of this software.
+*******************************************************************************
+
+Widget Creation Library is a simple package allowing to define the
+X toolkit widget hierarchies and their binding to the application
+using X resource files. Several convenience callbacks and action
+procedures are provided to support the basic widget tree dynamics.
+
+Widget Creation Library (Wcl) 1.06 is a re-packaged version of David
+Smyth's Wcl 1.05. The major functionality change is the addition of
+template instancing and support for OLIT and Cornell University
+widget sets. Minor changes are due to several bug fixes.
+For details, please refer to RELEASE.NOTES in the Doc/ subdirectory.
+
+The distribution contains files which make up the Widget Creation
+Library, Ari, Mri, Ori and Cri Resource Interpreters (for Athena,
+Motif, OLIT and Cornell widget sets), several versions of Table
+widget, test programs for each widget set and several demos.
+The distribution can be built on X11R5, X11R4 and OSF/Motif 1.0 
+systems. Wcl and Motif support can be built on VMS, but no scripts
+are provided with this distribution.
+
+
+README Files and Documentation
+------------------------------
+The Doc directory provides Postscript and pure text documentation. 
+I hope you will find the comments in the source files useful. 
+Also, several example resource files are provided with extensive 
+comments. Man pages for the installed programs (Ari and Mri) are 
+provided.
+
+
+Building The Distribution using Imake
+-------------------------------------
+You will probably need to edit the Wc.tmpl file in this directory.
+Comments in the file tell you what to do.  After editing the Wc.tmpl,
+you can build the distribution very simply.
+
+    % cd Wcl_top_level_directory
+    % xmkmf 
+    % make World  >& make.World
+
+Note: `make depend' may not work, and is completely unecessary for
+this release.
+
+Building The Distribution using previous X11 releases
+-----------------------------------------------------
+The distribution is set up for the MIT X11 release 5. However, the Wcl
+code is designed and has been tested to build using X11 R4 as well as 
+X11 R3 flavor of Xt Intrinsic provided by OSF with Motif 1.0.x. The
+distribution includes additional files for pre-R5 and pre-R4 environment.
+If you plan to use instancing with the pre-R5 X release, please pay 
+attention to RELEASE.NOTES
+
+
+Building The Distribution without Imake
+---------------------------------------
+If you do not have the MIT X11 distribution, you should be able to build
+Wcl simply following your vendor's recomendations for building X/Xt
+applications. 
+Wc (Wcl core) only requires X (Xlib) and Xt (X toolkit Intrinsics).
+Xp,  Ari and DemosAthena require Wc, Xp  and Athena (Xaw) widget set.
+Xmp, Mri and DemosMotif  require Wc, Xmp and Motif  (Xm) widget set.
+Xop, Ori and DemosOlit   require Open Windows 3.0 (OLIT 2.5).
+
+
+Testing The Distribution
+------------------------
+I have included a simple test csh script which executes all of the
+example programs.  After you build, the test program will execute
+all of the executable targets it finds.  Just do the following:
+
+    % test
+
+
+Installing the Distribution
+---------------------------
+The Imakefiles generate an install target which causes the libraries to
+be installed, and the applications re-linked on machines which support
+dynamic linking.  Dynamically linked applications must be re-linked
+during installation so the applications reference the installed
+libraries, rather than the ones in the build tree. 
+Note: The DemoAthena and DemoMotif programs are not installed.
+
+    % make install
+    % make install.man
+
+To test the installation, you must direct the test script to look for
+files in your app-defaults location, for example:
+
+    % test /usr/lib/X11/app-defaults/
+
+Note that trailing "/" is NOT, repeat NOT optional.
+
+
+Acknowledgements
+----------------
+David Smythe, formely of JPL, is now working in Germany. Due to problems
+with his network connection, his contributions are not included in this
+release; however, the next releae (Wcl 2.0 ?) will be a merge of both
+efforts.
+
+Kim Gillies (gilliges@noa.edu) provided the OLIT and Cornell University
+widget set support.
+
+Ron Newman (rnewman@bbn.com) provided several bug fixes and suggestions
+for further improvements.
+
+Several other contributed by observations and bug-reports. 
+

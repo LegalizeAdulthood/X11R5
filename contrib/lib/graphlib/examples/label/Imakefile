@@ -1,0 +1,12 @@
+#include <GraphLib.tmpl>
+INCLUDES = -I$(TOP)
+DEPLIBS = GraphLibClientDepLibs
+LOCAL_LIBRARIES = GraphLibClientLibs
+
+SRCS = label.c
+OBJS = label.o
+
+AllTarget(label)
+SingleProgramTarget(label,label.o,$(LOCAL_LIBRARIES), /**/)
+DependTarget()
+

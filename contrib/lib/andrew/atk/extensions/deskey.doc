@@ -1,0 +1,54 @@
+\begindata{text,268843912}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Deskey
+
+}
+This file is intended to contain the programmer's guide to deskey -- the 
+describe-key package.  There are no short-term plans for completing this 
+document.
+
+
+The proctable entry 'deskey-describe-key' can be bound to a key in an .xxxinit 
+file or can be called from Ness as deskey_describe_key().  It prompts for a 
+key sequence and responds with the name of the proctable entry that will be 
+called.  The sequence can be interrupted with control-G.
+
+
+\section{Quick reference list for }deskey
+
+
+
+\fixedtext{struct proctable_Entry *\bold{deskey_}DescribeKey 
+}\fixedindent{(char *\paramname{keys}, long *\paramname{pRock});} 
+
+\fixedtext{boolean \bold{deskey_}InitializeClass }\fixedindent{();} 
+
+\enddata{text,268843912}

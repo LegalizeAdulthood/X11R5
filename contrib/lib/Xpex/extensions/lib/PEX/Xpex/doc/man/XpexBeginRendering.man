@@ -1,0 +1,85 @@
+.\" $Header: XpexBeginRendering.man,v 2.4 91/09/11 16:03:15 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexBeginRendering 3PEX "$Revision: 2.4 $" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexBeginRendering, 
+XpexEndRendering, 
+XpexBeginStructure, 
+XpexEndStructure \- Client-side structure support traversal functions
+.SH "Synopsis"
+.nf
+void XpexBeginRendering(dpy, rdr_id, drawable_id)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexRenderer \fIrdr_id\fP;
+.br
+	Drawable \fIdrawable_id\fP;
+.sp
+void XpexEndRendering(dpy, rdr_id, flush_flag)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexRenderer \fIrdr_id\fP;
+.br
+	Bool \fIflush_flag\fP;
+.sp
+void XpexBeginStructure(dpy, rdr_id, s_id)
+.br
+	Display  *\fIdpy\fP;
+.br
+	XpexRenderer \fIrdr_id\fP;
+.br
+	unsigned long \fIs_id\fP;
+.sp
+void XpexEndStructure(dpy, rdr_id)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexRenderer \fIrdr_id\fP;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i 
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIrdr_id\fP 1i 
+Specifies the renderer.
+.IP \fIdrawable_id\fP 1i 
+Specifies the drawable.
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 6.4.
+.SH "Structures"
+None
+.SH "Errors"
+BadRenderer, 
+BadDrawable, 
+BadMatch, 
+BadAlloc, 
+BadRendererState.
+.SH "Related Commands" 
+To be added

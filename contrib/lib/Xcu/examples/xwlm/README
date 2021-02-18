@@ -1,0 +1,33 @@
+			 "101" Ways to Use Wlm
+			To Set Client Variables
+
+This directory contains a series of example programs that illustrate 
+how to use the Wlm public functions in a client program.
+
+The examples are not automatically made during the grand make, because
+you may not want all these client programs sitting around gobbling up
+your disk space.  They can each be made explicitly (ex1, ex2, ex3, and ex4).
+
+Each example consists of a header and a trailer include file and
+the particular code being illustrated.
+
+ex1.c / ex1.wl : How to register a callback function to set client values.
+ex2.c / ex2.wl : How to set a client variable to a client-specific value.
+ex3.c / ex3.wl : How to set a client variable to a widget-specific value.
+
+Each of these examples operates on the client variable "x", initializing
+it to zero, and then setting it to 1 or 2, depending on the widget which
+is clicked.  Which method is better "depends".  I use all three methods,
+depending on the circumstances.
+
+ex4.c / ex4.wl : How to set a client variable to a widget-specific value,
+		 The difference here is that x is assumed to be unitialized
+		 by the client, and the client finds x's initial value by
+		 sampling Wlm.
+
+Default for Xcu widgets is picture frames instead of shadows.  If you prefer
+shadows, edit the file "defaults.wl" so that the shadow line is
+"True" instead of "False".
+
+Each example is run as follows: "exN exN", where N is 1, 2, 3, or 4.
+

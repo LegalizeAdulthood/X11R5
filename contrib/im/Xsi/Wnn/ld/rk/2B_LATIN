@@ -1,0 +1,103 @@
+;
+; $Id: 2B_LATIN,v 1.1 1991/09/09 22:43:23 ohm Exp $
+;
+\NBSP	(send)'\xa0'		; NO-BREAK SPACE
+\!	(send)'\xa1'		; INVERTED EXCLAMATION MARK
+\cen	(send)'\xa2'		; CENT SIGN
+\pou	(send)'\xa3'		; POUND SIGN
+\cur	(send)'\xa4'		; CURRENCY SIGN
+\yen	(send)'\xa5'		; YEN SIGN
+\|	(send)'\xa6'		; BROKEN BAR
+\sec	(send)'\xa7'   		; PARAGRAPH SIGN, SECTION SIGN
+\'\"'	(send)'\xa8'		; DIAERESIS
+\C	(send)'\xa9'		; COPYRIGHT SIGN
+\a	(send)'\xaa'		; FEMININE ORDINAL INDICATOR
+\<<	(send)'\xab'		; LEFT AMGLE QUOTATION MARK
+\not	(send)'\xac'		; NOT SIGN
+\shy	(send)'\xad'		; SOFT HYPHEN
+\R	(send)'\xae'		; REGISTED TRADE MARK SIGN
+\mac	(send)'\xaf'		; MACRON
+
+\deg	(send)'\xb0'		; RING ABOVE, DEGREE SIGN
+\+-	(send)'\xb1'		; PLUS-MINUS SIGN
+\2	(send)'\xb2'		; SUPERSCRIPT TWO
+\3	(send)'\xb3'		; SUPERSCRIPT THREE
+\'\''	(send)'\xb4'		; ACUTE ACCENT
+\u	(send)'\xb5'		; MICRO SIGN
+\P	(send)'\xb6'		; PILCROW SIGN
+\.	(send)'\xb7'		; MIDDLE DOT
+\S	(send)'\xb8'		; CEDILLA
+\1	(send)'\xb9'		; SUPERSCRIPT ONE
+\o	(send)'\xba'		; MASCULINE ORDINAL INDICATOR
+\>>	(send)'\xbb'		; RIGHT ANGLE OQOTATION MARK
+\1/4	(send)'\xbc'		; VULGAR FRACTION ONE QUARTER
+\1/2	(send)'\xbd'		; VULGAR FRACTION ONE HALF
+\3/4	(send)'\xbe'		; VULGAR FRACTION THREE QUARTERS
+\?	(send)'\xbf'		; INVERTED QUESTION MARK
+
+`A	(send)'\xc0'		; CAPITAL LETTER A WITH GRAVE ACCENT
+'\''A	(send)'\xc1'		; CAPITAL LETTER A WITH ACUTE ACCENT
+^A	(send)'\xc2'		; CAPITAL LETTER A WITH CIRCUMFLEX ACCENT
+~A	(send)'\xc3'		; CAPITAL LETTER A WITH TILDE
+'"'A	(send)'\xc4'		; CAPITAL LETTER A WITH DIAERESIS
+\oA	(send)'\xc5'		; CAPITAL LETTER A WITH RING ABOVE
+\AE	(send)'\xc6'		; CAPITAL DIPHTHONG A WITH E
+\SC	(send)'\xc7'		; CAPITAL LETTER C WITH CEDILLA
+`E	(send)'\xc8'		; CAPITAL LETTER E WITH GRAVE ACCENT
+'\''E	(send)'\xc9'		; CAPITAL LETTER E WITH ACUTE ACCENT
+^E	(send)'\xca'		; CAPITAL LETTER E WITH CIRCUMFLEX ACCENT
+'"'E	(send)'\xcb'		; CAPITAL LETTER E WITH DIAERESIS
+`I	(send)'\xcc'		; CAPITAL LETTER I WITH GRAVE ACCENT
+'\''I	(send)'\xcd'		; CAPITAL LETTER I WITH ACUTE ACCENT
+^I	(send)'\xce'		; CAPITAL LETTER I WITH CIRCUMFLEX ACCENT
+'"'I	(send)'\xcf'   		; CAPITAL LETTER I WITH DIAERESIS
+\D	(send)'\xd0'		; CAPITAL ICELANDIC LETTER ETH
+~N	(send)'\xd1'		; CAPITAL LETTER N WITH TILDE
+`O	(send)'\xd2'		; CAPITAL LETTER O WITH GRAVE ACCENT
+'\''O	(send)'\xd3'		; CAPITAL LETTER O WITH ACUTE ACCENT
+^O	(send)'\xd4'		; CAPITAL LETTER O WITH CIRCUMFLEX ACCENT
+~O	(send)'\xd5'		; CAPITAL LETTER O WITH TILDE
+'"'O	(send)'\xd6'		; CAPITAL LETTER O WITH DIAERESIS
+\X	(send)'\xd7'		; MULTIPLICATION SIGN
+\O	(send)'\xd8'		; CAPITAL LETTER O WITH OBLIQUE STROKE
+`U	(send)'\xd9'		; CAPITAL LETTER U WITH GRAVE ACCENT
+'\''U	(send)'\xda'		; CAPITAL LETTER U WITH ACUTE ACCENT
+^U	(send)'\xdb'		; CAPITAL LETTER U WITH CIRCUMFLEX ACCENT
+'"'U	(send)'\xdc'		; CAPITAL LETTER U WITH DIAERESIS
+'\''Y	(send)'\xdd'		; CAPITAL LETTER Y WITH ACUTE ACCENT
+\P	(send)'\xde'		; CAPITAL ICELANDIC LETTER THORN
+\SS	(send)'\xdf'		; SMALL GERMAN LETTER SHARP s
+
+`a	(send)'\xe0'		; SMALL LETTER a WITH GRAVE ACCENT
+'\''a	(send)'\xe1'		; SMALL LETTER a WITH ACUTE ACCENT
+^a	(send)'\xe2'		; SMALL LETTER a WITH CIRCUMFLEX ACCENT
+~a	(send)'\xe3'		; SMALL LETTER a WITH TILDE
+'\"'a	(send)'\xe4'		; SMALL LETTER a WITH DIAERESIS
+\oa	(send)'\xe5'		; SMALL LETTER a WITH RING_ABOVE
+\ae	(send)'\xe6'		; SMALL DIPHTHONG a WITH e
+\sc	(send)'\xe7'		; SMALL LETTER c WITH CEDILLA
+`e	(send)'\xe8'		; SMALL LETTER e WITH GRAVE ACCENT
+'\''e	(send)'\xe9'		; SMALL LETTER e WITH ACUTE ACCENT
+^e	(send)'\xea'		; SMALL LETTER e WITH CIRCUMFLEX ACCENT
+'\"'e	(send)'\xeb'		; SMALL LETTER e WITH DIAERESIS
+`i	(send)'\xec'		; SMALL LETTER i WITH GRAVE ACCENT
+'\''i	(send)'\xed'		; SMALL LETTER i WITH ACUTE ACCENT
+^i	(send)'\xee'		; SMALL LETTER i WITH CIRCUMFLEX ACCENT
+'\"'i	(send)'\xef'		; SMALL LETTER i WITH DIAERESIS
+
+\d	(send)'\xf0'		; SMALL ICELANDIC LETTER ETH
+~n	(send)'\xf1'		; SMALL LETTER n WITH TILDE
+`o	(send)'\xf2'		; SMALL LETTER o WITH GRAVE ACCENT
+'\''o	(send)'\xf3'		; SMALL LETTER o WITH ACUTE ACCENT
+^o	(send)'\xf4'		; SMALL LETTER o WITH CIRCUMFLEX ACCENT
+~o	(send)'\xf5'		; SMALL LETTER o WITH TILDE
+'\"'o	(send)'\xf6'		; SMALL LETTER o WITH DIAERESIS
+\/	(send)'\xf7'		; DIVISION SIGN
+\o	(send)'\xf8'		; SMALL LETTER o WITH 
+`u	(send)'\xf9'		; SMALL LETTER u WITH GRAVE ACCENT
+'\''u	(send)'\xfa'		; SMALL LETTER u WITH ACUTE ACCENT
+^u	(send)'\xfb'		; SMALL LETTER u WITH CIRCUMFLEX ACCENT
+'\"'u	(send)'\xfc'		; SMALL LETTER u WITH DIAERESIS
+'\''y	(send)'\xfd'		; SMALL LETTER y WITH ACUTE ACCENT
+;\p	(send)'\xfe'		; SMALL ICELANDIC LETTER THORN
+'\"'y	(send)'\xff'		; SMALL LETTER y WITH DIAERESIS

@@ -1,0 +1,22 @@
+XMailbox.mailbox:			./FakeMailBox
+XMailbox.wcResources:			./XMailbox.res
+
+XMailbox.hideNoMail:			True
+XMailbox.flash:				True
+XMailbox.flashTimeout:			100
+XMailbox.flashNumber:			4
+XMailbox.beep:				False
+XMailbox.timeout:			15
+XMailbox.nomailboxWarningMessage: 	False
+
+XMailbox*xmailbox.geometry:		365x86+720+0
+XMailbox*xmailbox*fontList:		*times-bold-i-*--12-*
+XMailbox*xmailbox*background:		Maroon
+XMailbox*xmailbox*foreground:		SpringGreen
+XMailbox*xmailbox*quit*foreground:	Yellow
+XMailbox*xmailbox*hide*foreground:	Green
+XMailbox*xmailbox*rescan*foreground:	Cyan
+XMailbox*xmailbox*clear*foreground:	MidnightBlue
+
+!XMailbox*xmailbox.includeSubject:	False
+!XMailbox*xmailbox.fromCmd:		mailfrom

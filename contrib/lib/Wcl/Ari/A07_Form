@@ -1,0 +1,25 @@
+Ari.wcChildren:		form
+Ari.title:		A07_Form
+
+*font:			*times-bold-i-*-140-*
+
+*form.wcClassName:	Form
+*form.wcChildren:	label, one, two, three, go
+
+*label.wcClassName:	Label
+*label.label:		Form with Buttons
+
+*one.wcClassName:	Command
+*one.fromVert:		*label
+
+*two.wcClassName:	Command
+*two.fromHoriz:		*label
+
+*three.wcClassName:	Command
+*three.fromHoriz:	*one
+*three.fromVert:	*label
+
+*go.wcClassName:	Command
+*go.fromHoriz:		*three
+*go.fromVert:		*two
+*go.callback:		WcExitCB

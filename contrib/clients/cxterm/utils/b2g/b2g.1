@@ -1,0 +1,32 @@
+.TH B2G 1 "21 December 1990" "Public Domain" "Chinese Utility"
+.SH NAME
+b2g \- conversion between the Chinese Big5 and 8-bit GB encodings
+.SH SYNOPSIS
+.B b2g
+[-\fIbg\fR] [filename ...]
+.SH DESCRIPTION
+The \fIb2g\fP program converts between the Chinese Big5 and 8-bit GB
+encodings.
+.SH OPTIONS
+\fB\-b\fR Convert from 8-bit GB to Big5.
+.sp
+\fB\-g\fR Convert from Big5 to 8-bit GB (default).
+.SH ENCODINGS
+\fB8-bit GB\fR (8-bit GuoBiao) is an 8-bit encoding.  Legal values are
+0xa1a1 through 0xfefe.
+.sp
+\fBBig5\fR is a mixed 7 and 8-bit encoding.  Legal
+values are 0xa140 through 0xf9fe.
+.SH COPYRIGHT
+See b2g.c.
+.SH AUTHOR
+.nf
+Mark Leisher
+Computing Research Lab
+New Mexico State University
+Las Cruces, NM 88003
+Internet: mleisher@nmsu.edu
+Bitnet  : mleisher@nmsu.bitnet
+.fi
+.sp
+Please send bug reports to one of the email addresses above.

@@ -1,0 +1,58 @@
+#include "../../config.sh"
+
+                 SORT = sort -d
+            IROHAROOT = ../..
+               CMDDIR = $(IROHAROOT)/cmd
+               FORCPP = $(CMDDIR)/forcpp/forcpp
+               PRECPP = $(FORCPP) -7
+              POSTCPP = $(FORCPP) -8
+              FORSORT = $(BINDIR)/forsort/forsort
+              PRESORT = $(FORSORT) -7
+             POSTSORT = $(FORSORT) -8
+               CRRDIC = $(CMDDIR)/crrdic/crrdic
+
+       ROMAJI_DIC_DEF = -DSHIFT
+
+               DICDIR = $(LIBDIR)/dic
+            SAMPLEDIR = $(LIBDIR)/sample
+         SAMPLESRCDIR = $(LIBDIR)/sample/src
+
+    ROM_KAN_TABLE_SRC = default.rdef \
+			jdaemon.rdef \
+			just.rdef \
+			kana.rdef \
+			newjis.rdef \
+			romaji.rdef
+
+    ROM_KAN_TABLE_OBJ = default.rdic \
+			jdaemon.rdic \
+			just.rdic \
+			kana.rdic \
+			newjis.rdic
+
+AllTarget($(ROM_KAN_TABLE_OBJ))
+
+.SUFFIXES: .rdef .rdic
+
+.rdef.rdic:
+	$(IROHAROOT)/cmd/forcpp/forcpp -7 < $< | $(CPP) $(ROMAJI_DIC_DEF) | $(IROHAROOT)/cmd/forcpp/forcpp -8 | $(IROHAROOT)/cmd/crrdic/crrdic > `basename $< '.rdef'`.rdic
+
+MakeDirectories(install,$(DICDIR))
+MakeDirectories(install,$(SAMPLESRCDIR))
+InstallNonExec(default.rdic,$(DICDIR))
+InstallNonExec(jdaemon.rdic,$(DICDIR))
+InstallNonExec(just.rdic,$(DICDIR))
+InstallNonExec(kana.rdic,$(DICDIR))
+InstallNonExec(newjis.rdic,$(DICDIR))
+
+InstallNonExec(default.rdef,$(SAMPLESRCDIR))
+InstallNonExec(jdaemon.rdef,$(SAMPLESRCDIR))
+InstallNonExec(just.rdef,$(SAMPLESRCDIR))
+InstallNonExec(kana.rdef,$(SAMPLESRCDIR))
+InstallNonExec(newjis.rdef,$(SAMPLESRCDIR))
+InstallNonExec(romaji.rdef,$(SAMPLESRCDIR))
+
+clean::
+	$(RM) $(ROM_KAN_TABLE_OBJ)
+
+DependDependency()

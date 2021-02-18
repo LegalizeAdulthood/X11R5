@@ -1,0 +1,29 @@
+.ds tk XUI Toolkit
+.ds xT Guide to the XUI Toolkit Intrinsics
+.ds xI Intrinsics
+.ds xW Guide to the XUI Toolkit
+.ds xL Guide to the Xlib Library
+.ds xC Inter-Client Communication Conventions Manual
+.ds Rn 3
+.ds Vn 2.2
+.TH XGetIdleTime 3X11
+.SH Name
+XGetIdleTime \- Get X Server Idle Time
+.SH Syntax
+Status XGetIdleTime\^(\^\fIdisplay\fP, \fIidletime_return\fP\^)
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      Time *\fIidletime_return\fP\^;
+.SH Arguments
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIidletime_return\fP 1i
+Returns the time since last input event.
+.SH Description
+The
+.PN XGetIdleTime
+function gets the time since last input event in milliseconds.
+If it succeeds, it returns nonzero.
+.SH See Also
+\fI\*(xL\fP

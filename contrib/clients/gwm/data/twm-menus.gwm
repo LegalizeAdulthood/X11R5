@@ -1,0 +1,191 @@
+; DEFAULT TWM MENUS (hacked up from def-menus.gwm)
+; ================================================
+
+; This file is derived from the def-menus.gwm distributed with gwm 1.4.1.30
+; The original file was written by Colas Nahaboo, BULL Research, France.
+;
+; Modifications  [Dec 1989] for twm emulation by Arup Mukherjee 
+; (arup@grasp.cis.upenn.edu)
+;
+; Within the restrictions of the GWM copyright, you may do whatever you
+; want with this code. It would be nice, however, if my name were to remain 
+; in it somewhere.
+
+; create menus with lists of xterms and xloads
+; ============================================
+
+(defname-in-screen-to ()  xterm-pop xload-pop emacs-pop this-display-arg)
+
+(df menu-app executable-args
+    (eval (+(list ! (# 0 executable-args))
+	     (list "-display" this-display-arg)
+	     (sublist 1 (length executable-args) executable-args)))
+)
+
+(for screen (list-of-screens)
+     (: this-display-arg            ; useful for -display option to clients
+	(+ (match "\\(.*:.\\)" display-name 1) "." (itoa screen)))
+
+     (if (= this-display-arg (+ "unix:0." (itoa screen)))
+	 (: this-display-arg (+ hostname ":0." (itoa screen))))
+
+     (if (not (boundp 'root-pop)) 
+	 (: root-pop
+	    (twm-menu-make
+	     (twm-pop-label-make "Root Options")
+	     (twm-item-make "Logins..." (twm-pop-menu xterm-pop))
+	     (twm-item-make "Xloads..." (twm-pop-menu xload-pop))
+	     (twm-item-make "EMACSen.." (twm-pop-menu emacs-pop))
+	     (twm-item-make "refresh" (refresh))
+	     (twm-item-make "restart" (restart))
+	     (twm-item-make "reload" (load "twm"))
+	     (twm-item-make "Xloads..." (twm-pop-menu xload-pop))
+	     (twm-item-make "Exec cut" 
+			    (execute-string (+ "(? " cut-buffer ")")))
+	     (twm-item-make "End" (end))
+	     )))
+    
+     (if (not (boundp 'window-pop)) 
+	 (: window-pop 
+	    (twm-menu-make
+	     (twm-pop-label-make "Window Options")
+	     (twm-item-make "iconify" (iconify-window))
+	     (twm-item-make "resize" (resize-window))
+	     (twm-item-make "move" (move-window))
+	     (twm-item-make "raise" (raise-window))
+	     (twm-item-make "lower" (lower-window))
+	     (twm-item-make "refresh" (refresh window))
+	     (twm-item-make "re-load&dec" 
+			(progn (with (window window) (load "twm"))
+			       (re-decorate-window)))
+	     (twm-item-make "redecorate" (re-decorate-window))
+	     (twm-item-make "Exec cut" 
+			    (execute-string (+ "(? " cut-buffer ")")))
+	     (twm-item-make "client info" 
+			(? "Window: " (window-client-class) "."
+			   (window-client-name) "."
+			   (window-name) "@"
+			   (window-machine-name) "\n"))
+	     (twm-item-make "Geometry" 
+			(progn (: WIN window)(? "Geometry:" window-width "x"
+						window-height "+"
+						window-x "+"
+						window-y "\n")))
+	     (twm-item-make "kill" (kill-window))
+	     )))
+
+     (if (not (boundp 'applications-pop)) 
+	 (: applications-pop
+	    (twm-menu-make
+	     (twm-pop-label-make "Applications")
+	     (twm-item-make "xterm"     (menu-app "/usr/bin/X11/xterm"))
+	     (twm-item-make "xclock"    (menu-app "/usr/bin/X11/xclock"))
+	     (twm-item-make "xload"     (menu-app "/usr/bin/X11/xload"))
+	     (twm-item-make "xgone"     (menu-app "xgone"))
+	     (twm-item-make "xbiff"     (! "/usr/ucb/rsh" "grip" "-n"
+					   "axbiff" 
+					   "-display" this-display-arg
+					   "<" "/dev/null" 
+					   ">&" "/dev/null" "&"))
+	     (twm-item-make "gnu-emacs" (menu-app "gnu-emacs"))
+	     (twm-item-make "vi window" 
+			    (menu-app "/usr/bin/X11/xterm" "-e" "vi"))
+	     (twm-item-make "toggle icon mgr" 
+			    (if (boundp 'icon-mgr-toggle)
+				(icon-mgr-toggle)
+			      (print "Icon Mgr not Loaded!\n")))
+	     (twm-item-make "remote logins....." (twm-pop-menu xterm-pop)))))
+
+     (if (not (boundp 'icon-pop)) (: icon-pop window-pop))
+     
+
+     
+     (setq xterm-items '(twm-menu-make (twm-pop-label-make "Logins...")
+				   (twm-item-make "."
+				      (menu-app "/usr/bin/X11/xterm"))))
+
+     (for xterm-item xterm-list
+	  (: xterm-items 
+	     (+ xterm-items 
+		(list (list 'twm-item-make xterm-item 
+			     (list '!
+				   "/usr/ucb/rsh"
+				   (+ "" xterm-item)
+				      "-n"
+				      "("
+				      "setenv" "DISPLAY" this-display-arg ";"
+				      "/usr/bin/X11/xterm" "-ls"
+				      "-n"
+				      "`hostname | sed -e \"s,\\..*,,\"`"
+				      ")"
+				      "<"
+				      "/dev/null"
+				      ">&"
+				      "/dev/null"
+				      "&" ))))))
+
+
+     (: xterm-pop (eval xterm-items))
+     
+     (setq xload-items '(twm-menu-make (twm-pop-label-make "Xloads")
+				   (twm-item-make "." 
+				       (menu-app "/usr/bin/X11/xload"))))
+     (for xload-item xload-list
+	  (: xload-items 
+	     (+ xload-items 
+		(list (list 'twm-item-make xload-item 
+			    (list '!
+				  "/usr/ucb/rsh"
+				  (+ "" xload-item)
+				  "-n"
+				  "/usr/bin/X11/xload"
+				  "-display" this-display-arg 
+				  "<" "/dev/null" ">&" "/dev/null" "&"))))))
+     (: xload-pop (eval xload-items))
+
+     (setq emacs-items '(twm-menu-make (twm-pop-label-make "EMACSen")
+				       (twm-item-make "."
+					 (menu-app "/usr/bin/X11/gnu-emacs"))))
+
+     (for emacs-item emacs-list 
+	  (: emacs-items
+	     (+ emacs-items 
+		(list (list 'twm-item-make emacs-item
+			    (list '!
+				  "/usr/ucb/rsh"
+				  (+ "" emacs-item)
+				  "-n"
+				  "(" "setenv" "DISPLAY" this-display-arg
+				    ";" "emacs" ")" 
+				    "<" "/dev/null" ">&" "/dev/null" "&"))))))
+
+     (: emacs-pop (eval emacs-items))) 
+
+
+(de pop-root-menu ()
+    (set-colormap-focus ())	; bugged on dpx???
+    (twm-pop-menu root-pop 2))
+
+
+(de using-next-window ()
+    (with (this-wob wob)
+	  (with (wob root-window)
+		(print "testing....\n")
+		(tag press
+;		       (send-user-event 'choosing-window)
+		     (grab-server root-window)
+		     (while t
+		       (: mouse-pos (current-mouse-position))
+		       (if (and (not (= (# 2 mouse-pos) 0))
+				(not (= this-wob 
+					(wob-at-coords (# 0 mouse-pos)
+						       (# 1 mouse-pos)))))
+			   (progn (print "got an event\n")
+				  (while t
+				    (: mouse-pos 
+				       (current-mouse-position))
+				    (if (= (# 2 mouse-pos) 0)
+					(exit press)))))))
+		(ungrab-server root-window))))
+
+    

@@ -1,0 +1,42 @@
+#
+# $Header: /usr/src/local/emu/include/RCS/Imakefile,v 1.1 90/11/20 17:35:46 jkh Exp Locker: jkh $
+#
+# Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+#
+#                        All Rights Reserved
+#
+# Permission to use, copy, modify, and distribute this software and its 
+# documentation for any purpose and without fee is hereby granted, 
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in 
+# supporting documentation, and that the names of PCS or the authors not
+# be used in advertising or publicity pertaining to distribution of the
+# software without specific, written prior permission.  
+# 
+# PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+# ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+# PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+# OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+# OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+#
+#
+# This is just here so that ~ files in this directory will be removed when
+# we do a top level make clean.
+#
+
+/*
+ * The "forceMakefile" rule was in R3. For some reason, we couldn't
+ * find it again in R4, so we put it back. This is a useful rule so
+ * I don't know why it was nuked in the first place.
+ */
+forceMakefile::
+	-@if [ -f Makefile ]; then \
+		echo "$(RM) Makefile.bak; $(MV) Makefile Makefile.bak"; \
+		$(RM) Makefile.bak; $(MV) Makefile Makefile.bak; \
+	else exit 0; fi
+	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) imakeflags
+
+SRCS = bitstream.h common.h config.h os.h xt_ops.h
+OBJS =

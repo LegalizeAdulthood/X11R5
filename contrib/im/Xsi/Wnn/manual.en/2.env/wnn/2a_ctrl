@@ -1,0 +1,26 @@
+2A_CTRL(4)
+
+NAME
+    2A_CTRL - mode control table
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/rk/2A_CTRL
+
+DESCRIPTION
+    This table is referred at startup time of uum(1) and sets up
+    conversion key. It is used for setting input mode.
+    The code converted by this table is used by uumkey.
+
+EXAMPLE
+        '\x81'	(switch katakana)	;PF1 key
+        '\x82'	(switch zenkaku)	;PF2 key
+        '\x83' 	(switch romkan)		;PF3 key
+
+NOTE
+    There are the folloing note for PF1 - PF4 keys and cursor keys.
+    In case of terminal put out more than 2 byte codes, uum converts
+    it's code to 1 byte code before this table.
+
+SEE ALSO
+    uum(1), mode(4), uumkey(4), cvt_key_tbl(4), automaton(3)
+

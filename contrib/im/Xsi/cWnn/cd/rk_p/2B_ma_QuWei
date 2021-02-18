@@ -1,0 +1,45 @@
+;
+; $Id: 2B_ma_QuWei,v 1.1 1991/09/11 02:30:56 ohm Exp $
+;
+(defvar dec1 (between 0 8))
+(defvar dec1_08 (between 1 7))
+(defvar dec2_0 (list 1 2 3 4 5 6 7 8 9 ))
+(defvar dec2_8 (between 0 7))
+(defvar dec3 (between 0 9))
+(defvar (dec2 dec4) (list 0 1 2 3 4 5 6 7 8 9 ))
+(defvar dec2_9 (list 5 6 7 8 9))
+
+(dec1_08)(dec2)00  (error)
+0(dec2_0)00  (error)
+8(dec2_8)00  (error)
+(dec1_08)(dec2)9(dec2_9)   (error)
+0(dec2_0)9(dec2_9)   (error)
+8(dec2_8)9(dec2_9)   (error)
+
+(dec1_08)(dec2)(dec3)(dec4)   (+ 	'\xa0a0'
+			 	(+ 	(*	'\d256'
+						(+  (* (value (dec1_08)) '\d10') 
+						    (value (dec2)) 
+						)
+					)
+						(+  (* (value (dec3)) '\d10')
+					 	    (value (dec4))
+						)
+				)
+		           )
+0(dec2_0)(dec3)(dec4)   (+ 	'\xa0a0'
+			 	(+ 	(*	'\d256' (value (dec2_0)))
+						(+  (* (value (dec3)) '\d10')
+					 	    (value (dec4))
+						)
+				)
+		           )
+8(dec2_8)(dec3)(dec4)   (+ 	'\xa0a0'
+			 	(+ 	(*	'\d256'
+						(+  '\d80' (value (dec2_8)))
+					)
+						(+  (* (value (dec3)) '\d10')
+					 	    (value (dec4))
+						)
+				)
+		           )

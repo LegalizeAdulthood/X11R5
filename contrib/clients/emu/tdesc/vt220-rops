@@ -1,0 +1,75 @@
+/* $Header: /usr3/Src/emu/tdesc/RCS/vt220-rops,v 1.1 91/08/17 10:12:42 jkh Exp Locker: me $ */
+
+/*
+ * Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+ *
+ *                        All Rights Reserved
+ *
+ * Permission to use, copy, modify, and distribute this software and its 
+ * documentation for any purpose and without fee is hereby granted, 
+ * provided that the above copyright notice appear in all copies and that
+ * both that copyright notice and this permission notice appear in 
+ * supporting documentation, and that the names of PCS or the authors not
+ * be used in advertising or publicity pertaining to distribution of the
+ * software without specific, written prior permission.  
+ * 
+ * PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ * ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+ * PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+ * OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+ * USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ * OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+ *
+ */
+
+/*
+ * Reverse operation definitions for the emu "vt220" terminal.
+ *
+ * Author: Michael Elbel, Jordan Hubbard and Tom Bagli
+ * Date: June 28th, 1990
+ * Description: Various things a vt220 might be expected to output
+ *		plus the rops for initializing the canvas and tty for
+ *		a vt220.
+ *
+ * Revision History:
+ *
+ * $Log:	vt220-rops,v $
+# Revision 1.1  91/08/17  10:12:42  jkh
+# Initial revision
+# 
+ *
+ */
+
+*term.vt220-rops:							\
+ROP_INSERT_CHAR		<%gA%c>						\
+ROP_SCREEN_SIZE		<\\E[%gy%d;%gx%dS>				\
+ROP_CURSOR_POS		<\\E[%{gy,1,+,d};%{gx,1,+,d}R>			\
+									\
+/* Setup stuff */							\
+									\
+/* Request to initialize the emulation				*/	\
+/* Initialize the tty to get the state from the caller		*/	\
+/*								*/	\
+/* Initialize the canvas:					*/	\
+/* Preset G0 to be ASCII, G1 to be Graphics,			*/	\
+/* G2 to be DEC Supplementary and G3 to be UK national;		*/	\
+/* Add Translations 2 (Numeric Keypad), 4 (Normal Cursor Keys),	*/	\
+/*     5 (Function Keys), 6 (misc Function Keys)		*/	\
+/*     7 Umlaute and 8 (the Compose Key stuff);			*/	\
+/* Set the FLUT to contain ASCII in the lower half 		*/	\
+/*     and DEC supplementary characters in the upper half	*/	\
+/*								*/	\
+ROP_INIT_CANVAS		<%{						\
+			"ascii" p0 "dec" p1 "graphics" p2 "uk" p3	\
+			0 p5, 1 p6					\
+			"numKeypad" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"normCKeys" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"fkeys" pa OP_OVERRIDE_TRANSLATIONS C		\
+			"miscFkeys" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"composeKeys" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"multiKeys" pa OP_OVERRIDE_TRANSLATIONS C	\
+			"ascii" pa  32 pb OP_CHANGE_FLUT C		\
+			"dec" pa 160 pb OP_CHANGE_FLUT C		\
+			0 pF						\
+			}>

@@ -1,0 +1,18 @@
+Copyright 1991 Sony Corporation
+October 1, 1991
+
+	sjx input metod server
+
+o This program supports XIMProtocol.
+
+o This program supports 'root window' input style.
+
+o This program needs sj3serv (Japanese conversion server).
+
+DESCRIPTION
+
+	In this implementation, sjx starts the Japanese conversion
+with XK_Kanji. You can change other key bindings 
+to modify ~/.sjrc configuration file. Please refer Sjrc file
+in this directory.
+

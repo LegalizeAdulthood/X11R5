@@ -1,0 +1,15 @@
+#include "../../config.sh"
+
+            SAMPLEDIR = $(LIBDIR)/sample
+
+AllTarget()
+InstallNamedNonExec(default.i,default.iroha,$(SAMPLEDIR))
+InstallNonExec(1.1.iroha,$(SAMPLEDIR))
+InstallNonExec(fixer.iroha,$(SAMPLEDIR))
+InstallNonExec(jdemon.iroha,$(SAMPLEDIR))
+InstallNonExec(just.iroha,$(SAMPLEDIR))
+InstallNonExec(modes.iroha,$(SAMPLEDIR))
+InstallNonExec(sample.iroha,$(SAMPLEDIR))
+InstallNonExec(vje.iroha,$(SAMPLEDIR))
+
+DependDependency()

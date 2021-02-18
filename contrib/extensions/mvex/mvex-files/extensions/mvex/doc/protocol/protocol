@@ -1,0 +1,1816 @@
+.\" $Header: /n/lacey/usr/local/src/video/MVEX/doc/protocol/RCS/protocol,v 6.2 1991/09/26 21:30:19 toddb Exp $
+.OH ''''
+.OH ''''
+.EF ''''
+.OF ''''
+.ps 11
+.nr PS 11
+.de rV
+.ds vS "\fBVersion \\$2\fP
+..
+.rV $Revision: 6.2 $
+\&
+.sp 8
+.ce 4
+\s+2\fBMVEX\fP\s-2
+
+\s+1\fBMinimal \fP\fPVideo Extension to X\fP\s-1
+\*(vS
+.sp 6
+.ce 4
+\s-1Todd Brunhoff
+.sp 6p
+Tektronix, Inc.
+Tektronix Research Laboratories
+\&
+.ps 9
+.nr PS 9
+.sp 8
+.LP
+X Window System is a trademark of M.I.T.
+.LP
+Copyright \(co 1989, 1990, 1991 Tektronix, Inc.
+.LP
+.nh
+Permission to use, copy, modify, and distribute this document
+for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and
+that both that copyright notice and this permission
+notice are retained, and that the name of Tektronix not be used
+in advertising or publicity pertaining to this document without
+specific, written prior permission.
+Tektronix makes no representations about the suitability of this
+document or the protocol defined in this document for any purpose.
+It is provided ``as is'' without express or implied warranty.
+.ps 11
+.nr PS 11
+.OH '\fBMVEX Protocol\fP'\*(vS'\fBX11, Release 5\fP'
+.EH '\fBMVEX Protocol\fP'\*(vS'\fBX11, Release 5\fP'
+.bp 1
+.EF ''\fB % \fP''
+.OF ''\fB % \fP''
+.de bU
+.IP "" \\n(PIu+.2i
+\kx\h'-.06i'\s-2\z\(bu\s+2\h'.06i'
+..
+.NH 1
+Overview
+.LP
+The spirit of this extension is to provide an X interface to the
+generally interesting aspects of displaying live video in windows,
+capturing graphics from windows and converting them to a video signal.
+Based on an earlier extension called VEX, this extension endevors to
+provide the minimal support needed for integrating video into the
+window system.
+.LP
+For applications that need access to the digitized video pixels,
+this extension allows normal pixmaps or windows with core visual
+classes to hold video, which in turn allows read and write access
+to the pixels via the core protocol or other extensions such
+as the X Image Extension.
+For hardware that does not actually digitize any pixels,
+MVEX introduces two new visual classes: VideoColor and VideoGray.
+Their purpose is to express the visual aspects of a visible but
+untouchable video picture, hence drawing on a window with one of
+these visual classes has no effect and the pixels are undefined.
+.LP
+Today, video input and output hardware has complex limitations and
+capabilities; the capabilities do not always scale in expected ways,
+nor do the limitations always make sense.  The MVEX extension can provide
+large amounts of information about these limitations and capabilities.
+It is intended that the client, through the use of convenience
+routines in the MVEXlib implementation, will be able to easily determine
+what it can and can't do without the overhead of a round-trip request
+to the server.
+.NH 1
+Terminology
+.XS
+\*(SN Terminology
+.XE
+.LP   
+.ne 5
+\fBFull-motion video\fP
+.IN "Terms" "Full-motion video" "@DEF@"
+.IN "Full-motion video" "" "@DEF@"
+.IP
+The display of video on the screen at a rate at least as fast as
+that defined by the encoded video signal.  For example NTSC is
+defined as (roughly) 30 frames per second and 60 fields per second.
+.LP
+.ne 6
+\fBOpaque pixels\fP
+.IN "Terms" "Opaque pixels" "@DEF@"
+.IN "Opaque pixels" "" "@DEF@"
+.IP
+Some video input hardware uses a single frame buffer to hold
+both video pixels and graphic pixels.  If the video pixels
+are stored in a form that does not match a core visual class,
+then the meaning of those pixels, from a client perspective,
+is said to be opaque.
+.LP
+.ne 3
+\fBStill video\fP
+.IN "Terms" "Still video" "@DEF@"
+.IN "Still video" "" "@DEF@"
+.IP
+A single, static frame acquired from a video signal.
+.LP
+.ne 4
+\fBVideo digitization\fP
+.IN "Terms" "Video digitization" "@DEF@"
+.IN "Video digitization" "" "@DEF@"
+.IP
+A process that converts a video image from an encoded signal
+into a digital form having a supported depth and format.
+.LP
+.ne 6
+\fBVideo input\fP
+.IN "Terms" "Video input" "@DEF@"
+.IN "Video input" "" "@DEF@"
+.IP
+The term \fIvideo input\fP in general refers to an incoming signal or stream
+that is decoded, decompressed or digitized to produce a picture on the
+workstation display.  In
+this document, video input refers to the digitizing or decoding hardware,
+and it is identified by a VIDEOIN id.  Logically, a client will
+connect an input port, such as "RGB channel 1", to
+a video input using SelectPort request, and then use
+RenderVideo to direct in which drawable the picture will appear.
+.LP
+.ne 4
+\fBVideo input region (VIR)\fP
+.IN "Terms" "VIR" "@DEF@"
+.IN "VIR" "" "@DEF@"
+.IP
+This is defined as the subset of pixels in a VW or a pixmap
+that is actually
+being updated by a
+RenderVideo
+request.
+.LP
+\fBVideo output\fP
+.IN "Terms" "Video output" "@DEF@"
+.IN "Video output" "" "@DEF@"
+.IP
+The term \fIvideo output\fP in general refers to signals produced by encoding
+workstation graphics.  In this document, video output refers
+to the encoding hardware, and it is identified by a VIDEOOUT id.
+Logically, a client will connect an output port, such as
+"NTSC D1 channel 2", to a video output using the SelectPort
+request, and then use CaptureGraphics
+to direct from which drawable the graphics will be captured.
+.LP
+\fBVideo output region (VOR)\fP
+.IN "Terms" "VOR" "@DEF@"
+.IN "VOR" "" "@DEF@"
+.IP
+This is defined as the set of pixels on the screen or in a pixmap
+that are being encoded by a CaptureGraphics request, whether it
+is accomplished by reading pixels from a frame buffer or by analog
+conversion.
+.LP
+.ne 6
+\fBVideo window (VW)\fP
+.IN "Terms" "VW" "@DEF@"
+.IN "VW" "" "@DEF@"
+.IP
+A video window is defined as any window actively displaying video
+or one that has the potential to display nothing but video.
+Specifically,
+.bU
+a window having a visual class VideoColor or VideoGray.
+.bU
+a window with a core visual class, and actively servicing a RenderVideo request.
+.NH 1
+Visuals
+.XS
+\*(SN Visuals
+.XE
+.LP
+There are three important classes of video input hardware.  Each
+class produces a video picture on the screen using a different
+method, and the methods affects the visual class used to
+represent the window or pixmap that contains it.  MVEX attempts to recognize
+all three classes:
+.bU
+Core visual pixels.  Many instances of hardware choose to represent
+a video picture in a frame buffer that is no different than
+most graphic frame buffers.  In this case nothing new need be added,
+because one of the core visual classes is sufficient.
+.bU
+Inaccessible pixels.  Some low-cost video input hardware is contained
+in a separate subsystem where either pixels are never digitized, or if
+they are, the pixels are available only at low serial line speeds.  The
+analog video picture is merged with the workstation graphics analog
+signal such that the picture is updated very quickly.  Therefore, this
+hardware will continue to be reasonable as long as video is not a
+standard option for every X display.  For this,
+.IN "Visuals" "VideoGray" "@DEF@"
+.IN "Visuals" "VideoColor" "@DEF@"
+MVEX introduces two new visual class, VideoGray and VideoColor, whose
+semantics essentially describe a write-only visual: video pixel values
+cannot be read.  This implies that pixmap access for these
+visual types will never be offered.
+.bU
+Opaque pixels.  A few instances of hardware choose to represent digitized
+pixels as an encoded color difference, such as YUV; Y,R-Y,B-Y; or YIQ.
+This encoding is more compact than RGB, but cannot be represented
+with any of the core visual classes.  Rather than invent more new color
+models and visual classes, MVEX allows the use of whatever core visual
+class matches the frame buffer's "normal" mode, but pixels that are
+modified by RenderVideo are opaque.  This implies that while the pixels
+can be read, their meaning is undefined (note that a vendor may
+choose to provide more information about the meaning of these pixels
+via control mechanisms, described later).  See the description
+for the RENDERMODEL type and the RenderVideo request.
+.LP
+Windows created with VideoGray display only the luminance portion of a video
+signal; windows created with VideoColor are able to display a color
+picture if chrominance information is available in the video signal.  A
+side effect of this visual class is that the visible rendition of regions
+not covered by a RenderVideo request are undefined, including the
+window's border.  However, it is expected that server implementors will
+pick reasonable defaults.
+.NH 1
+Types
+.XS
+\*(SN Types
+.XE
+.LP
+.IN "Types" "VIDEOIN" "@DEF@"
+VIDEOIN: 32-bit value (top three bits guaranteed to be zero)
+.LP
+.IN "Types" "VIDEOOUT" "@DEF@"
+VIDEOOUT: 32-bit value (top three bits guaranteed to be zero)
+.LP
+.IN "Types" "VIDEOIO" "@DEF@"
+VIDEOIO: VIDEOIN or VIDEOUT
+.IP
+When a VIDEOIN or VIDEOOUT is
+supplied to a request, it must be one returned by the CreateVideo
+request, else Match error.
+.LP
+.IN "Types" "VREFERENCE" "@DEF@"
+VREFERENCE: 32-bit value (top three bits guaranteed to be zero)
+.IP
+This is a special id supplied in a VIDEOGEOMETRY structure that
+uniquely identifies the corresponding resource.
+.LP
+.IN "Types" "FRACTION" "@DEF@"
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+FRACTION:@[\ numerator, denominator: INT32 ]
+.TE
+.IP
+The FRACTION type is used to represent a rational number; the
+denominator must be strictly positive (> 0) in all requests, else Value
+error.
+.LP
+.IN "Types" "FRACTIONRANGE" "@DEF@"
+.ne 5
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+FRACTIONRANGE:@[\ num-base, num-inc, num-limit: INT32
+@\ \ num-type: {\fCLinear\fP, \fCGeometric\fP}
+@\ \ denom-base, denom-inc, denom-limit: INT32
+@\ \ denom-type: {\fCLinear\fP, \fCGeometric\fP}]
+.TE
+.ne 7
+.IP
+A FRACTIONRANGE is used in a PLACEMENT, described below.
+The set of fractions represented by FRACTIONRANGE depend on the types,
+and for each type, the range
+of numerators and denominators of each fraction are as follows:
+.EQ I
+gfont R
+mark
+lpile { "\fCLinear\fP\^:"~ above "\fCGeometric\fP\^:"~ }
+lpile { n~:~ above n sup exp~:~ }
+lpile { "{" above "{" }
+lpile { n~=~"base" above n~=~"base;"~ }
+lpile { "to limit step inc" above "exp = inc to limit step 1" }
+.EN
+.ne 15
+.IP
+A FRACTIONRANGE supplied by QueryVideo is guaranteed never to generate
+a fraction with a zero denominator, or a fractional numerator or
+denominator.  For Linear, \fInum-inc\fP and \fIdenom-inc\fP are
+guaranteed to be greater than zero, and the limit is always guaranteed
+to be \fI-base\fP plus some integral multiple of \fI-inc\fP.
+For Geometric, \fInum-inc\fP and \fIdenom-inc\fP are guaranteed to be
+greater than or equal to zero.  For example, a FRACTIONRANGE of {512, 128,
+1024, Linear, 512, 512, 1024, Linear} creates a set containing
+.\"
+.\" The use of "down n" below is because eqn ratchets the fractions higher
+.\" and higher with each one.  The increment of 16 is purely empirical.
+.\"
+.\" also the sequence
+.\"	left " " {" "}
+.\" is there because eqn forgot about the matching left curly, and
+.\" this is the minimal non-printing sequence to reintroduce a left curly.
+.\" The yacc source for eqn is pretty clear on this.
+.\"
+.EQ I
+size 8 { left {
+    {512 over 512},~
+    down 5 {{640 over 512},}~
+    down 10 {{768 over 512},}~
+    down 15 {{896 over 512},}~
+    down 20 {{1024 over 512},}~
+    down 25 {{512 over 1024},}~
+    down 30 {{640 over 1024},}~
+    down 35 {{768 over 1024},}~
+    down 40 {{896 over 1024},}~
+    down 45 {1024 over 1024}
+    down 50 {left " " {" "} right } .}
+}
+.EN
+A FRACTIONRANGE of {2, 0, 2, Geometric, 1, 1, 127, Linear} creates the set
+.EQ I
+size 8 {
+    left { left ( 2 sup 0 over 1~=~right )
+    down 5 {{1 over 1},}~
+    down 10 {{1 over 2},}~
+    down 15 {{1 over 3},}~
+    down 20 {...,}~
+    down 25 {{1 over 127},}~
+    down 30 {{2 over 1},}~
+    down 35 {{2 over 2},~...,}~
+    down 40 {{2 over 127},}~
+    down 45 {{4 over 1},}~
+    down 50 {{4 over 2},~...,}~
+    down 55 {{4 over 127}}~
+    down 60 {left " " {" "} right } .}
+}
+.EN
+A FRACTIONRANGE of {0, 1, 63, Linear, 63, 1, 63, Linear} creates the set
+.EQ I
+size 8 { left {
+    {0 over 63},~
+    down 5 {{1 over 63},}~
+    down 10 {{2 over 63},~...,}~
+    down 15 {{63 over 63},}~
+    down 20 {left " " {" "} right } .}
+}
+.EN
+In this last example, the fixed denominator is expressed with an increment
+of one because the protocol requires it to be > 0.
+.LP
+.IN "Types" "FRAME" "@DEF@"
+.ne 4
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+FRAME:@[\ negative: BOOL
+@\ \ frame: CARD32
+@\ \ field: CARD8]
+.TE
+.IP
+The FRAME is used by RenderVideo and
+CaptureGraphics to indicate a relative or absolute frame
+when the request will take effect.  If negative is true, then it refers
+to a negative frame number or offset.
+.LP
+.IN "Types" "TIMECODE" "@DEF@"
+.ne 4
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+TIMECODE:@[\ negative: BOOL
+@\ \ hour, minute, second, frame, field: CARD8]
+.TE
+.IP
+The TIMECODE is used by RenderVideo and CaptureGraphics to
+indicate a relative or absolute time point when the request will
+take effect.  If negative is true, then it refers to a negative
+timecode.
+.LP
+.IN "Types" "RECTANGLERANGE" "@DEF@"
+.ne 4
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+RECTANGLERANGE:@[\ base, limit: RECTANGLE
+@\ \ x-inc, y-inc: INT16
+@\ \ width-inc, height-inc: CARD16
+@\ \ type: {\fCLinear\fP, \fCGeometric\fP}]
+.TE
+.IP
+The RECTANGLERANGE is ultimately used in the VIDEOGEOMETRY type below.
+It describes the possible geometries of sources and destinations for
+RenderVideo and CaptureGraphics requests.  The set of rectangles
+described by a single RECTANGLERANGE are all combinations of four sets
+derived for x, y, width and height.  The members of the sets are
+determined based on the type as follows.
+.ne 14
+.TS
+tab(@);
+lw(0.4i) lw(0.3i) lw(4.5i).
+\fCLinear\fP\^:@x@= {\ base.x, base.x + x-inc, base.x + 2\v'-.5n'.\v'.5n'x-inc, ..., limit.x }
+@y@= {\ base.y, base.y + y-inc, base.y + 2\v'-.5n'.\v'.5n'y-inc, ..., limit.y }
+@width@= {\ base.width, base.width + width-inc,
+@@\ \ \ \ \ \ base.width + 2\v'-.5n'.\v'.5n'width-inc, ..., limit.width }
+@height@= {\ base.height, base.height + height-inc,
+@@\ \ \ \ \ \ base.height + 2\v'-.5n'.\v'.5n'height-inc, ..., limit.height }
+.sp .25
+\fCGeometric\fP\^:@x@T{
+= {\ 
+base.x\u\s-2x-inc\s+2\d,
+base.x\u\s-2x-inc+1\s+2\d, ...,
+base.x\u\s-2limit.x\s+2\d }
+T}
+@y@T{
+= {\ 
+base.y\u\s-2y-inc\s+2\d,
+base.y\u\s-2y-inc+1\s+2\d, ...,
+base.y\u\s-2limit.y\s+2\d }
+T}
+@width@T{
+= {\ 
+base.width\u\s-2width-inc\s+2\d,
+base.width\u\s-2width-inc+1\s+2\d, ...,
+base.width\u\s-2limit.width\s+2\d }
+T}
+@height@T{
+= {\ 
+base.height\u\s-2height-inc\s+2\d,
+base.height\u\s-2height-inc+1\s+2\d, ...,
+T}
+@@\ \ \ \ \ \ base.height\u\s-2limit.height\s+2\d }
+.TE
+.IP
+A RECTANGLERANGE supplied by QueryVideo is guaranteed never to generate
+a rectangle with a fractional component.  For Linear, the \fIwidth-inc\fP
+and \fIheight-inc\fP values are guaranteed to be greater than zero, and 
+the \fIx-inc\fP and \fIy-inc\fP are guaranteed to be non-zero.
+For example, the RECTANGLERANGE whose value is
+.TS
+tab(@);
+lw(4.5i).
+[\ base = {0, 0, 320, 240}, limit = {960, 784, 320, 240}
+\ \ x-inc = 16, y-inc = 1
+\ \ width-inc = 0, height-inc = 0
+\ \ type = \fCLinear\fP ]
+.TE
+.IP
+.ne 12
+would describe a total of 47,885 {x, y, width, height} sets
+.IP
+	{0, 0, 320, 240} 
+.br
+	{16, 0, 320, 240} 
+.br
+	\ ...
+.br
+	{960, 0, 320, 240} 
+.br
+	{0, 1, 320, 240} 
+.br
+	{16, 1, 320, 240} 
+.br
+	\ ...
+.br
+	{960, 1, 320, 240} 
+.br
+	etc.
+.br
+	{960, 784, 320, 240}
+.LP
+.ne 6
+.IN "Types" "PLACEMENT" "@DEF@"
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+PLACEMENT:@[\ frame-rate: FRACTION
+@\ \ source, destination: RECTANGLERANGE
+@\ \ x-scale, y-scale: FRACTIONRANGE
+@\ \ identity-aspect: BOOL ]
+.TE
+.IP
+The PLACEMENT type is used in the VIDEOGEOMETRY type described below.
+Each placement describes the possible source and destination rectangles
+used in RenderVideo and CaptureGraphics requests, but restricted to the
+scale factors described by the x-scale and y-scale elements.   For
+video input, the frame-rate element describes the maximum nominal frame
+rate that the hardware can achieve in a RenderVideo request using a
+source and destination rectangle derived from the other elements.  For
+video output, the frame-rate element describes the maximum nominal rate
+at which frames can be encoded with a CaptureGraphics request.
+It is important to stress that this is
+only a nominal rate and may vary due to other factors such as hardware
+contention.
+.IP
+The x-scale and y-scale FRACTIONRANGE specifies the
+possible ratios of
+.ti +.5i
+	destination x pixels : source x pixels
+.ti +.5i
+	destination y pixels : source y pixels
+.br
+where the ratio is numerator (destination) divided by denominator
+(source).  The source and destination rectangles derived must have
+width and height ratios described by x-scale and y-scale.
+The identity-aspect is true if the ratio of x-scale to y-scale is 1:1;
+i.e. they must be equal.  For example, given a PLACEMENT of
+.TS
+tab(@);
+l lw(0.4i) rw(0.01i) lw(4.5i).
+@frame-rate@= @[\ 30, 1 ]
+@source@= @[\ base = {0, 0, 10, 15}, limit = {639, 479, 640, 480}
+@@@\ \ x-inc = 1, y-inc = 1
+@@@\ \ width-inc = 1, height-inc = 1
+@@@\ \ type = \fCLinear\fP ]
+@destination@= @[\ base = {0, 0, 320, 240}, limit = {960, 784, 320, 240}
+@@@\ \ x-inc = 16, y-inc = 1
+@@@\ \ width-inc = 0, height-inc = 0
+@@@\ \ type = \fCLinear\fP ]
+@x-scale@= @[\ num-{base,inc,limit} = {2, 0, 6}
+@@@\ \ type = \fCGeometric\fP
+@@@\ \ denom-{base,inc,limit} = {1, 1, 0}
+@@@\ \ type = \fCLinear\fP ]
+@y-scale@= @[\ num-{base,inc,limit} = {2, 0, 5}
+@@@\ \ type = \fCGeometric\fP
+@@@\ \ denom-{base,inc,limit} = {1, 1, 0}
+@@@\ \ type = \fCLinear\fP ]
+@identity-aspect @= @False
+.TE
+.IP
+it implies that the source rectangles may be any with the constraints that
+.EQ
+0~<=~x~<=~639
+.EN
+.EQ
+0~<=~y~<=~479
+.EN
+.EQ
+10~<=~width~<=~640
+.EN
+.EQ
+15~<=~height~<=~480
+.EN
+and the destination rectangles may be any selected from the earlier
+example.  The combined rectangles are limited to those source-destination
+pairs where the fractions
+.EQ
+italic x-scale
+roman
+~=~{destination~width} over {source~width}
+~~~and~~~
+italic y-scale
+roman
+~=~{destination~height} over {source~height}
+.EN
+.IP
+can be reduced to one of the fractions from the respective sets
+.EQ I
+italic "x-scale" roman
+~=~
+size 8 { left {
+    {1 over 1},~
+    down 5 {{2 over 1},}~
+    down 10 {{4 over 1},}~
+    down 15 {{8 over 1},}~
+    down 20 {{16 over 1},}~
+    down 25 {{32 over 1},}~
+    down 30 {64 over 1}
+    down 35 {left " " {" "} right } .}
+}
+.EN
+.EQ I
+italic "x-scale" roman
+~=~
+size 8 { left {
+    {1 over 1},~
+    down 5 {{2 over 1},}~
+    down 10 {{4 over 1},}~
+    down 15 {{8 over 1},}~
+    down 20 {{16 over 1},}~
+    down 25 {32 over 1}
+    down 30 {left " " {" "} right } .}
+}
+.EN
+.IP
+And for this example, using any of these source-destination pairs,
+the hardware can maintain a nominal 30 fps.
+.LP
+.IN "Types" "VIDEOABILITY" "@DEF@"
+.ne 4
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+VIDEOABILITY:@[\ saturation: LISTofFRACTIONRANGE
+@\ \ normal-saturation: FRACTION
+@\ \ contrast: LISTofFRACTIONRANGE
+@\ \ normal-contrast: FRACTION
+@\ \ hue: LISTofFRACTIONRANGE
+@\ \ normal-hue: FRACTION
+@\ \ bright: LISTofFRACTIONRANGE]
+@\ \ normal-bright: FRACTION
+.TE
+.IP
+This type describes the abilities of video inputs and video outputs and
+is returned by the QueryVideoRequest.  If one of the lists has zero
+length, then adjustments to that list are ignored.  The meaning for
+saturation, contrast, hue and brightness are described below, but in
+general, the fraction ranges will convey values from 0 to 1,
+inclusive.  Thus, naive clients may compose their own fractions, if
+they wish.
+.IP
+Saturation is the amount of color information present in the video
+image.  Small values result in black and white images; large values
+provide increasing amounts of color.  The normal-saturation is
+a suggested mean value.
+.IP
+Contrast determines the dynamic range of information present in the
+video image.  Small values result in an image of constant color and
+intensity; large values produce more contrast.  The normal-contrast
+is a suggested mean value.
+.IP
+Hue shifts the phase of the video's color information relative to its
+reference, causing a shift in color.  A middle value results in no
+shift, smaller values shift red towards blue and larger values shift
+red towards green.  The normal-hue is a suggested mean value.
+.IP
+Brightness determines the black level of the video signal.  Small
+values result in a dimmer image, large values produce a brighter
+image.  The normal-brightness is a suggested mean value.
+.LP
+.IN "Types" "VIDEOGEOMETRY" "@DEF@"
+.ne 4
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+VIDEOGEOMETRY:@[\ signal-frame-rate: FRACTION
+@\ \ signal-field-rate: FRACTION
+@\ \ signal-width, signal-height: CARD16
+@\ \ concurrent-use: CARD16
+@\ \ priority-steps: CARD16
+@\ \ reference-id: VREFERENCE
+@\ \ placement: LISTofPLACEMENT ]
+.TE
+.IP
+This type describes the attributes of video inputs and video outputs
+and is returned by the QueryVideo request.  The signal-frame-rate and
+signal-field-rate describe the number of frames per second and fields
+per second in the signal format.  For input, the rate describes the
+signal received; for output, the signal produced.
+.IP
+For video input, the signal-width and signal-height describe the
+dimensions of the signal picture as if it were placed directly on the
+workstation screen. For video output, they describe the dimensions of a
+screen region whose pixels would map one-to-one to the output signal.
+It is important to note that the frame-buffer holding the video
+picture, if any, may not actually have these dimensions; the
+numbers describe the extent of the source rectangle for video input, or
+the destination rectangle for the video output.
+.IP
+For a video input and output, the concurrent-use indicates the number
+of times the resource may be in simultaneous use, and suggests the
+maximum number identifiers a client should create using CreateVideo.  The server
+should publish a number that the hardware can support with respect to
+connectivity and quality of the input or output.  Clients should use
+this number in deciding how many resources they may use, and a video
+resource manager should use this in deciding how to handle allocation
+among multiple clients.
+.IP
+The protocol represents priority in RenderVideo and CaptureGraphics as
+a number between 0 and 100 inclusive.  The priority-steps conveys the
+resolution of this adjustment for a particular video resource; its
+value is guaranteed to be greater than 0.  The resolution is calculated
+by dividing 100 by the number of steps and rounding to the nearest
+integer.  The resulting number is iteratively added to 0 to reach the
+beginning of the next priority level.  Note that this means the last
+step will be larger than others by one or two.  For example, a value of
+1 means that priority adjustments are ignored; a value of 2 means that
+there are two real priority levels, those below 50 (100 divided by 2)
+and those greater or equal to 50; a value of 3 means three levels:
+0-32, 33-65, 66-100; etc.
+.IP
+The reference id uniquely identifies the resource, and this id is used
+by the CreateVideo request to create video input and output
+identifiers.  If the same reference id appears in a VIDEOGEOMETRY
+returned from different screens, then the concurrent use for will be
+the same and a video manager can infer that one physical resource
+services both screens.  This implies that usage of this resource on one
+screen reduces the available usage on another screen.
+.IP
+Each placement element in the list describes its own range of values.
+The complete range of placement parameters is derived from the entire
+list, but parts of one element in the list may not be combined with
+another.  For example, source and destination rectangles described
+in one placement may not be combined with scale factors described in
+another placement.
+.IP
+For simplicity, a server's list of placements may be zero length.  This implies
+that any placement is acceptable by the hardware.
+.LP
+.IN "Types" "RENDERMODEL" "@DEF@"
+.ne 2
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+RENDERMODEL:@[\ depth: CARD8
+@\ \ visual-id: VISUALID
+@\ \ opaque: BOOL
+@\ \ red-mask, green-mask, blue-mask: CARD32 ]
+.TE
+.IP
+This type is used by QueryVideo to describe the depth
+and visual class of a potential source for CaptureGraphics or
+destination for RenderVideo.  The visual id is one
+returned by the connection setup or the QueryVideo request.
+The boolean, \fIopaque\fP, is true when a video input is used
+to render to a drawable created with this visual id, and the pixel
+values created cannot be interpreted by a core visual class.
+.IP
+The red, green and blue mask are those used for CaptureGraphics
+when the source is a pixmap and the colormap is \fCNone\fP;
+and for RenderVideo when the destination is a pixmap and \fIopaque\fP
+is false.  A server may supply a RENDERMODEL with a visual id of None
+for depths that can only be captured from or rendered to pixmaps;
+and a RENDERMODEL
+may be supplied with red-, green-, and blue-mask set to zero; but
+not both in the same RENDERMODEL.
+.IP
+It is conceivable that a system will support a depth for pixmaps,
+but not for windows.  A server may support a gray scale CaptureGraphics
+for this depth by supplying a RENDERMODEL with visual id
+None and red- green- and blue- masks with identical bits set. 
+.IP
+Note that if \fIopaque\fP is true, then the visual id is guaranteed
+to have a core visual class.
+.LP
+.IN "Types" "OWNER" "@DEF@"
+.ne 2
+.TS
+tab(@);
+lw(1.5i) lw(4.5i).
+OWNER:@[\ wid: WINDOW
+@\ \ vid: VIDEOIO ]
+.TE
+.IP
+This type is used by the ChangeOwnership request to establish ownership
+for any of the video resources:  input and output.  The
+specified window identifies the client, and the videoid indicates the
+resource of which it gains ownership.
+.NH 1
+Errors
+.XS
+\*(SN Errors
+.XE
+.LP
+MVEX introduces one new error type.
+.br
+.ne 12
+.TS H
+l lw(4i).
+_
+.sp 6p
+.TB
+Error	Description
+.sp 6p
+_
+.TH
+.R
+.sp 6p
+Video	T{
+A value for a VIDEOIO argument does not name a
+VREFERENCE or provided by QueryVideo.
+T}
+_
+.TE
+.NH 1
+.ne 30
+Requests
+.XS
+\*(SN Requests
+.XE
+.LP
+.IN "QueryVideo" "" "@DEF@"
+.IN "Requests" "QueryVideo" "@DEF@"
+\fBQueryVideo\fP
+.IP
+\fIwid\fP\^: WINDOW
+.br
+==>
+.br
+\fIscreen\fP\^: CARD8
+.br
+\fIvideo-depths\fP\^: LISTofDEPTHS
+.br
+\fIallowed-depths\fP\^: LISTofRENDERMODEL
+.br
+\fIin-attr\fP\^: LISTofVIDEOGEOMETRY
+.br
+\fIout-attr\fP\^: LISTofVIDEOGEOMETRY
+.br
+\fIin-ability\fP\^: LISTofVIDEOABILITY
+.br
+\fIout-ability\fP\^: LISTofVIDEOABILITY
+.br
+\fIin-ports\fP\^: LISTofLISTofATOM
+.br
+\fIout-ports\fP\^: LISTofLISTofATOM
+.br
+\fIvideo-input-models\fP\^: LISTofBITMASK
+{Pixmap, Window}
+.br
+\fIvideo-output-models\fP\^: LISTofBITMASK
+{Pixmap, Window, Composite}
+.br
+\fIclip-size\fP\^: LISTofRECTANGLE
+.br
+\fIinput-overlap\fP\^: BOOL
+.br
+\fIcapture-overlap\fP\^: BOOL
+.br
+\fIio-overlap\fP\^: BOOL
+.br
+\fItime\fP\^: TIMESTAMP
+.br
+\fImajor-version\fP\^: CARD16
+.br
+\fIminor-version\fP\^: CARD16
+.IP
+Errors: Window, Match
+.IP
+This request returns information about video hardware for the screen
+associated with the specified window.  The screen is returned as the
+first element in the reply.  If there is no video hardware available
+for the screen, a Match error is returned.
+.IP
+The \fIvideo-depths\fP specify what depths/visuals are unique for video input
+and output.  These are guaranteed to be different from those returned
+in the X connection setup; the list may be null; pixmaps are supported
+for each depth listed.  Further, the presence of a MVEX extension in a
+server may cause the LISTofFORMAT provided by the connection setup to
+be extended with additional formats that would allow
+GetImage and PutImage access to windows or pixmaps created with depths
+and visuals not published in the connection setup.  The definition of
+DEPTH is included in the core protocol's description of the connection
+information.
+.IP
+Visual ids found in \fIvideo-depths\fP having a core visual class
+(PseudoColor, TrueColor, etc.) imply that graphic requests with
+corresponding windows are expensive.  Thus, it may be that pixels must
+undergo software translation before or after graphic requests.
+Depths and visual ids listed in \fIallowed-depths\fP
+that are selected from the X connection setup imply that
+they are not expensive, even though they may also be used for RenderVideo
+and CaptureGraphics requests.
+.IP
+The \fIallowed-depths\fP specify what depths and visual ids are
+supported for use with video input and video output.  These depths and
+visual ids include those listed in video-depths plus appropriate ones
+selected from those provided by the X connection setup.  The list is in
+no particular order.  For each unique depth, at most one red-,
+green-, blue-mask will have non-zero values.  This avoids ambiguity
+over which mask to use for a given depth when a client requests
+RenderVideo or CaptureGraphics with colormap None.
+.IP
+The \fIin-attr\fP list the attributes of the decoder or digitizer used by the
+video inputs.  The \fIout-attr\fP list the attributes of the encoder used by
+the video outputs.  The entries in both lists correspond one-to-one
+with the unique video input renderers and video output encoders; the
+length of these lists imply the number of rows in video input models
+and video output models.  CreateVideo references these resources by this implied
+index, starting from 0.
+.IP
+The \fIin-ability\fP are lists of device abilities (no pun intended)
+specific to the display of video on the workstation display, one list
+for each input in the same order as the \fIin-attr\fP.  The
+\fIout-ability\fP are lists of device abilities specific to the
+production of video output from the contents of the window system, one
+list for each output in the same order as the out-attr.  This list may
+expand in future versions of MVEX as other abilities appear common to
+most video input and output hardware.
+.IP
+The \fIin-ports\fP are lists of input port names (encoded as atoms), one
+list for each input in the same order as the \fIin-attr\fP.  Similarly,
+the \fIout-ports\fP are lists of output port names, one list for each
+output in the same order as the out-attr.  The intent is that each list
+of ports is fully dedicated to the corresponding input or output; any
+additional switching or negotiation for connections should be addressed
+by a device control server.  The string used to encode the atoms is
+site-specific and is intended as a marker in a user interface such as the
+name for a menu item or a button label.  Further meaning should be handled
+by a device control server.
+.IP
+The list of video input models should be interpreted as a two
+dimensional array, column moving fastest and represents the
+relationship between the video input resources and the set of
+depths and visualids used to create video windows (VW).  The columns are
+labeled left-to-right with the list of \fIallowed-depths\fP, and the
+rows are labeled top-to-bottom with the list of video inputs.  Each
+cell is a bitmask containing zero or more true bits.
+.IP
+Window is asserted if a RenderVideo request may specify a window with
+the intersecting depth/visual as a destination and the intersecting
+video input as the source.  If Pixmap is asserted at the intersection of
+an \fIallowed-depth\fP and a video input, then a RenderVideo request
+may specify a pixmap with that depth as a destination and
+that video input as the source (see RenderVideo for a discussion of
+pixmap pixel values).  There is guaranteed to be
+at least one Window or Pixmap assertion in every row.
+In addition, there is guaranteed to be no more than one Pixmap
+assertion for every unique depth, per row: this avoids ambiguity for
+the RENDERMODEL use of \fIopaque\fP and the red-, green- and blue-masks.
+.IP
+If a window is created with a visual id whose type is VideoGray or
+VideoColor, then the window's pixels are always undefined.  A
+RenderVideo will not change window's pixel values (although the picture
+may still be visible).
+.IP
+For example, the following array means that a VW for video input #1
+must be depth 12, TrueColor; or depth 8, VideoColor; pixmaps of depth
+24 can be used as a destination for a RenderVideo request.  The #2 video input
+can only support pixmaps of depth 12.
+.TS
+tab(@) center;
+c c c c c
+c c c c c
+c c c c c
+c l | c c c
+^ l | c c c.
+@@\fCVideoColor\fP@\fCTrueColor\fP@\fCNone\fP
+@@depth 8@depth 12@depth 24
+@@_@_@_
+\fIVideo in\fP@#1@\fCWindow\fP@\fCWindow\fP@\fCPixmap\fP
+@#2@0@\fCPixmap\fP@0
+.TE
+.IP
+The list of video-output-models should be interpreted as a two
+dimensional array, column moving fastest, and represents the
+relationship between the video output resources and the set of
+depths and visual ids that each may capture.  The columns are labeled
+left-to-right with the list of \fIallowed depths\fP, and the rows are
+labeled top-to-bottom with the list of video outputs.  Each cell is a
+bitmask containing zero or more true bits.
+.IP
+If Window is asserted, then a video output can capture the intersecting
+depth/visual in a window, including the border.  If Pixmap is asserted,
+then a pixmap with the intersecting depth can be captured (see
+CaptureGraphics description of the interpretation of pixmap pixel
+values).  There is guaranteed to be at least one Window or Pixmap
+assertion in every row.  In addition, there is guaranteed to be no more
+than one Pixmap assertion for every unique depth, per row: this avoids
+ambiguity for the use of the red-, green- and blue-masks.  If Composite
+is asserted then the subwindow-mode for a CaptureGraphics request will
+be effectively IncludeInferiors, regardless of the value specified in
+the request.
+.IP
+For example, if the video hardware has two video outputs, both are only capable
+of capturing with a subwindow-mode of IncludeInferiors, one is able to
+capture depth 12, TrueColor, and one is able to capture
+depth 24 pixmaps; then the array would look like:
+.ne 1.2i
+.TS
+tab(@) center;
+c c c c
+c c c c
+c c c c
+c l | c c
+^ l | c c.
+@@\fCTrueColor\fP@\fCTrueColor\fP
+@@depth 12@depth 24
+@@_@_
+\fIVideo out\fP@#1@\fCWindow, Composite\fP@0
+@#2@0@\fCPixmap, Composite\fP
+.TE
+.IP
+The \fIclip-size\fP list corresponds to the list of video inputs
+(\fIin-attr\fP), and
+describes the smallest rectangle that can be used to clip a VIR partly
+occluded by other windows.  If either the width or the height are 0,
+then the entire VIR must be displayed and cannot be clipped.  This is
+meant as advisory for clients and window managers as they choose window
+placement.
+.IP
+If \fIinput-overlap\fP is false, then VIRs may not overlap; true
+otherwise.  \fICapture-overlap\fP is false if the hardware does
+not allow VORs to overlap; true otherwise.  \fIIo-overlap\fP element is
+false if the hardware does not allow a VIR and a VOR to overlap; true
+otherwise.  Note that io-overlap may be true, but video-output-models
+determines if a VIR may be captured or not.
+.IP
+In all cases, if \fIclip-size\fP, \fIinput-overlap\fP, or \fIio-overlap\fP
+constraints are violated, the content of the violated regions is undefined; if
+\fIcapture-overlap\fP or \fIio-overlap\fP is violated, then the output signal for
+violated regions are undefined and is hardware dependent; no errors are
+returned to the offending request, but a VideoViolation event may be
+generated.  In addition, other constraints that MVEX cannot express may
+be violated, and a VideoViolation event may be generated.  Requests
+that may violate constraints are RenderVideo, CaptureGraphics,
+MapWindow, UnmapWindow, MapSubwindows, UnmapSubwindows,
+ConfigureWindow, CirculateWindow, DestroyWindow, DestroySubwindows,
+ReparentWindow.
+.IP
+The \fItime\fP element can be used to prevent race conditions between the
+delivery of a VideoChange event and the use of some other MVEX
+requests.  The value of the timestamp is constant until there is a
+change in the availability of video inputs or outputs,
+and is then replaced with the current server time.
+.IP
+The major and minor version numbers reflect the version of the extension
+run by the server.
+.LP
+.ne 4
+.IN "CreateVideo" "" "@DEF@"
+.IN "Requests" "CreateVideo" "@DEF@"
+\fBCreateVideo\fP
+.IP
+\fIid\fP\^: VIDEOIO
+.br
+\fIreference\fP\^: VREFERENCE
+.IP
+Errors:
+Alloc,
+IDChoice,
+Video
+.IP
+This request creates the specified identifier handle for the video
+input or output resource associated with \fIreference\fP.
+This resource is freed on connection close for the creating client.
+The number of identifiers created for a single client corresponding to
+a particular input or output is not limited to the concurrent-use for
+that resource as supplied by QueryVideo.  However, the number of ids in
+use at once is limited by the concurrent use limit and ownership.
+.LP
+.ne 9
+.IN "QuerySetup" "" "@DEF@"
+.IN "QuerySetup" "QuerySetup" "@DEF@"
+\fBQuerySetup\fP
+.IP
+\fIvid\fP\^: VIDEOIO
+.br
+\fIport\fP\^: ATOM
+.br
+==>
+.br
+\fIframes-available: BOOL
+.br
+\fItimecodes-available: BOOL
+.br
+\fIframe-accurate: BOOL
+.IP
+Errors:  Match, Atom, Video
+.IP
+This request returns the synchronization ability of a video setup:  a
+video input or output paired with a port.
+Whether timecodes or frame numbers are available from the video media
+is outside the domain of MVEX; i.e., another system must be used to
+obtain media information and events.
+This request enables the user to decide before making a request whether
+to specify in and out points for RenderVideo and CaptureGraphics.
+.IP
+The frames-available is true if the videoio is capable of recognizing
+frames with the specified port; likewise, the timecodes-available is
+true if the videoio is capable of recognizing
+timecodes with the specified port.  The frame-accurate is
+true if RenderVideo and CaptureGraphics can be performed on
+precise frame boundaries; e.g., if frames-available is true and
+frame-accurate is false, the requests will perform "close" to the
+specified marker.
+.IP
+The ability of a setup may change at any time, for example, because of a media 
+change, and a VideoSetup event may be generated.
+.LP
+.ne 9
+.IN "RenderVideo" "" "@DEF@"
+.IN "Requests" "RenderVideo" "@DEF@"
+\fBRenderVideo\fP
+.IP
+\fIsource\fP\^: VIDEOIN
+.br
+\fIinport\fP\^: ATOM
+.br
+\fIdestination\fP\^: DRAWABLE
+.br
+\fIsrc-x\fP, \fIsrc-y\fP, \fIdest-x\fP, \fIdest-y\fP\^: INT16
+.br
+\fIsrc-width\fP, \fIsrc-height\fP, \fIdest-width\fP, \fIdest-height\fP\^: CARD16
+.br
+\fIgc\fP\^: GCONTEXT
+.br
+\fIvalue-mask\fP\^: BITMASK
+.br
+\fIvalue-list\fP\^: LISTofVALUE
+.IP
+Errors:  Drawable, Match, Value, Video
+.IP
+The destination must be a valid drawable id, else Drawable error.  The
+specified region of the source video signal is decoded or digitized from
+the specified input port, \fIinport\fP, and directed to
+the destination drawable.  The visible portion of the destination rectangle
+becomes a VIR.
+.IP
+In general, it is intended that when a window of visual class VideoGray
+or VideoColor is the destination, the pixels of the video picture are
+inaccessible.  If the visual class is a core X type, and opaque is
+true (as returned by QueryVideo), the pixels are accessible, but cannot
+be interpreted by the core X visual.
+.IP
+When a window is created with a visual id from a RENDERMODEL whose
+\fIopaque\fP member is true, then the intent is to say that digitized
+pixels are accessible, but they are not defined.
+When the destination is a window having a core visual class,
+the intent is that the video pixels are fully accessible, but happen to
+change "very frequently".  The same is true for a pixmap depth (note
+that there is only one RENDERMODEL per depth; see QueryVideo).
+.IP
+If the destination is a window, then Window must be asserted in the
+\fIvideo-input-models\fP returned by QueryVideo for the intersecting
+visual/depth of the window and the specified video input, else Match
+error.  If the window is visible, then the visible pixels are
+displayed.  If the destination is an unmapped window, then the window's
+pixels may be rendered, depending on the value of backing-store for the
+window.
+.IP
+If the destination is a pixmap, then Pixmap must be asserted in
+the video-input-models for the intersecting \fIallowed-depth\fP
+of the pixmap and the specified video input, else Match error.  In this
+case, if \fIopaque\fP is false, then the red-, green- and blue-mask
+define the meaning of the bits after a frame has been rendered.  The
+source and destination must belong to the same screen, else Match
+error.  If \fIopaque\fP is true, then the pixels are modified, but are
+undefined.
+.IP
+The src-x, src-y, src-width and src-height describe the extent of the
+source rectangle in the video picture.  The dest-x, dest-y, dest-width
+and dest-height describe the rectangle in the destination drawable to
+receive the video picture.  The source video picture will be scaled by
+.br
+.ne 5
+.EQ
+roman
+x~scale~=~{dest-width} over {src-width}
+fwd 1000
+y~scale~=~{dest-height} over {src-height}
+.EN
+.IP
+If the source or destination width or height is zero, then
+the a Value error is generated.
+If the source and destination rectangles and scaling factors do not match
+one of those provided in a single PLACEMENT
+for the specified video input source, a VideoViolation event may
+be generated.  If the
+destination rectangle is valid, but some or all of it is outside the
+extent of the destination drawable, the result is clipped to a
+granularity advertised by QueryVideo, and a VideoViolation event may be
+generated.  If the source rectangle is valid, but some or all of it is
+outside the extent of the video picture, the result in the
+corresponding region of the destination is undefined: it is hardware
+dependent.
+.IP
+The subwindow-mode in the gc controls the treatment of the window's
+children.  For ClipByChildren, the destination is clipped by all
+viewable children.  For IncludeInferiors, viewable inferiors of the
+destination that overlap the VIR are updated with pixels from the video
+picture if the destination and its inferiors have a matching
+visual/depth;  otherwise, the result in the inferiors is undefined.
+The clip-mask in the gc is also applied to the request.  The server
+makes an internal copy of the clip-mask and the subwindow-mode at
+the time of the request so that the proper request can be maintained
+until it is stopped.
+.IP
+The value-mask and value-list specify attributes of the request that
+are to be explicitly initialized.  The possible values are:
+.TS H
+l lw(2.6i).
+_
+.sp 6p
+.TB
+Attribute       Type
+.sp 6p
+_
+.TH
+.R
+.sp 6p
+full-motion	BOOL
+priority	CARD8
+marker-type	None or FrameMarker or TimecodeMarker
+in-frame	FRAME
+out-frame	FRAME
+in-timecode	TIMECODE
+out-timecode	TIMECODE
+hue	FRACTION
+saturation	FRACTION
+brightness	FRACTION
+contrast	FRACTION
+.sp 6p
+_
+.TE
+The default values when attributes are not explicitly initialized are:
+.TS H
+l lw(2.6i).
+_
+.sp 6p
+.TB
+Attribute       Type
+.sp 6p
+_
+.TH
+.R
+.sp 6p
+full-motion	TRUE
+priority	100
+marker-type	None
+in-frame	current point
+out-frame	never
+in-timecode	current point
+out-timecode	never
+hue	the normal-hue (see VIDEOABILITY)
+saturation	the normal-saturation (see VIDEOABILITY)
+brightness	the normal-brightness (see VIDEOABILITY)
+contrast	the normal-contrast (see VIDEOABILITY)
+.sp 6p
+_
+.TE
+.IP
+It is a Match error to specify marker-type FrameMarker and in or out
+timecodes; it is a match error to specify marker-type TimecodeMarker
+and in or out frames.
+.IP
+The full-motion element determines whether the video input signal is
+continually updated or not.  If it is true, then the server will try to
+achieve the maximum nominal rate advertised by the QueryVideo request
+for the specified scale factors and placement.  If it is False, then a
+single still video frame will be rendered, as if the RenderVideo
+request was immediately followed with a StopVideo request specifying
+the same drawable.  A full-motion element of False should be used where
+possible to avoid unnecessary digitization.
+.IP
+Priority (0 to 100 inclusive, else Value error)
+represents the percentage of video bandwidth that the server should
+try to preserve.  A value of 0 tells the server that graphic output to
+the screen should have top priority and that the video decoding may
+occasionally miss some incoming or outgoing frames.  A value of 100
+gives video decoding top priority meaning that the graphics performance
+may be degraded.  It is advisory only and does not guarantee anything.
+.IP
+The in and out marker is used by RenderVideo to indicate a relative or
+absolute point when the request will start or stop.  The request will
+wait indefinitely for the in marker to appear and will begin on that
+frame.  The request will wait indefinitely for the out marker and will
+stop on the frame immediately preceeding.  If the marker is type None
+or the in point is not specified, the request begins immediately.  If
+the out marker is type None, the request will only terminate in
+response to a StopVideo request or some other implicit stimulous listed
+under VideoOverride.  If timecodes or frame numbers are not available,
+and an in or out point is specified it will behave as if the marker is
+never encountered; see QuerySetup and VideoSetup.
+.IP
+The hue, saturation, brightness and contrast specify the hardware settings.
+If a specified value is not listed among the abilities for the video
+resource, it does not generate an error, but a VideoViolation event
+may be generated; see VIDEOABILITY, QueryVideo and VideoViolation.
+.IP
+Any time a RenderVideo is stopped because of an environment change,
+a VideoOverride event will be generated.  See the description under
+VideoOverride for what constitutes an environment change.
+.IP
+If the destination window is clipped by siblings or children, a
+VideoViolation event may be generated if an overlap or clipping
+constraint is violated; see QueryVideo.
+.IP
+Clients that do not need access to digitized pixels should use a window
+having a VideoGray or VideoColor visual class as a destination.  This
+allows the server to display the video picture using the most efficient
+means.  With all visual classes, there is no guarantee that the signal is
+actually digitized.
+.IP
+If pixels are accessible (any core X visual class), then CopyArea, CopyPlane and
+GetImage requests with a source region within a VIR are guaranteed to
+return a single frame with respect to the video signal.  Note that
+the digitized picture may come from a signal whose frame is composed
+of fields, and that there may be temporal differences between fields.
+More device-specific information about the format of the picture may be
+available from one of the video input's controls.
+.IP
+If the specified window changes size while the request is still active,
+the destination x and y the original request will be adjusted to follow
+the bit gravity of the destination, but the width, height and scale are
+not adjusted.  If the window changes size or root window coordinates,
+the result is clipped appropriately, and a VideoViolation
+event may be generated.  In the case of ForgetGravity, a window size
+change will cause an implied StopVideo with an action of Render
+to be issued on the window.
+.IP
+Graphics may be drawn on a VW, but if the window is servicing an active
+RenderVideo request, the results are undefined.
+.IP
+GC components: subwindow-mode, clip-x-origin, clip-y-origin, clip-mask.
+.LP
+.ne 9
+.IN "CaptureGraphics" "" "@DEF@"
+.IN "Requests" "CaptureGraphics" "@DEF@"
+\fBCaptureGraphics\fP
+.IP
+\fIsource\fP\^: DRAWABLE
+.br
+\fIoutport\fP\^: ATOM
+.br
+\fIdestination\fP\^: VIDEOOUT
+.br
+\fIcmap\fP\^: COLORMAP or \fCNone\fP
+.br
+\fIsrc-x\fP, \fIsrc-y\fP, \fIdest-x\fP, \fIdest-y\fP\^: INT16
+.br
+\fIsrc-width\fP, \fIsrc-height\fP, \fIdest-width\fP, \fIdest-height\fP\^: CARD16
+.br
+\fIsubwindow-mode\fP\^: {ClipByChildren, IncludeInferiors}
+.br
+\fIvalue-mask\fP\^: BITMASK
+.br
+\fIvalue-list\fP\^: LISTofVALUE
+.IP
+Errors:  Drawable, Match, Value, Video, Colormap
+.IP
+The specified region of the source is encoded into a video signal by
+the destination encoder and placed on the output port, \fIoutport\fP.
+If the source is a window, then Window must
+be asserted in the video-output-models returned by QueryVideo for the
+intersecting visual/depth of the window and the specified video output,
+else Match error.  If the source is a pixmap, then Pixmap must be
+asserted in the video-output-models for the intersecting depth of the
+pixmap and the specified video output, else Match error.
+.IP
+If the source is a window, \fIcmap\fP must be \fCNone\fP (else Match error),
+and the window's colormap or the installed colormap is used,
+depending on the video output hardware.
+If the source is a pixmap and the colormap is not \fCNone\fP, then the visual
+id of the RENDERMODEL that intersects with the specified video output
+must be defined (else Match error), and the visual id of the colormap
+must match the RENDERMODEL (else Match error).
+The colormap defines the visual and colormap for the encoded picture.
+If the source is a pixmap and the colormap is \fCNone\fP,
+then the interpretation of the pixel values is provided by
+the red-, green- and blue-mask for the RENDERMODEL.  The source and
+destination must belong to the same screen, else Match error.
+.IP
+The src-x, src-y, src-width and src-height describe the extent of the
+source rectangle of the region captured.  The dest-x, dest-y,
+dest-width and dest-height describe the rectangle in the destination
+video picture to receive the graphics.  The source graphics region will
+be scaled by
+.EQ
+roman
+x~scale~=~{dest-width} over {src-width}
+fwd 1000
+y~scale~=~{dest-height} over {src-height}
+.EN
+.IP
+If the source or destination width or height is zero, then
+the a Value error is generated.
+If the source and destination rectangles and scaling factors do not match
+one of those provided in a single PLACEMENT
+for the specified video output destination, a VideoViolation event may
+be generated.  If the destination rectangle is valid, but some or all of
+it is outside the extent of the video picture, those pixels are clipped
+in the output video picture.  If the source rectangle is valid, but
+some or all of it is beyond the extent of the source drawable, the
+result in the encoded video signal is undefined:  it is hardware
+dependent.
+.IP
+Subwindow-mode controls the capture of the window's children.  If
+ClipByChildren is specified, the source is clipped by all viewable
+children.  If Composite is asserted in the video-output-models for the
+video output destination, the subwindow-mode will be effectively
+IncludeInferiors, regardless of its specified value.
+.IP
+If IncludeInferiors is specified for the subwindow-mode, then each
+visible region of an inferior of the source that overlaps the VIR may
+captured, but only if one or both of the following are true:
+.bU
+The inferior is the same depth, visual and window type as the source
+window.
+.bU
+Composite is asserted in the video-output-models for the video output
+destination.
+.IP "" \n(PIu
+Otherwise, the source rectangle is clipped.
+.IP
+If the source rectangle is clipped by siblings or children, the
+appearance of the clipped regions in the encoded picture are
+undefined:  it is hardware dependent.
+.IP
+The value-mask and value-list specify attributes of the request that
+are to be explicitly initialized.  The possible values and defaults are
+listed under RenderVideo.
+.IP
+The full-motion element determines whether the video output signal is
+constantly updated or not.  If it is true, then the server will try to
+achieve the maximum rate advertised by the QueryVideo request for the
+specified scale factor and placement.  If it is False, then a single
+still video frame will be captured.  It is just as if the
+CaptureGraphics request was immediately followed with a StopVideo
+request specifying the same drawable; however, a full-motion element of
+False is an aid to the server to avoid extra encoding.
+.IP
+Priority is a value (0 to 100 inclusive, else Value error),
+representing the percentage of video bandwidth that the server should
+try to preserve.  A value of 0 tells the server that graphic output to
+the screen should have top priority and that the video capture process
+may occasionally miss some incoming or outgoing frames.  A value of 100
+gives video capture top priority meaning that the graphics performance
+may be degraded.  It is advisory only and does not guarantee anything.
+.IP
+The in and out marker is used by CaptureGraphics to indicate a relative or
+absolute point when the request will start or stop.  The request will
+wait indefinitely for the in marker to appear and will begin on that
+frame.  The request will wait indefinitely for the out marker and will
+stop on the frame immediately preceeding.  If the marker is type None
+or the in point is not specified, the request begins immediately.  If
+the out marker is type None, the request will only terminate in
+response to a StopVideo request or some other implicit stimulous listed
+under VideoOverride.  If timecodes or frame numbers are not available,
+and an in or out point is specified it will behave as if the marker is
+never encountered; see QuerySetup and VideoSetup.
+.IP
+Any time a CaptureGraphics is stopped because of an environment change,
+a VideoOverride event will be generated.  See the description under
+VideoOverride for what constitutes an environment change.
+.IP
+If the specified window changes size while the request is still active,
+only the source x and y of the original request will be adjusted to
+follow the bit gravity of the source.  If the specified window changes
+size or root window coordinates a VideoViolation event may be
+generated.  If a portion of the new rectangle is beyond the extent of
+the source, the result in the output signal is undefined.  In the case
+of ForgetGravity, a window size change will cause an implied StopVideo
+with an action of Capture to be issued on the window.
+.LP
+.ne 4
+.IN "StopVideo" "" "@DEF@"
+.IN "Requests" "StopVideo" "@DEF@"
+\fBStopVideo\fP
+.IP
+\fIidlist\fP\^: LISTofDRAWABLE
+.br
+\fIaction\fP\^: BITMASK {Render, Capture}
+.IP
+Errors:  Drawable, Value
+.IP
+Each id must be a valid drawable, else Drawable error.  If more than
+one id is in error, which one is reported is arbitrary.
+.IP
+The currently active renders and/or captures are stopped on all of the
+listed ids, even if one of the ids produces an error.  If Render is
+specified, then RenderVideo requests on the listed ids are terminated.
+If Capture, is specified, then CaptureGraphics requests on the listed
+ids are terminated.  Both may be specified; if neither are specified,
+a Value error is reported.  If neither a RenderVideo or
+CaptureGraphics request is currently active on a id, no error is reported,
+and no event is generated.
+.IP
+If a RenderVideo on window W having a visual of type VideoColor or
+VideoGray is followed by a StopVideo on W, then the visible result on
+the screen is undefined, because it is hardware dependent.  If a
+RenderVideo on a window W having a core visual class is followed by a
+StopVideo on W, the result in W is the pixels take on the value of the
+last frame acquired: they can be manipulated by other X requests.
+.IP
+In all cases, when it takes effect, this request will generate a
+VideoOverride event for each drawable that is servicing an active
+RenderVideo or CaptureGraphics request.
+.LP
+.ne 3
+.IN "ChangeOwnership" "" "@DEF@"
+.IN "Requests" "ChangeOwnership" "@DEF@"
+\fBChangeOwnership\fP
+.IP
+\fIowners\fP\^: LISTofOWNER
+.IP
+Errors:  Window, Video, Match
+.IP
+\fINote:\fP this request is designed for the use of a video resource
+manager, not a client.  Conventions should be developed such that a
+client designates interest in video resources, perhaps through
+properties, and the video manager allocates ownership as appropriate.
+.IP
+For each member of the list, the client that created the specified
+window is given ownership of the specified resource; if the client no
+longer exists, no action is taken.  Owership for a video input or video
+output means that subsequent RenderVideo or CaptureGraphics requests
+are guaranteed not to be redirected, respectively.  In addition, all
+controls associated with the resource may only be changed by the owning
+client.  The number of clients given ownership of a single video input
+or output must not exceed the concurrent use limit for that resource as
+supplied by QueryVideo, else Match error.  Note that a VIDEOIO
+specified in a OWNER is simply an alias for a VREFERENCE; a VIDEOIO
+created by any client may be used to specify the resource; and the
+window is used to designate the client-owner.
+.IP
+If a RenderVideo or CaptureGraphics request is issued for a resource,
+and one or more instances of the resource are in use by a client that
+does not have ownership, then a StopVideo request will be implied as
+described by RenderVideo and CaptureGraphics, regardless of whether the
+last issuing client has ownership for that resource or not.  A
+VideoOverride event will be generated on the drawable.  Under the same
+circumstances, if the issuing client does not have ownership, and all
+instances of the resource have ownership, the request will not take
+effect and a VideoRequest event will be generated with \fIredirect\fP
+set to TRUE.
+.IP
+If a video input or output is in use for less than its specified
+concurrent use limit, then a request requiring that resource will
+always succeed, regardless of ownership.  Conversely, if a resource is
+utilized to its concurrent use limit, and the client utilizing the
+resource does not have ownership, and a client having ownership issues
+a request that requires the resource, then the owning client takes
+precedence, and a VideoOverride event will be generated, as
+appropriate.
+.IP
+Non ownership is achieved by designating the root window as the
+client-owner or by destroying the previously designated window.
+.LP
+.ne 4
+.IN "SelectVideoEvents" "" "@DEF@"
+.IN "Requests" "SelectVideoEvents" "@DEF@"
+\fBSelectVideoEvents\fP
+.IP
+\fIid\fP\^: VIDEOIO or DRAWABLE
+.br
+\fImask\fP\^: BITMASK
+.br
+.IN "Event Masks" "VideoRedirect" "@DEF@"
+.IN "Event Masks" "SyncNotify" "@DEF@"
+.IN "Event Masks" "OverrideNotify" "@DEF@"
+.IN "Event Masks" "ViolationNotify" "@DEF@"
+.IN "Event Masks" "SetupNotify" "@DEF@"
+\ \ \ \ \ \ {SetupNotify, SyncNotify,
+.br
+\ \ \ \ \ \ \ OverrideNotify, VideoRedirect, ViolationNotify}
+.IP
+Errors:  Drawable, Video, Access, Value, Alloc
+.IP
+This requests selects events for the specified resource.  Four of the
+masks are for drawables: VideoRedirect, OverrideNotify and
+ViolationNotify; the SetupNotify and SyncNotify masks are for a
+VIDEOIO.  If any of the drawable masks are included with any of the
+VIDEOIO masks, a Value error occurs.  If the id is not a drawable for
+any of the drawable masks, a Drawable error occurs.  If the id is not a
+VIDEOIO for SyncNotify or SetupNotify, a Video error occurs.
+.IP
+Selecting VideoRedirect will allow a client to receive VideoRequest
+events generated on the screen of the specified drawable; only one
+client may select the event on a given screen, else Access error.  After
+a client has selected the event, to maintain control, the client must
+assert VideoRedirect in every subsequent SelectVideoEvents request that
+specifies a drawable; the first request by the client specifying a
+drawable on the same screen without VideoRedirect asserted will release
+control.  This selection is intented for use by a video resource
+manager.
+.IP
+Selecting SetupNotify allows the client to receive VideoSetup events
+generated on the specified VideoIO.
+.IP
+Selecting SyncNotify allows the client to receive VideoSync events
+generated on the specified VideoIO.
+.IP
+Selecting OverrideNotify will allow client to receive
+VideoOverride events generated on the named drawable.
+.IP
+Selecting ViolationNotify will allow the client to receive
+VideoViolation events generated on the named drawable.
+.IP
+If any of the bits generates an error, which error is returned
+is not specified, and the state of selected events does not change.
+.NH 1
+.ne 30
+Core Requests
+.XS
+\*(SN Core Requests
+.XE
+.LP
+.ne 3
+.IN "CreateWindow" "" "@DEF@"
+.IN "Core Requests" "CreateWindow" "@DEF@"
+CreateWindow
+.IP
+< this is a core protocol request >
+.IP
+If the MVEX extension is present, this request will understand two new
+visual classes: VideoGray and VideoColor.  These are used to create one
+instance of a video window (VW).
+Visuals specified in a CreateWindow request must be one supported by
+the screen, and may be supplied by QueryVideo.
+.NH 1
+Events
+.XS
+\*(SN Events
+.XE
+.LP
+Every MVEX event also contains the least-significant 16 bits of the
+sequence number of the last request issued by the client that was (or
+is currently being) processed by the server.
+.LP
+.ne 8
+.IN "VideoViolation" "" "@DEF@"
+.IN "Events" "VideoViolation" "@DEF@"
+\fBVideoViolation\fP
+.IP
+\fIid\fP\^: DRAWABLE
+.br
+\fIvid\fP\^: VIDEOIO
+.br
+\fIaction\fP\^: ACTIONMASK
+.br
+.ta 1i
+\twhere ACTIONMASK is {Scale, Placement, Clip, Overlap,
+\ \ Hue, Saturation, Contrast, Brightness }
+.br
+\fIstate\fP\^:  {Success, Subset, Fail}
+.br
+\fItime\fP\^: TIMESTAMP
+.IP
+This event is reported to the client selecting ViolationNotify on the drawable.
+The event is generated for the specified drawable and video input or
+output when scaling, placement, clipping and overlap constraints are
+violated;  it is also generated when a value for hue, saturation, contrast
+or brightness does not match a value listed in the abilities of the video
+resource.  If state is Success, then the listed violations caused no
+discernable problem in the display or video output for the specified drawable,
+although some other drawable may be affected.
+.IP
+For scale, placement, clip and overlap, if state is Subset, then
+some subset of the unobscured regions are still being displayed or
+captured;  if the state is Fail, then the originating RenderVideo and
+CaptureGraphics will be cancelled (no VideoOverride event is
+generated).  Note that for pixmaps, Overlap will never be asserted.
+.IP
+For hue, saturation, contrast and brightness, if the state is Subset,
+then a suitably close value has been substituted; if the state is Fail,
+then normal value was substitued.  Note that Violation events for these
+are not generated when the hardware lists no abilities for the adjustments.
+
+.IP
+The time is the current server time.
+.LP
+.ne 6
+.IN "VideoSetup" "" "@DEF@"
+.IN "Events" "VideoSetup" "@DEF@"
+\fBVideoSetup\fP
+.IP
+\fIvid\fP\^: VIDEOIO
+.br
+\fIport\fP\^: ATOM
+.br
+\fIframes-available: BOOL
+.br
+\fItimecodes-available: BOOL
+.br
+\fIframe-accurate: BOOL
+.br
+\fItime\fP\^: TIMESTAMP
+.IP
+This event is reported to the client selecting SetupNotify on the vid.
+.IP
+It is generated whenever the videoio-port pair changes in its ability
+to recognize and synchronize to frames and timecodes change.
+.IP
+The time is the current server time.
+.LP
+.LP
+.ne 6
+.IN "VideoSync" "" "@DEF@"
+.IN "Events" "VideoSync" "@DEF@"
+\fBVideoSync\fP
+.IP
+\fIid\fP\^: DRAWABLE
+.br
+\fIvid\fP\^: VIDEOIO
+.br
+\fIstate\fP\^:  {Acquired, Lost}
+.br
+\fItime\fP\^: TIMESTAMP
+.IP
+This event is reported to the client selecting SyncNotify on the vid.
+.IP
+It is generated following a RenderVideo request with the specified id
+and video input, whenever the sync is lost or gained.  When selected,
+at least one VideoSync event is guaranteed following a RenderVideo
+request.  An event with state Lost will be delivered if the picture
+cannot be rendered for some reason; e.g. no video sync, or a digital
+feed is down.  An event with state Acquired will be delivered after the
+a complete frame has been rendered.
+.IP
+The event is also generated following a CaptureGraphics request with
+the specified id and video output, whenever the output signal begins to
+be produced.  When selected, at least one VideoSync event is guaranteed
+following a CaptureGraphics request.  An event with state Lost will be
+delivered if the picture cannot be captured for some reason; e.g. no
+video sync, or a digital feed is down.  An event with state Acquired
+will be delivered after the a complete frame has been captured.
+.IP
+Note that if the original request specified fullmotion false, and the
+request succeeded, this will be the only event generated.
+.IP
+The time is the current server time.
+.LP
+.ne 5
+.IN "VideoOverride" "" "@DEF@"
+.IN "Events" "VideoOverride" "@DEF@"
+\fBVideoOverride\fP
+.IP
+\fIid\fP\^: DRAWABLE
+.br
+\fIvid\fP\^: VIDEOIO
+.br
+\fIoverride-id\fP\^: VIDEOIO
+.br
+\fIstate\fP\^:  {DrawableChange, Stopped, RequestOverride,
+MarkerReached, HardwareError, Reused}
+.br
+\fItime\fP\^: TIMESTAMP
+.IP
+This event is reported to the client selecting OverrideNotify on the
+id.  It is generated when a change in the system state causes a
+RenderVideo or CaptureGraphics request to stop.
+.IP
+Given a RenderVideo or CaptureGraphics request specifying VIDEOIO V and
+drawable D, the following changes in the environment will cause the
+request to stop, and the VideoOverride event to be generated with the
+specified state:
+.bU
+An unexpected hardware error; state HardwareError
+.bU
+An explicit StopVideo request with drawable D and render; state Stopped
+.bU
+a change state of the window D such that it is no longer viewable
+(defined by the core protocol); state DrawableChange
+.bU
+a change in the size of the window D with bitgravity ForgetGravity;
+state DrawableChange
+.bU
+destruction of D; state DrawableChange
+.bU
+destruction of V; state Stopped
+.bU
+a connection close for the client that created V, thereby causing
+destruction of the identifier V; state Stopped
+.bU
+another RenderVideo (CaptureGraphics) request specifying V as a source
+(destination); state Reused.  Note that for every VREFERENCE, there
+may be many V; reuse of the same V will stop the earlier request
+.bU
+another RenderVideo (CaptureGraphics) request specifying D as a
+destination (source); state Reused
+.bU
+the client does not have ownership for the VIDEOIO, the concurrent use
+for video input resource is exhausted and some client issues a request
+that specifies a different VIDEOIO created from the same VIDEOREFERENCE
+as V; state RequestOverride; override-id will contain the VIDEOIO of
+the overriding request
+.bU
+An out marker was reached; state MarkerReached
+.IP "" \n(PIu
+Note that if a client has ownership for a VIDEOIO, the system is
+guaranteed never to stop an issued request given any of the conditions
+marked with state RequestOverride.  A video resource manager may arbitrarily
+decide to revoke ownership at any time, but a request will not be
+stopped until there is contention for the resource.
+.IP
+Normally, when a client receives a VideoOverride event with
+state RequestOverride and the override-id is not its own, it should
+not try to restart the RenderVideo (CaptureGraphics) request until
+being notified by some video manager, or explicit instruction by the user.
+This model will work whether or not a video manager is present.
+.IP
+The time is the current server time.
+.LP
+.ne 11
+.IN "VideoRequest" "" "@DEF@"
+.IN "Events" "VideoRequest" "@DEF@"
+\fBVideoRequest\fP
+.IP
+\fIrequest\fP\^: {Render, Capture}
+.br
+\fIredirect\fP\^: BOOL
+.br
+\fIsource\fP\^: VIDEOIN or DRAWABLE
+.br
+\fIdestination\fP\^: VIDEOOUT or DRAWABLE
+.br
+\fItime\fP\^: TIMESTAMP
+.IP
+This event is reported to the client selecting VideoRedirect.  The
+request element indicates whether the request was RenderVideo or
+CaptureGraphics.  Every RenderVideo or CaptureGraphics request using a
+resource for which the requesting client does not have ownership, and
+the concurrent use limit has been reached, and there are no non-owners
+using the resource, will generate a VideoRequest event with redirect
+set to true.  Events are generated for requests that do not match this
+criteria with redirect set to false.
+.IP
+This event is intended to be used by video resource managers so that it
+can be notified about clients that want to use a video resource that is
+currently in use.
+.IP
+The time is the current server time.
+
+.\" This is necessary to produce a special entry for the last page
+.\" so that the first page of the index is produced automatically
+.IN "@LastPage" "Protocol" ""

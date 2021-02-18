@@ -1,0 +1,24 @@
+/**/#
+/**/#  This Imakefile makes the programs cpicker and pixedit.  They
+/**/#  are used to select colors
+/**/#
+/**/#  This Imakefile was produced by Dana Chee (dana@bellcore.com)
+/**/#  Motif variant experimentally produced by Mike Yang (mikey@sgi.com)
+/**/#	
+CSRCS = color.c Cpick.c
+COBJS = color.o Cpick.o
+	
+SRCS1 = cpicker.c $(CSRCS)
+OBJS1 = cpicker.o $(COBJS)
+
+SRCS2 = pixedit.c $(CSRCS)
+OBJS2 = pixedit.o $(COBJS)
+
+PROGRAMS = cpicker pixedit
+LOCAL_LIBRARIES = $(XMLIB) -lm
+
+ComplexProgramTarget_1(cpicker,$(LOCAL_LIBRARIES),$(SYSLIBS))
+ComplexProgramTarget_2(pixedit,$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+InstallAppDefaults(Cpicker)
+InstallAppDefaults(Pixedit)

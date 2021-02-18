@@ -1,0 +1,29 @@
+XCOMM $Id: Imakefile,v 1.1 1991/09/29 21:45:17 ygz Exp $
+
+#include <imake.local>
+
+          SRCS1 = tit2cit.c
+          OBJS1 = tit2cit.o
+          SRCS2 = cit2tit.c
+          OBJS2 = cit2tit.o
+           SRCS = $(SRCS1) $(SRCS2)
+           OBJS = $(OBJS1) $(OBJS2)
+       PROGRAMS = cit2tit tit2cit
+       PROGRAMS = tit2cit cit2tit
+
+AllTarget($(PROGRAMS))
+
+LinkSourceFile(HZinput.h,$(CXTERMSRC))
+
+includes:: HZinput.h
+
+NormalProgramTarget(tit2cit,$(OBJS1),NullParameter,NullParameter,NullParameter)
+InstallProgramWithFlags(tit2cit,$(BINDIR),NullParameter)
+
+NormalProgramTarget(cit2tit,$(OBJS2),NullParameter,NullParameter,NullParameter)
+InstallProgramWithFlags(cit2tit,$(BINDIR),NullParameter)
+
+InstallManPage(tit2cit,$(MANDIR))
+InstallManPageAliases(tit2cit,$(MANDIR),cit2tit)
+
+DependTarget()

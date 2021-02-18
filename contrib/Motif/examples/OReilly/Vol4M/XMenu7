@@ -1,0 +1,26 @@
+!
+! Appearance Resources
+!
+*quit.labelString:	Quit
+*label.labelString:	This is a Pretend Main Window; Press in here.
+!
+! make all entries in menu same width 
+! (needs adjusting for longest entry)
+!
+!*menulabel.width:	135
+!*menubox.Command.width:  135
+!
+! Pane Strings
+!
+*entry0.labelString:  View Next
+*entry1.labelString:  View Previous
+*entry2.labelString:  Delete
+*entry3.labelString:  Move
+*entry4.labelString:  Copy
+*entry5.labelString:  Unmark
+*entry6.labelString:  View In New
+*entry7.labelString:  Reply
+*entry8.labelString:  Forward
+*entry9.labelString:  Use As Comp
+*RowColumn.packing:     XmPACK_TIGHT
+*RowColumn.orientation: XmHORIZONTAL

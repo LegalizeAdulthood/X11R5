@@ -1,0 +1,141 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#define	IHaveSubdirs
+
+#ifdef hp9000s800
+depend:: 
+	make Makefiles SUBDIRS=ossupport
+	(cd ossupport; make dependInstall)
+#endif /* hp9000s800 */
+
+#ifdef	AMS_ENV
+AMS = ams atkams
+#endif /* AMS_ENV */
+
+#ifdef X11_ENV
+MKFONTDIR = xmkfontd
+#endif /* X11_ENV */
+
+#ifdef CONTRIB_ENV
+CONTRIB = contrib
+#endif /* CONTRIB_ENV */
+
+#ifdef MK_HELP
+HELP = helpindex helpaliases
+#endif /* MK_HELP */
+
+#ifdef SITE_ENV
+SITE = site
+#endif /* SITE_ENV */
+
+DIRS = $(DESTDIR)  \
+	$(DESTDIR)/bin \
+	$(DESTDIR)/config \
+	$(DESTDIR)/etc \
+	$(DESTDIR)/include \
+	$(DESTDIR)/lib \
+	$(DESTDIR)/doc \
+	$(DESTDIR)/doc/atk \
+	$(DESTDIR)/doc/ams \
+	$(DESTDIR)/help \
+	$(DESTDIR)/man \
+	$(DESTDIR)/dlib \
+	$(DESTDIR)/examples
+
+SUBDIRS = overhead atk $(AMS) $(CONTRIB) $(SITE) $(MKFONTDIR) $(HELP)
+
+depend::
+	@echo 'Checking that BASEDIR is not the location of the source files.'
+	@sh -c '(if [ "$(BASEDIR)" = "`pwd`" ]; then \
+		echo "%% BASEDIR must be different from the location of the source files."; \
+		echo "%% Currently, they are both $(BASEDIR) ."; \
+		echo "%% This must be fixed before proceeding with installation."; \
+		echo "%% (You may wish to move the source files to $(BASEDIR)/src .)"; \
+		exit 1; \
+	fi; exit 0)'
+
+
+World::
+	date
+	make Makefiles
+	make dependInstall
+
+World::
+	date
+
+
+MkdirTarget($(DIRS))
+
+#ifdef	WM_ENV
+MkdirTarget($(DESTDIR)/fonts)
+#endif
+
+#ifdef	X11_ENV
+MkdirTarget($(DESTDIR)/X11fonts)
+#endif
+
+#ifdef	OPENWINDOWS_ENV
+MkdirTarget($(DESTDIR)/xnwsfnts)
+#endif
+
+#ifdef LINKINSTALL_ENV
+install.time::
+	${RM} ${DESTDIR}/bin/linkinst
+	$(LN) `pwd`/config/linkinst $(DESTDIR)/bin/linkinst
+#else /* LINKINSTALL_ENV */
+#ifdef BUILDANDREWINSTALL_ENV
+install.time:: installation
+
+installation:
+	make Makefiles SUBDIRS=inst
+	(cd inst; make dependInstall)
+#endif /* BUILDANDREWINSTALL_ENV */
+#endif /* LINKINSTALL_ENV */
+
+
+InstallFileToFile(config/ImakeMacros.d, $(INSTINCFLAGS), $(DESTDIR)/doc/ImakeMacros.d)
+InstallFileToFile(config/andyenv.h,${INSTINCFLAGS},${DESTDIR}/include/andyenv.h)
+InstallFileToFile(config/${SYSTEM_H_FILE},${INSTINCFLAGS},${DESTDIR}/include/system.h)
+InstallFileToFile(config/andrewos.h,${INSTINCFLAGS},${DESTDIR}/include/andrewos.h)
+InstallFileToFile(config/allsys.h,${INSTINCFLAGS},${DESTDIR}/include/allsys.h)
+InstallFileToFile(config/site.h,${INSTINCFLAGS},${DESTDIR}/include/site.h)
+
+install.time:: platform.tmp system.tmp
+	@echo -n ''
+
+platform.tmp: config/platform.tmpl
+	@$(SED) -e 's;<.*/system\.mcr>;<system.mcr>;g' \
+	-e 's;#define.*MacroIncludeFile.*;#define MacroIncludeFile system.mcr;g' \
+	config/platform.tmpl > platform.tmp
+
+system.tmp: config/MacroIncludeFile
+	@$(SED) -e 's;<.*/system\.h>;<system.h>;g' \
+	-e 's;SYSTEM_H_FILE =.*;SYSTEM_H_FILE = system.h;g' \
+	config/MacroIncludeFile > system.tmp
+
+
+
+install.time:: 
+	(cd $(DESTDIR)/config; \
+	${RM} andrewos.h andyenv.h system.h allsys.h site.h; \
+	$(LN) ../include/andrewos.h andrewos.h; \
+	$(LN) ../include/andyenv.h andyenv.h; \
+	$(LN) ../include/system.h system.h; \
+	$(LN) ../include/allsys.h allsys.h; \
+	$(LN) ../include/site.h site.h; )
+
+InstallFileToFile(config/imake.tmpl, $(INSTINCFLAGS), $(DESTDIR)/config/imake.tmpl)
+InstallFileToFile(platform.tmp, $(INSTINCFLAGS), $(DESTDIR)/config/platform.tmpl)
+InstallFileToFile(system.tmp, $(INSTINCFLAGS), $(DESTDIR)/config/system.mcr)
+InstallFileToFile(config/allsys.mcr, $(INSTINCFLAGS), $(DESTDIR)/config/allsys.mcr)
+InstallFileToFile(config/site.mcr, $(INSTINCFLAGS), $(DESTDIR)/config/site.mcr)
+InstallFileToFile(config/andrew.rls, $(INSTINCFLAGS), $(DESTDIR)/config/andrew.rls)
+InstallFileToFile(config/site.rls, $(INSTINCFLAGS), $(DESTDIR)/config/site.rls)
+InstallFileToFile(config/depend.csh, $(INSTPROGFLAGS), $(DESTDIR)/config/depend.csh)
+InstallFileToFile(config/loginstall, $(INSTPROGFLAGS), $(DESTDIR)/config/loginstall)
+InstallFileToFile(config/COPYRITE, $(INSTINCFLAGS), $(DESTDIR)/config/COPYRITE)
+
+
+

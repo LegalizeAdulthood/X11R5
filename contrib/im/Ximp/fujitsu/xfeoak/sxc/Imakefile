@@ -1,0 +1,13 @@
+#include <Library.tmpl>
+
+        DEFINES =
+LOCAL_INCLUDES  = -I.
+       INCLUDES = $(LOCAL_INCLUDES) $(STD_INCLUDES)
+           SRCS = slcatoe.c slcetoa.c slcrtok.c slctab.c
+           OBJS = slcatoe.o slcetoa.o slcrtok.o slctab.o
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(sxc,$(OBJS))
+InstallLibrary(sxc,$(USRLIBDIR))
+DependTarget()
+

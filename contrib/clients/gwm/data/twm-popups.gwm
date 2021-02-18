@@ -1,0 +1,135 @@
+; Twm-Style Popup Menus (hacked up from std-popups.gwm)
+; =====================================================
+
+; This file is derived from the std-popups.gwm distributed with gwm 1.4.1.30
+; The original file was written by Colas Nahaboo, BULL Research, France.
+;
+; Modifications [Dec 1989] for twm emulation by Arup Mukherjee 
+; (arup@grip.cis.upenn.edu)
+;
+; Within the restrictions of the GWM copyright, you may do whatever you
+; want with this code. It would be nice, however, if my name were to remain 
+; in it somewhere.
+
+; Pop-ups
+; =======
+
+(if (not (boundp 'twm-pop-item-font))
+    (defname 'twm-pop-item-font screen. (font-make "8x13")))
+
+(if (not (boundp 'twm-pop-label-font))
+    (defname 'twm-pop-label-font screen. (font-make "8x13")))
+
+(if (not (boundp 'twm-pop-item-height))
+    (defname 'twm-pop-item-height screen. 10))
+
+(setq twm-popups.fsm (fsm-make 
+			  (: closed 
+			     (state-make 
+				 (on enter-window 
+				     (wob-borderpixel twm-menu-hilite-color)
+				     opened)))
+			  (: opened
+			     (state-make
+				 (on (buttonrelease any any)
+				     (with (calling-wob (with (wob wob-parent)
+							 wob-parent))
+				       (wob-borderpixel twm-menu-background)
+				       (setq twm-popups.action
+					     (# 'action wob-property))
+				       (wob wob-parent)
+				       (unpop-menu 
+					(# 'shadow wob-property))
+				       (unpop-menu wob)
+				       (wob calling-wob)
+				       (eval twm-popups.action)
+				       )
+				     closed)
+				 (on enter-window 
+				     (wob-borderpixel twm-menu-hilite-color))
+				 (on leave-window 
+				     (wob-borderpixel twm-menu-background))))))
+
+(df twm-item-make (label action)
+    (list 
+     (with (borderwidth twm-borderwidth
+			borderpixel twm-menu-background
+			background twm-menu-background
+			foreground twm-menu-foreground
+			fsm twm-popups.fsm
+			bar-min-width twm-pop-item-height
+			property (+ (list 'action action) property))
+	   (bar-make
+	    ()
+	    (with (borderwidth 0 fsm () font twm-pop-item-font)
+		  (plug-make (label-make label) 
+			     ))()))
+     (with (borderwidth twm-borderwidth
+			borderpixel twm-menu-shadow-color
+			foreground twm-menu-shadow-color
+			background twm-menu-shadow-color
+			fsm ()
+			bar-min-width twm-pop-item-height
+			property ())
+	   (bar-make
+	    ()
+	    (with (borderwidth 0 fsm () font twm-pop-item-font)
+		  (plug-make (label-make label) 
+			     ))()))))
+     
+
+(df twm-pop-label-make (label)
+    (list 
+     (with (borderwidth twm-borderwidth 
+			borderpixel twm-menu-border-color fsm ()
+			background twm-menu-background
+			foreground twm-menu-foreground) 
+	   (bar-make
+	    (with (borderwidth 0 font twm-pop-label-font)
+		  (plug-make (label-make label)))))
+     (with (borderwidth twm-borderwidth 
+			borderpixel twm-menu-shadow-color fsm ()
+			background twm-menu-shadow-color
+			foreground twm-menu-shadow-color) 
+	   (bar-make
+	    (with (borderwidth 0 font twm-pop-label-font)
+		  (plug-make (label-make label)))))))
+
+(: twm-pop-fsm
+   (fsm-make 
+    (state-make
+     (on (buttonrelease any any) 
+	 (progn (unpop-menu (# 'shadow wob-property))
+		(unpop-menu))))))
+
+(df twm-menu-make twm-menu-args
+    (with (bar-list (list menu-make) back-list (list menu-make) 
+		    fsm () bar-separator 0)
+	  (for item twm-menu-args
+	       (: twm-item (eval item))
+	       (setq bar-list (+ bar-list (list (# 0 twm-item))))
+	       (setq back-list (+ back-list (list (# 1 twm-item)))))
+	  (with (shadow (eval back-list) fsm twm-pop-fsm
+			borderpixel twm-menu-border-color)
+		(with (property (+ (list 'shadow shadow) property))
+		    	(eval bar-list)))))
+
+(df twm-pop-menu args
+    (if (= (length args) 0)
+	(: twm-menu (wob-menu))
+      (: twm-menu (eval (# 0 args))))
+    (if (= (length args) 2)
+	(: pos (eval (# 1 args)))
+      (: pos 0))
+    (with (wob (menu-wob twm-menu))
+	  (: shadow (# 'shadow wob-property)))
+    (if (not shadow)
+	(print "twm menu has no shadow!\n"))
+    (with (x (current-event-x) y (current-event-y))
+	  (warp-pointer (+ x 10) (+ y 10) root-window)
+	  (pop-menu shadow 0)
+	  (warp-pointer x y root-window)
+	  (ungrab-server (menu-wob shadow))
+	  (pop-menu twm-menu pos)))
+      
+	    

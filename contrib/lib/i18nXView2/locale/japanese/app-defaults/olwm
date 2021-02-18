@@ -1,0 +1,25 @@
+! @(#)olwm 1.4 91/01/10; SMI
+!
+! Default OLWM app-defaults (Xrm) file for japanese locale
+!
+!
+! if you are running under the MIT X11R4 without any additional Japanese fonts
+!	use followings instead.
+!
+olwm.TitleFont.japanese:	-misc-fixed-medium-r-normal--14-130-75-75-c-140-japanese-0
+olwm.MenuButtonFont.japanese:	-misc-fixed-medium-r-normal--14-130-75-75-c-140-japanese-0
+olwm.TextFont.japanese:	-misc-fixed-medium-r-normal--14-130-75-75-c-140-japanese-0
+olwm.IconFont.japanese:  	-misc-fixed-medium-r-normal--14-130-75-75-c-140-japanese-0
+olwm.GlyphFont.japanese:	-sun-open look glyph-*-*-*-*-*-140-*-*-*-*-*-*
+olwm.BoldFontEmulation.japanese:True
+!
+!
+! if you are running under the Japanese OpenWindows2.0
+!
+!olwm.TitleFont.japanese:	-sun-gothic-bold-r-normal--16-140-75-75-c-140-japanese-0
+!olwm.MenuButtonFont.japanese:	-sun-gothic-medium-r-normal--16-140-75-75-c-140-japanese-0
+!olwm.TextFont.japanese:	-sun-gothic-medium-r-normal--16-140-75-75-c-140-japanese-0
+!olwm.IconFont.japanese:  	-sun-gothic-medium-r-normal--16-140-75-75-c-140-japanese-0
+!olwm.GlyphFont.japanese:	-sun-open look glyph-*-*-*-*-*-140-*-*-*-*-*-*
+!olwm.BoldFontEmulation.japanese:False
+!

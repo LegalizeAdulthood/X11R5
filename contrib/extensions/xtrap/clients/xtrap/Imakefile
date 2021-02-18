@@ -1,0 +1,69 @@
+/*****************************************************************************
+Copyright 1987, 1988, 1989, 1990, 1991 by Digital Equipment Corp., Maynard, MA
+
+Permission to use, copy, modify, and distribute this software and its 
+documentation for any purpose and without fee is hereby granted, 
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in 
+supporting documentation, and that the name of Digital not be
+used in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.  
+
+DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+DIGITAL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+SOFTWARE.
+
+*****************************************************************************/
+            TOP = TOPDIR/../mit/
+LOCAL_LIBRARIES = $(EXTENSIONSRC)/lib/xtrap/libXTrap.a $(EXTENSIONLIB) \
+                  $(XTOOLLIB) $(XLIB)
+        DEPLIBS = $(LOCAL_LIBRARIES)
+       INCLUDES = -I$(TOP) -I$(TOP)/X11 -I$(TOP)/X11/Xt \
+                  -I$(EXTENSIONSRC)/include -I$(EXTENSIONSRC)/include/xtrap
+        DEFINES = ConnectionFlags ExtensionDefines
+           SRCS = xtrapreset.c xtrapinfo.c xtrapstats.c xtrapout.c xtrapin.c \
+                  xtrapchar.c 
+           OBJS = xtrapreset.o xtrapinfo.o xtrapstats.o xtrapout.o xtrapin.o \
+                  xtrapchar.o 
+       PROGRAMS = xtrapreset xtrapinfo xtrapstats xtrapout xtrapin xtrapchar
+       XTRAPREF = $(TOP)/../../xtrapcode/
+
+AllTarget($(PROGRAMS))
+
+SingleProgramTarget(xtrapreset,xtrapreset.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(xtrapinfo,xtrapinfo.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(xtrapstats,xtrapstats.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(xtrapout,xtrapout.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(xtrapin,xtrapin.o,$(LOCAL_LIBRARIES),)
+SingleProgramTarget(xtrapchar,xtrapchar.o,$(LOCAL_LIBRARIES),)
+
+InstallProgramWithFlags(xtrapreset,$(BINDIR),)
+InstallProgramWithFlags(xtrapinfo,$(BINDIR),)
+InstallProgramWithFlags(xtrapstats,$(BINDIR),)
+InstallProgramWithFlags(xtrapout,$(BINDIR),)
+InstallProgramWithFlags(xtrapin,$(BINDIR),)
+InstallProgramWithFlags(xtrapchar,$(BINDIR),)
+
+links:
+	$(RM) Imakefile; \
+	$(LN) $(XTRAPREF)/clients_xtrap.imake_r5 Imakefile; \
+	for i in $(SRCS); do (set -x; $(RM) $$i; $(LN) $(XTRAPREF)/$$i .); done
+
+DependTarget()
+
+saber_reset : xtrapreset.c
+	#load $(CFLAGS) xtrapreset.c $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)
+saber_info : xtrapinfo.c
+	#load $(CFLAGS) xtrapinfo.c $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)
+saber_stats : xtrapstats.c
+	#load $(CFLAGS) xtrapstats.c $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)
+saber_out : xtrapout.c
+	#load $(CFLAGS) xtrapout.c $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)
+saber_in : xtrapin.c
+	#load $(CFLAGS) xtrapin.c $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)
+saber_char : xtrapchar.c
+	#load $(CFLAGS) xtrapchar.c $(LOCAL_LIBRARIES) $(SYS_LIBRARIES)

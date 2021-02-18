@@ -1,0 +1,34 @@
+;;; -*-Scheme-*-
+;;;
+;;; Useful hacks for the ISOTEXT project
+
+(define-macro (load* first . rest)
+  (let loop ((s "") (r rest))
+    (if (pair? r)
+	(loop
+	 (string-append s (find-object-file (eval (car r))) " ") (cdr r))
+	`(fluid-let
+	    ((load-libraries
+	      (string-append ,s "-lC " load-libraries)))
+	   (load ,first)))))
+
+(define-macro (stringify s)
+  `(if (symbol? ,s) (symbol->string ,s) ,s))
+
+(define (find-object-file f)
+  (if (not (or (symbol? f) (string? f)))
+      (error 'load* "file name must be string or symbol"))
+  (set! f (stringify f))
+  (if (eqv? f "")
+      (error 'load* "invalid filename"))
+  (set! f (tilde-expand f))
+  (if (eq? #\/ (string-ref f 0))
+      f
+      (let loop ((p load-path))
+	(if (null? p)
+	    (error 'load* "no such load file: ~s" f))
+	(let ((ret (format #f "~a/~a" (stringify (car p)) f)))
+	  (if (file-exists? ret)
+	      ret
+	      (loop (cdr p)))))))
+    

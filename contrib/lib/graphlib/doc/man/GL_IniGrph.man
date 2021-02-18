@@ -1,0 +1,32 @@
+.TH GL_InitGraphics 3GL "18Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_InitGraphics \- Initialize the library for use
+.SH SYNTAX
+void GL_InitGraphics(argc,argv,classname,helpfunction)
+.br
+	int argc;
+.br
+	char **argv;
+.br
+	char *classname;
+.br
+	VPTF helpfunction;
+.SH ARGUMENTS
+.IP argc 1i
+This should be the argc passed to your main function.
+.IP argv 1i
+This should be the argv passed to your main function.
+.IP classname 1i
+This is the name that you want your application to use for it's classname,
+generally this is a capitalized version of your program name.
+.IP helpfunction 1i
+This is the help function that you wish to use for generating help
+This can just be GL_Window_Help if your program has no additional help 
+values.
+
+.SH DESCRIPTION
+This is the call to initialize the GraphLib library.  This call needs to
+be made before any other calls to the library are made.
+
+.SH "SEE ALSO"
+XOpenDisplay(3X11), GraphLib Programming Manual.

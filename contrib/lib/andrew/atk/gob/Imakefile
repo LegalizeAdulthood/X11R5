@@ -1,0 +1,20 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = gob.do gobv.do
+IHFILES = gob.ih gobv.ih
+
+DependTarget()
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+NormalHelpRule()
+InstallDocs(gobproc.help, ${DESTDIR}/help)
+InstallHelpAlias(gobproc, gobprocs)
+
+MkdirTarget(${DESTDIR}/doc/atk/gob)
+InstallDocs(gob.doc,${DESTDIR}/doc/atk/gob)
+

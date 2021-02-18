@@ -1,0 +1,64 @@
+#
+# @(#)Imakefile 50.1 90/12/12 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=     panel.h
+HDRSPRIVATE=    panel_impl.h item_impl.h p_lst_impl.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP) -I$(TOOLDIR)
+
+OBJS =\
+		p_utl.o      p_utl_data.o   panel.o       p_set.o	\ 
+                p_get.o      p_event.o      panel_seln.o  p_scroll.o	\
+                p_select.o   p_menu.o       p_paint.o     p_image.o	\
+                p_public.o   p_compat.o     p_view.o      panel_data.o	\
+    		item.o       item_set.o     item_get.o    p_txt.o	\  
+                p_choice.o   p_btn.o        p_msg.o       p_slider.o	\
+		p_list.o     item_data.o    p_btn_data.o  p_chcedata.o	\
+                p_txt_data.o p_msg_data.o   p_lst_data.o  p_num_btn.o	\
+                p_num_txt.o  p_ntx_data.o
+
+SRCS =\
+		p_utl.c      p_utl_data.c   panel.c       p_set.c	\ 
+                p_get.c      p_event.c      panel_seln.c  p_scroll.c	\
+                p_select.c   p_menu.c       p_paint.c     p_image.c	\
+                p_public.c   p_compat.c     p_view.c      panel_data.c	\
+    		item.c       item_set.c     item_get.c    p_txt.c	\  
+                p_choice.c   p_btn.c        p_msg.c       p_slider.c	\
+                p_list.c     item_data.c    p_btn_data.c  p_chcedata.c	\
+                p_txt_data.c p_msg_data.c   p_lst_data.c  p_num_btn.c	\
+                p_num_txt.c  p_ntx_data.c
+
+all::
+
+#if DebugLibXvol && ProfileLibXvol
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvol
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvol
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvol,$(OBJS))
+SubdirCompoundLibTarget(xview,$(OBJS))
+
+#if ProfileLibXvol
+SubdirProfiledLibTarget(xvol,$(OBJS))
+#endif
+
+#if DebugLibXvol
+SubdirDebuggedLibTarget(xvol,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

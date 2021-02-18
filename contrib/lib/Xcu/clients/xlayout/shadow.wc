@@ -1,0 +1,60 @@
+#WLDL
+3
+
+6 XcuWlm
+6
+14 Command.cursor 3 (dot) 6 Global
+18 Command.foreground 5 (black) 6 Global
+18 Command.background 5 (white) 6 Global
+10 facetWidth 1 (5) 6 Global
+16 brightFacetColor 14 (LightSteelBlue) 6 Global
+13 dimFacetColor 9 (SteelBlue) 6 Global
+0
+0
+1
+
+  6 XcuTbl
+  6
+  11 interHeight 2 (10) 5 Local
+  10 interWidth 2 (10) 5 Local
+  14 internalHeight 2 (20) 5 Local
+  13 internalWidth 2 (20) 5 Local
+  10 background 9 (LightGray) 5 Local
+  12 formatString 4 (c c.) 5 Local
+  0
+  0
+  4
+
+    10 XcuCommand
+    3
+    6 shadow 4 (True) 5 Local
+    13 dimFacetColor 5 (black) 5 Local
+    4 name 6 (Shadow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 shadow 5 (False) 5 Local
+    4 name 6 (Facets) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    9 sensitive 4 (True) 5 Local
+    4 name 9 (Sensitive) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    3
+    9 sensitive 5 (False) 5 Local
+    4 name 11 (INSENSITIVE) 5 Local
+    11 borderWidth 1 (0) 5 Local
+    0
+    0
+    0

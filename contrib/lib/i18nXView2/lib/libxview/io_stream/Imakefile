@@ -1,0 +1,57 @@
+#
+# @(#)Imakefile 1.3 90/02/26 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=
+HDRSPRIVATE=	io_stream.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP)
+
+OBJS =\
+	input.o\
+	output.o\
+	io.o\
+	str_strms.o\
+	file_strms.o\
+	othr_strms.o
+
+SRCS =\
+	input.c\
+	output.c\
+	io.c\
+	str_strms.c\
+	file_strms.c\
+	othr_strms.c
+
+all::
+
+#if DebugLibXvin && ProfileLibXvin
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvin
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvin
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvin,$(OBJS))
+SubdirCompoundLibTarget(xview, $(OBJS)) 
+
+#if ProfileLibXvin
+SubdirProfiledLibTarget(xvin,$(OBJS))
+#endif
+
+#if DebugLibXvin
+SubdirDebuggedLibTarget(xvin,$(OBJS))
+#endif
+
+DependTarget()
+
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)

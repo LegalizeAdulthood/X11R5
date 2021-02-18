@@ -1,0 +1,33 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/sun/RCS/sunIo.c,v 
+*** 1.5	1991/09/24 05:03:28
+--- 1.6	1991/09/24 05:05:52
+***************
+*** 318,323 ****
+--- 318,326 ----
+  void
+  ddxGiveUp()
+  {
++     extern void sunCG8CGiveUp();
++ 
++     sunCG8CGiveUp();
+      AbortDDX ();
+  }
+  
+***************
+*** 368,374 ****
+      ErrorF("-ar1 int               set autorepeat initiate time\n");
+      ErrorF("-ar2 int               set autorepeat interval time\n");
+      ErrorF("-debug                 disable non-blocking console mode\n");
+!     ErrorF("-dev filename          name of device to open\n");
+      ErrorF("-mono                  force monochrome-only screen\n");
+      ErrorF("-zaphod                disable active Zaphod mode\n");
+  }
+--- 371,378 ----
+      ErrorF("-ar1 int               set autorepeat initiate time\n");
+      ErrorF("-ar2 int               set autorepeat interval time\n");
+      ErrorF("-debug                 disable non-blocking console mode\n");
+!     ErrorF("-dev file:file:...     name of device to open\n");
+      ErrorF("-mono                  force monochrome-only screen\n");
+      ErrorF("-zaphod                disable active Zaphod mode\n");
++     ErrorF("-multimonitor          mono framebuffer is on another monitor\n");
+  }

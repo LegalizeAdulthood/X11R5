@@ -1,0 +1,99 @@
+				****************
+				*   CONTENTS   *
+				****************
+				
+
+
+  CHAPTER ONE		INTRODUCTION
+
+		1.1	Overview ................................................ 1-1
+		1.2	cWnn System Structure ................................... 1-3
+		1.3	Special Features On The System Structure ................ 1-4
+		1.4	Hardware And Software Configurations .................... 1-5
+
+
+  CHAPTER TWO 		BASIC OPERATIONS
+
+		2.1	cWnn Startup And Termination ............................ 2-1
+		2.2	Three Standard Input Environment ........................ 2-4
+		2.3	Phonetic Input Method ................................... 2-5
+		2.4	Other Input Methods .................................... 2-11
+
+
+  CHAPTER THREE		PINYIN INPUT AND PINYIN HANZI CONVERSION
+
+		3.1	Concept On Pinyin Input ................................. 3-1
+		3.2	Pinyin Input Environment ................................ 3-3
+		3.3	Pinyin Hanzi Conversion ................................. 3-4
+		3.4	Environment Operating Functions ......................... 3-8
+	
+
+  CHAPTER FOUR		COMMANDS
+
+		4.1	Overview ................................................ 4-1
+		4.2	cserver ................................................. 4-2
+		4.3	uum .................................................... 4-3
+		4.4	wnnstat ................................................ 4-6
+		4.5	wnnkill ................................................ 4-7
+		4.6	atod .................................................... 4-8
+		4.7	dtoa .................................................... 4-9
+		4.8	atoc ................................................... 4-10
+		4.9	ator ................................................... 4-10
+
+
+
+
+
+
+
+
+					 - i -
+  CHAPTER FIVE		ENVIRONMENT SETUP
+
+		5.1	Overview ................................................ 5-1
+		5.2	cserverrc ............................................... 5-2
+		5.3	uumrc .................................................. 5-4
+		5.4	wnnenvrc ............................................... 5-9
+		5.5	wnnenvrc_R ............................................ 5-11
+		5.6	uumkey ................................................ 5-12
+		5.7	cvt_key_tbl ............................................ 5-20
+
+
+  CHAPTER SIX 		INPUT AUTOMATON
+
+		6.1	Overview ................................................ 6-1
+		6.2	Conversion Method ....................................... 6-4
+		6.3	Mode Definition Table ................................... 6-6
+		6.4	Mapping Tables .......................................... 6-9
+		6.5	Example Of Mode Definition ............................. 6-16
+
+
+  CHAPTER SEVEN		CWNN FILE MANAGEMENT
+
+		7.1	Overview ................................................ 7-1
+		7.2	Dictionary Files ........................................ 7-2
+		7.3	Usage Frequency Files ................................... 7-4
+		7.4	Grammar Files And Cixing Files .......................... 7-5
+	
+
+  APPENDIX 
+                Appendix 1  cWnn Installation ................................... A-1
+                Appendix 2  Pinyin/Zhuyin Definition Table ...................... A-6
+                Appendix 3  Erpin Keyboard Layout Tables ....................... A-11
+                Appendix 4  Zhuyin Keyboard Layout Table ....................... A-13
+                Appendix 5  Standard Function Keys Definition .................. A-16
+                Appendix 6  Bianma Input Definition ............................ A-18
+
+
+  INDEX ......................................................................... I-1
+
+
+
+
+
+
+
+
+
+
+					 - ii -

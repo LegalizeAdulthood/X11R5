@@ -1,0 +1,227 @@
+                CANNA, yet another Japanese input system
+
+                           August 22, 1991
+
+                              Akira Kon
+
+                           NEC Corporation
+
+1. Overview
+
+       This directory includes files which are sources for a Japanese
+  input system named Canna.  Canna provides a unified user interface
+  for Japanese input.
+
+  *Note:  Canna was called Iroha among developers of Canna
+          previously. 
+
+       There exists a commonly usable Japanese input system called
+  Wnn.  Canna gives an alternative Japanese input system.
+
+       Canna is based on a server-client model for kana-to-kanji
+  conversion, that is, an application program which uses a Japanese
+  input system communicates with a kana-to-kanji conversion server,
+  which is a separate process from the application program.  Canna has
+  several features as follows:
+
+  1) Based on server-client model kana-to-kanji conversion
+  2) Providing a unified user interface to input Japanese
+  3) Supporting customization by users
+  4) A mechanism to add a suitable part of speech to each registered
+     word by users
+  5) Providing a library which supports a unified user interface
+  6) Japanese version of Xaw which provides real on-the-spot style
+  7) Maintenance tools for conversion dictionaries
+  8) A customizing tool which supports easy customization
+  9) Supporting nemacs and kinput2
+
+       Below, I would like to describe details of Canna's
+  features.
+
+2. Features of Canna
+
+2.1 Based on server-client model kana-to-kanji conversion
+
+       Canna converts kana to kanji based on a server-client model.
+  That is, an application program communicates with a kana-to-kanji
+  conversion server and achieves Japanese input.
+
+2.2 Providing a unified user interface to input Japanese
+
+       Developers of Canna, including myself, used to use Egg on
+  nemacs when we had to input Japanese.  Egg was very harmonious with
+  nemacs and its user interface was convenient.
+
+  *Note: Nemacs is a Japanese version of Emacs.  Egg is an interface
+         between nemacs and Wnn.  Egg provides a user interface by itself.
+
+       On the other hand, if we had to input Japanese without nemacs,
+  for example, to input Japanese in command line of shell, we were not
+  able to use Egg because Egg was usable only in Emacs environment.
+  Though there is also a Japanese input system for TTYs called Uum,
+  Uum has a different user interface from Egg and we did not become
+  accustomed with it.
+
+       Especially in using X clients, we were eager to use Egg's user
+  interface to use them.  We found a lot of good tools on the X window
+  system such as xmh and xcalendar.  Our desire was to localize those
+  clients into our national language and to operate them with Egg's
+  user interface.
+
+<<Let's create another Egg by ourselves>>
+
+  Thus, we decided to create an Egg like system and to provide it in a
+  library.  This is the Canna.  Now, Canna provides more features than
+  Egg.  Canna can be used in Emacs, in X environments, and on TTYs.
+
+2.3 Supporting customization by users
+
+       As well as key binding, it is possible to customize
+  romaji-to-kana conversion rules, status describing strings,
+  dictionaries, etc.  A customization is described in a customization
+  file.  A customization file can be shared among applications using
+  Canna.
+
+2.4 A mechanism to add a suitable part of speech to each registered
+    word by users
+
+       When we made our own user interface, we added one new idea into
+  the word registration part of Canna.
+
+       In kana-to-kanji conversion system, more detailed parts of
+  speech are used than what are used in school grammars.  Canna uses
+  almost 400 parts of speech.  On the other hand, it might be almost
+  impossible and unkind to ask users what kind of a part of speech
+  must be used for the registered word.
+
+       In Canna, we made a new mechanism to add a suitable part of
+  speech to registered words.  Canna shows several sentences using
+  newly registered word, and ask user the usage is correct or not.
+  Asking several questions to user helps Canna to decide what part of
+  speech is suitable for the newly registered word.
+
+2.5 Providing a library which supports a unified user interface
+
+       A user-interface library is provided.  With this library,
+  programmers can easily add a Japanese input system with unified user
+  interface to application programs.
+
+       This library has higher-level functions than Wnn's high-level
+  library has, and interpretation of each input key is also processed
+  inside of this library.
+
+       An interface to this library is simple.  Giving input key to
+  this library returns several pieces of information to display
+  pre-edit status.  Interpretations of key functions are hidden inside
+  of this library, and it is not necessary for application programs to
+  be conscious of them.
+
+       This library meets the case of treating inputs from several
+  windows.  By giving context identifiers which correspond to each
+  window with key inputs to this library makes it possible to process
+  plural kana-to-kanji conversion concurrently in a process.
+
+       We would like to provide an XIM interface in the future.
+
+2.6  Japanese version of Xaw which provides real on-the-spot style
+
+       Though we can see several Xaws which can treat Japanese, almost
+  all of them depends on kinput, they were not so convenient
+  especially writing long sentences, for example using xmh.  One
+  reason why it was not so convenient is, kinput did not provide real
+  on-the-spot conversion.  In addition, we are not accustomed with the
+  user interface which kinput provided and was different from Egg's
+  one.
+
+       We localized the Xaw into Japanese and built a Canna interface
+  into Xaw.  Thus it becomes possible to input Japanese with using Xaw
+  in real on-the-spot style.
+
+       Application programs using Xaw can treat Japanese just by
+  re-linking with this Xaw.  It is not necessary for application
+  programs to be conscious of Japanese input.
+
+2.7 Maintenance tools for conversion dictionaries
+
+       Canna provides more than ten tools to maintenance
+  kana-to-kanji conversion dictionaries.  Using these tools, you can
+  do the following things.
+
+   - Conversion between text format dictionaries and binary format
+     ones.
+   - Creating, deleting, listing, renaming dictionaries by remote
+     operation
+   - Uploading and downloading dictionaries
+   - Adding/deleting items to/from a dictionary by a batch procedure
+
+2.8 A customizing tool which supports easy customization
+
+       In place of editing a customization file directly, it is
+  possible to set up customization by using a customizing tool.
+
+2.9 Supporting nemacs and kinput2
+
+       Canna provides a patch for nemacs, which makes nemacs possible
+  to input Japanese in Canna's unified user interface.
+
+       Canna supports kinput2.  Application programs which use kinput
+  can use Canna's unified user interface without re-linking.
+
+       Kinput2 will be contributed from SRA to X11R5, and it will
+  contain codes to use Canna's library.
+
+       Canna supports a front-end processor to input Japanese on TTY
+  also.  
+
+3.  Contents of Canna
+
+       Canna contains the following things.
+
+   - Kana-to-kanji conversion server (irohaserver)
+   - User interface library (libiroha.a, libiroha.so.1)
+   - Remote version of dictionary accessing library (libRKC.a)
+   - Local version of dictionary accessing library (libRK.a)
+   - Wnn version of dictionary accessing library (RKwnn.o)
+   - Japanese version of Xaw (libXnw.a, libXnw.so.1) *Note:  This is
+     based on X11R4's Xaw.
+   - Maintenance tools for conversion dictionaries
+   - A TTY based front-end processor to input Japanese
+   - A sample program
+
+4. Documents
+
+       Under this directory, there are several documents.
+
+  1) Document for Japanese input operation (only in Japanese)
+
+       The document is in text file format and is in doc/man/input.
+  This document describes the user interface for Japanese input of
+  Canna.
+
+  2) Documents for commands (both in English and Japanese)
+
+       The documents are in man macro format of roff and are in
+  source directories of each command.
+
+  3) Documents for application interface of each library (both in
+     English and Japanese)
+
+       The documents are in man macro format of roff and are in
+  doc/man/lib.
+
+  4) Document for kana-to-kanji conversion protocol (only in Japanese)
+
+       The document is in jlatex format and is in doc/man/protocol.
+
+  5) A guide to use user interface library (only in Japanese)
+
+       The document is in jlatex format and is in doc/uilib/guide.
+
+  6) Document for Canna-emacs (only in Japanese)
+
+       The document is in texinfo format and is in nemacs/man.
+
+  7) Document for inside of user interface library
+
+       The document is in text file format and is in doc/man/uilib/dd.
+

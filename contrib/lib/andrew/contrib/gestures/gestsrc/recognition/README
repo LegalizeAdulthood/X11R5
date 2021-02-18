@@ -1,0 +1,61 @@
+/***********************************************************************
+
+Copyright (C) 1991 Dean Rubine
+
+** Permission to use, copy, modify, and distribute this software and its
+** documentation for any purpose and without fee is hereby granted, provided
+** that the above copyright notice appear in all copies and that both that
+** copyright notice and this permission notice appear in supporting
+** documentation.  This software is provided "as is" without express or
+** implied warranty.
+
+**********************************************************************/
+
+   Hi.  This directory contains programs that implement the single-stroke
+gesture recognition described in my thesis "The Automatic Recognition of
+Gestures", (hopefully) soon to be available as a tech report from the
+Carnegie Mellon School of Computer Science.  Other papers are available,
+see ../README for details.
+
+    The recognizer works by mapping a gesture to a feature vector, and then
+uses a simple statistical pattern recognition technique to classify the
+feature vector.  The file fv.c turns the gesture into a feature vector--
+there's a call to add a new mouse point, and another to ask for the feature
+vector once all the points have been added.  The file sc.c classifies the
+feature vector as one from a set of gestures.  The classifier must have been
+produced by training it on example gestures.  sc.c also has the training
+code--there's a function which gets passed an example feature vector and the
+name of the gesture (known as the gesture class) the example represents.
+Usually 15 examples per class are needed, and, depending on how different the
+classes are, the classifier can distinguish up to 30 or 40 different classes.
+
+   The remaining files are really just support things, like matrix operations
+and memory allocation.  tt.c can read files of mouse data and produce
+classifiers--there's a short comment at the start of it explaining how
+to use it.
+
+    Here's the summary of the files:
+
+cf.h cf.c	Used for calculating a feature vector given mouse points
+sc.h sc.c	Performs classification (and training) given feature vectors
+tt.c		tester and trainer, reads and writes files (no graphics)
+matrix.h matrix.c routines for matrix manipulation
+bitvector.h bitvector.c routines for manipulation bit vectors
+bool.h		TRUE, FALSE
+util.h util.c	Miscellaneous utility functions
+coleman.train	Examples gestures from a paper done by Michael Coleman in 1969
+coleman.test	More examples, used to test the classifier from coleman.train
+
+   After making tt, you can test it by doing
+	tt -t coleman.train -c coleman.cl
+		[ this reads in coleman.train and writes a classifier file
+		  named coleman.cl ]
+	tt -e coleman.test -c coleman.cl
+		[ this reads in coleman.test and coleman.cl, and evaluates
+		  the performance of the classifier in coleman.cl against
+		  the examples in coleman.test.  The performance should
+		  be 100% correct. ]
+
+   Your own .train and .test files can be made with the mrecord program in
+../record.
+

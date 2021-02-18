@@ -1,0 +1,67 @@
+/*
+
+Copyright 1991 by Mark Leisher (mleisher@nmsu.edu)
+
+Permission to use, copy, modify, distribute, and sell this software
+and its documentation for any purpose is hereby granted without fee,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation.  I make no representations about the
+suitability of this software for any purpose.  It is provided "as is"
+without express or implied warranty.
+
+*/
+
+Created:  Mon Sep 17 11:10:12 MDT 1990 M. Leisher
+Modified: Sat Oct 13 20:21:22 MDT 1990 M. Leisher
+/* */
+Modified: Mon Oct 15 15:58:38 MDT 1990 M. Leisher
+/* */
+Modified: Thu Oct 18 18:20:08 MDT 1990 M. Leisher
+/* Fixed include problem with stat.h & time.h for Sun OS 4.0.3
+   Added missing include path in Imakefile */
+Modified: Sat Nov 17 10:15:00 MDT 1990 M. Leisher
+/* Added pointSize for correct point size value in SIZE, fixed
+   FONTBOUNDINGBOX calculation
+   Pointed out by: jjl%miata.esd.sgi.com%SGI.COM (Jim Lee) */
+Modified: Tue Nov 20 03:04:42 MDT 1990 M. Leisher
+/* Fixed pixelSize calculation
+   Pointed out by: jjl%miata.esd.sgi.com%SGI.COM (Jim Lee)
+   Added GNU GPL copyright notice */
+Modified: Sun Feb 24 21:36:43 MDT 1991 M. Leisher
+/* Added fixes sent by asami@is.s.u-tokyo.ac.jp (Satoshi Asami) and
+   take@is.s.u-tokyo.ac.jp (Taketo Tsukioka) */
+Modified: Wed Oct  2 04:04:45 1991 M. Leisher
+/* Fixed up for X11R5 by including the contents of original bdftosnf.h
+   file in the snftobdf.h file. */
+
+COMPILATION
+
+snftobdf is pretty much self contained except for some header files it
+needs from the X11 source.  The Imakefile should generate the correct
+Makefile, but some sites seem to have their toplevel distribution
+source define incorrect.  If you don't have access to the site.def
+file for imake, simply uncomment the line containing TOP in the
+Imakefile and set it to the location of the X11 distribution on your
+system.
+
+NOTES
+
+Due to some TeX font wierdnesses, some gf/pk/pxl files that are
+converted to X11 format have characters of width 0, particularly the
+music16.85.snf font, generated from the MuTeX .pk font.  snftobdf will
+fill in the width value.
+
+Beginning with version 1.5, snftobdf should work with X11R4 and X11R5.
+
+BUGS
+
+I have only tested this code on Big Endian architectures, so I'm not
+completely sure the bit and byte swapping works as it should.
+
+Thanks to "der Mouse" for the SWIDTH calculation.
+
+Thanks to Satoshi Asami and Taketo Tsukioka of University of Tokyo for
+bug fix for Kanji fonts and fix for missing font names.
+
+Please send fixes or bugs to: mleisher@nmsu.edu

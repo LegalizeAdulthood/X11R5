@@ -1,0 +1,85 @@
+/**/#
+/**/# $Id: Imakefile,v 1.2 1991/09/13 05:33:27 proj Exp $
+/**/#
+#include <Library.tmpl>
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+LINKS = getopt.c jl.c js.c kankana.c wnnerrmsg.c
+    JLIBDEFINES = -DWRITE_CHECK
+       INCLUDES = -I$(CWNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(CWNNDEFINES) $(CWNNLANGDEF) $(TWNNLANGDEF) $(JLIBDEFINES)
+   INSTALLFLAGS = $(INSTBINFLAGS)
+       LINTLIBS = 
+
+SRC1= js.c \
+	wnnerrmsg.c \
+	jl.c
+OBJ1= js.o \
+	wnnerrmsg.o \
+	jl.o
+SRC2= getopt.c
+OBJ2= getopt.o
+SRC3= $(CWNNETCSRC)/msg.c
+OBJ3= msg.o
+LOCAL_RKSRCS= $(CWNNROMKANSRC)/rk_bltinfn.c \
+	$(CWNNROMKANSRC)/rk_main.c \
+	$(CWNNROMKANSRC)/rk_modread.c \
+	$(CWNNROMKANSRC)/rk_read.c \
+	$(CWNNROMKANSRC)/rk_vars.c
+
+LOCAL_RKOBJS= $(CWNNROMKANSRC)/rk_bltinfn.o \
+	$(CWNNROMKANSRC)/rk_main.o \
+	$(CWNNROMKANSRC)/rk_modread.o \
+	$(CWNNROMKANSRC)/rk_read.o \
+	$(CWNNROMKANSRC)/rk_vars.o
+
+SRCS= $(SRC1) $(SRC3)
+OBJS= $(OBJ1) $(OBJ3) $(LOCAL_RKOBJS)
+
+LibraryObjectRule()
+AllTarget($(OBJS) libcwnn.a)
+
+includes:: $(LINKS)
+
+LinkSourceFile(getopt.c,$(WNNJLIBSRC))
+LinkSourceFile(jl.c,$(WNNJLIBSRC))
+LinkSourceFile(js.c,$(WNNJLIBSRC))
+LinkSourceFile(kankana.c,$(WNNJLIBSRC))
+LinkSourceFile(wnnerrmsg.c,$(WNNJLIBSRC))
+
+NormalLibraryTarget(getopt,$(OBJ2))
+LintLibraryTarget(getopt,$(SRC2))
+
+js.o : js.c \
+	$(CWNNETCSRC)/bdic.c \
+	$(CWNNETCSRC)/pwd.c \
+	$(CWNNETCSRC)/gethinsi.c
+
+NormalLintTarget($(SRC2))
+
+SingleProgramTarget(kankana,kankana.o,$(CWNNJLIB),)
+
+NormalLibraryTarget(cwnn,$(OBJS))
+LintLibraryTarget(cwnn,$(SRCS))
+
+instlib:: install
+
+InstallLibrary(cwnn,$(USRLIBDIR))
+
+#if ProfileLibJlib
+ProfiledLibraryTarget(cwnn,$(OBJS))
+InstallLibrary(cwnn_p,$(USRLIBDIR))
+#endif
+
+WnnSpecialObjectRule($(OBJ3),$(SRC3),$(CWNNETCSRC),)
+
+$(LOCAL_RKOBJS) : $(LOCAL_RKSRCS)
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	cd $(CWNNROMKANSRC); echo "making all in $(CWNNROMKANSRC)"; \
+	$(MAKE) 'CDEBUGFLAGS=$(CDEBUGFLAGS)' $(MFLAGS)
+
+DependTarget()
+
+clean::
+	$(RM) $(LINKS)

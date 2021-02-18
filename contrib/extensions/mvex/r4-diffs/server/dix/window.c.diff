@@ -1,0 +1,28 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/dix/RCS/window.c,v 
+*** 2.0.1.1	1991/09/22 00:16:54
+--- 2.0.1.2	1991/09/22 00:18:20
+***************
+*** 820,825 ****
+--- 820,828 ----
+      DepthPtr pDepth;
+      PixmapFormatRec *format;
+      register WindowOptPtr ancwopt;
++ #ifdef VIDEOX
++     extern Bool IsVexVidAndDepth();
++ #endif /* VIDEOX */
+  
+      if (class == CopyFromParent)
+  	class = pParent->drawable.class;
+***************
+*** 872,877 ****
+--- 875,884 ----
+  		}
+  	    }
+  	}
++ #ifdef VIDEOX
++ 	if (fOK == FALSE)
++ 	    fOK = IsVexVidAndDepth(pScreen, depth, visual);
++ #endif /* VIDEOX */
+  	if (fOK == FALSE)
+  	{
+  	    *error = BadMatch;

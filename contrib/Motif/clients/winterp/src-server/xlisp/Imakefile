@@ -1,0 +1,176 @@
+################################################################################
+#
+# File:         Imakefile
+# RCS:          $Header: Imakefile,v 1.3 91/03/14 03:37:26 mayer Exp $
+# Description:  Imakefile for libXlisp.a
+# Author:       Niels Mayer, HPLabs
+# Created:      Fri Nov 24 19:47:38 1989
+# Modified:     Sat Oct  5 21:58:49 1991 (Niels Mayer) mayer@hplnpm
+# Language:     N/A
+# Package:      N/A
+# Status:       X11r5 contrib tape release
+#
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard and David Betz not be
+# used in advertising or publicity pertaining to distribution of the software
+# without specific, written prior permission.  Hewlett-Packard and David Betz
+# make no representations about the suitability of this software for any
+# purpose. It is provided "as is" without express or implied warranty.
+#
+# HEWLETT-PACKARD AND DAVID BETZ DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+# SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
+# IN NO EVENT SHALL HEWLETT-PACKARD NOR DAVID BETZ BE LIABLE FOR ANY SPECIAL,
+# INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+# OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+# See ./winterp/COPYRIGHT for information on contacting the authors.
+#
+# Please send modifications, improvements and bugfixes to mayer@hplabs.hp.com
+# Post XLISP-specific questions/information to the newsgroup comp.lang.lisp.x
+#
+################################################################################
+
+#
+# Note on INCLUDES for Motif 1.0:
+# ==============================
+# Motif 1.0 does not use the standard X11r4 toolkit, therefore you must
+# make sure that you are compiling Motif 1.0 programs with the headers
+# associated with Motif 1.0, not the default headers that are used by
+# X11r4 imake.
+#
+# Standard locations for Motif includes are /usr/include/X11 and
+# /usr/include/Xm. Note that Motif 1.0 uses a variant of the X11r3 toolkit
+# intrinsics headers which are installed in /usr/include/X11. Don't
+# confuse these	with the incompatible Xtoolkit intrinsics from X11r4.
+#
+# IF YOUR INSTALLATION OF MOTIF PLACES THE INCLUDE FILES FOR MOTIF's Xt/Xm
+# DIRECTORIES SOMEWHERE OTHER THAN cc's USUAL INCLUDE SEARCH PATH
+# (normally -I/usr/include -I.), THEN YOU WILL HAVE TO SET 'INCLUDES' BELOW
+# TO THE APPROPRIATE LOCATION.
+#
+# If you change INCLUDES below, you should also set INCLUDES in 
+# ../Imakefile.
+#
+# INCLUDES = -I/usr/include -I.
+
+#
+# Note on INCLUDES for Motif 1.1:
+# ==============================
+# Motif 1.1 uses the X11r4 Xlib, libXt, etc. Therefore imake should
+# automatically point the compiler to the correct include file directory.
+# Thus, leave imake's default TOP_INCLUDES alone, since that will point
+# to the X11r4 headers.
+# 
+# Motif 1.1 is not included as part of the X11r4 distribution. 
+# IF YOUR INSTALLATION OF MOTIF PLACES THE INCLUDE FILES FOR MOTIF's Xm
+# DIRECTORIES SOMEWHERE OTHER THAN cc's USUAL INCLUDE SEARCH PATH
+# (e.g. /usr/include/Xm), THEN YOU WILL HAVE TO SET 'STD_INCLUDES' BELOW
+# TO THE APPROPRIATE LOCATION.
+#
+# If you change STD_INCLUDES below, you should also set STD_INCLUDES
+# in ../Imakefile. 
+#			
+# STD_INCLUDES = -I. -I/mnt0/src/OSFMotif1.1.1 -I/mnt0/src/OSFMotif1.1.1/X11
+
+#
+# Notes: 
+#	If you just want to make a standalone XLISP interpreter, see the rule
+#	"lisp::" in Makefile.{generic,hpux,sparc,...}.
+#	
+#	This Imakefile just creates libXlisp.a, which is used by ../winterp
+#
+#	libXlisp.a requires math library libm.a.
+#
+#	All changes made to XLISP for using in libXlisp.a for WINTERP
+#       are within "#ifdef WINTERP" sections. Therefore, you MUST
+#       define the preprocessor symbol WINTERP in compiling these
+#	XLISP files.
+#
+
+ SRCS = unixstuff.c \
+	xlbfun.c \
+	xlcont.c \
+	xldbug.c \
+	xldmem.c \
+	xleval.c \
+	xlfio.c \
+	xlglob.c \
+	xlimage.c \
+	xlinit.c \
+	xlio.c \
+	xljump.c \
+	xllist.c \
+	xlmath.c \
+	xlobj.c \
+	xlpp.c \
+	xlprin.c \
+	xlread.c \
+	xlstr.c \
+	xlstruct.c \
+	xlsubr.c \
+	xlsym.c \
+	xlsys.c
+
+ OBJS = unixstuff.o \
+	xlbfun.o \
+	xlcont.o \
+	xldbug.o \
+	xldmem.o \
+	xleval.o \
+	xlfio.o \
+	xlglob.o \
+	xlimage.o \
+	xlinit.o \
+	xlio.o \
+	xljump.o \
+	xllist.o \
+	xlmath.o \
+	xlobj.o \
+	xlpp.o \
+	xlprin.o \
+	xlread.o \
+	xlstr.o \
+	xlstruct.o \
+	xlsubr.o \
+	xlsym.o \
+	xlsys.o
+
+#
+# Note on DEFINES:
+# (1) -DWINTERP: xlisp/xlisp.h and xlisp/xldmem.h (which are included by all
+# WINTERP files) have '#ifdef WINTERP' surrounding changes made to XLISP
+# for use by WINTERP: you MUST compile with -DWINTERP or nothing will work.
+#
+# (2) -D_NO_PROTO: this is required by Motif 1.1 if you are using a
+# non-ANSI-C compiler. Eventually everybody will have an ANSI C compiler
+# and at that point this flag should be removed.
+#
+# (3) -Dhpux is needed if you are running on HPUX 7.0.
+#
+# (4) -DMALLOC_0_RETURNS_NULL is needed on HPUX 7.0 when linking with
+# the fast malloc library "-lmalloc".
+#
+# For HPUX 7.0, -Wc,-Np1000 is there to prevent the 'cc' error:
+# 	"Parameter table overflow. Try the -Wc,-Np option."
+# Get rid of this in HPUX 8.0 since the compiler is supposed to use
+# dynamic tables.
+# Note that the X11r4 Imake hp.cf specifies a smaller value of
+# "-Wc,-Np" -- this setting overrides that value.
+#
+
+#ifdef HPArchitecture
+ DEFINES = -Dhpux -DWINTERP -DMALLOC_0_RETURNS_NULL -D_NO_PROTO -Wc,-Np1000
+#else
+ DEFINES = -DWINTERP -D_NO_PROTO
+#endif
+
+NormalLibraryTarget(Xlisp,$(OBJS))
+DependTarget()

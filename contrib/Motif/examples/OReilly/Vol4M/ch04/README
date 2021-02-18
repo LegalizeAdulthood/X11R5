@@ -1,0 +1,9 @@
+xbitmap1	simplest bitmap editor, using BitmapEdit
+xbitmap2	add small pixmaps to xbitmap1, using XmDrawingArea.
+xbitmap3	add small pixmaps to xbitmap1, using XmPrimitive.
+xbitmap4	implement xbitmap1 NOT USING BitmapEdit
+xbitmap5	using BitmapEdit, both reads and writes standard bitmap files.
+
+BitmapEdit.c	Source file for BitmapEdit widget, described in chapters 6 and 7.
+BitmapEdiP.h	Private include file for BitmapEdit, described in Chapter 6.
+BitmapEdit.h	Public include file for BitmapEdit, described in Chapter 6.

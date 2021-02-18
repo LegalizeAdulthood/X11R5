@@ -1,0 +1,11 @@
+        DEPLIBS = $(DEPXLIB)
+        DEPLIB2 = 
+          SRCS1 = meltdown.c
+          OBJS1 = meltdown.o
+          SRCS2 = flip.c 
+          OBJS2 = flip.o 
+       PROGRAMS = meltdown flip
+
+ComplexProgramTarget_1(meltdown,$(XLIB), /**/)
+SingleProgramTarget(flip,$(OBJS2),$(XLIB), /**/)
+

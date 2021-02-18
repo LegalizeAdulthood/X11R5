@@ -1,0 +1,8 @@
+;
+; $Id: autork,v 1.1 1991/09/09 22:39:37 ohm Exp $
+;
+;jidou henkan you.
+(search /usr/local/lib/wnn/rk)
+(defmode katakana)
+1B_TOUPPER
+2B_ROMKANA

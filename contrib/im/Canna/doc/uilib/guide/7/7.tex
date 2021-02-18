@@ -1,0 +1,230 @@
+さて、ここまでの説明で一通りかな漢字変換を伴うアプリケーションプログラ
+ムが記述できるようになったことと思います。
+
+これより以降では、実使用に耐えるアプリケーションプログラムを作成する時
+に必ず守ってもらいたい事項や、このことを知っていれば
+さらに色々な機能を活用できるようになる、と言った事項について説明します。
+
+まず始めは初期化の時の処理です。
+
+初期化の時に初期化ファイルを読み込んだりかな漢字変換サーバに接続したり
+する処理が行われますが、どの初期化ファイルを読み込むかとか、どのかな漢
+字変換サーバに接続するかなどがアプリケーションプログラムから制御するこ
+とができます。
+
+また、かな漢字変換を始めるに当たってモード表示領域やガイドライン表示領
+域を設けなければなりませんが、それらがどのくらい必要であるのかをあらか
+じめ知っておく必要があります。
+
+典型的な初期化の処理は次のようになります。
+
+\vskip 5mm
+\begin{table}[h]
+\hspace{5mm}\vspace{5mm}
+	\begin{tabular}{|c|l|l|l|}\hline
+	{}	& キーワード	&	処理内容	&	備考 \\
+	\hline\hline
+	1	& KC\_SETINITFILENAME	& 初期化ファイルの指定	& オプション \\
+	{}	&　　　　↓				&	{}					& {}\\
+	2	& KC\_SETSERVERNAME		& 接続するかな漢字変換サーバの指定	& オプション \\
+	{}	&　　　　↓				&	{}					& {}\\
+	3	&	KC\_INITIALIZE		&	かな漢字変換の初期化	& {} \\
+	{}	&　　　　↓				&	{}					& {}\\
+	4	&	KC\_QUERYMAXMODESTR	&	モード表示文字列の最大長の取得	&	\\
+	{}	&　　　　↓				&	{}					& {}\\
+	5	&	KC\_QUERYMODE	&	モード文字列の取得	&	\\
+	{}	&　　　　↓				&	{}					& {}\\
+	6	&	KC\_SETWIDTH	&	ガイドライン表示部分の大きさの設定	& {}\\
+\hline\end{tabular}\end{table}
+
+上記の表でオプションとあるものについては実行してもしなくても構いません。
+オプションとあるもの以外(3〜6)に関しては必ず実行しておくことを強くお勧
+めいたします。
+
+以下では上記の各々について説明します。
+
+\subsection{初期化ファイルの指定}
+
+jrKanjiControl を用いて初期化ファイルとして
+アプリケーション固有のファイルを用いる
+ことが可能です。それにはKC\_SETINITFILENAMEを
+用います。KC\_SETINITFILENAMEの詳しい仕様につい
+てはマニュアルページの方を参照してもらうことにして、ここではその使用例
+を示します。
+
+KC\_SETINITFILENAMEはKC\_INITIALIZEを行う前に設定
+します。なぜなら初期化ファイルの読み込みはKC\_INITIALIZE時に行われるか
+らです。KC\_SETINITFILENAMEを行うと、環境変数IROHAFILEにいかなる値が設
+定されていようともKC\_SETINITFILENAMEで指定されたものの方が優先されるこ
+とになります。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  {
+    char *initfile = "app-own.iroha";
+    .....
+
+    nbytes = jrKanjiControl(0, KC_SETINITFILENAME, initfile);
+    .....
+
+    jrKanjiControl(0, KC_INITIALIZE, &warn);
+  }
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+\subsection{接続するかな漢字変換サーバの指定}
+
+接続するかな漢字変換サーバをアプリケーションプログラムから指定すること
+ができます。指定にはKC\_SETSERVERNAMEを用います。
+この指定は環境変数IROHAHOSTよりも優先されます。
+
+例えばこれにより、アプリケーションプログラムのオプションとしてかな漢字
+変換サーバの指定を含めることができます。本日本語入力に関して
+提供されている多くのシステムコマンド(lsuserdic 等)では
+接続するかな漢字変換サーバを接続するオプションが準備されて
+おり、``\-is {\it server-name}''で指定することができるように
+なっています。
+
+本ライブラリを用いるアプリケーションプログラムで、かな漢字変換サーバを
+指定するオプションを備える場合、``\-is''オプションにするようお勧めいた
+します。
+
+KC\_SETSERVERNAMEはKC\_SETINITFILENAMEと同様KC\_INITIALIZEよりも前に呼
+び出さなければなりません。次のようなイメージになります。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  {
+    char *servername = "app-own-server";
+    .....
+
+    nbytes = jrKanjiControl(0, KC_SETSERVERNAME, servername);
+    .....
+
+    jrKanjiControl(0, KC_INITIALIZE, &warn);
+  }
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+\subsection{モード表示文字列の最大長の取得}
+
+モード表示文字列は利用者の初期化ファイルの設定にしたがって長さが大きく
+変わります。
+
+KC\_QUERYMAXMODESTRを用いれば
+モード文字列のうち最大のコラム長を持つ文字列のコラム長を得ることができ
+ます。
+ここで、コラム長とは半角英数文字の文字幅を１とした時の文字幅に
+なります。例えば全角文字は２コラムとなります。
+
+{KC\_INITIALIZE}を呼び出したら、モード文字列表示領域としてどれだけの大き
+さが必要であるかを、{KC\_QUERYMAXMODESTR}を呼び出して確認して下さい。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  {
+    int max_mode_columns;
+    .....
+
+    jrKanjiControl(0, KC_INITIALIZE, &warn);
+    .....
+
+    max_mode_columns = jrKanjiControl(0, KC_QUERYMAXMODESTR, 0);
+    .....
+  }
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+\subsection{モード文字列の取得}
+
+モード表示のための領域の幅を取得したら、次は最初に表示しておくべきモー
+ド文字列を取得します。
+
+システムで提供しているデフォルトのユーザインタフェースでは、最初のモー
+ドはアルファベットモードであり、表示されるモード文字列は "" (NULL文字
+列)となります。したがって真っ白い表示にしておけば良いことになります。
+
+ただしユーザのカスタマイズのやり方次第で色々なモードが最初のモードとな
+ることがあり、モード文字列としても "" 以外のものになることがあります。
+
+アプリケーションプログラムはユーザのカスタマイズによってどのようなモー
+ドが最初のモードになっているのかを、jrKanjiControl の KC\_QUERYMODE に
+よって入手し、表示する必要があります。
+
+それには、以下のような処理をすることになります。
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  {
+    unsigned char currentMode[MAXMODELEN];
+    .....
+
+    jrKanjiControl(0, KC_QUERYMODE, currentMode);
+    .....
+  }
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+この処理により文字配列 currentMode に初期モード文字列が返されますので、
+アプリケーションプログラムはこのモード文字列をモード表示領域に表示して
+下さい。
+
+\subsection{ガイドライン表示部分の大きさの設定}
+
+ガイドラインには候補一覧等が表示されますが、アプリケーションプログラム
+の都合にしたがって、ガイドライン領域の幅を調整することができます。
+ユーザインタフェースライブラリはアプリケーションプログラムから指示され
+た幅に収まるようにガイドライン表示を行います。例えば候補一覧を表示
+する場合にはガイドラインに入る範囲で候補を表示します。
+
+ガイドラインの幅を指定するにはjrKanjiControlをKC\_SETWIDTHを伴って呼び
+出します。
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  .....
+  jrKanjiControl(0, KC_INITIALIZE, &warn);
+  .....
+  jrKanjiControl(0, KC_SETWIDTH, 72);
+  .....
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+もし、ガイドラインがあまりにも小さすぎてユーザインタフェースでどう調整
+しても入り切らない場合には次のいずれかの処理が行われます。
+
+\begin{enumerate}
+\item ガイドラインに表示し切れなかった文字列を入力部分に表示する。
+\item 表示を行わない。
+\end{enumerate}
+
+KC\_SETWIDTHは入力コンテクスト毎に別々の値を設定することができます。
+
+逆に言うと入力コンテクストを複数持っているアプリケーションプログラムは
+それぞれのコンテクストに対してKC\_SETWIDTHを行わなければならないことに
+なります。
+
+複数の入力コンテクストを利用されるかたはご注意下さい。

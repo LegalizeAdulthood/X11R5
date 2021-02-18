@@ -1,0 +1,84 @@
+.\"	$Header: /usr/people/sam/tiff/man/man1/RCS/tiffmedian.1,v 1.12 91/07/16 16:14:57 sam Exp $
+.\"
+.\" Copyright (c) 1990, 1991 Sam Leffler
+.\" Copyright (c) 1991 Silicon Graphics, Inc.
+.\"
+.\" Permission to use, copy, modify, distribute, and sell this software and 
+.\" its documentation for any purpose is hereby granted without fee, provided
+.\" that (i) the above copyright notices and this permission notice appear in
+.\" all copies of the software and related documentation, and (ii) the names of
+.\" Sam Leffler and Silicon Graphics may not be used in any advertising or
+.\" publicity relating to the software without the specific, prior written
+.\" permission of Sam Leffler and Silicon Graphics.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+.\" EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+.\" WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+.\" 
+.\" IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+.\" ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+.\" OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+.\" WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+.\" LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+.\" OF THIS SOFTWARE.
+.\"
+.TH TIFFMEDIAN 1 "May 2, 1990"
+.SH NAME
+tiffmedian \- apply the median cut algorithm to data in a
+.SM TIFF
+file
+.SH SYNOPSIS
+.B tiffmedian
+[
+.B \-c
+.I size
+] [
+.B \-f
+] [
+.B \-none
+] [
+.B \-lzw
+] [
+.B \-packbits
+] [
+.B \-rowsperstrip
+.I n
+]
+.I "file1 file2"
+.SH DESCRIPTION
+.I Tiffmedian
+applys the median cut algorithm to an
+.SM RGB
+image in
+.I file1
+to generate a palette image that is written to
+.IR file2 .
+The colormap generated has, by default, 256 entries;
+this may be modified with the
+.B \-c
+option.
+By default, the image data is quantized by mapping each
+pixel to the closest color values in the colormap.
+If the
+.B \-f
+option is specified, Floyd-Steinberg dithering is done
+before selecting a colormap entry.
+The remaining options are used to specify a compression algorithm
+to use in creating the output file or the number of
+rows (scanlines) to place in each data strip in the output file.
+By default, the compression algorithm is derived from the
+input file and the rows per strip is calculated so that
+each strip is no more than 8 kilobytes.
+.SH NOTES
+This program is derived from Paul Heckbert's
+.I median
+program.
+.SH "SEE ALSO"
+.IR pal2rgb (1),
+.IR tiffinfo (1),
+.IR tiffcp (1),
+.IR tiffcmp (1),
+.IR libtiff (3)
+.br
+"Color Image Quantization for Frame Buffer Display", Paul
+Heckbert, SIGGRAPH proceedings, 1982, pp. 297-307.

@@ -1,0 +1,5 @@
+
+
+MakeDirectories(install, $(GWMDIR))
+InstallMultipleFlags($(DATA), $(GWMDIR), $(INSTDATFLAGS))
+InstallScript(rxterm, $(GWMDIR))

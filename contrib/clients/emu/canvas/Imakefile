@@ -1,0 +1,57 @@
+#
+# $Header: /usr3/emu/canvas/RCS/Imakefile,v 1.1 90/07/26 02:28:15 jkh Exp $
+#
+# This file is part of the PCS emu program.
+#
+# Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+#
+#                        All Rights Reserved
+#
+# Permission to use, copy, modify, and distribute this software and its 
+# documentation for any purpose and without fee is hereby granted, 
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in 
+# supporting documentation, and that the names of PCS or the authors not
+# be used in advertising or publicity pertaining to distribution of the
+# software without specific, written prior permission.  
+# 
+# PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+# ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+# PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+# OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+# OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+#
+# USE THIS IMAKEFILE FOR TESTING.
+#
+# As per convention, this Imakefile will create a stand-alone version
+# of the canvas widget section of emu for testing purposes.
+#
+
+CDEBUGFLAGS = -g
+INCLUDES = -I../include
+LOCAL_LIBRARIES = $(XTOOLLIB) $(XLIB) $(XMULIB) -lmtrace
+
+#ifdef PCS
+DEPLIBS =
+#endif
+
+SRCS =  main.c TermCanvas.c functions.c char_array.c screen.c selection.c \
+	motion.c ../misc/msgs.c ../misc/rdb.c ../misc/strutils.c
+OBJS =  main.o TermCanvas.o functions.o char_array.o screen.o selection.o \
+	motion.o ../misc/msgs.o ../misc/rdb.o ../misc/strutils.o
+
+ComplexProgramTarget(test_canvas)
+
+/*
+ * The "forceMakefile" rule was in R3. For some reason, we couldn't
+ * find it again in R4, so we put it back. This is a useful rule so
+ * I don't know why it was nuked in the first place.
+ */
+forceMakefile::
+	-@if [ -f Makefile ]; then \
+		echo "$(RM) Makefile.bak; $(MV) Makefile Makefile.bak"; \
+		$(RM) Makefile.bak; $(MV) Makefile Makefile.bak; \
+	else exit 0; fi
+	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) imakeflags

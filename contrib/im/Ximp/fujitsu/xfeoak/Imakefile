@@ -1,0 +1,55 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+#   DEBUG_DEFINES = -DDEBUG
+
+#ifdef FUJITSU_SXG
+### FUJITSU SX/G #########
+        SUBDIRS = oak
+#       SUBDIRS = sxc oak fjextensions
+    SXG_DEFINES = -DFUJITSU_OAK -DFUJITSU_SERVER_EXTENSION -DUSE_SIGNAL \
+		  $(DEBUG_DEFINES) $(XVL_DEFINES)
+        OAKLIBS = oak/liboak.a
+#      CMODLIBS = fjextensions/libcmod.a
+  SYS_LIBRARIES = -lsxc -lsocket
+
+#else /* FUJITSU_SXG */
+#ifdef SONY
+### SONY #########
+        SUBDIRS = sj3 sxc
+    SJ3_DEFINES = -DSJ3_DICTIONARY -DUSE_SIGNAL $(DEBUG_DEFINES)
+     SYSSJ3LIBS = ../../sony/sj3/sj3lib/libsj3lib.a
+        SXCLIBS = sxc/libsxc.a
+        SJ3LIBS = sj3/libsj3.a $(SYSSJ3LIBS)
+
+#else /* SONY */
+### Defalut ######
+        SUBDIRS = sxc
+    SXG_DEFINES = -DUSE_SIGNAL $(DEBUG_DEFINES)
+        SXCLIBS = sxc/libsxc.a
+
+#endif /* SONY */
+#endif /* FUJITSU_SXG */
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+        DEFINES = $(SXG_DEFINES) $(SJ3_DEFINES)
+       INCLUDES = $(LOCAL_INCLUDES) $(STD_INCLUDES)
+  XIMP_INCLUDES = -I$(TOP)/lib/X/Ximp
+ LOCAL_INCLUDES = -I. $(XIMP_INCLUDES)
+
+XFEOAKLIBRARIES = $(OAKLIBS) $(SXCLIBS) $(CMODLIBS) $(SJ3LIBS)
+        DEPLIBS = $(XFEOAKLIBRARIES) $(DEPXMULIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XFEOAKLIBRARIES) $(XMULIB) $(XLIB)
+
+           SRCS = Convert.c Display.c FXlib.c  Henkan.c KanjiWork.c KeyPress.c \
+		  Main.c    Message.c Mode.c SelectKanji.c ToUtil.c  \
+		  TransTbl.c Ximp.c   XimpUtil.c DmyHenkan.c 
+           OBJS = Convert.o Display.o FXlib.o  Henkan.o KanjiWork.o KeyPress.o \
+		  Main.o    Message.o Mode.o SelectKanji.o ToUtil.o \
+		  TransTbl.o Ximp.o   XimpUtil.o DmyHenkan.o 
+       PROGRAMS = xfeoak
+
+ComplexProgramTarget(xfeoak)
+

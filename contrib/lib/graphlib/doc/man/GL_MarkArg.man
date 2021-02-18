@@ -1,0 +1,24 @@
+.TH GL_MarkArgument 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_MarkArgument \- Mark command line arguments as used
+.SH SYNTAX
+void GL_MarkArgument(argnum,value)
+.br
+	int argnum,value;
+.SH ARGUMENTS
+.IP argnum 1i
+The argument number to be marked, counted identically to argv.
+.IP value 1i
+The value that the argument should be marked as.
+Current Values are GL_ARG_USED, and GL_ARG_SHARED.  I haven't found
+a good reason for using GL_ARG_SHARED yet.  You should not mark an
+argument as GL_ARG_UNUSED.
+
+.SH DESCRIPTION
+This is the call which will mark arguments as used so that the main loop
+will know that all of the arguments were dealt with.  If the argument
+is marked as Used, any further attempt to mark it will result in an exit,
+Shared arguments may be marked shared as many times as desired.
+
+.SH "SEE ALSO"
+GL_Resources(3GL), GraphLib Programming Manual

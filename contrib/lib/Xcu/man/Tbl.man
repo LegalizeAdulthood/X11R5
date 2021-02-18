@@ -1,0 +1,449 @@
+.TH XcuTbl 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuTbl \- Geometry management according to \fB"tbl"\fR specifications
+.ne 4
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / Composite / Constraint / XcuSimpleCompConst / XcuTbl
+
+.ne 4
+.SH NEW RESOURCES
+\ 
+.br
+.in -3
+.TS
+allbox tab(;);
+c s s s.
+XcuTbl Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNalignedColumns;Boolean;False;whether all items in a column have same width
+XtNclipOnShrink;Boolean;False;clip children instead of shrinking them
+XtNequalColumns;Boolean;False;whether all columns have same width
+XtNequalRows;Boolean;False;whether all rows have same height
+XtNformatFile;String;NULL;file containing layout description
+XtNformatString;String;NULL;layout description
+XtNinternalHeight;Dimension;0;vt distance between parent and children
+XtNinternalWidth;Dimension;0;hz distance between parent and children
+XtNinterHeight;Dimension;0;vt distance between adjacent children
+XtNinterWidth;Dimension;0;hz distance between adjacent children
+XtNresizeParticipants;XcuResizeParticipants;T{
+.na
+XcuRESIZE_INTERS\ |
+XcuRESIZE_INTERNALS\ |
+XcuRESIZE_CHILDREN 
+.ad
+T};which things adjust during resizes
+.T&
+cB s s s.
+Constraint Resources
+.T&
+lB l l l.
+XtNfillColumn;Boolean;False;marks a widget to take up layout slack
+.TE
+.in +3
+
+.ne 4
+.SH DESCRIPTION
+\ 
+.br
+The \fBXcuTbl\fR  geometry manager
+lays out a fixed number of widgets according to a specification patterned
+after the \fBtbl\fR preprocessor for creating tables in documents.
+This document assumes a working knowledge of \fBtbl\fR.
+See a \fBtbl\fR manual for details.
+.sp
+The format letters of the \fBtbl\fR language are treated as follows:
+.sp
+.in +3
+.TS
+tab(;);
+l l l.
+accepted key letters;:;cC lL rR sS ^
+illegal key letters;:;_ = aA nN
+accepted modifiers;:;eE tT
+ignored modifiers;:; -+ 0123456789 () | || bB fF iI pP uU vV wW zZ 
+.TE
+.in -3
+.sp
+In addition to the above \fBtbl\fR letters,
+there are additional keyletters unique to \fBXcuTbl\fR:
+.sp
+Any \fBXcuTbl\fR item modified with the "at" sign, @, will attempt to take up any
+horizontal "slack" there might be in a row of a layout's preferred geometry.
+If there is more than one widget in a row so marked, they will divvy any
+slack up among them.
+Note that this only applies to the minimum preferred geometry, and it has
+no effect in rows with equal_columns or rows spanned to other rows.
+On resizes, if widgets resize, all widgets change proportionately.
+.sp
+The key letter 'g' is used to control the gravity of the item's data.
+It is followed by one of "n", "ne", "e", "se", "s", "sw", "w", "nw", or "c"
+to set gravity to any of the 8 directions or center.
+As with other keyletters, any mix of upper and lower case letters is acceptable.
+Note that the modifier "t" is equivalent to "gn".
+Gravity is useful not only for vertically spanned items, but any time
+the children are larger than their minimum size.
+Also note that gravity is only effective if it is supported by the child widget.
+.sp
+Only one original \fBtbl\fR option is recognized, \fItab(c)\fR, which indicates
+the character that separates text items in the data portion of the
+language.
+.sp
+Two options have been added primarily for the convenience of entering layouts
+with a string;
+\fIlnl(c)\fR indicates a character that can substitute for the lexical
+(syntactic) newline character,
+and \fIsnl(c)\fR indicates a character that can substitute for the string
+embedded (semantic) two-character newline sequence, "\\n",
+in data specifications.
+.ne 12
+Options to modify resources have been added:
+.sp
+.in +3
+\fIequal_rows\fR
+.br
+\fIequal_columns\fR
+.br
+\fIinter_width(\fRn\fI)\fR\v'0.5m'\h'2m'\fIinters(\fRn\fI)\fR\h'-2m'\v'-0.5m'
+.br
+\fIinter_height(\fRn\fI)\fR\h'0.6m'\v'-0.4m'\s+9}\s0\v'0.9m'\h'8m'\fIpadding(\fRn\fI)\fR\h'-7m'\v'-0.5m'
+.br
+\fIinternal_width(\fRn\fI)\fR\v'0.5m'\h'2m'\fIinternals(\fRn\fI)\fR\h'0.2m'\v'-0.7m'\s28}\s0'\v'-0.7m'
+.br
+\fIinternal_height(\fRn\fI)\fR\h'0.6m'\v'-0.4m'\s+9}\s0\v'0.4m'\h'-0.6m'
+.br
+\fIresize_participants(\fRr\fI)\fR
+.br
+\fI[c_,p_]border_width(\fRn\fI)\fR
+.br
+\fI[c_,p_]border_color(\fRs\fI)\fR
+.br
+\fI[c_,p_]background_color(\fRs\fI)\fR
+.br
+\fI[c_,p_]foreground_color(\fRs\fI)\fR
+.in -3
+.sp
+where the argument "n" is an integer, "s" is a string, and "r" is one or more of
+\fBinters\fR, \fBinternals\fR, or \fBchildren\fR separated by commas and/or
+white space.
+The latter four options can be prepended with either "c_" or "p_" to affect
+only the children or their parent, respectively.
+The options
+\fIinters\fR,
+\fIinternals\fR, and
+\fIpadding\fR
+are shorthand notations for specifying combinations of the width and height
+options (\fIpadding\fR, \fIe.g.\fR, is equivalent to specifying all four width
+and height options with the same value).
+.sp
+\fBXcuTbl\fR looks for the layout description in one of two \fIString\fR resources:
+\fBXtNformatFile\fR or \fBXtNformatString\fR, where the former is a pathname to
+a file containing the description, and the latter is the description.
+When the description is contained in a string, the two character sequence "\\n"
+is recognized as a newline character.
+If both resources contain the default, NULL, the layout defaults to a row
+of centered widgets.
+.sp
+Both the options and the data fields are optional elements of the
+layout description.
+\fII.e.\fR, a valid \fBXcuTbl\fR description may
+contain only the format specifications (terminated by a period).
+.sp
+Just as in \fBtbl\fR, repetitions of the last format line are used for excess
+widgets, and the ".T&" construct is recognized.  Unlike \fBtbl\fR, which
+silently accepts many peculiar layouts and produces garbled tables, \fBXcuTbl\fR
+rejects them with fatal error messages.
+Long data lines in description files may be continued by terminating a line
+with the \fIbackslash newline\fR combination.
+.sp
+When an \fBXcuTbl\fR resizes, it looks at the \fIresize_participants\fR resource
+to decide how to fill the available space.
+The internal padding, inter-child padding, and child sizes are the three
+possible variables.
+If \fIresize_participants\fR is 
+\fBXcuRESIZE_INTERNALS\fR, the resized layout will appear centered.
+If \fIresize_participants\fR is 
+\fBXcuRESIZE_INTERS\fR, the children get farther apart.
+If \fIresize_participants\fR is 
+\fBXcuRESIZE_CHILDREN\fR, the children expand to fill the layout.
+These may be combined.
+A NULL value is equivalent to \fBXcuRESIZE_CHILDREN\fR.
+If the size available is less than the preferred size, \fBXcuTbl\fR will shrink
+the children unless XtNclipOnShrink is True, in which case \fBXcuTbl\fR
+merely lets the minimum layout be clipped.
+.sp
+There is one major difference between the interpretations of formats by
+\fBtbl\fR and \fBXcuTbl\fR.
+When rows have a variable number of columns specified,
+\fBtbl\fR fills out the short rows with empty columns, whereas
+\fBXcuTbl\fR treats each row independently,
+only requiring a correspondence between rows when they are linked by
+vertical spanning elements.
+Any row with an 's' specification in it will have equal width columns in the
+layout, as will any rows that are joined to it with a vertical span.
+The XtNalignedColumns resource, when set to True, will also force items
+in a column to be of equal width, but only if there are the same number
+of columns in each row.
+
+.ne 4
+.SH DIAGNOSTICS
+\ 
+.br
+The following situations all cause fatal errors:
+.sp
+.in 5
+.vs -4
+Layout description file not readable.
+.sp
+Illegal table specifications.
+.sp
+Lex and yacc parsing errors (badly formed layout descriptions)
+.sp
+Number of children not compatible with number of items in layout description.
+.br
+.vs +4
+.in -5
+
+.ne 18
+.SH EXAMPLES
+\ 
+.br
+.sp 2
+.mk 1
+.TS
+tab(;);
+|c s| c|.
+_
+Long Widget;Tall
+_;  
+.T&
+|ce| ce| c|.
+A;BC;Widget
+_
+.TE
+.sp 3
+padding (-1)
+.mk 2
+.br
+tab (;) ;
+.br
+c\  s\  c
+.br
+ce ce ^.
+.br
+Long Widget;Tall\\nWidget
+.br
+A;BC; 
+.sp 2
+.mk 3
+.sp |\n1u
+.in +15
+.TS
+box tab(;);
+c c c c c.
+ ; ; ; ; 
+ ;_; ;_; 
+.T&
+c|ce|c|ce|c.
+ ;#1; ;#007; 
+.T&
+c c c c c.
+ ;_; ;_; 
+ ; ; ; ; 
+.TE
+.sp |\n2u
+equal_columns
+.br
+inter_width(15)
+.br
+internal_width(10)
+.br
+internal_height(17)
+.br
+tab(;);
+.br
+c c.
+.br
+#1;#007
+.sp |\n1u
+.in +15
+.TS
+linesize(28) box tab(;);
+c s
+le|l0e.
+justification != gravity
+_
+Left;\ \ \ \ \ Left
+justify,;\ \ \ \ \ justify,
+West;\ \ \ \ \ East
+gravity;\ \ \ \ \ gravity
+.TE
+.sp |\n2u
+equal_columns tab(;);
+.br
+c
+.br
+lgW lgE.
+.br
+justification != gravity
+.br
+Left\\njustify,\\nWest\\ngravity;\\
+.br
+Left\\njustify,\\nEast\\ngravity;
+.in -30
+.sp |\n3u
+When specifying inter and internal padding,
+values of -1 will cause the borders to overlap, producing a layout as seen
+in the first example.
+Values greater than 0 produce that
+many pixels of space, as in the second example.
+A value of 0 will cause the borders to just touch each other, producing
+a doublewidth effect, as in the third example.
+
+.ne 4
+.SH PUBLIC FUNCTIONS
+\ 
+.br
+XcuTblFormatString (XcuTblWidget, String)
+.sp
+XcuTblFormatFile (XcuTblWidget, String)
+.sp
+These functions can be used to change the layout in preparation for changing
+the number of children.  XtSetValues can be used to make a new layout
+for the currently managed children, but it goes ahead and computes the new
+layout, which would result in errors if the layout pertained to a a future
+set of children.
+
+.ne 4
+.SH BUGS
+\ 
+.br
+Doesn't handle widgets with different border sizes elegantly.  \fBXcuTbl\fR
+sets the border_widths of all its children equal to the border_width of
+its first child.
+.br
+
+.ne 4
+.SH FUTURE ENHANCEMENTS
+\ 
+.br
+The "@" specification only compels widgets to use up the horizontal slack
+found in a minimum size layout.
+A similar notation should be available for vertical slack.
+Very high on my priority list is to add a constraint resource that instructs
+widgets how to absorb both kinds of slack on resizes.
+.sp
+This version is a "row-oriented" geometry manager, as is the true \fBtbl\fR.
+It would be nice to have a "column-oriented" option, whereby a variable number
+of rows per column would be easy to specify.  (Note that this
+currently \fIcan\fR  be
+accomplished, albeit clumsily, with the judicious use of vertical spans, or
+by nesting \fBXcuTbl\fRs within \fBXcuTbl\fRs.)
+
+.ne 4
+.SH DISCUSSION OF UNSUPPORTED TBL FEATURES
+\ 
+.br
+.ce
+.ne 4
+OPTIONS
+.sp
+The options
+\fIcenter\fR,
+\fIexpand\fR, and
+\fIdelim\fR
+have no meaning outside the \fBtbl\fR word processing context.
+.sp
+The functionality of the \fIbox\fR, \fIallbox\fR, and
+\fIlinesize\fR options are all easily handled by the border_width resources
+of \fBXcuTbl\fR and its children.
+The \fIdoublebox\fR option is simply not supported by \fBXcuTbl\fR.
+I believe this should be handled more generally by embedding \fBXcuTbl\fR within
+another widget which could provide any sort of frame, not just a second border.
+.sp
+.ce
+.ne 4
+FORMAT ITEMS
+.sp
+The keyletters 'a' and 'n' could conceivably be implemented, but I don't feel
+that they have sufficient utility to justify the effort.
+For example, if one was laying out a column of widgets that each displayed 
+a floating point number, it should be satisfactory to specify EastGravity (gE)
+for each item and display all numbers with the same precision.
+.sp
+The use of an underscore or equals sign in place of a keyletter to produce a
+horizontal single or double
+line the width of a column could be implemented by creating a special kind
+of label widget.
+.sp
+The use of vertical bars between key letters is not supportable.
+.sp
+In \fBtbl\fR, a number following a key letter indicates the spacing between
+that column and the next.
+This could conceivably be supported.
+.sp
+The use of 'f' to indicate font changes would be nice, of course, and just as
+soon as somebody comes up with a suitable child widget that understands
+how to convert its default font into italics or bold, for instance, I would
+consider implementing that feature.
+The same goes for point size changes.
+.sp
+Text blocks are not supported.
+However, unlike \fBtbl\fR, newlines can be conveniently inserted
+into data entries, since "\\n" is compressed to '\\n'.
+The keyletter 'v', therefore, could be implemented to control the
+vertical spacing between multiple lines.
+For now, it is necessary to explicitly set this via the \fBXtNlineFactor\fR
+resource of the accompanying \fBXcuLabel\fR widget.
+.sp
+The column width keyletter 'w' could easily be implemented.
+.sp
+The staggered column keyletter 'u' could possibly be implemented.
+.sp
+The zero-width keyletter 'z' is not supportable.
+.sp
+.ce
+.ne 4
+DATA ITEMS
+.sp
+Although \fBtbl\fR is lax in requiring that there be a strict correspondence
+between format items and data items in a row, \fBXcuTbl\fR is not.
+The rule is that the keyletters "c\ l\ r\ ^" require a data item, while "s" requires
+that there not be a corresponding item.  Thus, "c ^ c" would require 3 data
+items, while "c s s", must have one data item in the row.
+Any data corresponding to a "^" keyletter will, however, be ignored.
+.sp
+The use of an underscore or an equals sign as the sole data item in a row to
+indicate a full-width single or double line is not supportable.
+.sp
+Repeated characters, \fI\\R<x>\fR, as a data item, or short horizontal lines,
+\fI\\_\fR, would require a special child widget.
+.sp
+It is not possible to indicate vertical spanning in the data section with "\\^".
+
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

@@ -1,0 +1,13 @@
+    Pixedit is a tool for interactively modifying the X colormap.  It
+    allows you to dynamically change the colormap cell for a specific
+    pixel on the screen.  It works well for picking out one's desired
+    colors, and then taking the hex RGB specification and putting it in
+    one's .Xdefaults.
+
+    There is a related program, cpicker, which displays a window's
+    colormap and allows you to select and edit a particular cell.
+
+    This Motif version uses Motif widgets and has an option, on by
+    default, which tries to find the corresponding shadow colors
+    in the colormap and change them at the same time.  This improves
+    the overall appearance while interactively changing colors.

@@ -1,0 +1,112 @@
+	# stack manipulation routines for Elk on the MIPS chip.
+	# George Hartzell --- Sat Dec  2 15:02:43 1989
+	#
+	# declare externals
+	.extern	stkbase 4
+	# declare Special 
+	.extern	Special 4
+
+	################################################################
+	# int stksize();
+	################################################################
+	.text	
+	.align	2
+	.globl	stksize
+	.ent	stksize
+stksize:
+	# set up the frame pointer
+	.frame	$sp, 0, $31
+	# put the value of stkbase into register 8
+	lw	$8, stkbase
+	# register 8 = stackbase - stackpointer
+	subu	$8, $8, $sp
+	# give ourselves a safety margin (Don't seem to need this!!! gh.)
+	#	addu	$8, $8, 100
+	# move the size to register 2, where MIPS C expects the return value
+	move	$2, $8
+	# return.  return address is in $31
+	j	$31
+	.end	stksize
+
+	################################################################
+	# int saveenv(char *buf)
+	################################################################
+	.text
+	.align	2
+	.globl	saveenv
+	.ent	saveenv
+saveenv:
+	# set up the frame pointer
+	.frame	$sp, 0, $31
+	# buf is in register 4.
+
+	# copy the registers that seem to need to be saved :)
+	sw	$28, 4($4)
+	sw	$sp, 8($4)
+	sw	$31, 12($4)
+	sw	$fp, 16($4)
+
+	# $9 points into buffer
+	# $10 contains the stack base
+	# $11 points into the stack.
+	addu	$9, $4, 20
+	lw	$10, stkbase
+	move	$11, $sp
+rep1:
+	# get a value from the stack and stuff it into the buffer
+	# increment the pointers into the stack and the buffer
+	# stop when you've copied the word at stkbase
+	#      e.g. when $11 has gone beyond stkbase
+	lw	$12, 0($11)
+	sw	$12, 0($9)
+	addu	$11, $11, 4
+	addu	$9, $9, 4
+	bltu	$11, $10, rep1
+
+	# calculate the "relocation offset"
+	subu	$15, $9, $10
+	sw	$15, 0($4)
+	# set up to return value of Special
+	lw	$2, Special
+	# return.  return address is in register 31.
+	j	$31
+	.end	saveenv
+
+
+	################################################################
+	# dead jmpenv(const char *buf, int retcode);
+	################################################################
+	.text	
+	.align	2
+	.globl	jmpenv
+	.ent	jmpenv 2
+jmpenv:
+	.frame	$sp, 0, $31
+	# copy the registers that seem to need to be saved :)
+	lw	$28, 4($4)
+	lw	$sp, 8($4)
+	lw	$31, 12($4)
+	lw	$fp, 16($4)
+
+	# $9 points into buffer
+	# $10 contains the stack base
+	# $11 points into the stack.
+	addu	$9, $4, 20
+	lw	$10, stkbase
+	move	$11, $sp
+rep2:
+	# get a value from the buffer and stuff it into the stack
+	# increment the pointers into the stack and the buffer
+	# stop when you've copied the word at stkbase
+	#      e.g. when $11 has gone beyond stkbase
+	lw	$12, 0($9)
+	sw	$12, 0($11)
+	addu	$11, $11, 4
+	addu	$9, $9, 4
+	bltu	$11, $10, rep2
+
+	# set up the return code
+	move	$2, $5
+	# and return
+	j	$31
+	.end	jmpenv

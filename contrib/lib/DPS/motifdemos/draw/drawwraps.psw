@@ -1,0 +1,78 @@
+/* drawwraps.psw 
+ *
+ * Copyright (C) 1990-1991 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */
+
+defineps PSWInitTransform(DPSContext ctxt)
+  [1 0 0 -1 0 0] setmatrix
+endps
+
+defineps PSWGetTransform(
+  DPSContext ctxt | float ctm[6], invctm[6]; int *xOffset, *yOffset)
+  matrix currentmatrix dup ctm
+  matrix invertmatrix invctm
+  currentXoffset yOffset xOffset
+endps
+
+defineps PSWDrawGrid(DPSContext ctxt; float gridSize, w, h, gray)
+  gridSize w h gray DrawGrid
+endps
+
+defineps PSWSetXGCDrawable(
+  DPSContext ctxt; int gc, drawable, x, y)
+  matrix currentmatrix
+  gc drawable x y setXgcdrawable
+  setmatrix
+endps
+
+defineps PSWGetXGCDrawable(
+  DPSContext ctxt | int *gc, *drawable, *x, *y)
+  currentXgcdrawable y x drawable gc
+endps
+
+defineps PSWSetXOffset(DPSContext ctxt; int x, y)
+  x y setXoffset
+endps
+
+defineps PSWLoadProcs(DPSContext ctxt)
+
+/DrawGrid {	% gridSize w h gray DrawGrid -
+  gsave
+    setgray 
+    /h exch def
+    /w exch def
+    /gridSize exch def
+
+    0 gridSize w { 0 moveto 0 h rlineto } for
+    0 gridSize h { 0 exch moveto w 0 rlineto } for
+    stroke
+  grestore
+  } def
+
+endps

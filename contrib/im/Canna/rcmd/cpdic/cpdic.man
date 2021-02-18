@@ -1,0 +1,27 @@
+.TH CPDIC 1
+.SH "NAME"
+cpdic \- User Dictionary Copy Tool
+.SH "SYNOPSIS"
+.B "cpdic [{\-is|\-irohaserver} \fIiroha-server\fP] [\-i|\-u \fIuser-name\fP] \fIfrom-dic\fP \fIto-dic\fP"
+.SH "DESCRIPTION"
+.PP
+cpdic copies user dictionary \fIfrom-dic\fP to \fIto-dic\fP to rewrite
+dictionary directory file \(em dics.dir \(em .
+.PP
+If the user dictionary directory does not exist, cpdic creates it and
+creates dics.dir under it.
+.PP
+If the \-i option is specified, the system dictionary will be copied.
+If the \-u option is specified, another user dictionary will be copied.
+.SH "OPTIONS"
+.IP "\-is \fIiroha-server\fP (or \-irohaserver \fIiroha-server\fP)" 12
+.PP
+Specifies the name of the server machine that contains a dictionary to
+be copied.
+.IP "\-i" 12
+Copies the system dictionary.
+.IP "\-u \fIuser-name\fP" 12
+Copies the dictionary of the specified user.
+.SH "SEE ALSO"
+.PP
+lsdic(1), mkdic(1), mvdic(1), rmdic(1)

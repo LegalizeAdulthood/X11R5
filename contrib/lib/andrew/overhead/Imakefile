@@ -1,0 +1,58 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#define	IHaveSubdirs
+
+#ifdef	X11_ENV
+CMENU = cmenu
+#endif /* X11_ENV */
+
+/* conv contains a script to convert Release3 ATK programs to Release4 ATK programs */
+CONV = conv
+
+#ifdef SNAP_ENV
+SNAP2 = snap2
+#endif /* SNAP_ENV */
+
+#ifdef	AMS_ENV
+AMS = mail ${SNAP2}
+#endif /* AMS_ENV */
+
+#ifdef AMS_DELIVERY_ENV
+POBB = pobbconf
+#endif /* #ifdef AMS_DELIVERY_ENV */
+
+#ifdef WHITEPAGES_ENV
+WPUTIL = wputil wpi
+#endif /* WHITEPAGES_ENV */
+
+#ifndef NO_FONTS_ENV
+FONTS = fonts
+#endif /* NO_FONTS_ENV */
+
+#ifdef X11_ENV
+ICONS = xicons
+#endif /* X11_ENV */
+
+SUBDIRS = genmake \
+	sys \
+	util \
+	addalias \
+	errors \
+	index \
+	malloc \
+	class \
+	rxp \
+	eli \
+	parsec \
+	${CONV} \
+	$(FONTS) \
+	$(ICONS) \
+	$(CMENU) \
+	${CWM} \
+	$(WM) \
+	$(AMS) \
+	${WPUTIL}
+
+EXTRASUBDIRS = ${POBB}

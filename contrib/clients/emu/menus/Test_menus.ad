@@ -1,0 +1,183 @@
+!! Emu Menu Module Test Resources (Test_menus)
+
+
+!! Popup Menu Resources
+
+!/* test_menus.Translations: #override\n\ */
+*testCore.Translations: #override\n\
+	Ctrl<Btn1Down>:			XpEmuPopupMenu(menu1, 1) \n\
+	Ctrl<Btn2Down>:			XpEmuPopupMenu(menu2, 1, 2) \n\
+	Shift<Btn2Down>:		XpEmuPopupMenu(menu2, 1, 3, 4) \n\
+	Ctrl<Btn3Down>:			XpEmuPopupMenu(menu3) \n
+
+!! Endof Popup Menu Resources
+
+
+#ifdef MOTIF
+#define label	labelString
+#endif /* MOTIF */
+
+
+!! MenuBar Resources
+
+*menuBar.numberMenus:			3
+!*menuBar.numberColumns:			1
+
+!*topForm.menuBar*whichButton:			button1
+!*XmMenuShell.XmRowColumn.whichButton:		button1
+!*whichButton:					button1
+*XmMenuShell.XmRowColumn.menuPost:		<Btn1Down>
+
+!! Endof MenuBar Resources
+
+
+!! MenuBar Menu Button Resources
+
+*menuButton1.label:			Main Options
+*menuButton2.label:			Term Options
+*menuButton3.label:			Term Emulations
+
+#ifdef MOTIF				/* CascadeButtonWidget */
+*topForm.menuBar.menuButton1.Translations: #override\n\
+	<BtnDown>:			XpEmuPopupMenu(menu1, 1)
+*topForm.menuBar.menuButton2.Translations: #override\n\
+	<BtnDown>:			XpEmuPopupMenu(menu2, 1, 2)
+*topForm.menuBar.menuButton3.Translations: #override\n\
+	<BtnDown>:			XpEmuPopupMenu(menu3)
+
+*XmCascadeButton.fontList:		8x13bold
+
+*XmForm*topOffset:			4
+*XmCascadeButton.borderWidth:		0
+*XmRowColumn.borderWidth:		0
+
+#else /* ATHENA */			/* MenuButton Widget */
+*menuButton1.Translations: #override\n\
+	<BtnDown>:			reset()XpEmuPopupMenu(menu1, 1)
+*menuButton2.Translations: #override\n\
+	<BtnDown>:			reset()XpEmuPopupMenu(menu2, 1, 2)
+*menuButton3.Translations: #override\n\
+	<BtnDown>:			reset()XpEmuPopupMenu(menu3)
+
+*MenuButton.font:			8x13bold
+
+*MenuButton.shapeStyle:			ellipse
+
+*MenuButton.borderWidth:		0
+#endif /* MOTIF */
+
+!! Endof MenuBar Menu Button Resources
+
+
+!! Menu Widget Resources
+
+#ifdef MOTIF				/* Menu Widget */
+*XmLabelGadget*fontList:		8x13bold
+*XmPushButtonGadget*fontList:		childof3
+
+*titleSeparator.separatorType:		double_line
+
+#else /* ATHENA */			/* SimpleMenu and smeBSB Widget */
+*SimpleMenu*menuLabel.vertSpace:	100
+*SimpleMenu*HorizontalMargins:		16
+*SimpleMenu*Sme.height:			16
+
+*SimpleMenu*BackingStore:		default
+*SimpleMenu*menuLabel.font:		8x13bold
+*SimpleMenu*SmeBSB.font:		childof3
+
+*menu1*menuLabel.leftBitmap:		star
+*menu1*menuLabel.rightBitmap:		star
+*menu2*menuLabel.leftBitmap:		keyboard16
+*menu2*menuLabel.rightBitmap:		keyboard16
+*menu3*menuLabel.leftBitmap:		menu16
+*menu3*menuLabel.rightBitmap:		menu16
+
+*menu1*item2.rightBitmap:		target
+*menu1*item5.rightBitmap:		dropbar8
+*menu1*item8.rightBitmap:		weird_size
+*menu3*rightBitmap:			menu12
+#endif /* MOTIF */
+
+!! Endof Menu Widget Resources
+
+
+!! General Menu and Menu Item Resources
+
+*menu1.label:				Main Options
+*menu2.label:				Term Options
+*menu3.label:				Term Emulations
+
+
+*menu1.numberItems:			11
+
+*menu1*item1.label:			eject pod
+*menu1*item2.label:			throttle back
+*menu1*item3.label:			remove sources
+*menu1*item4.label:			kill self
+*menu1*item5.label:			flub stuff
+*menu1*item6.label:			turn communist
+*menu1*item7.label:			sell Park Place
+*menu1*item8.label:			buy Farm
+*menu1*item9.label:			settle down
+*menu1*item10.label:			settle up
+*menu1*item11.label:			quit
+
+*menu1.itemLines:			item4 item6 item10
+
+*menu1*item1.action:			300
+*menu1*item2.action:			301
+*menu1*item3.action:			302
+*menu1*item4.action:			303
+*menu1*item5.action:			304
+*menu1*item6.action:			305
+*menu1*item7.action:			306
+*menu1*item8.action:			307
+*menu1*item9.action:			308
+*menu1*item10.action:			308
+*menu1*item11.action:			310
+
+
+*menu2.numberItems:			8
+
+*menu2*item1.label:			potatoes
+*menu2*item2.label:			tomatoes
+*menu2*item3.label:			kumquats
+*menu2*item4.label:			pulverized rhinoceros horn
+*menu2*item5.label:			pajamas
+*menu2*item6.label:			cigarettes
+*menu2*item7.label:			whiskey
+*menu2*item8.label:			hotel room
+
+*menu2*item1.action:			311
+*menu2*item2.action:			312
+*menu2*item3.action:			313
+*menu2*item4.action:			314
+*menu2*item5.action:			315
+*menu2*item6.action:			316
+*menu2*item7.action:			317
+*menu2*item8.action:			318
+
+
+*menu3.numberItems:			4
+
+*menu3*item1.label:			vt-200
+*menu3*item2.label:			adm-3a
+*menu3*item3.label:			MITS front panel
+*menu3*item4.label:			term-innate
+
+*menu3*item1.action:			vt-200
+!*menu3*item2.action:			adm-3a
+*menu3*item3.action:			MITS-front-panel
+*menu3*item4.action:			term-innate
+
+!! Endof General Menu and Menu Item Resources
+
+
+
+!! Dummy Emu Widget Resources
+
+*testCore.width:			350
+*testCore.height:			450
+
+!! Endof Dummy Emu Widget Resources

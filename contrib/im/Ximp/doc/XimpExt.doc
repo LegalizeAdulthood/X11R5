@@ -1,0 +1,537 @@
+
+
+
+
+
+
+
+
+
+	Extension Protocol Specification  for the Distributed Input System
+
+			on the X Window System, Version 11
+
+
+
+			      Masahiko Narita
+			      Takashi Fujiwara
+			      Keisuke Fukui
+
+			      Fujitsu Limited
+
+
+			      Masaki Takeuchi
+
+			      Sony Corporation
+
+
+			      Makoto Matsuyama
+			      Kazuki Nishihara
+
+			      Fuji Xerox Co., Ltd.
+
+
+			      Yasuhiro Kawai
+
+		      Oki Technosystems Laboratory, Inc.
+
+
+			      Katsuhisa Yano
+
+			      Toshiba Corporation
+
+
+			      Hideki Hiura
+			      Masayuki Seino
+
+			Nihon Sun Microsystems K.K.
+
+
+
+
+
+		Revision 0.1		20 September, 1991
+
+
+
+		Copyright 1991 Fujitsu Limited
+		Copyright 1991 Sony Corporation
+		Copyright 1991 Fuji Xerox Co., Ltd.
+		Copyright 1991 Oki Technosystems Laboratory, Inc.
+		Copyright 1991 Toshiba Corporation
+		Copyright 1991 Nihon Sun Microsystems K.K.
+
+
+
+				Index
+
+	1. Overview
+	2. Status Window ID Extension
+	3. Selecting the Frontend method or Backend method
+	4. Candidates List Displaying Extension
+	    4.1. Negotiation
+	    4.2. LookupStartCallbacks
+	    4.3. LookupDrawCallbacks
+	    4.4. LookupProcessCallbacks
+	    4.5. LookupDoneCallbacks
+	5. Handling/Querying IM Server's conversion mode
+
+
+1. Overview
+
+    This specification provides the extension for "Protocol 
+Specification for the Distributed Input System on the X Window
+System, Version 11". 
+    Some kind of applications or language-engin sometimes require 
+IM Server to support the functions beyond the general functionality 
+provided by XIM.
+    Examples are:
+    - Setting the status window.
+    - Selecting the front-end method or back-end methood.
+    - Selecting the mode of listing candidates.
+    - Switching the language on IC.
+    - Setting the input mode depending on the native language.
+      (e.g. latin-KANA conversion mode, alphanumeric mode).
+ 
+    These should be implemented with the protocols based on 
+"6. Vendor Specific Extensions Protocol".
+    This documentation describes a set of these functions depended
+on IM Server as shown above but commonly used or convenient. 
+
+    However, every application have to perform the minimum processing
+even if the IM Server doesn't support any extension to keep 
+inter-operability between the application and IM servers.
+
+Please refer the following specification about the extensions: 
+
+         "6. Vendor Specific Extensions Protocol"
+
+    Protocol Specification for the Distributed Input System
+              on the X Window System, Version 11
+
+
+2. Status Window ID Extension
+
+    The status window can be handled as the separate window
+rather than be specified relative to the client window.
+
+    Atom Name of Extension Function  _XIMP_EXT_UI_STATUSWINDOW
+
+    ClientMessage Format to be Used.
+
+         Data Field in the XClientMessage Structure
+         
+         +-----------------------------------+
+        0| XIMP_EXTENSION                    |
+         +-----------------------------------+
+        4| ICID                              |
+         +-----------------------------------+
+        8| Atom ID _XIMP_EXT_UI_STATUSWINDOW |
+         +-----------------------------------+
+ 
+    When the IM Server is notified of the above ClientMessage,
+it selects the status window with _XIMP_STATUS property and
+displays the status on the window, where the coordination of
+Area is relative to the window.
+ 	
+    Note that this ClientMessage must be specified before the 
+issuance of XIMP_BEGIN. Otherwise, it has no valid effect.
+ 
+
+3. Selecting the front-end method or back-end method
+ 
+    Either method can be used in the present interface.
+The following specifies which method is to be used.
+ 
+    Atom Name of Extension Function  _XIMP_EXT_UI_BACK_FRONT
+ 
+    The IM Server should specify the following property 
+at the startup time.
+ 
+ 	Property Name : _XIMP_EXT_UI_BACK_FRONT
+ 	Window        : IMS Window
+ 	Property Type : _XIMP_EXT_UI_BACK_FRONT
+ 	Format        : 32
+ 	data          : the mode recommended by the IM Server
+ 	nelements     : 1
+ 
+         +-----------------------------------+
+        0| 1 or 0                            |
+         +-----------------------------------+
+         
+         	1 : the back-end method mode
+         	0 : the front-end method mode
+
+    o Data Format
+ 
+    The Library notifys the IM Server of the following ClientMessage.
+ 	
+ 	Data Field of the XClientMessage Structure
+
+ 	+------------------------------------+
+       0| XIMP_EXTENSION                     |
+        +------------------------------------+
+       4| ICID                               |
+        +------------------------------------+
+       8| Atom ID _XIMP_EXT_UI_BACK_FRONT    |
+        +------------------------------------+
+      12| 1 or 0                             |
+        +------------------------------------+
+
+             1: the back-end method mode
+             0: the front-end method mode
+
+    The IM Server is capable of operating either in the back-end 
+method or in front-end method registers the _XIMP_EXT_UI_BACK_FRONT 
+atom into the _XIMP_EXTENSIONS property of the IMS window, and set 
+the recommended mode to the _XIMP_EXT_UI_BACK_FRONT property.
+The client can specify which method by issuing the above 
+ClientMessage if and only if this atom has been set to the 
+_XIMP_EXTENSIONS property.
+
+    When the IM Server is notified of the above ClientMessage, it 
+switches input methods between the back-end mode and front-end mode.
+Otherwise, it operates in the the front-end mode.
+       
+    Note that this ClientMessage must be specified before the 
+issuance of XIMP_BEGIN. After the issuance, it has no valid effect.
+
+ 
+4. Candidate List Displaying Extension
+ 
+    The client can display the candidates in a list form by using
+the LookupChoices extension call-back.
+ 
+    Atom Name of Extension Function _XIMP_EXT_UI_LOOKUPCHOICES
+ 
+    o The ClientMessage format to be used.
+ 
+    	Data Field of the XClientMessage Structure
+    	
+    	+-----------------------------------------+
+       0| XIMP_EXTENSION                          |
+        +-----------------------------------------+
+       4| ICID                                    |
+        +-----------------------------------------+
+       8| Atom ID of _XIMP_EXT_UI_LOOKUPCHOICES   |
+        +-----------------------------------------+
+      12| <Request/Reply #>                       | (*) refer the below
+        +-----------------------------------------+
+      16| <data>                                  |
+        +-----------------------------------------+
+
+    o Request from the Client to the IM Server
+
+    -------------------------+--------------------------+-------------
+        Request              |    Content               |
+    -------------------------+--------------------------+-------------
+    LOOKUP_CHOICES_BEGIN     |  Negotiation             | 6.2.3.1
+    LOOKUP_CHOICES_START_REQ |  LookupStartCallbacks    | 6.2.3.2
+    LOOKUP_CHOICES_PROCES_REQ|  LookupProcessCallbacks  | 6.2.3.4
+    -------------------------+--------------------------+-------------
+  
+
+    o Reply from the IM Server to the Client
+
+    --------------------------+--------------------------+-------------
+         Reply                |   Content                |
+    --------------------------+--------------------------+-------------
+    LOOKUP_CHOICES_START_REP  |  LookupStartCallbacks    | 6.2.3.2
+    LOOKUP_CHOICES_DRAR_REP   |  LookupDrawCallbacks     | 6.2.3.3
+    LOOKUP_CHOICES_PROCESS_REP|  LookupProcessCallbacks  | 6.2.3.4
+    LOOKUP_CHOICES_DONE_REP   |  LookupDoneCallbacks     | 6.2.3.5
+    --------------------------+--------------------------+-------------
+ 
+4.1. Negotiation
+ 
+    This request informs the IM Server of that listing candidates
+will be done on the client side with the LookupChoices extension 
+call-backs,
+ 
+    o From the Client to the IM Server
+ 
+ 	Data Field of the IM Server
+ 	
+ 	+----------------------------------------+
+       0| XIMP_EXTENSION                         |
+        +----------------------------------------+
+       4| ICID                                   |
+        +----------------------------------------+
+       8| Atom ID of _XIMP_EXT_UI_LOOKUPCHOICES  |
+        +----------------------------------------+
+      12| LOOKUP_CHOICES_BEGIN                   |
+        +----------------------------------------+
+        
+    The IM Server should register the above atom name into
+_XIMP_EXTENSIONS property of the IMS window, if the Server wants to
+make the client display. The candidate list with the LookupChoices
+extension callbacks.
+ 
+    The client using the LookupChoices extension call-backs should 
+notify the IM Server of using this interface after confirming that 
+the above atom name has been registered into the _XIMP_EXTENSIONS 
+property.
+ 
+    This ClientMessage must be specified before the issuance of 
+XIMP_BEGIN. The following protocols will be used if and only if this 
+ClientMessage is issued.
+
+
+4.2.  LookupStartCallbacks
+
+    o From the IM Server to the Client
+
+    	Data Field of the XClientMessage Structure
+
+	  +-------------------------------------+
+	 0| XIMP_EXTENSION			|
+	  +-------------------------------------+
+	 4| ICID		        	|
+	  +-------------------------------------+
+	 8| Atom ID _XIMP_EXT_UI_LOOKUPCHOICES  |
+	  +-------------------------------------+
+	12| LOOKUP_CHOICES_START_REP		|
+	  +-------------------------------------+
+	16| prop.0				|
+	  +-------------------------------------+
+
+    Property specified with prop.0
+
+	window		  :  IMS window
+	type		  :  _XIMP_EXT_UI_CHOICE_START_REQ
+	format		  :  32
+	data		  :  data XIMLookupStartCallbackStruct
+	nelements	  :  elements of data
+
+	  +-------------------------------------+
+	 0| event->xkey.keycode			|
+	  +-------------------------------------+
+	 4| event->xkey.state			|
+	  +-------------------------------------+
+	 8| WhoIsMaster				|
+	  +-------------------------------------+
+	12| XIMPreference->choice_per_window	|
+	  +-------------------------------------+
+	16| XIMPreference->nrows		|
+	  +-------------------------------------+
+	20| XIMPreference->ncols		|
+	  +-------------------------------------+
+	24| XIMPreference->DrawUpDirection  	|
+	  +-------------------------------------+
+	28| XIMPreference->WhoOwnsLabel		|
+	  +-------------------------------------+
+
+    o From the Client to the IM Server
+
+    	Data Field of the XClientMessage Structure
+
+	  +-------------------------------------+
+	 0| XIMP_EXTENSION			|
+	  +-------------------------------------+
+	 4| ICID		        	|
+	  +-------------------------------------+
+	 8| Atom ID _XIMP_EXT_UI_LOOKUPCHOICES  |
+	  +-------------------------------------+
+	12| LOOKUP_CHOICES_START_REQ		|
+	  +-------------------------------------+
+	16| prop.0				|
+	  +-------------------------------------+
+
+    Property specified with prop.0
+
+	window		  :  Client Window
+	type		  :  _XIMP_EXT_UI_CHOICE_START_REQ
+	format		  :  32
+	data		  :  data XIMLookupStartCallbackStruct
+	nelements	  :  elements of data
+
+	  +-------------------------------------+
+	 0| WhoIsMaster				|
+	  +-------------------------------------+
+	 4| CBPreference->choice_per_window 	|
+	  +-------------------------------------+
+	 8| CBPreference->nrows			|
+	  +-------------------------------------+
+	12| CBPreference->ncolumns		|
+	  +-------------------------------------+
+	16| CBPreference->DrawUpDirection   	|
+	  +-------------------------------------+
+	20| CBPreference->WhoOwnsLabel		|
+	  +-------------------------------------+
+
+4.3.  LookupDrawCallbacks
+
+    o From the IM Server to the Client
+
+    	Data Field of the XClientMessage Structure
+
+	  +-------------------------------------+
+	 0| XIMP_EXTENSION			|
+	  +-------------------------------------+
+	 4| ICID		        	|
+	  +-------------------------------------+
+	 8| Atom ID _XIMP_EXT_UI_LOOKUPCHOICES  |
+	  +-------------------------------------+
+	12| LOOKUP_CHOICES_DRAW_REP		|
+	  +-------------------------------------+
+	16| prop.0				|
+	  +-------------------------------------+
+
+    Property specified with prop.0
+
+	window		  :  IMS window
+	type		  :  _XIMP_EXT_UI_CHOICE_DRAW_REP
+	format		  :  32
+	data		  :  data XIMLookupStartCallbackStruct
+	nelements	  :  elements of data
+
+	  +-------------------------------------+
+	 0| max_len				|
+	  +-------------------------------------+
+	 4| index_of_first_candidate		|
+	  +-------------------------------------+
+	 8| index_of_last_candidate		|
+	  +-------------------------------------+
+	12| choices(Text)			|
+	  +-------------------------------------+
+	16| choices(Feedbacks) / NULL		|
+	  +-------------------------------------+
+
+    Property specified with choices(Text)
+
+	window		  :  IMS window
+	type		  :  XA_COMPOUND_TEXT
+	format		  :  8
+	data		  :  choices[0].label, choices[0].value, ...
+	nelements	  :  string length of data
+
+	  +---------------------------------//----------+
+	 0| string			    		|
+	  +---------------------------------//----------+
+
+
+    Property specified with choices(Feedbacks)
+
+	window		  :  IMS window
+	type		  :  _XIMP_FEEDBACKS
+	format		  :  8
+	data		  :  data XIMLookupStartCallbackStruct
+	nelements	  :  elements of data
+
+	  +-------------------------------------+
+	 0| choices[0].label->feedbacks		|
+	  +-------------------------------------+
+	 1| choices[0].value->feedbacks		|
+	  +-------------------------------------+
+	 0| choices[1].label->feedbacks		|
+	  +-------------------------------------+
+	 1| choices[1].value->feedbacks		|
+	  +-------------------------------------+
+
+4.4.  LookupProcessCallbacks
+
+    o From the IM Server to the Client
+
+    	Data Field of the XClientMessage Structure
+
+	  +-------------------------------------+
+	 0| XIMP_EXTENSION			|
+	  +-------------------------------------+
+	 4| ICID		        	|
+	  +-------------------------------------+
+	 8| Atom ID _XIMP_EXT_UI_LOOKUPCHOICES  |
+	  +-------------------------------------+
+	12| LOOKUP_CHOICES_PROCESS_REP		|
+	  +-------------------------------------+
+	16| prop.0				|
+	  +-------------------------------------+
+
+    Property specified with prop.0
+
+	window		  :  IMS window
+	type		  :  _XIMP_EXT_UI_CHOICE_PROC_REP
+	format		  :  32
+	data		  :  data XIMLookupStartCallbackStruct
+	nelements	  :  elements of data
+
+	  +-------------------------------------+
+	 0| event->xkey.keycode			|
+	  +-------------------------------------+
+	 4| event->xkey.state			|
+	  +-------------------------------------+
+
+    o From the Client to the IM Server
+
+    	Data Field of the XClientMessage Structure
+
+	  +-------------------------------------+
+	 0| XIMP_EXTENSION			|
+	  +-------------------------------------+
+	 4| ICID		        	|
+	  +-------------------------------------+
+	 8| Atom ID _XIMP_EXT_UI_LOOKUPCHOICES  |
+	  +-------------------------------------+
+	12| LOOKUP_CHOICES_PROCESS_REQ		|
+	  +-------------------------------------+
+	16| index_of_choice_selected		|
+	  +-------------------------------------+
+
+
+4.5.  LookupDoneCallbacks
+
+    o From the IM Server to the Client
+
+    	Data Field of the XClientMessage Structure
+
+	  +-------------------------------------+
+	 0| XIMP_EXTENSION			|
+	  +-------------------------------------+
+	 4| ICID		        	|
+	  +-------------------------------------+
+	 8| Atom ID _XIMP_EXT_UI_LOOKUPCHOICES  |
+	  +-------------------------------------+
+	12| LOOKUP_CHOICES_DONE_REP		|
+	  +-------------------------------------+
+
+5.  Handling/Querying IM Server's conversion mode
+
+    This protocol handles or queries IM Server's conversion mode.
+If a client wishes to change IM Server's conversion mode, send this
+client message from the client to IM Server with "operation" field 
+is "Set", and "conversion" field is "on" or "off". Client can query 
+IM Server's conversion mode by sending this client message from the 
+client to IM Server with "operation" field is "Get". In both of cases, 
+IM Server will reply by sending back the client message as shown above.
+
+    o From the Ximp lib to IM Server (To query or to set)
+
+    	Data Field of the XClientMessage Structure
+ 
+ 	  +-----------------------------------------+
+ 	0 | XIMP_EXTENSION                          |
+ 	  +-----------------------------------------+
+ 	4 | ICID                                    |
+ 	  +-----------------------------------------+
+ 	8 | Atom ID of XNExtXimp_Conversion         |
+ 	  +-----------------------------------------+
+ 	12| Operation: Boolean Set(True)/Get(False) |
+ 	  +-----------------------------------------+
+ 	16| Conversion: Boolean On(True)/Off(False) |
+ 	  +-----------------------------------------+
+
+    o From IM Server to Ximp library (reply of querying)
+
+    	Data Field of the XClientMessage Structure
+
+	  +-----------------------------------------+
+	0 | XIMP_EXTENSION                          |
+	  +-----------------------------------------+
+	4 | ICID                                    |
+	  +-----------------------------------------+
+	8 | Atom ID of XNExtXimp_Conversion         |
+	  +-----------------------------------------+
+	12| VOID                                    |
+	  +-----------------------------------------+
+	16| Conversion: Boolean On(True)/Off(False) |
+	  +-----------------------------------------+
+

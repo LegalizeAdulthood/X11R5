@@ -1,0 +1,98 @@
+/* textwraps.psw - Wraps used to draw text objects
+ *
+ * Copyright (C) 1990-1991 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */
+
+defineps PSWSetFontAndText(
+  DPSContext ctxt; char *font; char *defaultFont; char *text; int size)
+  {/font size selectfont} stopped {/defaultFont size selectfont} if
+  /xCharFudge (W) stringwidth pop def
+  /yCharFudge size 4 div def
+  /fontHeight size def
+  /textToDraw (text) def
+endps
+
+defineps PSWSetAllTextParams(
+  DPSContext ctxt; char *font; char *defaultFont; char *text; int size;
+  float x1, y1, x2, y2)
+  {/font size selectfont} stopped {/defaultFont size selectfont} if
+  /xCharFudge (W) stringwidth pop def
+  /yCharFudge size 4 div def
+  /fontHeight size def
+  /textToDraw (text) def
+  gsave
+    x1 y1 translate
+    y2 y1 sub x2 x1 sub atan rotate
+    /textMatrix textMatrix currentmatrix def
+  grestore
+endps
+
+defineps PSWDrawText(DPSContext ctxt)
+  DrawText
+endps
+
+defineps PSWTextBBox(
+  DPSContext ctxt; float x1, y1, x2, y2 |
+  float *llx, *lly, *urx, *ury)
+  x1 y1 x2 y2 TextBBox ury urx lly llx
+endps
+
+defineps PSWLoadTextProcs(DPSContext ctxt)
+
+/textMatrix matrix def
+/oldMatrix matrix def
+
+/DrawText {
+  gsave
+    textMatrix setmatrix
+    0 0 moveto textToDraw show
+  grestore
+  } def
+
+/TextBBox {	% x1 y1 x2 y2 TextBBox llx lly urx ury
+  /y2 exch def
+  /x2 exch def
+  /y1 exch def
+  /x1 exch def
+  /xorg 0 xCharFudge sub def
+  /yorg 0 yCharFudge sub def
+  /h fontHeight yCharFudge 2 mul add def
+  /w textToDraw stringwidth pop xCharFudge 2 mul add def
+  gsave
+    /oldMatrix oldMatrix currentmatrix def
+    x1 y1 translate
+    y2 y1 sub x2 x1 sub atan rotate
+    xorg yorg moveto w 0 rlineto 0 h rlineto w neg 0 rlineto closepath
+    /textMatrix textMatrix currentmatrix def
+    oldMatrix setmatrix
+    pathbbox
+  grestore
+  } def
+
+endps

@@ -1,0 +1,5 @@
+;
+; $Id: 1B_ZENHIRA,v 1.1 1991/09/09 22:39:21 ohm Exp $
+;
+(defvar a (all))
+(a)	(tozenhira (a))

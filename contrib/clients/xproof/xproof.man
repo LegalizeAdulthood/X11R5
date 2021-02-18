@@ -1,0 +1,280 @@
+.TH XPROOF 1 "U of Wisconsin" "X Version 11"
+.\" $Header: /src/X11/uw/xproof/RCS/xproof.man,v 3.6 90/06/22 16:31:45 tim Exp $
+.if t \{\
+.ds lq \(lq
+.ds rq \(rq
+\}
+.if n \{\
+.ds lq ``
+.ds rq ''
+\}
+.SH NAME
+xproof \- preview typesetter-independent troff using X Windows
+.SH SYNOPSIS
+.B xproof
+\-V
+.br
+.B xproof
+[\-\fItoolkitoption\fP ...] [\-option ...] [file]
+.SH DESCRIPTION
+The first form prints a message indicating the version of
+.B xproof
+and exits.
+The second form
+takes as input the output of device-independent troff (ditroff)
+and shows how it will look, using the X window package.
+The
+.I file
+may be created using
+.RB \*(lq "ditroff \-t"
+.IR troff-source \*(rq.
+The first page of the document is shown in a window with a menu bar a the
+top.
+If the window is not large enough to show the whole page, scroll bars
+will appear on the left side and/or top, allowing you to move the window
+over the page.
+The menu bar lists the name of the file and has buttons
+.BR back ,
+.BR forward ,
+.BR quit ,
+.BR "Go to page ..." ,
+.BR refresh ,
+.BR magnify ,
+and
+.BR shrink .
+Clicking the left mouse button in the
+.B back
+or
+.B forward
+button moves you to the previous or next page of the document, respectively.
+A button shown in a gray tone is temporarily disabled (for example the
+.B back
+button when you are viewing the first page).
+Clicking
+.B quit
+terminates
+.BR Xproof.
+Clicking the left, center, or right mouse button inside the proof window
+has the same effect as the
+.BR back ,
+.BR forward ,
+or
+.B quit
+button, respectively.
+
+The
+.B magnify
+and
+.B shrink
+buttons multiply or divide the current scale factor by 1.2, respectively.
+(See the description of the
+.I scale
+option below).
+
+The
+.B "refresh"
+button refreshes the current page.  In addition, the file is reopened
+if it has changed.
+
+The
+.B "Go to page ..."
+button causes a menu to pop up, allowing you to go directly to any page
+of the document.
+The page numbers listed are the page numbers assigned by
+.BR troff ;
+if you used the
+.I .np
+or
+.I .bp
+request with an arguement, there may be more than one page with the same
+number.
+
+If
+.B xproof
+is invoked with no
+.I file
+argument, it reads from standard input.
+In this case the
+.B "Go to page ..."
+and
+.B "refresh"
+buttons are not available, and the
+.B back
+button is diabled.
+
+.B Note:
+Some widow managers grab mouse buttons for their
+own use.
+If the mouse buttons don't seem to be working,
+try holding down SHIFT or CTRL while using the mouse.
+
+Commands can also be entered from the keyboard instead of the mouse.
+A command consists of an optional count followed by a command letter.
+A count is either an unsigned decimal number or the symbol `$' (meaning
+infinity).
+Commands are not echoed.
+
+The
+.I r
+(refresh) command refreshes the current page.
+A synonym is
+.I ^L .
+
+The
+.I f
+(forward) commmand advances
+.I count
+pages (default one).
+Synonyms are
+.I d
+(down),
+.I n
+(next),
+and
+.IR + .
+
+The
+.I b
+(back) command moves back
+.I count
+pages (default one).
+Synonyms are
+.I u
+(up),
+.I p
+(previous),
+and
+.IR \- .
+
+If no count is specified,
+.I G
+goes to the last page of the document,
+the
+.I g
+goes to the first page, and
+.I RETURN
+advances one page (like
+.IR f ).
+With an explicit count, all three commands search for a page whose page
+number matches
+.IR count .
+Several pages can have the same number;
+the search is forward from the current page, with wraparound from the
+last page to the first.
+
+The
+.I q
+(quit) or
+.I x
+(eXit)
+command terminates
+.IR xproof .
+
+With the exeception of the
+.I g
+and
+.I G
+commands, case is not significant.
+.SH OPTIONS
+.I Xproof
+accepts all of the standard X Toolkit command line options.
+The most useful options are probably
+.B \-geometry
+and
+.B \-rv
+(reverse video).
+For example, \*(lq\-geom \-0+0\*(rq will immediately place the
+.B xproof
+window at the upper-right corner of your screen without prompting you for
+a size and location.
+In addition,
+.B xproof
+accepts the option
+.B \-scale
+.IR n ,
+where
+.I n
+is a positive integer, to set the scale factor resource.
+The default scale factor is 10, which causes the document to appear
+approximately actual size on a 75 dot-per-inch display.
+A scale factor of
+.I n
+enlarges the display by a factor of
+.IR n /10.
+For example
+.B "\-scale 12"
+will make it 20% larger.
+
+.I Note:
+Both the sizes and spacing of characters are scaled, but only a limited
+set of point sizes are available (currently 8, 10, 12, 14, 18, and 24 points).
+If a required font is not available,
+.B xproof
+will choose the closest avialable size.
+Thus, specifying
+.B "\-scale 16"
+will make all dimensions 60% larger, but the individual characters will only
+be 40% larger, if they were originally specified as 10-point type.
+.SH XDEFAULTS
+This program uses the 
+.I Proof
+widget.
+That means that defaults can be specified in your .Xdefaults file under
+\*(lqxproof\*(rq or \*(lqProof\*(rq.
+Examples include
+.br
+    xproof.geometry: 400x600+100+100,
+.br
+    Proof*reverseVideo: on,
+.br
+and
+.br
+    Proof*scale: 14.\*(rq.
+.SH AUTHOR
+Marvin Solomon
+.SH COPYRIGHT
+Copyright 1988, 1989 by Marvin Solomon.
+
+Permission to use, copy, modify, and distribute this
+software and its documentation for any purpose and without
+fee is hereby granted, provided that the above copyright
+notice appear in all copies and that both that copyright
+notice and this permission notice appear in supporting
+documentation, and that the name of Marvin Solomon not be used in
+advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+Marvin Solomon makes no representations about the suitability of
+this software for any purpose.  It is provided \*(lqas is\*(rq
+without express or implied warranty.
+.SH SEE ALSO
+ditroff(1), troff(1)
+.SH BUGS
+Undoutedly many.
+Some known ones are:
+.PP
+The fonts are ugly and there are not enough point sizes or faces.
+The widths of the characters may not correspond to what
+your target (hard copy) device expects, although each character is individually
+placed in the right location on the page, giving text an especially uneven
+look.
+.PP
+Lots more features would be handy.
+One that comes to mind is a way of specifying which
+page to show first.
+It would also be nice to be able to move around in a file even if it is
+supplied as standard input.
+.PP
+The pop-up menu for
+.BR "Go to page ..."
+is dificult to use when there are lots of pages.
+.PP
+On some servers (for example the qdss server),
+.B xproof
+will be excruciatingly slow unless it is run with the
+.B +usepixmap
+option.
+If this option is used, 
+.B xproof
+will be moderately slow, and if input is coming from a
+pipe, the window will not be correctly refreshed after it is raised, resized,
+or scrolled.

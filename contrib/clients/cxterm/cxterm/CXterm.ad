@@ -1,0 +1,36 @@
+cxterm*Font:            8x16
+cxterm*HanziFont:       cclib16st
+cxterm*HanziEncoding:   GB
+
+cxterm*fontMenu.Label:  VT Fonts
+cxterm*fontMenu*fontdefault*Label:	Default
+cxterm*fontMenu*font1*Label:	Normal Ascii
+cxterm*VT100*font1:		8x16
+cxterm*fontMenu*font2*Label:	Large Ascii
+cxterm*VT100*font2:		12x24
+cxterm*fontMenu*font3*Label:	Normal GB Hanzi
+cxterm*VT100*font3:		cclib16st
+cxterm*fontMenu*font4*Label:	Thin GB Hanzi
+cxterm*VT100*font4:		cclib16fs
+cxterm*fontMenu*font5*Label:	Large GB Hanzi
+cxterm*VT100*font5:		cclib24st
+cxterm*fontMenu*font6*Label:	Normal BIG5 Hanzi
+cxterm*VT100*font6:		hku-ch16
+cxterm*fontMenu*fontescape*Label:	Escape Sequence
+cxterm*fontMenu*fontsel*Label:		Selection
+
+cxterm*VT100.Translations: #override\
+	<KeyPress> F1:	switch-HZ-mode(ASCII)		\n\
+	<KeyPress> F2:	switch-HZ-mode(IC)		\n\
+ ~Shift <KeyPress> F3:	switch-HZ-mode(TONEPY)		\n\
+  Shift <KeyPress> F3:	switch-HZ-mode(PY-b5)		\n\
+ ~Shift <KeyPress> F4:	switch-HZ-mode(PY)		\n\
+  Shift <KeyPress> F4:	switch-HZ-mode(ETZY)		\n\
+ ~Shift <KeyPress> F5:	switch-HZ-mode(QJ)		\n\
+  Shift <KeyPress> F5:	switch-HZ-mode(QJ-b5)		\n\
+ ~Shift <KeyPress> F6:	switch-HZ-mode(Punct)		\n\
+  Shift <KeyPress> F6:	switch-HZ-mode(Punct-b5)	\n\
+ ~Shift <KeyPress> F7:	switch-HZ-mode(SW)		\n\
+  Shift <KeyPress> F7:	switch-HZ-mode(ZOZY)		\n\
+	<KeyPress> F8:	switch-HZ-mode(QW)		\n\
+  ~Meta <KeyPress> Escape:  insert() switch-HZ-mode(ASCII)

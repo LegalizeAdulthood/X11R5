@@ -1,0 +1,120 @@
+\begindata{text,269567484}
+\textdsversion{12}
+\template{help}
+\chapter{Filename Extensions and EZ}
+
+
+\section{What are filename extensions}
+
+\leftindent{
+A filename extension is a string of characters added to the end of a filename, 
+usually to help specify what kind of information the file contains, or to 
+distinguish different versions of a file with the same name.  Here are some 
+examples of filenames, with the extensions in bold:
+
+
+\leftindent{english\bold{.paper}
+
+program\bold{.c}
+
+worldmap\bold{.zip}
+
+report\bold{.version1}
+
+report\bold{.version2}
+
+}
+Note that by convention a period (.) separates the extension from the rest of 
+the file name.
+
+
+You can use extensions in any way that you find helpful in organizing your 
+files, but there are a few things you should keep in mind:
+
+
+\leftindent{1)  There are a number of extensions that EZ interprets in a 
+special way.  See the next section to learn how. 
+
+
+2)  To avoid confusion, you should not use certain characters (such as * or /) 
+in filenames or extensions.  See the \italic{ ez}  help file for a list of the 
+characters to be avoided.
+
+}}
+\section{Using special extensions in EZ
+
+}
+\leftindent{Extensions have a special role in EZ, related to EZ's ability to 
+edit information in many different formats (text, pictures, tables, equations 
+and so on).  If you use one of a set of special pre-defined extensions in the 
+command
+
+
+\leftindent{\bold{ez} \italic{filename.\bold{extension}}}
+
+
+EZ will provide you with one of its many different editing packages, called 
+ \italic{insets}  , each of which is appropriate to a different kind of 
+information.   The more commonly used extensions include
+
+
+\leftindent{\bold{.eq}         which creates an \italic{eq} document, for 
+formatting equations.
+
+\bold{.fad}        which creates a \italic{fad} document, for animations.
+
+\bold{.table}     which creates a \italic{table} document, for tables and 
+spreadsheets.
+
+\bold{.raster}   which creates a \italic{raster} document, for digitized 
+pictures.
+
+\bold{.zip }        which creates a\italic{ zip} document, for line drawings.}
+
+ 
+
+You can see a complete list of the special extensions by looking at the global 
+or site initfile file for your site.  
+
+
+For more information about how to interpret the entries in initfiles file, and 
+how to create your own extension-to-inset mappings, see the  \italic{initfiles} 
+ help document. 
+
+}
+\leftindent{In addition to the extensions mapped to insets, there are 
+extensions mapped to  \italic{templates}  , which go with text insets.  These 
+templates provide special styles or pre-set text layout (for memos or help 
+documents, for example).  These extensions are also listed in global.ezinit. 
+
+
+You may wish to consult the \italic{ insets}  help document for more 
+information about the insets currently available on Andrew, and the 
+ \italic{templates  }help document for more information on templates.  
+
+
+The actual order of events in the interpretation of EZ file extensions is as 
+follows.  When EZ sees a filename extension, it first checks to see if the 
+document has a "top-level" inset that defines what kind of information the 
+document contains.   If it does, EZ loads the inset and displays the file for 
+you to edit.  If EZ does not see an inset reference (because you are creating 
+a new file, say), it looks at the file's extension to determine which inset to 
+load.  If it sees one of the special extensions listed in the global.ezinit, 
+EZ will create provide the appropriate inset (and template, if called for).
+
+}\leftindent{
+}\section{Related Tools}
+
+
+Select (highlight) one of the italicized names and choose \bold{Show Help on 
+Selected Word} from the pop-up menu to see the help files for:
+
+
+\italic{\leftindent{ez
+
+initfiles
+
+templates
+
+insets\
+}}\enddata{text,269567484}

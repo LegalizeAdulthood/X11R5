@@ -1,0 +1,42 @@
+;; User contribution: A window placement policy function.
+;; ======================================================
+;;Date: Wed, 10 Apr 91 13:18:17 met
+;;From: Eyvind Ness <eyvind@hrp.no>
+;;	|Eyvind Ness			|Internet Email: eyvind@hrp.no
+;;	|Researcher			|Phone: +47 9 183100
+;;	|Control Room Systems Division	|Fax: +47 9 187109
+;;	|OECD Halden Reactor Project	|
+;;	|Norway				|
+
+;; Here is a little tidbit for GWM hackers. This function makes small
+;; windows pop up near the mouse, 
+;; use by telling (set-placement MyWindow near-mouse)
+
+;; (GWM Lisp has no floating point arithmetic.)
+(defname 'max-ww screen. '(/ (* screen-width 3) 4))
+(defname 'max-wh screen. '(/ (* screen-height 3) 4))
+
+(defun near-mouse (just-created-p)
+  (if just-created-p
+    (if (and (not window-was-on-screen) 
+	(not window-starts-iconic)
+	(not (and window-user-set-position
+	    (= window-status 'window)))
+	(not (or (> window-width max-ww) (> window-height max-wh))))
+      (progn
+	(setq here-list (current-mouse-position))
+	(setq mouse-x (# 0 here-list))
+	(setq mouse-y (# 1 here-list))
+	
+	(move-window
+	  (max
+	    0
+	    (min
+	      (- screen-width window-width)
+	      (- mouse-x (/ window-width 2))))
+	  (max
+	    0
+	    (min
+	      (- screen-height window-height)
+	      (- mouse-y (/ window-height 2)))))))))
+

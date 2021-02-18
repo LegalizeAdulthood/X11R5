@@ -1,0 +1,52 @@
+\begindata{text,272704892}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Lprruler}
+
+
+
+
+\section{Quick reference list for Lprruler}
+
+
+
+\fixedtext{void \bold{lprruler_}FinalizeObject }\fixedindent{(struct lprruler 
+*\paramname{self});} 
+
+\fixedtext{boolean \bold{lprruler_}InitializeObject }\fixedindent{(struct 
+lprruler *\paramname{self});} 
+
+\fixedtext{long \bold{lprruler_}Read }\fixedindent{(struct lprruler 
+*\paramname{lprruler}, FILE *\paramname{file}, long \paramname{id});} 
+
+\fixedtext{long \bold{lprruler_}Write }\fixedindent{(struct lprruler 
+*\paramname{lprruler}, FILE *\paramname{file}, long \paramname{id}, long 
+\paramname{level});} \
+\enddata{text,272704892}

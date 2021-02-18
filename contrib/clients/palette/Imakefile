@@ -1,0 +1,28 @@
+INCL_BASE = -I/usr/include
+XO_INC_DIR = -I../libXO
+STD_INCLUDES = $(XO_INC_DIR) $(INCL_BASE)/Xaw $(INCL_BASE)/Xmu \
+	$(INCL_BASE)/Xt $(INCL_BASE)/X11 $(INCL_BASE)/X11/Xaw \
+	$(INCL_BASE)/X11/Xmu $(INCL_BASE)/X11/Xt $(INCL_BASE)
+
+COLORFILE = -DCOLORFILE=\"/usr/lib/X11/rgb.txt\"
+MAXCOLORS = -DMAXCOLORS=512
+
+CFLAGS = $(CDEBUGFLAGS) $(CCOPTIONS) $(ALLDEFINES) $(COLORFILE) $(MAXCOLORS)
+
+ICON = palette.xbm
+MAXCOLORS = -DMAXCOLORS=512
+
+#XLIB = -lX11
+LOCAL_LIBRARIES = $(LIBXO) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+DEPLIBS =
+XO_LIB_DIR = ../libXO
+LIBXO = $(XO_LIB_DIR)/libXO.a
+
+INSTPGMFLAGS = -m 755
+
+
+SRCS = palette.c paletteCB.c
+OBJS = palette.o paletteCB.o
+
+ComplexProgramTarget(palette)
+InstallAppDefaults(palette)

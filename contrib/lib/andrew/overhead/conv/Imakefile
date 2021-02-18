@@ -1,0 +1,30 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = 
+#endif /* LIBDL_ENV */
+#endif /* RESOLVER_ENV */
+
+DependTarget()
+NormalObjectRule()
+
+ClassProgramTarget(conclass,conclass.o, ${UTILLIB} $(BASEDIR)/lib/libclass.a $(RESOLVER_LIB),$(SYS_LIBS) ${SUPLIBS} ${NETLIBS} ${BSDLIB})
+InstallProgram(conclass, $(DESTDIR)/bin)
+InstallFile(fixcons, ${INSTPROGFLAGS}, ${DESTDIR}/etc)
+InstallFile(convincl, $(INSTINCFLAGS), $(DESTDIR)/lib)
+InstallFileToFile(r4conv.csh, ${INSTPROGFLAGS}, $(DESTDIR)/etc/r4conv)
+
+NormalHelpRule()
+InstallDocs(conclas.help fixcons.help, ${DESTDIR}/help)
+InstallHelpAlias(conclas, conclass)

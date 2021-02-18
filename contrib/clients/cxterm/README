@@ -1,0 +1,158 @@
+
+Chinese terminal emulator for X Window System, Version 11 Release 5
+-------------------------------------------------------------------
+
+
+1. WHAT IS INCLUDED IN THIS DISTRIBUTION
+
+Cxterm and related software:
+
+cxterm	-- a Chinese terminal emulator for X11R5. 
+dict	-- a set of dictionaries (input methods) for cxterm.
+fonts	-- a set of X11 Chinese fonts.
+
+Chinese processing software:
+
+utils	-- a small set of Chinese language processing programs to be used
+        in cxterm, including Chinese vi and emacs editors, file viewer cless,
+	Chinese text to Postscript converter, and Chinese encoding conversion
+	programs.
+
+About 8.5M disk space is needed for the source:
+
+	cxterm	 	 766K
+	dict	 	 265K
+	fonts		6555K
+	utils	 	 800K
+
+and additional 5M is needed to build all the binaries and fonts.
+
+----------
+2. HOW TO INSTALL ALL THESE SOFTWARE
+
+All the path names mentioned here are refer to this directory,
+i.e. X11R5/contrib/client/cxterm.
+
+2.1  CXTERM, DICT, and FONTS
+
+First of all you need to have X11R5 MIT core distribution installed
+in your system.  The directory containing X11R5 binaries (especially,
+xmkmf, bdftopcf, etc.) should be included in the PATH.
+
+Imakefiles are supplied in each directories and subdirectories
+of cxterm, dict, and fonts.  Makefile is given in this top directory.
+Simply type:
+
+	make >& all.log							# (m1)
+
+Check all.log to see if the build is successful.  If yes, you can
+install most of it with:
+
+	make install >& install.log					# (i1)
+
+(If you don't have the privilege to install, see section 3.)
+You can install man pages with:
+
+	make install.man >& man.log					# (i2)
+
+In case the top-level Makefile is corrupt during the period of making,
+use
+	make -f Makefile.ini World
+
+2.2  UTILS
+
+Individual Makefiles are supplied in every subdirectories under
+./utils.  You will build most of them by
+
+	(cd utils; make)						# (m2)
+
+However, each package may need special making procedure.  You'd
+better go down to each subdirectory of ./utils and read the README
+and Makefile first.
+
+----------
+3. WHAT IS TO BE GENERATED
+
+If the build (m1) is successful, you have the following executable
+binaries:
+
+	cxterm/cxterm
+	cxterm/hzimpath
+	dict/tit2cit/tit2cit
+	dict/tit2cit/cit2tit
+
+The build will also generate X11 fonts
+
+	fonts/cclib16st.pcf		or 	fonts/cclib16st.snf
+	fonts/cclib16fs.pcf			fonts/cclib16fs.snf
+	fonts/cclib24st.pcf			fonts/cclib24st.snf
+	fonts/hku-ch16.pcf			fonts/hku-ch16.snf
+
+depends on your system configuration.  ".snf" files are machine-dependent,
+and ".pcf" files are not.  You need to build separate ".snf" for each
+type of machine, while one ".pcf" file fits all machines.
+
+The following cxterm dictionaries are built:
+
+	dict/tit/CCDOSPY.cit
+	dict/tit/CTCPS3.cit
+	dict/tit/ETZY.cit
+	dict/tit/PY-b5.cit
+	dict/tit/PY.cit
+	dict/tit/Punct-b5.cit
+	dict/tit/Punct.cit
+	dict/tit/SW.cit
+	dict/tit/TONEPY.cit
+	dict/tit/ZOZY.cit
+
+You can put all of them in a dedicated directory and set environment
+variable HZINPUTDIR to the directory name before invoking cxterm.
+
+The following manual pages are useful:
+
+	cxterm/cxterm.man
+	cxterm/hzimpath.man
+	dict/tit2cit/tit2cit.man
+
+----------
+4. COPYRIGHTS AND TERMS
+
+This copyright and permission notice outlines the rights and
+restrictions covering most parts of this distribution of cxterm.
+Cxterm is modified from xterm, which is copyrighted by MIT.
+Some individual files are covered by other copyrights.  Utils
+parts are redistributed software covered by their own copyrights
+and terms.  Please see individual file's copyright notices.
+
+X11R5 CXTERM (C) 1991 BY YONGGUANG ZHANG AND MAN-CHI PONG.
+
+Permission to use, copy, modify, and distribute this software and
+its documentation for any purpose is hereby granted without fee,
+provided that this entire copyright and permission notice appear
+in all such copies, and that the name of the authors may not be
+used to endorse or promote products derived from this material
+without specific prior written permission.  The authors make no
+representations about the suitability of this software for any
+purpose.  It is provided "as is" without express or implied warranty.
+
+----------
+5. COMMENTS, BUG-REPORTS, AND FIXES
+
+Please send them to c-xterm@cs.purdu.edu.  If possible, please use
+the form in the file "bug-report".  The little extra time you spend on
+the report will make it much easier for us to reproduce, find, and fix
+the bug.  Receipt of bug reports is generally acknowledged.
+
+The current addresses of the authors:
+
+Yongguang Zhang	
+Dept of Computer Sciences
+Purdue University
+West Lafayette, IN 47906
+E-mail: ygz@cs.purdue.edu
+
+Man-Chi Pong
+Department of Computer Science
+The Hong Kong University of Science and Technology
+Clear Water Bay, Kowloon, Hong Kong
+E-mail: mcpong@uxmail.ust.hk

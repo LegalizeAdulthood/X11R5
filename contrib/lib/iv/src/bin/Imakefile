@@ -1,0 +1,18 @@
+XCOMM
+XCOMM applications
+XCOMM
+
+SUBDIRS = \
+	alert \
+	dclock \
+	doc \
+	ibuild \
+	iclass \
+	idraw \
+	ifb \
+	ifc \
+	logo \
+	mailbox \
+	scripts
+
+MakeInSubdirs($(SUBDIRS))

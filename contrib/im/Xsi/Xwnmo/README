@@ -1,0 +1,40 @@
+/*
+ * $Id: README,v 1.1 1991/09/13 08:50:34 proj Exp $
+ */
+		XWNMO - X Input Manager
+	     (+ XJUTIL - Dictionary Utility Manager)
+
+This directory contains XWNMO's sources, XJUTIL's sources and multi-automaton's
+sources.
+
+	XWNMO - Input Manager for XIM (X Input Method)
+	XJUTIL - Dictionary Utility Manager (called by XWNMO)
+
+XWNMO is a input manager offers multi-language input to XIM library.
+The protocol between XWNMO and XIM library is specified by Xim Protocol.
+The Xim Protocol adopts Back-End method, because Back-End method is 
+a perfect syncronus comminucation, so problem of lost key doesn't occur.
+
+For further information about these, please see:
+	xwnmo/README and manual of xwnmo	for XWNMO
+	xjutil/README and manual of xjutil	for XJUTIL
+	doc/I18N/Xsi/Xim/XimProto.man		for Xim Protocol
+
+Architecture of Input Manager and XIM library.
+
+ +------------------------+         +----------------+  +----------------+
+ |     Application        |     +---+     XWNMO      +--+     XJUTIL     |
+ |   +--------------------+     |   +-------+--------+  +-------+--------+
+ |   |     Widgets        |     |           |                   |
+ |   +--------------------+     |           +-------------------+
+ |   |      Toolkit       |     |           |
+ +---+--------------------+     |           |   +---------+
+ |       +------------+   |     |           +---+ Cserver |
+ | Xlib  | XIM library+---+-----+           |  +---------++
+ |       +------------+   |                 +--+ Jserver |
+ +------------------------+                    +---------+
+
+
+Special thanks to Mr. Bill McMahon of Hewlett Packard. He contributed
+toward better portability and reliablity of XWNMO.
+

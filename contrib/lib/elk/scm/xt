@@ -1,0 +1,39 @@
+;;; -*-Scheme-*-
+;;;
+;;; The Scheme part of the Xt interface
+
+(if (feature? 'motif)
+    (require 'xt.o 'xt-motif.o)
+    (require 'xt.o))
+
+(load 'xlib)
+
+(provide 'xlib)
+(provide 'xt)
+
+(define (manage-child w)
+  (manage-children (list w)))
+
+(define (unmanage-child w)
+  (unmanage-children (list w)))
+
+(define (add-callback w name fun)
+  (add-callbacks w name (list fun)))
+
+(define (create-managed-widget . args)
+  (let ((w (apply create-widget args)))
+    (manage-child w)
+    w))
+
+(define (application-initialize name . fallback-res)
+  (let ((con (create-context)))
+    (if (not (null? fallback-res))
+	(apply set-context-fallback-resources! con fallback-res))
+    (let* ((app-class #f)
+	   (dpy (initialize-display con #f name app-class))
+	   (shell-class #f))
+    (create-shell name shell-class (find-class 'application-shell) dpy))))
+
+;; Backwards compatibility:
+
+(define widget-window widget->window)

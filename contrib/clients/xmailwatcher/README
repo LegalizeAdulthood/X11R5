@@ -1,0 +1,6 @@
+This is yet another mail watcher.  This one combines the features of xbiff
+and InterViews' mailbox: it has an active icon which changes state to
+indicate the arrival of new mail, while the main window displays the senders
+and subjects of the (new) messages in the user's maildrop.  It understands
+both MMDF and sendmail-style maildrops.  It works with X11R5 and X11R4 (with
+the enclosed minor patch to Xaw/Label.c applied), and with *twm and mwm.

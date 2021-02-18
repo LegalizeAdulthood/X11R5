@@ -1,0 +1,107 @@
+/*=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+           Copyright 1991 by Evans & Sutherland Computer Corporation,
+                              Salt Lake City, Utah
+
+                              All Rights Reserved
+
+     Permission to use, copy, modify, and distribute this software and its
+        documentation for any purpose and without fee is hereby granted,
+     provided that the above copyright notice appear in all copies and that
+        both that copyright notice and this permission notice appear in
+   supporting documentation, and that the names of Evans & Sutherland not be
+       used in advertising or publicity pertaining to distribution of the
+              software without specific, written prior permission.
+
+   EVANS & SUTHERLAND  DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+     INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+     EVENT SHALL EVANS & SUTHERLAND BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+  CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+     DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+        TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+                         PERFORMANCE OF THIS SOFTWARE.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    $Header: Imakefile,v 1.0 91/10/04 17:02:01 rthomson Exp $
+
+*/
+MANDIR = $(LIBMANDIR)
+MANSUFFIX = $(LIBMANSUFFIX)
+
+MANPAGES = PEXtBuildT.man \
+           PEXtCircle.man \
+           PEXtCube.man \
+           PEXtCylind.man \
+           PEXtEllips.man \
+           PEXtInitia.man \
+           PEXtNUScal.man \
+           PEXtOpenPX.man \
+           PEXtRegCon.man \
+           PEXtRotate.man \
+           PEXtSanity.man \
+           PEXtSphere.man \
+           PEXtTransl.man \
+           PEXtWorkst.man
+
+TBLPAGES = PEXtRegCon.man \
+           PEXtWorkst.man
+
+ALLPAGES = $(MANPAGES) $(TBLPAGES)
+
+TBL = tbl
+
+.SUFFIXES: .tbl .man
+
+.tbl.man:
+	$(RM) $@
+	$(TBL) $< > $@
+
+all:: $(ALLPAGES)
+
+clean::
+	$(RM) $(TBLPAGES)
+
+/*
+ * Update target
+ */
+update:
+	$(UPDATE)
+
+/*
+ * Bogus depend target -- to please "make depend"; we have no C source, but
+ * PEXtRegisterConverters.3 does depend on PEXtRegisterConverters.3.tbl
+ * which is handled above
+ */
+depend:
+
+#if ExpandManNames
+
+InstallManPageLong(PEXtBuildT,$(MANDIR),PEXtBuildTran)
+InstallManPageAliases(PEXtBuildTran,$(MANDIR),PEXtBuildTran3)
+InstallManPageLong(PEXtCircle,$(MANDIR),PEXtCircle)
+InstallManPageAliases(PEXtCircle,$(MANDIR),PEXtCircle2)
+InstallManPageLong(PEXtCube,$(MANDIR),PEXtCube)
+InstallManPageLong(PEXtCylind,$(MANDIR),PEXtCylinder)
+InstallManPageLong(PEXtEllips,$(MANDIR),PEXtEllipse2)
+InstallManPageAliases(PEXtEllipse2,$(MANDIR),PEXtEllipsoid2)
+InstallManPageLong(PEXtInitia,$(MANDIR),PEXtInitialize)
+InstallManPageLong(PEXtNUScal,$(MANDIR),PEXtNonUniformScale)
+InstallManPageAliases(PEXtNonUniformScale,$(MANDIR),PEXtUniformScale PEXtNonUniformScale3 PEXtUniformScale3)
+InstallManPageLong(PEXtOpenPX,$(MANDIR),PEXtOpenPEX)
+InstallManPageLong(PEXtRegCon,$(MANDIR),PEXtRegsiterConverters)
+InstallManPageLong(PEXtRotate,$(MANDIR),PEXtRotate)
+InstallManPageAliases(PEXtRotate,$(MANDIR),PEXtRotateX PEXtRotateY PEXtRotateZ)
+InstallManPageLong(PEXtSanity,$(MANDIR),PEXtSanityCheck)
+InstallManPageAliases(PEXtSanityCheck,$(MANDIR),PEXtError SAFE_PEX)
+InstallManPageLong(PEXtSphere,$(MANDIR),PEXtSphere)
+InstallManPageLong(PEXtTransl,$(MANDIR),PEXtTranslate)
+InstallManPageAliases(PEXtTranslate,$(MANDIR),PEXtTranslate3)
+InstallManPageLong(PEXtWorkst,$(MANDIR),PEXtWorkstation)
+InstallManPageAliases(PEXtWorkstation,$(MANDIR),PEXtCreateWorkstation)
+
+#else
+
+InstallMultipleMan($(ALLPAGES),$(MANDIR))
+
+#endif

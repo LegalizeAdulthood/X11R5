@@ -1,0 +1,11 @@
+# $Header: /users/x11devel/x11r5/mit/extensions/RCS/Imakefile,v 1.10 1991/09/22 23:29:05 toddb Exp $
+       OBJS = mvexinfo.o
+       SRCS = mvexinfo.c
+     MVEXLIB = $(EXTENSIONSRC)/mvex/lib/libmvex.a
+SYS_LIBRARIES = -lm
+
+all:: mvexinfo
+
+NormalProgramTarget(mvexinfo,$(OBJS),$(MVEXLIB) $(DEPXLIB),$(MVEXLIB) $(XLIB),)
+
+DependTarget()

@@ -1,0 +1,65 @@
+\begindata{text,1027748}
+\textdsversion{12}
+\template{help}
+\chapter{Help keybindings:
+
+Using Help from the keyboard
+
+}
+\section{What keybindings are
+
+}
+\leftindent{Keybindings allow you to perform many of actions in a window (like 
+scrolling or choosing a menu option) without using a mouse.
+
+
+The following keybindings are defined for the Help program:}
+
+
+\bold{Key Binding}		\bold{Menu Option}
+
+
+\leftindent{\bold{Esc-w		}Copy
+
+
+\bold{<enter>		}Show Help On...
+
+\bold{^X^V		}Show Help On...
+
+
+\bold{^Xp}		Show/Hide Panels
+
+
+\bold{^Xx		}Show Changes
+
+\bold{^X^N		}Show More Documentation
+
+
+\bold{^X^b}		Add Bookmark
+
+
+}\bold{Scrolling and text movment}
+
+
+\leftindent{\bold{space		}moves text down one screenful
+
+\bold{v			}moves text down one screenful
+
+\bold{b			}moves text up one screenful}
+
+
+\section{Related tools}  
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\italic{\leftindent{help
+
+ez-keys
+
+messages-keys
+
+typescript-keys\
+}}\enddata{text,1027748}

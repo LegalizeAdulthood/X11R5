@@ -1,0 +1,18 @@
+.TH ISHOST 1
+.SH "名前"
+ishost \- かな漢字変換システムのサーバ・アクセス制御
+.SH "形式"
+.B "ishost [{\-is|\-irohaserver} \fIirohaserver\fP]"
+.SH "説明"
+.PP
+\fIirohaserver\fP(1M)が接続を受け付けるマシンのリスト(アクセスコントロール
+リスト)を参照します。\fIirohaserver\fPは\fIirohaserver\fP(1M)が存在する
+マシンのホスト名です。
+.PP
+\fIirohaserver\fP(1M)は同一のホスト、または/etc/hosts.irohaに登録された
+マシンに対してのみ接続要求を受け付けます。/etc/hosts.irohaが存在しないか、
+ファイルの長さが0の場合は、すべてのマシンが\fIirohaserver\fP(1M)に
+アクセスできます。
+.SH "オプション"
+.IP "\-is \fIirohaserver\fP (または \-irohaserver \fIirohaserver\fP)" 12
+かな漢字変換サーバの動いているホストの名前を指定します。

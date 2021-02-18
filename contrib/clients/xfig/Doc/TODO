@@ -1,0 +1,75 @@
+This file contains some possible things to do in future versions of xfig.
+
+Make xfig resources more consistent with normal use of resources in X clients.
+	e.g. provide support to allow each command button (say) to be
+	a different color.  Ditto for mode buttons, etc.
+Reorganise the print and file menus?
+Still need to think about how point positioning should be utilized with
+	many of the editing commands, e.g. if point positioning is set to
+	large grid and you atr trying to move an object, should:
+	a) it be ignored, b) you can pick up an object anywhere but
+	you must put the 'pick-up' point back on a grid posn,
+	c) you have to pick up and put down objects at grid posns,
+	d) you can pick up and place an object anywhere but when you
+	place it, the point on the object closest the pickup point is
+	automatically rounded to the nearest grid posn, e) you can
+	pick up objects anywhere and movement is multiples of the grid size.
+	The current behaviour is c) and b) can be mimicked by changing the
+	point posn indicator mid-move.  It has the disadvantage that you
+	may not be able to pick up an object which isn't on the grid points.
+	I think e) is the next best but it won't let you mimick b).
+Use clipping rectangles in more places:
+	after a move/erase of a filled object redraw with clipped region(s) use
+	two regions if orig and final don't overlap or one big one otherwise.
+Should arrow size change in update mode when linewidth changes?
+when started up in reverse video, the popups have a black border which
+	fades into the canvas.
+	Is this an xfig problem or just the way I've set up my window manager?
+Make a raise/lower depth feature:
+	the raise_ic icon is already in w_icons.c
+Make xfig understand depth better:
+	If you set the depth using the object edit panels, xfig will redraw
+	them correctly, however it would be nice if as you entered new filled
+	objects that they were automatically given an appropriate depth.
+	This would involve finding the depth of all overlapping (filled?)
+	objects and setting the depth to be one less.  As it happens now,
+	if you draw two overlapping filled objects, the second appears
+	on top of the first until after the first redraw when this reverses.
+Get rid of -DFASTSERVER, have a runtime option instead -fast vs -quality ?
+Additional options to align mode:
+	abutT, abutB, abutL, abutR
+make glue+align have select mode
+allow popup menus to be pinned?
+have a resource which can be set to keep backups during a save, instead of
+	prompting the user about overwrite etc.
+save modified_flag before file operations and restore if undo used
+make a keypad label:
+	This should popup in the mousefun window whenever a panel for
+	entering text is entered.  The kbd_ic icon is already there.
+Test print popup under OpenWindows
+	if necessary put in patch for OPENWIN bug in w_print.c
+make the file popup have a file list
+Have a mode for positioning points near other points - using shift key?.
+zooming of text is still a kludge. (It doesn't work properly yet)
+make arcs use pw_curve to speed them up.
+add bounding box to every F_object definition, useful for:
+	1) faster drawing of rubber objects
+	2) handling the selective redrawing of figures better after they become
+	   the innocent victim during an expose or erasure of another object
+things like pan/zoom/resize/iconify will still leave junk on the screen
+	or mess up the figure if you are in the middle of drawing it:
+	One solution is to call canvas_rightbut_proc whenever the
+	action_on flag is set and one of the above functions is called.
+	This forces the operation being performed to be cancelled - probably
+	not a good idea for panning - we might be trying to pan a little
+	bit to place the last point in a large object.
+	Another solution is to have a big case statement which performs
+	a single elastic draw of whatever object is being drawn/moved etc.
+	The function would need to be called before an iconify (or
+	whatever) and again after the operation was completed.  This
+	would allow drawing operations to be continued after window functions
+	had been performed.
+	A third solution is to use a canvas_elasticdraw_save parameter
+	instead of using a case statement - it would need to be set
+	prior to every elastic draw operation.
+search-and-replace for text primitives

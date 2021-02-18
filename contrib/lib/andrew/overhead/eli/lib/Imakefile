@@ -1,0 +1,27 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+LOCALINCLUDES = -I../hdrs -I../lclhdrs
+
+OBJS = fnnode.o node.o \
+	bucket.o buktnode.o cons.o \
+	ecommon.o eerror.o elil.o \
+	eliy.o errnode.o errops.o \
+	errstk.o errstkop.o eval.o ht.o \
+	intrface.o prims1.o prims2.o stack.o \
+	stk.o str.o strtab.o sym.o \
+	symtab.o
+
+DependTarget()
+NormalObjectRule()
+
+YaccWithReplacement(eliy,eliyy)
+
+elil.o: eliy.h
+
+LexWithReplacement(elil,eliyy)
+
+LibraryTarget(libeli.a, $(OBJS))
+InstallLibrary(libeli.a, $(DESTDIR)/lib)

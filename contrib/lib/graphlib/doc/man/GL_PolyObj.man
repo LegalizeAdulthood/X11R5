@@ -1,0 +1,39 @@
+.TH GL_PolygonObject 3GL "10Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_PolygonObject \- Draw a polygon - closed or not
+.SH SYNTAX
+GLPointer GL_Create(GL_PolygonObject,
+.br
+			<option>, [args,]
+.br
+		    ...,
+.br
+		    GL_Done);
+
+.SH DESCRIPTION 
+This call creates a polygon object.  This is actually just a series of lines
+drawn with the default GC.  This object will only draw the neccesary parts
+by using a clipping rectangle in the X server.
+
+.SH OPTIONS
+
+.IP "GLPO_NumPoints, <int numpoints>"
+Specifies the number of points that make up the polygon.  This has to be
+specified before the points are, it can be specified multiple times,
+but that's pretty stupid.  the value should be at least 2, values less
+than that are meaningless.
+.IP "GLPO_Closed, "
+Specifies that this polygon should be closed.  The code will then force
+the initial and final points to be the same.  Be warned that this is somewhat
+inefficient becuase it has to copy the entire array of points.
+.IP "GLPO_CoordModePrevious, "
+Specifies that each point is relative to the original one.  The closing code
+will not correctly close the polygon in this mode.  This will be fixed in a
+future release.
+.IP "GLPO_Points, <short x, short y>(repeated)"
+An enumeration of all of the points which are to be used.  There should
+be as many pairs of coordinates as was specified by the GLPO_NumPoints call.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Object(3GL), GL_FilledPolygonObject(3GL), 
+XDrawLines(3X11), GraphLib Programming Manual

@@ -1,0 +1,85 @@
+#
+# Makefile for OpenWindows or Generic XView users.
+#
+
+#
+# Files
+#
+
+ICONS=news.arrive.icon news.arrive.mask.icon \
+	news.non.arrive.icon news.non.arrive.mask.icon \
+	post.edit.icon post.edit.mask.icon \
+	article.cursor articles.cursor news.icon \
+	news.mask.icon
+
+HDRS=	clientlib.h conf.h nntp.h shinbun.h config.h \
+	sb_tool.h sb_ui.h sb_item.h sb_shinbun.h \
+	sb_canvas.h sb_def.h
+
+SRCS=	clientlib.c shinbun.c shinbun_cmd.c shinbun_post.c \
+	shinbun_newsrc.c version.c newsbiff.c shinbun_bracket.c \
+	sb_cmd.c sb_cmd_support.c sb_main.c sb_menu.c \
+	sb_pane.c sb_post.c sb_tool.c sb_view.c \
+	sb_canvas_pane.c sb_canvas_cmd.c sb_tool_props.c \
+	sb_sign_props.c sb_newsrc_props.c sb_biff_props.c
+
+OBJS=	${SRCS:.c=.o}
+
+
+#
+# Flags for build
+#
+
+CFLAGS=	-I${OPENWINHOME}/include -DOW_I18N
+
+LDFLAGS=-L${OPENWINHOME}/lib \
+	-lxview -lolgx -lX11 -lmle -ljapanese
+
+DBX=	-O
+
+TARGET=	shinbun
+
+.c.o:
+	${CC} ${CFLAGS} ${DBX} -c $<
+
+all:: shinbun
+
+${TARGET}: ${ICONS} ${HDRS} ${OBJS}
+	${CC} ${OBJS} ${LDFLAGS} ${DBX} -o $@ 
+
+
+#
+# For message file
+#
+
+PO_FILE=shinbun.messages.po
+MO_FILE=shinbun.messages.mo
+
+MSGFMT=	${OPENWINHOME}/bin/msgfmt
+
+
+install:: install_dir install_po install_mo
+
+install_dir:
+	mkdir -p japanese/LC_MESSAGES
+
+install_po: ${PO_FILE}
+	${MSGFMT} ${PO_FILE}
+
+install_mo:
+	mv ${MO_FILE} japanese/LC_MESSAGES
+
+#
+# For Saber-C
+#
+
+saber_src: ${SRCS}
+	#load ${CFLAGS} ${SRCS}
+
+saber_obj: ${OBJS}
+	#load ${CFLAGS} ${OBJS} ${LDFLAGS}
+	#link
+
+clean :
+	/bin/rm -rf core *.o ${TARGET} ${MO_FILE} ${LANG}
+

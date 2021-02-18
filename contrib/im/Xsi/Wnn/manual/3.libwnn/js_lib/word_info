@@ -1,0 +1,28 @@
+JS_WORD_INFO( )
+
+名称
+
+	js_word_info		辞書引きを行う。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_word_info(env,dic_no,entry,ret)
+	struct wnn_env *env;		/* 環境 */
+	int	dic_no;			/* 辞書番号 */
+	int	entry;			/* エントリ番号 */
+	struct wnn_ret_buf *ret;
+
+機能
+
+	辞書番号 dic_no で示される辞書ファイルのエントリ番号 entry の語の情報を
+	取り出す。
+	ret->buf に、struct wnn_jdata へのポインタが返される。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

@@ -1,0 +1,192 @@
+!  Ordering
+!  --------
+!
+!  The order of the lines in the resource file are completely stylistic: a
+!  matter of taste.  The ordering is lost when the resources are loaded
+!  into the Xrm database, and the Widget Creation library works only from
+!  the database, not directy from the resource files.
+!
+!  Note that the ordering of the names within the wcChildren resources is
+!  significant: it is the order the children will be created, from left to
+!  right, depth first.  One needs to consider this in several cases:
+!  pulldown menus are a good example.
+!
+!  Pulldown Menus
+!  --------------
+!
+!  The pulldowns can be created before or after their activating cascade
+!  button: as an example, lets look at the difference between the
+!  menuBar.file and menuBar.fileMenu specifications versus the
+!  menuBar.help and menuBar.helpMenu specifications.  
+!
+!  The *menuBar.wcChildren resource specifies that the first of its
+!  children to be created is `file' (which has no children), then
+!  `fileMenu' and all its children, then `helpMenu' and all its children,
+!  and finally `help'.
+!
+!    *menuBar.wcChildren:	file, fileMenu, helpMenu, help
+!
+!  The `fileMenu', being created after the `file' cascade, sets the subMenuId
+!  resource on the `file' cascade when it is created:
+!
+!    *fileMenu.wcCallback:	WcSetValueCB(*file.subMenuId: this)
+!
+!  The `help' cascade is created after the `helpMenu', so it can specify the
+!  `helpMenu' as its subMenuId directly:
+!
+!    *help.subMenuId:		*helpMenu
+!
+!  Note that the pulldown menus must be explicitly NOT managed when they 
+!  are created. They are automagically managed by the cascade buttons.  
+!
+!  Note also that the separator types are NOT XmSHADOW_ETCHED_IN and
+!  XmDOUBLE_DASHED_LINE as one might guess from Motif documents, but
+!  instead one must leave the Xm off the front.  Motif 1.1 is supposed to
+!  support both spellings, so XmSHADOW_ETCHED_IN and SHADOW_ETCHED_IN will
+!  work eventually.  Also, the values are case insensitive.
+!
+!  Multiple Level Cascading Menus
+!  ------------------------------
+!
+!  The saveAsMenu pulldown connected to the saveAs button demonstrates 
+!  this.  See the discussion below.
+!
+!----------------------------------------------------------------------
+!
+!*wcTrace:		True
+
+Mri.wcChildren:		menuBar
+Mri.title:		M03_Menubar
+Mri.width:		150
+Mri.height:             30
+
+*menuBar.wcConstructor:	XmCreateMenuBar
+*menuBar.wcChildren:	file, fileMenu, helpMenu, help
+
+*file.wcConstructor:	XmCreateCascadeButton
+
+*fileMenu.wcConstructor: XmCreatePulldownMenu
+*fileMenu.wcManaged:	 False
+*fileMenu.wcCallback:	 WcSetValueCB(*file.subMenuId: this)
+*fileMenu.wcPopups:	 saveAsMenu
+*fileMenu.wcChildren:    load, sep1, save, saveAs, sep2, quit
+
+*helpMenu.wcConstructor: XmCreatePulldownMenu
+*helpMenu.wcManaged:	 False
+*helpMenu.wcChildren:    mbHelp, cpHelp, daHelp, tHelp
+
+*helpMenu.mbHelp.wcConstructor:	XmCreateCascadeButton
+*helpMenu.mbHelp.labelString:	on Menu Bar
+*helpMenu.mbHelp.mnemonic:	M
+
+*helpMenu.cpHelp.wcConstructor:	XmCreateCascadeButton
+*helpMenu.cpHelp.labelString:	on Control Panel
+*helpMenu.cpHelp.mnemonic:	C
+
+*helpMenu.daHelp.wcConstructor:	XmCreateCascadeButton
+*helpMenu.daHelp.labelString:	on Drawing Area
+*helpMenu.daHelp.mnemonic:	D
+
+*helpMenu.tHelp.wcConstructor:	XmCreateCascadeButton
+*helpMenu.tHelp.labelString:	on Text Area
+*helpMenu.tHelp.mnemonic:	T
+
+*help.wcConstructor:	XmCreateCascadeButton
+*help.subMenuId:	*helpMenu
+*help.wcCallback:	WcSetValueCB(^.menuHelpWidget: this )
+
+*load.wcConstructor:	XmCreateCascadeButton
+*load.labelString:	Load ...
+*load.mnemonic:		L
+
+*sep1.wcConstructor:	XmCreateSeparator
+*sep1.separatorType:	Shadow_Etched_In
+
+*save.wcConstructor:	XmCreateCascadeButton
+*save.labelString:	Save
+*save.mnemonic:		S
+
+!
+! The saveAsMenu has already been created. 
+! It is specified at the bottom of this file.
+!
+*saveAs.wcConstructor:	XmCreateCascadeButton
+*saveAs.labelString:	Save As
+*saveAs.mnemonic:	A
+*saveAs.subMenuId:	*saveAsMenu
+
+*sep2.wcConstructor:	XmCreateSeparator
+*sep2.separatorType:	DOUBLE_DASHED_LINE
+
+*quit.wcConstructor:	XmCreateCascadeButton
+*quit.labelString:	Quit
+*quit.mnemonic:		Q
+*quit.activateCallback:	WcExitCB
+
+!  ----------------------------------------------------------------------
+!
+!  More on Callback Functions
+!  --------------------------
+!
+!  One does not strictly need to specify any arguments to callbacks, nor
+!  the parenthesis.  For example:
+!
+!    *quit.activateCallback:     WcExitCB
+!
+!  In this situation, a NULL string is passed to the callback function as
+!  client data.  WcExitCB invokes exit(0) when it gets a NULL argument.
+!
+!  It is up to the callback to decide the appropriate action when a NULL
+!  string is received as client data.  The Wc library does guarantee that
+!  the callback will receive a NULL string (the first character is a
+!  '\0'), and not a null pointer (pointer == 0).
+!
+!  Multiple Level Cascading Menus
+!  ------------------------------
+!
+!  ----------------------------------------------------------------------
+!
+! All of the nested menus in this example have two buttons:
+! go (labeled Go) and more (labeled More to come).  Since menu
+! panes are XmRowColumns, we can say that all XmRowColumn children
+! of the saveAsMenu's pop-up shell have children named go and more.
+! We know that saveAsMenu's pop-up shell is named popup_saveAsMenu
+! since we previously used WcTrace:True.
+
+!*wcTrace: True
+
+*go.wcConstructor:	XmCreateCascadeButton
+*go.labelString:	Go
+
+*more.wcConstructor:	XmCreateCascadeButton
+*more.labelString:	More to come
+
+*saveAsMenu.wcConstructor:	XmCreatePulldownMenu
+*saveAsMenu.wcPopups:		level3
+*saveAsMenu.wcChildren:		go, more
+*saveAsMenu.more.subMenuId:	*level3
+
+*level3.wcConstructor:	XmCreatePulldownMenu
+*level3.wcPopups:	level4
+*level3.wcChildren:	go, more
+*level3.more.subMenuId:	*level4
+
+*level4.wcConstructor:	XmCreatePulldownMenu
+*level4.wcPopups:	level5
+*level4.wcChildren:	go, more
+*level4.more.subMenuId:	*level5
+
+*level5.wcConstructor:	XmCreatePulldownMenu
+*level5.wcPopups:	level6
+*level5.wcChildren:	go, more
+*level5.more.subMenuId:	*level6
+
+*level6.wcConstructor:	XmCreatePulldownMenu
+*level6.wcPopups:	level7
+*level6.wcChildren:	go, more
+*level6.more.subMenuId:	*level7
+
+*level7.wcConstructor:	XmCreatePulldownMenu
+*level7.wcChildren:	go, more
+*level7.go.labelString:		You could go on forever like this...
+*level7.more.labelString:	But please don't!

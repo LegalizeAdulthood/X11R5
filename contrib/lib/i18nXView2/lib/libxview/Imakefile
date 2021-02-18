@@ -1,0 +1,1678 @@
+#define DoNormalLib NormalLibX
+#define DoSharedLib SharedLibX
+#define DoDebugLib DebugLibX
+#define DoProfileLib ProfileLibX
+#include <Library.tmpl>
+
+#if Malloc0ReturnsNull
+        DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+/*    SHLIBLDFLAGS = -assert pure-text  */
+        PICFLAGS =  -PIC
+     CDEBUGFLAGS =  -DOW_I18N 
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       INCLUDES = -I$(TOP) -I$(TOP)/X11 -I../../include -I. -DOW_I18N
+       AUTHOBJS = 
+       AUTHSRCS = 
+        HEADERS = alert.h attr.h attrol.h base.h canvas.h charset.h cms.h \
+		  cms_grays.h cms_mono.h cms_rgb.h cmsrainbow.h cursor.h \
+		  db.h defaults.h drawable.h expandname.h filter.h font.h \
+		  frame.h fullscreen.h generic.h icon.h icon_load.h notice.h \
+		  notify.h openmenu.h openwin.h panel.h pixwin.h pkg.h \
+		  pkg_public.h rect.h rectlist.h screen.h scrollbar.h \
+		  sel_attrs.h sel_compat.h sel_svc.h selection.h seln.h \
+		  server.h str_utils.h sun.h svrimage.h termsw.h text.h \
+		  textsw.h tty.h ttysw.h win_enum.h win_env.h win_event.h \
+		  win_input.h win_notify.h win_screen.h win_struct.h window.h \
+		  window_hs.h wmgr.h xv_c_types.h xv_error.h xv_i18n.h \
+		  xv_xrect.h xview.h xview_xvin.h  
+   SOXVLIBREV = 103.10
+     LINTLIBS =
+UNSHAREDOBJS =  base_data.o   \
+                curs_data.o   \
+                font_data.o   \
+                fs_data.o     \
+                notifydata.o  \
+                rect_data.o   \
+                scrn_data.o   \
+                svr_data.o    \
+                svrim_data.o  \
+                windowdata.o  \
+                sel_data.o    \
+                cnvs_data.o   \
+                fm_data.o     \
+                icon_data.o   \
+                item_data.o   \
+                om_data.o     \
+                ow_data.o     \
+                panel_data.o  \
+                p_amb_data.o  \
+                p_btn_data.o  \
+                p_chcedata.o  \
+                p_lst_data.o  \
+                p_msg_data.o  \
+                p_txt_data.o  \
+                p_ntx_data.o  \
+                p_utl_data.o  \
+                sb_data.o     \
+                txt_data.o    \
+                term_data.o   \
+                tty_data.o    \
+                xv_version.o
+
+OBJS1 =\
+	attr.o	\
+	attr_copy.o	\
+	attr_cu.o	\
+	attr_portable.o	\
+	attr_util.o	\
+	base_data.o	\
+	drawable.o	\
+	generic.o	\
+	xv.o	\
+	xv_debug.o	\
+	xv_error.o	\
+	xv_init.o	\
+	xv_init_x.o	\
+	xv_list.o	\
+	xv_parse.o	\
+	xv_usage.o	\
+	canvas.o	\
+	cnvs_callback.o	\
+	cnvs_data.o	\
+	cnvs_get.o	\
+	cnvs_input.o	\
+	cnvs_resze.o	\
+	cnvs_scrol.o	\
+	cnvs_set.o	\
+	cnvs_view.o	\
+	aux.o	\
+	luc.o	\
+	stat_imcb.o	\
+	cms.o	\
+	cms_data.o	\
+	cms_pblc.o	\
+	curs_cmpat.o	\
+	curs_data.o	\
+	curs_pri.o	\
+	cursor.o	\
+	defaults.o	\
+	filter.o	\
+	font.o	\
+	font_data.o	\
+	font_get.o	\
+	font_set.o	\
+	font_x.o	\
+	pf.o	\
+	pf_text.o	\
+	pf_ttext.o	\
+	fm_bdry.o	\
+	fm_cmdline.o	\
+	fm_data.o	\
+	fm_destroy.o	\
+	fm_display.o	\
+	fm_geom.o	\
+	fm_get.o	\
+	fm_input.o	\
+	fm_layout.o	\
+	fm_menu.o	\
+	fm_rescale.o	\
+	fm_set.o	\
+	fm_win.o	\
+	fm_xutil.o	\
+	fmbs_dsty.o	\
+	fmbs_get.o	\
+	fmbs_set.o	\
+	fmcmd_dsty.o	\
+	fmcmd_get.o	\
+	fmcmd_set.o	\
+	fmhlp_dsty.o	\
+	fmhlp_get.o	\
+	fmhlp_set.o	\
+	frame.o	\
+	frame_base.o	\
+	frame_cmd.o	\
+	frame_help.o	\
+	frame_init.o	\
+	frame_sw.o	\
+	fs.o	\
+	fs_compat.o	\
+	fs_data.o	\
+	fs_get.o	\
+	fs_set.o	\
+	help.o	\
+	help_file.o	\
+	icon.o	\
+	icon_data.o	\
+	icon_input.o	\
+	icon_load.o	\
+	icon_obj.o	\
+	file_strms.o	\
+	input.o	\
+	io.o	\
+	othr_strms.o	\
+	output.o	\
+	str_strms.o	\
+	om_compat.o	\
+	om_data.o	\
+	om_get.o	\
+	om_public.o	\
+	om_render.o	\
+	om_set.o	\
+	omi.o	\
+	windowloop.o	\
+	xv_deaf.o	\
+	xv_icccm.o	\
+	xv_version.o	\
+	bitmask.o	\
+	convdup.o	\
+	ctstowcs.o	\
+	db_conv.o	\
+	demorandom.o	\
+	drop.o	\
+	expandname.o	\
+	expandpath.o	\
+	getlogindr.o	\
+	gettext.o	\
+	hashfn.o	\
+	quark.o	\
+	setenv.o	\
+	wchar_type.o	\
+	wcstocts.o	\
+	xv_i18n.o	\
+	xv_path.o	\
+	xv_wstol.o	
+
+OBJS2 =\
+	notice.o	\
+	ndet_auto.o	\
+	ndet_death.o	\
+	ndet_die.o	\
+	ndet_dodis.o	\
+	ndet_event.o	\
+	ndet_fcntl.o	\
+	ndet_fd.o	\
+	ndet_g_fd.o	\
+	ndet_g_in.o	\
+	ndet_g_out.o	\
+	ndet_g_pri.o	\
+	ndet_g_sig.o	\
+	ndet_loop.o	\
+	ndet_nodis.o	\
+	ndet_read.o	\
+	ndet_s_fd.o	\
+	ndet_s_in.o	\
+	ndet_s_out.o	\
+	ndet_s_pri.o	\
+	ndet_s_sig.o	\
+	ndet_sig.o	\
+	ndet_value.o	\
+	ndet_veto.o	\
+	ndet_wait.o	\
+	ndetg_wait.o	\
+	ndetgdeath.o	\
+	ndetgetfnc.o	\
+	ndetgevent.o	\
+	ndetgexcep.o	\
+	ndetgitimr.o	\
+	ndetitimer.o	\
+	ndetpdeath.o	\
+	ndetpevent.o	\
+	ndetremove.o	\
+	ndets_wait.o	\
+	ndetsdeath.o	\
+	ndetselect.o	\
+	ndetsevent.o	\
+	ndetsexcep.o	\
+	ndetsingle.o	\
+	ndetsitimr.o	\
+	ndis_d_pri.o	\
+	ndisd_wait.o	\
+	ndisdispch.o	\
+	ndisdsched.o	\
+	ndisgsched.o	\
+	ndisssched.o	\
+	nint_copy.o	\
+	nint_get.o	\
+	nint_i_fd.o	\
+	nint_i_in.o	\
+	nint_i_out.o	\
+	nint_i_sig.o	\
+	nint_inter.o	\
+	nint_n_fd.o	\
+	nint_n_in.o	\
+	nint_n_out.o	\
+	nint_n_sig.o	\
+	nint_next.o	\
+	nint_r_fd.o	\
+	nint_r_in.o	\
+	nint_r_out.o	\
+	nint_r_sig.o	\
+	nint_set.o	\
+	nint_stack.o	\
+	ninti_wait.o	\
+	nintideath.o	\
+	nintievent.o	\
+	nintiexcpt.o	\
+	nintiitimr.o	\
+	nintn_wait.o	\
+	nintndeath.o	\
+	nintnevent.o	\
+	nintnexcpt.o	\
+	nintnitimr.o	\
+	nintr_wait.o	\
+	nintrdeath.o	\
+	nintremove.o	\
+	nintrevent.o	\
+	nintrexcpt.o	\
+	nintritimr.o	\
+	notifydata.o	\
+	ntfy_cond.o	\
+	ntfy_ctbl.o	\
+	ntfy_debug.o	\
+	ntfy_dump.o	\
+	ntfy_fd_op.o	\
+	ntfy_list.o	\
+	ntfy_node.o	\
+	ntfy_tutil.o	\
+	ntfyclient.o	\
+	ntfyperror.o	\
+	ntfyprotec.o	\
+	sys_fcntl.o	\
+	sys_read.o	\
+	sys_select.o	\
+	openwin.o	\
+	ow_data.o	\
+	ow_evt.o	\
+	ow_get.o	\
+	ow_paint.o	\
+	ow_rescale.o	\
+	ow_resize.o	\
+	ow_seln.o	\
+	ow_set.o	\
+	ow_view.o	\
+	item.o	\
+	item_data.o	\
+	item_get.o	\
+	item_set.o	\
+	p_amb_data.o	\
+	p_ambtn.o	\
+	p_btn.o	\
+	p_btn_data.o	\
+	p_callback.o	\
+	p_chcedata.o	\
+	p_choice.o	\
+	p_compat.o	\
+	p_event.o	\
+	p_gauge.o	\
+	p_get.o	\
+	p_image.o	\
+	p_list.o	\
+	p_lst_data.o	\
+	p_msg.o	\
+	p_msg_data.o	\
+	p_ntx_data.o	\
+	p_num_btn.o	\
+	p_num_txt.o	\
+	p_paint.o	\
+	p_public.o	\
+	p_scroll.o	\
+	p_select.o	\
+	p_set.o	\
+	p_slider.o	\
+	p_txt.o	\
+	p_txt_data.o	\
+	p_utl.o	\
+	p_utl_data.o	\
+	p_view.o	\
+	panel.o	\
+	panel_data.o	\
+	panel_seln.o	\
+	mem.o	\
+	mem_ops.o	\
+	pw_batch.o	\
+	pw_btchrop.o	\
+	pw_cms.o	\
+	pw_get.o	\
+	pw_line.o	\
+	pw_plygon2.o	\
+	pw_plyline.o	\
+	pw_plypt.o	\
+	pw_put.o	\
+	pw_read.o	\
+	pw_rotcmap.o	\
+	pw_traprop.o	\
+	pw_vector.o	\
+	xv_olgx.o	\
+	xv_rop.o	\
+	xv_stencil.o	\
+	xv_text.o	
+
+OBJS3 =\
+	rect.o	\
+	rect_data.o	\
+	rect_util.o	\
+	rectlist.o	\
+	screen.o	\
+	scrn_cms.o	\
+	scrn_data.o	\
+	scrn_get.o	\
+	scrn_lyout.o	\
+	scrn_vis.o	\
+	sb.o	\
+	sb_compat.o	\
+	sb_data.o	\
+	sb_destroy.o	\
+	sb_event.o	\
+	sb_get.o	\
+	sb_paint.o	\
+	sb_pos.o	\
+	sb_scroll.o	\
+	sb_set.o	\
+	sel_agent.o	\
+	sel_appl.o	\
+	sel_clnt.o	\
+	sel_common.o	\
+	sel_compat.o	\
+	sel_data.o	\
+	sel_policy.o	\
+	selection.o	\
+	server.o	\
+	svr_data.o	\
+	svr_get.o	\
+	svr_set.o	\
+	svr_x.o	\
+	svrim_data.o	\
+	svrim_ops.o	\
+	svrim_pblc.o	\
+	str_utils.o	\
+	whitespace.o	\
+	ei_attr.o	\
+	ei_text.o	\
+	es_attr.o	\
+	es_cp_file.o	\
+	es_file.o	\
+	es_mem.o	\
+	es_util.o	\
+	ev_attr.o	\
+	ev_display.o	\
+	ev_edit.o	\
+	ev_field.o	\
+	ev_once.o	\
+	ev_op_bdry.o	\
+	ev_update.o	\
+	finger_tbl.o	\
+	ps_impl.o	\
+	text.o	\
+	txt_again.o	\
+	txt_attr.o	\
+	txt_caret.o	\
+	txt_cb.o	\
+	txt_data.o	\
+	txt_dbx.o	\
+	txt_disp.o	\
+	txt_e_menu.o	\
+	txt_edit.o	\
+	txt_event.o	\
+	txt_field.o	\
+	txt_file.o	\
+	txt_filter.o	\
+	txt_find.o	\
+	txt_getkey.o	\
+	txt_incl.o	\
+	txt_input.o	\
+	txt_line.o	\
+	txt_load.o	\
+	txt_match.o	\
+	txt_menu.o	\
+	txt_move.o	\
+	txt_once.o	\
+	txt_popup.o	\
+	txt_putkey.o	\
+	txt_scroll.o	\
+	txt_search.o	\
+	txt_sel.o	\
+	txt_selsvc.o	\
+	txt_store.o	\
+	txt_tool.o	\
+	txt_view.o	\
+	cim_change.o	\
+	cim_size.o	\
+	csr_change.o	\
+	csr_init.o	\
+	term_data.o	\
+	term_ntfy.o	\
+	termsw.o	\
+	tty.o	\
+	tty_cb.o	\
+	tty_compat.o	\
+	tty_data.o	\
+	tty_es.o	\
+	tty_gtty.o	\
+	tty_init.o	\
+	tty_main.o	\
+	tty_mapkey.o	\
+	tty_menu.o	\
+	tty_modes.o	\
+	tty_newtxt.o	\
+	tty_ntfy.o	\
+	tty_stty.o	\
+	ttyansi.o	\
+	ttyselect.o	\
+	ttytl.o	\
+	win_bell.o	\
+	win_bldkmp.o	\
+	win_cms.o	\
+	win_cntral.o	\
+	win_compat.o	\
+	win_cursor.o	\
+	win_damage.o	\
+	win_env.o	\
+	win_geom.o	\
+	win_getscr.o	\
+	win_global.o	\
+	win_input.o	\
+	win_keymap.o	\
+	win_treeop.o	\
+	win_ttyenv.o	\
+	window.o	\
+	window_cms.o	\
+	window_get.o	\
+	window_set.o	\
+	windowcmpt.o	\
+	windowdata.o	\
+	windowlayt.o	\
+	windowutil.o	\
+	wmgr_decor.o	\
+	wmgr_menu.o	\
+	wmgr_rect.o	\
+	wmgr_state.o	
+
+SRCS1 =\
+	attr.c	\
+	attr.h	\
+	attr_copy.c	\
+	attr_cu.c	\
+	attr_impl.h	\
+	attr_portable.c	\
+	attr_util.c	\
+	base.h	\
+	base_data.c	\
+	draw_impl.h	\
+	drawable.c	\
+	drawable.h	\
+	generic.c	\
+	generic.h	\
+	pkg.h	\
+	pkg_public.h	\
+	qualifyx.h	\
+	unqualifyx.h	\
+	xv.c	\
+	xv_debug.c	\
+	xv_debug.h	\
+	xv_error.c	\
+	xv_error.h	\
+	xv_init.c	\
+	xv_init_x.c	\
+	xv_list.c	\
+	xv_list.h	\
+	xv_parse.c	\
+	xv_usage.c	\
+	xview_impl.h	\
+	xview_xvin.h	\
+	canvas.c	\
+	canvas.h	\
+	cnvs_callback.c	\
+	cnvs_data.c	\
+	cnvs_get.c	\
+	cnvs_impl.h	\
+	cnvs_input.c	\
+	cnvs_resze.c	\
+	cnvs_scrol.c	\
+	cnvs_set.c	\
+	cnvs_view.c	\
+	aux.c	\
+	aux.h	\
+	imstring.h	\
+	lookupchoice.h	\
+	luc.c	\
+	stat_imcb.c	\
+	cms.c	\
+	cms.h	\
+	cms_data.c	\
+	cms_impl.h	\
+	cms_pblc.c	\
+	curs_cmpat.c	\
+	curs_data.c	\
+	curs_impl.h	\
+	curs_pri.c	\
+	cursor.c	\
+	cursor.h	\
+	defaults.c	\
+	defaults.h	\
+	filter.c	\
+	filter.h	\
+	font.c	\
+	font.h	\
+	font_data.c	\
+	font_get.c	\
+	font_impl.h	\
+	font_set.c	\
+	font_x.c	\
+	pf.c	\
+	pf_text.c	\
+	pf_ttext.c	\
+	fm_bdry.c	\
+	fm_cmdline.c	\
+	fm_data.c	\
+	fm_destroy.c	\
+	fm_display.c	\
+	fm_geom.c	\
+	fm_get.c	\
+	fm_impl.h	\
+	fm_input.c	\
+	fm_layout.c	\
+	fm_menu.c	\
+	fm_rescale.c	\
+	fm_set.c	\
+	fm_win.c	\
+	fm_xutil.c	\
+	fm_xutil.h	\
+	fmbs_dsty.c	\
+	fmbs_get.c	\
+	fmbs_set.c	\
+	fmcmd_dsty.c	\
+	fmcmd_get.c	\
+	fmcmd_set.c	\
+	fmhlp_dsty.c	\
+	fmhlp_get.c	\
+	fmhlp_set.c	\
+	frame.c	\
+	frame.h	\
+	frame_base.c	\
+	frame_base.h	\
+	frame_cmd.c	\
+	frame_cmd.h	\
+	frame_help.c	\
+	frame_help.h	\
+	frame_init.c	\
+	frame_sw.c	\
+	fs.c	\
+	fs_compat.c	\
+	fs_data.c	\
+	fs_get.c	\
+	fs_impl.h	\
+	fs_set.c	\
+	fullscreen.h	\
+	help.c	\
+	help_file.c	\
+	icon.c	\
+	icon.h	\
+	icon_data.c	\
+	icon_impl.h	\
+	icon_input.c	\
+	icon_load.c	\
+	icon_load.h	\
+	icon_obj.c	\
+	file_strms.c	\
+	input.c	\
+	io.c	\
+	io_stream.h	\
+	othr_strms.c	\
+	output.c	\
+	str_strms.c	\
+	om_compat.c	\
+	om_data.c	\
+	om_get.c	\
+	om_impl.h	\
+	om_public.c	\
+	om_render.c	\
+	om_set.c	\
+	omi.c	\
+	omi.h	\
+	omi_impl.h	\
+	openmenu.h	\
+	attrol.h	\
+	windowloop.c	\
+	xv_deaf.c	\
+	xv_icccm.c	\
+	xv_version.c	\
+	xview.h	\
+	bitmask.c	\
+	bitmask.h	\
+	charset.h	\
+	cms_grays.h	\
+	cms_mono.h	\
+	cms_rgb.h	\
+	cmsrainbow.h	\
+	convdup.c	\
+	ctstowcs.c	\
+	db.h	\
+	db_conv.c	\
+	db_impl.h	\
+	demorandom.c	\
+	drop.c	\
+	expandname.c	\
+	expandname.h	\
+	expandpath.c	\
+	getlogindr.c	\
+	gettext.c	\
+	gettext.h	\
+	hashfn.c	\
+	hashfn.h	\
+	quark.c	\
+	setenv.c	\
+	sun.h	\
+	text_obj.h	\
+	wchar_type.c	\
+	wcstocts.c	\
+	window_hs.h	\
+	xv_c_types.h	\
+	xv_i18n.c	\
+	xv_i18n.h	\
+	xv_i18n_impl.h	\
+	xv_path.c	\
+	xv_wstol.c
+
+SRCS2 =\
+	alert.h	\
+	notice.c	\
+	notice.h	\
+	noticeimpl.h	\
+	ndet.h	\
+	ndet_auto.c	\
+	ndet_death.c	\
+	ndet_die.c	\
+	ndet_dodis.c	\
+	ndet_event.c	\
+	ndet_fcntl.c	\
+	ndet_fd.c	\
+	ndet_g_fd.c	\
+	ndet_g_in.c	\
+	ndet_g_out.c	\
+	ndet_g_pri.c	\
+	ndet_g_sig.c	\
+	ndet_loop.c	\
+	ndet_nodis.c	\
+	ndet_read.c	\
+	ndet_s_fd.c	\
+	ndet_s_in.c	\
+	ndet_s_out.c	\
+	ndet_s_pri.c	\
+	ndet_s_sig.c	\
+	ndet_sig.c	\
+	ndet_value.c	\
+	ndet_veto.c	\
+	ndet_wait.c	\
+	ndetg_wait.c	\
+	ndetgdeath.c	\
+	ndetgetfnc.c	\
+	ndetgevent.c	\
+	ndetgexcep.c	\
+	ndetgitimr.c	\
+	ndetitimer.c	\
+	ndetpdeath.c	\
+	ndetpevent.c	\
+	ndetremove.c	\
+	ndets_wait.c	\
+	ndetsdeath.c	\
+	ndetselect.c	\
+	ndetsevent.c	\
+	ndetsexcep.c	\
+	ndetsingle.c	\
+	ndetsitimr.c	\
+	ndis.h	\
+	ndis_d_pri.c	\
+	ndisd_wait.c	\
+	ndisdispch.c	\
+	ndisdsched.c	\
+	ndisgsched.c	\
+	ndisssched.c	\
+	nint.h	\
+	nint_copy.c	\
+	nint_get.c	\
+	nint_i_fd.c	\
+	nint_i_in.c	\
+	nint_i_out.c	\
+	nint_i_sig.c	\
+	nint_inter.c	\
+	nint_n_fd.c	\
+	nint_n_in.c	\
+	nint_n_out.c	\
+	nint_n_sig.c	\
+	nint_next.c	\
+	nint_r_fd.c	\
+	nint_r_in.c	\
+	nint_r_out.c	\
+	nint_r_sig.c	\
+	nint_set.c	\
+	nint_stack.c	\
+	ninti_wait.c	\
+	nintideath.c	\
+	nintievent.c	\
+	nintiexcpt.c	\
+	nintiitimr.c	\
+	nintn_wait.c	\
+	nintndeath.c	\
+	nintnevent.c	\
+	nintnexcpt.c	\
+	nintnitimr.c	\
+	nintr_wait.c	\
+	nintrdeath.c	\
+	nintremove.c	\
+	nintrevent.c	\
+	nintrexcpt.c	\
+	nintritimr.c	\
+	notify.h	\
+	notifydata.c	\
+	ntfy.h	\
+	ntfy_cond.c	\
+	ntfy_ctbl.c	\
+	ntfy_ctbl.h	\
+	ntfy_debug.c	\
+	ntfy_dump.c	\
+	ntfy_fd_op.c	\
+	ntfy_list.c	\
+	ntfy_node.c	\
+	ntfy_tutil.c	\
+	ntfyclient.c	\
+	ntfyperror.c	\
+	ntfyprotec.c	\
+	sys_fcntl.c	\
+	sys_read.c	\
+	sys_select.c	\
+	ultrix_cpt.h	\
+	openwin.c	\
+	openwin.h	\
+	ow_data.c	\
+	ow_evt.c	\
+	ow_get.c	\
+	ow_impl.h	\
+	ow_paint.c	\
+	ow_rescale.c	\
+	ow_resize.c	\
+	ow_seln.c	\
+	ow_set.c	\
+	ow_view.c	\
+	item.c	\
+	item_data.c	\
+	item_get.c	\
+	item_impl.h	\
+	item_set.c	\
+	p_amb_data.c	\
+	p_ambtn.c	\
+	p_btn.c	\
+	p_btn_data.c	\
+	p_callback.c	\
+	p_chcedata.c	\
+	p_choice.c	\
+	p_compat.c	\
+	p_event.c	\
+	p_gauge.c	\
+	p_get.c	\
+	p_image.c	\
+	p_list.c	\
+	p_lst_data.c	\
+	p_lst_impl.h	\
+	p_msg.c	\
+	p_msg_data.c	\
+	p_ntx_data.c	\
+	p_num_btn.c	\
+	p_num_txt.c	\
+	p_paint.c	\
+	p_public.c	\
+	p_scroll.c	\
+	p_select.c	\
+	p_set.c	\
+	p_slider.c	\
+	p_txt.c	\
+	p_txt_data.c	\
+	p_utl.c	\
+	p_utl_data.c	\
+	p_view.c	\
+	panel.c	\
+	panel.h	\
+	panel_data.c	\
+	panel_impl.h	\
+	panel_seln.c	\
+	mem.c	\
+	mem_ops.c	\
+	pixwin.h	\
+	pw_batch.c	\
+	pw_btchrop.c	\
+	pw_cms.c	\
+	pw_get.c	\
+	pw_impl.h	\
+	pw_line.c	\
+	pw_plygon2.c	\
+	pw_plyline.c	\
+	pw_plypt.c	\
+	pw_put.c	\
+	pw_read.c	\
+	pw_rotcmap.c	\
+	pw_traprop.c	\
+	pw_vector.c	\
+	xv_color.h	\
+	xv_olgx.c	\
+	xv_rop.c	\
+	xv_stencil.c	\
+	xv_text.c
+
+SRCS3=\
+	rect.c	\
+	rect.h	\
+	rect_data.c	\
+	rect_util.c	\
+	rectlist.c	\
+	rectlist.h	\
+	xv_xrect.h	\
+	screen.c	\
+	screen.h	\
+	scrn_cms.c	\
+	scrn_data.c	\
+	scrn_get.c	\
+	scrn_impl.h	\
+	scrn_lyout.c	\
+	scrn_vis.c	\
+	scrn_vis.h	\
+	sb.c	\
+	sb_compat.c	\
+	sb_data.c	\
+	sb_destroy.c	\
+	sb_event.c	\
+	sb_get.c	\
+	sb_impl.h	\
+	sb_paint.c	\
+	sb_pos.c	\
+	sb_scroll.c	\
+	sb_set.c	\
+	scrollbar.h	\
+	sel_agent.c	\
+	sel_appl.c	\
+	sel_attrs.h	\
+	sel_clnt.c	\
+	sel_common.c	\
+	sel_compat.c	\
+	sel_compat.h	\
+	sel_data.c	\
+	sel_impl.h	\
+	sel_policy.c	\
+	sel_svc.h	\
+	selection.c	\
+	selection.h	\
+	seln.h	\
+	server.c	\
+	server.h	\
+	svr_atom.h	\
+	svr_data.c	\
+	svr_get.c	\
+	svr_impl.h	\
+	svr_set.c	\
+	svr_x.c	\
+	svrim_data.c	\
+	svrim_impl.h	\
+	svrim_ops.c	\
+	svrim_pblc.c	\
+	svrimage.h	\
+	str_utils.c	\
+	str_utils.h	\
+	whitespace.c	\
+	ei.h	\
+	ei_attr.c	\
+	ei_text.c	\
+	es.h	\
+	es_attr.c	\
+	es_cp_file.c	\
+	es_file.c	\
+	es_mem.c	\
+	es_util.c	\
+	ev.h	\
+	ev_attr.c	\
+	ev_display.c	\
+	ev_edit.c	\
+	ev_field.c	\
+	ev_impl.h	\
+	ev_once.c	\
+	ev_op_bdry.c	\
+	ev_update.c	\
+	finger_tbl.c	\
+	finger_tbl.h	\
+	primal.h	\
+	ps_impl.c	\
+	ps_impl.h	\
+	text.c	\
+	text.h	\
+	textsw.h	\
+	txt_again.c	\
+	txt_attr.c	\
+	txt_caret.c	\
+	txt_cb.c	\
+	txt_data.c	\
+	txt_dbx.c	\
+	txt_disp.c	\
+	txt_e_menu.c	\
+	txt_edit.c	\
+	txt_event.c	\
+	txt_field.c	\
+	txt_file.c	\
+	txt_filter.c	\
+	txt_find.c	\
+	txt_getkey.c	\
+	txt_impl.h	\
+	txt_incl.c	\
+	txt_input.c	\
+	txt_line.c	\
+	txt_load.c	\
+	txt_match.c	\
+	txt_menu.c	\
+	txt_move.c	\
+	txt_once.c	\
+	txt_popup.c	\
+	txt_putkey.c	\
+	txt_scroll.c	\
+	txt_search.c	\
+	txt_sel.c	\
+	txt_selsvc.c	\
+	txt_store.c	\
+	txt_tool.c	\
+	txt_view.c	\
+	charimage.h	\
+	charscreen.h	\
+	cim_change.c	\
+	cim_size.c	\
+	csr_change.c	\
+	csr_init.c	\
+	term_data.c	\
+	term_impl.h	\
+	term_ntfy.c	\
+	termsw.c	\
+	termsw.h	\
+	tty.c	\
+	tty.h	\
+	tty_cb.c	\
+	tty_compat.c	\
+	tty_data.c	\
+	tty_es.c	\
+	tty_gtty.c	\
+	tty_impl.h	\
+	tty_init.c	\
+	tty_main.c	\
+	tty_mapkey.c	\
+	tty_menu.c	\
+	tty_modes.c	\
+	tty_newtxt.c	\
+	tty_ntfy.c	\
+	tty_stty.c	\
+	ttyansi.c	\
+	ttyansi.h	\
+	ttyselect.c	\
+	ttysw.h	\
+	ttytl.c	\
+	win_ascii.h	\
+	win_bell.c	\
+	win_bldkmp.c	\
+	win_cms.c	\
+	win_cntral.c	\
+	win_compat.c	\
+	win_cursor.c	\
+	win_damage.c	\
+	win_enum.h	\
+	win_env.c	\
+	win_env.h	\
+	win_event.h	\
+	win_geom.c	\
+	win_getscr.c	\
+	win_global.c	\
+	win_impl.h	\
+	win_info.h	\
+	win_input.c	\
+	win_input.h	\
+	win_keymap.c	\
+	win_keymap.h	\
+	win_kmdata.h	\
+	win_notify.h	\
+	win_screen.h	\
+	win_struct.h	\
+	win_treeop.c	\
+	win_ttyenv.c	\
+	window.c	\
+	window.h	\
+	window_cms.c	\
+	window_get.c	\
+	window_set.c	\
+	windowcmpt.c	\
+	windowdata.c	\
+	windowimpl.h	\
+	windowlayt.c	\
+	windowutil.c	\
+	wmgr.h	\
+	wmgr_decor.c	\
+	wmgr_decor.h	\
+	wmgr_menu.c	\
+	wmgr_rect.c	\
+	wmgr_state.c	
+
+SRCS = $(SRCS1) $(SRCS2) $(SRCS3)
+
+
+#define LinkSubDirRules()					@@\
+LinkSourceFile(attr.c,attr)					@@\
+LinkSourceFile(attr.h,attr)					@@\
+LinkSourceFile(attr_copy.c,attr)				@@\
+LinkSourceFile(attr_cu.c,attr)					@@\
+LinkSourceFile(attr_impl.h,attr)				@@\
+LinkSourceFile(attr_portable.c,attr)				@@\
+LinkSourceFile(attr_util.c,attr)				@@\
+LinkSourceFile(base.h,base)					@@\
+LinkSourceFile(base_data.c,base)				@@\
+LinkSourceFile(draw_impl.h,base)				@@\
+LinkSourceFile(drawable.c,base)					@@\
+LinkSourceFile(drawable.h,base)					@@\
+LinkSourceFile(generic.c,base)					@@\
+LinkSourceFile(generic.h,base)					@@\
+LinkSourceFile(pkg.h,base)					@@\
+LinkSourceFile(pkg_public.h,base)				@@\
+LinkSourceFile(qualifyx.h,base)					@@\
+LinkSourceFile(unqualifyx.h,base)				@@\
+LinkSourceFile(xv.c,base)					@@\
+LinkSourceFile(xv_debug.c,base)					@@\
+LinkSourceFile(xv_debug.h,base)					@@\
+LinkSourceFile(xv_error.c,base)					@@\
+LinkSourceFile(xv_error.h,base)					@@\
+LinkSourceFile(xv_init.c,base)					@@\
+LinkSourceFile(xv_init_x.c,base)				@@\
+LinkSourceFile(xv_list.c,base)					@@\
+LinkSourceFile(xv_list.h,base)					@@\
+LinkSourceFile(xv_parse.c,base)					@@\
+LinkSourceFile(xv_usage.c,base)					@@\
+LinkSourceFile(xview_impl.h,base)				@@\
+LinkSourceFile(xview_xvin.h,base)				@@\
+LinkSourceFile(canvas.c,canvas)					@@\
+LinkSourceFile(canvas.h,canvas)					@@\
+LinkSourceFile(cnvs_callback.c,canvas)				@@\
+LinkSourceFile(cnvs_data.c,canvas)				@@\
+LinkSourceFile(cnvs_get.c,canvas)				@@\
+LinkSourceFile(cnvs_impl.h,canvas)				@@\
+LinkSourceFile(cnvs_input.c,canvas)				@@\
+LinkSourceFile(cnvs_resze.c,canvas)				@@\
+LinkSourceFile(cnvs_scrol.c,canvas)				@@\
+LinkSourceFile(cnvs_set.c,canvas)				@@\
+LinkSourceFile(cnvs_view.c,canvas)				@@\
+LinkSourceFile(aux.c,cb)					@@\
+LinkSourceFile(aux.h,cb)					@@\
+LinkSourceFile(imstring.h,cb)					@@\
+LinkSourceFile(lookupchoice.h,cb)				@@\
+LinkSourceFile(luc.c,cb)					@@\
+LinkSourceFile(stat_imcb.c,cb)					@@\
+LinkSourceFile(cms.c,color)					@@\
+LinkSourceFile(cms.h,color)					@@\
+LinkSourceFile(cms_data.c,color)				@@\
+LinkSourceFile(cms_impl.h,color)				@@\
+LinkSourceFile(cms_pblc.c,color)				@@\
+LinkSourceFile(curs_cmpat.c,cursor)				@@\
+LinkSourceFile(curs_data.c,cursor)				@@\
+LinkSourceFile(curs_impl.h,cursor)				@@\
+LinkSourceFile(curs_pri.c,cursor)				@@\
+LinkSourceFile(cursor.c,cursor)					@@\
+LinkSourceFile(cursor.h,cursor)					@@\
+LinkSourceFile(defaults.c,defaults)				@@\
+LinkSourceFile(defaults.h,defaults)				@@\
+LinkSourceFile(filter.c,filter)					@@\
+LinkSourceFile(filter.h,filter)					@@\
+LinkSourceFile(font.c,font)					@@\
+LinkSourceFile(font.h,font)					@@\
+LinkSourceFile(font_data.c,font)				@@\
+LinkSourceFile(font_get.c,font)					@@\
+LinkSourceFile(font_impl.h,font)				@@\
+LinkSourceFile(font_set.c,font)					@@\
+LinkSourceFile(font_x.c,font)					@@\
+LinkSourceFile(pf.c,font)					@@\
+LinkSourceFile(pf_text.c,font)					@@\
+LinkSourceFile(pf_ttext.c,font)					@@\
+LinkSourceFile(fm_bdry.c,frame)					@@\
+LinkSourceFile(fm_cmdline.c,frame)				@@\
+LinkSourceFile(fm_data.c,frame)					@@\
+LinkSourceFile(fm_destroy.c,frame)				@@\
+LinkSourceFile(fm_display.c,frame)				@@\
+LinkSourceFile(fm_geom.c,frame)					@@\
+LinkSourceFile(fm_get.c,frame)					@@\
+LinkSourceFile(fm_impl.h,frame)					@@\
+LinkSourceFile(fm_input.c,frame)				@@\
+LinkSourceFile(fm_layout.c,frame)				@@\
+LinkSourceFile(fm_menu.c,frame)					@@\
+LinkSourceFile(fm_rescale.c,frame)				@@\
+LinkSourceFile(fm_set.c,frame)					@@\
+LinkSourceFile(fm_win.c,frame)					@@\
+LinkSourceFile(fm_xutil.c,frame)				@@\
+LinkSourceFile(fm_xutil.h,frame)				@@\
+LinkSourceFile(fmbs_dsty.c,frame)				@@\
+LinkSourceFile(fmbs_get.c,frame)				@@\
+LinkSourceFile(fmbs_set.c,frame)				@@\
+LinkSourceFile(fmcmd_dsty.c,frame)				@@\
+LinkSourceFile(fmcmd_get.c,frame)				@@\
+LinkSourceFile(fmcmd_set.c,frame)				@@\
+LinkSourceFile(fmhlp_dsty.c,frame)				@@\
+LinkSourceFile(fmhlp_get.c,frame)				@@\
+LinkSourceFile(fmhlp_set.c,frame)				@@\
+LinkSourceFile(frame.c,frame)					@@\
+LinkSourceFile(frame.h,frame)					@@\
+LinkSourceFile(frame_base.c,frame)				@@\
+LinkSourceFile(frame_base.h,frame)				@@\
+LinkSourceFile(frame_cmd.c,frame)				@@\
+LinkSourceFile(frame_cmd.h,frame)				@@\
+LinkSourceFile(frame_help.c,frame)				@@\
+LinkSourceFile(frame_help.h,frame)				@@\
+LinkSourceFile(frame_init.c,frame)				@@\
+LinkSourceFile(frame_sw.c,frame)				@@\
+LinkSourceFile(fs.c,fullscreen)					@@\
+LinkSourceFile(fs_compat.c,fullscreen)				@@\
+LinkSourceFile(fs_data.c,fullscreen)				@@\
+LinkSourceFile(fs_get.c,fullscreen)				@@\
+LinkSourceFile(fs_impl.h,fullscreen)				@@\
+LinkSourceFile(fs_set.c,fullscreen)				@@\
+LinkSourceFile(fullscreen.h,fullscreen)				@@\
+LinkSourceFile(help.c,help)					@@\
+LinkSourceFile(help_file.c,help)				@@\
+LinkSourceFile(icon.c,icon)					@@\
+LinkSourceFile(icon.h,icon)					@@\
+LinkSourceFile(icon_data.c,icon)				@@\
+LinkSourceFile(icon_impl.h,icon)				@@\
+LinkSourceFile(icon_input.c,icon)				@@\
+LinkSourceFile(icon_load.c,icon)				@@\
+LinkSourceFile(icon_load.h,icon)				@@\
+LinkSourceFile(icon_obj.c,icon)					@@\
+LinkSourceFile(file_strms.c,io_stream)				@@\
+LinkSourceFile(input.c,io_stream)				@@\
+LinkSourceFile(io.c,io_stream)					@@\
+LinkSourceFile(io_stream.h,io_stream)				@@\
+LinkSourceFile(othr_strms.c,io_stream)				@@\
+LinkSourceFile(output.c,io_stream)				@@\
+LinkSourceFile(str_strms.c,io_stream)				@@\
+LinkSourceFile(om_compat.c,menu)				@@\
+LinkSourceFile(om_data.c,menu)					@@\
+LinkSourceFile(om_get.c,menu)					@@\
+LinkSourceFile(om_impl.h,menu)					@@\
+LinkSourceFile(om_public.c,menu)				@@\
+LinkSourceFile(om_render.c,menu)				@@\
+LinkSourceFile(om_set.c,menu)					@@\
+LinkSourceFile(omi.c,menu)					@@\
+LinkSourceFile(omi.h,menu)					@@\
+LinkSourceFile(omi_impl.h,menu)					@@\
+LinkSourceFile(openmenu.h,menu)					@@\
+LinkSourceFile(attrol.h,misc)					@@\
+LinkSourceFile(windowloop.c,misc)				@@\
+LinkSourceFile(xv_deaf.c,misc)					@@\
+LinkSourceFile(xv_icccm.c,misc)					@@\
+LinkSourceFile(xv_version.c,misc)				@@\
+LinkSourceFile(xview.h,misc)					@@\
+LinkSourceFile(bitmask.c,misc2)					@@\
+LinkSourceFile(bitmask.h,misc2)					@@\
+LinkSourceFile(charset.h,misc2)					@@\
+LinkSourceFile(cms_grays.h,misc2)				@@\
+LinkSourceFile(cms_mono.h,misc2)				@@\
+LinkSourceFile(cms_rgb.h,misc2)					@@\
+LinkSourceFile(cmsrainbow.h,misc2)				@@\
+LinkSourceFile(convdup.c,misc2)					@@\
+LinkSourceFile(ctstowcs.c,misc2)				@@\
+LinkSourceFile(db.h,misc2)					@@\
+LinkSourceFile(db_conv.c,misc2)					@@\
+LinkSourceFile(db_impl.h,misc2)					@@\
+LinkSourceFile(demorandom.c,misc2)				@@\
+LinkSourceFile(drop.c,misc2)					@@\
+LinkSourceFile(expandname.c,misc2)				@@\
+LinkSourceFile(expandname.h,misc2)				@@\
+LinkSourceFile(expandpath.c,misc2)				@@\
+LinkSourceFile(getlogindr.c,misc2)				@@\
+LinkSourceFile(gettext.c,misc2)					@@\
+LinkSourceFile(gettext.h,misc2)					@@\
+LinkSourceFile(hashfn.c,misc2)					@@\
+LinkSourceFile(hashfn.h,misc2)					@@\
+LinkSourceFile(quark.c,misc2)					@@\
+LinkSourceFile(setenv.c,misc2)					@@\
+LinkSourceFile(sun.h,misc2)					@@\
+LinkSourceFile(text_obj.h,misc2)				@@\
+LinkSourceFile(wchar_type.c,misc2)				@@\
+LinkSourceFile(wcstocts.c,misc2)				@@\
+LinkSourceFile(window_hs.h,misc2)				@@\
+LinkSourceFile(xv_c_types.h,misc2)				@@\
+LinkSourceFile(xv_i18n.c,misc2)					@@\
+LinkSourceFile(xv_i18n.h,misc2)					@@\
+LinkSourceFile(xv_i18n_impl.h,misc2)				@@\
+LinkSourceFile(xv_path.c,misc2)					@@\
+LinkSourceFile(xv_wstol.c,misc2)				@@\
+LinkSourceFile(alert.h,notice)					@@\
+LinkSourceFile(notice.c,notice)					@@\
+LinkSourceFile(notice.h,notice)					@@\
+LinkSourceFile(noticeimpl.h,notice)				@@\
+LinkSourceFile(ndet.h,notify)					@@\
+LinkSourceFile(ndet_auto.c,notify)				@@\
+LinkSourceFile(ndet_death.c,notify)				@@\
+LinkSourceFile(ndet_die.c,notify)				@@\
+LinkSourceFile(ndet_dodis.c,notify)				@@\
+LinkSourceFile(ndet_event.c,notify)				@@\
+LinkSourceFile(ndet_fcntl.c,notify)				@@\
+LinkSourceFile(ndet_fd.c,notify)				@@\
+LinkSourceFile(ndet_g_fd.c,notify)				@@\
+LinkSourceFile(ndet_g_in.c,notify)				@@\
+LinkSourceFile(ndet_g_out.c,notify)				@@\
+LinkSourceFile(ndet_g_pri.c,notify)				@@\
+LinkSourceFile(ndet_g_sig.c,notify)				@@\
+LinkSourceFile(ndet_loop.c,notify)				@@\
+LinkSourceFile(ndet_nodis.c,notify)				@@\
+LinkSourceFile(ndet_read.c,notify)				@@\
+LinkSourceFile(ndet_s_fd.c,notify)				@@\
+LinkSourceFile(ndet_s_in.c,notify)				@@\
+LinkSourceFile(ndet_s_out.c,notify)				@@\
+LinkSourceFile(ndet_s_pri.c,notify)				@@\
+LinkSourceFile(ndet_s_sig.c,notify)				@@\
+LinkSourceFile(ndet_sig.c,notify)				@@\
+LinkSourceFile(ndet_value.c,notify)				@@\
+LinkSourceFile(ndet_veto.c,notify)				@@\
+LinkSourceFile(ndet_wait.c,notify)				@@\
+LinkSourceFile(ndetg_wait.c,notify)				@@\
+LinkSourceFile(ndetgdeath.c,notify)				@@\
+LinkSourceFile(ndetgetfnc.c,notify)				@@\
+LinkSourceFile(ndetgevent.c,notify)				@@\
+LinkSourceFile(ndetgexcep.c,notify)				@@\
+LinkSourceFile(ndetgitimr.c,notify)				@@\
+LinkSourceFile(ndetitimer.c,notify)				@@\
+LinkSourceFile(ndetpdeath.c,notify)				@@\
+LinkSourceFile(ndetpevent.c,notify)				@@\
+LinkSourceFile(ndetremove.c,notify)				@@\
+LinkSourceFile(ndets_wait.c,notify)				@@\
+LinkSourceFile(ndetsdeath.c,notify)				@@\
+LinkSourceFile(ndetselect.c,notify)				@@\
+LinkSourceFile(ndetsevent.c,notify)				@@\
+LinkSourceFile(ndetsexcep.c,notify)				@@\
+LinkSourceFile(ndetsingle.c,notify)				@@\
+LinkSourceFile(ndetsitimr.c,notify)				@@\
+LinkSourceFile(ndis.h,notify)					@@\
+LinkSourceFile(ndis_d_pri.c,notify)				@@\
+LinkSourceFile(ndisd_wait.c,notify)				@@\
+LinkSourceFile(ndisdispch.c,notify)				@@\
+LinkSourceFile(ndisdsched.c,notify)				@@\
+LinkSourceFile(ndisgsched.c,notify)				@@\
+LinkSourceFile(ndisssched.c,notify)				@@\
+LinkSourceFile(nint.h,notify)					@@\
+LinkSourceFile(nint_copy.c,notify)				@@\
+LinkSourceFile(nint_get.c,notify)				@@\
+LinkSourceFile(nint_i_fd.c,notify)				@@\
+LinkSourceFile(nint_i_in.c,notify)				@@\
+LinkSourceFile(nint_i_out.c,notify)				@@\
+LinkSourceFile(nint_i_sig.c,notify)				@@\
+LinkSourceFile(nint_inter.c,notify)				@@\
+LinkSourceFile(nint_n_fd.c,notify)				@@\
+LinkSourceFile(nint_n_in.c,notify)				@@\
+LinkSourceFile(nint_n_out.c,notify)				@@\
+LinkSourceFile(nint_n_sig.c,notify)				@@\
+LinkSourceFile(nint_next.c,notify)				@@\
+LinkSourceFile(nint_r_fd.c,notify)				@@\
+LinkSourceFile(nint_r_in.c,notify)				@@\
+LinkSourceFile(nint_r_out.c,notify)				@@\
+LinkSourceFile(nint_r_sig.c,notify)				@@\
+LinkSourceFile(nint_set.c,notify)				@@\
+LinkSourceFile(nint_stack.c,notify)				@@\
+LinkSourceFile(ninti_wait.c,notify)				@@\
+LinkSourceFile(nintideath.c,notify)				@@\
+LinkSourceFile(nintievent.c,notify)				@@\
+LinkSourceFile(nintiexcpt.c,notify)				@@\
+LinkSourceFile(nintiitimr.c,notify)				@@\
+LinkSourceFile(nintn_wait.c,notify)				@@\
+LinkSourceFile(nintndeath.c,notify)				@@\
+LinkSourceFile(nintnevent.c,notify)				@@\
+LinkSourceFile(nintnexcpt.c,notify)				@@\
+LinkSourceFile(nintnitimr.c,notify)				@@\
+LinkSourceFile(nintr_wait.c,notify)				@@\
+LinkSourceFile(nintrdeath.c,notify)				@@\
+LinkSourceFile(nintremove.c,notify)				@@\
+LinkSourceFile(nintrevent.c,notify)				@@\
+LinkSourceFile(nintrexcpt.c,notify)				@@\
+LinkSourceFile(nintritimr.c,notify)				@@\
+LinkSourceFile(notify.h,notify)					@@\
+LinkSourceFile(notifydata.c,notify)				@@\
+LinkSourceFile(ntfy.h,notify)					@@\
+LinkSourceFile(ntfy_cond.c,notify)				@@\
+LinkSourceFile(ntfy_ctbl.c,notify)				@@\
+LinkSourceFile(ntfy_ctbl.h,notify)				@@\
+LinkSourceFile(ntfy_debug.c,notify)				@@\
+LinkSourceFile(ntfy_dump.c,notify)				@@\
+LinkSourceFile(ntfy_fd_op.c,notify)				@@\
+LinkSourceFile(ntfy_list.c,notify)				@@\
+LinkSourceFile(ntfy_node.c,notify)				@@\
+LinkSourceFile(ntfy_tutil.c,notify)				@@\
+LinkSourceFile(ntfyclient.c,notify)				@@\
+LinkSourceFile(ntfyperror.c,notify)				@@\
+LinkSourceFile(ntfyprotec.c,notify)				@@\
+LinkSourceFile(sys_fcntl.c,notify)				@@\
+LinkSourceFile(sys_read.c,notify)				@@\
+LinkSourceFile(sys_select.c,notify)				@@\
+LinkSourceFile(ultrix_cpt.h,notify)				@@\
+LinkSourceFile(openwin.c,openwin)				@@\
+LinkSourceFile(openwin.h,openwin)				@@\
+LinkSourceFile(ow_data.c,openwin)				@@\
+LinkSourceFile(ow_evt.c,openwin)				@@\
+LinkSourceFile(ow_get.c,openwin)				@@\
+LinkSourceFile(ow_impl.h,openwin)				@@\
+LinkSourceFile(ow_paint.c,openwin)				@@\
+LinkSourceFile(ow_rescale.c,openwin)				@@\
+LinkSourceFile(ow_resize.c,openwin)				@@\
+LinkSourceFile(ow_seln.c,openwin)				@@\
+LinkSourceFile(ow_set.c,openwin)				@@\
+LinkSourceFile(ow_view.c,openwin)				@@\
+LinkSourceFile(item.c,panel)					@@\
+LinkSourceFile(item_data.c,panel)				@@\
+LinkSourceFile(item_get.c,panel)				@@\
+LinkSourceFile(item_impl.h,panel)				@@\
+LinkSourceFile(item_set.c,panel)				@@\
+LinkSourceFile(p_amb_data.c,panel)				@@\
+LinkSourceFile(p_ambtn.c,panel)					@@\
+LinkSourceFile(p_btn.c,panel)					@@\
+LinkSourceFile(p_btn_data.c,panel)				@@\
+LinkSourceFile(p_callback.c,panel)				@@\
+LinkSourceFile(p_chcedata.c,panel)				@@\
+LinkSourceFile(p_choice.c,panel)				@@\
+LinkSourceFile(p_compat.c,panel)				@@\
+LinkSourceFile(p_event.c,panel)					@@\
+LinkSourceFile(p_gauge.c,panel)					@@\
+LinkSourceFile(p_get.c,panel)					@@\
+LinkSourceFile(p_image.c,panel)					@@\
+LinkSourceFile(p_list.c,panel)					@@\
+LinkSourceFile(p_lst_data.c,panel)				@@\
+LinkSourceFile(p_lst_impl.h,panel)				@@\
+LinkSourceFile(p_msg.c,panel)					@@\
+LinkSourceFile(p_msg_data.c,panel)				@@\
+LinkSourceFile(p_ntx_data.c,panel)				@@\
+LinkSourceFile(p_num_btn.c,panel)				@@\
+LinkSourceFile(p_num_txt.c,panel)				@@\
+LinkSourceFile(p_paint.c,panel)					@@\
+LinkSourceFile(p_public.c,panel)				@@\
+LinkSourceFile(p_scroll.c,panel)				@@\
+LinkSourceFile(p_select.c,panel)				@@\
+LinkSourceFile(p_set.c,panel)					@@\
+LinkSourceFile(p_slider.c,panel)				@@\
+LinkSourceFile(p_txt.c,panel)					@@\
+LinkSourceFile(p_txt_data.c,panel)				@@\
+LinkSourceFile(p_utl.c,panel)					@@\
+LinkSourceFile(p_utl_data.c,panel)				@@\
+LinkSourceFile(p_view.c,panel)					@@\
+LinkSourceFile(panel.c,panel)					@@\
+LinkSourceFile(panel.h,panel)					@@\
+LinkSourceFile(panel_data.c,panel)				@@\
+LinkSourceFile(panel_impl.h,panel)				@@\
+LinkSourceFile(panel_seln.c,panel)				@@\
+LinkSourceFile(mem.c,pw)					@@\
+LinkSourceFile(mem_ops.c,pw)					@@\
+LinkSourceFile(pixwin.h,pw)					@@\
+LinkSourceFile(pw_batch.c,pw)					@@\
+LinkSourceFile(pw_btchrop.c,pw)					@@\
+LinkSourceFile(pw_cms.c,pw)					@@\
+LinkSourceFile(pw_get.c,pw)					@@\
+LinkSourceFile(pw_impl.h,pw)					@@\
+LinkSourceFile(pw_line.c,pw)					@@\
+LinkSourceFile(pw_plygon2.c,pw)					@@\
+LinkSourceFile(pw_plyline.c,pw)					@@\
+LinkSourceFile(pw_plypt.c,pw)					@@\
+LinkSourceFile(pw_put.c,pw)					@@\
+LinkSourceFile(pw_read.c,pw)					@@\
+LinkSourceFile(pw_rotcmap.c,pw)					@@\
+LinkSourceFile(pw_traprop.c,pw)					@@\
+LinkSourceFile(pw_vector.c,pw)					@@\
+LinkSourceFile(xv_color.h,pw)					@@\
+LinkSourceFile(xv_olgx.c,pw)					@@\
+LinkSourceFile(xv_rop.c,pw)					@@\
+LinkSourceFile(xv_stencil.c,pw)					@@\
+LinkSourceFile(xv_text.c,pw)					@@\
+LinkSourceFile(rect.c,rect)					@@\
+LinkSourceFile(rect.h,rect)					@@\
+LinkSourceFile(rect_data.c,rect)				@@\
+LinkSourceFile(rect_util.c,rect)				@@\
+LinkSourceFile(rectlist.c,rect)					@@\
+LinkSourceFile(rectlist.h,rect)					@@\
+LinkSourceFile(xv_xrect.h,rect)					@@\
+LinkSourceFile(screen.c,screen)					@@\
+LinkSourceFile(screen.h,screen)					@@\
+LinkSourceFile(scrn_cms.c,screen)				@@\
+LinkSourceFile(scrn_data.c,screen)				@@\
+LinkSourceFile(scrn_get.c,screen)				@@\
+LinkSourceFile(scrn_impl.h,screen)				@@\
+LinkSourceFile(scrn_lyout.c,screen)				@@\
+LinkSourceFile(scrn_vis.c,screen)				@@\
+LinkSourceFile(scrn_vis.h,screen)				@@\
+LinkSourceFile(sb.c,scrollbar)					@@\
+LinkSourceFile(sb_compat.c,scrollbar)				@@\
+LinkSourceFile(sb_data.c,scrollbar)				@@\
+LinkSourceFile(sb_destroy.c,scrollbar)				@@\
+LinkSourceFile(sb_event.c,scrollbar)				@@\
+LinkSourceFile(sb_get.c,scrollbar)				@@\
+LinkSourceFile(sb_impl.h,scrollbar)				@@\
+LinkSourceFile(sb_paint.c,scrollbar)				@@\
+LinkSourceFile(sb_pos.c,scrollbar)				@@\
+LinkSourceFile(sb_scroll.c,scrollbar)				@@\
+LinkSourceFile(sb_set.c,scrollbar)				@@\
+LinkSourceFile(scrollbar.h,scrollbar)				@@\
+LinkSourceFile(sel_agent.c,sel)					@@\
+LinkSourceFile(sel_appl.c,sel)					@@\
+LinkSourceFile(sel_attrs.h,sel)					@@\
+LinkSourceFile(sel_clnt.c,sel)					@@\
+LinkSourceFile(sel_common.c,sel)				@@\
+LinkSourceFile(sel_compat.c,sel)				@@\
+LinkSourceFile(sel_compat.h,sel)				@@\
+LinkSourceFile(sel_data.c,sel)					@@\
+LinkSourceFile(sel_impl.h,sel)					@@\
+LinkSourceFile(sel_policy.c,sel)				@@\
+LinkSourceFile(sel_svc.h,sel)					@@\
+LinkSourceFile(selection.c,sel)					@@\
+LinkSourceFile(selection.h,sel)					@@\
+LinkSourceFile(seln.h,sel)					@@\
+LinkSourceFile(server.c,server)					@@\
+LinkSourceFile(server.h,server)					@@\
+LinkSourceFile(svr_atom.h,server)				@@\
+LinkSourceFile(svr_data.c,server)				@@\
+LinkSourceFile(svr_get.c,server)				@@\
+LinkSourceFile(svr_impl.h,server)				@@\
+LinkSourceFile(svr_set.c,server)				@@\
+LinkSourceFile(svr_x.c,server)					@@\
+LinkSourceFile(svrim_data.c,server_image)			@@\
+LinkSourceFile(svrim_impl.h,server_image)			@@\
+LinkSourceFile(svrim_ops.c,server_image)			@@\
+LinkSourceFile(svrim_pblc.c,server_image)			@@\
+LinkSourceFile(svrimage.h,server_image)				@@\
+LinkSourceFile(str_utils.c,string_utils)			@@\
+LinkSourceFile(str_utils.h,string_utils)			@@\
+LinkSourceFile(whitespace.c,string_utils)			@@\
+LinkSourceFile(ei.h,text)					@@\
+LinkSourceFile(ei_attr.c,text)					@@\
+LinkSourceFile(ei_text.c,text)					@@\
+LinkSourceFile(es.h,text)					@@\
+LinkSourceFile(es_attr.c,text)					@@\
+LinkSourceFile(es_cp_file.c,text)				@@\
+LinkSourceFile(es_file.c,text)					@@\
+LinkSourceFile(es_mem.c,text)					@@\
+LinkSourceFile(es_util.c,text)					@@\
+LinkSourceFile(ev.h,text)					@@\
+LinkSourceFile(ev_attr.c,text)					@@\
+LinkSourceFile(ev_display.c,text)				@@\
+LinkSourceFile(ev_edit.c,text)					@@\
+LinkSourceFile(ev_field.c,text)					@@\
+LinkSourceFile(ev_impl.h,text)					@@\
+LinkSourceFile(ev_once.c,text)					@@\
+LinkSourceFile(ev_op_bdry.c,text)				@@\
+LinkSourceFile(ev_update.c,text)				@@\
+LinkSourceFile(finger_tbl.c,text)				@@\
+LinkSourceFile(finger_tbl.h,text)				@@\
+LinkSourceFile(primal.h,text)					@@\
+LinkSourceFile(ps_impl.c,text)					@@\
+LinkSourceFile(ps_impl.h,text)					@@\
+LinkSourceFile(text.c,text)					@@\
+LinkSourceFile(text.h,text)					@@\
+LinkSourceFile(textsw.h,text)					@@\
+LinkSourceFile(txt_again.c,text)				@@\
+LinkSourceFile(txt_attr.c,text)					@@\
+LinkSourceFile(txt_caret.c,text)				@@\
+LinkSourceFile(txt_cb.c,text)					@@\
+LinkSourceFile(txt_data.c,text)					@@\
+LinkSourceFile(txt_dbx.c,text)					@@\
+LinkSourceFile(txt_disp.c,text)					@@\
+LinkSourceFile(txt_e_menu.c,text)				@@\
+LinkSourceFile(txt_edit.c,text)					@@\
+LinkSourceFile(txt_event.c,text)				@@\
+LinkSourceFile(txt_field.c,text)				@@\
+LinkSourceFile(txt_file.c,text)					@@\
+LinkSourceFile(txt_filter.c,text)				@@\
+LinkSourceFile(txt_find.c,text)					@@\
+LinkSourceFile(txt_getkey.c,text)				@@\
+LinkSourceFile(txt_impl.h,text)					@@\
+LinkSourceFile(txt_incl.c,text)					@@\
+LinkSourceFile(txt_input.c,text)				@@\
+LinkSourceFile(txt_line.c,text)					@@\
+LinkSourceFile(txt_load.c,text)					@@\
+LinkSourceFile(txt_match.c,text)				@@\
+LinkSourceFile(txt_menu.c,text)					@@\
+LinkSourceFile(txt_move.c,text)					@@\
+LinkSourceFile(txt_once.c,text)					@@\
+LinkSourceFile(txt_popup.c,text)				@@\
+LinkSourceFile(txt_putkey.c,text)				@@\
+LinkSourceFile(txt_scroll.c,text)				@@\
+LinkSourceFile(txt_search.c,text)				@@\
+LinkSourceFile(txt_sel.c,text)					@@\
+LinkSourceFile(txt_selsvc.c,text)				@@\
+LinkSourceFile(txt_store.c,text)				@@\
+LinkSourceFile(txt_tool.c,text)					@@\
+LinkSourceFile(txt_view.c,text)					@@\
+LinkSourceFile(charimage.h,ttysw)				@@\
+LinkSourceFile(charscreen.h,ttysw)				@@\
+LinkSourceFile(cim_change.c,ttysw)				@@\
+LinkSourceFile(cim_size.c,ttysw)				@@\
+LinkSourceFile(csr_change.c,ttysw)				@@\
+LinkSourceFile(csr_init.c,ttysw)				@@\
+LinkSourceFile(term_data.c,ttysw)				@@\
+LinkSourceFile(term_impl.h,ttysw)				@@\
+LinkSourceFile(term_ntfy.c,ttysw)				@@\
+LinkSourceFile(termsw.c,ttysw)					@@\
+LinkSourceFile(termsw.h,ttysw)					@@\
+LinkSourceFile(tty.c,ttysw)					@@\
+LinkSourceFile(tty.h,ttysw)					@@\
+LinkSourceFile(tty_cb.c,ttysw)					@@\
+LinkSourceFile(tty_compat.c,ttysw)				@@\
+LinkSourceFile(tty_data.c,ttysw)				@@\
+LinkSourceFile(tty_es.c,ttysw)					@@\
+LinkSourceFile(tty_gtty.c,ttysw)				@@\
+LinkSourceFile(tty_impl.h,ttysw)				@@\
+LinkSourceFile(tty_init.c,ttysw)				@@\
+LinkSourceFile(tty_main.c,ttysw)				@@\
+LinkSourceFile(tty_mapkey.c,ttysw)				@@\
+LinkSourceFile(tty_menu.c,ttysw)				@@\
+LinkSourceFile(tty_modes.c,ttysw)				@@\
+LinkSourceFile(tty_newtxt.c,ttysw)				@@\
+LinkSourceFile(tty_ntfy.c,ttysw)				@@\
+LinkSourceFile(tty_stty.c,ttysw)				@@\
+LinkSourceFile(ttyansi.c,ttysw)					@@\
+LinkSourceFile(ttyansi.h,ttysw)					@@\
+LinkSourceFile(ttyselect.c,ttysw)				@@\
+LinkSourceFile(ttysw.h,ttysw)					@@\
+LinkSourceFile(ttytl.c,ttysw)					@@\
+LinkSourceFile(win_ascii.h,win)					@@\
+LinkSourceFile(win_bell.c,win)					@@\
+LinkSourceFile(win_bldkmp.c,win)				@@\
+LinkSourceFile(win_cms.c,win)					@@\
+LinkSourceFile(win_cntral.c,win)				@@\
+LinkSourceFile(win_compat.c,win)				@@\
+LinkSourceFile(win_cursor.c,win)				@@\
+LinkSourceFile(win_damage.c,win)				@@\
+LinkSourceFile(win_enum.h,win)					@@\
+LinkSourceFile(win_env.c,win)					@@\
+LinkSourceFile(win_env.h,win)					@@\
+LinkSourceFile(win_event.h,win)					@@\
+LinkSourceFile(win_geom.c,win)					@@\
+LinkSourceFile(win_getscr.c,win)				@@\
+LinkSourceFile(win_global.c,win)				@@\
+LinkSourceFile(win_impl.h,win)					@@\
+LinkSourceFile(win_info.h,win)					@@\
+LinkSourceFile(win_input.c,win)					@@\
+LinkSourceFile(win_input.h,win)					@@\
+LinkSourceFile(win_keymap.c,win)				@@\
+LinkSourceFile(win_keymap.h,win)				@@\
+LinkSourceFile(win_kmdata.h,win)				@@\
+LinkSourceFile(win_notify.h,win)				@@\
+LinkSourceFile(win_screen.h,win)				@@\
+LinkSourceFile(win_struct.h,win)				@@\
+LinkSourceFile(win_treeop.c,win)				@@\
+LinkSourceFile(win_ttyenv.c,win)				@@\
+LinkSourceFile(window.c,window)					@@\
+LinkSourceFile(window.h,window)					@@\
+LinkSourceFile(window_cms.c,window)				@@\
+LinkSourceFile(window_get.c,window)				@@\
+LinkSourceFile(window_set.c,window)				@@\
+LinkSourceFile(windowcmpt.c,window)				@@\
+LinkSourceFile(windowdata.c,window)				@@\
+LinkSourceFile(windowimpl.h,window)				@@\
+LinkSourceFile(windowlayt.c,window)				@@\
+LinkSourceFile(windowutil.c,window)				@@\
+LinkSourceFile(wmgr.h,wmgr)					@@\
+LinkSourceFile(wmgr_decor.c,wmgr)				@@\
+LinkSourceFile(wmgr_decor.h,wmgr)				@@\
+LinkSourceFile(wmgr_menu.c,wmgr)				@@\
+LinkSourceFile(wmgr_rect.c,wmgr)				@@\
+LinkSourceFile(wmgr_state.c,wmgr)
+
+OBJS = $(OBJS1) $(OBJS2) $(OBJS3)
+
+
+all::
+
+depend:: 
+ 	$(RM) $(TOP)/X11/XSunExt.h 
+  	cd $(TOP)/X11 ; $(LN) ../../contrib/im/Ximp/sun/Htt/XSunExt.h .
+
+
+LinkFileList(init, $(HEADERS) , xview_private, ..)
+
+LibraryObjectRule()
+
+LinkSubDirRules()
+
+#if DoSharedLib
+#if DoNormalLib
+SharedLibraryTarget(xview,$(SOXVLIBREV),$(OBJS),shared,..)
+#else
+SharedLibraryTarget(xview,$(SOXVLIBREV),$(OBJS),.,.)
+#endif
+SharedLibraryDataTarget(xview,$(SOXVLIBREV),$(UNSHAREDOBJS))
+InstallSharedLibrary(xview,$(SOXVLIBREV),$(USRLIBDIR))
+InstallSharedLibraryData(xview,$(SOXVLIBREV),$(USRLIBDIR))
+#endif
+#if DoNormalLib
+NormalLibraryTarget3(xview,$(OBJS1),$(OBJS2),$(OBJS3))
+InstallLibrary(xview,$(USRLIBDIR))
+#endif
+#if DoProfileLib && ProfileLibXArchive
+ProfiledLibraryTarget(xview,$(OBJS))
+InstallLibrary(xview_p,$(USRLIBDIR))
+#endif
+#if DoDebugLib && DebugLibXArchive
+DebuggedLibraryTarget(xview,$(OBJS))
+InstallLibrary(xview_d,$(USRLIBDIR))
+#endif
+
+LintLibraryTarget(xview,($SRCS))
+
+BuildIncludes($(HEADERS),.,.)
+InstallMultiple($(HEADERS),$(INCROOT)/xview)
+InstallLintLibrary(xview,$(LINTLIBDIR))
+
+includes:: $(SRCS)
+
+depend:: $(SRCS)
+
+clean::
+	$(RM) $(SRCS)
+
+DependTarget3($(SRCS1), $(SRCS2),$(SRCS3))
+
+
+XCOMM structure alignment errors can safely be ignored.
+XCOMM complaints about qevent can be ignored too.
+
+NormalLintTarget(*.c)
+
+

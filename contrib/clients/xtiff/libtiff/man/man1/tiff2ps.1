@@ -1,0 +1,97 @@
+.\"	$Header: /usr/people/sam/tiff/man/man1/RCS/tiff2ps.1,v 1.10 91/07/16 16:14:53 sam Exp $
+.\"
+.\" Copyright (c) 1988, 1989, 1990, 1991 Sam Leffler
+.\" Copyright (c) 1991 Silicon Graphics, Inc.
+.\"
+.\" Permission to use, copy, modify, distribute, and sell this software and 
+.\" its documentation for any purpose is hereby granted without fee, provided
+.\" that (i) the above copyright notices and this permission notice appear in
+.\" all copies of the software and related documentation, and (ii) the names of
+.\" Sam Leffler and Silicon Graphics may not be used in any advertising or
+.\" publicity relating to the software without the specific, prior written
+.\" permission of Sam Leffler and Silicon Graphics.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+.\" EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+.\" WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+.\" 
+.\" IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+.\" ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+.\" OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+.\" WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+.\" LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+.\" OF THIS SOFTWARE.
+.\"
+.TH TIFF2PS 1 "May 18, 1991"
+.SH NAME
+tiff2ps \- convert a grayscale
+.SM TIFF
+image to PostScript\(tm
+.SH SYNOPSIS
+.B tiff2ps
+[
+.B -width
+.IR width
+] [
+.B -height
+.IR height
+] [
+.B \-#
+]
+.I file
+.SH DESCRIPTION
+.I Tiff2ps
+reads a
+.SM TIFF
+image and prints Encapsulated
+PostScript (EPS) on the standard output that is suitable for
+inclusion in PostScript documents.
+The
+.B \-#
+option sets the initial
+.SM TIFF
+directory to
+.IR # .
+This is useful for selecting individual pages
+in multi-page (e.g. facsimile) files.
+The
+.B \-width
+and
+.B \-height
+options set the image dimensions in inches.
+These options override any relevant
+.SM TIFF
+tags in the input file.
+.PP
+For
+.SM RGB
+and palette images,
+.IR tiff2ps
+generates PostScript that uses the
+.IR colorimage
+operator.
+For greyscale and bilevel images,
+.IR tiff2ps
+generates PostScript that uses the
+.IR image
+operator.
+.SH BUGS
+Since PostScript does not support the notion of a colormap,
+8-bit palette images produce 24-bit PostScript images.
+This conversion results in output that is six times
+bigger than the original and which takes a long time
+to send to a printer over a serial line.
+Matters are even worse for 4-bit and 2-bit palette images.
+.PP
+.I tiff2ps
+should probably emit the prologue and epilogue needed to
+print the image on a standard size page.
+.SH "SEE ALSO"
+.IR pal2rgb (1),
+.IR tiffinfo (1),
+.IR tiffcp (1),
+.IR tiffgt (1),
+.IR tiffmedian (1),
+.IR tiff2bw (1),
+.IR tiffsv (1),
+.IR libtiff (3)

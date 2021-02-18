@@ -1,0 +1,636 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+node_expert:
+expiration_date: 06/25/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 06/25/91
+mod_num: 1
+@end(header)
+Return-Path: xpert-request@expo.lcs.mit.edu
+Received: by expo.lcs.mit.edu; Mon, 8 May 89 03:08:29 EDT
+Received: by BLOOM-BEACON.MIT.EDU with sendmail-5.59/4.7 
+	id <AA25610@BLOOM-BEACON.MIT.EDU>; Sun, 7 May 89 23:00:52 EDT
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 8 May 89 01:26:05 GMT
+From: eureka!argv@sun.com  (Dan Heller)
+Organization: Island Graphics Corporation, Marin County, CA
+Subject: Re: Reading sockets from the Toolkit
+Message-Id: <103532@sun.Eng.Sun.COM>
+References: <14403@duke.cs.duke.edu>, <8905052147.AA00039@expo.lcs.mit.edu>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <8905052147.AA00039@expo.lcs.mit.edu> kit@EXPO.LCS.MIT.EDU (Chris D. Peterson) writes:
+
+> > Could some knowledgeable Toolkit programmer suggest the best way to add
+> > a new event to the toolkit main loop XtMainLoop() that will execute my
+> > callback function when data comes in over a socket. I am using Athena
+> > widgets if that makes a difference.
+> 
+> Take a look at section 7.1.1 (Adding and Removing Input Sources) in 
+> the X11R3 instrinsics manual I think this is exactly what you are looking
+> for.
+> 						Chris D. Peterson     
+
+I hate to request this, but could you please discuss this in more detail? I
+think the question addresses more issues than it was intended-- specifically,
+I don't believe that Xt handles how the application is supposed to handle
+signals.
+
+The user is reading from a socket -- which is a file descriptor.  There could
+be a SIGIO event delivered to the application's event handler for that signal
+interrupting something critical within Xt.  If this routine does more Xt calls,
+then all sorts of havoc can result.
+
+    dan  <argv@sun.com>
+
+
+Return-Path: @BLOOM-BEACON.MIT.EDU:xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Sun, 12 Nov 89 05:58:05 EST
+Received:  by BLOOM-BEACON.MIT.EDU (5.61/25-eef)
+	id AA13146; Sun, 12 Nov 89 05:40:32 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 12 Nov 89 10:20:14 GMT
+From: frooz!cfa250!mvh@husc6.harvard.edu  (Mike VanHilst)
+Organization: Harvard/Smithsonian Center for Astrophysics
+Subject: Re: XtAddInput problem
+Message-Id: <1771@cfa241.cfa250.harvard.edu>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <15783@bloom-beacon.MIT.EDU> bjaspan@athena.mit.edu
+(Barr3y Jaspan) writes:
+> I've seen random discussion about the use of XtAddInput() and about
+> how it supposedly does not work.  It *does* work, and I will attempt
+> to clear up the confusion.
+
+and procedes to explain how select() works on stdin and stdout.
+
+While in article <294@nap1.cds.wpafb.af.mil>
+ staatsvr@asdcds.cds.wpafb.af.mil ( Vern Staats;;) writes:
+
+>  I have had some success using XtAppAddInput on our Ultrix 3.1 Vaxen.
+>In particular, I am sending commands to the X11 application over a
+>named pipe (fifo), which is opened with the O_NDELAY flag to return
+>errors rather than blocking on reads.  I was able to prevent the input
+>callback routine from being triggered continuously by opening the pipe
+>for both reading and writing in the X11 program, even though the program
+>never writes to the pipe.
+
+I too, am using name pipes as a convenient mechanism for remote
+control of my application while having a functioning user
+interface.  My experience has been that problems such as those
+discussed above, have much to do with the behavior of the pipe
+under different conditions, on different operating systems, and
+little to do with how select() is called.  It seems that the
+behavior is not precisely defined for BSD4.3 and may differ among
+vendors.
+
+To wit: under SunOS 3.5 and 4.0.3, if a pipe is opened to read
+and set to block (I open it with O_NDELAY, so as not to block
+on the open(), and then use fcntl() without the O_NDELAY, to set
+blocking), select() only returns with its flag when something
+is in fact available to be read (I never find a read of 0 in
+response to being called).  Under Ultrix 3.1, the pipe cannot
+block if the pipe is not currently opened for writing by some
+process.  It always returns from select(), and fcntl() cannot
+change this condition.  (This condition, BTW, is not consistent
+as, on occasion, it functions as on the Sun).  Under Ultrix 2.0,
+it could be set to block by fcntl(), but reverted to non-blocking
+when the writer opened and then closed its end.
+
+The method that seems to work in all cases is to open the pipe
+on another descriptor for writing (as a dummy), and not close
+that connection until closing the connection for reading.  There
+is a catch, in that opening to write may fail if there is no
+reader, so the sequence, open to read non-blocking, open the
+dummy to write, fcntl() the reader to block, must be followed.
+I ifdef this out for the Sun, due to a desire to preserve its
+fewer available descriptors, as mentioned in another discussion.
+I have not tried opening the pipe read/write as Vern suggests.
+My suggestion for any new port, is always to test with tiny
+programs just to open for writing and reading with select() to
+test that OS's behavior.
+
+Now, if somebody could explain this procedure under SysV (i.e.
+Apollo), I would be much obliged.
+
+------
+Mike VanHilst 				mvh@cfa.harvard.edu
+Smithsonian Astrophysical Observatory	(617)495-7260
+60 Garden Street, Cambridge, MA  02138
+Return-Path: @BLOOM-BEACON.MIT.EDU:xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Thu, 9 Nov 89 13:25:34 EST
+Received:  by BLOOM-BEACON.MIT.EDU (5.61/25-eef)
+	id AA16881; Thu, 9 Nov 89 13:20:50 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 9 Nov 89 17:29:19 GMT
+From: snorkelwacker!apple!usc!brutus.cs.uiuc.edu!uakari.primate.wisc.edu!ark1!nap1!asdcds!staatsvr@bloom-beacon.mit.edu  ( Vern Staats;;)
+Organization: US. Air Force, ASD, Wright-Patterson AFB
+Subject: Re: XtAddInput problem
+Message-Id: <294@nap1.cds.wpafb.af.mil>
+References: <8911081827.AA12003@turnpike.sun.com>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <8911081827.AA12003@turnpike.sun.com> argv@SUN.COM (Dan Heller) writes:
+>If you've been reading comp.windows.x, you'll see a very short-lived
+>discussion about how XtAddInput is broken --I recommend *strongly*
+>that you avoid using it till it's fixed.  This includes R4; I checked
+>the source.  The problem is that your routine gets called continuously
+>rather than, as the spec says, "when there is data to be read."
+>
+
+  I have had some success using XtAppAddInput on our Ultrix 3.1 Vaxen.  
+In particular, I am sending commands to the X11 application over a 
+named pipe (fifo), which is opened with the O_NDELAY flag to return 
+errors rather than blocking on reads.  I was able to prevent the input 
+callback routine from being triggered continuously by opening the pipe 
+for both reading and writing in the X11 program, even though the program 
+never writes to the pipe.
+
+  The man page for read(2) says that with O_NDELAY set, read will return
+0 to indicate end-of-file rather than the -1 error return if no process 
+has the pipe open for writing.  My guess is that the select call in
+WaitForSomething() is also affected by whether a process has the pipe 
+open for writing or not.
+ 
+  Even after opening a dummy_write file descriptor I was getting two 
+calls to the input callback routine for every actual input I sent it.
+Putting calls to XtRemoveInput() and XtAddInput() in the input callback
+routine (to destroy and then re-install itself) prevents the second call,
+although I suspect it may be more efficient just to live with it and do
+a quick return in the callback if ioctl says the pipe is empty.
+
+----                                                                       ///
+INET:  staatsvr@asd.wpafb.af.mil      Vern Staats  (513) 255-2714      \\\///
+UUCP:  -Maybe- nap1!asd!staatsvr       ASD/SCED   WPAFB OH 45433        \XX/
+Boolean orthogonal(char *my_opinions, char *employer_opinions)  {return(TRUE);}
+Return-Path: @BLOOM-BEACON.MIT.EDU:xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Thu, 9 Nov 89 19:54:35 EST
+Received:  by BLOOM-BEACON.MIT.EDU (5.61/25-eef)
+	id AA24690; Thu, 9 Nov 89 19:41:37 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 10 Nov 89 00:40:57 GMT
+From: bjaspan@athena.mit.edu  (Barr3y Jaspan)
+Organization: Massachusetts Institute of Technology
+Subject: Re: XtAddInput problem
+Message-Id: <15783@bloom-beacon.MIT.EDU>
+References: <8911081827.AA12003@turnpike.sun.com>, <294@nap1.cds.wpafb.af.mil>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+I've seen random discussion about the use of XtAddInput() and about
+how it supposedly does not work.  It *does* work, and I will attempt
+to clear up the confusion.
+
+Anyone who is familiar with UNIX realizes that the intrinsics use
+select() to detect X and other events, and that XtAddInput() merely
+adds filedescriptors to the parameters passed to select.  The man page
+for select() says that it returns when there a file descriptor is
+"ready for reading, ready for writing, ..."
+
+The confusion, I think, is in "ready for writing."  That means that
+the fd is in a state such that data CAN be written to it, not that
+data actually has been written to it.  Specifically, stdout is ALWAYS
+"ready for writing" (unless it has been messed with) and so *IF YOU DO
+AN XtAddInput ON FD 1, IT WILL TO CALL THE FUNCTION CONSTANTLY* and
+that is the correct behavior.
+
+For input events, XtAddInput also does the right thing: it calls the
+function whenever there is data waiting to be read.  For example, if
+you do XtAddInput() on fd 0 with XtInputReadMask, the callback will be
+called when the user has typed a line (or a character in cbreak mode).
+The function IS NOT called constantly.
+
+As proof of my argument, I present the following source code and
+execution output.
+
+--- snip snip ---
+
+#include <stdio.h>
+
+#include <X11/Intrinsic.h>
+#include <X11/StringDefs.h>
+#include <X11/Label.h>
+
+void input();
+
+main(argc, argv)
+   int argc;
+   char **argv;
+{
+     Widget	top;
+
+     top = XtInitialize("Hello", "World", NULL, 0, &argc, argv);
+     (void) XtCreateManagedWidget("label", labelWidgetClass, top,
+				  NULL, 0);
+     
+     XtAddInput(0, XtInputReadMask, input, NULL);
+     XtRealizeWidget(top);
+     XtMainLoop();
+}
+
+void input(client_data, source, input_id)
+   caddr_t	client_data;
+   int		*source;
+   XtInputId	*input_id;
+{
+     char	buf[BUFSIZ];
+     
+     printf("Input received on fd %d.\n", *source);
+     scanf("%s", buf);
+     printf("\"%s\"\n", buf);
+}
+
+--- snip snip ---
+
+~% cc -I/mit/x11/include -L/mit/x11/vaxlib input-example.c -lXaw -lXmu -lXt -lX11
+~% a.out
+testing
+Input received on fd 0.
+"testing"
+Hi there!!
+Input received on fd 0.
+"Hi"
+^C~%
+
+Barr3y Jaspan, MIT-Project Athena
+bjaspan@athena.mit.edu
+Barry Jaspan, MIT-Project Athena
+bjaspan@athena.mit.edu
+Return-Path: @BLOOM-BEACON.MIT.EDU:xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Fri, 10 Nov 89 02:54:38 EST
+Received:  by BLOOM-BEACON.MIT.EDU (5.61/25-eef)
+	id AA01493; Fri, 10 Nov 89 02:25:04 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 10 Nov 89 06:35:01 GMT
+From: turnpike!argv@sun.com  (Dan Heller)
+Subject: Re: XtAddInput problem
+Message-Id: <127714@sun.Eng.Sun.COM>
+References: <8911081827.AA12003@turnpike.sun.com>, <294@nap1.cds.wpafb.af.mil>, <15783@bloom-beacon.MIT.EDU>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <15783@bloom-beacon.MIT.EDU> bjaspan@athena.mit.edu (Barr3y Jaspan) writes:
+> I've seen random discussion about the use of XtAddInput() and about
+> how it supposedly does not work.  It *does* work, and I will attempt
+> to clear up the confusion.
+
+Ironic -- I was just about to post a followup to my previous message
+but you beat me to it.  Well, you said just about what I was going to
+say.  I was mistaken about a couple of things which caused the confusion.
+Agreed -- this function _does_ work.  However, there is a case where
+it's difficult to tell :-)  I think someone pointed out the problem in
+another message recently, but didn't emphasize it strongly enough and I
+think it should be because it also addresses the confusion I mentioned
+above.
+
+I originally said that XtAddInput didn't work because it called your
+routine constantly whether there was input there to be read or not.
+This isn't true _until it reaches EOF_.  Because the file descriptor
+has been modified (FNDELAY I believe), when you're reading on a *file*
+and you get to the end of the file, read() no longer returns -1, it
+returns 0 and your function is called.  It's hard to tell what the
+right thing to do is -- if you want to monitor a file (ala tail -f),
+then you're going to have to put up with your function getting called
+all the time and your having to do ioctl(fd, FIONREAD, &n) to find
+out if there is anything actually there to be read.  The problem here
+is that your cpu-usage goes thru the roof.
+
+This is not a problem on pipes and other types of file descriptors.
+dan
+Return-Path: @BLOOM-BEACON.MIT.EDU:xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Thu, 2 Nov 89 12:23:09 EST
+Received:  by BLOOM-BEACON.MIT.EDU (5.61/25-eef)
+	id AA19539; Thu, 2 Nov 89 12:05:53 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 2 Nov 89 16:18:21 GMT
+From: turnpike!argv@sun.com  (Dan Heller)
+Organization: Sun Microsystems, Mountain View
+Subject: Re: Handling other input sources
+Message-Id: <127266@sun.Eng.Sun.COM>
+References: <11903@burdvax.PRC.Unisys.COM>, <8911021243.AA13857@LYRE.MIT.EDU>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <8911021243.AA13857@LYRE.MIT.EDU> swick@ATHENA.MIT.EDU (Ralph R. Swick) writes:
+> > By putting a print statement at the top of the
+> > input callback, I found that it is being called continually, not just
+> > when new input appears on the pipe.
+> 
+> Have you installed public fix #8?
+
+I've seen the exact same problem in R4-Alpha.  The problem is that
+the select() call in WaitForSomething (or whatever it's called)
+determines that a file descriptor is "ready" for reading, but there
+is no associated ioctl(fd, FIONREAD, &n) to get the number of bytes
+to read, if any.  There -is- a call there, but it's only called in
+a case that doesn't apply to what we're looking for.  I don't have 
+the sources in front of me, so I can't be more specific.  However,
+I have check into this last week and verified the oversight.
+
+The workaround is for your routine to do the said ioctl() (above)
+and returning if nothing's there to be read.  But even if  your
+routine just returns and does nothing else, you'll notice a dramatic
+increase in your cpu usage.
+
+If you are using pipes, then you're a little better off -- especially
+if you're just reading or writing (as opposed to reading -and- writing).
+When you're done sending/receiving data to/from the pipe, close the
+pipe and XtRemoveInput (xmh does this).
+(btw, be sure to pick up the dead child from the fork.)
+
+However, if you want to use this function to sit and wait for data
+to be put into a file, then until they fix the XtAddInput thing, I
+recommend that you use an alternate method -- use XtAddTimeOut and
+set it for every 1 second or so.  Your callback for the timeout
+can do the ioctl() to see if there's any data to be read, and if
+so, manually call the same routine that you would have installed
+for XtAddInput().  Your cpu will be very grateful.
+
+dan
+Return-Path: wohler@itstd.sri.com
+Received: from milkfs.itstd.sri.com by expo.lcs.mit.edu; Tue, 28 Nov 89 06:17:02 EST
+Received: from localhost by milkfs.itstd.sri.com (5.61/1.3davy)
+	id AA07183; Tue, 28 Nov 89 03:21:15 -0800
+Message-Id: <8911281121.AA07183@milkfs.itstd.sri.com>
+To: argv@sun.com (Dan Heller)
+Cc: istc-sw@spam.itstd.sri.com, jim@expo.lcs.mit.edu, hesh@lll-crg.llnl.gov,
+        xpert@expo.lcs.mit.edu
+Cc: wohler@itstd.sri.com
+Organization: SRI International, Heidelberg, W. Germany
+Phone: Office--06221/577242  Home--06221/163255
+In-Reply-To: Dan Heller's message of Wed, 08 Nov 89 10:27:10 PST.
+	     <8911081827.AA12003@turnpike.sun.com> 
+Subject: Re: redirecting stderr; passing arg lists 
+Date: Tue, 28 Nov 89 03:21:13 PST
+From: Bill Wohler <wohler@itstd.sri.com>
+
+dan,
+
+  thanks to you and ted nolan for helping me with my problem.  the
+  reason i didn't reply sooner is that i had to do a bit of hacking to
+  your solution.
+
+  to snarf stderr, i piped and dupped as you said.  i also found that
+  things worked better to make the pipes unbuffered since a newline
+  was not always in the error messages.
+
+  to check if there was any input to read in stderr, you suggested:
+
+         ioctl(stderr_pipe[0], FIONREAD, &stuff_to_read);
+
+     If (stuff_to_read == 0), then return.  NOTE: you should do that
+     in the callback routine specified in XtAddInput anyway!  This is
+     what Xt should be doing before it decides to call your callback
+     routine (which is why it's "broken").
+
+  this works great on my sun.  however, the x folks would not want to
+  put this in their toolkit since the FIONREAD is documented not to
+  support pipes in hpux and it is also documented not to be
+  implemented at all on the 300 series (woe is me!)
+
+  alternatively, i tried select, except that select still said that
+  there was stuff in the input buffer after my read!  so that was of
+  no use (unless someone can explain why this was so).
+
+  my final solution was to use a non-blocking read.  appears to work
+  great.  how inefficient or ugly is this?  here are the code
+  fragments that work on both my sun (os 3.4) and hp (hp9000s300, os
+  6.2). 
+
+  dan, guess i still owe you a couple of bottles of weizen or so. ;-)
+
+static
+dbat_errinit()
+{
+	int stderr_pipe[2];		/* maybe needs to be static? */
+	extern	int dbat_errdisp();
+
+	(void)pipe(stderr_pipe);
+	(void)dup2(stderr_pipe[1], fileno(stderr));
+	(void)fcntl(stderr_pipe[0], F_SETFL, O_NDELAY);
+	setbuf(stderr, NULL);
+	XtAddTimeOut(ERRDISP_UPDATE*MSECPERSEC, dbat_errdisp, stderr_pipe[0]);
+}
+
+static
+dbat_errdisp(client_data, id)
+	caddr_t	client_data;
+	XtIntervalId *id;
+{
+	int	fd = (int)client_data;
+	register int chrs;
+	char	buf[BUFSIZ];
+	extern	int dbat_errdisp();
+
+	buf[0] = '\0';
+	chrs = read(fd, buf, sizeof(buf));
+
+	if (buf[0]) {
+		buf[chrs] = '\0';
+		XwTextInsert(Errors, buf);
+	}
+
+	XtAddTimeOut(ERRDISP_UPDATE*MSECPERSEC, dbat_errdisp, fd);
+}
+Return-Path: argv@sun.com
+Received: from Sun.COM by expo.lcs.mit.edu; Wed, 8 Nov 89 13:31:21 EST
+Received: from snail.Sun.COM (snail.Corp.Sun.COM) by Sun.COM (4.1/SMI-4.1)
+	id AA02785; Wed, 8 Nov 89 10:30:45 PST
+Received: from turnpike.sun.com (turnpike-b) by snail.Sun.COM (4.1/SMI-4.1)
+	id AA13230; Wed, 8 Nov 89 10:28:01 PST
+Received: by turnpike.sun.com (4.0/SMI-4.0)
+	id AA12003; Wed, 8 Nov 89 10:27:11 PST
+Message-Id: <8911081827.AA12003@turnpike.sun.com>
+From: argv@sun.com (Dan Heller)
+Date: Wed, 8 Nov 89 10:27:10 PST
+In-Reply-To: Bill Wohler's 57-line message [Nov  8, 10:01am]
+Phone: (415) 499-UNIX
+X-Mailer: Mail User's Shell (7.0b.0 10/4/89)
+To: Bill Wohler <wohler@itstd.sri.com>, istc-sw@spam.itstd.sri.com
+Subject: Re: redirecting stderr; passing arg lists
+Cc: jim@expo.lcs.mit.edu, hesh@lll-crg.llnl.gov, xpert@expo.lcs.mit.edu
+
+> On Nov  8, 10:01am, Bill Wohler wrote:
+>   i want to redirect all of the output going to stderr and have it go
+>   to a X toolkit widget instead of the controlling window.  i figured
+>   a 
+> 	XtAddInput(fileno(stderr), XtInputReadMask|XtInputWriteMask, 
+> 		   output_procedure, output_widget);
+If you've been reading comp.windows.x, you'll see a very short-lived
+discussion about how XtAddInput is broken --I recommend *strongly*
+that you avoid using it till it's fixed.  This includes R4; I checked
+the source.  The problem is that your routine gets called continuously
+rather than, as the spec says, "when there is data to be read."
+(details below.)
+
+You can redirect stderr of a process to a widget quite simply :-)
+
+    int stderr_pipe[2];
+    ...
+    pipe(stderr_pipe); /* set up a pipe */
+    dup2(stderr_pipe[1], fileno(stderr)); /* redirect stderr to pipe */
+
+Now your stderr has been closed and any writing to stderr will now go
+thru the pipe.  You have to read the data from the other end of the pipe.
+If you want to continue to use FILE *'s to read stderr, then you can do
+the following:
+    FILE *fp = fdopen(stderr_pipe[0], "r");  /* read the other end of pipe */
+Now you can do things like'
+    fgets(buf, sizeof buf, fp);
+Note, this is buffered IO now, so you might want to setbuf(fp, NULL).
+
+Now that you have stderr redirected to a place you can read from, you
+need to determine when there is data to be read.  As you noted, the
+best way to do it would be using XtAddInput() almost as you had it above.
+Just remove the "WriteMask" becuase you're not writing to the filedesc.
+	XtAddInput(stderr_pipe[0], XtInputReadMask, 
+		   widget_output_procedure, output_widget);
+The problem here is that widget_output_procedure() is going to be called
+continuously.  So, instead, I recommend that you set up a timer to
+time out evewry 5 seconds or so using XtAddTimeOut(...).  (I'm not going
+to go into the details about how to use this function.)  When your callback
+function from the timer is called, simply check if there is stuff to read:
+    ioctl(stderr_pipe[0], FIONREAD, &stuff_to_read);
+If (stuff_to_read == 0), then return.  NOTE: you should do that in the
+callback routine specified in XtAddInput anyway!  This is what Xt should be
+doing before it decides to call your callback routine (which is why it's
+"broken").
+
+-----------
+>   as a workaround, i then replaced all my fprintf(stderrs) with a
+>   function call to write directly to the widget.
+> 	output_procedure("%s: cannot open %s.", "mycommand", filename);
+
+void
+output_procedure(va_alist)
+va_dcl
+{
+    char *fmt, buf[BUFSIZ];
+    va_list args;
+
+    va_start(args);
+    fmt = va_arg(args, char *);
+    (void) vsprintf(buf, fmt, args);
+    va_end(args);
+    WidgetSet(output_widget, XtNstring, buf, NULL);
+}
+
+>   a six-pack of weitzen to the person who solves problem 2 and a case
+>   each of weitzen and pils to the person who solves problem 1.  thanks!!!
+I'll be in your neighborhood around xmas time -- I'm looking
+forward to those Pils!
+
+
+					--dan
+Return-Path: @BLOOM-BEACON.MIT.EDU:xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Thu, 9 Nov 89 22:54:51 EST
+Received:  by BLOOM-BEACON.MIT.EDU (5.61/25-eef)
+	id AA27974; Thu, 9 Nov 89 22:38:26 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 10 Nov 89 01:22:06 GMT
+From: hplabsz!mayer@hplabs.hp.com  (Niels Mayer)
+Organization: Hewlett-Packard Labs, Software Technology Lab, Palo Alto, CA.
+Subject: Re: redirecting stderr; passing arg lists
+Message-Id: <4338@hplabsz.HPL.HP.COM>
+References: <8911081827.AA12003@turnpike.sun.com>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <8911081827.AA12003@turnpike.sun.com> argv@SUN.COM (Dan Heller) writes:
+>If you've been reading comp.windows.x, you'll see a very short-lived
+>discussion about how XtAddInput is broken --I recommend *strongly*
+>that you avoid using it till it's fixed.  This includes R4; I checked
+>the source.  The problem is that your routine gets called continuously
+>rather than, as the spec says, "when there is data to be read."
+>(details below.)
+
+Thanks for the info, Dan. However, I need some clarification:
+
+I've been using XtAddInput() with no problems in programs like xwebster
+(ftp from expo.lcs.mit.edu:contib/xwebster.tar.Z) and winterp (hopefully on
+x11r4 contrib tape). I have not noticed the problems you describe in either
+program.
+
+Does the problem arise only when trying to use XtAddInput() with a
+FILE*/Pipe? I think I might have seen such problems in an early version of
+xwebster in which I communicated to the webster dictionary server via a
+telnet process that had been popen'd. I then decided to make things more
+efficient by mucking with sockets directly. Winterp also uses sockets
+selected via XtAddInput() in order to allow other programs to send lisp
+forms to the "widget interpreter" (a lisp server). Both of these use
+XtAddInput() with no problems that I can tell.
+
+I seem to have missed the "short lived iscussion about how XtAddInput is
+broken". Would anyone happen to have it archived anywhere? Can you
+mail it to me, or repost it?
+
+-------------------------------------------------------------------------------
+	    Niels Mayer -- hplabs!mayer -- mayer@hplabs.hp.com
+		  Human-Computer Interaction Department
+		       Hewlett-Packard Laboratories
+			      Palo Alto, CA.
+				   *
+Return-Path: @BLOOM-BEACON.MIT.EDU:xpert-request@expo.lcs.mit.edu
+Received: from BLOOM-BEACON.MIT.EDU by expo.lcs.mit.edu; Fri, 10 Nov 89 03:25:15 EST
+Received:  by BLOOM-BEACON.MIT.EDU (5.61/25-eef)
+	id AA02386; Fri, 10 Nov 89 03:19:51 EST
+Received: from USENET by bloom-beacon.mit.edu with netnews
+	for xpert@expo.lcs.mit.edu (xpert@expo.lcs.mit.edu)
+	(contact usenet@bloom-beacon.mit.edu if you have questions)
+Date: 10 Nov 89 06:42:33 GMT
+From: turnpike!argv@sun.com  (Dan Heller)
+Subject: Re: redirecting stderr; passing arg lists
+Message-Id: <127715@sun.Eng.Sun.COM>
+References: <8911081827.AA12003@turnpike.sun.com>, <4338@hplabsz.HPL.HP.COM>
+Sender: xpert-request@expo.lcs.mit.edu
+To: xpert@expo.lcs.mit.edu
+
+In article <4338@hplabsz.HPL.HP.COM> mayer@hplabs.hp.com (Niels Mayer) writes:
+> In article <8911081827.AA12003@turnpike.sun.com> argv@SUN.COM (Dan Heller) writes:
+> >If you've been reading comp.windows.x, you'll see a very short-lived
+> >discussion about how XtAddInput is broken --I recommend *strongly*
+> >that you avoid using it till it's fixed.
+
+I feel awful every time I read that :-|  Sorry, XtAddInput is fine..
+My apologies to those I may have confused/offended :-)  My previous note
+on this issue attempts to discuss the problem of what to do when EOF
+is reached.  I can't add to much to that part of the discussion tho,
+since I haven't had the time to play with it much more than I already
+have ...
+
+However, the whole issue about redirecting stderr is still viable.
+You can use the code I explained in the original message to redirect
+stderr of forked programs or even your own program to a pipe in which
+you can read it and send the data to a text widget/object of some kind.
+This is quite useful..
+
+> I seem to have missed the "short lived iscussion about how XtAddInput is
+> broken". Would anyone happen to have it archived anywhere? Can you
+> mail it to me, or repost it?
+
+It's about 100 messages back from this one (depending on your new server),
+and having reread it, you're not missing a thing :-)
+
+> 		  Human-Computer Interaction Department
+That sounds scary ...or kinky.   ;-)
+
+dan

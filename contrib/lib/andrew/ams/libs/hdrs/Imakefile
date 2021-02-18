@@ -1,0 +1,28 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+h_FILES		=	ams.h hdrparse.h amsvers.h \
+			cui.h cuivers.h ms.h msvers.h \
+			errlvls.h mserrno.h snapams.h
+
+h_DIR		=	include/ams
+
+HEAD		=	hello.hdr
+
+#ifdef	CMU_ENV
+BODY		=	andhello.bod
+#else /* CMU_ENV */
+BODY		=	xhello.bod
+#endif /* CMU_ENV */
+
+install.time:: Hello
+
+Hello:	${HEAD} ${BODY}
+	cat ${HEAD} ${BODY} > Hello
+
+InstallMultiple(${h_FILES},${INSTINCFLAGS},${DESTDIR}/${h_DIR})
+InstallFileToFile(andcuim.h,${INSTINCFLAGS},${DESTDIR}/${h_DIR}/cuimach.h)
+InstallFile(Hello,${INSTINCFLAGS},${DESTDIR}/lib)
+CleanTarget(Hello)
+DependTarget()

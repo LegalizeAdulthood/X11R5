@@ -1,0 +1,61 @@
+.\" $Header: PEXtOpenPX.man,v 1.0 91/10/04 17:02:07 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtOpenPEX 3PEXt "May 29th, 1990"
+.SH NAME
+\fBPEXtOpenPEX\fP \(em open PHIGS Extensions to X on the given display
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.sp 1
+Boolean PEXtOpenPEX (\fIdisplay, error_file, memory_size, program_name,
+application_class, options, num_options, argc, argv\fP)
+.br
+.ta .5i 2i
+	Display	\fI* display\fP;
+.br
+	String	\fIerror_file\fP;
+.br
+	Cardinal	\fImemory_size\fP;
+.br
+	String	\fIprogram_name\fP;
+.br
+	String	\fIapplication_class\fP;
+.br
+	XrmOptionDescRec	\fIoptions\fP;
+.br
+	Cardinal	\fInum_options\fP;
+.br
+	Cardinal	\fI* argc\fP;
+.br
+	String	\fIargv\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHCL, *, *, *)
+.fi
+\fP
+.SH DESCRIPTION
+This convenience procedure opens the PHIGS Extensions to X (PEX) for an
+environment where the PHIGS Monitor and client-side structure traversal
+are not needed.  After attempting to open PEX, the routine examines the PHIGS
+system state variable to verify the operation.  The routine returns TRUE if
+PHIGS is in the open system state (PHOP); otherwise the routine returns
+FALSE.
+.SH RETURN VALUE
+Returns a boolean success code indicating if the PHIGS Extensions to X (PEX)
+were successfully opened.
+.SH SEE ALSO
+\fBPEXtInitialize\fP(3)
+.br
+\fBpopen_pex\fP(3)
+.sp 1
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

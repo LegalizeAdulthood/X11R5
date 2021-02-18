@@ -1,0 +1,30 @@
+				GWM KNOWN BUGS:
+				###############
+
+This is the list of bugs that we are aware of in the current release.
+
+				###############
+
+in mwm emulation, if you select something in a menu icon and re-click too fast
+just after, the pop-up menu and icon title will stay on screen.
+
+the new mwm-like resize style is not fully operational yet
+
+there is not way to know that a window is resized
+
+gwm does not use motion events, resulting in some cases of polling the server
+(active waiting)
+
+Many built-in functions still do not check the type of their arguments,
+causing possible bus errors when handled the wrong type of arguments.
+We try to catch some bus errors, though...
+
+"exit" to a tag outside of a file being loaded do impredictable results
+
+The standard profile is not "polished" yet -- all contributions are welcome
+
+The debugging functions are very crude.
+
+We need to add new functions, you cannnot emulate fully all window managers
+with the ones provided in this release...
+

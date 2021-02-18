@@ -1,0 +1,195 @@
+#! /bin/csh -f
+#
+# pswtest
+#
+# Copyright (C) 1988-1991 by Adobe Systems Incorporated.
+# All rights reserved.
+#
+# Permission to use, copy, modify, and distribute this software and its
+# documentation for any purpose and without fee is hereby granted,
+# provided that the above copyright notices appear in all copies and that
+# both those copyright notices and this permission notice appear in
+# supporting documentation and that the name of Adobe Systems
+# Incorporated not be used in advertising or publicity pertaining to
+# distribution of the software without specific, written prior
+# permission.  If any portion of this software is changed, it cannot be
+# marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+# its sole discretion, approves by a prior writing the quality of the
+# resulting implementation.
+# 
+# ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+# ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+# ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+# IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+# NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+# TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+# DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+# NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+# CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+# PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+# 
+# PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+# Incorporated registered in the U.S.A. and other countries.
+#
+# Author: Adobe Systems Incorporated
+#
+#
+#	This script is a test for the pswrap program. There are six levels
+#	of severity of error:
+#
+#		1) pswrap gave up because of syntax errors
+#		2) the generated C code produced a syntax error
+#		3) runtime error: 
+#		    the DPS interpretor discovered a postscript syntax error
+#		    or UNIX detected an error, eg. the program core dumped
+#		4) the graphical output of the wrap was unexpected
+#		5) linecheck error
+#		6) unexpected output to server
+# 
+# 	Warnings:
+#		1) pswrap generated unexpected syntax errors
+#		2) pswrap generated unexpected C code
+#
+#
+#	Arguments:
+#	    pswtest
+#
+
+set ANSI=0
+set PSWRAP=../../clients/pswrap/pswrap
+
+if (! -x $PSWRAP) then
+  echo "Can't find "'"'$PSWRAP'"'
+  exit 1
+endif
+
+echo Testing $PSWRAP
+
+echo Error detection test ...
+
+  $PSWRAP badfile.psw -o badfile.c -h badfile.h >& errorfile
+  if(! { cmp errorfile bad.tmpl }) then
+    echo "Level one warning - pswrap failed error detection"
+    cat errorfile
+  endif
+  
+echo Code generation comparison test ...
+
+  $PSWRAP goodfile.psw -o goodfile.c -h goodfile.h >& errorfile
+  if(! { cmp goodfile.c good.tmpl }) then
+    echo "Level two warning - pswrap generated unexpected output in the"
+    echo "                    C file"
+    diff goodfile.c good.tmpl
+  endif
+  
+  if(! { cmp goodfile.h good.h.tmpl }) then
+    echo "Level two warning - pswrap generated unexpected output in the"
+    echo "                    header file"
+    diff goodfile.h good.h.tmpl
+  endif
+  
+  if(! -z errorfile) then
+    echo "Level one error - pswrap was unable to successfully generate code"
+    cat errorfile
+    exit
+  endif
+  
+  $PSWRAP -a goodfile.psw -o goodfileA.c -h goodfileA.h >& errorfile
+  if(! { cmp goodfileA.c goodA.tmpl }) then
+    echo "Level two warning - pswrap generated unexpected output in the"
+    echo "                    ANSI C file "
+    diff goodfileA.c goodA.tmpl
+  endif
+  
+  if(! { cmp goodfileA.h goodA.h.tmpl }) then
+    echo "Level two warning - pswrap generated unexpected output in the"
+    echo "                    ANSI header file"
+    diff goodfileA.h goodA.h.tmpl
+  endif
+  
+  if(! -z errorfile) then
+    echo "Level one error - pswrap was unable to successfully generate"
+    echo "                  ANSI C code"
+    cat errorfile
+    exit
+  endif
+  
+echo C compilation test ...
+    
+  rm -f goodfile
+  (make goodfile > /dev/null) >& errorfile
+  if(! -z errorfile) then
+    echo "Level two error - C compilation error"
+    cat errorfile
+  endif
+  
+if ($ANSI) then
+  
+  rm -f goodfileA
+  (make goodfileA > /dev/null) >& errorfile
+  if(! -z errorfile) then
+    echo "Level two error - ANSI C compilation error"
+    cat errorfile
+  endif
+endif
+
+echo Running the test programs ...
+
+  (goodfile -a  psfile) >& Errorfile
+  sleep 5
+
+if ($ANSI) then
+  (goodfileA -a psfileA) >& ErrorfileA
+  sleep 5
+endif
+
+  cat Errorfile | sed -e "/DPSOpen/d" > errorfile ; rm Errorfile
+  if(! { cmp errorfile dpsout.tmpl }) then
+    echo "Level three error, error occured during execution"
+    cat errorfile
+  endif
+
+if ($ANSI) then
+  cat ErrorfileA | sed -e "/DPSOpen/d" > errorfileA ; rm ErrorfileA
+  if(! { cmp errorfileA dpsout.tmpl }) then
+    echo "Level three error, error occured during ANSI file execution"
+    cat errorfileA
+  endif
+endif
+
+
+echo Verifying output to server ...
+
+  if(! { cmp psfile ascii.tmpl }) then 
+    echo "Level six error, unexpected output to server"
+    diff psfile ascii.tmpl
+  endif
+
+if ($ANSI) then
+  if(! { cmp psfileA asciiA.tmpl }) then 
+    echo "Level six error, unexpected output to server from ANSI wrap"
+    diff psfileA asciiA.tmpl
+  endif
+endif
+
+ 
+echo Verifying line numbers ...
+
+  linecheck goodfile.c  >& errorfile
+  if(! -z errorfile) then
+    echo "Level five error, incorrect line numbers in C file"
+    cat errorfile
+  endif
+  
+if ($ANSI) then
+  linecheck goodfileA.c  >& errorfile
+  if(! -z errorfile) then
+    echo "Level five error, incorrect line numbers in ANSI C file"
+    cat errorfile
+  endif
+endif
+
+make clean
+
+echo Passed pswrap test suite.
+

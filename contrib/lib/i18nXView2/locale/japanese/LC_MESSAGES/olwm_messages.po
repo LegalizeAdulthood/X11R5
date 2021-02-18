@@ -1,0 +1,336 @@
+#
+# @(#)olwm_messages.po 1.2 90/11/06; SMI
+#
+domain "olwm_messages"
+#
+# Error.c: line number: 217
+msgid "olwm: Fatal X Error: %s\n"
+msgstr "olwm: X の致命的エラー: %s\n"
+# STRING_EXTRACTION - The one error message consist of
+#		   next four text.
+#		 
+#
+# Error.c: line number: 237
+msgid "olwm: Warning, X Error: %s\n"
+msgstr "olwm: 警告、X エラー: %s。\n"
+#
+# Error.c: line number: 239
+msgid "  Request Major code: %d\n"
+msgstr "  リクエスト・メジャーコード: %d。\n"
+#
+# Error.c: line number: 241
+msgid "  Request Minor code: %d\n"
+msgstr "  リクエスト・マイナーコード: %d\n"
+#
+# Error.c: line number: 243
+msgid "  ResourceId 0x%x\n"
+msgstr "  リソース Id 0x%x\n"
+# STRING_EXTRACTION - The one error message consist of
+#		   next six text.
+#		 
+#
+# Error.c: line number: 263
+msgid "olwm: Fatal X Error: %s\n"
+msgstr "olwm: 致命的エラー: %s。\n"
+#
+# Error.c: line number: 265
+msgid "  Request Major code: %d\n"
+msgstr "  リクエスト・メジャーコード: %d。\n"
+#
+# Error.c: line number: 267
+msgid "  Request Minor code: %d\n"
+msgstr "  リクエスト・マイナーコード: %d。\n"
+#
+# Error.c: line number: 269
+msgid "  ResourceId 0x%x\n"
+msgstr "  リソース Id 0x%x。\n"
+#
+# Error.c: line number: 271
+msgid "  Error Serial #%d\n"
+msgstr "  エラーシリアル番号 #%d。\n"
+#
+# Error.c: line number: 273
+msgid "  Current Serial #%d\n"
+msgstr "  現在のシリアル番号 #%d。\n"
+#
+# Error.c: line number: 304
+msgid "olwm: Fatal Error: %s\n"
+msgstr "olwm: 致命的エラー: %s。\n"
+#
+# Error.c: line number: 324
+msgid "olwm: Warning: %s\n"
+msgstr "olwm: 警告: %s。\n"
+#
+# WinInfo.c: line number: 66
+msgid "Tried to duplicate-register a window -- bailing"
+msgstr "ウィンドウを複写-登録しようとした。bailing。"
+#
+# events.c: line number: 426
+msgid "olwm: warning, nested event interposer!\n"
+msgstr "olwm: 警告、ネストされたイベント・インターポーザ！\n"
+#
+# mem.c: line number: 33
+msgid "Memory allocation failure."
+msgstr "メモリ・アロケーション失敗。"
+#
+# mem.c: line number: 55
+msgid "Memory array allocation failure."
+msgstr "メモリ配列アロケーション失敗。"
+#
+# menu.c: line number: 649
+msgid "olwm: no more active menus!\n"
+msgstr "olwm: アクティブメニューがない。\n"
+#
+# menu.c: line number: 1045
+msgid "olwm: wrong event type passed to menuSearch\n"
+msgstr "olwm: menuSearch に誤ったイベントタイプが渡された。\n"
+#
+# olwm.c: textdomain(), line number: 351, domain: olwm
+#
+# olwm.c: line number: 395
+msgid "%s: cannot connect to %s\n"
+msgstr "%s: コネクトできない。コネクト先 = %s。\n"
+#
+# olwm.c: line number: 427
+msgid "Perhaps there is another window manager running?"
+msgstr "他のウィンドウマネージャが存在していると思われる。"
+#
+# olwm.c: line number: 470
+msgid "olwm: child cannot disinherit TCP fd"
+msgstr "olwm: 子ウィンドウは TCP fd を排除できない。"
+# STRING_EXTRACTION - The next two text will
+#			   concatenate to make part of error message
+#			   (usage).
+#			 
+#
+# olwm.c: line number: 573
+msgid "Command line arguments accepted"
+msgstr "アクセプトされたコマンドラインの引き数"
+#
+# olwm.c: line number: 574
+msgid "are:"
+msgstr "は:"
+# STRING_EXTRACTION - The next two text will
+#			   concatenate to make part of error message
+#			   (usage).
+#			 
+#
+# olwm.c: line number: 584
+msgid "Unknown argument(s)"
+msgstr "未知の引き数が"
+#
+# olwm.c: line number: 585
+msgid "encountered"
+msgstr "渡された"
+#
+# olwm.c: line number: 781
+msgid "olwm: got SIGCHLD but found no children\n"
+msgstr "olwm: SIGCHLD を受け取ったが、子ウィンドウが見つからない。\n"
+# STRING_EXTRACTION - do not translate "-display" ,"-name"
+#	   and "-xrm", becuase those are namne of command line option.
+#	 
+#
+# olwm.c: line number: 813
+msgid "\t[-display <display>] [-name <classname>] [-xrm <rsrcstring>]\n"
+msgstr "\t[-display <display>] [-name <classname>] [-xrm <rsrcstring>]\n"
+# STRING_EXTRACTION - The next 13 text are part of window
+#	   menu.
+#	 
+#
+# olwm.c: line number: 924
+msgid "Window"
+msgstr "ウィンドウ"
+#
+# olwm.c: line number: 925
+msgid "Open"
+msgstr "オープン"
+#
+# olwm.c: line number: 926
+msgid "Close"
+msgstr "クローズ"
+#
+# olwm.c: line number: 927
+msgid "Full Size"
+msgstr "フルサイズ"
+#
+# olwm.c: line number: 928
+msgid "Normal Size"
+msgstr "普通サイズ"
+#
+# olwm.c: line number: 929
+msgid "Properties"
+msgstr "プロパティ"
+#
+# olwm.c: line number: 930
+msgid "Back"
+msgstr "後ろへ"
+#
+# olwm.c: line number: 931
+msgid "Refresh"
+msgstr "再表示"
+#
+# olwm.c: line number: 932
+msgid "Quit"
+msgstr "終了"
+#
+# olwm.c: line number: 933
+msgid "This Window"
+msgstr "このウィンドウ"
+#
+# olwm.c: line number: 934
+msgid "All Pop-ups"
+msgstr "すべてのポップアップ"
+#
+# olwm.c: line number: 935
+msgid "Dismiss"
+msgstr "終了"
+#
+# olwm.c: line number: 936
+msgid "Owner?"
+msgstr "オーナー表示"
+#
+# resources.c: line number: 674
+msgid "OLWM fatal error:  can't load glyph font \"%s\"; exiting\n"
+msgstr "OLWM の致命的エラー: グリフフォント \"%s\" をロードできない; exiting。\n"
+# STRING_EXTRACTION - The next two text are button
+#		   name for notice window which has message as third
+#		   text.
+#		 
+#
+# services.c: line number: 115
+msgid "Exit"
+msgstr "終了"
+#
+# services.c: line number: 116
+msgid "Cancel"
+msgstr "キャンセル"
+#
+# services.c: line number: 118
+msgid "Please confirm exit from window system"
+msgstr "ウィンドウ・システムの終了を確認してください。"
+# STRING_EXTRACTION - "psh" is command name (do not
+#		   translate).
+#		 
+#
+# services.c: line number: 218
+msgid "olwm: psh error: %d\n"
+msgstr "olwm: psh エラー: %d。\n"
+#
+# services.c: line number: 250
+msgid "Window controls not implemented\n"
+msgstr "ウィンドウ制御がインプリメントされていない。\n"
+# STRING_EXTRACTION - The next text is button name
+#		   for notice window which has message as second text.
+#		 
+#
+# services.c: line number: 336
+msgid "Ok"
+msgstr "ＯＫ"
+#
+# services.c: line number: 338
+msgid "Sorry, the clipboard is not yet implemented."
+msgstr "クリップボードはインプリメントされていません。"
+# STRING_EXTRACTION - The next text is button name
+#		   for notice window which has message as second text.
+#		 
+#
+# services.c: line number: 384
+msgid "Ok"
+msgstr "ＯＫ"
+#
+# services.c: line number: 386
+msgid "Sorry, Print Screen is not yet implemented."
+msgstr "画面印刷はインプリメントされていません。"
+# STRING_EXTRACTION - The next text is button name
+#	   for notice window which has message as second text.
+#	 
+#
+# services.c: line number: 570
+msgid "Cancel"
+msgstr "キャンセル"
+#
+# services.c: line number: 574
+msgid "Save Workspace could not be completed, because\nsome applications did not respond."
+msgstr "\"ワークスペースをセーブ\"ができない。\nいくつかのアプリケーションからの応答がない。"
+# STRING_EXTRACTION - The next text is button name
+#	   for notice window which has message as second text.
+#	 
+#
+# services.c: line number: 629
+msgid "Ok"
+msgstr "ＯＫ"
+#
+# services.c: line number: 630
+msgid "Save Workspace complete."
+msgstr "\"ワークスペースをセーブ\"完了。"
+# STRING_EXTRACTION - The next text is button name for notice
+#	   window which has message as second (or third) text.
+#	 
+#
+# services.c: line number: 784
+msgid "Cancel"
+msgstr "キャンセル"
+#
+# services.c: line number: 788
+msgid "Save Workspace cannot be performed, because no\nrunning applications understand the Save Workspace."
+msgstr "\"ワークスペースをセーブ\"が実行できない。\n実行中のアプリケーションがセーブワークスペースを解釈してしまう。"
+#
+# services.c: line number: 793
+msgid "Save Workspace cannot be performed, because\nyour home directory is unwritable."
+msgstr "\"ワークスペースをセーブ\"が実行できない。\nホーム・ディレクトリに書き込みができない。"
+#
+# slots.c: line number: 389
+msgid "Tried to multiply initialise Slots module\n"
+msgstr "初期化スロットモジュールを増加させようとした。\n"
+# STRING_EXTRACTION - The next text is menu title for entire
+#       workspace.
+#     
+#
+# usermenu.c: line number: 248
+msgid "Workspace Menu"
+msgstr "ワークスペースメニュー"
+#
+# usermenu.c: line number: 500
+msgid "olwm: syntax error in menu file %s, line %d\n"
+msgstr "olwm: シンタックスエラー、メニューファイル %s, 行番号 %d。\n"
+#
+# usermenu.c: line number: 516
+msgid "olwm: menu label mismatch in file %s, line %d\n"
+msgstr "olwm: メニューラベルの不一致、メニューファイル %s, 行番号 %d。\n"
+#
+# usermenu.c: line number: 553
+msgid "olwm: error in menu file %s, line %d\n"
+msgstr "olwm: エラー、メニューファイル %s, 行番号 %d。\n"
+# STRING_EXTRACTION - Since DEFAULT is keyword,
+#		       do not translate.
+#		     
+#
+# usermenu.c: line number: 562
+msgid "missing item after DEFAULT keyword.\n"
+msgstr "DEFAULT キーワードの後に項目がない。\n"
+#
+# usermenu.c: line number: 654
+msgid "olwm: format error in menu file %s, line %d\n"
+msgstr "olwm: メニューファイル %s のフォーマットが正しくない。行番号 %d。\n"
+# STRING_EXTRACTION - "END" and "PIN" is keyword.
+#		     
+#
+# usermenu.c: line number: 662
+msgid "menu title and END required before PIN keyword.\n"
+msgstr "PIN キーワードの前には、メニュータイトルおよび END が必要。\n"
+#
+# winipane.c: line number: 309
+msgid "An existing window was named as an icon window."
+msgstr "既存のウィンドウはアイコンウィンドウと名付けられた。"
+#
+# winipane.c: line number: 339
+msgid "An invalid window is was named as an icon window."
+msgstr "正しくないウィンドウはアイコンウィンドウと名付けられた。"
+#
+# winipane.c: line number: 373
+msgid "An invalid pixmap was named as an icon pixmap"
+msgstr "正しくない pixmap はアイコン pixmap と名付けられた。"
+#
+# winroot.c: line number: 513
+msgid "could not get attributes of root window"
+msgstr "ルートウィンドウの属性をゲットできない。"

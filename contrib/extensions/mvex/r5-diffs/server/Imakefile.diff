@@ -1,0 +1,72 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/RCS/Imakefile,v 
+*** 1.42	1991/09/21 21:14:06
+--- 1.44	1991/09/26 16:40:23
+***************
+*** 1,4 ****
+- XCOMM $XConsortium: Imakefile,v 1.133 91/07/26 20:55:42 rws Exp $
+  /*
+   * Server Master Makefile
+   */
+--- 1,3 ----
+***************
+*** 28,36 ****
+  		   $(PEXTENSIONSRC)/ospex/libospex.a 
+  #endif
+  #if BuildXInputExt
+!       OTHEREXTS = $(EXTENSIONSRC)/server/xinput/libxinput.a
+  #endif
+  
+          DEPDIRS = $(FONTSRC)/lib/font $(EXTENSIONSRC)/server
+       NONPEXEXTS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a
+       EXTENSIONS = $(NONPEXEXTS) $(PEXLIBS)
+--- 27,39 ----
+  		   $(PEXTENSIONSRC)/ospex/libospex.a 
+  #endif
+  #if BuildXInputExt
+!          XINPUT = $(EXTENSIONSRC)/server/xinput/libxinput.a
+  #endif
++ #if BuildMvex
++       VIDEOXEXT = $(EXTENSIONSRC)/mvex/server/libmvex.a
++ #endif
+  
++       OTHEREXTS = $(XINPUTEXT) $(VIDEOXEXT)
+          DEPDIRS = $(FONTSRC)/lib/font $(EXTENSIONSRC)/server
+       NONPEXEXTS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a
+       EXTENSIONS = $(NONPEXEXTS) $(PEXLIBS)
+***************
+*** 217,229 ****
+  #if UseSunWindowsInServer
+  SUNWINDOWSLIBS = -lsunwindow -lpixrect
+  #endif
+  SUBDIRS0 = MFBSubdirs
+  SUBDIRS1 = ddx/cfb
+! SUBDIRS2 = ddx/sun
+  SUNDIRS = $(SUBDIRS0) $(SUBDIRS1) $(SUBDIRS2) $(DEPDIRS)
+  SUNOBJS = ddx/sun/sunInit.o
+! SUNLIBS = ddx/sun/libsun.a CFBLibs
+! SUNSYSLIBS = $(SYSLIBS) $(SUNWINDOWSLIBS)
+  
+  ServerTarget(Xsun,$(SUNDIRS),$(SUNOBJS),$(SUNLIBS),$(SUNSYSLIBS))
+  #endif /* XsunServer */
+--- 220,240 ----
+  #if UseSunWindowsInServer
+  SUNWINDOWSLIBS = -lsunwindow -lpixrect
+  #endif
++ 
++ #if BuildRasterOps
++ #define need_ddx_rasterops
++ ROLIB = ddx/rasterops/libro.a
++ ROSUBDIR = ddx/rasterops
++ ROSYSLIBS = -lpixrect
++ #endif
++ 
+  SUBDIRS0 = MFBSubdirs
+  SUBDIRS1 = ddx/cfb
+! SUBDIRS2 = ddx/sun $(ROSUBDIR)
+  SUNDIRS = $(SUBDIRS0) $(SUBDIRS1) $(SUBDIRS2) $(DEPDIRS)
+  SUNOBJS = ddx/sun/sunInit.o
+! SUNLIBS = ddx/sun/libsun.a $(ROLIB) CFBLibs
+! SUNSYSLIBS = $(SYSLIBS) $(SUNWINDOWSLIBS) $(ROSYSLIBS)
+  
+  ServerTarget(Xsun,$(SUNDIRS),$(SUNOBJS),$(SUNLIBS),$(SUNSYSLIBS))
+  #endif /* XsunServer */

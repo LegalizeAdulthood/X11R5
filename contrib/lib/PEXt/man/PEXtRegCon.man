@@ -1,0 +1,2002 @@
+.ds f. PEXtRegCon.tbl
+'\" t
+.\" $Header: PEXtRegCon.tbl,v 1.0 91/10/04 17:02:08 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtRegisterConverters 3PEXt "January 11th, 1991"
+.SH NAME
+\fBPEXtRegisterConverters\fP \(em a function that registers PEX resource
+converters with the X toolkit.
+.SH SYNOPSIS
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/StringDefs.h>
+.sp 1
+void PEXtRegisterConverters ()
+.SS
+Required PHIGS Operating States
+.br
+(*, *, *, *)
+.fi
+.SH DESCRIPTION
+\fBPEXtRegisterConverters\fP registers resource type converters for many PEX
+representation types.  To obtain the resource representation and class symbols
+for the conversions discussed below, prepend \fBPEXtR\fP and \fBPEXtC\fP,
+respectively, to the name listed.  The following resource conversions are
+added by \fBPEXtRegisterConverters\fP:
+.sp 1
+.br
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81 82
+.nr 80 0
+.nr 38 \wName
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBClipFlag\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBColorBundle\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBControlFlag\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBCullMode\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBDeferralMode\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBDistinguishMode\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBEdgeFlag\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBGeneralColor\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBHLHSRMode\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBInteriorStyle\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBIntList\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBLightSourceType\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBLimit3\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBLineType\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBModificationMode\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPoint\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPoint3\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBProjectionType\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBReflectanceEquation\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBResizePolicy\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBShadingMethod\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBTraversalPolicy\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBVector\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBVector3\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBWorkstationType\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wC Data Type
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPclip_ind\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPcolr_rep\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPctrl_flag\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPcull_mode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPdefer_mode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPdisting_mode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPedge_flag\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPgcolr\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint_list\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPlimit3\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPmod_mode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPpoint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPpoint3\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPproj_type\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPEXtResizePolicy\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPEXtTraversalPolicy\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPvec\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPvec3\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPint\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 82 0
+.nr 38 \wMeaning
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wClipping indicator
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wColor table entry bundle
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wWorkstation update control flag
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wFace culling mode
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wWorkstation deferral mode
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wFace distinguish mode
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wEdge flag indicator
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wGeneralized color
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wGravity attribute
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wHidden line, surface removal mode
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wInterior style
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wInteger list
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wLight source type
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \w3D coordinate space limits
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wLine type
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wWorkstation modification mode
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \w2D point coordinate
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \w3D point coordinate
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wProjection type
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wReflectance equation
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wWorkstation resize policy
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wShading method
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wWorkstation traversal policy
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \w2D vector
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \w3D vector
+.if \n(82<\n(38 .nr 82 \n(38
+.nr 38 \wWorkstation type
+.if \n(82<\n(38 .nr 82 \n(38
+.82
+.rm 82
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr 42 \n(81+(3*\n(38)
+.nr 82 +\n(42
+.nr TW \n(82
+.if t .if \n(TW>\n(.li .tm Table at line 61 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'Name\h'|\n(41u'C Data Type\h'|\n(42u'Meaning
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBClipFlag\fP\h'|\n(41u'\fBPclip_ind\fP\h'|\n(42u'Clipping indicator
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBColorBundle\fP\h'|\n(41u'\fBPcolr_rep\fP\h'|\n(42u'Color table entry bundle
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBControlFlag\fP\h'|\n(41u'\fBPctrl_flag\fP\h'|\n(42u'Workstation update control flag
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBCullMode\fP\h'|\n(41u'\fBPcull_mode\fP\h'|\n(42u'Face culling mode
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBDeferralMode\fP\h'|\n(41u'\fBPdefer_mode\fP\h'|\n(42u'Workstation deferral mode
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBDistinguishMode\fP\h'|\n(41u'\fBPdisting_mode\fP\h'|\n(42u'Face distinguish mode
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBEdgeFlag\fP\h'|\n(41u'\fBPedge_flag\fP\h'|\n(42u'Edge flag indicator
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBGeneralColor\fP\h'|\n(41u'\fBPgcolr\fP\h'|\n(42u'Generalized color
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBGravity\fP\h'|\n(41u'\fBint\fP\h'|\n(42u'Gravity attribute
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBHLHSRMode\fP\h'|\n(41u'\fBPint\fP\h'|\n(42u'Hidden line, surface removal mode
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBInteriorStyle\fP\h'|\n(41u'\fBPint\fP\h'|\n(42u'Interior style
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBIntList\fP\h'|\n(41u'\fBPint_list\fP\h'|\n(42u'Integer list
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBLightSourceType\fP\h'|\n(41u'\fBPint\fP\h'|\n(42u'Light source type
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBLimit3\fP\h'|\n(41u'\fBPlimit3\fP\h'|\n(42u'3D coordinate space limits
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBLineType\fP\h'|\n(41u'\fBPint\fP\h'|\n(42u'Line type
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBModificationMode\fP\h'|\n(41u'\fBPmod_mode\fP\h'|\n(42u'Workstation modification mode
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPoint\fP\h'|\n(41u'\fBPpoint\fP\h'|\n(42u'2D point coordinate
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPoint3\fP\h'|\n(41u'\fBPpoint3\fP\h'|\n(42u'3D point coordinate
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBProjectionType\fP\h'|\n(41u'\fBPproj_type\fP\h'|\n(42u'Projection type
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBReflectanceEquation\fP\h'|\n(41u'\fBPint\fP\h'|\n(42u'Reflectance equation
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBResizePolicy\fP\h'|\n(41u'\fBPEXtResizePolicy\fP\h'|\n(42u'Workstation resize policy
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBShadingMethod\fP\h'|\n(41u'\fBPint\fP\h'|\n(42u'Shading method
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBTraversalPolicy\fP\h'|\n(41u'\fBPEXtTraversalPolicy\fP\h'|\n(42u'Workstation traversal policy
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBVector\fP\h'|\n(41u'\fBPvec\fP\h'|\n(42u'2D vector
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBVector3\fP\h'|\n(41u'\fBPvec3\fP\h'|\n(42u'3D vector
+.ta \n(80u \n(81u \n(82u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBWorkstationType\fP\h'|\n(41u'\fBPint\fP\h'|\n(42u'Workstation type
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-30
+.PP
+Converters are registered for converting string resources (\fBXtRString\fP,
+\fBXtCString\fP) to the resource types listed above.
+Keywords (shown in \fBbold\fP type) for the following resources are not case
+significant and white space is ignored.  The string to gravity converter
+is lifted from the Athena Widget set and should be compatible with that
+converter.  The formats for the resource specification
+attempt to follow the clear text encoding of a PHIGS
+archive file where possible.  The formats are described below.
+.br
+.HP
+\fBPEXtRClipFlag\fP (class \fBPEXtCClipFlag\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPIND_CLIP\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPIND_NO_CLIP\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wclip, true, yes, on, \fBPEXtDefaultClipFlag\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnoclip, false, no, off
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 81 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPIND_CLIP\fP\h'|\n(41u'clip, true, yes, on, \fBPEXtDefaultClipFlag\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPIND_NO_CLIP\fP\h'|\n(41u'noclip, false, no, off
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-7
+.HP
+\fBPEXtRColorBundle\fP (class \fBPEXtCColorBundle\fP)
+.br
+Color bundles are first converted to general colors
+(\fBPEXtRGeneralColor\fP) and then the X, Y, and Z components of
+the general color are inserted into the color bundle.  The
+color model of the general color is used to assign the proper fields
+in the Pcolr_bundl union.  If the color model is
+type \fBPINDIRECT\fP, an error is generated.
+.HP
+\fBPEXtRControlFlag\fP (class \fBPEXtCControlFlag\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPFLAG_ALWAYS\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPFLAG_COND\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \walways
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wconditionally, \fBPEXtDefaultControlFlag\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 99 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPFLAG_ALWAYS\fP\h'|\n(41u'always
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPFLAG_COND\fP\h'|\n(41u'conditionally, \fBPEXtDefaultControlFlag\fP
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-6
+.HP
+\fBPEXtRCullMode\fP (class \fBPEXtCCullMode\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPCULL_NONE\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPCULL_BACKFACE\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPCULL_FRONTFACE\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnone, \fBPEXtDefaultCullMode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wback face
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wfront face
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 109 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPCULL_NONE\fP\h'|\n(41u'none, \fBPEXtDefaultCullMode\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPCULL_BACKFACE\fP\h'|\n(41u'back face
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPCULL_FRONTFACE\fP\h'|\n(41u'front face
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-7
+.HP
+\fB
+PEXtRDeferralMode\fP (class \fBPEXtCDeferralMode\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPDEFER_ASAP\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPDEFER_BNIG\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPDEFER_BNIL\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPDEFER_ASTI\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPDEFER_WAIT\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wasap, as soon as possible, \fBPEXtDefaultDeferralMode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wbnig, before next interaction globally
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wbnil, before next interaction locally
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wasti, at some time
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wwait, when application requests it
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 122 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPDEFER_ASAP\fP\h'|\n(41u'asap, as soon as possible, \fBPEXtDefaultDeferralMode\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPDEFER_BNIG\fP\h'|\n(41u'bnig, before next interaction globally
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPDEFER_BNIL\fP\h'|\n(41u'bnil, before next interaction locally
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPDEFER_ASTI\fP\h'|\n(41u'asti, at some time
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPDEFER_WAIT\fP\h'|\n(41u'wait, when application requests it
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-9
+.HP
+\fB
+PEXtRDistinguishMode\fP (class \fBPEXtCDistinguishMode\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPDISTING_NO\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPDISTING_YES\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wfalse, no, off, \fBPEXtDefaultDistinguishMode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wtrue, yes, on
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 132 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPDISTING_NO\fP\h'|\n(41u'false, no, off, \fBPEXtDefaultDistinguishMode\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPDISTING_YES\fP\h'|\n(41u'true, yes, on
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-6
+.HP
+\fB
+PEXtREdgeFlag\fP (class \fBPEXtCEdgeFlag\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEDGE_OFF\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEDGE_ON\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wfalse, no, off, \fBPEXtDefaultEdgeFlag\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wtrue, yes, on
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 142 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEDGE_OFF\fP\h'|\n(41u'false, no, off, \fBPEXtDefaultEdgeFlag\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEDGE_ON\fP\h'|\n(41u'true, yes, on
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-6
+.HP
+\fB
+PEXtRGeneralColor\fP (class \fBPEXtCGeneralColor\fP)
+.br
+X color specifications are converted to RGB color model specifications.
+This allows PHIGS colors to be specified via standard X toolkit methods
+and utilize named colors in the X11 color database.  See X(1) for a description
+of X color specifications.  Parameters to PHIGS
+color model specifications are floating point values in the range [0.0, 1.0].
+Parameters to indirect color specifications are indices into a workstation's
+color table.  For color model specifications, the color model name is given
+first followed by the necessary numeric arguments, each separated by commas.
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \wIndirect color
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \wRGB color
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \wHLS color
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \wCIE color
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \wHSV color
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBIndirect\fP, 1
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBindirect\fP, \fIindex\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBrgb\fP, \fIr\fP, \fIg\fP, \fIb\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBhls\fP, \fIh\fP, \fIl\fP, \fIs\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBcie\fP, \fIc\fP, \fIi\fP, \fIe\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBhsv\fP, \fIh\fP, \fIs\fP, \fIv\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \w\fBPEXtDefaultGeneralColor\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 165 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'Indirect color\h'|\n(41u'\fBindirect\fP, \fIindex\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'RGB color\h'|\n(41u'\fBrgb\fP, \fIr\fP, \fIg\fP, \fIb\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'HLS color\h'|\n(41u'\fBhls\fP, \fIh\fP, \fIl\fP, \fIs\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'CIE color\h'|\n(41u'\fBcie\fP, \fIc\fP, \fIi\fP, \fIe\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'HSV color\h'|\n(41u'\fBhsv\fP, \fIh\fP, \fIs\fP, \fIv\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBIndirect\fP, 1\h'|\n(41u'\fBPEXtDefaultGeneralColor\fP
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-10
+.HP
+\fB
+PEXtRGravity\fP (class \fBPEXtCGravity\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wX Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBNorthWestGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBNorthGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBNorthEastGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBWestGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBCenterGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBEastGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBSouthWestGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBSouthGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBSouthEastGravity\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnorthwest, \fBPEXtDefaultGravity\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnorth, top
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnortheast
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wwest, left
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wcenter
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \weast, right
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wsouthwest
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wsouth, bottom
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wsoutheast
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 182 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'X Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBNorthWestGravity\fP\h'|\n(41u'northwest, \fBPEXtDefaultGravity\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBNorthGravity\fP\h'|\n(41u'north, top
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBNorthEastGravity\fP\h'|\n(41u'northeast
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBWestGravity\fP\h'|\n(41u'west, left
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBCenterGravity\fP\h'|\n(41u'center
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBEastGravity\fP\h'|\n(41u'east, right
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBSouthWestGravity\fP\h'|\n(41u'southwest
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBSouthGravity\fP\h'|\n(41u'south, bottom
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBSouthEastGravity\fP\h'|\n(41u'southeast
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-13
+.HP
+\fB
+PEXtRInteriorStyle\fP (class \fBPEXtCInteriorStyle\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPSTYLE_SOLID\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPSTYLE_HOLLOW\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPSTYLE_EMPTY\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wsolid, \fBPEXtDefaultInteriorStyle\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \whollow
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wempty
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 193 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPSTYLE_SOLID\fP\h'|\n(41u'solid, \fBPEXtDefaultInteriorStyle\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPSTYLE_HOLLOW\fP\h'|\n(41u'hollow
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPSTYLE_EMPTY\fP\h'|\n(41u'empty
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-7
+.HP
+\fB
+PEXtRIntList\fP (class \fBPEXtCIntList\fP)
+.br
+Each pair of integers should be separated by a comma.  In addition,
+the value \fBnone\fP indicates an empty list (i.e. a list of zero
+elements).
+.HP
+\fB
+PEXtRLightSourceType\fP (class \fBPEXtCLightSourceType\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLIGHT_AMBIENT\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLIGHT_DIRECTIONAL\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLIGHT_POSITIONAL\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLIGHT_SPOT\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wambient, \fBPEXtDefaultLightSourceType\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wdirectional
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wpositional
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wspot
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 212 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLIGHT_AMBIENT\fP\h'|\n(41u'ambient, \fBPEXtDefaultLightSourceType\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLIGHT_DIRECTIONAL\fP\h'|\n(41u'directional
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLIGHT_POSITIONAL\fP\h'|\n(41u'positional
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLIGHT_SPOT\fP\h'|\n(41u'spot
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-8
+.HP
+\fB
+PEXtRLimit3\fP (class \fBPEXtCLimit3\fP)
+.br
+3D coordinate limits are specified as 6 comma-separated floating
+point values, grouped as 3 minima (x, y, z) and 3 maxima.  In
+addition, the value \fBPEXtDefaultClipLimits\fP returns coordinate
+limits spanning the entire NPC volume ([0.0, 1.0] along each axis).
+.HP
+\fB
+PEXtRLineType\fP (class \fBPEXtCLineType\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLINE_SOLID\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLINE_DASH\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLINE_DOT\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPLINE_DOT_DASH\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wsolid, \fBPEXtDefaultLineType\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wdash
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wdot
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wdot dash
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 232 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLINE_SOLID\fP\h'|\n(41u'solid, \fBPEXtDefaultLineType\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLINE_DASH\fP\h'|\n(41u'dash
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLINE_DOT\fP\h'|\n(41u'dot
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPLINE_DOT_DASH\fP\h'|\n(41u'dot dash
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-8
+.HP
+\fB
+PEXtRModificationMode\fP (class \fBPEXtCModificationMode\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPMODE_NIVE\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPMODE_UWOR\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPMODE_UQUM\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnive, no immediate visual effect, \fBPEXtDefaultModificationMode\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wuwor, update without regeneration
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wuqum, use quick update methods
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 243 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPMODE_NIVE\fP\h'|\n(41u'nive, no immediate visual effect, \fBPEXtDefaultModificationMode\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPMODE_UWOR\fP\h'|\n(41u'uwor, update without regeneration
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPMODE_UQUM\fP\h'|\n(41u'uqum, use quick update methods
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-7
+.HP
+\fB
+PEXtRPoint\fP (class \fBPEXtCPoint\fP)
+.br
+2D coordinates are specified as two comma-separated floating
+point values.  In addition, the value \fBPEXtOrigin\fP specifies
+the origin.
+.HP
+\fB
+PEXtRPoint3\fP (class \fBPEXtCPoint3\fP)
+.br
+3D coordinates are specified as three comma-separated floating
+point values.  In addition, the value \fBPEXtOrigin\fP specifies
+the origin.
+.HP
+\fB
+PEXtRProjectionType\fP (class \fBPEXtCProjectionType\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPTYPE_PARAL\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPTYPE_PERSPECT\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResouve Values(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wparallel, \fBPEXtDefaultProjectionType\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wperspective
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 267 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resouve Values(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPTYPE_PARAL\fP\h'|\n(41u'parallel, \fBPEXtDefaultProjectionType\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPTYPE_PERSPECT\fP\h'|\n(41u'perspective
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-6
+.HP
+\fB
+PEXtRReflectanceEquation\fP (class \fBPEXtCReflectanceEquation\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPREFL_NONE\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPREFL_AMBIENT\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPREFL_AMB_DIFF\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPREFL_AMB_DIFF_SPEC\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnone, \fBPEXtDefaultReflectanceEquation\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wambient
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wdiffuse
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wspecular
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 279 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPREFL_NONE\fP\h'|\n(41u'none, \fBPEXtDefaultReflectanceEquation\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPREFL_AMBIENT\fP\h'|\n(41u'ambient
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPREFL_AMB_DIFF\fP\h'|\n(41u'diffuse
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPREFL_AMB_DIFF_SPEC\fP\h'|\n(41u'specular
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-8
+.HP
+\fB
+PEXtRResizePolicy\fP (class \fBPEXtCResizePolicy\fP)
+.br
+For a discussion of workstation resize policies, see \fBPEXtWorkstation\fP(3).
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPEXt Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEXtResizeNone\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEXtResizeCallback\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEXtResizePorthole\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEXtResizeContainer\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnone, \fBPEXtDefaultResizePolicy\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wcallback
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wporthole
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wcontainer
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 293 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PEXt Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEXtResizeNone\fP\h'|\n(41u'none, \fBPEXtDefaultResizePolicy\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEXtResizeCallback\fP\h'|\n(41u'callback
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEXtResizePorthole\fP\h'|\n(41u'porthole
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEXtResizeContainer\fP\h'|\n(41u'container
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-8
+.HP
+\fB
+PEXtRShadingMethod\fP (class \fBPEXtCShadingMethod\fP)
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPHIGS Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPSD_NONE\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPSD_COLOUR\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPSD_DOT_PRODUCT\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPSD_NORMAL\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnone, \fBPEXtDefaultShadingMethod\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wcolor
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wdot product
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnormal
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 305 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PHIGS Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPSD_NONE\fP\h'|\n(41u'none, \fBPEXtDefaultShadingMethod\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPSD_COLOUR\fP\h'|\n(41u'color
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPSD_DOT_PRODUCT\fP\h'|\n(41u'dot product
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPSD_NORMAL\fP\h'|\n(41u'normal
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-8
+.HP
+\fB
+PEXtRTraversalPolicy (class \fBPEXtTraversalPolicy\fP)
+.br
+For a discussion of workstation traversal policies, see
+\fBPEXtWorkstation\fP(3).
+.TS
+.if \n+(b.=1 .nr d. \n(.c-\n(c.-1
+.de 35
+.ps \n(.s
+.vs \n(.vu
+.in \n(.iu
+.if \n(.u .fi
+.if \n(.j .ad
+.if \n(.j=0 .na
+..
+.nf
+.nr #~ 0
+.if n .nr #~ 0.6n
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.fc
+.nr 33 \n(.s
+.rm 80 81
+.nr 80 0
+.nr 38 \wPEXt Value
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEXtTraverseNone\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEXtTraverseCallback\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.nr 38 \w\fBPEXtTraverseRedraw\fP
+.if \n(80<\n(38 .nr 80 \n(38
+.80
+.rm 80
+.nr 81 0
+.nr 38 \wResource Value(s)
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wnone, \fBPEXtDefaultTraversalPolicy\fP
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wcallback
+.if \n(81<\n(38 .nr 81 \n(38
+.nr 38 \wredraw
+.if \n(81<\n(38 .nr 81 \n(38
+.81
+.rm 81
+.nr 38 1n
+.nr 79 0
+.nr 40 \n(79+(0*\n(38)
+.nr 80 +\n(40
+.nr 41 \n(80+(3*\n(38)
+.nr 81 +\n(41
+.nr TW \n(81
+.if t .if \n(TW>\n(.li .tm Table at line 319 file PEXtRegCon.tbl is too wide - \n(TW units
+.fc  
+.nr #T 0-1
+.nr #a 0-1
+.eo
+.de T#
+.ds #d .d
+.if \(ts\n(.z\(ts\(ts .ds #d nl
+.mk ##
+.nr ## -1v
+.ls 1
+.ls
+..
+.ec
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'PEXt Value\h'|\n(41u'Resource Value(s)
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEXtTraverseNone\fP\h'|\n(41u'none, \fBPEXtDefaultTraversalPolicy\fP
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEXtTraverseCallback\fP\h'|\n(41u'callback
+.ta \n(80u \n(81u 
+.nr 31 \n(.f
+.nr 35 1m
+\&\h'|\n(40u'\fBPEXtTraverseRedraw\fP\h'|\n(41u'redraw
+.fc
+.nr T. 1
+.T# 1
+.35
+.TE
+.if \n-(b.=0 .nr c. \n(.c-\n(d.-7
+.HP
+\fB
+PEXtRVector\fP (class \fBPEXtCVector\fP)
+.br
+2D vectors are specified as two comma-separated vector
+components (x, y).  In addition, the two unit vectors in the X and
+Y directions can be specified as \fBPEXtUnitVectorX\fP and \fBPEXtUnitVectorY\fP,
+respectively.
+.HP
+\fB
+PEXtRVector3\fP (class \fBPEXtCVector3\fP)
+.br
+3D vectors are specified as three comma-separated vector
+components (x, y, z).  In addition, the three unit vectors in the X, Y
+and Z directions can be specified as \fBPEXtUnitVectorX\fP, \fBPEXtUnitVectorY\fP
+and \fBPEXtUnitVectorZ\fP, respectively.
+.SH SEE ALSO
+\fBPEXtInitialize(3)\fP
+.br
+\fBPEXtWorkstation\(3)\fP
+.br
+\fBXtSetTypeConverter(3)\fP
+.br
+\fBX(1)\fP
+.SH BUGS
+Space allocated for the integer array in \fBPEXtRIntList\fP resources must be
+freed by the application.
+.sp 1
+Conversions don't exist for all the data types in the PHIGS application
+programmer interface.
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

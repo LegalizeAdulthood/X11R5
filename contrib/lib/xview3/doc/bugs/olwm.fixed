@@ -1,0 +1,769 @@
+ALL OLWM BUGS FIXED SINCE OWN V2
+=================================
+
+Bug Id:		1031962
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm still has an independent notion of Property windows
+Public Summary:
+	The window manager implementation has the notion of a Property
+	window.  This separate notion is unnecessary.
+
+
+Bug Id:		1031968
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Window Controls not implemented
+Public Summary:
+	The window manager does not implement the Window Controls feature.
+
+
+Bug Id:		1031970
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	need ability to set menu defaults
+Public Summary:
+	You can't change menu defaults while the window manager is running.
+
+
+Bug Id:		1031991
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	various problems with Full Size and Normal Size
+Public Summary:
+	The Full Size and Normal Size menu items don't always work properly.
+
+
+Bug Id:		1031993
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	inspect stacking order behavior
+Public Summary:
+	The window manager doesn't always preserve the stacking order of
+	windows when they are closed and reopened.
+
+
+Bug Id:		1031996
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	check over menus and mouse button UI
+Public Summary:
+	The menu user interface does not correspond to that specified by
+	OPEN LOOK.
+
+
+Bug Id:		1032006
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm should work on a server with multiple screens
+Public Summary:
+	olwm doesn't support multiple-screen servers.
+
+
+Bug Id:		1032096
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	can't resize xsol
+Public Summary:
+	olwm can't resize the "xsol" program.
+
+
+Bug Id:		1032099
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	closing window with focus leaves focus in PointerRoot
+Public Summary:
+	The input focus sometimes ends up in PointerRoot mode.
+
+
+Bug Id:		1032104
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm should handle 1- and 2-button mice
+Public Summary:
+	Olwm currently depends on the mouse having three buttons.  It should
+	work on systems with one or two buttons.
+
+
+Bug Id:		1032108
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	input focus warping doesn't work
+Public Summary:
+	The input focus isn't warped around from window to window as
+	specified by OPEN LOOK.
+
+
+Bug Id:		1033219
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	no spot help is available for window manager objects
+Public Summary:
+	If you press the Help key while the pointer is over the workspace or
+	a window frame decoration, you don't get any help information.
+
+
+Bug Id:		1034254
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	would like olwm to use shape extension for non-rectangular windows
+
+
+Bug Id:		1035404
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	notices do not repair exposures properly
+Public Summary:
+	If an olwm notice window is exposed for some reason (e.g. from being
+	obscured by a SunView window), olwm does not repaint it.
+
+
+Bug Id:		1035882
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Default ring in root menu (workspace menu)'s pullright is always shown
+
+
+Bug Id:		1036219
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm can get SIGFPE if given erroneous size hints
+Public Summary:
+	Olwm can crash with a SIGFPE if a program passes erroneous hints.
+
+
+Bug Id:		1036303
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	add olwm property to make root menu more dynamic
+Public Summary:
+	There is no function to cause the root menu specification file to be
+	re-read.
+
+
+Bug Id:		1037422
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm does not supply icon name for icon windows
+Public Summary:
+If an X application supplies an icon window to the window manager
+rather than an icon bitmap, olwm correctly displays the window, but
+it does not label it with the icon name, as required by ICCCM.
+
+
+Bug Id:		1037818
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	menu interaction can be confused by multiple button downs
+Public Summary:
+Olwm can get confused by transitions on button 2 of the mouse. 
+And clicking on several menu items with button 2 will leave
+all of them highlighted.  However, this is a visual bug as  
+opposed to a functional one.  The menu will continue to 
+operate normally with the other buttons.
+
+
+Bug Id:		1038299
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Mouse pointer does not jump when Help window is brought up
+Public Summary:
+The pointer does not jump to the help window's pushpin when online
+help is requested.
+
+
+Bug Id:		1038716
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm window labels are not always centered properly
+Public Summary:
+        Olwm window titles are not always centered properly, sometimes 
+        causing information to be cut off.
+
+
+Bug Id:		1038762
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm does not iconify windows that started (before olwm) as iconic
+Public Summary:
+If olwm is not running when an application is started in an iconic 
+state (e.g., xterm -iconic), and then olwm is started, olwm will not 
+pick up the iconic hint properly but instead will handle the 
+application in "open" state.
+
+
+Bug Id:		1038766
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	title frame highlighting for window w/input focus not effective
+
+
+Bug Id:		1038816
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Compose light is not switched on.
+
+
+Bug Id:		1038961
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Can't see icon if it only uses the same color as the workspace.
+Public Summary:
+	Icons are partly or completely invisible if you choose black as your
+	workspace color.
+
+
+Bug Id:		1039105
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	quitting a selected icon quits all selected objects
+Public Summary:
+	Quitting from a selected icon will quit all selected icons and
+	windows, instead of just quitting that icon.
+
+
+Bug Id:		1039108
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	focus highlighting is confused by keyboard grabs
+Public Summary:
+	Focus highlighting can get into an inconsistent state because of
+	the activation and deactivation of keyboard grabs; this occurs only
+	in click-focus mode.
+
+
+Bug Id:		1039163
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	up events are sometimes missed on resize corners
+Public Summary:
+	Button-release events sometimes missed on resize corners in olwm,
+	leaving you stuck in resize mode with all buttons up.
+
+
+Bug Id:		1039176
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm doesn't paint title bar correctly
+Public Summary:
+	Olwm doesn't paint the header correctly in 2D mode for windows that
+	have a pushpin.
+
+
+Bug Id:		1039266
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	props program can't be dismissed correctly
+Public Summary:
+	props program doesn't dismiss correctly
+
+
+Bug Id:		1039402
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm doesn't deal with GrayScale visuals properly
+Public Summary:
+	Olwm doesn't set the root color correctly when run on a server 
+	that advertises a GrayScale class visual as the default.  Instead
+	of setting the root to the color specified in .Xdefaults by 
+	"OpenWindows.WorkspaceColor", olwm selects a gray "pattern" for
+	the root background.
+
+
+Bug Id:		1039427
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	sometimes clicking in the "close box" causes windows to move
+Public Summary:
+Running in click-to-type mode, sometimes clicking in the close box 
+of a window causes the window to move randomly across the screen.
+This is a problem if the window moves off the screen.
+
+
+Bug Id:		1039509
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm will crash if window goes away while being dragged
+Public Summary:
+	If a window goes away (because its owner client exits) while the
+	user is moving it, olwm will crash.
+
+
+Bug Id:		1039544
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	icon window cannot be used as a colormap window
+Public Summary:
+	If a program names a window as an icon window in WM_HINTS, and the
+	program names the same window in the WM_COLORMAP_WINDOWS property,
+	olwm will print a warning message and will ignore the icon window hint.
+
+
+Bug Id:		1039676
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm can handle only one Help key
+
+
+Bug Id:		1040051
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	FM: installed on virgin system, WB icon starts on top of console
+Public Summary:
+	The wastebasket icon can start out on top of the console cmdtool.
+
+
+Bug Id:		1040800
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	WM_HINTS and WM_NORMAL_HINTS properties are not tracked dynamically
+Public Summary:
+	The window manager does not track changes in the WM_HINTS and
+	WM_NORMAL_HINTS properties.
+
+
+Bug Id:		1040931
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	windows can be positioned off the screen
+Public Summary:
+	Windows positioned automatically may end up partially off the screen.
+
+
+Bug Id:		1040932
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	incorrectly worded error message
+
+
+Bug Id:		1040955
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	ListCount fails to return a value
+Public Summary:
+	The function ListCount() counts the number of items in a list but
+	fails to return the count.
+
+
+Bug Id:		1040957
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	SelectionResponse fails for DRAWABLE target
+Public Summary:
+	If the window manager holds the selection, and a requestor asks for
+	the DRAWABLE target, the window manager will usually die of a
+	segmentation violation.
+
+
+Bug Id:		1041162
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Keyboard Accellerator for "Full Size" wanted
+Public Summary:
+	There should be a way to bind the "Full Size" function (or its
+	counterpart, "Normal Size") to a function key the way that "Front"
+	and "Open" (and their counterparts, "Back" and "Close") are bound
+	to L5 and L7 by default.
+
+
+Bug Id:		1041198
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm does not support the MULTIPLE selection target
+Public Summary:
+	olwm does not support the MULTIPLE selection target.
+
+
+Bug Id:		1041486
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	FocusLenience doesn't work completely
+Public Summary:
+	The FocusLenience feature does not work in all cases.
+
+
+Bug Id:		1042242
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	constrained resize behaves differently from spec
+Public Summary:
+	The "constrained resize" function is implemented differently from
+	the OPEN LOOK specification.
+
+
+Bug Id:		1042246
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm does not respond to updates in WM_PROTOCOLS
+Public Summary:
+	Olwm does not respond to updates in WM_PROTOCOLS until the window is
+	unmapped and then remapped.
+
+
+Bug Id:		1042255
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	can't redirect output of Save Workspace
+Public Summary:
+	The output of the Save Workspace operation cannot be redirected to
+	another file; it is always sent to $HOME/.openwin-init.
+
+
+Bug Id:		1042256
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	have delay parameter for auto-raise feature
+Public Summary:
+	The auto-raise feature raises windows to the top immediately.
+	It would be useful if there were a delay parameter.
+
+
+Bug Id:		1042322
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Quick drag right does not work
+
+
+Bug Id:		1042343
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm core dumps when asked for window owner
+
+
+Bug Id:		1042530
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm sometimes gets BadColor error
+Public Summary:
+	Quitting an application that uses a colormap other than the default
+	colormap may result in olwm issuing a BadColor warning message.
+	This is only a warning, and it doesn't otherwise affect the
+	operation of the window manager.
+
+
+Bug Id:		1043164
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm doesn't handle top-level InputOnly windows well
+Public Summary:
+	If a program creates and maps an InputOnly window, olwm will give it
+	a frame and manage it, issuing warning messages in the process.
+	to
+
+
+Bug Id:		1043373
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	portability: olwm calls XFree(NULL)
+Public Summary:
+	Olwm calls XFree() with an argument of NULL.  This doesn't work on
+	some systems.
+
+
+Bug Id:		1043925
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Need tilde and $HOME for locations of sub-menus
+Public Summary:
+Need tilde and $HOME for locations of sub-menus
+
+
+Bug Id:		1044264
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	xterm hangs window system if middle mouse clicked on icon button
+Public Summary:
+	An xterm may hang the window system if one presses middle
+	mouse in the icon button in the upper left corner of the
+	window, and another window is selected on the desktop.
+	This bug is valid only if click select (click to type)
+	is enabled as a property of the desktop.
+
+
+Bug Id:		1044405
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	need mode where menus don't grab the server
+Public Summary:
+	There should be a setting that prevents the window manager from
+	grabbing the server while a menu is up.
+
+
+Bug Id:		1045221
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	OLWM's "Exit ..." will give you a Notice, L1 (Stop) is not Exit
+Public Summary:
+In Open Windows version 2, OLWM.s "Exit ..." will give you a Notice,
+which handles <return> as the default (which is Cancel), but which does
+not handle L1 (stop) as being Exit.
+
+
+Bug Id:		1045922
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	clients crashing during Save Workspace may hang olwm
+Public Summary:
+	If a program exits while the window manager is still 
+	waiting for the WM_COMMAND property to be updated, the 
+	window manager will deadlock.
+
+
+Bug Id:		1046174
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm acquires selection ownership illegally
+Public Summary:
+	Olwm acquires a selection on a window that it did not create.  This
+	is disallowed by the ICCCM.
+
+
+Bug Id:		1047036
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	transient windows not handled properly
+Public Summary:
+
+
+Bug Id:		1047149
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	server loses input focus when exiting gnuemacs
+Public Summary:
+	In focus-follows-mouse mode, when a window becomes unmapped,
+	sometimes the newly exposed window under the pointer fails to get
+	the input focus.
+
+
+Bug Id:		1047349
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	OpenWindows.MoveThreshold should be OpenWindows.DragThreshold
+Public Summary:
+	The resource OpenWindows.MoveThreshold is incorrectly named.
+	It should be named DragThreshold instead.
+
+
+Bug Id:		1047361
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	zero height rubberband overflow under R4
+Public Summary:
+	A zero height rubberband draws incorrectly.
+
+
+Bug Id:		1047583
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Save Workspace does not save XView clients
+
+
+Bug Id:		1047748
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm can get into UserMoveWindows() by mistake
+Public Summary:
+Olwm can get into the "move window" rubber banding mode by mistake.
+
+
+Bug Id:		1049331
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm does not support non-default visuals
+Public Summary:
+	Olwm cannot create its windows in any other visual than the default
+	visual provided by the server.
+
+
+Bug Id:		1049483
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	dropping on icons does not work
+
+
+Bug Id:		1049617
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Mouseless breaks in multi-screen configuration
+Public Summary:
+	Mouseless window navigation can get stuck at the workspace if olwm
+	is in multi-screen configuration
+
+
+Bug Id:		1049982
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm: rootmenu submenu cannot be a $HOME/<file>, must be explicit
+Public Summary:
+	In OpenWindows, we have a ~/.openwin-menu file.  Within
+	it, we'd like one of our submenus to be invoked from a
+	file ~/.openwin-submenuA  or $HOME/.openwin-submenuA.
+	This does not work.  However, we can have a menu item execute
+	a file that lies in $HOME.
+
+
+Bug Id:		1050159
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Selecting move or resize from titlebar window menu hangs application
+
+
+Bug Id:		1050761
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	space after PIN keyword inhibits creation of pinneable menu
+Public Summary:
+	If a pinneable sub-menu is specified in a custom .openwin-menu
+	file, and a SPACE character follows the PIN keyword for the
+	sub-menu, the sub-menu is created without the pin.
+
+
+Bug Id:		1051456
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	focus should get set to deadzone when entering non-focus window
+Public Summary:
+	If the mouse moves out of a TNT window directly onto an 
+	XView icon, the focus stays in the TNT window (in 
+	follow-mouse mode).  XView (OLWM) should detect the entry 
+	into the icon and assign the focus to the "beep" window.
+
+
+Bug Id:		1052106
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	staticvis causes xrdb to choke on olwm colors
+Public Summary:
+If you run OpenWindows with the staticvis option, any .Xdefaults entry
+for OpenWindows.WindowColor will generate an error from xrdb.
+
+
+Bug Id:		1052858
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Save Workspace: tool,icon label > 23 chars screws up .openwin-init
+Public Summary:
+	Commands with long arguments may cause olwm to write
+	a truncated entry the user's .openwin-init after a 
+	Save Workspace has been performed.
+
+
+
+Bug Id:		1053101
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	XV_SHOW does not work if set to true immediately after setting it to false
+Public Summary:
+	If an application unmaps it's window and then immediately
+	maps that same window, olwm does not handle the MapRequest
+	correctly and the client window is never reparented into
+	an olwm frame and is effectively gone.
+
+
+Bug Id:		1054056
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	On mono ,  xor type  representation of window frames is nearly invisible.
+Public Summary:
+	On a monochrome system it is very hard to make out the wire frame
+	outline of a window as you move it around the screen.  This is 
+	caused by the fine checkerboard background.  XOR of a checkerboard
+	is still a checkerboard.
+
+
+Bug Id:		1055511
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	non-xview based clients do not get saved with Save Workspace
+Public Summary:
+	All ICCCM compliant clients which advertise an ability to
+	save themselves (vis WM_SAVE_YOURSELF), whether they are 
+	XView based or not, are saved.  Clients which do not 
+	(ie xterm, xsol, plaid, etc) are not saved in .openwin-init 
+	when a Save Workspace is executed.
+
+
+Bug Id:		1055722
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	the default menu should contain an RESTART entry
+Public Summary:
+the default root menu should contain an RESTART entry.
+This means that your are driven to exit your window server
+each  time you make a syntax error in your .openwin-menu because
+you get this default root menu.
+
+
+Bug Id:		1056853
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	OW Exit notice can hang system with Input queue lock broken messages
+
+
+Bug Id:		1058082
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm crashes if top-level pane mapped multiple times
+
+
+Bug Id:		1058273
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	TNT windows don't get refreshed from workspace Utilities => Refresh cmd
+
+
+Bug Id:		1062954
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	difficult to select icons at a screen edge
+
+
+Bug Id:		1065200
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	In multiscreen under one XNeWS server, properties are not selected properly
+Public Summary:
+	While running multiscreen, each with one OLWM, under one XNeWS server,
+	changing the color of the worksapce through properties root menu does
+	not work right.
+
+
+Bug Id:		1067884
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	olwm save properties yields BadAccess 88 XFreeColor on IPC with 4.1.1RevB mono
+Public Summary:
+	The olwm "Save Properties" in OW2.0 yields an error message every
+	time one saves his/her properties on a monochrome SLC, IPC running 
+	SunOS 4.1.1-Rev B.  The error message happens every time, no matter
+	what properties the user has changed.
+
+	The error message is: 
+
+		olwm: Warning, X Error: BadAccess
+		Request Major code 88
+		Request Minor code 0
+		ResourceId 0x80069
+
+
+	In reality nothing is broken, the changes the user saved
+	to his/her .Xdefaults are saved and begin working immediately/
+	upon next invocation of OW depending on the nature of the
+	change.
+
+	(The error message has to do with XFreeColors, which doesn't
+	 really affect anything on a monochrome machine.)
+
+
+Bug Id:		1069169
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	provide equal treatment for non xview WM_TRANSIENT_FOR windows
+
+
+Bug Id:		1069702
+Category:	x11news
+Subcategory:	olwm
+Synopsis:	Save Workspace should save the -display :0.? on a multi headed system
+Public Summary:
+Save Workspace should save the -display :0.? on a multi headed system.

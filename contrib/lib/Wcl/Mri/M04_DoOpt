@@ -1,0 +1,15 @@
+Mri.wcPopups:		doMenu
+Mri.wcChildren:		doOption
+Mri.title:		M04_DoOpt
+
+*doMenu.wcConstructor:	XmCreatePulldownMenu
+*doMenu.wcChildren:	DoYou, BoKnowsIt, justDoIt
+
+*DoYou.wcClassName:	XmPushButton
+*BoKnowsIt.wcClassName:	XmPushButton
+*justDoIt.wcClassName:	XmPushButton
+
+*doOption.wcConstructor:	XmCreateOptionMenu
+*doOption.labelString:		Do It
+*doOption.subMenuId:		*doMenu
+

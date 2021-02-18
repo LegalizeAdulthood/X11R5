@@ -1,0 +1,39 @@
+JS_ENV_STICKY( )
+
+名称
+
+	jl_env_sticky		環境をスティッキーにする。
+	jl_env_un_sticky	環境をスティッキーにしない。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_env_sticky(buf)
+	wnn_buf *buf;
+
+	int
+	jl_env_sticky_e(env)
+	wnn_env *env;
+
+	int
+	jl_env_un_sticky(buf)
+	wnn_buf *buf;
+
+	int
+	jl_env_un_sticky_e(env)
+	wnn_env *env;
+
+機能
+
+	jl_env_sticky は、バッファ buf 内の環境を、スティッキーにする。
+	jl_env_sticky_e は、環境 env を、スティッキーにする。
+	jl_env_un_sticky は、バッファ buf 内の環境を、スティッキーにしない。
+	jl_env_un_sticky_e は、環境 env を、スティッキーにしない。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

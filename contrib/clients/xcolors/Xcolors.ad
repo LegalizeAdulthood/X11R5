@@ -1,0 +1,14 @@
+*Label.Font:	5x7
+*panes.Width:	985
+*Text*Height:	50
+*viewport*allowVert: true
+
+*sample*String: \
+Button 1 sets the text color, button 2 sets the background.\n\
+Press q to quit.  You can also type new text here.
+
+*Label*Translations: #override \
+	<Btn1Up>: set-foreground()\n\
+	<Btn2Up>: set-background()\n
+*Box*baseTranslations: #override \
+	<Key>q: quit()\n

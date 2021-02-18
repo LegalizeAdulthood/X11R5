@@ -1,0 +1,36 @@
+.TH psycho 1 "1 March 1988" "X Version 11"
+.SH NAME
+psycho \- animate an icosahedron
+.SH SYNOPSIS
+.B psycho
+[display list] [=geometry]
+[-d pattern] [-i]
+.SH DESCRIPTION
+.I Psycho
+displays a wire-frame rotating polyhedron, with hidden lines removed,
+or a solid-fill polyhedron with hidden faces removed.
+There are a number of different polyhedra available;
+adding a new polyhedron to the program is quite simple.
+.SH OPTIONS
+.TP
+.B -d pattern
+Specify a bit pattern for drawing dashed lines for wire frames.
+.TP
+.B -i
+Use inverted colors for wire frames.
+.TP
+For each display specified, 
+.I Psycho
+creates another window.  The total geometry is split vertically
+amongst these windows, and the psycho bounces between them.  The end result
+is that \fBico foo:0 bar:0\fR would result in psycho bouncing half on display
+\fBfoo:0\fR and half on \fBbar:0\fR.
+.SH "SEE ALSO"
+X(1), ico(1)
+.SH BUGS
+.LP
+Doesn't deal too well with being resized.
+.SH COPYRIGHT
+Copyright 1988, Massachusetts Institute of Technology.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.

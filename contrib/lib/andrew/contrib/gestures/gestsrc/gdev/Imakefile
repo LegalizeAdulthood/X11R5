@@ -1,0 +1,14 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+STD_DEFINES = -DX11
+INCFILES = gdev.h args.h
+OBJS = gdev.o  x11r4.o
+
+LibraryTarget(libgdev.a, $(OBJS))
+InstallMultiple($(INCFILES), $(INSTINCFLAGS),$(BASEDIR)/include/gestures)
+ProgramTarget(gtest,gtest.o,libgdev.a,-lX11)
+InstallLibrary(libgdev.a,$(BASEDIR)/lib/gestures)
+InstallMultiple($(INCFILES), $(INSTINCFLAGS),$(BASEDIR)/include/gestures)

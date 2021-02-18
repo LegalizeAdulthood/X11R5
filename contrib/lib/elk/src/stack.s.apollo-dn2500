@@ -1,0 +1,58 @@
+	MODULE	stack
+	ABS
+	DROP	DB
+*
+* int stksize();
+* int saveenv(char* envbuf);
+* dead jmpenv(const char* envbuf, int retcode);
+*
+	TEXT
+	ENTRY	stksize
+	EXTERN	Special
+	EXTERN	stkbase
+stksize	EQU	*
+	move.l	stkbase,d0
+	sub.l	sp,d0
+	add.l	#120,d0
+	rts
+
+	ENTRY	saveenv
+saveenv	EQU	*
+	move.l	4(sp),a0
+	move.l	a6,12(a0)		/* save frame pointer of caller */
+	move.l	(sp)+,a1		/* pop return address */
+	move.l	a1,4(a0)		/* save pc of caller */
+	move.l	sp,8(a0)
+	movem.l d2-d7/a2-a5/a7,40(a0)	/* XXX (shouldn't need this) XXX */
+	move.l	sp,a2
+	move.l	stkbase,a3
+	move.l	a0,a4
+	add.l	#110,a4
+rep1	move.l	(a2)+,(a4)+
+	cmp.l	a2,a3
+	bcc	rep1
+	move.l	a4,d0			/* New pointer */
+	sub.l	a2,d0			/* Minus old pointer */
+	move.l	d0,(a0)			/* is the relocation offset */
+	movem.l 40(a0),d2-d7/a2-a5/a7	/* XXX (shouldn't need this) XXX */
+	move.l	Special,d0
+	jmp	(a1)
+
+	ENTRY	jmpenv
+jmpenv	EQU	*
+	move.l	8(sp),d0		/* return value */
+	move.l	4(sp),a0		/* fetch buffer */
+
+	move.l	8(a0),sp
+	move.l	sp,a2
+	move.l	stkbase,a3
+	move.l	a0,a4
+	add.l	#110,a4
+rep2	move.l	(a4)+,(a2)+
+	cmp.l	a2,a3
+	bcc	rep2
+	movem.l 40(a0),d2-d7/a2-a5/a7	/* XXX (shouldn't need this) XXX */
+	move.l	12(a0),a6		/* restore frame pointer */
+	move.l	4(a0),a1		/* pc */
+	jmp	(a1)
+	END

@@ -1,0 +1,555 @@
+.\" $Header: /n/lacey/usr/local/src/video/MVEX/doc/encoding/RCS/encoding,v 2.17 1991/09/26 21:30:53 toddb Exp $
+.OH ''''
+.OH ''''
+.EF ''''
+.OF ''''
+.ps 11
+.nr PS 11
+.de rV
+.ds vS "\fBVersion \\$2\fP
+..
+.rV This-doc-tracks-VEX-protocol-version 6.2 $
+\&
+.sp 8
+.ce 4
+\s+2\fBMVEX\fP\s-2
+\s+1\fBA Minimal Video Extension to X Protocol Encoding\fP\s-1
+\*(vS
+.sp 6
+.ce 4
+.ps 11
+.nr PS 11
+\s-1Todd Brunhoff
+Scott Hennes
+.sp 6p
+Tektronix, Inc.
+\&
+.ps 9
+.nr PS 9
+.sp 8
+.LP
+X Window System is a trademark of M.I.T.
+.LP
+Copyright \(co 1990
+Tektronix, Inc.
+.LP
+.nh
+Permission to use, copy, modify, and distribute this document
+for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and
+that both that copyright notice and this permission
+notice are retained, and that the name of Tektronix not be used
+in advertising or publicity pertaining to this document without
+specific, written prior permission.
+Tektronix makes no representations about the suitability of this
+document or the protocol defined in this document for any purpose.
+It is provided ``as is'' without express or implied warranty.
+.ps 10
+.nr PS 10
+.OH '\fBMVEX Encoding\fP'\*(vS'\fBX11, Release 5\fP'
+.EH '\fBMVEX Encoding\fP'\*(vS'\fBX11, Release 5\fP'
+.bp 1
+.EF ''\fB % \fP''
+.OF ''\fB % \fP''
+.NH 1
+Encoding
+.LP
+Please refer to the X11 Protocol Encoding document as this document uses
+conventions established there.
+.LP
+The name of this extension is ``VEX''.
+.LP
+.SH
+\s+2New types\s-2
+.LP
+VIDEOIN: CARD32
+.LP
+VIDEOOUT: CARD32
+.LP
+VIDEOIO: VIDEOIN or VIDEOOUT
+.LP
+VREFERENCE: CARD32
+.ne 3
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+FRACTION
+	4	INT32	numerator
+	4	INT32	denominator
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+FRACTIONRANGE
+	4	INT32		num-base
+	4	INT32		num-inc
+	4	INT32		num-limit
+	4	INT32		denom-base
+	4	INT32		denom-inc
+	4	INT32		denom-limit
+	1			num_type
+		0	Geometric
+		1	Linear
+	1			denom_type
+		0	Geometric
+		1	Linear
+	2			unused
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+FRAME
+	4	BOOL		negative
+	4	CARD32		frame
+		>= 0
+	4	CARD8		field
+		1	FieldOne
+		2	FieldTwo
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+TIMECODE
+	4	BOOL		negative
+	4	CARD8		hour
+		>= 0
+	4	CARD8		minute
+		0 <= minute <= 59
+	4	CARD8		second
+		0 <= second <= 59
+	4	CARD8		frame
+		>= 0
+	4	CARD8		field
+		1	FieldOne
+		2	FieldTwo
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+RECTANGLERANGE
+	8	RECTANGLE		base
+	8	RECTANGLE		limit
+	2	INT16		x-inc
+	2	INT16		y-inc
+	2	CARD16		width-inc
+	2	CARD16		height-inc
+	1			type
+		0	Geometric
+		1	Linear
+	3			unused
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+PLACEMENT
+	8	FRACTION		frame-rate
+	28	RECTANGLERANGE		source
+	28	RECTANGLERANGE		destination
+	20	FRACTIONRANGE		x-scale
+	20	FRACTIONRANGE		y-scale
+	1	BOOL			identity-aspect
+	3				unused
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+VIDEOABILITY
+	8	FRACTION	normal-saturation
+	8	FRACTION	normal-contrast
+	8	FRACTION	normal-hue
+	8	FRACTION	normal-bright
+	2	i		number of saturation
+	2	j		number of contrast
+	2	k		number of hue
+	2	l		number of bright
+	8i	LISTofFRACTIONRANGE	saturation
+	8j	LISTofFRACTIONRANGE	contrast
+	8k	LISTofFRACTIONRANGE	hue
+	8l	LISTofFRACTIONRANGE	bright
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+VIDEOGEOMETRY
+	8	FRACTION		signal-frame-rate
+	8	FRACTION		signal-field-rate
+	2	CARD16		signal-width
+	2	CARD16		signal-height
+	2	CARD16		concurrent-use
+	2	CARD16		priority-steps
+	4	VREFERENCE		reference-id
+	4	n		number of placements
+	104n	LISTofPLACEMENT		placement
+.De
+.ne 8
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+RENDERMODEL
+	1	CARD8		depth
+	1	BOOL		opaque
+	2			unused
+	4	VISUALID		visual-id
+	4	CARD32		red-mask
+	4	CARD32		green-mask
+	4	CARD32		blue-mask
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+OWNER
+	4	WINDOW		wid
+	4	VIDEOID		vid
+.De
+.bp
+.SH
+\s+2Requests\s-2
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN QueryVideo
+	1	CARD8		opcode
+	1	3		video opcode
+	2	2		request length
+	4	WINDOW		wid
+.De
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+ =>
+ 	1	1		Reply
+	1			unused
+	2	CARD16		sequence number
+	4	 		length
+	1	CARD8		screen
+	1	CARD8		input-overlap
+	1	CARD8		capture-overlap
+	1	CARD8		io-overlap
+	4	TIMESTAMP		timestamp
+	2	CARD16		major-version
+	2	CARD16		minor-version
+	1	CARD8		number of video-depths
+	1	j		number of allowed-depths
+	1	k		number of vin, in-attr, clip-sizes, etc.
+	1	m		number of vout, out-attr, etc.
+	i	LISTofDEPTH		video-depths
+		6	VideoColor
+		8	VideoGray
+	20j	LISTofRENDERMODEL		allowed-depths
+	n	LISTofVIDEOGEOMETRY		in-attr
+	p	LISTofVIDEOGEOMETRY		out-attr
+	(k*j)	LISTofCARD8		video-input-models
+		1	VideoWindow
+		2	VideoPixmap
+	(m*j)	LISTofCARD8		video-output-models
+		1	VideoWindow
+		2	VideoPixmap
+		4	VideoComposite
+	k	LISTofCARD8		x: list of lengths for in-ports list
+	m	LISTofCARD8		y: list of lengths for out-ports list
+	q			unused, (q = pad(k*j + m*j + k + m))
+	4r	LISTofATOM		in-ports ATOMS (r = x[0]+x[1]+...)
+	4s	LISTofATOM		out-ports ATOMS (s = y[0]+y[1]+...)
+	8k	LISTofRECTANGLE		clip-size
+	t	LISTofVIDEOABILITY		in-ability
+	u	LISTofVIDEOABILITY		out-ability
+
+.De
+.bp
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN CreateVideo
+	1	CARD8		opcode
+	1	2		video opcode
+	2	3		request length
+	4	VIDEOIO		id
+	4	VREFERENCE		reference
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN QuerySetup
+	1	CARD8		opcode
+	1	4		video opcode
+	2	3		request length
+	4	VIDEOIO		id
+	4	ATOM		port
+.De
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+ =>
+ 	1	1		Reply
+	1			unused
+	2	CARD16		sequence number
+	4	 		length
+	1	BOOL		frames-available
+	1	BOOL		timecodes-available
+	1	BOOL		frame-accurate
+	1			unused
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN RenderVideo
+	1	CARD8		opcode
+	1	5		video opcode
+	2	8		request length
+	4	VIDEOIN		source
+	4	ATOM		inport
+	4	DRAWABLE		destination
+	2	INT16		src-x
+	2	INT16		src-y
+	2	INT16		dest-x
+	2	INT16		dest-y
+	2	CARD16		src-width
+	2	CARD16		src-height
+	2	CARD16		dest-width
+	2	CARD16		dest-height
+	4	GCONTEXT		gc
+	4	BITMASK		value-mask
+		#x00000001		full-motion
+		#x00000002		priority
+		#x00000004		marker-type
+		#x00000008		in-frame
+		#x00000010		out-frame
+		#x00000020		in-timecode
+		#x00000040		out-timecode
+		#x00000080		hue
+		#x00000101		saturation
+		#x00000200		brightness
+		#x00000400		contrast
+	n	LISTofVALUE		value-list
+
+	VALUESs
+
+	4	BOOL		full-motion
+	4	CARD8		priority
+		0-100
+	4	CARD8		marker-type
+		1	FrameMarker
+		2	TimecodeMarker
+	12	FRAME		in-frame
+	12	FRAME		out-frame
+	24	TIMECODE	in-timecode
+	24	TIMECODE	out-timecode
+	8	FRACTION	hue
+	8	FRACTION	saturation
+	8	FRACTION	brightness
+	8	FRACTION	contrast
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN CaptureGraphics
+	1	CARD8		opcode
+	1	0		video opcode
+	2	9		request length
+	4	DRAWABLE		source
+	4	ATOM		outport
+	4	VIDEOOUT		destination
+	4	COLORMAP		cmap
+	2	INT16		src-x
+	2	INT16		src-y
+	2	INT16		dest-x
+	2	INT16		dest-y
+	2	CARD16		src-width
+	2	CARD16		src-height
+	2	CARD16		dest-width
+	2	CARD16		dest-height
+	1			subwindow-mode
+		0	ClipByChildren
+		1	IncludeInferiors
+	1			unused
+	4	BITMASK		value-mask
+		The encodings are the same as for RenderVideo
+	n	LISTofVALUE		value-list
+		The encodings are the same as for RenderVideo
+.De
+.bp
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN StopVideo
+	1	CARD8		opcode
+	1	7		video opcode
+	2	2+n		request length
+	1	BITMASK		action
+		#x01 Render
+		#x02 Capture
+	3		unused
+	4n	LISTofDRAWABLE		idlist
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN ChangeOwnership
+	1	CARD8		opcode
+	1	1		video opcode
+	2	1 + 8n		request length
+	8n	LISTofOWNER		owners
+.De
+.ne 6
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN SelectVideoEvents
+	1	CARD8		opcode
+	1	6		video opcode
+	2	3		request length
+	4	CARD32		id
+	4	CARD32		mask
+		#x0001 Redirect
+		#x0002 Setup
+		#x0004 Sync
+		#x0008 Override
+		#x0010 Violation
+.De
+.bp
+.SH
+\s+2Events\s-2
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN VideoViolation
+	1	CARD8		type (1 + extension event base)
+	1		unused
+	2	CARD16		sequence number
+	4	DRAWABLE		id
+	4	VIDEOIO		vid
+	4	TIMESTAMP		time
+	2	BITMASK		action (has n bits set to 1)
+		#x0001 Scale
+		#x0002 Placement
+		#x0004 Clip
+		#x0008 Overlap
+		#x0010 Hue
+		#x0020 Saturation
+		#x0040 Contrast
+		#x0080 Brightness
+	1			state
+		0	Success
+		1	Fail
+		2	Subset
+	13			unused
+.De
+.ne 11
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN VideoSync
+	1	CARD8		type (2 + extension event base)
+	1		unused
+	2	CARD16		sequence number
+	4	DRAWABLE		id
+	4	VIDEOIO		vid
+	4	TIMESTAMP		server time
+	1			state
+		0	Acquired
+		1	Lost
+	15			unused
+.De
+.ne 11
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN VideoSetup
+	1	CARD8		type (2 + extension event base)
+	1		unused
+	2	CARD16		sequence number
+	4	VIDEOIO		vid
+	4	ATOM		port
+	4	TIMESTAMP		server time
+	1	BOOL		frames-available
+	1	BOOL		timecodes-available
+	1	BOOL		frame-accurate
+	13			unused
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN VideoOverride
+	1	CARD8		type (3 + extension event base)
+	1			unused
+		0	Stopped
+		1	DrawableChange
+		2	MarkerReached
+		3	RequestOverride
+		4	HardwareError
+		5	Reused
+	2	CARD16		sequence number
+	4	DRAWABLE		id
+	4	VIDEOIO		vid
+	4	TIMESTAMP		server time
+	1	CARD6		state
+	15			unused
+.De
+.LP
+.Ds 0
+.TA .2i .5i 1.5i 2.5i
+.ta .2i .5i 1.5i 2.5i
+.R
+.PN VideoRequest
+	1	CARD8		type (4 + extension event base)
+	1			unused
+	2	CARD16		sequence number
+	1			request
+		0	Render
+		1	Capture
+	1	BOOL		redirect
+	2			unused
+	4	CARD32		src
+	4	CARD32		dst
+	4	CARD32		time
+	12			unused
+.De
+.\" This is necessary to produce a special entry for the last page
+.\" so that the first page of the index is produced automatically
+.IN "@LastPage" "Encoding" ""

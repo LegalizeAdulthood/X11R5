@@ -1,0 +1,122 @@
+# Copyright 1989 GROUPE BULL -- See licence conditions in file COPYRIGHT
+# Copyright 1989 Massachusetts Institute of Technology
+#
+# To install gwm on your machine "foo": (see README file)
+#
+#	Make a copy of this file in "Make.foo" (this is done by "make dir")
+#	Edit Make.foo to reflect your configuration
+#	Execute "make" -- this builds the makefile and do a "make"
+#	If ok, do "make install"
+#
+# NOTE: A link to this file is kept in the Make/ subdirectory, so that you
+# can overwrite your src directory with a new version without losing these
+# modifications
+#
+
+# the directory where X11 include files can be found (or in a X11 directory
+# just underneath). Must not be blank (should be /usr/include on most systems)
+
+XDIR	= /usr/include
+
+# the linker option to specify directories where X librairies stay (BSD)
+# must be blank if your linker doesn't have a -L option (SYSV)
+
+XLIBDIR   = -L/usr/lib/X11
+
+# the X11 library, and any other useful. Use -l (BSD) or complete pathname
+# (e.g. /usr/lib/X11/libX11.a) if your linker doesn't understand "-L" (SYSV)
+# you will need to have -lXext -lX11 if you compiled with -DX11R4 or later
+# only -lX11 with X11R1 to X11R3
+
+LIBS = -lXext -lX11
+
+# compilation flags , -O or -g
+
+FLAGS	= -O
+
+# name (absolute or relative) of the compiler: cc, /bin/cc, 
+# gcc -pipe -traditional, ... (use -traditional with gcc)
+
+C_COMPILER= cc
+
+# various defines:
+#
+# Flags you may define:
+# -DX11R1	For compiling with vanilla X11R1 library
+# -DX11R2	For compiling with vanilla X11R2 library
+# -DX11R3	For compiling with vanilla X11R3 library
+#		(for now the previous defines are equivalent)
+# -DX11R4	For compiling with vanilla X11R4 library (uses shapes)
+# -DSECURE	turns on sanity checks on many functions, should be defined.
+# -DSTUPID	if your compiler chokes on complicated expressions (vax)
+# -DSIMPLE_LHS  if your compiler doesn't like casting LHS expressions
+#		(Sony and DecStations native cc)
+# -DSYSV	for System V systems (BSD 4.x is default)
+# -DPAGE_SIZE=int 	for Virtual Memory page size (for SYSV only!) in
+#		bytes. (defaults to 8192).
+# -DUSER_DEBUG  Enable user-level debugging functions (trace)
+# -DPTR_TYPE=int	What is the (int, long...) type which is the same size
+#		as any pointer on your machine? (int is default)
+# -DCARD32=long What is the numerical type 32 bit long? defaults to long
+# -DDOUBLE_ALIGN	for machines where structure fields MUST be aligned
+#		on double float boundaries! (GOULD's powernodes & NP1)
+# -DDO_NOT_REDEFINE_MALLOC if you are compiling with the 
+#		standard DEC WINDOWS Xlib.
+#		(these twerps define their own malloc in the Xlib!)
+# -DIBM_RT	For compiling on an IBM PC/RT with AIX
+# -DHAS_STRCHR  if you have problems in compiling wl_pixmap.c (decstations)
+#
+# Some flags that are supposed to be set by the compiler, and recognized
+# -Dsm90	for sps7, dpx 
+#
+# Debugging-only flags:
+# -DSTATS	Enable polling of some stats (gcinfo hashinfo meminfo)
+# -DDEBUG	Enable debugging via assertions, include routines for DBX,
+#		Replace some macros by function calls, Synchronize X calls.
+#		Range checks mallocs, stack overflow check.
+# -DMLEAK	Enable malloc's leaks tracing (very slow)
+# -DDO_BUS_ERROR Force a bus error on error for debugging via (yeech!) adb
+# -DMONITOR	Include flags for profiling information (use -pg Cflags)
+
+# Exemples of DEFINES:
+# for "normal" BSD machine: -DX11R3 -DSECURE -DSTATS -DUSER_DEBUG
+# (works also for sun3 and sun4) 
+# for "normal" SYSV machine: -DX11R3 -DSECURE -DSTATS -DUSER_DEBUG -DSYSV
+# (Bull dpx1000, etc...)
+# for Data General AViiON: -DX11R3 -DSECURE -DSTATS -DUSER_DEBUG
+#   (and you may want POSTPROCESSING = mv gwm gwm.TEMP.o ; cprs -p gwm.TEMP.o)
+# add -DSTUPID on vax (unless you use gcc)
+# add -DSIMPLE_LHS on Sony news (BSD4.3) (unless you use gcc)
+# add -DSIMPLE_LHS -DHAS_STRCHR on decstations (unless you use gcc)
+# add -DSTUPID -DSYSV on sm90
+# add -DDOUBLE_ALIGN on gould powernodes/NP1 or any machine REQUIRING 8-byte
+#    aligned machines but whose structure field are not aligned automatically!
+# add -DSYSV +Ns2000 +Nd2000 on HPUX (hp9000)
+# add -DSYSV -DIBM_RT -Nn3000 on an IBM PC/RT
+# On MIPS compilers, you may need to use the compile flag " -G 0 "
+
+DEFINES = -DX11R4 -DSECURE -DSTATS -DUSER_DEBUG
+
+# other linker -specific flags
+
+LFLAGS =
+
+# unix command to apply to executable after link 
+# set it to ":" if no processing is done.
+# sm90 and dpx machines MUST increase the stack size by "s3 -60"
+# (this will generate the command: "$POSTPROCESSING gwm")
+
+POSTPROCESSING = :
+
+# directory to copy the executable to on install
+
+INSTALL_GWM=/usr/local/bin/X11
+
+# directory to copy be the standard wool files and bitmaps
+
+INSTALL_DIR=/usr/local/lib/X11/gwm
+
+# path to be appended to: .:$HOME:$HOME/gwm for GWMPATH
+# Must be defined, should contains INSTALL_DIR
+
+INSTALL_PATH=$(INSTALL_DIR)

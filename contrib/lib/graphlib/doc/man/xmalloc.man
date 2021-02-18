@@ -1,0 +1,20 @@
+.TH xmalloc 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+xmalloc, XMALLOC, CheckAlloc \- guarenteed malloc routine and utilities
+.SH SYNTAX
+GLPointer xmalloc(size)
+.br
+	int size;
+void CheckAlloc(aptr)
+.br
+	GLPointer aptr;
+.SH ARGUMENTS
+.IP size 1i
+the size of the space to allocate.
+
+.SH DESCRIPTION
+xmalloc will malloc the space requested, and will only return if that space
+actually aquired. CheckAlloc will check to see if the pointer passed is
+non-null, it will not return if it is null.
+XMALLOC is a #define to ease creation of pointers to structures, it is
+used as <struct ptr> = XMALLOC(<struct>);

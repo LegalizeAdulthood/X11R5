@@ -1,0 +1,5 @@
+;
+; $Id: 1B_TOLOWER,v 1.1 1991/09/11 02:30:11 ohm Exp $
+;
+(defvar up (all))
+(up)	(tozenhira (tolower(up)))

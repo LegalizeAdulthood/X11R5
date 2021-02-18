@@ -1,0 +1,34 @@
+            CAT = /bin/cat
+           WLDL = wldl.wl
+          WLDLI = incl.wl
+         WLMBIN = ../../bin
+       INCLUDES = $(XCUINCFLAG)
+           SRCS = xmake.c
+LOCAL_LIBRARIES = $(XCULIB) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+SingleProgramTarget(xmake,xmake.o,$(LOCAL_LIBRARIES),)
+AllTarget()
+
+xmake.o : xmake.wh
+
+xmake.wh : xmake.wb
+	@echo making xmake.wh because of $?
+	$(WLMBIN)/wlmInclMake `$(CAT) xmake.wb` > $@
+
+xmake.nc : $(WLDL)
+	@echo making xmake.nc because of $?
+	$(WLMBIN)/wlmUpdateCls xmake $?
+
+xmake.wf : xmake.nc
+
+xmake.wb : xmake.wf
+	@echo making xmake.wb because of $?
+	$(WLMBIN)/wlmUpdate xmake
+
+$(WLDL) : $(WLDLI)
+	touch $@
+
+DependTarget()
+
+always :;
+

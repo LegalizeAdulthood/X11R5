@@ -1,0 +1,48 @@
+/**/# Based on an Imakefile from:
+/**/# Andreas Stolcke
+/**/# International Computer Science Institute, Berkeley.
+
+
+/**/# If you don't have gethostname() and you can't change the #define in
+/**/# alarm.c to what ever it is on your system, add -DNOGETHOSTNAME here:
+DEFINES = ${SIGNAL_DEFINES}
+
+
+OBJS  = alarm.o when.o warning.o times.o fns.o xalarm.o
+SRCS  = alarm.c when.c warning.c times.c fns.c xalarm.c
+
+
+LOCAL_LIBRARIES = XawClientLibs
+
+ComplexProgramTarget (xalarm)
+
+InstallAppDefaults (XAlarm)
+InstallMultipleFlags (xmemo xfortune xyow,$(BINDIR),$(INSTBINFLAGS))
+InstallManPage (xmemo,$(MANDIR))
+InstallManPage (xfortune,$(MANDIR))
+InstallManPage (xyow,$(MANDIR))
+
+fns.h:
+	@config.1st
+
+xmemo.man xyow.man xfortune.man:
+	echo ".so man"ManSuffix"/xalarm."ManSuffix > $@
+
+xfortune::
+
+xyow::
+
+clean::
+	$(RM) xfortune xyow xmemo.man xyow.man xfortune.man
+
+config::
+	@chmod +x config.1st xmemo
+	@config.1st
+	@xrdb -merge XAlarm.ad
+	@xrdb -merge XAlarm.ad+
+
+alarm.o: xalarm.h patchlevel.h
+when.o: xalarm.h patchlevel.h
+warning.o: xalarm.h patchlevel.h
+fns.o: xalarm.h patchlevel.h fns.h
+xalarm.o: xalarm.h patchlevel.h

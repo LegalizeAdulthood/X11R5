@@ -1,0 +1,29 @@
+@begin(header)
+author: Mark S. Ackerman
+show_author: ShowNone
+author_organization: MIT/CCS
+expiration_date: 12/31/93
+last_modifier: ack@amt.media.mit.edu
+last_mod_date: 09/20/91
+mod_num: 26
+@end(header)
+The X Window System/Root
+ Finding information about X.../InfoGrapher
+ Using an X Application/Using_Applications
+  Using a Particular Application .../Using_Applications_Particular
+  Picking the Right Application .../Using_Applications_Types
+  Locating an X binary/Using_Locating
+ Resource tutorial/Xt_Res_Tutorial
+ Programming with X/General_Programming
+  Athena widget set .../AthenaGrapher
+  Motif widget set .../MotifGrapher
+  OpenLook widget set/Prog_OLWT
+  XView/Prog_XView
+  Other toolkits/Prog_Other_TK
+  Xlib level .../XlibGrapherP
+  Xt/Prog_Xt
+   Xt routines .../XtRoutinesGrapher
+   Xt topics .../XtGrapher
+  Debugging .../DebugGrapher
+ Administering X .../AdminGrapher
+ Using Answer Garden .../AGGrapher

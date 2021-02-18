@@ -1,0 +1,7 @@
+#define IHaveSubdirs
+#define PassCDebugFlags /* as nothing */
+
+        SUBDIRS = app-defaults
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

@@ -1,0 +1,15 @@
+INCLUDES = -I. 
+LOCAL_LIBRARIES = $(XMLIB) 
+
+SRCS1=	\
+	xmphone.c Table.c 
+
+OBJS1 = \
+	xmphone.o Table.o 
+
+PROGRAMS=xmphone
+
+ComplexProgramTarget_1(xmphone,$(LOCAL_LIBRARIES), $(SYSLIBS))
+
+InstallAppDefaults(XMphone)
+

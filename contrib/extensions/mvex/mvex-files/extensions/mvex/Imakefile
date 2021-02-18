@@ -1,0 +1,17 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+
+/**/# Allow all makefiles to be built with platform defines from the top
+  IMAKE_DEFINES = MvexPlatformDefines
+
+#if BuildServer
+  SERVERSUBDIRS = server
+#endif
+
+        SUBDIRS = $(SERVERSUBDIRS) lib include clients doc
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs(lib)
+MakeLintSubdirs(lib,install.ln,install.ln)

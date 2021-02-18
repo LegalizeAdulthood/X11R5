@@ -1,0 +1,14 @@
+psycho is a multi window, multi display version of the ico
+demo.  by default, it'll look just like ico, but it takes additional
+display agruments, so that
+
+psycho $DISPLAY $DISPLAY
+
+will display it in two windows on the local display
+
+and
+
+psycho hostA:0 hostB:1 hostC:0
+
+will display it on 3 different hosts.
+

@@ -1,0 +1,12 @@
+@begin(header)
+author: ack@amt.media.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 09/09/93
+last_modifier: ack@amt.media.mit.edu
+last_mod_date: 09/09/91
+mod_num: 2
+@end(header)
+Programming with Xlib/Prog_Xlib
+ fonts/Xlib_fonts
+ visuals/Xlib_visuals

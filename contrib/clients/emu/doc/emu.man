@@ -1,0 +1,171 @@
+.TH XTERM\+ 1 "Release 4" "X Version 11"
+.SH NAME
+emu \- X Window System based extensible terminal emulator
+.SH SYNOPSIS
+.B emu
+[ -option ...] [-\fItoolkitoption\fP ...]
+.SH DESCRIPTION
+The \fIemu\fP program is a terminal emulator for the X Window System.
+It provides DEC VT200 as its basis emulation,
+.br
+including features like:
+.PP
+.in +0.5i
+full support of DEC's international character set,
+
+compose character processing,
+
+blinking cursor,
+
+blinking text.
+.PP
+Features not (yet\) supported are:
+.PP
+.in +0.5i
+double height \/ double width characters
+
+down-line loadable character sets
+
+selective erasing
+
+printing
+.SH OPTIONS
+The \fIemu\fP terminal emulator 
+accepts all of the standard X Toolkit command line options.
+.SH "TERMINAL TYPES"
+Per default emu uses the
+.B TERMTYPE 
+\fIemu\fP. It also works with all vt200 compatible terminfo 
+descriptions, such as, \fIno-220\fP and \fIwy-85\fP.
+.br
+Since \fIemu\fP supports a superset of the capabilities of an ANSII terminal,
+terminfo descriptions like \fIxterm\fP, \fIansii\fP or \fIvt100c\fP
+also work.
+.SH "CUTTING AND PASTING"
+Once the \fIemu\fP window is created, text can be cut and pasted
+using the X Toolkit's selection mechanism.
+.br
+Pressing the
+.B left
+mouse button starts the selection. Moving the mouse while the button stays
+depressed expands the selected area.
+.br
+Pasting of the selection is performed by pressing the
+.B middle
+button.
+.SH MENUS
+.PP
+.I emu
+has three menus configured with the default resources. They are:
+.TP 8
+.B
+Main Options:
+General Operations like redrawing the window, setting tty modes and sending
+signals to the process running under emu.
+.TP 8
+.B Term Options:
+To set parameters of the emulation like line wrap, cursor blink, reverse mode
+and so on.
+.TP 8
+.B Fonts:
+To change the fonts in use.
+.PP
+The menus can be invoked in two different ways:
+.in +0.5i
+By using the \fImenu bar\fP and activating the respective button in the bar
+
+or by holding down the
+.B Control Key
+and pressing the:
+
+.in +0.5i
+.B left mouse button
+for the Main Options menu,
+
+.B middle mouse button
+for the Term Options menu,
+
+.B right mouse button
+for the Fonts menu.
+.SH ENVIRONMENT
+.I emu
+sets the environment variables 
+.B TERM,
+.B LINES
+and
+.B COLUMNS
+properly for the size of the window created.
+.br
+Note however, that upon resizing the window
+.B LINES
+and 
+.B COLUMNS 
+should be updated by the shell. Currently, not all shells support
+this action (csh and ksh do not, bash does).
+.SH "COMPOSE KEY"
+The \fICompose Key\fP feature allows the generation of characters that
+don't have a keytop on the keyboard.  In order for the \fICompose Key\fP
+feature to work, there must be a key on the keyboard that produces the
+key symbol
+.B XK_Multi_key.
+.br
+However, most servers' keyboard mappings don't support a key which
+generates this symbol.
+See /fIxmodmap/fP for more information on this subject.
+
+.SH RESOURCES
+The program understands all of the core X Toolkit resource names and
+classes as well as:
+.TP 8
+.B
+screen.font:
+The font to use for normal text. The default is ``7x14''.
+.TP 8
+.B
+screen.boldFont:
+Font to use for bold text. The default is ``7x14bold''.
+.TP 8
+.B
+screen.CursorBlinking:
+Turn cursor blinking on\/off. The default is on.
+.TP 8
+.B
+screen.CursorHeight:
+The height of the text cursor. The default is 3, if CursorHeight is set 
+to 0, emu will use the height of a character cell (to get a block cursor)
+.TP 8
+.B
+screen.CursorWidth:
+The width of the text cursor. The default is 0, if CursorWidth is set to 0,
+emu will use the width of a character cell (to get a block cursor)
+.TP 8
+.B
+screen.BlinkInterval:
+The interval for cursor blink. The Default is 400 (ms)
+.TP 8
+.B
+screen.BlinkWOFocus:
+Indicates whether the cursor continues to blink when emu looses the
+input focus. The default is off.
+.TP
+.B
+screen.TextBlinkInterval:
+The interval for text blink. The default is 500 (ms)
+
+.SH "SEE ALSO"
+resize(1), X(1), pty(4), tty(4)
+.SH BUGS
+.PP
+Too numerous to mention here. After all it's an alpha release.
+.SH COPYRIGHT
+Copyright 1990, PCS Computer Systeme GmbH
+.br
+See the source code or \fIemu.texinfo\fP
+for a full statement of rights and permissions.
+.SH AUTHORS
+.sp
+Jordan Hubbard, Michael Elbel, Terry Jones, Thomas Bagli
+(PCS Computer Systeme GmbH, Munich, (West) Germany)
+.sp
+And for inspiration and guidance, all those far-too-many-people
+who developed \fIxterm\fP.

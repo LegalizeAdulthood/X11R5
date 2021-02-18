@@ -1,0 +1,10 @@
+Copyright 1991 Sony Corporation
+Apr 29, 1991
+
+This directory contains sj3serv (Japanese conversion server) itself.
+
+Install Procedure:
+	o Install sj3serv with INSTUIDFLAGS,
+	  this program needs setuid bit with root owner.
+	o Install serverrc to /usr/sony/lib/sj3/serverrc
+

@@ -1,0 +1,196 @@
+.\";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+.\"
+.\" File:         xmailbox.man
+.\" RCS:          $Header$
+.\" Description:  man page template
+.\" Author:	  Andrew Peebles
+.\" Created:      1-5-91
+.\" Modified:
+.\" Language:     Text
+.\" Package:      
+.\"
+.\";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+.TH XMAILBOX 1 "" "Internal Tools"
+.ad b
+.SH NAME
+xmailbox \- a general purpose mailbox monitor
+.SH SYNOPSIS
+.br
+\fBxmailbox\fP [ \-options ] [ \-toolkit options ]
+.SH DESCRIPTION
+\fIXmailbox\fP is a Widget Creation Library (Wcl) based Motif application
+that is used primarily to monitor your mailbox file, telling you when new
+mail arrives and who its from.  It is not a mail reader.  The user interface
+is entirely programmable by the user via Wcl resource files.  The name
+of the mailbox file and the commands used to gather From and Subject lines
+are resources and can be changed from thier default values to monitor
+other types of files (new users added to /etc/passwd, new machines added
+to /etc/hosts, etc).
+
+See the xmailbox 'manual' XMailbox.README_FIRST for a better description
+of xmailbox features and examples of how to run it.  See the Wcl manuals
+to learn how to write Wcl resource files.
+
+The options below can be specified to xmailbox either via resources in
+a resource file or by command line options.  The resource name is shown
+in the first column, with the equivelent command line option name shown
+in the next column surrounded by ().
+
+.SH OPTIONS
+.br
+.LP
+.B mailbox (-mailbox)
+.sp
+	The full pathname and file name of the mailbox file 
+	to monitor.  Typically this will be something like 
+	/usr/mail/peebles but may be any file that you wish 
+	to monitor changes to.
+.br
+.LP
+.B wcResources (-resources)
+.sp
+	The name of the resource file containing the Wcl 
+	resources that define the user interface.
+.br
+.LP
+.B hideNoMail (-hide)
+.sp
+	Boolean value indicating whether to hide the xmailbox
+	window (pop it down) when there is no new mail, or
+ 	when the mailbox file becomes empty.
+.br
+.br
+.LP
+.B includeSubject (-subject)
+.sp
+	Boolean value indicating whether to apply the
+	subjectCmd (see below) to the mailbox file when
+	new mail arrives.  Its sometimes useful to set this
+	to False when you write a custom fromCmd filter to
+	look at the mailbox file.
+.br
+.br
+.LP
+.B flash (-flash)
+.sp
+	Boolean value.  When True causes the xmailbox window 
+	to flash when new mail arrives in the mailbox file.
+.br
+.br
+.LP
+.B flashTimeout (-ftimeout)
+.sp
+	Microseconds between flashs when flash=True.
+.br
+.br
+.LP
+.B flashNumber (-fnumber)
+.sp
+	Number of times to flash if flash=True.
+.br
+.br
+.LP
+.B beep (-beep)
+.sp
+	Boolean value.  When True, causes xmailbox to beep
+	when new mail has arrived.
+.br
+.br
+.LP
+.B timeout (-timeout)
+.sp
+	Number of seconds between scans of the mailbox 
+	file to check if new mail has arrived.  This value
+	defaults to 60 seconds.
+.br
+.br
+.LP
+.B nomailboxWarningMessage (-nowarning)
+.sp
+	Boolean value.  If True, you get no warning message 
+	if the mailbox file does not exsist.  If False you
+	get a warning message and xmailbox terminates.
+	Some unix systems remove the mail spool files when
+	no mail exsists for the user.
+.br
+.br
+.LP
+.B fromCmd (-fromCmd)
+.sp
+	The name of the command to use to scan the mailbox
+	file for "From" lines.  This command will be passed
+	a single argument, the mailbox file specified with
+	the mailbox resource, and is expected to produce
+	output to stdout.  It defaults to 'grep "From:"'.
+.br
+.br
+.LP
+.B subjectCmd (-subjectCmd)
+.sp
+	Same as the fromCmd resource, but used to scan for
+	"Subject" lines.  It defaults to 'grep "Subject:"'.
+	This command is not performed if the resoure
+	includeSubject is False.
+.br
+
+.SH More on from and subject Commands
+The fromCmd and subjectCmd resources are used to format the data that
+is shown in the xmailbox window when the mailbox file is updated with
+more data.  When xmailbox scans the mailbox file (controlled by the
+timeout resource) it first checks to see if the mailbox file is zero length.
+If it is, xmailbox pops itself down (becomes invisible) if hideNoMail is
+True.  If the mailbox file is not zero lenght and its length is different
+than the last time is was scanned, then the fromCmd is invoked with
+the mailbox file name passed as a command line argument.  The standard
+output of the fromCmd is read back into xmailbox.  Only lines that are
+new (not already displayed in the xmailbox window) are appended to the
+bottom of the display window.  If includeSubject is true, the subjectCmd
+is also invoked, and its output displayed next to the output of the
+fromCmd.
+
+Let us build a simple /etc/hosts monitor.  It will look at /etc/hosts and
+display any new machines added to the hosts file while xmailbox is running.
+First we'll specify the 'mailbox file' to look at:
+
+XMailbox.mailbox:	/etc/hosts
+
+And a simple fromCmd that returns the first machine name after the host
+address in the hosts file:
+
+XMailbox.fromCmd:	awk -f '{print $2}'
+
+We don't want the subjectCmd, because all we're after is new machine names:
+
+XMailbox.includeSubject:False
+
+When you first invoke xmailbox with these resources, it will list all the
+machines currently in the hosts file.  You can then use the ClearText
+command from the interface to rub out the contents of the xmailbox window.
+Now whenever new machines are added to the hosts file, only those new
+machines will be displayed in the xmailbox window.
+
+Another example, this time using the subjectCmd, is to keep an eye on the
+passwd file.  You might wish to be notified (using xmailbox) when a new
+user has been added to the passwd file by sysadm, and to see both the
+new user's name and home directory.  Perhaps you'd like to send new users
+a welcome message when they first join your company.  You'd use something
+like this:
+
+XMailbox.mailbox:	/etc/passwd
+.br
+XMailbox.fromCmd:	awk -F':' '{print $1}'
+.br
+XMailbox.subjectCmd:	awk -F':' '{print $6}'
+.br
+XMailbox.includeSubject:True
+
+I'm sure you can come up with even more interesting uses for xmailbox.
+Each of these uses can each have thier own unique user interface via
+the wcResources resource, so they all look like seperate applications
+and are customized to thier own special tasks.
+
+.SH AUTHOR
+Andrew Peebles, Mips Computer Systems
+.SH SEE\ ALSO
+Wcl manual, XMailbox.README_FIRST
+

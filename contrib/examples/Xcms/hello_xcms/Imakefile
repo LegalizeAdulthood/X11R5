@@ -1,0 +1,10 @@
+# $Header: Imakefile,v 1.2 90/11/05 11:08:48 adamsc Exp $
+
+        DEPLIBS = XawClientDepLibs
+LOCAL_LIBRARIES = XawClientLibs
+  SYS_LIBRARIES = -lm
+
+           SRCS = hello_xcms.c
+           OBJS = hello_xcms.o
+
+ComplexProgramTarget(hello_xcms)

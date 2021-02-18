@@ -1,0 +1,23 @@
+/*
+ *      Copyright BellSouth 1991 - All Rights Reserved
+ *      For full copyright information see:'andrew/config/COPYRITE.bls'.
+ */
+
+DependTarget()
+
+NormalObjectRule()
+
+all::  entry.o  doload.o globals.o
+
+globals.c:
+	touch globals.c
+
+entry.o: entry.spp
+	rm -f entry.o ,entry.s ,entry.c
+	cp entry.spp ,entry.c
+	cc -E -I. ,entry.c > ,entry.s
+	as +z -o entry.o ,entry.s
+	rm -f ,entry.s ,entry.c
+
+InstallCshScript(makedo.csh, $(DESTDIR)/bin/makedo)
+

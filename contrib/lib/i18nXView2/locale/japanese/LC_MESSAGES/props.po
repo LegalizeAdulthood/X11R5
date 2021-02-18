@@ -1,0 +1,340 @@
+#
+# @(#)props.po 1.6 90/11/29; SMI
+#
+domain "props"
+#
+# color_props.i: line number: 10842
+msgid "Workspace"
+msgstr "ワークスペース"
+#
+# color_props.i: line number: 10842
+msgid "Windows"
+msgstr "ウィンドウ"
+#
+# color_props.i: line number: 10853
+msgid "Palette"
+msgstr "パレット"
+#
+# color_props.i: line number: 10853
+msgid "Custom"
+msgstr "ユーザ設定"
+#
+# color_props.i: line number: 10887
+msgid "Hue:"
+msgstr "色相:"
+#
+# color_props.i: line number: 10916
+msgid "Saturation:"
+msgstr "彩度:"
+#
+# color_props.i: line number: 10945
+msgid "Brightness:"
+msgstr "明度:"
+#
+# l10n_read.i: line number: 10589
+msgid "Bad format in %s (line#%d): missing name separator '%c')\n"
+msgstr "%s (行番号%d)にフォーマットの誤りがある: 名前を分割するセパレータ '%c' が無い\n"
+#
+# l10n_read.i: line number: 10603
+msgid "Bad format in %s (line#%d): Unknown category name [%ws]\n"
+msgstr "%s (行番号%d)にフォーマットの誤りがある: 未知のカテゴリ名 [%ws]\n"
+#
+# l10n_read.i: line number: 10614
+msgid "Bad format in %s (line#%d): no default value\n"
+msgstr "%s (行番号%d)にフォーマットの誤りがある: デフォルト値が無い\n"
+#
+# l10n_read.i: line number: 10645
+msgid "Bad format in %s (line#%d): missing field separator '%c'\n"
+msgstr "%s (行番号%d)にフォーマットの誤りがある: フィールドを分割するセパレータ '%c' が無い\n"
+#
+# l10n_read.i: line number: 10681
+msgid "Invalid default value in %s (line#%d): [%ws]\n"
+msgstr "%s (行番号%d)に使用できないデフォルト値がある: [%ws]\n"
+#
+# localization.i: line number: 10598
+msgid "Invalid Specific Settings for Category: Localization.\n"
+msgstr "カテゴリに使用できない詳細設定がある: ローカリゼーション\n"
+#
+# localization.i: line number: 10628
+msgid "Maximum # of choices in item is [%d] in Category: Localization\n"
+msgstr "カテゴリでの項目選択の最大値は [%d] である: ローカリゼーション\n"
+#
+# localization.i: line number: 10644
+msgid "Choice"
+msgstr "選択"
+#
+# localization.i: line number: 10841
+msgid " "
+msgstr " "
+#
+# localization.i: line number: 10846
+msgid "Basic Setting:"
+msgstr "基本設定"
+#
+# localization.i: line number: 10857
+msgid "Choice"
+msgstr "選択"
+#
+# localization.i: line number: 10868
+msgid "Invalid Basic Setting for Category: Localization.\n"
+msgstr "カテゴリに使用できない基本設定がある: ローカリゼーション\n"
+#
+# localization.i: line number: 10893
+msgid "Specific Setting:"
+msgstr "詳細設定"
+#
+# localization.i: line number: 10906
+msgid " "
+msgstr " "
+#
+# localization.i: line number: 10921
+msgid "Display Language:"
+msgstr "表示言語"
+#
+# localization.i: line number: 10923
+msgid "Choice"
+msgstr "選択"
+#
+# localization.i: line number: 10944
+msgid "Input Language:"
+msgstr "入力言語"
+#
+# localization.i: line number: 10954
+msgid "Choice"
+msgstr "選択"
+#
+# localization.i: line number: 10969
+msgid " "
+msgstr " "
+#
+# localization.i: line number: 10975
+msgid "Time Format:"
+msgstr "時刻形式"
+#
+# localization.i: line number: 10986
+msgid "Choice"
+msgstr "選択"
+#
+# localization.i: line number: 11001
+msgid " "
+msgstr " "
+#
+# localization.i: line number: 11007
+msgid "Numeric Format:"
+msgstr "数値:"
+#
+# localization.i: line number: 11018
+msgid "Choice"
+msgstr "選択"
+#
+# localization.i: line number: 11037
+msgid "Supplementary..."
+msgstr "補助設定"
+#
+# props.i: line number: 11591
+msgid "|"
+msgstr "|"
+#
+# props.i: line number: 11618
+msgid "|"
+msgstr "|"
+#
+# props.i: line number: 11621
+msgid " "
+msgstr " "
+#
+# props.i: line number: 11644
+msgid " Applying your changes will modify\n your ~/.Xdefaults file.  All comments\n in your file will be lost.  Do you\n want to do this?"
+msgstr "変更を適用するとホームディレクトリにある ~/.Xdefaults ファイルが変更され、\nファイル中のコメントは失われます。適用しますか？"
+#
+# props.i: line number: 11646
+msgid "Yes"
+msgstr "はい"
+#
+# props.i: line number: 11647
+msgid "No"
+msgstr "いいえ"
+#
+# props.i: line number: 11817
+msgid " "
+msgstr " "
+#
+# props.i: line number: 11821
+msgid "Location:"
+msgstr "位置"
+#
+# props.i: line number: 11822
+msgid "Top"
+msgstr "上"
+#
+# props.i: line number: 11822
+msgid "Bottom"
+msgstr "下"
+#
+# props.i: line number: 11823
+msgid "Left"
+msgstr "左"
+#
+# props.i: line number: 11823
+msgid "Right"
+msgstr "右"
+#
+# props.i: line number: 11850
+msgid " "
+msgstr " "
+#
+# props.i: line number: 11853
+msgid "Drag-Right distance (pixels):"
+msgstr "右にドラッグする距離 (ピクセル):"
+#
+# props.i: line number: 11873
+msgid " "
+msgstr " "
+#
+# props.i: line number: 11877
+msgid "SELECT Mouse Press:"
+msgstr "セレクトボタン押下:"
+#
+# props.i: line number: 11879
+msgid "Selects Default"
+msgstr "デフォルトを選択"
+#
+# props.i: line number: 11879
+msgid "Displays Menu"
+msgstr "メニューを表示"
+#
+# props.i: line number: 11906
+msgid " "
+msgstr " "
+#
+# props.i: line number: 11909
+msgid "Beep:"
+msgstr "警告音:"
+#
+# props.i: line number: 11911
+msgid "Always"
+msgstr "常時"
+#
+# props.i: line number: 11912
+msgid "Notices Only"
+msgstr "限定"
+#
+# props.i: line number: 11913
+msgid "Never"
+msgstr "なし"
+#
+# props.i: line number: 11929
+msgid " "
+msgstr " "
+#
+# props.i: line number: 11933
+msgid "Set Input Area:"
+msgstr "入力領域の指定:"
+#
+# props.i: line number: 11935
+msgid "Click SELECT"
+msgstr "セレクトボタンをクリック"
+#
+# props.i: line number: 11936
+msgid "Move Pointer"
+msgstr "ポインタを移動"
+#
+# props.i: line number: 11950
+msgid " "
+msgstr " "
+#
+# props.i: line number: 11954
+msgid "Scrollbar Placement:"
+msgstr "スクロールバーの位置:"
+#
+# props.i: line number: 11956
+msgid "Left"
+msgstr "左"
+#
+# props.i: line number: 11957
+msgid "Right"
+msgstr "右"
+#
+# props.i: line number: 12001
+msgid " "
+msgstr " "
+#
+# props.i: line number: 12004
+msgid "Scrollbar Pointer Jumping:"
+msgstr "スクロールバーポインタのジャンプ:"
+#
+# props.i: line number: 12017
+msgid " "
+msgstr " "
+#
+# props.i: line number: 12021
+msgid "Pop-up Pointer Jumping:"
+msgstr "ポップアップポインタのジャンプ:"
+#
+# props.i: line number: 12035
+msgid " "
+msgstr " "
+#
+# props.i: line number: 12039
+msgid "Multi-click Timeout (sec/10) :"
+msgstr "多重クリックの間隔 (秒/10) :"
+#
+# props.i: line number: 12078
+msgid "Apply"
+msgstr "適用"
+#
+# props.i: line number: 12086
+msgid "Reset"
+msgstr "リセット"
+#
+# props.i: line number: 12276
+msgid "Workspace Properties"
+msgstr "ワークスペースプロパティ"
+#
+# props.i: line number: 12293
+msgid "Category:"
+msgstr "カテゴリ"
+#
+# props.i: line number: 12302
+msgid "Color"
+msgstr "カラー"
+#
+# props.i: line number: 12302
+msgid "Icons"
+msgstr "アイコン"
+#
+# props.i: line number: 12302
+msgid "Menus"
+msgstr "メニュー"
+#
+# props.i: line number: 12302
+msgid "Miscellaneous"
+msgstr "その他"
+#
+# props.i: line number: 12302
+msgid "Mouse Settings"
+msgstr "マウスの設定"
+#
+# props.i: line number: 12302
+msgid "Localization"
+msgstr "ローカリゼーション"
+#
+# props.i: line number: 12304
+msgid "Icons"
+msgstr "アイコン"
+#
+# props.i: line number: 12304
+msgid "Menus"
+msgstr "メニュー"
+#
+# props.i: line number: 12304
+msgid "Miscellaneous"
+msgstr "その他""
+#
+# props.i: line number: 12304
+msgid "Mouse Settings"
+msgstr "マウスの設定"
+#
+# props.i: line number: 12304
+msgid "Localization"
+msgstr "ローカリゼーション"

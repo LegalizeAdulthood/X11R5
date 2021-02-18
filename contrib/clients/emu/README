@@ -1,0 +1,165 @@
+This is the top level directory for the PCS emu system.
+
+BETA RELEASE NOTES:
+
+The documentation is not yet ready.  When the documentation is ready,
+you will receive a complete emu.texinfo file as an update to this
+kit.  If you need information more quickly than this, please contact
+us directly and we'll try to send you enough information to get you
+going personally.
+
+Getting and setting tty parameters not implemented for each and every
+machine we could think of, only generic SYSV machines and SunOS.  VMS
+support is forthcoming.  UTMP handling currently only works for
+System V.
+
+
+HIERARCHY:
+
+The system is broken into several sections, each of which can be
+tested independently (in case of trouble) with its own separate
+Imakefile. The Imakefile at the top level (this directory) should be
+used to make the emu sample client.
+
+Described briefly, the directory structure is as follows:
+
+    ./canvas		The termCanvas widget
+    ./client		Emu sample client code
+    ./doc		Documentation, what little there is
+    ./include		Emu system-wide include files
+    ./menus		Emu client's configurable menus
+    ./misc		Emu system-wide miscellaneous utility routines 
+    ./tdesc		Emulator description files
+    ./term		The term widget
+    ./term/parser	The term widget's parser code.
+    ./term/sysdep	The system dependent term code.
+
+Executing "make" in the canvas, client, menus, term or term/parser
+directories will build stand-alone test programs for these sections
+in the event that you have problems.
+
+Doing a make in tdesc will install the emu defaults in your XAppLoadDir
+and possibly compile a terminfo description for your term type.
+
+
+VARIOUS QUIRKS AND WHAT'S IN THE WORKS:
+
+SunOS users will find that emu only works with csh, for some strange
+reason.  Anyone who understands the magic incantations necessary to do
+pty handling on suns better than we do is encouraged to lend a hand.
+
+Currently, only one canvas is supported for basic VT220 text I/O plus
+colored text. Some enhancements to it are planned, including better
+selection handling, double height and double width characters and variable
+font orientation (up-down, right-to-left, etc).
+
+Another canvas for supporting basic graphics operations is also
+planned, though it may be some time before this is done. If someone
+wants to write a basic graphics terminal canvas (and maybe a TEK4014
+emulation to go with it), we'll be happy to fold it in.
+
+The term widget itself does not support changing of all of its
+parameters once it's realized, though it does allow you to change
+things like the current emulation, canvas, read buffer size and any of
+the callback functions. If someone can give good reason for changing
+some other parameter (like, for instance, the currently executing
+command) on the fly, it may be added in.
+
+The term widget tries to classify all the various system dependent
+things one needs to do to launch an interactive terminal emulator
+under the 1001 different UNIX mutations currently around, but some
+things (like fancy synchronization) will certainly have slipped
+through the cracks. If there's some general thing you need to do that
+just can't be done within the existing framework, let us know and
+we'll try to add a system independent hook to let you do it as cleanly
+as possible.  As soon as we get a better idea as to what sorts of
+system specific features people _really_ need, we also plan to revamp
+the process creation and control system significantly; hopefully to
+allow the quirks of different systems to be cleanly isolated.
+The emu system is still evolving and all contributions are welcomed.
+
+Likewise, support for systems other than the PCS Cadmus and SUN
+systems running SunOS 4.0 is rather thin on the ground, due to the
+small number of machines we have available for testing. We will be
+happy to incorporate system specific changes (providing that they're
+done halfway neatly) if and when they're made available by interested
+third parties.
+
+Motif menus are not yet 100% due to a quirk in Motif, which doesn't
+allow for more than a single button (or event) to popup a menu.  This
+may not be so easily remedied without a major workaround.  In any
+case, if you must use Motif menus, use the menubar mode.
+
+We currently support 3 parsers:  A vt220-like parser that, while
+fairly close, does not yet support full vt220 functionality (think
+of it as a framework in which to add any additional functionality
+you may need), an xterm parser that is basically a subset of the vt220
+parser (xterm + some extra features), and an "emu" parser which is
+basically an artificial terminal engineered to be as efficient to
+parse as possible.  Use the last parser if you're interested in a
+"lean-n-mean" emu that doesn't need to emulate anything existing.
+
+The xterm parser is the current default parser.
+
+PORTING:
+
+Porting the Emu system to a new architecture should not be too
+difficult, assuming that the user is familiar with tty and process
+manipulation on their system. To make things easier, and to avoid
+pathological #ifdef'ing of the code, system dependent functions
+have been partitioned off into separate files as follows:
+
+term/sysdep/<system>_process.i		Process handling specifics.
+					Conditionally included from
+					term/process.c
+
+term/sysdep/<system>_tty.i		Tty handling specifics.
+					Conditionally included from
+					term/tty.c
+
+For each new architecture, a new set of .i files should be created for
+process and tty handling; read term/README for a list of which routines
+need to be supported. You may find that one of the existing examples
+is enough to get you off the ground with suitable tweaks being made later
+as you find problems - look at existing examples for clues.
+
+Certain other system dependant parameters are in include/config.h
+and may need to be tuned for your system.
+
+If you need to change anything else, let us know. It should have been
+system independent, but this isn't to say that it actually *is*, of course.
+
+Next, use imake to make Makefiles in the directory tree with your appropriate
+system parameters. "make Makefiles" should be sufficient for this, though
+you may need to do an "xmkmf" to make the initial Makefile first.
+
+Cross your fingers and type "make".
+
+Read the documentation and top level README. They describe how to make
+various parts of the system stand-alone in case of trouble. They also describe
+the generic parser input description format, which can look a bit scary
+if you're not used to it. You may need to delve into the actual emulation
+description if it doesn't do absolutely everything you want.
+
+REPORTING BUGS:
+
+Send bugs and/or enhancement requests to the Emu Team (Jordan "term" Hubbard,
+Michael "canvas" Elbel or Thomas "menus" Bagli):
+
+Email US:	emu@pcsbst.pcs.com
+Email Europe:	emu@pcsbst.pcs.de (or: mcvax!unido!pcsbst!emu)
+
+Tel:		011-49-89-68004-284 (ask for Jordan or Michael).
+		011-49-89-68004-244 (ask for Tom).
+
+Snail:		<any of the emu team members>
+		c/o PCS Computer Systeme, GmbH
+		Pfaelzer-Wald-Strasse 36
+		D-W8000 Munich 90
+		Germany
+
+		Please remember to address personal correspondence to
+		one of us since the PCS secretary would have no idea
+		what an "Emu Team" was (except that it might perhaps
+		be some kind of American cartoon show) and would
+		consider it misaddressed.

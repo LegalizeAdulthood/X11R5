@@ -1,0 +1,30 @@
+JS_HINDO_FILE_CREATE( )
+
+名称
+
+	js_hindo_file_create	辞書ファイルの頻度ファイルを作る。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_hindo_file_create(env,fid,fn,comment,hpasswd)
+	struct wnn_env *env;	/* 環境 */
+	int     fid;		/* 辞書ファイルのID */
+	char 	*fn;		/* ファイル名 */
+	w_char  *comment;	/* コメント */	
+	char 	*hpasswd;	/* パスワード */
+
+機能
+
+	辞書ファイルID fid の頻度ファイルを作る。
+	頻度ファイル名 fn の最大文字数は、100 文字である。
+        頻度ファイルのコメント comment の最大文字数は、1024 文字である。
+        頻度ファイルのパスワード hpasswd の最大文字数は、16 文字である。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

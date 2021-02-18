@@ -1,0 +1,15 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+NormalHelpRule()
+InstallDocs(atk.help color.help geomtry.help insets.help tour.help procs.help prog.help, ${DESTDIR}/help)
+InstallHelpAlias(prog, programming atkprogramming)
+InstallHelpAlias(atk, be2 toolkit andrewtoolkit)
+InstallHelpAlias(color, colors)
+InstallHelpAlias(insets, inset)
+InstallHelpAlias(overview,overview)
+InstallHelpAlias(geomtry, geometry)
+
+InstallDocs(Readme.doc overview.doc progenv.doc insets.doc   fonts.doc,${DESTDIR}/doc/atk)

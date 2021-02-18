@@ -1,0 +1,81 @@
+.\" $Header: PEXtEllips.man,v 1.0 91/10/04 17:02:05 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtEllipse2 3PEXt "January 9th, 1991"
+.SH NAME
+\fBPEXtEllipse2, PEXtEllipsoid2\fP \(em create hollow or filled ellipses
+.sp 1
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Primitive.h>
+.sp 1
+void PEXtEllipse2 (\fIx, y, z, radius, eccentricity, num_segments\fP)
+.br
+.ta .5i 2i
+	\fBPfloat\fP	\fIx, y, z\fP;
+.br
+	\fBPfloat\fP	\fIradius\fP;
+.br
+	\fBPfloat\fP	\fIeccentricity\fP;
+.br
+	\fBPint\fP	\fInum_segments\fP;
+.sp 1
+\fBvoid PEXtEllipsoid2(\fIx, y, z, radius, eccentricity, num_segments\fP)
+.br
+.ta .5i 2i
+	\fBPfloat\fP	\fIx, y, z\fP;
+.br
+	\fBPfloat\fP	\fIradius\fP;
+.br
+	\fBPfloat\fP	\fIeccentricity\fP;
+.br
+	\fBPint\fP	\fInum_segments\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+These convenience procedures create approximations to an ellipse in the XY
+plane with its center at (\fIx\fP, \fIy\fP, \fIz\fP) of the given
+\fIeccentricity\fP and \fIradius\fP.  \fBPEXtEllipse2\fP creates the outline
+of an ellipse using a single \fBPPOLYLINE\fP structure element.
+\fBPEXtEllipsoid2\fP creates a solid ellipse using a single \fBFILL AREA\fP
+structure element.
+The \fIradius\fP parameter specifies
+the length of the major axis of the ellipse.  The major axis of the ellipse
+is coincident with the Y axis if the \fIeccentricity\fP parameter is
+greater than 1.0.  Otherwise, the major axis of the ellipse is coincident
+with the X axis.
+The approximation uses \fInum_segments\fP polyline segments
+to approximate the ellipse.  If the current edit mode is set to \fIPINSERT\fP,
+then the structure element is inserted into the currently open structure
+at the current element pointer position; otherwise the structure element
+replaces the element in the currently open structure at the current element
+pointer position.
+.SH RETURN VALUE
+None
+.SH BUGS
+A plane normal should be introduced to specify the plane of the ellipse.
+.sp 1
+The error tolerance should be specified using a curvature metric instead
+of a subdivision metric.
+.sp 1
+There should be a way to specify an ellipse whose axes are not coincident with
+the X and Y axes.
+.sp 1
+The routine should detect the condition when the subdivision count causes
+the structure element to become too large for the protocol transmission
+packet size.
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

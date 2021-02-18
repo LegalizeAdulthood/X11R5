@@ -1,0 +1,9 @@
+;;; -*-Scheme-*-
+
+(define (factorial n)
+  (let fact ((i n) (a 1))
+    (if (zero? i)
+	a
+	(fact (- i 1) (* a i)))))
+
+(print (factorial 10))

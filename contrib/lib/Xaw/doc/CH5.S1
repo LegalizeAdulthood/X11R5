@@ -1,0 +1,17 @@
+.bp
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 5\fP\s-1
+
+\s+1\fBText Widgets\fP\s-1
+
+.nr H1 5
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.NH 2
+Text Widget for Users
+.bp

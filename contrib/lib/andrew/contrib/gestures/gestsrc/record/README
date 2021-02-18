@@ -1,0 +1,59 @@
+/***********************************************************************
+
+Copyright (C) 1991 Dean Rubine
+
+** Permission to use, copy, modify, and distribute this software and its
+** documentation for any purpose and without fee is hereby granted, provided
+** that the above copyright notice appear in all copies and that both that
+** copyright notice and this permission notice appear in supporting
+** documentation.  This software is provided "as is" without express or
+** implied warranty.
+
+**********************************************************************/
+
+This directory contains mrecord, a simple program from recording mouse gestures
+
+An example use is given in gdprec, which records the gestures for the gdp
+program:
+
+	for i
+	in line rect copy Rotate delete pack ellipse #Dot move
+	do
+		mrecord -s -o gdp.train -c $i
+	done
+
+
+The -s option means each gesture is a single stroke (and should be the
+default but isn't).  Each invocation to mrecord records examples of a single
+gesture class, which is given via the -c option.  The -i option specifies
+the output file; it's usually a .train or .test file.
+
+I usually record about fifteen examples of each class.  The gestures are made
+with the left button, and the right button quits the program.
+
+   A note on training:
+      At first, within a class, use examples that are all pretty similar,
+      especially in orientation, but in size as well.  After you prove to
+      yourself that the recognition works, you can experiment, varying the
+      size and/or orientation of the training examples and see how the
+      recognizer performs.  A little variation in the training examples is
+      essential to good recognition; otherwise variations in the test examples
+      may cause misclassifications.
+
+    The siggraph paper and the usenix paper show some gestures that work for
+    gdp.  In case you don't have the paper handy, here's a description of
+    the gestures I usually use.  (The paper has pictures, which are easier
+    to understand than these descriptions.)
+
+	line	a rightward segment
+	rect	an ```L''
+	copy 	a ``C''
+	Rotate	a loop, much like a script ``n''
+	delete  a ``X'' made with a single stroke (i.e. three segments)
+	pack	a counterclockwise circle, starting and ending at ``noon''
+	ellipse an upward stroke followed by a counterclockwise circle
+	.dot	pressing the button without moving
+	move	a rightward arrow (right segment followed by a short
+		  leftward,downward segment)
+
+

@@ -1,0 +1,78 @@
+#include "../Wc.tmpl"
+
+/**/# Imakefile for libXmp
+
+#if HaveMotif10
+MOTIFDEF      = -DMOTIF10
+#else
+MOTIFDEF      =
+#endif
+
+#if WantTableWidget
+TABLE_HEADERS = Table.h TableP.h
+TABLE_SRCS    = Table.c
+TABLE_OBJS    = Table.o
+DEFINES       = -D_NO_PROTO -DTABLE $(MOTIFDEF)
+#else
+DEFINES       = -D_NO_PROTO $(MOTIFDEF)
+#endif
+
+INCLUDES       = -I. -I$(TOP) $(XMINC) $(X11INC)
+HEADERS        = $(TABLE_HEADERS)
+SRCS           = XmpRegAll.c $(TABLE_SRCS)
+OBJS           = XmpRegAll.o $(TABLE_OBJS)
+ 
+all::
+#if HasSunOSSharedLibraries
+# if DebugLibWc
+SharedAndDebuggedLibraryObjectRule()
+# else
+SharedLibraryObjectRule()
+# endif
+#else
+# if DebugLibWc && ProfileLibWc
+DebuggedAndProfiledLibraryObjectRule()
+# else
+#  if DebugLibWc
+DebuggedLibraryObjectRule()
+#  else
+#   if ProfileLibWc
+ProfiledLibraryObjectRule()
+#   else
+NormalLibraryObjectRule()
+#   endif
+#  endif
+# endif
+#endif
+
+/*
+ * always generate unshared library too
+ */
+MakeDirectories(install,$(INSTLIB))
+#if HasSunOSSharedLibraries
+NormalSharedLibraryTarget(Xmp,$(SoWcRev),$(OBJS))
+InstallSharedLibrary(Xmp,$(SoWcRev),$(INSTLIB))
+#endif
+NormalLibraryTarget(Xmp,$(OBJS))
+InstallLibrary(Xmp,$(INSTLIB))
+
+LintLibraryTarget(Xmp,$(SRCS))
+InstallLintLibrary(Xmp,$(INSTLIN))
+
+#if ProfileLibWc
+ProfiledLibraryTarget(Xmp,$(OBJS))
+InstallLibrary(Xmp_p,$(INSTLIB))
+#endif
+
+#if DebugLibWc
+DebuggedLibraryTarget(Xmp,$(OBJS))
+
+#endif
+
+MakeDirectories(install,$(INSTINC)/Xmp)
+InstallMultiple($(HEADERS),$(INSTINC)/Xmp)
+
+DependTarget()
+
+NormalLintTarget($(SRCS))
+

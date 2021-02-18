@@ -1,0 +1,46 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+OBJS = convrast.o
+
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = 
+#endif /* LIBDL_ENV */
+#else
+RESOLVER_LIB =
+SYS_LIBS = 
+#endif
+
+LIBS = 	$(BASEDIR)/lib/atk/libbasics.a \
+	$(BASEDIR)/lib/libclass.a \
+	$(MALLOCLIB) \
+	$(BASEDIR)/lib/liberrors.a \
+	$(UTILLIB) \
+	$(RESOLVER_LIB)
+
+NormalObjectRule()
+
+ClassProgramTarget(convertraster, convrast.o,  $(LIBS), $(SYS_LIBS) $(NETLIBS) ${BSDLIB})
+
+InstallProgram(convertraster, $(DESTDIR)/bin)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(convras.help, ${DESTDIR}/help)
+InstallHelpAlias(convras, convertraster)
+
+MkdirTarget(${DESTDIR}/doc/atk/raster  ${DESTDIR}/doc/atk/raster/convert)
+InstallDocs(convert.doc,${DESTDIR}/doc/atk/raster/convert)
+

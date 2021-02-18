@@ -1,0 +1,21 @@
+This directory shows how you can set up a Makefile so that the client
+program will be remade when a new widget is put into the description
+language.  Trivial changes to the description file will not force
+recompilation or linking.
+
+The essentials are that the client program includes a .wh file that
+contains the required "make_tag_class_list()" function.  In this case,
+xmake.c includes xmake.wh.  This include file only changes when a widget
+is added to the description language that isn't found in the include file.
+
+To test this yourself, notice that executing "make xmake" a second time
+will result in no action since everything is up to date.  If you
+"touch incl.wl", then "make xmake", a little something will happen,
+but the client will not be remade since it was determined that nothing
+significant changed, even though one of the description files was modified.
+If you edit incl.wl to have an XcuCommand widget instead of an XcuLabel widget,
+and then "make xmake", xmake will be completely remade.
+
+At this point, "xmake.wh" will contain the XcuLabel widget, too, since
+it accumulates all widgets ever mentioned.  To get a fresh, minimal file,
+remove the files xmake.nc and xmake.wb before making again.

@@ -1,0 +1,25 @@
+.\" $Header: /imports/wink/work/nk.R3.1/cmd/scripts/RCS/mkromdic.man,v 1.5 91/09/02 22:05:32 kubota Exp $ NEC;
+.if t .pn 1
+.TH MKROMDIC 1
+.SH "名前"
+mkromdic \- テキスト形式のローマ字かな変換テーブルのバイナリ形式への変換
+.SH "形式"
+.B "mkromdic [\fIoptions\fP …] file"
+.SH "説明"
+.PP
+ローマ字とかなの変換を定義したテキストファイルから，ローマ字かな変換の
+ための変換テーブルを作成するコマンドです。句読点や記号の変換テーブルの
+作成も可能です。
+.I options
+には，
+.IR cpp(1)
+に指定できるオプションが指定できます。
+.SH "使用例"
+.nf
+% mkromdic romaji.rdef
+
+romaji.rdic が作成されます。
+.fi
+.SH "関連情報"
+.PP
+cpp(1), dpromdic(1)

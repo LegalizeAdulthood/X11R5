@@ -1,0 +1,60 @@
+The file src/stack.s exports three small functions that are used by the
+part of the Scheme interpreter that implements continuations.  Since
+these functions have to be written in assembly code, it may be
+necessary to write a new src/stack.s when the software is ported to an
+environment that is currently not supported.  See the file INSTALL in
+the top level directory of the distribution for more information about
+porting the software.
+
+The directory stk holds two small test programs (test1.c and test2.c)
+that should be compiled, linked together with the new stack.o, and
+run to make sure that the stack functions are working correctly.
+See the comments at the beginning of test1.c and test2.c.
+
+The functions exported by src/stack.s are:
+
+   int stksize()
+   int saveenv(char *buf)
+   jmpenv(const char *buf, int retcode)      (jmpenv does not return)
+
+stack.s imports two variables:
+
+   char *stkbase
+   Object Special
+
+(see below).
+
+saveenv() and jmpenv() are an extension of setjmp() and longjmp().
+saveenv() copies the registers and part of the runtime stack into a
+variable in the data space ("buf"); jmpenv() copies the stack back to
+the original position, restores the registers, and returns to the point
+where the corresponding saveenv() has been called (execution continues
+as if the call to saveenv() had returned "retcode").
+
+Copying of the stack always starts at the location pointed to by the
+global variable "char *stkbase".  This variable is set by the interpreter
+to point to a local variable of the function main() (see src/main.c).
+
+The function stksize() is used to determine the size of a buffer passed
+to saveenv().  Thus it returns the current size of the runtime stack
+(actually the difference between the stack pointer and the value of
+stkbase) plus the space that is needed to store the registers plus a
+safety margin (stack size + 100 is a reasonable value for the 68k).
+
+saveenv() first saves all registers, the stack pointer, and the
+PC of the caller (the return address) into the low locations of
+"buf" (starting at &buf[4]).  Then the runtime stack is copied
+into the locations behind the saved registers; copying starts
+at the top of the stack and ends at stkbase.
+
+The difference between the address of the top of the runtime stack and
+the address of the copy of the stack in "buf" is written into the first
+word of "buf" (this is the "relocation offset", i.e. the number of
+bytes the stack image has been moved in the data space).  The
+interpreter needs the relocation offset to access variables in a copy
+of the stack; the offset is retrieved by *(int *)buf.
+
+saveenv() returns the value of the global variable "Special".
+
+jmpenv() simply copies back the saved stack image, restores the
+registers and the saved stack pointer, and returns to the saved PC.

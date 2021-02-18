@@ -1,0 +1,460 @@
+##################################################
+#  props.info    August 14
+#
+# This help text is for the workspace properties.
+#
+#       Open Windows Version 2 FCS
+#
+#       @(#)props.info 1.13 90/12/12
+#
+##################################################
+:CategoryInfo
+Category
+
+Provides a menu of properties you can change.
+Here is a list of the options and the settings
+they affect:
+
+Color		Workspace and window color
+		(for color systems only)
+
+Icons		Location of icons on workspace	
+
+Menus		Drag-Right distance for pointer
+		SELECT Mouse Press 
+
+Miscellaneous	Beep
+		Set Input Area
+		Scrollbar Placement
+
+Mouse		Scrollbar Pointer Jumping
+		Pop-up Pointer Jumping
+		Multi-Click Timeout
+
+Localization	Basic Setting
+		Display Language
+		Input Language
+		Time Format
+		Numeric Format
+#
+:ApplyInfo
+Apply 
+
+Applies the new settings and dismisses the 
+Workspace Properties window.
+
+Some properties take effect immediately, and 
+others take effect the next time you start a new
+application.
+
+#
+:ResetInfo
+Reset 
+
+Returns the properties to their original settings
+and removes any change bars.
+
+#
+########################################
+#       Color Category
+######################################
+#
+:ColorPanelInfo
+
+Change the color of the workspace or windows,
+using items in this pane.
+
+In the upper left corner, you can preview 
+your color choices before applying them.
+
+Click on Apply to apply your changes to the
+workspace or windows.
+:ColorChoiceInfo
+Workspace/Windows
+
+Lets you choose whether you are editing the
+workspace color or the window color.
+
+Click SELECT on Workspace to edit workspace
+color.  Click SELECT on Windows to edit
+Window color.
+:CustomColorInfo
+Custom/Palette
+
+Lets you choose whether you are picking colors
+from the palette or creating a custom color using
+the custom color properties window.
+
+When you click on Custom, the Color properties
+window lets you create a custom color, using the
+Hue, Saturation, and Brightness sliders.
+
+Click SELECT on Palette to return to the color
+palette.
+:PaletteInfo
+Palette Grid
+
+This grid contains a variety of predetermined 
+colors that are ideal for windows and the 
+workspace.
+
+There are eight hues, each with four saturations,
+and two brightness levels.  On the right are eight
+levels of grayscale.
+
+Click SELECT on a color to choose it. When you 
+choose a a new color for Windows, the preview
+area in the upper left corner of the pane shows
+a preview of the "three-D" look.
+
+:AppImageInfo
+Preview Area
+
+This is the preview of what your current color
+selections will look like when used for the 3D
+OpenLook windows.
+
+:HueSlider
+Hue Slider
+
+Sets the hue, similar to the way the "Hue" 
+dial on a television sets the basic "rainbow" 
+color.
+
+:SaturationSlider
+Saturation Slider
+
+Sets the saturation, similar to the way the
+"Color" dial on a television sets how intense 
+the colors are.  
+
+Moving this slider all the way to the left 
+makes all colors look gray and effectively
+disables the Hue slider.
+:BrightnessSlider
+Brightness Slider
+
+Sets the brightness, much like the
+"Brightness" dial on a TV selects how bright 
+the colors are.  
+
+Moving this slider all the way to the
+left turns all colors black and effectively
+disables the Hue and Saturation sliders.
+#
+#######################################
+#       Icons Category
+######################################
+#
+:IconPanelInfo
+Change the location of icons on the workspace,
+using items in this pane.
+
+:IconLocationInfo
+Icon Location
+
+Specifies where on the screen new icons will be 
+displayed.  The choices are:
+
+
+Top	First icon appears in the upper left 
+	corner.  Subsequent icons appear to the
+	right of the first icon.  
+
+Bottom	First icon appears in the lower left 
+	corner.  Subsequent icons appear to the
+	right of the first icon.
+
+Left	First icon appears in the upper left 
+	corner.  Subsequent icons appear below 
+	the first icon.
+
+Right	First icon appears in the upper right 
+	corner.  Subsequent icons appear below 
+	the first icon.
+
+
+Click on Apply to apply the location setting.  
+
+For icons that are already displayed, the 
+location will not change.  When you start a new 
+application, its icon will use the new location.
+
+#
+#######################################
+#       Menus Category
+######################################
+#
+
+:MenuPanelInfo
+Change settings for how you choose from a menu,
+using items in this pane.
+
+
+:MenuDragRightInfo
+Drag-Right distance
+
+Specifies how far you must drag the pointer before
+it displays a submenu.  The smaller the number, 
+the faster the submenu appears.
+
+Enter the number of pixels you want to drag the
+pointer before it displays the submenu.
+
+Default = 5 pixels
+
+This setting takes effect as soon as you click on
+Apply.
+
+#
+:SelectMousePressInfo
+SELECT Mouse Press
+
+Determines what happens when you use the SELECT
+mouse button on a menu button.
+
+Selects Default		Shows the default setting
+			for the menu when you 
+			press SELECT.  Executes
+			the default when you 
+			release SELECT. 
+
+Displays Menu		Displays the menu.
+
+
+Click on Apply to apply the setting.  
+
+For applications that are already running, the 
+Mouse Press setting will not change.  When you 
+start a new application, it will use the new 
+setting.
+
+#
+#######################################
+#       Miscellaneous
+######################################
+#
+
+:MiscPanelInfo
+Change settings for beep, input area and
+scrollbar placement, using items in this 
+pane.
+
+#
+:Beep
+Beep
+
+Specifies when your system will beep.  
+The choices are:
+
+Always		Beeps for all applications
+
+Notices Only	Only beeps when a Notice is
+		displayed	
+
+Never		Never beeps
+
+Click on Apply to apply the setting.  
+
+For applications that are already running, the 
+Beep setting will not change.  When you 
+start a new application, it will use the new Beep
+setting.
+
+
+#
+:InputFocusInfo
+Set Input Area
+
+Specifies how you activate the input caret so you 
+can type in a window or text field.
+
+The choices are:
+
+Click SELECT	Move the pointer into a window and
+		click the SELECT mouse button.
+
+Move Pointer	Move the pointer into a window.
+
+This setting takes effect as soon as you click on
+Apply.
+
+With either setting, you can set a new insert
+point by clicking SELECT in a text field or pane.
+
+#
+:ScrollbarPlacementInfo
+Scrollbar Placement
+
+Specifies where the scrollbar is placed in a pane.
+This setting applies to all applications on the
+workspace.  
+
+Click on Apply to apply the setting.  
+
+For applications that are already running, the 
+Scrollbar Placement will not change.  When you 
+start a new application, it will use the new 
+Scrollbar Placement.
+
+You can have some applications with scrollbars on
+the right, and some with scrollbars on the left,
+depending on when you set the Scrollbar Placement
+and when you start the applications.
+
+#
+#######################################
+#       Mouse Settings
+######################################
+#
+
+:MouseSetPanelInfo
+Change mouse-related settings,  using items in 
+this pane.
+
+
+#
+:ScrollbarPointerJumpInfo
+Scrollbar Pointer Jumping
+
+Sets the pointer so it follows the moves of the 
+scrollbar elevator.
+
+Click SELECT on the check box to set the pointer.
+To undo the setting, click on the check box again.
+
+Click on Apply to apply the setting.  
+
+For applications that are already running, the 
+Pointer Jumping setting will not change.  When 
+you start a new application, it will use the
+new setting.
+
+#
+:PopupPointerJumpInfo
+Pop-up Pointer Jumping
+
+Sets the pointer so it jumps into a pop-up window
+when you open it.
+
+Click SELECT on the check box to set the pointer.
+To undo the setting, click on the check box again.
+
+Click on Apply to apply the setting.  
+
+For applications that are already running, the 
+Pointer Jumping setting will not change.  When 
+you start a new application, it will use the
+new setting.
+
+#
+:MultiClickInfo
+Multi-Click Timeout
+
+Specifies in 10ths of a second the length of time
+between clicks for multi-click operations.   If
+the time between clicks is longer than the number
+in the setting, each click is treated as a 
+separate event.
+
+For example, with a setting of 4/10, if you 
+double-click on a icon, but the clicks are 5/10 
+of a second apart, you select the icon instead of
+opening it. 
+
+You can type a number from 2 to 10 or use the
+slider to set the amount.
+
+Click on Apply to apply the setting.  
+
+For applications that are already running, the 
+Multi-Click setting will not change.  When 
+you start a new application, it will use the
+new setting.
+
+#
+#######################################
+#       Localization Settings
+######################################
+#
+:LocalizationPanelInfo
+
+Change language- and cultural-related 
+property (locale) settings of the workspace, 
+using items in this pane.  
+
+Changes will apply when you start a new 
+application, and will not affect applications 
+which are already running.
+
+#
+:BasicSetting
+Basic Setting
+
+Lets you choose the language or cultural area for 
+which the workspace user interface can be set up.
+
+Choosing a basic setting determines the choices 
+and defaults available for Specific Setting entries.
+
+#
+:SpecificSetting
+Specific Setting
+
+The Specific Setting entries are a group of 
+entries essential to each localized environment 
+and include Display Language, Input Language, 
+Time Format, and Numeric Format settings.
+
+Choices and defaults for Specific Setting entries
+vary according to the Basic Setting.
+
+#
+:DisplayLanguage
+Display Language
+
+Specifies the language in which messages, labels,
+menu items, titles, and help text are shown.
+
+For applications that are already running, the 
+Display Language setting will not change.  When 
+you start a new application, it will use the new 
+setting.
+
+#
+:InputLanguage
+Input Language
+
+Specifies the language used for input.
+
+For applications that are already running, the 
+Input Language setting will not change.  When you 
+start a new application, it will use the new 
+setting.
+
+#
+:TimeFormat
+Time Format
+
+Specifies the format for time and date display.
+
+For applications that are already running, the 
+Time Format setting will not change.  When you 
+start a new application, it will use the new 
+setting.
+
+#
+:NumericFormat
+Numeric Format
+
+Specifies the format for numeric display.
+
+For applications that are already running, the 
+Numeric Format setting will not change.  When you 
+start a new application, it will use the new 
+setting.
+
+#
+:SupplementarySetting
+
+Supplementary setting is not currently supported.

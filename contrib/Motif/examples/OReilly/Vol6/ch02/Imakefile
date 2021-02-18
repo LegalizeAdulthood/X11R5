@@ -1,0 +1,5 @@
+SYS_LIBRARIES = -lXm -lX11 -lXt
+
+AllTarget(hello)
+
+NormalProgramTarget(hello,hello.o,,,)

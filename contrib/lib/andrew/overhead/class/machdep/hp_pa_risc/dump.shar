@@ -1,0 +1,154 @@
+# This is a shell archive.  Remove anything before this line,
+# then unpack it by saving it in a file and typing "sh file".
+#
+# Wrapped by Cary Coutant <cary@hpcllak> on Fri Mar  8 17:11:55 1991
+#
+# This archive contains:
+#	dump_all.o	
+#
+# Files are compressed using compress(1).
+
+LANG=""; export LANG
+PATH=/bin:/usr/bin:$PATH; export PATH
+
+
+rm -f /tmp/uud$$
+(echo "begin 777 /tmp/uud$$\n \nend" | uudecode) >/dev/null 2>&1
+if [ -f /tmp/uud$$ ]
+then
+	rm -f /tmp/uud$$
+	unpacker=uudecode
+else
+	echo Compiling unpacker for non-ascii files
+	pwd=`pwd`; cd /tmp
+	cat >unpack$$.c <<-'EOF'
+	#include <stdio.h>
+	#define DEC(c)	(((c) - ' ') & 077)
+	main()
+	{
+		int n;
+		char dest[128], a,b,c,d;
+
+		scanf("begin %o ", &n);
+		gets(dest);
+
+		if (freopen(dest, "w", stdout) == NULL) {
+			perror(dest);
+			exit(1);
+		}
+
+		while ((n=getchar()) != EOF && (n=DEC(n))!=0)  {
+			while (n>0) {
+				a = DEC(getchar());
+				b = DEC(getchar());
+				c = DEC(getchar());
+				d = DEC(getchar());
+				if (n-- > 0) putchar(a << 2 | b >> 4);
+				if (n-- > 0) putchar(b << 4 | c >> 2);
+				if (n-- > 0) putchar(c << 6 | d);
+			}
+			n=getchar();
+		}
+		exit(0);
+	}
+	EOF
+	cc -o unpack$$ unpack$$.c
+	rm unpack$$.c
+	cd $pwd
+	unpacker=/tmp/unpack$$
+fi
+
+echo x - dump_all.o '[compressed]'
+$unpacker <<'@eof'
+begin 600 dump_all.o
+M'YV0 A8$,% @Q@1F !(J7,BP(0 (,!I2X >$80,L"@4D; !*(8.$#P U#*D0
+MED.%$!4&2!@!FT(*"2%021B 4,():&A2BCE3X1$=!(JM$?8CVYMA   AT"!@
+MR HP"8F$2 CMQP=X-"8LD#!H'@@9*W("H*$# )"G"=%5')LC[5H:&@ (> H"
+M !$:  A(JW35D*NO81.2-;N"C5O!;<&H%1Q7P&( ".2>#9,0B0W(:ZS]R+0D
+MV&9"($ (6:)M\V,$ P1D6?)M\P-T$":MF;9Y";7-C@#]Z!59 !!&8( H."UY
+M"=$L:H$!>#+L1Z"A16]X2[HBS^&Q99&M 5:[VF8:%C0*LB5&RXHT%6F$"("$
+M]68&/T!,<@0&A&,  >2MZ".X++K'2V3S'4P.K'%;).>E5P-[2VB6B0.V@/"<
+M9X&X%\@AX(0@QQ*T!?*8 V! H,D:W/R0B&W."5$) ")(8\L&?#@"# @2=&8B
+M#3_(M49K)](6B2-N "$%BI$LX5TB"M!B@ 4V!",7#1\   HB/X AP@I_7#<8
+M/ED!4*"/*XB1G@X!0("BAVLY  @$G'D7B!"VL"A-,# R$IH$*XQ1T6-D!8"!
+M>T72EH@-=,BEP"<&5+"&=T5J%H@#R$ PH7,6/@*.#XWT=A89>[Y%)@@<;D:H
+MCK>U^5UX "AB2Q^E:&K<#\@!H9QTSD%G%%)PK$',9DLUA4 & A!Q6FI:, ((
+M$"H@H8=9CR%A'1+* @!%L]9A\6H:2^R:27++-1>)K=(! $>"!" 10@)(K.$9
+M9ZUE@B$(HJQ0QI@!H "@@)S1]B :$%!BI*AQ8J  -01HL XX@F4  !8(=*":
+MC=MZ"L"?[3X 3FRSU59J;C]TX2I1:7!+:R0+V7J4N+TZU4:G_06 Q@I!8A< 
+M'(\Q$&(F*]!!+RC#JK:"'O1"4S._.(,A$ED:40L #BN8<;0. L"@-!*%/2V 
+M8FLYN_ *<E@-B=(OXV$U,$J/ZX?5\"B-!Q!U &"(BQ_\8\B,>)*A')\Z#  J
+MR-PR]P/)"IF,%""ZFICRK\$V?;>G \"PPG8 X#T %MO5MBXB@0P!5A_*D37 
+M?VL%^%V6"(2:B0)S&$ ) A084,T#]0!@@339?( /EHOW-P"7E"G@7B8+_&/ 
+M) A,8  U#.!5@32YV+X"98YY2@ "--@!  ,0(Q"" 9\@\($!TS@P#0 4 $(!
+M",,E1+W"AM"@,!=YRH4W 1C0T+:9#BI@C0&!(##0-P[X!0!P1@;Y20\$-)@#
+M %" HM-1P@"50$ %#& -!U@/9V8P8'\(  ,:4(9BFPG>\(IWO.0-,##1VR 0
+M[ < &#1H,_KCG_\, $ !XDP-&L0. :"0P*4U4 $/C. $*WC!PN20+ 0 @P?-
+M\CL1$L]XR,,+SMQP1*# @87MR=_^^O>_ )X0#E4D "!,ASK5L<YU#&@;SN00
+M1DB\,!--TM&Z?@>(3W"A&1^#5;9,U+?F!*)D1+E54@J7B,,!BP@KJ ,04HB=
+M J#B9XO$6P&@4;E\;081DS""!FA0*%!YYW2U,( E%& + P1AAI]PP"< , %I
+MT&$#^C $)4"@!Q:"2HO\4T P#/ %[PW/ ;,@WUY@:8@(Z:!Z  #5NK3'/03\
+MP !3("$E'$ - "SO1?J0D7W0 8 "7*D-@!  60R AGM9CE?;Z]XSHVD\2BA@
+M$ ;(P K>$$Z\&0 /+"P=+@.A2U[Z<A+ /&$<ZNDI R""DP_Y%RA%24I3HE*5
+M)YP#0?MC $RLP&[BG,$!$%@H$2A4 :$<92E/.9!4KI("P^2# ^H  IS58:+8
+M,0 JD*E,=#9SG=*DIC5=M($/S T$BKAH9::"P!_\X!]"!0 :<@0"#%DIJ31H
+M"PCX%!<J<!, *H#J#))) YA0P0'\JH0#:"$!$:Q4 HBXJB"2:IEDVJ U2"V@
+M4IGJU"O)-:K)I"JS$I+5NVX5@3 ! E@A(%:RFK4.: T+,,1I@P.LD#*@:I<3
+M%S / U#AC)5@0 WP4Q58.N ;+5W!'6 Z3ESTD(&E B($%5 ) U@! 1;@GP,H
+M@[,\D%8'!D &#;*$ S*FSIUT,$ 5)"C*!]CCA'NXK0&PL40@-%%XDZ"L93&K
+M60!80IL:V(]R_Y,0333WN<.3[F5;E]G-6F*)O94L=,5+W<T& @DY L("[%&P
+M@R5,6@WSV=D8.4ZL*+ ]J0TB:UT+6]G2]BF+Q=L!  #>Z%9VO!!,XPG%D&!/
+M'0!_HG*2 -15FW;5,0OER.-J=I6(/CJ'#'5H QR^$ 8VL$$'(&A"&,Z0AC& 
+MP TI%D,9Y ""-+@!!&1@PQO"0(8=@P -92"RD>\@AS>XX0P*  "*5<QB%\/8
+M"CN>0QJ<?.,<&]G'0!:RDGF,Y#&#@,E.AK)"%#"%/+1!#&]@ PCH$ 8QL*$,
+M.H@R"$I  S+ ."$*"(V@0[.0/2MP!&M><Q'P0 <YA $$<W SG.4\AS*<H0UE
+M< ,=0(""$L  !WA(09X!K9 FO '%=P8!$I)<9#G .#0EF$.4%4(%-*1A#C$^
+M=1WN_&I!>QK4LW9"&1B=:U3C>=![_C0>9CT%.(1A#&680Z^1#6L<D&'6 )A"
+M'<0P!V=#6]K4WK.UL=WF-\<9W.$6][458H0TX*$.<(!T&O1P;&278-P*D4(9
+MA#R&,-"A#&0 LK_#\.I?+SLA07#Q&_K][X!KF=X%5_:LB9 &.= A#[-F\[:[
+M_>PR@$ .91C#&^1 !EDG)#0C@'2\UU"&/(!@"" 8>1K.0(:!QUP.,Y^#'D(#
+M<C;4G,ZAF0,=-AZ:%O,;!&9PM]"1KO2=NR$,F,9V"680\(640 955\C4LYZ0
+M$M@8  :O2]=A8 ,\B!WLRCZ[I\NN=K*;7>LUX#K8XWYVL)N\"DZ80A!Z H B
+M8&$F3'C"$(+ !(7@/0E66(@3JL"$PBLD"$*8@EWV'H2%#.$)1"C"0J @A21D
+MNPA#Z+L3J""%+"AD"E1X@A06@OHJ"&$A3<#\Y_^^D"#XG>\ :$(2&N_YA$"!
+M"9!?B.!GTH3;+X3-DH[SQT,^\I)C.YD@2#D=;#T'(I.!QVX8-IW)<'U(0YW5
+MW9^#R.'@\8N3?]!V:'$=/!Z:-N@ZU7/8=FCN_..G1[WK5*][V+6>=OZ#6NTM
+M4 ,*I'4!B&O^]W9C]W\* 0(M4!=7)W>>1@,(:'?/EQ&.)P ](0 8(1=0(1=B
+M(0!@)!>%(A=\D! "8!-R@0@FR @FN!-RP0DF2 HFB HF:!)R@0LFJ!QR@0PF
+MB! )00#*$1DGL6;_4(3_L!!&>(0- 0'* 0$+L1*D9H))B(1&>!)8  ).F! )
+M@ <-@0#PX!!"F$Q3Z!!8$ (8H!!;V(5?V! $H! L,(8-<85K 0!IR!!>"(8*
+M@0-PR!!E>(8*(1()H8,,(8AM6!D.T0(+T8<JL18!T($ H(.-J!"%" !\AX@)
+M\0*):(89T1&&*!=GAP22J!".R 4OD8E^*#\*48(>F(JAF!"&D1 A"  *HQ"*
+MF! #(!8 X(,"0 X*X8-YH1!<F!")D(>F*(DX0!.\"  #8(,!D(R_F! H" !.
+M$A7%F! &(':3DQ %X(+9^(,* 0DT40 *@8L!X ,H<(IU. #@,(>VB##JHQ P
+MB!]MH! 7H!+F" 5#6!'JB(<)@0I[J! &0 )4<'LDP! )0 *<AWA[5P0%R1 %
+M0 ),D 14T) +$9"7EWD4J3XD@'=7D 1.0 09"9 D<)$,R1 6B7DE69$CB9(A
+M>9(8:9(K^9(J29(M&9,I*9)$0'DA^9"1-P4A^8SD0XR=F! G@ TU$(L < *#
+M0 ?2L!"S@ $K$88(@(%4( !3, 51( ,($ 4QD "42 4!<)510 UCV4)11@54
+M,  RL  '  ,,, "V\)3OJ#X!P)4-$ 4#@)8#$ 59V0!460 VX  0$ 75$ 5U
+M&04 4 T$,)91H !1, U1D !QB0$:$88'0  Q\  "( ,0$  R$ $$,)ES"0 '
+M$ !H*0!\*0,-4  P( &;&0&2^911J1 '@)HQ<)>IV0  P)?CPYN[^9B_V9O 
+MZ9O$^9A[298",)F5J1 (L)BWR9M1@)I]:0"/&04%4)U;"9F+J9W5N9U1X)W@
+MV9W5N9>0&9N4"1G,Z9RX"9D8L &Y>9V0"9_669U\>0#5>0!7F6V2=Y4R, %A
+M.04$D)\".@73\)][&07V29;R*9_4:0U1X "M69>%*9_>*9D8, XE$ #3L*$<
+MVJ$>VJ$:P1"X>'P+(0!U!P#!R! *,(<FRA JV! +H(_@$*(+@0D.\7PTJA R
+MV! 5>**\,(2%QA \"*0 8  PT !0" #5U! #H! #T*0,X8P+ :6VV!!KR!!4
+M6J1NF:3\X!"3. Q&V@"5AQ\?T1#B*!<C8*0, (4!P $.80 FN 99BA\LX*53
+MRA !<(QL6)%'RJ9$X! +)A?G$*9C:IK\. "S0*@T,:)HJ(V74*8JH8HF>:=/
+M^*(&"893MF)&YQ <@ 10T )#H !C(')M$'-P0 =;Y@:XU@.AT0)/  ,,& 1C
+M<*.>F@,R0 ,U, ,M  ,QP! : '-#\ 8JE@9WQF-8)@=:QF5!X (P< ,N$ ,1
+ML1 (0 )G(&1BT&(_"0 +()!(D 13\ 4Y205!D)$*P*W>^@4]N9-?\ 5;)@8-
+M$0'K&F1#UFI?4*UO<*UL,( +00 D8 9PT*MLV*]P( .8FF*:ZF* ZJ\XIVD9
+M)(G#E@8CR! +D*E?$&EM0&?NJA 3:[!?X'[&=GP4JWV.9I)PL+!TT+  *71R
+M0'\22[%EUFH+X0 4&W_<YFW1QA ,,+/)EZ]O2@(D0 9I8 >]QYSK:@;Y*@9U
+$@+(  +%E
+ 
+end
+@eof
+uncompress <dump_all.o >/tmp/compress$$
+mv /tmp/compress$$ dump_all.o
+
+chmod 664 dump_all.o
+
+rm -f /tmp/unpack$$
+exit 0

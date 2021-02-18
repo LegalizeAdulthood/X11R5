@@ -1,0 +1,124 @@
+/* $Header: Imakefile,v 2.4 91/09/13 17:31:53 sinyaw Exp $ */
+
+/*****************************************************************
+Copyright 1991 by Sony Microsystems Company, San Jose, California
+
+					All Rights Reserved
+
+Permission to use, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and
+that both that copyright notice and this permission notice appear
+in supporting documentation, and that the name of Sony not be used
+in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+SOFTWARE.
+*****************************************************************/
+
+##
+# $XConsortium: Imakefile,v 5.11 91/02/19 11:34:37 rws Exp $
+##
+## 
+## Copyright 1989, 1990, 1991 by Sun Microsystems, Inc. and the X Consortium.
+## 
+##			 All Rights Reserved
+## 
+## Permission to use, copy, modify, and distribute this software and its 
+## documentation for any purpose and without fee is hereby granted, 
+## provided that the above copyright notice appear in all copies and that
+## both that copyright notice and this permission notice appear in 
+## supporting documentation, and that the names of Sun Microsystems,
+## the X Consortium, and MIT not be used in advertising or publicity 
+## pertaining to distribution of the software without specific, written 
+## prior permission.  
+## 
+## SUN MICROSYSTEMS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, 
+## INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+## EVENT SHALL SUN MICROSYSTEMS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+## CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+## USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+## OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+## PERFORMANCE OF THIS SOFTWARE.
+
+XCOMM if Xlib is shared, we do it as well
+#define DoNormalLib NormalLibX
+#define DoSharedLib SharedLibX
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+#ifndef LibraryCDebugFlags
+#define LibraryCDebugFlags DefaultCDebugFlags
+#endif
+
+#ifndef PexPhigsCDebugFlags
+#define PexPhigsCDebugFlags LibraryCDebugFlags
+#endif
+
+#ifdef SonyArchitecture
+REQUIREDLIBS = $(XLIBSRC)/libX11.so $(EXTENSIONSRC)/lib/libXext.so
+#endif
+
+CDEBUGFLAGS = PexPhigsCDebugFlags
+    DEFINES = PexPhigsDefines
+
+.SUFFIXES: .o
+
+     ARADD = ar rul
+     AREXT = ar xl
+
+#ifndef DefaultPexAPIDir
+#define DefaultPexAPIDir .
+#endif
+
+   PEXLIBDIR = DefaultPexAPIDir
+     LIBDIRS = resources output_cmds utilities convenience
+     SUBDIRS = include $(LIBDIRS)
+
+     ALL_OBJ = version.o resources/res.o utilities/util.o \
+	 output_cmds/oc.o  convenience/conven.o
+
+AllTarget(subdirs libXpex.a)
+MakeDirectories(install,$(USRLIBDIR))
+
+#if DoSharedLib
+   SOXPEXREV = $(SOXLIBREV)
+#if DoNormalLib
+SharedLibraryTarget(Xpex,$(SOXPEXREV),$(ALL_OBJ),shared,..)
+#else
+SharedLibraryTarget(Xpex,$(SOXPEXREV),$(ALL_OBJ),.,.)
+#endif
+InstallSharedLibrary(Xpex,$(SOXPEXREV),$(USRLIBDIR))
+#endif
+
+#if DoNormalLib
+NormalLibraryTarget(Xpex,$(ALL_OBJ))
+InstallLibrary(Xpex,$(USRLIBDIR))
+#endif
+NamedMakeSubdirs(subdirs,$(LIBDIRS))
+
+NamedTargetSubdirs(extract,$(SUBDIRS),"making" $@,,$@)
+
+DependSubdirs($(LIBDIRS))
+CleanTarget()
+
+make_version.c::
+	-@if test -w version.c; then \
+	sed '/:TOC:/,$$d' version.c > $@.tmp; mv $@.tmp $@; \
+	echo ":TOC:" >> version.c; \
+	find . -follow -name \*,v -print | \
+	sed -e '/save.dir/d' -e 's/\.\///' -e 's/RCS\///' -e 's/,v//' |\
+	while read x; do \
+	(ident $$x | grep Header | \
+	sed "s/Header: /`dirname $$x`\//" \
+	>> version.c); done; \
+	echo "*/" >> version.c; fi

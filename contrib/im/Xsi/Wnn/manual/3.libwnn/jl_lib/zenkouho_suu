@@ -1,0 +1,22 @@
+JL_ZENKOUHO_SUU( )
+
+名称
+
+	jl_zenkouho_suu		全候補数を得る。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_zenkouho_suu(buf)
+	struct wnn_buf *buf;	/* バッファ */
+
+機能
+
+	全候補数を得る。
+
+リターンバリュー
+
+	全候補数を返す。
+

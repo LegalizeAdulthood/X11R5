@@ -1,0 +1,28 @@
+JS_FILE_REMOVE( )
+
+名称
+
+	js_file_remove		サーバのファイルシステムのファイルを消去する
+
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_file_remove(server,fn, pwd)
+	WNN_JSERVER_ID *server;
+	char	*fn;		/* ファイル名 */
+	char *pwd
+機能
+
+	サーバマシンのファイルシステムのファイル fn を消去する。
+	その際、ファイルにパスワードが付いている場合には、パスワードが
+	合わなくてはならない。ファイル fn がサーバー内に読み込まれてい
+	る場合には、エラーとなる。
+
+リターンバリュー
+
+	0 を返す。
+	異常終了時には、-1 を返す。
+

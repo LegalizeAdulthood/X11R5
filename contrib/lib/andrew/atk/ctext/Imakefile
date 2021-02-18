@@ -1,0 +1,23 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = ctext.do ctextv.do
+IHFILES = ctext.ih ctextv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallFile(ctext.tpl, ${INSTINCFLAGS}, ${DESTDIR}/lib/tpls)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(ctext.help ctxproc.help, ${DESTDIR}/help)
+InstallHelpAlias(ctxproc, ctextproc ctextprocs)
+
+MkdirTarget(${DESTDIR}/doc/atk/ctext)
+
+InstallDocs(ctext.doc,${DESTDIR}/doc/atk/ctext)

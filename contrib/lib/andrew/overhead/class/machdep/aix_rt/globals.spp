@@ -1,0 +1,45 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+/* 
+ * array of global entry points for dynamic loader
+ *
+ * Defines a table of entry points and their names
+ *
+ */
+
+	.text
+
+/* macros which actually define entry points */
+
+/*   globalref - direct reference to global symbol x */
+
+#define globalref(x)	.globl x ;	.text;	.long	x,1f;	.data;1:	.asciz "x"
+
+/*   routine - reference to routine x - _x and (for ibm032) _.x */
+
+#define routine(x)	globalref(_/**/x);	globalref(_./**/x)
+
+	.globl	_globals
+	.globl	_globalcount
+
+_globals: /* beginning of entry point table */
+
+/* from libclass */
+/* do not delete the following line - make depends on it */
+
+#include	<globalrefs._h>
+
+	.text
+
+_globalcount:
+	.long	(_globalcount-_globals)/8
+
+/* special cases for missing entry points under various machine types */
+
+	.globl	.oVncs
+	.set	.oVncs,0
+
+/* end of globals.s */

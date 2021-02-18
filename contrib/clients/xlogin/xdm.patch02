@@ -1,0 +1,95 @@
+Also, I thought that I would share my changes to xdm.  I have changed
+xdm to write an authorization record for root.  I feel that this does
+not compromise security at all.  root could also setuid to the user
+to gain access to the display.  I have written a daemon that catches
+console message and displays them in a window.  Also, we have a system
+that submits jobs on idle workstations.  This system can connect to
+the X display to check the idle time.  Anyway, here is my patch to xdm:
+ 
+ 
+*** /tmp/,RCSt1a23628	Sun Jul  8 14:39:22 1990
+--- auth.c	Wed Jun 13 14:03:25 1990
+***************
+*** 201,206 ****
+--- 201,207 ----
+  	    ret = TRUE;
+  	fclose (auth_file);
+      }
++     SetRootAuthorization (d, auth);
+      return ret;
+  }
+  
+***************
+*** 778,781 ****
+--- 779,849 ----
+  	}
+      }
+      Debug ("done SetUserAuthorization\n");
++ }
++ 
++ SetRootAuthorization (d, auth)
++ struct display	*d;
++ Xauth		*auth;
++ {
++     FILE	*old, *new;
++     char	*home_name;
++     char	new_name[1024];
++     int	lockStatus;
++     Xauth	*entry;
++     struct stat	statb;
++ 
++     Debug ("SetRootAuthorization\n");
++     if (auth) {
++ 	lockStatus = LOCK_ERROR;
++ 	home_name = "/.Xauthority";
++ 	Debug ("XauLockAuth %s\n", home_name);
++ 	lockStatus = XauLockAuth (home_name, 1, 2, 10);
++ 	Debug ("Lock is %d\n", lockStatus);
++ 	if (lockStatus == LOCK_SUCCESS) {
++ 	    if (!openFiles (home_name, new_name, &old, &new)) {
++ 		Debug ("openFiles failed\n");
++ 		XauUnlockAuth (home_name);
++ 		lockStatus = LOCK_ERROR;
++ 	    }	
++ 	}
++ 	if (lockStatus != LOCK_SUCCESS) {
++ 	    Debug ("can't lock auth file %s\n", home_name);
++ 	    LogError ("can't lock authorization file %s\n", home_name);
++ 	    return;
++ 	}
++ 	initAddrs ();
++ 	if (d->displayType.location == Local)
++ 	    writeLocalAuth (new, auth, d->name);
++ 	else
++ 	    writeRemoteAuth (new, auth, d->peer, d->peerlen, d->name);
++ 	if (old) {
++ 	    if (fstat (fileno (old), &statb) != -1)
++ 		chmod (new_name, (int) (statb.st_mode & 0777));
++ 	    while (entry = XauReadAuth (old)) {
++ 		if (!checkAddr (entry->family,
++ 			       entry->address_length, entry->address,
++ 			       entry->number_length, entry->number))
++ 		{
++ 		    Debug ("Saving an entry\n");
++ 		    dumpAuth (entry);
++ 		    writeAuth (new, entry);
++ 		}
++ 		XauDisposeAuth (entry);
++ 	    }
++ 	    fclose (old);
++ 	}
++ 	doneAddrs ();
++ 	fclose (new);
++ 	if (unlink (home_name) == -1)
++ 	    Debug ("unlink %s failed\n", home_name);
++ 	if (link (new_name, home_name) == -1) {
++ 	    Debug ("link failed %s %s\n", new_name, home_name);
++ 	    LogError ("Can't move authorization into place\n");
++ 	} else {
++ 	    Debug ("new is in place, go for it!\n");
++ 	    unlink (new_name);
++ 	}
++ 	XauUnlockAuth (home_name);
++     }
++     Debug ("done SetRootAuthorization\n");
+  }

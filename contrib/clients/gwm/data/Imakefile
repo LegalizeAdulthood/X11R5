@@ -1,0 +1,146 @@
+/**/#
+/**/# Imakefile for gwm/data
+/**/#
+
+GWMDIR = $(LIBDIR)/gwm
+
+all::
+
+depend::
+
+DATA   = \
+    Imakefile \
+    ImakeB \
+    ImakeE \
+    Makefile \
+    .gwmrc.gwm \
+    .profile.gwm \
+    amc-lisp.el \
+    gwm-lisp.el \
+    trace-func.gwm \
+    icon-groups.gwm \
+    icon-groups-old.gwm \
+    std-popups.gwm \
+    def-menus.gwm \
+    emacs-mouse.gwm \
+    dlists.gwm \
+    placements.gwm \
+    simple-ed-win.gwm \
+    simple-win.gwm \
+    simple-win-old.gwm \
+    no-decoration.gwm \
+    simple-icon.gwm \
+    simple-icon-old.gwm \
+    term-icon.gwm \
+    compat.gwm \
+    gwm.ml \
+    rxterm.script \
+    arrow-f.xbm \
+    arrow-m.xbm \
+    arrowhole-f.xbm \
+    arrowhole-m.xbm \
+    arrow3d-f.xbm \
+    arrow3d-m.xbm \
+    back.xbm \
+    grainy.xbm \
+    bull_1.xbm \
+    bull_2.xbm \
+    icon20.xbm \
+    xterm-b.xbm \
+    xterm-bl.xbm \
+    xterm-br.xbm \
+    xterm-l.xbm \
+    xterm-r.xbm \
+    xterm-t.xbm \
+    xterm-tl.xbm \
+    xterm-tr.xbm \
+    frame-win.gwm \
+    frame3d-b.xpm \
+    frame3d-bl.xpm \
+    frame3d-br.xpm \
+    frame3d-l.xpm \
+    frame3d-r.xpm \
+    frame3d-t.xpm \
+    frame3d-tl.xpm \
+    frame3d-tr.xpm \
+    frame2d-b.xbm \
+    frame2d-bl.xbm \
+    frame2d-br.xbm \
+    frame2d-l.xbm \
+    frame2d-r.xbm \
+    frame2d-t.xbm \
+    frame2d-tl.xbm \
+    frame2d-tr.xbm \
+    utils.gwm \
+    cursor-names.gwm \
+    mwm.gwm \
+    mwmprofile.gwm \
+    mwmrc.gwm \
+    mwm-menusrc.gwm \
+    mwm-bindings.gwm \
+    mwm-buttons.gwm \
+    mwm-functions.gwm \
+    mwm-icon.gwm \
+    mwm-menus.gwm \
+    mwm-placements.gwm \
+    mwm-utils.gwm \
+    mwm-win.gwm \
+    mwm-zoom-win.gwm \
+    X.xbm \
+    cornerPlug.xbm \
+    mwm-iclb.xbm \
+    mwm-iclt.xbm \
+    mwm-icrb.xbm \
+    mwm-icrt.xbm \
+    mwm-ictlb.xbm \
+    mwm-ictlt.xbm \
+    mwm-ictb.xbm \
+    mwm-ictt.xbm \
+    mwm-ictrb.xbm \
+    mwm-ictrt.xbm \
+    xterm.xbm \
+    itemSep.xbm \
+    mini.xbm \
+    right-arrow.xbm \
+    dvrooms.gwm \
+    README.twm \
+    hilite.xbm \
+    iconify.xbm \
+    resize.xbm \
+    twm-icon-mgr.gwm \
+    twm-menus.gwm \
+    twm-popups.gwm \
+    twm-titled-win.gwm \
+    twm.gwm \
+    twmrc.gwm \
+    move-opaque.gwm \
+    deltabutton.gwm \
+    float.gwm \
+    unconf-move.gwm \
+    suntools-keys.gwm \
+    vb-term.gwm \
+    vb-bar.gwm \
+    vb-button.gwm \
+    iconify-vb.xbm \
+    kill.xbm \
+    raise.xbm \
+    lower.xbm \
+    barA2.l.xpm \
+    barA2..xpm \
+    barA2.r.xpm \
+    xload.xbm \
+    xenon.xpm \
+    plaid.xpm \
+    vscreen.gwm \
+    mon-keys.gwm \
+    icon-groups-old.gwm \
+    simple-icon-old.gwm \
+    simple-win-old.gwm \
+    epoch.gwm \
+    near-mouse.gwm \
+    profile-colas.gwm 
+
+
+MakeDirectories(install, $(GWMDIR))
+InstallMultipleFlags($(DATA), $(GWMDIR), $(INSTDATFLAGS))
+InstallScript(rxterm, $(GWMDIR))

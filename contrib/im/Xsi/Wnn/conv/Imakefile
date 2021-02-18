@@ -1,0 +1,30 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:37:19 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+       INCLUDES = -I$(WNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(WNNDEFINES) -DWNNDEFAULT
+
+SRCS= cvt_key.c \
+	cvt_read.c
+OBJS= cvt_key.o \
+	cvt_read.o
+
+LibraryObjectRule()
+
+NormalLibraryTarget(convkey,$(OBJS))
+LintLibraryTarget(convkey,$(SRCS))
+
+#if ProfileLibConvkey
+ProfiledLibraryTarget(convkey,$(OBJS))
+#endif
+
+#if DebugLibConvkey
+DebuggedLibraryTarget(convkey,$(OBJS))
+#endif
+
+NormalLintTarget($(SRCS))
+
+DependTarget()
+

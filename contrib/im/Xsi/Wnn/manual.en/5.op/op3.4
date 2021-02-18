@@ -1,0 +1,85 @@
+(8) Dictionary Manipulation
+
+  Dictionary Manipulation Item Selection Keys
+
+  Keysym  (Command)| Function
+  -----------------+----------------------------------------------------------
+  Up            ^P | Display the previous item group
+  Down          ^N | Display the next item group
+  Left          ^B | Move the cursor or the reverse video portion to the left
+  Right         ^F | Move the cursor or the reverse video portion to the right
+                ^A | Move the cursor or the reverse video portion to the left
+                   | end of the line
+                ^E | Move the cursor or the reverse video portion to the right
+                   | end of the line
+                NL | Select
+  -----------------+----------------------------------------------------------
+
+  NOTE: Press the Meta+Down key to quit dictionary operation mode.
+        This returns to the conditions prior to dictionary operation.
+
+
+  (1) Dictionary Addition
+
+     1) < Figure 2.3.4 >
+
+
+
+
+
+	( 0. Dictionary Addition   1. Dictionary Display   2. Register
+          3. Search   4. Parameter Change  5. Save Frequencies
+          6. Dictionary Information 7. Change Accessory Vocab  8. Quit )
+
+	Either input "0" or move the reverse video indication to "Dictionary
+        Addition" and press the Return key.
+        --> A prompt for the input of a dictionary name will be displayed.
+     < Figure 2.3.5 >
+
+
+	( New dictionary? >				     )
+
+     2) Input the dictionary name and press the Return key.
+        --> A prompt for the input of a frequency file will be displayed.
+            When the specified dictionary exists, the default frequency
+            file name will be displayed.
+
+     3) If a different frequency file is desired, input that file name.
+        If the default file is acceptable, press the Return key. 
+	--> A prompt for the input of the dictionary priority value will
+            be displayed.
+
+     4) Dictionary priorities range from 0 to 20.  The larger the value,
+        the higher the priority.
+	(The basic dictionary (which covers the JIS level 1 characters)
+         has a priority of 5.)
+	--> A prompt asking if dictionary update mode should be used is
+            displayed.
+
+     5) Specify if dictionary update mode should be used.
+        (If it is not to be used, enter an "N".)
+	--> A prompt asking if frequency update mode should be used is
+            displayed.
+
+     6) Specify if frequency update mode should be used.
+        (If it is not to be used, enter an "N".)
+
+     
+  (2) Dictionary Display
+
+     1) Either input "1" or move the reverse video indication to "Display
+        Dictionary" and press the "NL" key.
+	--> The dictionaries loaded into the server are displayed.
+
+     2) The following operations will cause the dictionary comments, frequency
+        file name, and whether the dictionary is in use or not to be displayed.
+
+     Keysym  (Command)| Function
+     -----------------+-------------------------------------------- 
+     Up 	   ^P | Display the previous dictionary
+     Down 	   ^N | Display the next dictionary
+		   ^D |	Delete this dictionary
+		   ^U |	Toggle the in-use state of this dictionary.
+                      | (The dictionary remains in the server.)
+     -----------------+--------------------------------------------
+

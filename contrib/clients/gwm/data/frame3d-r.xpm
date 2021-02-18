@@ -1,0 +1,17 @@
+/* XPM */
+static char * frame3d-r.xpm [] = {
+"8 10 3 2",
+"   c #FFFFFFFFFFFF",
+".  c #A800A800A800",
+"X  c #000",
+/* pixels*/
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X ",
+"  . X . . . X X "};

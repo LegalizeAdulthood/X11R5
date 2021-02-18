@@ -1,0 +1,36 @@
+;;; -*-Scheme-*-
+;;;
+;;; Useful macros (loaded by the standard toplevel)
+
+(provide 'macros)
+
+(define (expand form)
+  (if (or (not (pair? form)) (null? form))
+      form
+      (let ((head (expand (car form))) (args (expand (cdr form))) (result))
+	(if (and (symbol? head) (bound? head))
+	    (begin
+	      (set! result (macro-expand (cons head args)))
+	      (if (not (equal? result form))
+		  (expand result)
+		  result))
+	    (cons head args)))))
+
+(define-macro (unwind-protect body . unwind-forms)
+  `(dynamic-wind
+    (lambda () #f)
+    (lambda () ,body)
+    (lambda () ,@unwind-forms)))
+
+(define-macro (while test . body)
+  `(let loop ()
+     (cond (,test ,@body (loop)))))
+
+(define-macro (when test . body)
+  `(and ,test ,@body))
+
+(define-macro (unless test . body)
+  `(when (not ,test) ,@body))
+
+(define-macro (multiple-value-bind vars form . body)
+  `(apply (lambda ,vars ,@body) ,form))

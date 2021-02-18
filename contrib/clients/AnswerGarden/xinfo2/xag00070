@@ -1,0 +1,13 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 08/16/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 08/16/91
+mod_num: 1
+@end(header)
+@b(X Definitions)
+
+Would you like to know about
+@button(general definitions,Info_Definitions)

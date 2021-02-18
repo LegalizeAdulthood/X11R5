@@ -1,0 +1,22 @@
+JL_BUN_SUU( )
+
+名称
+
+	jl_bun_suu	文節数を得る。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_bun_suu(buf)
+	struct wnn_buf *buf;	/* バッファ */
+
+機能
+
+	  文節数を得る。
+
+リターンバリュー
+
+	  文節数を返す。
+

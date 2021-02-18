@@ -1,0 +1,178 @@
+##
+# $XConsortium: Imakefile,v 5.6 91/07/26 11:43:14 hersh Exp $
+##
+## 
+## Copyright (c) 1991 by Sun Microsystems, Inc. and the X Consortium.
+## 
+##                         All Rights Reserved
+## 
+## Permission to use, copy, modify, and distribute this software and its 
+## documentation for any purpose and without fee is hereby granted, 
+## provided that the above copyright notice appear in all copies and that
+## both that copyright notice and this permission notice appear in 
+## supporting documentation, and that the names of Sun Microsystems,
+## the X Consortium, and MIT not be used in advertising or publicity 
+## pertaining to distribution of the software without specific, written 
+## prior permission.  
+## 
+## SUN MICROSYSTEMS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, 
+## INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+## EVENT SHALL SUN MICROSYSTEMS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+## CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+## USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+## OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+## PERFORMANCE OF THIS SOFTWARE.
+
+
+#ifndef PexClientCDebugFlags
+#define PexClientCDebugFlags OptimizedCDebugFlags
+#endif
+
+#ifndef PexClientDefines
+#define PexClientDefines -DPEX_SI_PHIGS 
+#endif
+
+    CDEBUGFLAGS = PexClientCDebugFlags
+        DEFINES = PexClientDefines -DPEX_SI_PHIGS
+       INCLUDES = -I$(INCDIR)
+LOCAL_LIBRARIES = $(PHIGSLIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+        DEPLIBS = $(DEPPHIGSLIB) $(DEPXLIB)
+
+          SRCS1 = hello_tool.c
+          OBJS1 = hello_tool.o
+         PROGS1 = hello_tool
+          SRCS2 = hello_draw.c
+          OBJS2 = hello_draw.o
+         PROGS2 = hello_draw
+          SRCS3 = test_sss.c cr_struct.c rd_struct.c
+          OBJS3 = test_sss.o cr_struct.o rd_struct.o
+         PROGS3 = test_sss cr_struct rd_struct
+
+
+          SRCS5 = wheels.c
+          OBJS5 = wheels.o
+         PROGS5 = wheels
+          SRCS6 = line_bund.c
+          OBJS6 = line_bund.o
+         PROGS6 = line_bund
+
+          SRCS9 = viewing.c
+          OBJS9 = viewing.o
+         PROGS9 = viewing
+
+          SRCS12 = sun_logo.c
+          OBJS12 = sun_logo.o
+         PROGS12 = sun_logo
+          SRCS14 = text.c
+          OBJS14 = text.o
+         PROGS14 = text
+          SRCS15 = six_views.c
+          OBJS15 = six_views.o
+         PROGS15 = six_views
+          SRCS16 = stroke.c
+          OBJS16 = stroke.o
+         PROGS16 = stroke
+          SRCS17 = five_views.c
+          OBJS17 = five_views.o
+         PROGS17 = five_views
+          SRCS18 = map_points.c
+          OBJS18 = map_points.o
+         PROGS18 = map_points
+          SRCS19 = linesmarks.c
+          OBJS19 = linesmarks.o
+         PROGS19 = linesmarks
+
+          SRCS20 = cell_array.c
+          OBJS20 = cell_array.o
+         PROGS20 = cell_array
+          SRCS21 = clippolygon.c
+          OBJS21 = clippolygon.o
+         PROGS21 = clippolygon
+          SRCS22 = curve.c
+          OBJS22 = curve.o
+         PROGS22 = curve
+          SRCS23 = multisurf.c
+          OBJS23 = multisurf.o
+         PROGS23 = multisurf
+          SRCS24 = sofa.c
+          OBJS24 = sofa.o
+         PROGS24 = sofa
+          SRCS25 = surface.c
+          OBJS25 = surface.o
+         PROGS25 = surface
+          SRCS26 = tristrip2.c
+          OBJS26 = tristrip2.o
+         PROGS26 = tristrip2
+          SRCS27 = tristrip.c
+          OBJS27 = tristrip.o
+         PROGS27 = tristrip
+
+          SRCS30 = picktest.c
+          OBJS30 = picktest.o
+         PROGS30 = picktest
+          SRCS31 = pickmore.c
+          OBJS31 = pickmore.o
+         PROGS31 = pickmore
+          SRCS32 = pickplus.c
+          OBJS32 = pickplus.o
+         PROGS32 = pickplus
+
+            SRCS = $(SRCS1) $(SRCS2) $(SRCS3) \
+			$(SRCS5) $(SRCS6) \
+			$(SRCS9) $(SRCS12) \
+			$(SRCS14) $(SRCS15) $(SRCS16) $(SRCS17) $(SRCS18) \
+			$(SRCS19) $(SRCS20) $(SRCS21) $(SRCS22) $(SRCS23) \
+			$(SRCS24) $(SRCS25) $(SRCS26) $(SRCS27) \
+			$(SRCS30) $(SRCS31) $(SRCS32) $(SRC_TEST_SSS)
+
+            OBJS = $(OBJS1) $(OBJS2) $(OBJS3) \
+			$(OBJS5) $(OBJS6) \
+			$(OBJS9) $(OBJS12) \
+			$(OBJS14) $(OBJS15) $(OBJS16) $(OBJS17) $(OBJS18) \
+			$(OBJS19) $(OBJS20) $(OBJS21) $(OBJS22) $(OBJS23) \
+			$(OBJS24) $(OBJS25) $(OBJS26) $(OBJS27) \
+			$(OBJS30) $(OBJS31) $(OBJS32) $(OBJ_TEST_SSS)
+
+        PROGRAMS = $(PROGS1) $(PROGS2) $(PROGS3) \
+			$(PROGS5) $(PROGS6) \
+			$(PROGS9) $(PROGS12) \
+			$(PROGS14) $(PROGS15) $(PROGS16) $(PROGS17) $(PROGS18) \
+			$(PROGS19) $(PROGS20) $(PROGS21) $(PROGS22) $(PROGS23) \
+			$(PROGS24) $(PROGS25) $(PROGS26) $(PROGS27) \
+			$(PROGS30) $(PROGS31) $(PROGS32) $(PROGS_TEST_SSS)
+
+AllTarget( $(PROGRAMS) )
+
+NormalProgramTarget($(PROGS1), $(OBJS1), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS2), $(OBJS2), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS3), $(OBJS3), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+
+NormalProgramTarget($(PROGS5), $(OBJS5), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS6), $(OBJS6), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+
+NormalProgramTarget($(PROGS9), $(OBJS9), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+
+NormalProgramTarget($(PROGS12), $(OBJS12), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS14), $(OBJS14), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS15), $(OBJS15), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS16), $(OBJS16), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS17), $(OBJS17), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS18), $(OBJS18), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS19), $(OBJS19), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+
+NormalProgramTarget($(PROGS20), $(OBJS20), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS21), $(OBJS21), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS22), $(OBJS22), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS23), $(OBJS23), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS24), $(OBJS24), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS25), $(OBJS25), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS26), $(OBJS26), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS27), $(OBJS27), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+
+NormalProgramTarget($(PROGS30), $(OBJS30), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS31), $(OBJS31), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+NormalProgramTarget($(PROGS32), $(OBJS32), $(DEPLIBS), $(LOCAL_LIBRARIES), $(SYS_LIBRARIES))
+
+
+DependTarget()

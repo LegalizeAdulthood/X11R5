@@ -1,0 +1,40 @@
+This diretory contains "XIMP" protocol complient IM SERVERS,
+"XIMP" Protocol specification, clients, and pathes.
+
+IM SERVERS
+	fujitsu:    Sample IMServer on Fujitsu FM-G.
+	sony:       Sample IMServer on Sony NEWS.
+	sun:	    Sample IMServer on SunOS4.x with JLE1.x
+	fujixerox:  Sample IMServer on SunOS4.x with JLE1.x
+	oki:	    Sample IMServer 
+
+	NOTE: contrib/im/kinput2 is also the XIMP complient IM SERVER.
+
+OTHERS
+	patch:      patches for wchar support and Xaw
+	clients:    Sample client program.
+
+See also the mit/doc/I18N/Ximp/ directory.
+
+These sample implementations supports the input system based on the client-server model.
+The communication protocol between library stab and IMServer process is defined by "XIMP" protocol specification,
+which is defined by the specification document in this directory.
+For further information about "XIMP" protocol, please see the protocol document.
+
+Its features include
+--	provide for user to choose and use an input method which is suitable "Look and Feel" and operation
+	for his needs to every application running on the network-wide and heterogeneous environments.
+--	indepentent of a specific input method server and a specific vendor.
+	Actually,various input methods from different vender support this protocol.
+--	indepentent of a specific native language.
+--	can provide consistent input method on each display.
+--	can provide multi-language services on one display.
+--	not require any special communication techniques except for  X protocol.
+
+These whole implementations are compiled and run at least on:
+	SUN,           SunOS   4.0.3	with JLE
+And some of them are compiled and run on
+	SUN,           SunOS   4.1.1
+	SONY,          NEWS-OS 4.0
+        FUJITSU FM-G,  SX/G    E14
+

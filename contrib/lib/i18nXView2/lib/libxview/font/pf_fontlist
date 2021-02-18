@@ -1,0 +1,6 @@
+/*	@(#)pf_fontlist 50.1 90/12/12	*/
+#define FILE_DIR "../fixedwidthfonts/"
+"screen.r.13"
+"screen.b.12"
+"screen.r.7"
+"screen.r.11"

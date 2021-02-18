@@ -1,0 +1,43 @@
+.\" $Header: PEXtCube.man,v 1.0 91/10/04 17:02:03 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtCube 3PEXt "January 14th, 1991"
+.SH NAME
+\fBPEXtCube\fP \(em create a cube using six \fBFILL AREA\fP structure elements
+.sp 1
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Primitive.h>
+.sp 1
+void PEXtCube (\fIside\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIside\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+\fBPEXtCube\fP creates a cube, centered on the origin, whose sides are of
+length \fIside\fP using six \fBFILL AREA\fP structure elements.  Since it
+uses four structure elements to build the cube, it requires a current
+edit mode of \fIPINSERT\fP; otherwise only the sixth side of the cube will
+remain, having replaced the previous five elements for the other faces.
+.SH RETURN VALUE
+None
+.SH BUGS
+The routine should use a quadrilateral mesh, or a set of fill area sets to
+generate the cube in a single structure element.
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

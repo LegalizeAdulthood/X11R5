@@ -1,0 +1,48 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:25:17 ohm Exp $
+/**/#
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS= Wnn cWnn Xwnmo
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+
+World::
+	@echo ""
+	@echo "Building Input Method."
+	@echo ""
+	@date
+	@echo ""
+	-$(RM) Makefile.bak; $(MV) Makefile Makefile.bak
+	$(MAKE) $(MFLAGS) -f Makefile.bak Makefile
+	$(MAKE) $(MFLAGS) Makefiles
+	$(MAKE) $(MFLAGS) clean
+	$(MAKE) $(MFLAGS) includes
+	$(MAKE) $(MFLAGS) depend
+	$(MAKE) $(MFLAGS) $(WORLDOPTS)
+	@echo ""
+	@date
+	@echo ""
+	@echo "Full build of Input Method."
+	@echo ""
+
+Everything::
+	@echo ""
+	@echo "Rebuilding Input Method."
+	@echo ""
+	@date
+	@echo ""
+	-$(RM) Makefile.bak; $(MV) Makefile Makefile.bak
+	$(MAKE) $(MFLAGS) -f Makefile.bak Makefile
+	$(MAKE) $(MFLAGS) Makefiles
+	$(MAKE) $(MFLAGS) includes
+	$(MAKE) $(MFLAGS) depend
+	$(MAKE) $(MFLAGS) $(WORLDOPTS)
+	@echo ""
+	@date
+	@echo ""
+	@echo "Rebuild of Input Method."
+	@echo ""
+	

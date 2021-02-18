@@ -1,0 +1,7 @@
+#include "../../config.sh"
+
+    IROHAROOT = ../..
+     INCLUDES = -I$(IROHAROOT)/include/iroha \
+		-I$(IROHAROOT)/include
+
+SimpleProgramTarget(crrdic)

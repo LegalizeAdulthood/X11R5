@@ -1,0 +1,28 @@
+#!/bin/sh 
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+#
+%include pobbconfig.defs
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+%ifdef pobb_GetListOfLists
+
+cd ?[BBDaemonDir]
+umask 022
+AUTH='?[CronAuth]'
+export AUTH
+HOME='?[PostmasterHome]'
+export HOME
+PATH='?[CronPath]'
+export PATH
+SHELL='/bin/csh'
+export SHELL
+USER='?[PostmasterName]'
+export USER
+/bin/csh << 'xxFUNNYxx'
+/bin/su ?[PostmasterName] `cat ?[PMPasswordFile]` -c "?[BBDaemonDir]/getlistoflists >& ?[TempLog]/getlist.log &" > /dev/console
+xxFUNNYxx
+
+%endif pobb_GetListOfLists

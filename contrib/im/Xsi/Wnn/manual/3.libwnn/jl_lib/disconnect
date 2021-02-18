@@ -1,0 +1,21 @@
+JL_DISCONNECT( )
+
+名称
+
+	jl_disconnect		サーバとの間のコネクションを切る。
+
+形式
+
+	#include "jllib.h"
+
+	void
+	jl_disconnect(env)
+	struct wnn_env *env;	/* 環境 */
+
+機能
+
+	環境 env が他に使用されていない場合には、その環境を消滅させる。
+
+	同じサーバとコネクションを持つバッファが他に存在しない場合には、
+	そのコネクションを消滅させる。
+

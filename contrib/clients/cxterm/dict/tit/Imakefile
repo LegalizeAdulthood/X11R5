@@ -1,0 +1,29 @@
+XCOMM $Id: Imakefile,v 1.2 1991/10/02 21:43:47 ygz Exp $
+
+#include <imake.local>
+
+OBJS =	DictObj(TONEPY) DictObj(PY) DictObj(CCDOSPY) DictObj(SW) \
+	DictObj(QJ) DictObj(Punct) DictObj(CTCPS3) \
+	DictObj(PY-b5) DictObj(ETZY) DictObj(ZOZY) \
+	DictObj(QJ-b5) DictObj(Punct-b5)
+
+DICTDIR = $(LIBDIR)/cxterm-dicts
+
+MakeDicts()
+
+DictTarget(TONEPY)
+DictTarget(PY)
+DictTarget(CCDOSPY)
+DictTarget(SW)
+DictTarget(QJ)
+DictTarget(Punct)
+DictTarget(CTCPS3)
+DictTarget(PY-b5)
+DictTarget(ETZY)
+DictTarget(ZOZY)
+DictTarget(QJ-b5)
+DictTarget(Punct-b5)
+
+InstallMultipleFlags($(OBJS),$(DICTDIR),$(INSTDATFLAGS))
+
+depend::

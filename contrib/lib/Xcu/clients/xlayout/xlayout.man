@@ -1,0 +1,10 @@
+.TH XLAYOUT 1 "6 March 1984"
+.UC 4
+.SH NAME
+xlayout \- show layout produced by a Widget Layout Description Language file
+.SH SYNOPSIS
+.B xlayout
+WLDLfile
+.SH SEE ALSO
+.PP
+wlc(1), Wlm(3)

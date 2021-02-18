@@ -1,0 +1,31 @@
+JL_HINSI_NAME（）
+
+名称
+
+	jl_hinsi_name	品詞番号から名前を取る。
+	jl_hinsi_name_e
+形式
+
+	#include "jllib.h"
+
+	w_char *
+	jl_hinsi_name_e(env, no)
+	struct wnn_env *env;
+	int no;	
+
+	w_char *
+	jl_hinsi_name(buf, no)
+	struct wnn_env *env;
+	int no;	
+
+機能
+
+	品詞番号 no を品詞名に変換し、その品詞名を返す。
+	品詞名は、(w_char *) である。
+	品詞名を返すのに用いられた領域は、次にライブラリが呼ばれるまで
+	有効である。
+
+リターンバリュー
+
+	正常終了時には品詞名を返す。
+	異常終了の場合には、NULL を返す。

@@ -1,0 +1,6 @@
+;
+; $Id: 2A_CTRL,v 1.1 1991/09/09 22:43:41 ohm Exp $
+;
+'\x81'			(switch hangul)
+(if hangul)q		(off hangul)
+(unless hangul)'^g'	(on hangul)

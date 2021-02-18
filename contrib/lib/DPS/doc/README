@@ -1,0 +1,45 @@
+Contents of this directory
+
+Color_Ext.ps.Z
+	A description of extensions made to the PostScript language to
+	support color.
+
+DPS_ClientLib.ps.Z
+	A manual for the Display PostScript client library.
+
+DPS_Ext.ps.Z
+	A description of extensions made to the PostScript language to
+	to support Display PostScript systems.
+
+DPS_Persp.ps.Z
+	A brief overview for developers, including how to get additional
+	information.
+
+DPS_X_ClientLib.ps.Z
+	A manual for the X-specific portions of the Display PostScript client
+	library.
+
+DPS_pswrap.ps.Z
+	A manual for the pswrap utility.
+
+DPSoverview.ps.Z
+	An overview of the Display PostScript system.
+
+FontSB.doc
+	Documentation for the Font Selection Box widget.
+
+PSres.doc
+	Documentation for the PostScript resource location library.
+
+dpstk.doc
+	Documentation for the Display PostScript toolkit.
+
+library.doc
+	Changes made to the Display PostScript client library since the
+	writing of the above manuals.
+
+makepsres.doc
+	Documentation for the makepsres utility.
+
+protocol.doc
+	The protocol specification for the Display PostScript extension to X.

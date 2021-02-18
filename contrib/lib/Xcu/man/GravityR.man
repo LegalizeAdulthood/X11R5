@@ -1,0 +1,72 @@
+.TH XcuGravityR 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuGravityR \- Gravity resource for XcuWidgets.
+.sp
+.TS
+tab(;);
+|c s s s s|.
+_
+XcuGravity Resource
+.T&
+|lB |lB |lB |lB s|.
+_
+Name;Type;Converter Registration;Converts
+.T&
+|lB |lB |lB |lB cB|.
+ ; ; ;From;To
+=
+.T&
+|lB l l l l|.
+XtNgravity;XcuGravity;XcuAddStringToGravityConverter();"n";XcuNORTH_GRAVITY
+.T&
+|lB l l l l|.
+ ; ; ;"e";XcuEAST_GRAVITY
+ ; ; ;"s";XcuSOUTH_GRAVITY
+ ; ; ;"w";XcuWEST_GRAVITY
+ ; ; ;"ne";XcuNORTH_EAST_GRAVITY
+ ; ; ;"nw";XcuNORTH_WEST_GRAVITY
+ ; ; ;"se";XcuSOUTH_EAST_GRAVITY
+ ; ; ;"sw";XcuSOUTH_WEST_GRAVITY
+ ; ; ;"c";XcuCENTER_GRAVITY
+_
+.TE
+.ne 4
+.SH DESCRIPTION
+\ 
+.br
+The XcuGravity resource is used by the XcuWidgets to determine where
+the widget contents should be placed within a window that is larger than
+the widget's minimum required size.
+.ne 4
+.SH FUTURE ENHANCEMENTS
+\ 
+.br
+Accept a wider variety of strings.  E.g., in addition to "n", accept
+"north", "North", "XcuNorth", etc.
+.ne 4
+.SH NOTE
+\ 
+.br
+XcuAddStringToGravityConverter() is
+automatically called by the class_initialize procedures of \fBXcuLabel\fR and
+\fBXcuTbl\fR.
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

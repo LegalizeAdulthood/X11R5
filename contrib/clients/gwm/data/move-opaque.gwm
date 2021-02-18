@@ -1,0 +1,97 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; MoveOpaque functions for gwm. Needs at least gwm v1.5c
+;;; by Colas Nahaboo (colas@mirsa.inria.fr).
+;;; Modified:  Gary Oberbrunner (garyo@think.com), Aug. 10, 1989
+;;; Modified:  Richard Hess (..!uunet!cimshop!rhess), Dec. 12, 1989
+;;; Modified:  Colas Nahaboo (colas@mirsa.inria.fr), Feb. 28, 1990
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; user-settable parameters
+
+(defaults-to
+  move-opaque.condition  '(< (* window-width window-height)
+			     move-opaque.cutoff-area)
+  move-opaque.cutoff-area 250000)
+
+
+; do not re-set the old value twice
+(if (not (boundp 'move-opaque.original-move-window))
+    (setq move-opaque.original-move-window move-window))
+
+(defun >> (val shift)
+  (while (> shift 0)
+    (setq val (/ val 2))
+    (setq shift (- shift 1))
+    )
+  val)
+
+(defun << (val shift)
+  (while (> shift 0)
+    (setq val (* val 2))
+    (setq shift (- shift 1))
+    )
+  val)
+
+(defun button-to-mask (b)
+  (* (<< 1 (- b 1))
+     with-button-1))
+
+(setq button-masks
+      (list 0 (button-to-mask 1)(button-to-mask 2)(button-to-mask 3)))
+
+(defun opaque-window-move ()
+  (if (not (= 0 (current-event-code)))		; we come from button
+      (with (wob window
+		 mouse-pos ()
+		 pressed-button (# (current-event-code) button-masks)
+		 button-state (bitwise-and pressed-button
+					   (current-event-modifier))
+		 window-coords (current-event-window-coords)
+		 dx (+ (# 4 window-coords) wob-borderwidth)
+		 dy (+ (# 5 window-coords) wob-borderwidth)
+		 last-x (+ dx window-x)
+		 last-y (+ dy window-y)
+		 wx 0 wy 0
+		 maxx (- screen-width window-width (* 2 wob-borderwidth))
+		 maxy (- screen-height window-height (* 2 wob-borderwidth))
+		 )
+	(allow-event-processing)	; un-freeze click-to-type wms
+	(tag button-released
+	     (while t
+	       (setq mouse-pos (current-mouse-position))
+	       (if (= (bitwise-and pressed-button (# 2 mouse-pos))
+		      button-state)
+		   (exit button-released)
+		 (if (not (and (= last-x (# 0 mouse-pos))
+			       (= last-y (# 1 mouse-pos))))
+		     (if (= 0 confine-windows)
+			 (move-opaque.original-move-window
+				     (- (setq last-x (# 0 mouse-pos)) dx)
+				     (- (setq last-y (# 1 mouse-pos)) dy))
+		       (progn
+			 (: wx (- (: last-x (# 0 mouse-pos)) dx))
+			 (: wy (- (: last-y (# 1 mouse-pos)) dy))
+			 (if (< wx 0) (: wx 0)
+			   (< maxx wx) (: wx maxx))
+			 (if (< wy 0) (: wy 0)
+			   (< maxy wy) (: wy maxy))
+			 (move-opaque.original-move-window wx wy)
+			 )))))))
+
+    (move-opaque.original-move-window)	; we do not come from button:
+					; just use outline to see something
+					; with user-positioning
+    ))
+
+;; now we redefine move-window.
+;; If there are any args, we just call the old move-window.
+;; if no args, it's interactive, so we decide based on window area how
+;; to move it.
+(defunq move-window args
+  (if (> (length args) 0)
+      (eval (+ '(move-opaque.original-move-window) args))
+      (if (eval move-opaque.condition)
+	  (opaque-window-move)
+	  (move-opaque.original-move-window)
+	  )))
+

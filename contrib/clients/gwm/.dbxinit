@@ -1,0 +1,34 @@
+alias s step
+alias n next
+alias q quit
+alias r run
+alias c cont
+alias st stop
+alias p print
+alias w where
+alias t trace
+alias tm "trace malloc; trace free"
+alias d delete
+alias sta status
+alias l list
+alias wp "call wp(!:1)"
+alias wt "call wt(!:1)"
+alias vm "print verify_malloc(!:1)"
+stop in stop_if_in_dbx
+stop in wool_break
+stop in GWM_FatalSignalHandler
+stop in XFatalHandler
+alias ML1 "set MLEAK_on = 1"
+alias ML0 "set MLEAK_on = 0; call wlcf_flush()"
+alias MLN "set MLEAK_num = "
+alias MLP "call MLEAK_print(0, 10)"
+#stop in MLEAK_break
+
+#for SunOs 4.0:
+ignore 23
+
+#some set-ups:
+alias rtwm "run -1 -d avahi:0.1 -p /u/mirsa/0/gould/koala/colas/tmp/gwm-twm:../src/gwm"
+
+#source dirs
+use . xpm

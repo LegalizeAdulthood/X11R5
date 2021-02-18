@@ -1,0 +1,17 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 extensions/server/RCS/Imakefile,v 
+*** 1.3	1991/09/21 22:06:09
+--- 1.5	1991/09/24 06:13:47
+***************
+*** 32,37 ****
+--- 32,42 ----
+  
+  DependTarget()
+  
++ #if BuildMvex
++ all::
++ 	cd ../mvex/server; $(MAKE) $(MFLAGS) 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
++ #endif
++ 
+  #ifdef IHaveSubdirs
+  MakeSubdirs($(SUBDIRS))
+  DependSubdirs($(SUBDIRS))

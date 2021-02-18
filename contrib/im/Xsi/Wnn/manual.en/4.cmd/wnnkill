@@ -1,0 +1,29 @@
+WNNKILL(1)
+
+NAME
+    wnnkill - The termintation of server.
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/wnnkill [-U|J|S] [-L lang] [host_name]
+
+DESCRIPTION
+    If some client still exists on the server of the stated host, wnnkill
+    returns a number of clients.
+    If no client exists on the server of the stated host, wnnkill terminates
+    the server.
+    If no hostname is specified, wnnkill will terminate the server of
+    UNIX_domain.
+
+    Wnnkill accepts the following options:
+
+	-U  The output code will be set UJIS. (default)
+
+	-J  The output code will be set JIS.
+
+	-S  The output code will be set Shift-JIS.
+
+	-L  lang 
+	    Specifies the language name which is referred for selecting of
+	    server. If no lang is specified, the one specified by the
+	    environment variable LANG will be used. The default is "ja_JP",
+	    so the server is jserver.

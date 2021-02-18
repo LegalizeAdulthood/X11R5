@@ -1,0 +1,9 @@
+!  This resource file represents a very basic application: a single
+!  button which, when pressed, causes the application to exit.
+!
+Ari.wcChildren:		command
+Ari.title:		A01_Hello
+
+*command.wcClass:	commandWidgetClass
+*command.Label:		Click the left mouse button here
+*command.callback:	WcExitCB

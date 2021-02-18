@@ -1,0 +1,2638 @@
+;
+; $Id: 2C_HANGUL,v 1.1 1991/09/09 22:43:42 ohm Exp $
+;
+;; Hangul   Feb 5 1991 
+
+;; Hangul Consonants
+G	(!)	¤¡
+N	(!)	¤¤
+D	(!)	¤§
+L	(!)	¤©
+M	(!)	¤±
+B	(!)	¤²
+S	(!)	¤µ
+-	(!)	¤·	;; NG
+J	(!)	¤¸
+C       (!)	¤º	;; CH
+K	(!)	¤»
+T	(!)	¤¼
+P	(!)	¤½
+H	(!)	¤¾
+
+¤¡G     (!)     ¤¢
+;¤¡S	(!)     ¤£
+;¤¤J	(!)	¤¥
+;¤¤H	(!)	¤¦
+¤§D     (!)     ¤¨
+;¤©G	(!)	¤ª
+;¤©M	(!)	¤«
+;¤©B	(!)	¤¬
+;¤©S	(!)	¤­
+;¤©T	(!)	¤®
+;¤©P	(!)	¤¯
+;¤©H	(!)	¤°
+¤²B     (!)     ¤³
+;¤²s	(!)	¤´
+¤µS	(!)	¤¶
+¤¸J     (!)     ¤¹
+
+;; Hangul Vowels
+;A	(!)	¤¿
+;;AE	(!)	¤À
+;YA	(!)	¤Á
+;;YAE	(!)	¤Â
+;EO	(!)	¤Ã
+;;E	(!)	¤Ä
+;YE	(!)	¤Å	;; YEO
+;;YE	(!)	¤Æ	;; YE
+;O	(!)	¤Ç
+;;WA	(!)	¤È
+;;WAE	(!)	¤É
+;;OE	(!)	¤Ê
+;YO	(!)	¤Ë
+;U	(!)	¤Ì
+;;WO	(!)	¤Í
+;;WE	(!)	¤Î
+;;WI	(!)	¤Ï
+;YU	(!)	¤Ð
+;EU	(!)	¤Ñ
+;;YI	(!)	¤Ò
+;I	(!)	¤Ó
+
+
+;; 16.1 G ¤¡
+¤¡A	(!)	°¡
+°¡G	°¢
+°¡N	°£
+°¡D	°¤
+°¡L	(!)	°¥
+°¥G	°¦
+°¥M	°§
+°¡M	°¨
+°¡B	(!)	°©
+°©S	°ª
+°¡S	(!)	°«
+°«S	°¬
+°¡-  	°­
+°¡J	°®
+°¡C	°¯
+°¡T	°°
+°¡P	°±
+°¡H	°²
+°¡I	(!)	°³
+°³G	°´
+°³N	°µ
+°³L	°¶
+°³M	°·
+°³B	°¸
+°³S	(!)	°¹
+°¹S	°º
+°³-	°»
+
+¤¡YA	(!)	°¼
+°¼G	°½
+°¼N	°¾
+°¼L	°¿
+°¼S	°À
+°¼-	°Á
+°¼I	(!)	°Â
+°ÂN	°Ã
+°ÂL	°Ä
+
+¤¡EO	(!)	°Å
+°ÅG	°Æ
+°ÅN	°Ç
+°ÅD	°È
+°ÅL	(!)	°É
+°ÉM	°Ê
+°ÅM	°Ë
+°ÅB	°Ì
+°ÅS	(!)	°Í
+°ÍS	°Î
+°Å-	°Ï
+°ÅJ	°Ð
+°ÅT	°Ñ
+°ÅP	°Ò
+°ÅH	°Ó
+°ÅI	(!)	°Ô
+°ÔN	°Õ
+°ÔL	°Ö
+°ÔM	°×
+°ÔB	°Ø
+°ÔS	(!)	°Ù
+°ÙS	°Ú
+°Ô-	°Û
+
+¤¡YE	(!)	°Ü
+°ÜG	(!)	°Ý
+°ÝG	°Þ
+°ÜN	°ß
+°ÜD	°à
+°ÜL	°á
+°ÜM	°â
+°ÜB	°ã
+°ÜS	(!)	°ä
+°äS	°å
+°Ü-	°æ
+°ÜT	°ç
+°ÜI	(!)	°è
+°èN	°é
+°èL	°ê
+°èB	°ë
+°èS	°ì
+
+¤¡O	(!)	°í
+°íG	°î
+°íN	°ï
+°íD	°ð
+°íL	(!)	°ñ
+°ñM	°ò
+°ñS	°ó
+°ñH	°ô
+°íM	°õ
+°íB	°ö
+°íS	°÷
+°í-	°ø
+°íJ	°ù
+°íA	(!)	°ú
+°úG	°û
+°úN	°ü
+°úL	(!)	°ý
+°ýM	°þ
+°úM	±¡
+°úB	±¢
+°úS	±£
+°ú-	±¤
+°úI	(!)	±¥
+±¥N	±¦
+±¥L	±§
+±¥B	±¨
+±¥SS	±©
+±¥-	±ª
+°íI	(!)	±«
+±«G	±¬
+±«N	±­
+±«L	±®
+±«M	±¯
+±«B	±°
+±«S	±±
+±«-	±²
+
+¤¡YO	(!)	±³
+±³N	±´
+±³L	±µ
+±³B	±¶
+±³S	±·
+
+¤¡U	(!)	±¸
+±¸G	±¹
+±¸N	±º
+±¸D	±»
+±¸L	(!)	±¼
+±¼G	±½
+±¼M	±¾
+±¼H	±¿
+±¸M	±À
+±¸B	±Á
+±¸S	±Â
+±¸-	±Ã
+±¸J	±Ä
+±¸EO	(!)	±Å
+±ÅG	±Æ
+±ÅN	±Ç
+±ÅL	±È
+±ÅSS	±É
+±Å-     ±Ê
+±ÅI	(!)	±Ë
+±ËS	±Ì
+±¸I     (!)	±Í
+±ÍG	±Î
+±ÍN	±Ï
+±ÍL	±Ð
+±ÍM	±Ñ
+±ÍB	±Ò
+±ÍS	±Ó
+
+¤¡YU	(!)	±Ô
+±ÔN	±Õ
+±ÔL	±Ö
+
+¤¡EU	(!)	±×
+±×G	±Ø
+±×N	±Ù
+±×D	±Ú
+±×L	(!)	±Û
+±ÛG	±Ü
+±×M	±Ý
+±×B	±Þ
+±×S	±ß
+±×-	±à
+±×I	±á
+
+¤¡I	(!)	±â
+±âG	±ã
+±âN	±ä
+±âD	±å
+±âL	(!)	±æ
+±æM	±ç
+±âM     ±è
+±âB     ±é
+±âS	±ê
+±â-	±ë
+±âJ	±ì
+±âP	±í
+
+
+;; 17.78 GG ¤¢
+¤¢A	(!)	±î
+±îG	(!)	±ï
+±ïG	±ð
+±îN	±ñ
+±îL	(!)	±ò
+±òM	±ó
+±îM	±ô
+±îB	±õ
+±îS	(!)	±ö
+±öS	±÷
+±î-	±ø
+±îT	±ù
+±îI	(!)	±ú
+±úG	±û
+±úN	±ü
+±úL	±ý
+±úM	±þ
+±úB	²¡
+±úS	(!)	²¢
+²¢S	²£
+±ú-	²¤
+
+¤¢YA	(!)	²¥
+²¥G     ²¦
+²¥L	²§
+
+¤¢EO	(!)	²¨
+²¨G	(!)	²©
+²©G	²ª
+²¨N	²«
+²¨L	²¬
+²¨M	²­
+²¨B	²®
+²¨S	(!)	²¯
+²¯S	²°
+²¨-	²±
+²¨I	(!)	²²
+²²G	²³
+²²N	²´
+²²M	²µ
+²²S	²¶
+²²-	²·
+
+¤¢YE	(!)	²¸
+²¸N	²¹
+²¸L	²º
+²¸S	(!)	²»
+²»S	²¼
+²¸T	²½
+²¸I	²¾
+
+¤¢O	(!)	²¿
+²¿G	²À
+²¿N	(!)	²Á
+²ÁH	²Â
+²¿L	²Ã
+²¿M	²Ä
+²¿B	²Å
+²¿S	²Æ
+²¿-	²Ç
+²¿J	²È
+²¿C	²É
+²¿A	(!)	²Ê
+²ÊG	²Ë
+²ÊL	²Ì
+²ÊSS	²Í
+²Ê-     ²Î
+²ÊI	(!)	²Ï
+²ÏG	²Ð
+²Ï-	²Ñ
+²¿I	(!)	²Ò
+²ÒN	²Ó
+²ÒL	²Ô
+²ÒM	²Õ
+²ÒB	²Ö
+²Ò-	²×
+
+¤¢YO	²Ø
+
+¤¢U	(!)	²Ù
+²ÙG	²Ú
+²ÙN	²Û
+²ÙL	(!)	²Ü
+²ÜH	²Ý
+²ÙM	²Þ
+²ÙB	²ß
+²ÙS	²à
+²Ù-	²á
+²ÙJ	²â
+²ÙEO	(!)	²ã
+²ãL	²ä
+²ãSS	²å
+²ã-	²æ
+²ãI	(!)	²ç
+²çG	²è
+²çN	²é
+²çL	²ê
+²çM	²ë
+²çB	²ì
+²çSS	²í
+²ÙI	(!)	²î
+²îN	²ï
+²îL	²ð
+²îM	²ñ
+²îB	²ò
+
+¤¢YU	²ó
+
+¤¢EU	(!)	²ô
+²ôG	²õ
+²ôN	(!)	²ö
+²öH	²÷
+²ôL	(!)	²ø
+²øM	²ù
+²øH	²ú
+²ôM	²û
+²ôB	²ü
+²ôS	²ý
+²ô-	²þ
+²ôT	³¡
+
+¤¢I	(!)	³¢
+³¢G	³£
+³¢N	³¤
+³¢L	³¥
+³¢M	³¦
+³¢B	³§
+³¢S	³¨
+³¢-	³©
+
+
+;; 19.10 N ¤¤
+¤¤A	(!)	³ª
+³ªG	(!)	³«
+³«G	³¬
+³ªN	³­
+³ªD	³®
+³ªL	(!)	³¯
+³¯G	³°
+³¯M	³±
+³ªM	³²
+³ªB	³³
+³ªS	(!)	³´
+³´S	³µ
+³ª-	³¶
+³ªJ	³·
+³ªC	³¸
+³ªT	³¹
+³ªH	³º
+³ªI	(!)	³»
+³»G	³¼
+³»N	³½
+³»L	³¾
+³»M	³¿
+³»B	³À
+³»S	(!)	³Á
+³ÁS	³Â
+³»-	³Ã
+
+¤¤YA	(!)	³Ä
+³ÄG	³Å
+³ÄN	³Æ
+³ÄL	³Ç
+³ÄM	³È
+³Ä-	³É
+
+¤¤EO	(!)	³Ê
+³ÊG	(!)	³Ë
+³ËS	³Ì
+³ÊN	³Í
+³ÊL	(!)	³Î
+³ÎM	³Ï
+³ÎB	³Ð
+³ÊM	³Ñ
+³ÊB	³Ò
+³ÊS	(!)	³Ó
+³ÓS	³Ô
+³Ê-	³Õ
+³ÊH	³Ö
+³ÊI	(!)	³×
+³×G	³Ø
+³×N	³Ù
+³×L	³Ú
+³×M	³Û
+³×B	³Ü
+³×S	(!)	³Ý
+³ÝS	³Þ
+³×-	³ß
+
+¤¤YE	(!)	³à
+³àG	³á
+³àN	³â
+³àL	³ã
+³àM	³ä
+³àB	³å
+³àSS	³æ
+³à-     ³ç
+³àK	³è
+³àI	(!)	³é
+³éN	³ê
+
+¤¤O	(!)	³ë
+³ëG	³ì
+³ëN	³í
+³ëL	(!)	³î
+³îM	³ï
+³ëM	³ð
+³ëB	³ñ
+³ëS	³ò
+³ë-	³ó
+³ëP	³ô
+³ëH	³õ
+³ëA	(!)	³ö
+³öN	³÷
+³öL	³ø
+³öSS	³ù
+³ëI	(!)	³ú
+³úN	³û
+³úL	³ü
+³úM	³ý
+³úB	³þ
+³úS	´¡
+
+¤¤YO	(!)	´¢
+´¢G	´£
+´¢N	´¤
+´¢L	´¥
+´¢B	´¦
+´¢S	´§
+´¢-	´¨
+
+¤¤U	(!)	´©
+´©G	´ª
+´©N	´«
+´©D	´¬
+´©L	´­
+´©M	´®
+´©B	´¯
+´©S	´°
+´©-	´±
+´©EO	(!)	´²
+´²SS	´³
+´²I     ´´
+´©I	(!)	´µ
+´µN	´¶
+´µL	´·
+´µM	´¸
+´µB     ´¹
+
+¤¤YU	(!)	´º
+´ºG	´»
+´ºL	´¼
+´ºM	´½
+´ºB	´¾
+´º-	´¿
+
+¤¤EU	(!)	´À
+´ÀG	´Á
+´ÀN	´Â
+´ÀL	(!)	´Ã
+´ÃG	´Ä
+´ÃM	´Å
+´ÀM	´Æ
+´ÀB	´Ç
+´ÀS	´È
+´À-	´É
+´ÀJ	´Ê
+´ÀP	´Ë
+´ÀI	(!)	´Ì
+´ÌN	´Í
+´ÌL	´Î
+
+¤¤I	(!)	´Ï
+´ÏG	´Ð
+´ÏN	´Ñ
+´ÏL	(!)	´Ò
+´ÒM	´Ó
+´ÏM	´Ô
+´ÏB	´Õ
+´ÏS	´Ö
+´Ï-	´×
+´ÏP	´Ø
+
+
+;; 20.57 D ¤§
+¤§A	(!)	´Ù
+´ÙG	(!)	´Ú
+´ÚG	´Û
+´ÙN	´Ü
+´ÙD	´Ý
+´ÙL	(!)	´Þ
+´ÞG	´ß
+´ÞM	´à
+´ÞB	´á
+´ÞH	´â
+´ÙM	´ã
+´ÙB	´ä
+´ÙS	(!)	´å
+´åS	´æ
+´Ù-	´ç
+´ÙJ	´è
+´ÙC	´é
+´ÙH     ´ê
+´ÙI	(!)	´ë
+´ëG	´ì
+´ëN	´í
+´ëL	´î
+´ëM	´ï
+´ëB	´ð
+´ëS	(!)	´ñ
+´ñS	´ò
+´ë-	´ó
+
+¤§YA	´ô
+
+¤§EO	(!)	´õ
+´õG	(!)	´ö
+´öG	´÷
+´õN	´ø
+´õD	´ù
+´õL	(!)	´ú
+´úM	´û
+´úB	´ü
+´õM	´ý
+´õB	´þ
+´õS	µ¡
+´õ-	µ¢
+´õC	µ£
+´õP	µ¤
+´õI	(!)	µ¥
+µ¥G	µ¦
+µ¥N	µ§
+µ¥L	µ¨
+µ¥M	µ©
+µ¥B	µª
+µ¥S	(!)	µ«
+µ«S	µ¬
+µ¥-	µ­
+
+¤§YE	(!)	µ®
+µ®N     µ¯
+µ®L	µ°
+µ®SS	µ±
+µ®-	µ²
+µ®I	(!)	µ³
+µ³N	µ´
+
+¤§O	(!)	µµ
+µµG	µ¶
+µµN	µ·
+µµD	µ¸
+µµL	(!)	µ¹
+µ¹M	µº
+µ¹S	µ»
+µµM	µ¼
+µµB	µ½
+µµS	µ¾
+µµ-	µ¿
+µµC	µÀ
+µµT	µÁ
+µµA	(!)	µÂ
+µÂN	µÃ
+µÂL	µÄ
+µÂI	(!)	µÅ
+µÅSS	µÆ
+µµI	(!)	µÇ
+µÇN	µÈ
+µÇL	µÉ
+µÇM	µÊ
+µÇB	µË
+µÇS	µÌ
+
+¤§YO	µÍ
+
+¤§U	(!)	µÎ
+µÎG	µÏ
+µÎN	µÐ
+µÎL	µÑ
+µÎM	µÒ
+µÎB	µÓ
+µÎS	µÔ
+µÎ-	µÕ
+µÎEO	(!)	µÖ
+µÖSS	µ×
+µÖI	(!)	µØ
+µØ-	µÙ
+µÎI	(!)	µÚ
+µÚN	µÛ
+µÚL	µÜ
+µÚB	µÝ
+µÚS	µÞ
+µÚ-	µß
+¤§YU	(!)	µà
+µàN	µá
+µàL	µâ
+µàM	µã
+µà-	µä
+
+¤§EU	(!)	µå
+µåG	µæ
+µåN	µç
+µåD	µè
+µåL	(!)	µé
+µéM	µê
+µåM	µë
+µåB	µì
+µåS	µí
+µå-	µî
+µåI	µï
+
+¤§I	(!)	µð
+µðG	µñ
+µðN	µò
+µðD	µó
+µðL	µô
+µðM	µõ
+µðB	µö
+µðS	(!)	µ÷
+µ÷S	µø
+µð-	µù
+µðJ	µú
+
+
+;; 21.91 DD ¤¨
+¤¨A	(!)	µû
+µûG	µü
+µûN	µý
+µûL	µþ
+µûM	¶¡
+µûB	¶¢
+µûS	(!)	¶£
+¶£S	¶¤
+µû-	¶¥
+µûH	¶¦
+µûI	(!)	¶§
+¶§G	¶¨
+¶§N	¶©
+¶§L	¶ª
+¶§M	¶«
+¶§B	¶¬
+¶§S	(!)	¶­
+¶­S	¶®
+¶§-	¶¯
+
+¤¨EO	(!)	¶°
+¶°G	¶±
+¶°N     ¶²
+¶°L	(!)	¶³
+¶³M	¶´
+¶³B	¶µ
+¶°M	¶¶
+¶°B	¶·
+¶°S	(!)	¶¸
+¶¸S	¶¹
+¶°-	¶º
+¶°H	¶»
+¶°I	(!)	¶¼
+¶¼G	¶½
+¶¼N	¶¾
+¶¼L	¶¿
+¶¼M	¶À
+¶¼B	¶Á
+¶¼S	(!)	¶Â
+¶ÂS	¶Ã
+¶¼-	¶Ä
+
+¤¨YE	(!)	¶Å
+¶ÅSS	¶Æ
+
+¤¨O     (!)	¶Ç
+¶ÇG	¶È
+¶ÇN	¶É
+¶ÇL	¶Ê
+¶Ç-	¶Ë
+¶ÇA	(!)	¶Ì
+¶ÌL	¶Í
+¶ÌI	¶Î
+¶ÇI	(!)	¶Ï
+¶ÏN	¶Ð
+
+¤¨U	(!)	¶Ñ
+¶ÑG	¶Ò
+¶ÑN	¶Ó
+¶ÑL	(!)	¶Ô
+¶ÔH	¶Õ
+¶ÑM	¶Ö
+¶Ñ-	¶×
+¶ÑEI	¶Ø
+¶ÑI	(!)	¶Ù
+¶ÙN	¶Ú
+¶ÙL	¶Û
+¶ÙM	¶Ü
+¶ÙB	¶Ý
+¶Ù-	¶Þ
+
+¤¨EU	(!)	¶ß
+¶ßG	¶à
+¶ßN	¶á
+¶ßD	¶â
+¶ßL	¶ã
+¶ßM	¶ä
+¶ßB	¶å
+¶ßS	¶æ
+¶ßI	(!)	¶ç
+¶çN	¶è
+¶çL	¶é
+¶çM	¶ê
+¶çB	¶ë
+
+¤¨I	(!)	¶ì
+¶ìN	¶í
+¶ìL	¶î
+¶ìM	¶ï
+¶ìB	¶ð
+¶ìS	¶ñ
+¶ì-	¶ò
+
+
+;; 22.83 L ¤©
+¤©A	(!)	¶ó
+¶óG	¶ô
+¶óN	¶õ
+¶óL	¶ö
+¶óM	¶÷
+¶óB	¶ø
+¶óS	(!)	¶ù
+¶ùS	¶ú
+¶ó-	¶û
+¶óJ	¶ü
+¶óP	¶ý
+¶óH	¶þ
+¶óI	(!)	·¡
+·¡G	·¢
+·¡N	·£
+·¡L	·¤
+·¡M	·¥
+·¡B	·¦
+·¡S	(!)	·§
+·§S	·¨
+·¡-	·©
+
+¤©YA	(!)	·ª
+·ªG	·«
+·ªN	·¬
+·ªS	·­
+·ª-	·®
+
+¤©EO	(!)	·¯
+·¯G	·°
+·¯N	·±
+·¯L	·²
+·¯M	·³
+·¯B	·´
+·¯S	(!)	·µ
+·µS	·¶
+·¯-	··
+·¯H	·¸
+·¯I	(!)	·¹
+·¹G	·º
+·¹N	·»
+·¹L	·¼
+·¹M	·½
+·¹B	·¾
+·¹S	·¿
+·¹-	·À
+
+¤©YE	(!)	·Á
+·ÁG	·Â
+·ÁN	·Ã
+·ÁL	·Ä
+·ÁM	·Å
+·ÁB	·Æ
+·ÁS	(!)	·Ç
+·ÇS	·È
+·Á-	·É
+·ÁI	(!)	·Ê
+·ÊN	·Ë
+·ÊB	·Ì
+·ÊS	·Í
+
+¤©O	(!)	·Î
+·ÎG	·Ï
+·ÎN	·Ð
+·ÎL	·Ñ
+·ÎM	·Ò
+·ÎB	·Ó
+·ÎS	·Ô
+·Î-	·Õ
+·ÎA	(!)	·Ö
+·ÖN	·×
+·Ö-	·Ø
+·ÖISS	·Ù
+·ÎI	(!)	·Ú
+·ÚN	·Û
+·ÚL	·Ü
+·ÚM	·Ý
+·ÚB	·Þ
+·ÚS	·ß
+·Ú-	·à
+
+¤©YO	(!)	·á
+·áN	·â
+·áL	·ã
+·áB	·ä
+·áS	·å
+·á-	·æ
+
+¤©U	(!)	·ç
+·çG    	·è
+·çN	·é
+·çL	·ê
+·çM	·ë
+·çB	·ì
+·çS	·í
+·ç-	·î
+·çEO	(!)	·ï
+·ïSS	·ð
+·ïI	·ñ
+·çI	(!)	·ò
+·òG	·ó
+·òN	·ô
+·òL	·õ
+·òM	·ö
+·òS	·÷
+·ò-	·ø
+
+¤©YU	(!)	·ù
+·ùG	·ú
+·ùN	·û
+·ùL	·ü
+·ùM	·ý
+·ùB	·þ
+·ùS	¸¡
+·ù-	¸¢
+
+¤©EU	(!)	¸£
+¸£G	¸¤
+¸£N	¸¥
+¸£L	¸¦
+¸£M	¸§
+¸£B	¸¨
+¸£S	¸©
+¸£-	¸ª
+¸£J	¸«
+¸£T	¸¬
+¸£P	¸­
+
+¤©I	(!)	¸®
+¸®G	¸¯
+¸®N	¸°
+¸®L	¸±
+¸®M	¸²
+¸®B	¸³
+¸®S	¸´
+¸®-	¸µ
+
+
+;; 24.22 M ¤±
+¤±A	(!)	¸¶
+¸¶G	¸·
+¸¶N	(!)	¸¸
+¸¸H	¸¹
+¸¶D	¸º
+¸¶L	(!)	¸»
+¸»G	¸¼
+¸»M	¸½
+¸¶M	¸¾
+¸¶B	¸¿
+¸¶S	¸À
+¸¶-	¸Á
+¸¶J	¸Â
+¸¶T	¸Ã
+¸¶H	¸Ä
+¸¶I	(!)	¸Å
+¸ÅG	¸Æ
+¸ÅN	¸Ç
+¸ÅL	¸È
+¸ÅM	¸É
+¸ÅB	¸Ê
+¸ÅS	(!)	¸Ë
+¸ËS	¸Ì
+¸Å-	¸Í
+¸ÅJ	¸Î
+
+¤±YA	(!)	¸Ï
+¸ÏG	¸Ð
+¸ÏL	¸Ñ
+¸Ï-	¸Ò
+
+¤±EO	(!)	¸Ó
+¸ÓG	¸Ô
+¸ÓN	¸Õ
+¸ÓL	(!)	¸Ö
+¸ÖM     ¸×
+¸ÓM	¸Ø
+¸ÓB	¸Ù
+¸ÓS	¸Ú
+¸Ó-	¸Û
+¸ÓJ	¸Ü
+¸ÓH	¸Ý
+¸ÓI	(!)	¸Þ
+¸ÞG	¸ß
+¸ÞN	¸à
+¸ÞL	¸á
+¸ÞM	¸â
+¸ÞB	¸ã
+¸ÞS	(!)	¸ä
+¸äS	¸å
+¸Þ-	¸æ
+
+¤±YE	(!)	¸ç
+¸çG	¸è
+¸çN	¸é
+¸çL	¸ê
+¸çS	(!)	¸ë
+¸ëS	¸ì
+¸ç-	¸í
+¸çC	¸î
+¸çI	¸ï
+
+¤±O	(!)	¸ð
+¸ðG	(!)	¸ñ
+¸ñS     ¸ò
+¸ðN	¸ó
+¸ðL	(!)	¸ô
+¸ôM	¸õ
+¸ðM	¸ö
+¸ðB	¸÷
+¸ðS	¸ø
+¸ð-	¸ù
+¸ðA	(!)	¸ú
+¸úN	¸û
+¸úSS	¸ü
+¸ú-     ¸ý
+¸ðI	(!)	¸þ
+¸þN	¹¡
+¸þL	¹¢
+¸þB	¹£
+¸þS	¹¤
+¸þ-	¹¥
+
+¤±YO	(!)	¹¦
+¹¦N	¹§
+¹¦L	¹¨
+¹¦B	¹©
+¹¦S	¹ª
+
+¤±U	(!)     ¹«
+¹«G	(!)	¹¬
+¹¬G	¹­
+¹«N	¹®
+¹«D	¹¯
+¹«L	(!)	¹°
+¹°G	¹±
+¹°M	¹²
+¹«M	¹³
+¹«B	¹´
+¹«S	¹µ
+¹«-	¹¶
+¹«T	¹·
+¹«H	¹¸
+¹«EO	(!)	¹¹
+¹¹N	¹º
+¹¹L	¹»
+¹¹B	¹¼
+¹¹S	¹½
+¹¹I	¹¾
+¹«I	(!)	¹¿
+¹¿N	¹À
+¹¿L	¹Á
+
+¤±YU	(!)	¹Â
+¹ÂN	¹Ã
+¹ÂL	¹Ä
+¹ÂM	¹Å
+¹ÂS	¹Æ
+
+¤±EU	(!)	¹Ç
+¹ÇN	¹È
+¹ÇL	¹É
+¹ÇM	¹Ê
+¹ÇS	¹Ë
+
+¤±I	(!)	¹Ì
+¹ÌG	¹Í
+¹ÌN	¹Î
+¹ÌD	¹Ï
+¹ÌL	(!)	¹Ð
+¹ÐM	¹Ñ
+¹ÌM	¹Ò
+¹ÌB	¹Ó
+¹ÌS	(!)	¹Ô
+¹ÔS	¹Õ
+¹Ì-	¹Ö
+¹ÌC	¹×
+¹ÌT	¹Ø
+
+
+;; 25.57 B ¤²
+¤²A	(!)	¹Ù
+¹ÙG	(!)	¹Ú
+¹ÚG	¹Û
+¹ÚS	¹Ü
+¹ÙN	¹Ý
+¹ÙD	¹Þ
+¹ÙL	(!)	¹ß
+¹ßG	¹à
+¹ßM	¹á
+¹ßB	¹â
+¹ÙM	¹ã
+¹ÙB	¹ä
+¹ÙS	¹å
+¹Ù-	¹æ
+¹ÙT	¹ç
+¹ÙI	(!)	¹è
+¹èG	¹é
+¹èN	¹ê
+¹èL	¹ë
+¹èM	¹ì
+¹èB	¹í
+¹èS	(!)	¹î
+¹îS	¹ï
+¹è-	¹ð
+¹èT	¹ñ
+
+¤²YA	(!)	¹ò
+¹òG	¹ó
+¹òN	¹ô
+¹òB	¹õ
+
+¤²EO	(!)	¹ö
+¹öG	¹÷
+¹öN	¹ø
+¹öD     ¹ù
+¹öL	(!)	¹ú
+¹úM	¹û
+¹öM	¹ü
+¹öB	¹ý
+¹öS	¹þ
+
+¹ö-	º¡
+¹öJ	º¢
+¹öI	(!)	º£
+º£G	º¤
+º£N	º¥
+º£D	º¦
+º£L	º§
+º£M	º¨
+º£B	º©
+º£S	(!)	ºª
+ºªS	º«
+º£-     º¬
+
+¤²YE	(!)	º­
+º­G	º®
+º­N	º¯
+º­L	º°
+º­B	º±
+º­S	(!)	º²
+º²S	º³
+º­-	º´
+º­T	ºµ
+º­I	(!)	º¶
+º¶N	º·
+
+¤²O	(!)	º¸
+º¸G	(!)	º¹
+º¹G	ºº
+º¸N	º»
+º¸L	º¼
+º¸M	º½
+º¸B	º¾
+º¸S	º¿
+º¸-	ºÀ
+º¸A	(!)	ºÁ
+ºÁN	ºÂ
+ºÁSS	ºÃ
+ºÁI	(!)	ºÄ
+ºÄSS	ºÅ
+º¸I	(!)	ºÆ
+ºÆG	ºÇ
+ºÆN	ºÈ
+ºÆL	ºÉ
+ºÆM	ºÊ
+ºÆB	ºË
+
+¤²YO	(!)	ºÌ
+ºÌN	ºÍ
+
+¤²U	(!)	ºÎ
+ºÎG	ºÏ
+ºÎN	ºÐ
+ºÎD	ºÑ
+ºÎL	(!)	ºÒ
+ºÒG	ºÓ
+ºÒM	ºÔ
+ºÎM	ºÕ
+ºÎB	ºÖ
+ºÎS	º×
+ºÎ-	ºØ
+ºÎT	ºÙ
+ºÎP	ºÚ
+ºÎEO	(!)	ºÛ
+ºÛL     ºÜ	
+ºÛSS	ºÝ
+ºÛI     ºÞ
+ºÎI	(!)	ºß
+ºßG	ºà
+ºßN	ºá
+ºßL	ºâ
+ºß-	ºã
+
+¤²YU	(!)	ºä
+ºäN	ºå
+ºäL	ºæ
+ºäM	ºç
+ºäS	ºè
+ºä-	ºé
+
+¤²EU	(!)	ºê
+ºêG	ºë
+ºêN	ºì
+ºêL	ºí
+ºêM	ºî
+ºêB	ºï
+ºêS	ºð
+
+¤²I     (!)	ºñ
+ºñG	ºò
+ºñN	ºó
+ºñL	(!)	ºô
+ºôM	ºõ
+ºñM	ºö
+ºñB	º÷
+ºñS	ºø
+ºñ-	ºù
+ºñJ	ºú
+ºñC	ºû
+
+
+;; 26.92 BB ¤³
+¤³A	(!)	ºü
+ºüG	ºý
+ºüN	ºþ
+ºüL	(!)	»¡
+»¡M	»¢
+ºüM	»£
+ºüB	»¤
+ºüS	(!)	»¥
+»¥S	»¦
+ºü-	»§
+ºüH	»¨
+ºüI	(!)	»©
+»©G	»ª
+»©N	»«
+»©L	»¬
+»©M	»­
+»©B	»®
+»©S	(!)	»¯
+»¯S	»°
+»©-	»±
+
+¤³YA	(!)	»²
+»²G	»³
+»²M	»´
+
+¤³EO	(!)	»µ
+»µG	»¶
+»µN	»·
+»µD	»¸
+»µL	»¹
+»µM	»º
+»µS	(!)	»»
+»»S	»¼
+»µ-	»½
+»µI	(!)	»¾	
+»¾-	»¿
+
+¤³YE	(!)	»À
+»ÀG	»Á
+»ÀM	»Â
+»ÀB	»Ã
+»ÀS	(!)	»Ä
+»ÄS     »Å
+»À-	»Æ
+
+¤³O	(!)	»Ç
+»ÇG	»È
+»ÇN	»É
+»ÇL	»Ê
+»ÇM	»Ë
+»ÇB	»Ì
+»Ç-	»Í
+»ÇI	»Î
+
+¤³YO	(!)	»Ï
+»Ï-	»Ð
+
+¤³U     (!)	»Ñ
+»ÑG	»Ò
+»ÑN	»Ó
+»ÑL	»Ô
+»ÑM	»Õ
+»ÑS	»Ö
+»Ñ-	»×
+
+¤³YU	(!)	»Ø
+»Ø-	»Ù
+
+¤³EU    (!)	»Ú
+»ÚN	»Û
+»ÚL	»Ü
+»ÚM	»Ý
+»ÚB	»Þ
+
+¤³I	(!)	»ß
+»ßG	»à
+»ßN	»á
+»ßL	»â
+»ßM	»ã
+»ßB	»ä
+»ßS	»å
+»ß-	»æ
+
+
+;; 27.71 S ¤µ
+¤µA	(!)	»ç
+»çG	(!)	»è
+»èS	»é
+»çN	»ê
+»çD	»ë
+»çL	(!)	»ì
+»ìG	»í
+»ìM	»î
+»çM	»ï
+»çB	»ð
+»çS	(!)	»ñ
+»ñS	»ò
+»ç-	»ó
+»çT	»ô
+»çI	(!)	»õ
+»õG	»ö
+»õN	»÷
+»õL	»ø
+»õM	»ù
+»õB	»ú
+»õS	(!)	»û
+»ûS	»ü
+»õ-	»ý
+
+¤µYA	(!)	»þ
+»þG	¼¡
+»þN	¼¢
+»þL	¼£
+»þM	¼¤
+»þB	¼¥
+»þS	¼¦
+»þ-	¼§
+»þI	(!)	¼¨
+¼¨N	¼©
+¼¨L	¼ª
+¼¨M	¼«
+¼¨-	¼¬
+
+¤µEO	(!)	¼­
+¼­G	(!)	¼®
+¼®G	¼¯
+¼®S	¼°
+¼­N	¼±
+¼­D	¼²
+¼­L	(!)	¼³
+¼³M	¼´
+¼³B	¼µ
+¼­M	¼¶
+¼­B	¼·
+¼­S	(!)	¼¸
+¼¸S	¼¹
+¼­-	¼º
+¼­P	¼»
+¼­I	(!)	¼¼
+¼¼G	¼½
+¼¼N	¼¾
+¼¼L	¼¿
+¼¼M	¼À
+¼¼B	¼Á
+¼¼S	(!)	¼Â
+¼ÂS	¼Ã
+¼¼-	¼Ä
+
+¤µYE	(!)	¼Å
+¼ÅG	¼Æ
+¼ÅN	¼Ç
+¼ÅL	¼È
+¼ÅM	¼É
+¼ÅB	¼Ê
+¼ÅS	(!)	¼Ë
+¼ËS	¼Ì
+¼Å-	¼Í
+¼ÅI	(!)	¼Î
+¼ÎN	¼Ï
+¼ÎL	¼Ð
+¼Î-	¼Ñ
+
+¤µO	(!)	¼Ò
+¼ÒG	(!)	¼Ó
+¼ÓG	¼Ô
+¼ÒN	¼Õ
+¼ÒL	(!)	¼Ö
+¼ÖM	¼×
+¼ÒM	¼Ø
+¼ÒB	¼Ù
+¼ÒS	¼Ú
+¼Ò-	¼Û
+¼ÒT	¼Ü
+¼ÒA	(!)	¼Ý
+¼ÝG	¼Þ
+¼ÝN	¼ß
+¼ÝL	¼à
+¼Ý-	¼á
+¼ÝI	(!)	¼â
+¼âN	¼ã
+¼âL	¼ä
+
+¼âM	¼å
+¼âS	(!)	¼æ
+¼æS	¼ç
+¼ÒI	(!)	¼è
+¼èN	¼é
+¼èL	¼ê
+¼èM	¼ë
+¼èB	¼ì
+¼èS	¼í
+
+¤µYO	(!)	¼î
+¼îG	¼ï
+¼îN	¼ð
+¼îL	¼ñ
+¼îM	¼ò
+¼îB	¼ó
+¼îS     ¼ô
+¼î-	¼õ
+
+¤µU	(!)	¼ö
+¼öG	¼÷
+¼öN	¼ø
+¼öD	¼ù
+¼öL	¼ú
+¼öM	¼û
+¼öB	¼ü
+¼öS	¼ý
+¼ö-	¼þ
+¼öC	½¡
+¼öT	½¢
+¼öP	½£
+¼öEO	(!)	½¤
+½¤SS	½¥
+½¤I	(!)	½¦
+½¦G	½§
+½¦N	½¨
+½¦L	½©
+½¦M	½ª
+½¦-	½«
+¼öI	(!)	½¬
+½¬G	½­
+½¬N	½®
+½¬L	½¯
+½¬M	½°
+½¬B	½±
+½¬S	½²
+½¬-	½³
+
+¤µYU	(!)	½´
+½´G	½µ
+½´L	½¶
+½´M	½·
+½´S	½¸
+½´-	½¹
+
+¤µEU	(!)	½º
+½ºG	½»
+½ºN	½¼
+½ºL	(!)	½½
+½½G	½¾
+½ºM	½¿
+½ºB	½À
+½ºS	½Á
+½º-	½Â
+
+¤µI	(!)	½Ã
+½ÃG	½Ä
+½ÃN	½Å
+½ÃD	½Æ
+½ÃL	(!)	½Ç
+½ÇH	½È
+½ÃM	½É
+½ÃB	½Ê
+½ÃS	½Ë
+½Ã-	½Ì
+½ÃP	½Í
+
+
+;; 29.46 SS ¤¶
+¤¶A     (!)	½Î
+½ÎG	(!)	½Ï
+½ÏS	½Ð
+½ÎN	½Ñ
+½ÎL	½Ò
+½ÎM	½Ó
+½ÎB	½Ô
+½ÎSS	½Õ
+½Î-     ½Ö
+½ÎH	½×
+½ÎI	(!)	½Ø
+½ØG	½Ù
+½ØN	½Ú
+½ØL	½Û
+½ØM	½Ü
+½ØB	½Ý
+½ØSS	½Þ
+½Ø-     ½ß
+
+¤¶YA-   ½à
+
+¤¶EO	(!)	½á
+½áG	½â
+½áN	½ã
+½áL	(!)	½ä
+½äB	½å
+½áM	½æ
+½áB	½ç
+½áSS	½è
+½á-     ½é
+½áI	(!)	½ê
+½êN	½ë
+½êL	½ì
+
+¤¶YEIN	½í
+
+¤¶O	(!)	½î
+½îG	½ï
+½îN	½ð
+½îD	½ñ
+½îL	(!)	½ò
+½òM	½ó
+½îM	½ô
+½îB	½õ
+½î-	½ö
+½îA	(!)	½÷
+½÷G	½ø
+½÷N	½ù
+½÷SS	½ú
+½÷I     (!)	½û
+½ûSS	½ü
+½îI	(!)	½ý
+½ýN	½þ
+½ýL     ¾¡
+½ýM	¾¢
+½ýB	¾£
+
+¤¶YO	¾¤
+
+¤¶U	(!)	¾¥
+¾¥G	¾¦
+¾¥N	¾§
+¾¥L	¾¨
+¾¥M	¾©
+¾¥B	¾ª
+¾¥-	¾«
+¾¥EO     (!)	¾¬
+¾¬SS	¾­
+¾¬I	¾®
+¾¥I	(!)	¾¯
+¾¯N	¾°
+
+¤¶YU-	¾±
+
+¤¶EU	(!)	¾²
+¾²G	¾³
+¾²N	¾´
+¾²L	(!)	¾µ
+¾µM	¾¶
+¾µH	¾·
+¾²M	¾¸
+¾²B	¾¹
+¾²I	(!)	¾º
+¾ºN	¾»
+¾ºL	¾¼
+¾ºM	¾½
+
+¤¶I	(!)	¾¾
+¾¾G	¾¿
+¾¾N	¾À
+¾¾L	¾Á
+¾¾M	¾Â
+¾¾B	¾Ã
+¾¾S	¾Ä
+¾¾-	¾Å
+
+
+;; 30.38 - ¤·
+¤·A	(!)	¾Æ
+¾ÆG	¾Ç
+¾ÆN	(!)	¾È
+¾ÈJ	¾É
+¾ÈH	¾Ê
+¾ÆL	(!)	¾Ë
+¾ËG	¾Ì
+¾ËM	¾Í
+¾ËH	¾Î
+¾ÆM	¾Ï
+¾ÆB	¾Ð
+¾ÆS	(!)	¾Ñ
+¾ÑS	¾Ò
+¾Æ-	¾Ó
+¾ÆT	¾Ô
+¾ÆP	¾Õ
+¾ÆI	(!)	¾Ö
+¾ÖG	¾×
+¾ÖN	¾Ø
+¾ÖL	¾Ù
+¾ÖM	¾Ú
+¾ÖB	¾Û
+¾ÖS	(!)	¾Ü
+¾ÜS	¾Ý
+¾Ö-	¾Þ
+
+¤·YA	(!)	¾ß
+¾ßG	¾à
+¾ßN	¾á
+¾ßL	(!)	¾â
+¾âB	¾ã
+¾ßM	¾ä
+¾ßB	¾å
+¾ßS	¾æ
+¾ß-	¾ç
+¾ßT	¾è
+¾ßH	¾é
+¾ßI	(!)	¾ê
+¾êN	¾ë
+¾êL	¾ì
+¾êB	¾í
+
+¤·EO	(!)	¾î
+¾îG	¾ï
+¾îN	(!)	¾ð
+¾ðJ	¾ñ
+¾îD	¾ò
+¾îL	(!)	¾ó
+¾óG	¾ô
+¾óM	¾õ
+¾îM     ¾ö
+¾îB	(!)	¾÷
+¾÷S	¾ø
+¾îS	(!)	¾ù
+¾ùS	¾ú
+¾î-	¾û
+¾îJ	¾ü
+¾îK	¾ý
+¾îP	¾þ
+¾îI	(!)	¿¡
+¿¡G	¿¢
+¿¡N	¿£
+¿¡L	¿¤
+¿¡M	¿¥
+¿¡B	¿¦
+¿¡S	¿§
+¿¡-	¿¨
+
+¤·YE	(!)	¿©
+¿©G	(!)	¿ª
+¿ªG	¿«
+¿©N	¿¬
+¿©L	(!)	¿­
+¿­M	¿®
+¿­B	¿¯
+¿©M	¿°
+¿©B	(!)	¿±
+¿±S	¿²
+¿©S	(!)	¿³
+¿³S	¿´
+¿©-	¿µ
+¿©T	¿¶
+¿©P	¿·
+¿©H	¿¸
+¿©I	(!)	¿¹
+¿¹N     ¿º
+¿¹L	¿»
+¿¹M	¿¼
+¿¹B	¿½
+¿¹S	(!)	¿¾
+¿¾S	¿¿
+
+¤·O	(!)	¿À
+¿ÀG	¿Á
+¿ÀN	¿Â
+¿ÀL	(!)	¿Ã
+¿ÃG	¿Ä
+¿ÃM	¿Å
+¿ÃS	¿Æ
+¿ÃH	¿Ç
+¿ÀM	¿È
+¿ÀB     ¿É
+¿ÀS	¿Ê
+¿À-	¿Ë
+¿ÀC	¿Ì
+¿ÀA	(!)	¿Í
+¿ÍG	¿Î
+¿ÍN	¿Ï
+¿ÍL	¿Ð
+¿ÍM	¿Ñ
+¿ÍB	¿Ò
+¿ÍS	(!)	¿Ó
+¿ÓS	¿Ô
+¿Í-	¿Õ
+¿ÍI	(!)	¿Ö
+¿ÖG	¿×
+¿ÖN	¿Ø
+¿ÖM	¿Ù
+¿ÖS	¿Ú
+¿Ö-	¿Û
+¿ÀI	(!)	¿Ü
+¿ÜG	¿Ý
+¿ÜN	¿Þ
+¿ÜL	¿ß
+¿ÜM	¿à
+¿ÜB	¿á
+¿ÜS	¿â
+¿Ü-	¿ã
+
+¤·YO	(!)	¿ä
+¿äG	¿å
+¿äN     ¿æ
+¿äL	¿ç
+¿äM	¿è
+¿äB	¿é
+¿äS	¿ê
+¿ä-	¿ë
+
+¤·U	(!)	¿ì
+¿ìG	¿í
+¿ìN	¿î
+¿ìL	(!)	¿ï
+¿ïG	¿ð
+¿ïM	¿ñ
+¿ìM	¿ò
+¿ìB	¿ó
+¿ìS	¿ô
+¿ì-	¿õ
+¿ìEO	(!)	¿ö
+¿öG	¿÷
+¿öN	¿ø
+¿öL	¿ù
+¿öM	¿ú
+¿öB	¿û
+¿öSS	¿ü
+¿ö-     ¿ý
+¿öI	(!)	¿þ
+¿þG	À¡
+¿þN	À¢
+¿þL	À£
+¿þM	À¤
+¿þB	À¥
+¿þ-	À¦
+¿ìI	(!)	À§
+À§G	À¨
+À§N	À©
+À§L	Àª
+À§M	À«
+À§B	À¬
+À§S     À­
+À§-	À®
+
+¤·YU	(!)	À¯
+À¯G	À°
+À¯N	À±
+À¯L	À²
+À¯M	À³
+À¯B	À´
+À¯S	Àµ
+À¯-	À¶
+À¯H	À·
+
+¤·EU	(!)	À¸
+À¸G	À¹
+À¸N	Àº
+À¸L	(!)	À»
+À»P	À¼
+À¸M	À½
+À¸B	À¾
+À¸S	À¿
+À¸-	ÀÀ
+À¸J	ÀÁ
+À¸C	ÀÂ
+À¸K	ÀÃ
+À¸T	ÀÄ
+À¸P	ÀÅ
+À¸H	ÀÆ
+À¸I	(!)	ÀÇ
+ÀÇN	ÀÈ
+ÀÇL	ÀÉ
+ÀÇM	ÀÊ
+ÀÇS	ÀË
+
+¤·I	(!)	ÀÌ
+ÀÌG	ÀÍ
+ÀÌN	ÀÎ
+ÀÌL	(!)	ÀÏ
+ÀÏG	ÀÐ
+ÀÏM	ÀÑ
+ÀÏH	ÀÒ
+ÀÌM	ÀÓ
+ÀÌB	ÀÔ
+ÀÌS	(!)	ÀÕ
+ÀÕS	ÀÖ
+ÀÌ-	À×
+ÀÌJ	ÀØ
+ÀÌP	ÀÙ
+
+
+;; 32.58 J ¤¸
+¤¸A	(!)	ÀÚ
+ÀÚG	ÀÛ
+ÀÚN	(!)	ÀÜ
+ÀÜH	ÀÝ
+ÀÚD	ÀÞ
+ÀÚL	(!)	Àß
+ÀßM     Àà
+ÀÚM	Àá
+ÀÚB	Àâ
+ÀÚS	(!)	Àã
+ÀãS	Àä
+ÀÚ-	Àå
+ÀÚJ	Àæ
+ÀÚI	(!)	Àç
+ÀçG	Àè
+ÀçN	Àé
+ÀçL	Àê
+ÀçM	Àë
+ÀçB	Àì
+ÀçS	(!)	Àí
+ÀíS	Àî
+Àç-	Àï
+¤¸YA	(!)	Àð
+ÀðG	Àñ
+ÀðN	(!)	Àò
+ÀòH	Àó
+ÀðL	Àô
+ÀðM	Àõ
+Àð-	Àö
+ÀðI	(!)	À÷
+À÷N	Àø
+À÷L	Àù
+
+¤¸EO	(!)	Àú
+ÀúG	Àû
+ÀúN	Àü
+ÀúL	(!)	Àý
+ÀýM	Àþ
+ÀúM	Á¡
+ÀúB	Á¢
+ÀúS     Á£
+Àú-	Á¤
+ÀúJ	Á¥
+ÀúI	(!)	Á¦
+Á¦G	Á§
+Á¦N	Á¨
+Á¦L	Á©
+Á¦M	Áª
+Á¦B	Á«
+Á¦S	Á¬
+Á¦-	Á­
+
+¤¸YE	(!)	Á®
+Á®N	Á¯
+Á®L	Á°
+Á®M	Á±
+Á®B	Á²
+Á®SS	Á³
+Á®-     Á´
+Á®I	Áµ
+
+¤¸O	(!)	Á¶
+Á¶G	Á·
+Á¶N	Á¸
+Á¶L	(!)	Á¹
+Á¹M	Áº
+Á¶M	Á»
+Á¶B	Á¼
+Á¶S	Á½
+Á¶-	Á¾
+Á¶J	Á¿
+Á¶C	ÁÀ
+Á¶H	ÁÁ
+Á¶A	(!)	ÁÂ
+ÁÂG	ÁÃ
+ÁÂL	ÁÄ
+ÁÂB	ÁÅ
+ÁÂS	ÁÆ
+ÁÂ-	ÁÇ
+ÁÂI	(!)	ÁÈ
+ÁÈSS	ÁÉ
+ÁÈ-	ÁÊ
+Á¶I	(!)	ÁË
+ÁËN	ÁÌ
+ÁËL	ÁÍ
+ÁËM	ÁÎ
+ÁËB	ÁÏ
+ÁËS	ÁÐ
+ÁË-	ÁÑ
+
+¤¸YO	(!)	ÁÒ
+ÁÒG	ÁÓ
+ÁÒN	ÁÔ
+ÁÒ-	ÁÕ
+
+¤¸U	(!)	ÁÖ
+ÁÖG	Á×
+ÁÖN	ÁØ
+ÁÖL	(!)	ÁÙ
+ÁÙG	ÁÚ
+ÁÙM	ÁÛ
+ÁÖM	ÁÜ
+ÁÖB	ÁÝ
+ÁÖS	ÁÞ
+ÁÖ-	Áß
+ÁÖEO	(!)	Áà
+ÁàSS	Áá
+ÁàI	Áâ
+ÁÖI	(!)	Áã
+ÁãG	Áä
+ÁãN	Áå
+ÁãL	Áæ
+ÁãM	Áç
+ÁãB	Áè
+ÁãS	Áé
+
+¤¸YU	(!)	Áê
+ÁêN	Áë
+ÁêL	Áì
+ÁêM	Áí
+
+¤¸EU	(!)	Áî
+ÁîG	Áï
+ÁîN	Áð
+ÁîL     Áñ
+ÁîM	Áò
+ÁîB	Áó
+ÁîS	Áô
+Áî-	Áõ
+
+¤¸I	(!)	Áö
+ÁöG	Á÷
+ÁöN	Áø
+ÁöD	Áù
+ÁöL	(!)	Áú
+ÁúM	Áû
+ÁöM	Áü
+ÁöB	Áý
+ÁöS	Áþ
+Áö-	Â¡
+ÁöJ	Â¢
+ÁöT	Â£
+ÁöP	Â¤
+
+
+;; 34.5 JJ ¤¹
+¤¹A	(!)	Â¥
+Â¥G	Â¦
+Â¥N	(!)	Â§
+Â§H	Â¨
+Â¥L	(!)	Â©
+Â©B	Âª
+Â¥M	Â«
+Â¥B	Â¬
+Â¥S	(!)	Â­
+Â­S	Â®
+Â¥-	Â¯
+Â¥I	(!)	Â°
+Â°G	Â±
+Â°N	Â²
+Â°L	Â³
+Â°M	Â´
+Â°B	Âµ
+Â°S	(!)	Â¶
+Â¶S	Â·
+Â°-	Â¸
+
+¤¹YA	(!)	Â¹
+Â¹N	Âº
+Â¹-	Â»
+
+¤¹EO	(!)	Â¼
+Â¼G	Â½
+Â¼N	Â¾
+Â¼L	Â¿
+Â¼M	ÂÀ
+Â¼B	ÂÁ
+Â¼S	(!)	ÂÂ
+ÂÂS	ÂÃ
+Â¼-	ÂÄ
+Â¼I	(!)	ÂÅ
+ÂÅ-	ÂÆ
+
+¤¹YE	(!)	ÂÇ
+ÂÇSS	ÂÈ
+
+¤¹O	(!)	ÂÉ
+ÂÉG	ÂÊ
+ÂÉN	ÂË
+ÂÉL	ÂÌ
+ÂÉM	ÂÍ
+ÂÉB	ÂÎ
+ÂÉS	ÂÏ
+ÂÉ-	ÂÐ
+ÂÉC	ÂÑ
+ÂÉA	(!)	ÂÒ
+ÂÒG	ÂÓ
+
+ÂÒL	ÂÔ
+ÂÒSS	ÂÕ
+ÂÒI	(!)	ÂÖ
+ÂÖSS	Â×
+ÂÉI	(!)	ÂØ
+ÂØN	ÂÙ
+ÂØL	ÂÚ
+ÂØM	ÂÛ
+ÂØB	ÂÜ
+
+¤¹YO-	ÂÝ
+
+¤¹U	(!)	ÂÞ
+ÂÞG	Âß
+ÂÞN	Âà
+ÂÞL	Âá
+ÂÞM	Ââ
+ÂÞB	Âã
+ÂÞ-     Âä
+ÂÞEO     (!)	Âå
+ÂåSS	Âæ
+Âå-	Âç
+ÂÞI	Âè
+
+¤¹YU	Âé
+
+¤¹EU	(!)	Âê
+ÂêM	Âë
+ÂêS	Âì
+Âê-	Âí
+
+¤¹I	(!)	Âî
+ÂîG	Âï
+ÂîN	Âð
+ÂîL	Âñ
+ÂîM	Âò
+ÂîB	Âó
+Âî-	Âô
+ÂîJ	Âõ
+ÂîH	Âö
+
+;; 34.87 C ¤º
+¤ºA	(!)	Â÷
+Â÷G	Âø
+Â÷N	(!)	Âù
+ÂùH	Âú
+Â÷L	Âû
+Â÷M	Âü
+Â÷B	Âý
+Â÷S	(!)	Âþ
+ÂþS     Ã¡
+Â÷-	Ã¢
+Â÷J	Ã£
+Â÷I	(!)	Ã¤
+Ã¤G	Ã¥
+Ã¤N	Ã¦
+Ã¤L	Ã§
+Ã¤M	Ã¨
+Ã¤B	Ã©
+Ã¤S	(!)	Ãª
+ÃªS	Ã«
+Ã¤-	Ã¬
+
+¤ºYA	(!)	Ã­
+Ã­N	(!)	Ã®
+Ã®H	Ã¯
+Ã­L	Ã°
+Ã­M	Ã±
+Ã­-	Ã²
+
+¤ºEO	(!)	Ã³
+Ã³G	Ã´
+Ã³N	Ãµ
+Ã³L	Ã¶
+Ã³M	Ã·
+Ã³B	Ã¸
+Ã³S	(!)	Ã¹
+Ã¹S	Ãº
+Ã³-	Ã»
+Ã³I	(!)	Ã¼
+Ã¼G	Ã½
+Ã¼N	Ã¾
+Ã¼L	Ã¿
+Ã¼M	ÃÀ
+Ã¼B	ÃÁ
+Ã¼S	ÃÂ
+Ã¼-	ÃÃ
+
+¤ºYE	(!)	ÃÄ
+ÃÄN	ÃÅ
+ÃÄSS	ÃÆ
+ÃÄI     (!)	ÃÇ
+ÃÇN	ÃÈ
+ÃÇ-	ÃÉ
+
+¤ºO	(!)	ÃÊ
+ÃÊG	ÃË
+ÃÊN	ÃÌ
+ÃÊL	ÃÍ
+ÃÊM	ÃÎ
+ÃÊB	ÃÏ
+ÃÊS	ÃÐ
+ÃÊ-	ÃÑ
+ÃÊA	(!)	ÃÒ
+ÃÒN	ÃÓ
+ÃÒL	ÃÔ
+ÃÒ-	ÃÕ
+ÃÊI	(!)	ÃÖ
+ÃÖN	Ã×
+ÃÖL	ÃØ
+ÃÖM	ÃÙ
+ÃÖB	ÃÚ
+ÃÖS	ÃÛ
+ÃÖ-	ÃÜ
+
+¤ºYO	(!)	ÃÝ
+ÃÝM	ÃÞ
+
+¤ºU	(!)	Ãß
+ÃßG	Ãà
+ÃßN	Ãá
+ÃßL	Ãâ
+ÃßM	Ãã
+ÃßB	Ãä
+ÃßS	Ãå
+Ãß-	Ãæ
+ÃßEO	(!)	Ãç
+ÃçSS	Ãè
+ÃçI	(!)	Ãé
+ÃéN     Ãê
+ÃßI	(!)	Ãë
+ÃëN	Ãì
+ÃëL	Ãí
+ÃëM	Ãî
+ÃëB    	Ãï
+ÃëS	Ãð
+Ãë-	Ãñ
+
+¤ºYU	(!)	Ãò
+ÃòN	Ãó
+ÃòL	Ãô
+ÃòM	Ãõ
+Ãò-	Ãö
+
+¤ºEU	(!)	Ã÷
+Ã÷G	Ãø
+Ã÷N	Ãù
+Ã÷L	Ãú
+Ã÷M	Ãû
+Ã÷B     Ãü
+Ã÷S	Ãý
+Ã÷-	Ãþ
+
+¤ºI	(!)	Ä¡
+Ä¡G	Ä¢
+Ä¡N	Ä£
+Ä¡D	Ä¤
+Ä¡L     (!)	Ä¥
+Ä¥G	Ä¦
+Ä¡M	Ä§
+Ä¡B	Ä¨
+Ä¡S	Ä©
+Ä¡-	Äª
+
+
+;; 36.11 K ¤»
+¤»A	(!)	Ä«
+Ä«G	Ä¬
+Ä«N	Ä­
+Ä«L	Ä®
+Ä«M	Ä¯
+Ä«B	Ä°
+Ä«S	Ä±
+Ä«-	Ä²
+Ä«I	(!)	Ä³
+Ä³G	Ä´
+Ä³N	Äµ
+Ä³L	Ä¶
+Ä³M	Ä·
+Ä³B	Ä¸
+Ä³S	(!)	Ä¹
+Ä¹S	Äº
+Ä³-	Ä»
+
+¤»YA	(!)	Ä¼
+Ä¼G	Ä½
+Ä¼-	Ä¾
+
+¤»EO	(!)	Ä¿
+Ä¿G	ÄÀ
+Ä¿N	ÄÁ
+Ä¿D	ÄÂ
+Ä¿L	ÄÃ
+Ä¿M	ÄÄ
+Ä¿B	ÄÅ
+Ä¿S	(!)	ÄÆ
+ÄÆS	ÄÇ
+Ä¿-	ÄÈ
+Ä¿I	(!)	ÄÉ
+ÄÉG	ÄÊ
+ÄÉN     ÄË
+ÄÉL	ÄÌ
+ÄÉM	ÄÍ
+ÄÉB	ÄÎ
+ÄÉS	ÄÏ
+ÄÉ-	ÄÐ
+
+¤»YE	(!)	ÄÑ
+ÄÑN	ÄÒ
+ÄÑL	ÄÓ
+ÄÑM	ÄÔ
+ÄÑB	ÄÕ
+ÄÑS	(!)	ÄÖ
+ÄÖS	Ä×
+ÄÑ-	ÄØ
+ÄÑI	ÄÙ
+
+¤»O	(!)	ÄÚ
+ÄÚG	ÄÛ
+ÄÚN	ÄÜ
+ÄÚL	ÄÝ
+ÄÚM	ÄÞ
+ÄÚB	Äß
+ÄÚS	Äà
+ÄÚ-	Äá
+ÄÚA	(!)	Äâ
+ÄâG	Äã
+ÄâN	Ää
+ÄâL	Äå
+ÄâM	Äæ
+Äâ-	Äç
+ÄâI	(!)	Äè
+Äè-	Äé
+ÄÚI	(!)	Äê
+ÄêL	Äë
+
+¤»YO	Äì
+
+¤»U	(!)	Äí
+ÄíG	Äî
+ÄíL	Äð
+ÄíM	Äñ
+ÄíB	Äò
+ÄíS	Äó
+Äí-	Äô
+ÄíEO	(!)	Äõ
+ÄõN	Äö
+ÄõL	Ä÷
+Äõ-	Äø
+ÄõI	(!)	Äù
+Äù-	Äú
+ÄíI	(!)	Äû
+ÄûG	Äü
+ÄûN	Äý
+ÄûL	Äþ
+ÄûM	Å¡
+ÄûB	Å¢
+ÄûS	Å£
+Äû-	Å¤
+
+¤»YU	(!)	Å¥
+Å¥N	Å¦
+Å¥L	Å§
+Å¥M	Å¨
+
+¤»EU	(!)	Å©
+Å©G	Åª
+Å©N	Å«
+Å©L	Å¬
+Å©M	Å­
+Å©B	Å®
+Å©-	Å¯
+
+¤»I	(!)	Å°
+Å°G	Å±
+Å°M	Å´
+Å°B	Åµ
+Å°S	Å¶
+Å°-	Å·
+
+
+;; 37.24 T ¤¼
+¤¼A	(!)	Å¸
+Å¸G	Å¹
+Å¸N	Åº
+Å¸L	(!)	Å»
+Å»G	Å¼
+Å¸M	Å½
+Å¸B	Å¾
+Å¸S	(!)	Å¿
+Å¿S	ÅÀ
+Å¸-	ÅÁ
+Å¸I	(!)	ÅÂ
+ÅÂG	ÅÃ
+ÅÂN	ÅÄ
+ÅÂL	ÅÅ
+ÅÂM	ÅÆ
+ÅÂB	ÅÇ
+ÅÂS	(!)	ÅÈ
+ÅÈS	ÅÉ
+ÅÂ-	ÅÊ
+
+¤¼YA	(!)	ÅË
+ÅË-	ÅÌ
+
+¤¼EO	(!)	ÅÍ
+ÅÍG	ÅÎ
+ÅÍN	ÅÏ
+ÅÍL	(!)	ÅÐ
+ÅÐM	ÅÑ
+ÅÍM	ÅÒ
+ÅÍB	ÅÓ
+ÅÍS	(!)	ÅÔ
+ÅÔS	ÅÕ
+ÅÍ-	ÅÖ
+ÅÍI	(!)	Å×
+Å×G	ÅØ
+Å×N	ÅÙ
+Å×L	ÅÚ
+Å×M	ÅÛ
+Å×B	ÅÜ
+Å×S	ÅÝ
+Å×-	ÅÞ
+
+¤¼YE	(!)	Åß
+ÅßN	Åà
+ÅßSS	Åá
+ÅßI     (!)	Åâ
+ÅâN	Åã
+
+¤¼O	(!)	Åä
+ÅäG	Åå
+ÅäN	Åæ
+ÅäL	Åç
+ÅäM	Åè
+ÅäB	Åé
+ÅäS	Åê
+Åä-	Åë
+ÅäP	Åì
+ÅäA	(!)	Åí
+ÅíN	Åî
+ÅíI	Åï
+ÅäI	(!)	Åð
+ÅðN	Åñ
+ÅðS     Åò
+Åð-	Åó
+
+¤¼YO	Åô
+
+¤¼U	(!)	Åõ
+ÅõG	Åö
+ÅõN	Å÷
+ÅõL	Åø
+ÅõM	Åù
+ÅõB	Åú
+ÅõS	Åû
+Åõ-	Åü
+ÅõEO	(!)	Åý
+ÅýSS	Åþ
+ÅýI	Æ¡
+ÅõI	(!)	Æ¢
+Æ¢G	Æ£
+Æ¢N	Æ¤
+Æ¢L	Æ¥
+Æ¢M	Æ¦
+Æ¢B	Æ§
+Æ¢-	Æ¨
+
+¤¼YU	(!)	Æ©
+Æ©N	Æª
+Æ©L	Æ«
+Æ©M	Æ¬
+Æ©-	Æ­
+
+¤¼EU	(!)	Æ®
+Æ®G	Æ¯
+Æ®N	Æ°
+Æ®D	Æ±
+Æ®L	(!)	Æ²
+Æ²M	Æ³
+Æ®M	Æ´
+Æ®B	Æµ
+Æ®S	Æ¶
+Æ®I	(!)	Æ·
+Æ·N	Æ¸
+Æ·L	Æ¹
+Æ·M	Æº
+Æ·B	Æ»
+
+¤¼I	(!)	Æ¼
+Æ¼G	Æ½
+Æ¼N	Æ¾
+Æ¼L	Æ¿
+Æ¼M	ÆÀ
+Æ¼B	ÆÁ
+Æ¼S	ÆÂ
+
+Æ¼-	ÆÃ
+
+;; 38.26 P ¤½
+¤½A	(!)	ÆÄ
+ÆÄG	(!)	ÆÅ
+ÆÅG	ÆÆ
+ÆÄN	ÆÇ
+ÆÄL	(!)	ÆÈ
+ÆÈM     ÆÉ
+ÆÄM	ÆÊ
+ÆÄB	ÆË
+ÆÄS	(!)	ÆÌ
+ÆÌS 	ÆÍ
+ÆÄ-	ÆÎ
+ÆÄT	ÆÏ
+ÆÄI	(!)	ÆÐ
+ÆÐG	ÆÑ
+ÆÐN	ÆÒ
+ÆÐL	ÆÓ
+ÆÐM	ÆÔ
+ÆÐB     ÆÕ
+ÆÐS	(!)	ÆÖ
+ÆÖS	Æ×
+ÆÐ-	ÆØ
+
+¤½YA	(!)	ÆÙ
+ÆÙG	ÆÚ
+
+¤½EO     (!)	ÆÛ
+ÆÛG     ÆÜ
+ÆÛN	ÆÝ
+ÆÛM     Æß
+ÆÛB	Æà
+ÆÛS	(!)	Æá
+ÆáS	Æâ
+ÆÛ-	Æã
+ÆÛI	(!)	Æä
+ÆäG	Æå
+ÆäN	Ææ
+ÆäL	Æç
+ÆäM	Æè
+ÆäB	Æé
+ÆäS	Æê
+Æä-	Æë
+
+¤½YE	(!)	Æì
+ÆìN	Æí
+ÆìL	Æî
+ÆìM	Æï
+ÆìB	Æð
+ÆìSS	Æñ
+Æì-	Æò
+ÆìI	(!)	Æó
+ÆóL	Æô
+ÆóB	Æõ
+ÆóS	Æö
+
+¤½O	(!)	Æ÷
+Æ÷G	Æø
+Æ÷N	Æù
+Æ÷L	Æú
+Æ÷M	Æû
+Æ÷B	Æü
+Æ÷S	Æý
+Æ÷-	Æþ
+Æ÷A	(!)	Ç¡
+Ç¡-	Ç¢
+Æ÷I	(!)	Ç£
+Ç£N	Ç¤
+
+¤½YO	(!)	Ç¥
+Ç¥N	Ç¦
+Ç¥L	Ç§
+Ç¥B	Ç¨
+Ç¥S	Ç©
+
+¤½U	(!)	Çª
+ÇªG	Ç«
+ÇªN	Ç¬
+ÇªD	Ç­
+ÇªL	(!)	Ç®
+Ç®M	Ç¯
+ÇªM	Ç°
+ÇªB	Ç±
+ÇªS	Ç²
+Çª-	Ç³
+ÇªEO	(!)	Ç´
+Ç´-	Çµ
+ÇªI	(!)	Ç¶
+Ç¶N	Ç·
+Ç¶L	Ç¸
+Ç¶M	Ç¹
+Ç¶S	Çº
+
+¤½YU	(!)	Ç»
+Ç»N	Ç¼
+Ç»L	Ç½
+Ç»M	Ç¾
+Ç»S	Ç¿
+Ç»-	ÇÀ
+¤½EU	(!)	ÇÁ
+ÇÁN	ÇÂ
+ÇÁL	ÇÃ
+ÇÁM	ÇÄ
+ÇÁB     ÇÅ
+ÇÁS     ÇÆ
+
+¤½I	(!)	ÇÇ
+ÇÇG	ÇÈ
+ÇÇN	ÇÉ
+ÇÇL	ÇÊ
+ÇÇM	ÇË
+ÇÇB	ÇÌ
+ÇÇS	ÇÍ
+ÇÇ-	ÇÎ
+
+
+;; 39.47 H ¤¾
+¤¾A	(!)	ÇÏ
+ÇÏG	ÇÐ
+ÇÏN	ÇÑ
+ÇÏL	(!)	ÇÒ
+ÇÒT	ÇÓ
+ÇÏM     ÇÔ
+ÇÏB	ÇÕ
+ÇÏS	ÇÖ
+ÇÏ-	Ç×
+ÇÏI	(!)	ÇØ
+ÇØG	ÇÙ
+ÇØN	ÇÚ
+ÇØL	ÇÛ
+ÇØM	ÇÜ
+ÇØB	ÇÝ
+ÇØS	(!)	ÇÞ
+ÇÞS	Çß
+ÇØ-	Çà
+
+¤¾YA	(!)	Çá
+Çá-	Çâ
+
+¤¾EO	(!)	Çã
+ÇãG	Çä
+ÇãN	Çå
+ÇãL	(!)	Çæ
+ÇæM	Çç
+ÇãM	Çè
+ÇãB	Çé
+ÇãS	Çê
+Çã-	Çë
+ÇãI	(!)	Çì
+ÇìG	Çí
+ÇìN	Çî
+ÇìL	Çï
+ÇìM	Çð
+ÇìB	Çñ
+ÇìS	Çò
+Çì-	Çó
+
+¤¾YE	(!)	Çô
+ÇôG	Çõ
+ÇôN	Çö
+ÇôL	Ç÷
+ÇôM	Çø
+ÇôB	Çù
+ÇôS	(!)	Çú
+ÇúS     Çû
+Çô-	Çü
+ÇôI	(!)	Çý
+ÇýN	Çþ
+
+ÇýL	È¡
+ÇýB	È¢
+
+¤¾O	(!)	È£
+È£G	È¤
+È£N	È¥
+È£L	(!)	È¦
+È¦T	È§
+È£M	È¨
+È£B	È©
+È£S	Èª
+È£-	È«
+È£T	È¬
+È£A	(!)	È­
+È­G	È®
+È­N	È¯
+È­L	È°
+È­S	È±
+È­-	È²
+È­I	(!)	È³
+È³G	È´
+È³N	Èµ
+È³S	È¶
+È³-	È·
+È£I	(!)	È¸
+È¸G	È¹
+È¸N	Èº
+È¸L	È»
+È¸B	È¼
+È¸S	È½
+È¸-	È¾
+
+¤¾YO	(!)	È¿
+È¿N	ÈÀ
+È¿L	ÈÁ
+È¿B	ÈÂ
+È¿S	ÈÃ
+
+¤¾U	(!)	ÈÄ
+ÈÄG	ÈÅ
+ÈÄN	ÈÆ
+ÈÄL	(!)	ÈÇ
+ÈÇT	ÈÈ
+ÈÄM	ÈÉ
+ÈÄS	ÈÊ
+ÈÄ-	ÈË
+ÈÄEO	(!)	ÈÌ
+ÈÌN	ÈÍ
+ÈÌL	ÈÎ
+ÈÌM	ÈÏ
+ÈÌ-	ÈÐ
+ÈÌI	(!)	ÈÑ
+ÈÑG	ÈÒ
+ÈÑN	ÈÓ
+ÈÑL	ÈÔ
+ÈÑ-	ÈÕ
+ÈÄI	(!)	ÈÖ
+ÈÖG	È×
+ÈÖN	ÈØ
+ÈÖL	ÈÙ
+ÈÖM	ÈÚ
+ÈÖB	ÈÛ
+ÈÖS	ÈÜ
+ÈÖ-	ÈÝ
+
+¤¾YU	(!)	ÈÞ
+ÈÞG	Èß
+ÈÞN	Èà
+ÈÞL	Èá
+ÈÞM	Èâ
+ÈÞS	Èã
+ÈÞ-	Èä
+
+¤¾EU	(!)	Èå
+ÈåG	Èæ
+ÈåN	(!)	Èç
+ÈçH	Èè
+ÈåD	Èé
+ÈåL	(!)	Èê
+ÈêG	Èë
+ÈåM	Èì
+ÈåB	Èí
+ÈåS	Èî
+Èå-	Èï
+ÈåT	Èð
+ÈåI	(!)	Èñ
+ÈñN	Èò
+ÈñL	Èó
+ÈñM	Èô
+ÈñB	Èõ
+Èñ-	Èö
+
+¤¾I	(!)	È÷
+È÷G	Èø
+È÷N	Èù
+È÷L	Èú
+È÷M	Èû
+È÷B	Èü
+È÷S     Èý
+È÷-	Èþ
+
+(defvar	conf (list ' '))
+(defvar han (between °¡ Èþ))
+(han)(conf)	(han)
+
+;(defvar alpha (between A Z))
+;(alpha)	(error)

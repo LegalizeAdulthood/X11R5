@@ -1,0 +1,9 @@
+/* You will have to edit this to suit */
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = clients demos examples widgets
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

@@ -1,0 +1,145 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!%                                                                             %
+!%                                                                             %
+!%                                                                             %
+!%                      COPYRIGHT 1991 HUBERT RECHSTEINER                      %
+!%                                                                             %
+!%                                                                             %
+!%  Permission to use, copy, modify, distribute, and sell this software and    %
+!%  its documentation for any purpose is hereby granted without fee, provided  %
+!%  documentation, and that the name of the author not be used in advertising  %
+!%  or publicity pertaining to distribution of the software without specific,  %
+!%  written prior permission. The author makes no representations about the    %
+!%  suitability of this software for any purpose.  It is provided "as is"      %
+!%  without express or implied warranty.                                       %
+!%                                                                             %
+!%  THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,          %
+!%  INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN        %
+!%  NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR           %
+!%  CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS        %
+!%  OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE      %
+!%  OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE         %
+!%  USE OR PERFORMANCE OF THIS SOFTWARE.                                       %
+!%                                                                             %
+!%                                                                             %
+!%  Software Design       : Hubert Rechsteiner January 1991                    %
+!%                                                                             %
+!%  Further developments  : Doris Hirt                                         %
+!%                          Nicolas Repond                                     %
+!%                          Hubert Rechsteiner                                 %
+!%                          October 1991                                       %
+!%                                                                             %
+!%                                                                             %
+!%  Please send any improvements, bug fixes, useful modifications, and         %
+!%  comments to:  selfmoving@uliis.unil.ch                                     %
+!%                                                                             %
+!%                                                                             %
+!%                                                                             %
+!%                                                                             %
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!This is the resource file for the aw_demo program.
+!Please set your XENVIRONMENT variable to that file.
+!/*SccsId "@(#)aw_demo.dat	3.1 	 10/4/91"*/
+
+aw_demo.geometry : 800x500+100+100
+
+aw_demo.main*background : mediumturquoise
+aw_demo.main*foreground : red
+aw_demo.main*Core.background : blue
+
+*HrSelfMoving.DiagonalHandle : SIZING_HANDLE
+*HrSelfMoving.sizingHandlesWidth : 5
+*HrSelfMoving.sizingHandlesBorderWidth : 0
+*HrSelfMoving.borderWidth : 0
+*HrSelfMoving.gridOn : true
+*HrSelfMoving.grid : 10
+!*HrSelfMoving.installAccelerators : false
+!*HrSelfMoving.active : false
+
+
+*mbutton.x : 20
+*mbutton.y : 450
+*mbutton.label : Main menu
+*mbutton.font : *-Helvetica-*-O-*-180-*
+
+*selftitle.x : 100
+*selftitle.y : 10
+
+*titlelabel.label : Selfmoving demo! 
+*titlelabel.font : *-Helvetica-*-O-*-240-*
+*selftitle.selectInReverseVideo : on
+*titlelabel.borderWidth : 0
+*selftitle.DiagonalHandle : HORIZONTAL_SIZING_HANDLE
+
+*selflabel1.x : 50
+*selflabel1.y : 100
+*selflabel1.VerticalHandle: NO_HANDLE
+*selflabel1.HorizontalHandle: NO_HANDLE
+*selflabel1.DiagonalHandle : NO_HANDLE
+*selflabel1.borderWidth : 0
+*selflabel1.showHorizontalLine : true
+*label1.label : Name
+*label1.borderWidth : 0
+
+*selflabel2.x : 50
+*selflabel2.y : 150
+*selflabel2.VerticalHandle: NO_HANDLE
+*selflabel2.HorizontalHandle: NO_HANDLE
+*selflabel2.DiagonalHandle : NO_HANDLE
+*selflabel2.borderWidth : 0
+*selflabel2.showHorizontalLine : true
+*label2.label : Surname
+*label2.borderWidth : 0
+
+*selflabel3.x : 50
+*selflabel3.y : 200
+*selflabel3.VerticalHandle: NO_HANDLE
+*selflabel3.HorizontalHandle: NO_HANDLE
+*selflabel3.DiagonalHandle : NO_HANDLE
+*selflabel3.borderWidth : 0
+*selflabel3.showHorizontalLine : true
+*label3.label : City
+*label3.borderWidth : 0
+
+*selftext1.x : 120
+*selftext1.y : 100
+*selftext1.showHorizontalLine : true
+*text1*editType : edit
+*text1*string : "Please, edit me..."
+*text1.width : 200
+
+*selftext2.x : 120
+*selftext2.y : 150
+*selftext2.showHorizontalLine : true
+*text2*editType : edit
+*text2*string : "Please, edit me..."
+*text2.width : 200
+
+*selftext3.x : 120
+*selftext3.y : 200
+*selftext3.showHorizontalLine : true
+*text3*editType : edit
+*text3*string : "Please, edit me..."
+*text3.resize : height
+*text3.wrap : word
+*text3.width : 200
+
+*selfmoving4.x : 200
+*selfmoving4.y : 300
+*son4.borderWidth : 1
+*son4_1.x : 10
+*son4_1.y : 30
+*son4_2.x : 10
+*son4_2.y : 80
+*selfmoving4.maxWidth  : 200
+*selfmoving4.maxHeight : 200
+*selfmoving4.minWidth : 100
+*selfmoving4.minHeight : 20
+*selfmoving4.VerticalHandle: HORIZONTAL_SIZING_HANDLE
+*selfmoving4.HorizontalHandle: HORIZONTAL_SIZING_HANDLE
+*selfmoving4.DiagonalHandle : SIZING_HANDLE
+*selfmoving4.sizingHandlesBorderWidth : 1
+*selfmoving4.Core.borderColor : White
+*selfmoving4.selectInReverseVideo : on

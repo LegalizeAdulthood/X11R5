@@ -1,0 +1,161 @@
+.\" $Header: XpexGetPickMeasure.man,v 2.5 91/09/11 16:02:00 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\"
+.TH XpexGetPickMeasure 3PEX "$Revision: 2.5 $" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexGetPickMeasure, XpexUpdatePickMeasure \- 
+Functions to be used to inquire pick measure attributes and
+cause pick operations to occur.
+.SH "Synopsis"
+.nf
+Status XpexGetPickMeasure(dpy, pm_id, valueMask, values)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexPickMeasure \fIpm_id\fP;
+.br
+	XpexBitmask \fIvalueMask\fP;
+.br
+	XpexPickMeasureAttrs \fI*values\fP; /* RETURN */
+.sp
+void XpexUpdatePickMeasure(dpy, pm_id, input_record, length)
+.br
+	Display \fI*dpy\fP;
+.br
+	XpexPickMeasure \fIpm_id\fP;
+.br
+	char \fI*input_record\fP;
+.br
+	int  \fIlength\fP;
+.fi
+.SH  "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIpm_id\fP 1i      
+Specifies a pick measure.
+.IP \fIvalueMask\fP 1i      
+To be added
+.IP \fIpick_attrs\fP 1i         
+Specifies a pointer to a structure of type XpexPickMeasure.
+.IP \fIdev_type\fP  1i
+To be added
+.IP \fIinput_record\fP  1i
+To be added
+.SH "Description"
+The \fIXpexGetPickMeasure\fP function will return 
+components of the pick measure specified by \fIpm_id\fP.  
+The \fIitem_mask\fP specified which components are to be inquired
+and returned. The specified attributes of the pick measure will be 
+returned in \fIpick_attrs\fP.
+.sp
+\fIXpexGetPickMeasure\fP can generate 
+\fIBadPickMeasure\fP and \fIBadValue\fP errors.
+.sp
+The \fIXpexUpdatePickMeasure\fP function will update the pick measure
+specified by \fIpm_id\fP using the information found in 
+\fIinput_record\fP.  If this update causes a primitive to be picked,
+the pick measure's \fIpick_status\fP will be set to \fIOk\fP and the 
+\fIpicked_prim\fP will be set to the path of the picked primitive.
+If no primitive was picked, the \fIpick_status\fP will be set to 
+\fINoPick\fP.
+.sp
+\fIXpexUpdatePickMeasure\fP can generate 
+\fIBadPickMeasure\fP and \fIBadPath\fP errors.
+.SH "Structures"
+typedef struct {
+.br
+	XpexPickStatus  pick_status;
+.br
+	XpexListOfPickElementRef  picked_prim;
+.br
+} XpexPickMeasureAttributes;
+.sp
+typedef struct {
+.br
+	int  num_refs;
+.br
+	XpexPickElementRef  *refs;
+.br
+} XpexListOfPickElementRef;
+.sp
+typedef struct {
+.br
+	XpexStructure  s_id;
+.br
+	int  offset;
+.br
+	int  pick_id;
+.br
+} XpexPickElementRef;
+.sp
+typedef union {
+.br
+	XpexPickDataRec1  data_rec1;
+.br
+	XpexPickDataRec2  data_rec2;
+.br
+} XpexPickDataRecord;
+.sp
+typedef struct {
+.br
+	int  x;
+.br
+	int  y;
+.br
+	XpexFloat  distance;
+.br
+} XpexPickDataRec1;
+.sp
+typedef struct {
+.br
+	XpexCoord3D  v_min;
+.br
+	XpexCoord3D  v_max;
+.br
+} XpexPickDataRec2;
+.sp
+typedef struct {
+.br
+	XpexFloat  x;
+.br
+	XpexFloat  y;
+.br
+	XpexFloat  z;
+.br
+} XpexCoord3D;
+.SH "Errors"
+.IP \fIBadPickMeasure\fP 1i
+Specified pick measure resource ID is invalid.
+.IP \fIBadValue\fP 1i
+Illegal bit set in item_mask parameter.
+.IP \fIBadPath\fP 1i
+illegal or poorly-formed search path (includes invalid
+structure ID's, invalid element offset values)
+.SH "Related Commands"
+XpexGetPickDevice, XpexChangePickDevice,
+XpexCreatePickMeasure, XpexFreePickMeasure

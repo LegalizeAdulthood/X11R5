@@ -1,0 +1,26 @@
+#!/bin/csh
+if ($#argv >= 1) then
+   setenv XAPPLRESDIR $1
+else
+   setenv XAPPLRESDIR ./
+   cd DemosMotif
+endif
+
+if (-e MDmotif) then
+    echo ============= Testing MDmotif =============
+    echo	This will core dump when you close a display,
+    echo	and then try to open another display.
+    MDmotif MD
+endif
+if (-e xmailbox) then
+    echo ============= Testing xmailbox =============
+    echo Use mouse button 3 to raise control popup    
+    foreach UI (mdove peeb beldar)
+	echo ===== using XMailbox.main.$UI and XMailbox.$UI =====
+        setenv XENVIRONMENT ${XAPPLRESDIR}XMailbox.main.$UI
+        xmailbox -resources XMailbox.$UI
+    end
+endif
+if ($#argv == 0) then
+   cd ..
+endif

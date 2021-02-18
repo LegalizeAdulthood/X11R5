@@ -1,0 +1,26 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/mi/RCS/miinitext.c,v 
+*** 1.3.1.1	1991/09/22 00:41:25
+--- 1.3.1.2	1991/09/22 00:44:21
+***************
+*** 50,55 ****
+--- 50,58 ----
+  #ifdef XIDLE
+  extern void XIdleExtensionInit();
+  #endif
++ #ifdef VIDEOX
++ extern void MvexExtensionInit();
++ #endif
+  
+  /*ARGSUSED*/
+  void
+***************
+*** 83,87 ****
+--- 86,93 ----
+  #endif
+  #ifdef XIDLE
+      XIdleExtensionInit();
++ #endif
++ #ifdef VIDEOX
++     MvexExtensionInit();
+  #endif
+  }

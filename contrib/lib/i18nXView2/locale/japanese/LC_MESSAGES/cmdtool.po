@@ -1,0 +1,55 @@
+#
+# @(#)cmdtool.po 1.2 90/11/06; SMI
+#
+domain "cmdtool"
+msgid "-P frequency] [-W size"
+msgstr "-P frequency] [-W size"
+#
+msgid "-B boldstyle"
+msgstr "-B boldstyle"
+#
+msgid "syntax: %s [-C] [-I initial_cmd] [%s] [program [args]]\n"
+msgstr "形式: %s [-C] [-I initial_cmd] [%s] [program [args]]\n"
+#
+msgid "-B	set bold style for this instance of %s\n	where 'boldstyle' is a number from 1 to 8\n"
+msgstr "-B	bold style を %s に設定します。\n	'boldstyle' は 1 から 8 です。\n"
+#
+msgid "-C	redirect console output to this instance of %s\n"
+msgstr "-C	出力先を %s にリダイレクションします。\n"
+#
+msgid "-I	'initial_cmd' is first command 'program' executes\n"
+msgstr "-I	'initial_cmd' は 'program' が実行する最初のコマンドです。\n"
+#
+msgid "-L	run the .login file when starting the shell subprocess\n"
+msgstr "-L	シェル・サブプロセス起動時に .login ファイルを読み込みます。\n"
+#
+msgid "-P	checkpoint frequency for this %s, where 'frequency' is number\n	of edits between checkpoints; a value of 0 means no checkpointing.\n"
+msgstr "-P	checkpoint frequency を %s にします。'frequency' は、\ncheckpoint 間の編集数です。0 にすると checkpoint がなくなります。\n"
+#
+msgid "-W	wrap edit log for this %s at 'size' bytes; size is either\n	at least 8096, or 0 which means no wrapping.\n"
+msgstr "-W	'size' バイトでエディットログを %s に隠し（wrap） ます。\nsize は 8096 か 0 で、0 の場合は、隠しません。\n"
+#
+msgid "shelltool"
+msgstr "シェルツール"
+#
+msgid "cmdtool"
+msgstr "コマンドツール"
+#
+msgid " (CONSOLE) - "
+msgstr " （コンソール） - "
+#
+msgid "Cannot create base frame.  Process aborted.\n"
+msgstr "ベースフレームを作成できない。プロセスを終了します。\n"
+#
+msgid "CONSOLE"
+msgstr "コンソール"
+#
+msgid "Command"
+msgstr "コマンド"
+#
+msgid "Shell"
+msgstr "シェル"
+#
+msgid " Tool: Out of swap space.  Cannot continue.\n"
+msgstr "ツール: スワップ領域不足。続行不可能。\n"
+#

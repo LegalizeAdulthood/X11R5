@@ -1,0 +1,49 @@
+SYS_LIBRARIES= 		-lm
+DEPLIBS = 		XawClientDepLibs
+LOCAL_LIBRARIES = 	XawClientLibs
+DEFINES =		-DFASTSERVER
+FONTLIBDIR = 		$(LIBDIR)/xfig
+CDEBUGFLAGS =		-O
+
+XFIGSRC =	d_arc.c d_arcbox.c d_box.c d_ellipse.c d_epsbitmap.c\
+		d_intspline.c d_line.c d_regpoly.c d_spline.c d_text.c\
+		e_addpt.c e_align.c e_arrow.c e_break.c \
+		e_convert.c e_copy.c e_delete.c e_deletept.c\
+		e_edit.c e_flip.c e_glue.c e_move.c\
+		e_movept.c e_rotate.c e_scale.c e_update.c\
+		f_load.c f_read.c f_epsbitmap.c\
+		f_readold.c f_save.c f_util.c f_xbitmap.c\
+		main.c mode.c object.c resources.c\
+		u_bound.c u_create.c u_drag.c u_draw.c\
+		u_elastic.c u_error.c u_fonts.c u_free.c u_geom.c\
+		u_list.c u_markers.c u_pan.c u_print.c\
+		u_redraw.c u_search.c u_translate.c u_undo.c\
+		w_canvas.c w_cmdpanel.c w_cursor.c w_drawprim.c w_export.c\
+		w_file.c w_fontbits.c w_fontpanel.c w_grid.c w_icons.c\
+		w_indpanel.c w_modepanel.c w_mousefun.c w_msgpanel.c\
+		w_print.c w_rulers.c w_setup.c w_util.c w_zoom.c
+
+XFIGOBJ =	d_arc.o d_arcbox.o d_box.o d_ellipse.o d_epsbitmap.o\
+		d_intspline.o d_line.o d_regpoly.o d_spline.o d_text.o\
+		e_addpt.o e_align.o e_arrow.o e_break.o \
+		e_convert.o e_copy.o e_delete.o e_deletept.o\
+		e_edit.o e_flip.o e_glue.o e_move.o\
+		e_movept.o e_rotate.o e_scale.o e_update.o\
+		f_load.o f_read.o f_epsbitmap.o\
+		f_readold.o f_save.o f_util.o f_xbitmap.o\
+		main.o mode.o object.o resources.o\
+		u_bound.o u_create.o u_drag.o u_draw.o\
+		u_elastic.o u_error.o u_fonts.o u_free.o u_geom.o\
+		u_list.o u_markers.o u_pan.o u_print.o\
+		u_redraw.o u_search.o u_translate.o u_undo.o\
+		w_canvas.o w_cmdpanel.o w_cursor.o w_drawprim.o w_export.o\
+		w_file.o w_fontbits.o w_fontpanel.o w_grid.o w_icons.o\
+		w_indpanel.o w_modepanel.o w_mousefun.o w_msgpanel.o\
+		w_print.o w_rulers.o w_setup.o w_util.o w_zoom.o
+
+SRCS = $(XFIGSRC)
+OBJS = $(XFIGOBJ)
+
+ComplexProgramTarget(xfig)
+
+MakeDirectories(install,$(FONTLIBDIR))

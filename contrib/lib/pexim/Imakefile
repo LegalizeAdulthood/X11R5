@@ -1,0 +1,119 @@
+# Every file should contain a copyright and permission notice, not just....
+# 
+#  *			Copyright (c) 1991 by
+#  *			Stardent Computer Inc.
+#  *			All Rights Reserved
+#  *
+#  * Permission to use, copy, modify, and distribute this software and its
+#  * documentation for any purpose and without fee is hereby granted,
+#  * provided that the above copyright notice appear in all copies and that
+#  * both that copyright notice and this permission notice appear in
+#  * supporting documentation, and that the name of Stardent Computer not be
+#  * used in advertising or publicity pertaining to distribution of the
+#  * software without specific, written prior permission. Stardent Computer
+#  * makes no representations about the suitability of this software for any
+#  * purpose.  It is provided "as is" without express or implied warranty.
+#
+# <phigs/phigs.h> will be found by PHIGSINCLUDE because that is where
+# the files will be after a make includes...
+#
+#
+#  TOPINCLUDE   = $(TOP)
+#  PHIGSINCLUDE = $(TOP)/X11
+#  PEXINCLUDE   = $(EXTENSIONSRC)/include/PEX
+#  SIPEXLIBDIR  = $(EXTENSIONSRC)/lib/PEX/pex
+#  SIPEXINCDIR  = $(EXTENSIONSRC)/lib/PEX/include
+#
+#INCLUDES = -I. \
+#	  -I$(TOPINCLUDE) \
+#	  -I$(PHIGSINCLUDE) \
+#	  -I$(PEXINCLUDE)
+#
+INCLUDES = -I. -I/usr/include/X11 -I/usr/include/X11/extensions
+
+#
+CSRCS = cb_xfut.c  putils.c pexim.c pocs.c pws.c
+
+COBJS = cb_xfut.o  putils.o pexim.o pocs.o pws.o
+
+HSRCS = peximint.h 
+SRCS = $(CSRCS) $(HSRCS)
+
+#if HasLargeTmp | SystemV4
+     ARADD = ar ru
+     AREXT = ar x
+#else
+     ARADD = ar rul
+     AREXT = ar xl
+#endif
+
+# This file list and the phigslink below are for building PEXIM in
+# a source environment before things have been installed.  This
+# has too make many assumptions about the environment.  A much cleaner
+# way is to extract the objects from $USRLIBDIR/libphigs.a...
+#
+#PEXLIBOBJS = $(SIPEXLIBDIR)/pex_rend.o $(SIPEXLIBDIR)/pex_util.o \
+#	     $(SIPEXLIBDIR)/pex_lut.o  $(SIPEXLIBDIR)/pex_info.o
+
+PEXLIBOBJS = pex_rend.o pex_util.o pex_lut.o pex_info.o
+
+LIBOBJS = $(COBJS)
+
+all:: libpexim.a
+
+# all:: phigslink libpexim.a mpat
+
+# err, this allows compiling if the make includes has not been done, 
+# provided you can modified the phigs include directory...
+#
+# phigslink::
+#	$(RM) phigs
+#	$(LN) $(SIPEXINCDIR) phigs
+#        $(RM) phigs/pexim.h
+#        $(LN) ../../../../../contrib/lib/pexim/pexim.h phigs/pexim.h
+#
+# includes:: phigslink
+
+## sleazy way around function prototyping.
+
+#ifdef TitanArchitecture
+  DEFINES = -DPHIGS_EXTERN_INCLUDED
+#endif
+
+#    pat.c
+#    mflag.c
+
+.SUFFIXES: .o .a
+
+NormalLibraryObjectRule()
+
+ libpexim.a: $(LIBOBJS)
+	$(RM) $@
+	 $(AREXT) $(USRLIBDIR)/libphigs.a $(PEXLIBOBJS)
+	$(AR) $@ $(LIBOBJS)  $(PEXLIBOBJS)
+	RanLibrary($@)
+
+#ifdef TitanArchitecture
+  LOCAL_LIBRARIES = libpexim.a -lX11 -lm -lgen
+#else
+  LOCAL_LIBRARIES = libpexim.a -lX11 -lm
+#endif
+
+NormalProgramTarget(pat, pat.o,, $(LOCAL_LIBRARIES),)
+
+NormalProgramTarget(ttp, ttp.o,, $(LOCAL_LIBRARIES),)
+
+NormalProgramTarget(mpat, mpat.o,, $(LOCAL_LIBRARIES),)
+
+LintLibraryTarget(pim, $(SRCS))
+NormalLintTarget($(SRCS))
+
+InstallLibrary(pexim,$(USRLIBDIR))
+
+CLIENTHEADERS = pexim.h
+
+BuildIncludes($(CLIENTHEADERS),phigs,..)
+MakeDirectories(install,$(INCDIR)/phigs)
+InstallMultiple($(CLIENTHEADERS),$(INCDIR)/phigs)
+
+DependTarget()

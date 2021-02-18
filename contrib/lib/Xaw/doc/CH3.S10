@@ -1,0 +1,35 @@
+.bp
+\&
+.sp 1
+.ce 3
+\s+1\fBChapter 3\fP\s-1
+
+\s+1\fBSimple Widgets\fP\s-1
+
+.nr H1 3
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.NH 2
+Command Widget
+.NH 2
+Grip Widget
+.NH 2
+Label Widget
+.NH 2
+Lisst Widget
+.NH 2
+Panner Widget
+.NH 2
+Repeater Widget
+.NH 2
+Scrollbar Widget
+.NH 2
+Simple Widget
+.NH 2
+StripChart Widget
+.NH 2
+Toggle Widget
+.bp

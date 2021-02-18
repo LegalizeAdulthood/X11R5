@@ -1,0 +1,48 @@
+\begindata{text,268688272}
+\textdsversion{12}
+\template{default}
+\majorheading{Installing Site Specific Applications in the Andrew Source Tree
+
+}\italic{\center{
+}}Site specific applications are placed in the \italic{site} directory. The 
+\italic{site} directory, as distributed, contains this file, and a skeletal 
+\italic{Imakefile}. To build the \italic{site} directory as a part of a 
+regular \italic{Andrew} "make World" or "make dependInstall" define the macro 
+\bold{SITE_DEF} in the file \italic{config/site.h} before doing the "make 
+Makefiles". Build the \italic{site} directory only if there is something in 
+there to build. You can always add the site directory to the list of things to 
+be built by defining \bold{SITE_DEF} in \italic{config/site.h} and then 
+re-making the \italic{Makefile} at the top level using:
+
+
+\smaller{\{path\}/imake  -I.  -I./config  -Timake.tmpl  -s Makefile -DTOPDIR=.
+
+}
+as described in the \italic{README} file at the top level.
+
+
+Source of site specific applications are placed in directories in the 
+\italic{site} directory. Whenever a new directory is added to the \italic{site} 
+directory, its name should be added to the \italic{SUBDIRS} macro in 
+\italic{site/Imakefile}. To  make sure that the new directory is built in all 
+subsequent makes do a \italic{genmake} in the \italic{site} directory whenever 
+you make any changes in \italic{site/Imakefile}.
+
+
+It is assumed that each directory that is added to the \italic{site }directory 
+contains an \italic{Imakefile} describing how that directory is to be built. 
+ If you want to use your own \italic{imake rules} that are not defined in 
+\italic{config/andrew.rls}, you can do so by defining these additional 
+\italic{imake rules} in the file \italic{config/site.rls}. Whenever 
+\bold{SITE_DEF} is defined \italic{config/site.rls} is automatically appended 
+to \italic{config/andrew.rls} before it is used to make the 
+\italic{Makefiles}. The file \italic{config/site.rls}, as distributed, is an 
+empty file. 
+
+
+Care should be taken to make sure that the \italic{imake rules} that are added 
+to \italic{config/site.rls} do not conflict with any of the rules in 
+\italic{site/andrew.rls}.
+
+
+\enddata{text,268688272}

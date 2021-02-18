@@ -1,0 +1,22 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+
+DOCFILES = nessauth.doc nessfunc.doc nesshack.doc nessman.doc nesstut.doc nessuser.doc
+HELPFILES = ness.help
+
+.SUFFIXES: .help .doc .d
+.d.doc:
+	(ANDREWDIR=$(DESTDIR); export ANDREWDIR; \
+	 CLASSPATH=$(DESTDIR)/dlib/atk; export CLASSPATH; \
+	 WMHOST=; \
+	 $(DESTDIR)/bin/nessrun present.n $*.d)
+# (by modifying WMHOST and not exporting it, it does not get passed to nessrun
+#  consequently im_InitializeClass will not use it to determine the windowsystem)
+
+MkdirTarget( ${DESTDIR}/doc/atk/ness)
+
+InstallDocs(${DOCFILES}, $(DESTDIR)/doc/atk/ness/)
+InstallDocs(${HELPFILES}, $(DESTDIR)/help/)

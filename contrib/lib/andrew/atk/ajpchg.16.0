@@ -1,0 +1,588 @@
+\begindata{text,268885644}
+\textdsversion{12}
+\template{default}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags Underline Int Set]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontSize PreviousFontSize Point 2]}
+\majorheading{Changes by Andrew Palay
+
+for
+
+Version 16.0 ofATK
+
+}\center{(to be released in Patch 9)}
+
+
+\section{Overview}
+
+
+- Tabs (from MIT with some modification)
+
+- VI support (from Bell Labs)
+
+- Color Text (from Tpn)
+
+- Raw mode reading of files
+
+- Interline/Interparagraph spacing in text
+
+- ^U handling in im
+
+- Lookz in a separate window
+
+- better support for handling ~ in file names
+
+
+\section{basics/common}
+
+
+\subsection{Imakefile}
+
+Added building of path.ih, path.o and path.do (see below)
+
+
+\subsection{dataobj.c}
+
+Simple type casts to handle prototyped class files
+
+
+\subsection{filetype.ch/filetype.c}
+
+Added a way to set attributes that are to be used with an object that already 
+exists.  This was put in to make it possible to edit template files.  In this 
+case the user can force the writing of datastream files by placing the 
+following line in their init file:
+
+\example{addfiletype .template text "datastream=yes" "datastream=yes"}
+
+A new class procedure, AddExistingAttributes, was added to make this possible.
+
+
+Use new path code for the CanonicalizeFileName procedure.  In afs this will 
+now handle ~foo@cellname.
+
+
+\subsection{im.ch/im.c}
+
+Moved Ctrl U processing out of textview and into im where it belongs.  It has 
+been done in a way that you will be able to bind commands to sequences that 
+begin with ^U.  When this is done ^U will be treated as a prefix if it does 
+not match one of those commands..  For those people who have bound ^U to 
+textview-set-argument the new way to get this behavior is to place the 
+following:
+
+\example{addkey "" ^U textview}
+
+into their .atkinit file.  This will remove the default ^U bindings in 
+typescript and frameview.  Unfortunately in order to get ^U to work it is hard 
+coded in im and can not be rebound via a keymap.
+
+
+Added another preference, \bold{ctrlUcmds}, that if set to no will force ^U to 
+always be treated as a prefix caharacter.  This probably should be removed 
+since with the new binding mechanism encourages the binding of ^U<foo> as a 
+command to handle the case where you want to do something slightly different 
+than the <foo> command will.
+
+
+Forced the resetting of the keystates when the user clicks the mouse in a 
+window.  Currently the key sequence is continued.
+
+
+Added two new methods BumpArg and DisplayArg.  BumpArg multiplies the current 
+argument by 10 and adds anther digit.  DisplayArg will force the display of 
+the current argument.  Given that ^U processing is now in im, it is much less 
+likely that others should be modifying the current argument.  (in fact there 
+are cases where I'm not quite sure it will work).
+
+
+\subsection{init.c}
+
+Added code to allow the specification of attribuites to be used when a file 
+with a particular extension already exists.  Those attributes are listed 
+following the default attributes for a new file.
+
+
+Fixed a bug in the modifying of keymap and menus that caused the init 
+keymaps/menulists to be added multiple times.
+
+
+Fixed ordering of included init keymaps to make sure that subclass keymaps 
+take precedence over super class keymaps.  In the current code the behavior is 
+close to random.
+
+
+\subsection{observe.c}
+
+Fixed two bugs during the finalize phase.  First one is an almost always 
+benign off by one error.  The other caused problems when an observer removed 
+itself from another objects observer list when the latter object was being 
+destroyed.  Doing the removal is actually unnecessary but should not cause 
+incorrect behavior, which it was. 
+
+
+\subsection{path.ch/path.c (NEW)}
+
+A new class that provides a number of methods and class procedures for the 
+processing of path specifications. This needs to be documented (David should 
+be able to help with that, since he wrote it).  The two most interesting class 
+procedures  are \bold{TruncatePath}, which takes a path and tries to convert 
+it to ~name/<foo>, and \bold{UnfoldFileName}, which takes a file and converts 
+it to its full fomplete form.  Both of these procedure, when running under 
+AFS, understand or use ~foo@cellname.
+
+
+\section{basics/lib}
+
+
+\subsection{Imakefile}
+
+Added ../common/path.o to the buidling of libbasics.a
+
+
+\section{support}
+
+
+\subsection{buffer.ch/buffer.c/bufferlist.ch/bufferlist.c}
+
+Added code for allowing users to edit files in raw mode.  Work still has to be 
+done to allow users to have two buffers, one interpreted and one raw, open on 
+the same file.  It will be difficult to do that in a way that users can edit 
+either one and it will change in the other, so its not clear that that 
+functionality should be added.
+
+
+Added a new class procedure in buffer and new method in bufferlist, 
+\bold{GetUniqueBufferName}, which returns a new buffer name, given a proposed 
+buffer name.
+
+
+\subsection{style.ch/style.c}
+
+Added code, with some modifications (from MIT) to handle tab specification in 
+styles
+
+
+Added code for handling interline and interparagraph spacing.
+
+
+\subsection{stylesht.c}
+
+Minor modification to file.
+
+
+\section{supportviews}
+
+
+\subsection{matte.c}
+
+Added code from Bell Labs.  It adds in two preferences:
+
+\leftindent{\bold{ResizeInset} - if TRUE then it allows the user to resize the 
+inset
+
+\bold{DrawInsetBorder} - if TRUE then draws a border around the inset
+
+}
+Forces matte to add in a keystate and menulist when its child has the input 
+focus to allow users to bind commands to matte in their init file.
+
+
+\subsection{strtblv.c}
+
+Fixed bug where strtblview would not position its elements when its size 
+changed.
+
+
+\section{text}
+
+
+\subsection{Imakefile}
+
+Added building of tabs.ih, tabs.o, and tabs.do
+
+Added building of new textview command files, txtvcmod.o, txtvcmv.o, 
+txtvcsty.o, txtvcsrch.o and txtvcmsc.o
+
+
+\subsection{drawtxtv.c}
+
+Added code for handling tabs
+
+
+Added code for interline and interparagraph spacing
+
+
+Added support for color in text (from tpn)
+
+
+Changed the way text handles an embedded object during size negotiation. 
+ Prvieously it forced the inset to be on the same line no matter how little 
+room there was left.  Now if the object does not fit on the current line it 
+will wrap it to the next one.
+
+
+Added processing of a soft return, a return that ends the current line but 
+does not statr a new line.  It is stored in the object at a '\\r'.
+
+
+Added code (from tpn) for placing a continuation marker at the end of text if 
+it is currently in a no-wrap style and there is non-visble text after the 
+right edge.
+
+
+\subsection{smpltext.ch/smpltext.c}
+
+Added four new methods:
+
+\leftindent{GetPosForLine(long line) returns long;
+
+\leftindent{Given a line/paragraph in the object returns the position at the 
+beginning of that line}
+
+GetLineForPos(long pos) returns long;
+
+\leftindent{Given a position in the object returns what line/paragraph that 
+position is in}
+
+GetBeginningOfLine(long pos) returns long;
+
+\leftindent{Returns the position of the beginning of the line/paragraph that 
+contains pos.  If pos points to a new line character then it moves back to the 
+next line.}
+
+GetEndOfLine(long pos) returns long;
+
+\leftindent{Gets the end of the line that contains pos.  If pos points to a 
+new line it just returns that position.}}
+
+
+\subsection{tabs.ch/tabs.c (New)}
+
+Code (from MIT) that handle tabs.
+
+
+\subsection{text.ch/text.c}
+
+Added the ability to set how the text object is to be written out.  There are 
+three choices: text_DefaultWrite - the normal way to handle text, 
+text_NoDataStream - used for raw mode reading and writing of files, 
+text_DataStream - used to force objects to be written out in datastream 
+format, used to edit template files.  In addition there is another attribute, 
+datastream,  that can be set on text.  If it is set to to yes then the object 
+will always be written out in datastream format.  If it is set to no then it 
+will never be written out in datastream format.
+
+
+Added support for color and tabs in the state vector calculation
+
+
+\subsection{textv.ch/textv.c}
+
+Changed \bold{CollapseDot} so that it now returns the new dot position
+
+
+Added the method, \bold{DoCopyRegion}, which copies a region to the cut 
+buffer.
+
+
+Modified method, \bold{PrepareInsertion}, to have a flag indicating whether a 
+return is being inserted.  If it is and it is occuring at the beginning of a 
+line you do not want to pick up the style of the next paragraph.
+
+
+Fixed a bug in \bold{Visible} method.
+
+
+Fixed \bold{MoveBack} method to handle specification of postion from the top 
+of the screen.  This fixes the bug when you search backward, that the located 
+text is placed at the top of the screen instead of 1/3 down as in what happens 
+when you search forward.
+
+
+Added  in code for supporting VI mode (from our friends at Bell Labs).  Vi 
+mode can be turned on on a number of ways.  You can set the \bold{editor} 
+preference to "vi" or any of the following environment variables: EDITOR, 
+EDIT, ED, FCEDIT or VISUAL.  It is also possible to dynamically switch between 
+emacs mode and vi mode on a text view by text view basis.  The default binding 
+is <esc>t.
+
+
+Added code for handling of tabs.  This includes two new preferences that are 
+used to adjust from screen sizes to printer sizes.  The preferences are 
+\bold{TabScalingMultiplier} (default of 14) and \bold{TabScalingDivisor} 
+(default of 12).  It would be nice to get rid of these and do the conversion 
+automatically but I'm not quite sure how.
+
+
+Added code for handling of interline and interparagraph spacing.
+
+
+\subsection{tmac.atk}
+
+Added another designation , post, for postscript printers (from Bell Labs)
+
+
+\subsection{tpllist.c}
+
+Added code to force in the gloabl style if it is not currently in the template 
+fle.  This makes it easier for lookz to be able to edit the global style.
+
+
+\subsection{txtstvec.h}
+
+Changed for new way tabs are handled.
+
+
+\subsection{txttroff.c}
+
+Added code (from MIT) for handling duplex printing.  You can control Duplex 
+printing either by setting the Duplex environment variable to "yes" or "no" or 
+by setting the duplex preference. to "yes" or "no"
+
+
+Added code to handle tabs
+
+
+Added code to handle interline/interparagraph spacing
+
+
+Added in an alternate set of mappings to troff fonts (from Bell Labs).  Which 
+table to use is determined at compile time.  To use the new table you need to 
+define TROFF_FONTS_ENV  in your site.h file.  It would be much better if this 
+was done via a table driven mechanism.
+
+
+\subsection{txtvcmds.c/txtvcmod.c/txtvcmv.c/txtvcsty.c/txtvcsrch.c/txtvcmsc.c/t\
+xtvcmds.h
+
+}Split apart txtvcmds into a number of files to make it easier to find things 
+and shorter to compile when making changes.  The routines were grouped 
+according to their function:
+
+\leftindent{txtvcmod.c - routines that modify the underlying text object (no 
+style changes)
+
+txtvcmv.c - routines that move around the text view
+
+txtvcsty.c - routines that use styles
+
+txtvcsrch.c - searching routines (including query/replace)
+
+txtvcmsc.c - any routines that didn't fit in the above categories.}
+
+
+Added routines and keymaps for VI keybings (code from Bell Labs).
+
+
+Removed the set argument command from textview and also changed the digit 
+command since it no longer has to take care of ^U processing.
+
+
+Added in command (currently bound to <esc><return>) that places in a soft 
+return, a return that ends the current line but does not force a new paragraph 
+break.
+
+
+\subsection{txtvinfo.h}
+
+Added support for continuations and interline/interparagraph spacing.
+
+
+Added defines from Bell Labs for character types,  used for certain commands 
+that move around in text.
+
+
+\section{frame}
+
+
+\subsection{frame.ch/frame.c}
+
+Added two methods:
+
+\leftindent{FindFrameForBuffer(struct buffer *b) returns struct frame *;
+
+\leftindent{Given a buffer returns a frame that contains that buffer.  If the 
+buffer is already in the frame it returns that frame.}
+
+GetFrameInWindowForBuffer(struct buffer *b) returns struct frame *;
+
+\leftindent{Given a buffer returns a frame that contains that buffer and makes 
+sure that frame is in a window. }}
+
+
+Changed SetTitle to use the methods provided by path.\leftindent{
+
+}
+\subsection{framecmd.c}
+
+Added support for reading uninterpreted files.  The command, 
+frame-visit-file-uninterpreted, is bound by default to ^X<esc>v.
+
+
+Use path code for displaying of filename in list buffers.  
+
+
+\subsection{framemsg.c}
+
+Support for VI mode
+
+
+\section{ez}
+
+
+\subsection{eza.ch/eza.c}
+
+Added code (from BellLabs) to allow specification (via +num commmand line 
+argument) to start  a file off at a particular line number.
+
+
+Added code (also from BellLabs) to stop ez from core dumping when it can not 
+create a window.
+
+
+Someone should look at adding code to allow the editing of a file in raw mode 
+from the command line.
+
+
+\section{typescript}
+
+
+\subsection{fcomp.c}
+
+Added two new commands:
+
+\leftindent{fcomp-complete-command-backward
+
+fcomp-complete-command-forward}
+
+These allow the user to type a partial command and then have it be completed 
+using the list of commands already typed.  Typically the backward version is 
+the one that is typically used, with the forward being used when you overshoot 
+the command you really wanted.  These commands have been written so that they 
+can be used to replace <esc>= and <esc>` if there is nothing currently 
+typesdon the line.  In this case these commands just move back and forth 
+through the history list.
+
+
+\subsection{tscript.ch/tscript.c}
+
+Changed the way typescript keeps track of previous commands (for <esc>-=).  It 
+now keeps a separate log (in a seperate text object - for someone who wants to 
+write the function that will bring up the list in another window) and no 
+longer reads the commands from the current buffer.  Thus when typescript 
+decides on its own to clear out part of the text it is maintaining, you can 
+still move back through all of the commands that you typed. Selecting Clear 
+from the menu will clear both the text and the command log.
+
+
+Added a new command, typescript-Clear-Text, that will only clear the text of 
+the typescript and not the command log.  It is currently unbound.
+
+
+\section{apps}
+
+
+\subsection{statload.c}
+
+Added inclusion of path and tabs objects.
+
+
+\section{ctext}
+
+
+\subsection{ctext.tpl}
+
+Changes for proper handling of tabs given the new tab style mechanism
+
+
+\subsection{ctextv.c}
+
+changes for VI mode (from Bell Labs)
+
+
+\section{ezprint}
+
+
+\subsection{ezprinta.c}
+
+Minor type fix
+
+
+\section{extensions}
+
+
+\subsection{dsearch.c}
+
+Changes for using dsearch package for VI searching.  Added two new commands 
+which are \bold{dynsearch-search-again} and 
+\bold{dynsearch-search-again-opposite} which continue the search in the same 
+direction as before or the other direction.
+
+
+\section{lookz}
+
+
+\subsection{Imakefile}
+
+Added building of tabrulv.ih, tabrulv.o, and tabrulv.do
+
+
+\subsection{lookz.ch/lookz.c}
+
+Put in code that allows a lookz to be brought up in a separate window.  This 
+required that the lookz data object save the text object that is to be 
+modified.
+
+
+\subsection{lookz.help}
+
+Changes from MIT for Tabs.  Needs to be reworked for interline/interparagraph 
+spacing and also being able to bring up a lookz in a seprate window.
+
+
+\subsection{lookzv.ch/lookzv.c}
+
+Added ability of bringing up lookz in a separate window.  The command to do 
+this is: \bold{lookzview-edit-styles} and can be bound as follows:
+
+\example{addkey lookzview-edit-styles \\esE textview lookzview inherit}
+
+
+Added support for tabs (from MIT), interline/interparagraph spacing and color 
+(from tpn). 
+
+
+Added support for editing styles that are not on the menus (eg. the global 
+text style).
+
+
+\subsection{tabrulv.ch/tabrulv.c}
+
+Used for the display and setting of tabs.
+
+
+
+
+total: 63 files
+
+
+Things that I'm still looking at before my departure (not in any specific 
+order and possibly not complete):
+
+
+1. Null data object/Null view
+
+2. Addition to search to pass in a string and have it return a proper RE 
+quoting appropriate characters.
+
+3. Change lookZ to allow for the prompting of values not listed.
+
+4. EZ connection via a socket.
+
+\enddata{text,268885644}

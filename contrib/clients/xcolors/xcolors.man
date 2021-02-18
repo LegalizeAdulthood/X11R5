@@ -1,0 +1,111 @@
+.\" Time-stamp: <91/10/04 15:02:55 gildea>
+.TH XCOLORS 1 "3 October 1991" "X Version 11"
+.SH NAME
+xcolors \- display all X11 color names and colors
+.SH SYNOPSIS
+.B xcolors
+[
+.B \-start
+.I color
+] [
+.B \-near
+.I color
+] [
+.B \-distance
+.I howfar
+]
+.SH DESCRIPTION
+.I xcolors
+reads the \fIrgb.txt\fP file that defines the color names the X server
+knows and
+displays the colors found.
+.PP
+At the top of the window is a sample region containing text.  By
+clicking on the color names, the color of the sample text can be
+changed.  Mouse button 1 changes the foreground; button 2 changes the
+background.  The text can also be edited.
+.PP
+Typing ``q'' exits the program.
+.SH OPTIONS
+In addition the the usual X Toolkit options, \fIxcolors\fP understands
+these command line options:
+.TP
+.B \-start \fIname\fP
+specify a color name to start with; colors
+before this one in the \fIrgb.txt\fP file are skipped.  This option is
+useful if there are more colors than will fit on your screen or in
+your colormap.
+.TP
+.B \-rgbfile \fIfilename\fP
+specify an alternate color database file to read.
+.TP
+.B \-near \fInearcolor\fP
+only show colors near this one in the RGB space.
+All colors within a sphere in the RGB-space
+centered on \fInearcolor\fP are displayed.
+.TP
+.B \-distance \fIhowfar\fP
+defines how close colors have to be to \fInearcolor\fP to be displayed.
+This option sets the radius of the sphere used by the \fB\-near\fP option.
+The scale is such that the RGB cube is 256 units on a side.
+The default is 64.
+.SH ACTIONS
+.TP
+.B set-foreground(\fR[\fP\fIcolor\fP\fR]\fP)
+Set the foreground color of the sample region.  If no \fIcolor\fP is
+provided, the color is taken from the border color of the widget where
+the action occurred.
+.TP
+.B set-background(\fR[\fP\fIcolor\fP\fR]\fP)
+Same as \fBset-foreground\fP() but sets the background color.
+.TP
+.B quit()
+Exit \fIxcolors\fP.
+.SH RESOURCES
+\fIXcolors\fP has a few top-level application resources that allow
+customizations that are specific to \fIxcolors\fP.
+.TP
+.BR "startColor " (class \fBStartColor\fP)
+See the \fB\-start\fP option.
+.TP
+.BR "rgbFile " (class \fBRgbFile\fP)
+See the \fB\-rgbfile\fP option.
+.TP
+.BR "nearColor " (class \fBNearColor\fP)
+See the \fB\-near\fP option.
+.TP
+.BR "nearDistance " (class \fBNearDistance\fP)
+See the \fB\-distance\fP option.
+.SH "WIDGET HIERARCHY"
+Knowing the name and position in the hierarchy of each widget is
+useful when specifying resources for them.  In the chart below, the
+class and name of each widget is given.
+.LP
+.nf
+Xcolors \fIxcolors\fP
+	Paned panes
+		AsciiText sample
+		Viewport viewport
+			Box colors
+				Label \fIcolorname\fP
+				Label \fIcolorname\fP
+				.
+				.
+				.
+.fi
+.SH FILES
+.TP
+.I /usr/lib/X11/rgb.txt
+X color names and values.
+.SH BUGS
+Assumes that all names for the same color are consecutive in the
+\fIrgb.txt\fP file.
+.PP
+Because \fIxcolors\fP cannot read the server's color name database,
+the color names it uses may not match those in the server.  This is most
+likely to happen if \fIxcolors\fP is run from a remote host.
+.PP
+The program would be faster if it used gadgets instead of widgets for
+the color spots.
+.SH AUTHOR
+Stephen Gildea, MIT X Consortium

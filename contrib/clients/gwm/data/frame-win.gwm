@@ -1,0 +1,154 @@
+; General-frame decoration (for clock, mail, ...)
+; ========================
+
+;;File: frame-win.gwm -- General-frame decoration
+;;Author: vincent@mirsa.inria.fr (Vincent BOUTHORS) -- Bull Research FRANCE
+;;Revision: 1.0 -- Feb 7 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+; Exported functions and variables:
+
+; frame-win
+; frame3d-win
+; frame3d-context
+; frame2d-win
+; frame2d-context
+
+; External variable used: 
+
+; 	look-3d:
+; 		can be set to () (default) or tri-dim1  (t)
+
+; 	frame.top-text 
+; 	frame.bottom-text
+;		if these variables are set they are evaluated at creation
+; 		to form a label (string type is mandatory)
+; 	frame.font
+;		font of text
+
+;	frame.pixmap-file must contain prefix of 8 bitmap files:
+; 		suffixes are: 	t l r b (top left right bottom)
+; 				tl tr bl br (corners)
+; 		default: "frame2d"
+
+; 	frame.pixmap-format indicates wich format is used; 
+; 		'bitmap	(default) standard bitmap format, pixmap-make is used
+; 		'pixmap 	  pixmap oriented format, pixmap-load is used
+
+; 	frame.name-separator indicates which character is used to separate
+;		suffix from prefix in filename (default "-")
+
+; 	frame.bar-width 
+;    		(default 1)
+
+;  	frame.inner-border-width
+;		(default 1)
+
+(de frame.suffix (name1 name2)
+    (+ name1 frame.name-separator name2))
+
+(de frame.win ()
+    (with (
+	   fsm (fsm-make (state-make window-behavior standard-behavior))
+	   name (default frame.pixmap-file "frame2d")	   
+	   frame.name-separator (default frame.name-separator "-")
+	   frame.font (default frame.font small-font)
+	   pixmap-make (if (= (default frame.pixmap-format 'bitmap) 'pixmap)
+			   pixmap-load
+			   pixmap-make)
+	   frame.bar-width (if (boundp 'frame.bar-width)
+			       frame.bar-width
+			       10)
+	  )
+	  (with (
+		 borderwidth 0 
+		 bar-min-width frame.bar-width
+		 bar-max-width frame.bar-width)
+		(: side-top	 (pixmap-make (frame.suffix name "t")))
+		(: side-left	 (pixmap-make (frame.suffix name "l")))
+		(: side-right	 (pixmap-make (frame.suffix name "r")))
+		(: side-bottom 	 (pixmap-make (frame.suffix name "b")))
+		(: plug-corner-tl (plug-make(pixmap-make(frame.suffix name "tl"))))
+		(: plug-corner-br (plug-make(pixmap-make(frame.suffix name "br"))))
+		(: plug-corner-bl (plug-make(pixmap-make(frame.suffix name "bl"))))
+		(: plug-corner-tr (plug-make(pixmap-make(frame.suffix name "tr"))))
+		(: bar-top 
+		   (with (tile side-top borderwidth 0)
+			 (if (boundp 'frame.top-text)
+			     (bar-make 
+				 plug-corner-tl 
+				 () 
+				 (list 'plug-make
+				       (list 'label-make
+					     frame.top-text
+					     'frame.font))
+				 ()
+				 plug-corner-tr)
+			     (bar-make 
+				 plug-corner-tl
+				 ()
+				 plug-corner-tr))))
+		(: bar-bottom 
+		   (with (tile side-bottom borderwidth 0)
+			 (if (boundp 'frame.bottom-text)
+			     (bar-make 
+				 plug-corner-bl 
+				 () 
+				 (list 'plug-make
+				       (list 'label-make
+					     frame.bottom-text
+					     'frame.font))
+				 ()
+				 plug-corner-br)
+			     (bar-make 
+				 plug-corner-bl
+				 ()
+				 plug-corner-br))))
+		
+		
+		(: bar-left 	(with (tile side-left)  (bar-make)))
+		(: bar-right	(with (tile side-right) (bar-make)))
+	  )    
+	  
+	  ;    : result
+	  (with (
+		 inner-borderwidth (default frame.inner-border-width 1)
+		 borderwidth (default frame.border-width 1))
+		(window-make bar-top bar-left bar-right bar-bottom ())))
+)
+
+(setq frame3d-context
+    '(  
+	frame.pixmap-file "frame3d"
+	frame.name-separator "-"
+	frame.bar-width 8
+	frame.pixmap-format 'pixmap
+	frame.inner-border-width 0
+	frame.border-width (default frame.border-width 1)
+     ))
+
+(df frame3d-win ()
+    (with frame3d-context
+	  (frame.win)))
+
+(setq frame2d-context
+    '(  
+	frame.pixmap-file "frame2d"
+	frame.name-separator "-"
+	frame.bar-width 10
+	frame.pixmap-format 'bitmap
+	frame.inner-border-width 0
+	frame.border-width (default frame.border-width 1)
+     ))
+
+(df frame2d-win ()
+    (with frame2d-context
+	  (frame.win)))
+
+(df frame-win ()
+    (if (= t (default look-3d ()))
+	(frame3d-win)
+	(frame2d-win)))
+

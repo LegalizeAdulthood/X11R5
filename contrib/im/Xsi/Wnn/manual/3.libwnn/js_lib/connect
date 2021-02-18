@@ -1,0 +1,36 @@
+JS_CONNECT( )
+
+名称
+
+	js_connect	サーバとの間にコネクションを張る。
+
+形式
+
+	#include "jslib.h"
+
+	struct wnn_env *
+	js_connect(server,env_name, timeout)
+	char *env_name;			/* 環境名 */
+	WNN_JSERVER_ID *server;		/* サーバID */
+	int timeout;			/* タイムアウト時間 */
+
+機能
+
+	サーバとの間にコネクションを張り、同時にサーバの内部に環境を作る。
+	サーバ名で、js_open のリターン値のサーバIDを指定する。
+	サーバ名の最大文字数は、256文字である。
+
+	timeout(秒)以内に、サーバと接続できない場合は、接続を中断し異常終了する。
+	タイムアウトの設定のために、SIGALARM を使用している。
+	timeout が 0 または、負の場合は、SIGALARM を使用しない。
+
+リターンバリュー
+
+	環境名に既に存在する環境を指定した時にはその環境を返し、
+	NULL を指定した時には新しい環境を作って返す。
+	異常終了時には、-1 を返す。
+
+使用上の注意
+
+	タイムアウトには、SIGALARM を使用しているので、注意が必要である。
+	SIGALARM を使用する場合には、timeout に 0 を設定しなければならない。

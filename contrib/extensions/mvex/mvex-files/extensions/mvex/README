@@ -1,0 +1,185 @@
+
+
+				   MVEX
+			    Protocol version 6.2
+			     VEXlib version 1.12
+			   First software release
+			       Sept 26, 1991
+
+This distribution contains MVEX, and although there exists
+more source code, it is largely Tek-specific or proprietary; this
+should get you up and running.  This README file contains an overview
+of the state of the software, and instructions for unpacking,
+installing and building this release.
+
+WHAT DOES MVEX EXPRESS?
+    video input
+	taking a video stream *into* the workstation and
+	putting it in a window or pixmap
+
+    video output
+	producing a video stream that comes *out* of a window
+	or pixmap on the workstation
+
+    hue, brightness, contrast and saturation
+	if available on the hardware, these can be adjusted.
+
+    placement, scaling, frame rate, clipping, and overlap limitations
+	if the client is interested, the detail of the limitations
+	is available without round trip queries to the server;
+	if not, they can be ignored.
+
+    ports
+	for each video input and output, a set of atoms is provided,
+	one for each video port (for example, there may be an RGB port
+	and an S-VHS port).
+
+    ownership
+	A video manager can be implemented that can be the arbiter for
+	the video input and output resources.
+
+WHAT'S NEW?
+    This protocol is not greatly different than MVEX 6.0 that I had posted
+    in January of this year.  A few minor changes:
+      - the RenderVideo request now takes a gc so that you can specify
+	a clip mask.
+      - the override event gained some new bits so that you could
+	tell what has happened.
+
+WHAT WORKS?
+    From the protocol standpoint, the entire wire protocol (requests,
+    replies, events and errors) are supported by the server and the
+    library.  This implies that if you understand most of the protocol,
+    you will know what this means.  If you don't, you should read the
+    protocol found in extensions/mvex/doc/protocol/.
+
+    To support the protocol, there is the mvex library and a set of
+    code for the server which implements the protocol extension.  The
+    extension supports video input in the form of a RasterOps SparcCard
+    TC/PIP; it supports video output (although we only have proprietary
+    hardware and software for this).
+
+    In addition to the library and server, there are eight clients that
+    work (that I can give you):  one that is the mvex equivalent of
+    xdpyinfo, called mvexinfo; the others are the seven test clients
+    that Dave Carver wrote for the Xv extension, so that programmers
+    could compare the two extension.  
+
+    This release contains the patches to run under either X11r4 or X11r5.
+    Both are tested and run well.  In particular, the server patches for
+    R4 include changes for ClipNotify() so that the video can be adjusted
+    as windows are moved.  Also included are patches to the cfb code to
+    support 24-bit color.  These were originally derived from Takahashi's
+    postings around the end of 1990, but now work under both r4 and r5.
+
+    Porting to new hardware should be fairly simple because nearly all of
+    the ddx functionality has been generalized and is available in the
+    mi directory.  For example, complete clipping code is available
+    to maintain an enable plane.
+
+WHAT DOESN'T WORK?
+    Nothing that I know of.  Since being reduced from the original VEX
+    protocol, it has been much simpler to implement.
+
+UNPACKING THE RELEASE
+    This release should be very simple to install.  A fairly fool-proof
+    installation script will ask you questions, unpack, install and
+    patch everything.  Obtain the release with ftp from
+    export.lcs.mit.edu (18.24.0.12) in
+
+	~ftp/contrib/vex/mvex-r1.tar.Z
+	~ftp/contrib/vex/mvex-install
+
+    It doesn't matter where you put it, except that install-mvex and
+    mvex-r1.tar.Z need to be together.  After that, simply run the script:
+
+	sh install-mvex
+
+    It will ask questions and try to do everything but compile.
+    The files and directories are:
+
+	server/ddx/rasterops		    directory of our rasterops server
+	extensions/mvex/lib		    mvex lib source
+	extensions/mvex/server/ddx/mi	    machine independent layer
+	extensions/mvex/server/dix	    dix layer mvex source
+	extensions/mvex/server/include	    mvex server-specific include files
+	extensions/mvex/include		    most of the mvex include files
+	extensions/mvex/doc/protocol	    protocol document source
+	extensions/mvex/doc/lib		    mvex lib document source
+	extensions/mvex/doc/encoding	    encoding document source
+	extensions/mvex/clients/mvexinfo    mvex equivalent of xdpyinfo
+	extensions/mvex/clients/test	    seven test clients
+
+    The diffs are different for r4 and r5, but they accomplish the same
+    thing:
+
+	config/sun.cf			adds mvex and rasterops
+	extensions/Imakefile		adds mvex to the directories built
+	extensions/server/Imakefile	adds ../mvex to the directories built
+	server/Imakefile		adds rasterops and mvex
+	server/ddx/cfb/*		24-bit color support
+	server/ddx/mi/miinitext.c	adds MvexExtensionInit();
+	server/ddx/mi/mivaltree.c	ClipNotify() mods (r4 only)
+	server/ddx/sun/*		rasterops mods
+	server/dix/dispatch.c		changes CreatePixmap and CreateColormap
+	server/dix/window.c		changes CreateWindow, and ClipNotify()
+	server/include/scrnintstr.h	ClipNotify() mods (r4 only)
+
+    The files are diffs based on R4 and R5, so they should patch in
+    very easily.  Hopefully, the files provide enough context to
+    discern the intent in case there are problems.
+
+    For R4, the changes for ClipNotify marked above should be pretty
+    safe except for server/ddx/mi/mivaltree.c.  The same spirit of
+    changes have been adopted into R5.  The are necessary, otherwise
+    the lowest layer ddx cannot be notified when the clip changes (and
+    your RenderVideo will continue blasting bits where it shouldn't).
+
+BUILDING THE RELEASE
+    Again, the patches are based on vanilla R4 and vanilla R5 and the
+    installation has been tested for precisely that.  At this point, if
+    you were to try to build our server, you would need to start with a
+
+	make World
+
+    If you have already built an X tree, you can do this with a
+    little less overkill with the commands:
+
+	make Makefile
+	make -k Makefiles SUBDIRS="extensions server"
+	make -k includes		# very, very important
+	make -k depend
+	make -k
+
+    There is a little hocus-pocus in the way that makefiles are
+    generated, such that you should *not* use xmkmf to generate
+    the Makefile in extensions/mvex/include or any Makefile leading
+    to it, otherwise the 'make includes' pass will create include
+    files that point to the wrong place.
+
+    At this point, you are on your own (unless you have a Sun SparcStation)
+    with a RasterOps board.   I'll be sending out patches as
+    appropriate.  Send bugs directly to me (toddb@sail.labs.tek.com)
+
+RASTEROPS NOTES
+
+    You must be running the 3.1 version of the driver and compile the
+    server against the 3.1 version of cg8reg.h.  These are provided
+    for you in the distribution in
+    extensions/mvex/server/ddx/rasterops/3.1-driver.  In that directory
+    are four files.  They are placed as follows:
+
+	cg8reg.h		/usr/include/sbusdev
+	sparc_card_tc		/etc/modules
+	sparc_card_tc.o		/etc/modules
+	sparc_card_tc.script	/etc/modules
+
+    After installing these, reboot and you can run the server.
+
+
+Good luck!!
+
+internet: toddb@sail.labs.tek.com                                 c--Q Q
+US:       Todd Brunhoff; Systems Architecture and Imaging Lab;          `
+          Tektronix, Inc.;  Box 500  MS 50-321, Beaverton OR 97077      -
+Phone:    (503) 627-1121

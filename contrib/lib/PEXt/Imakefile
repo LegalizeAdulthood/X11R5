@@ -1,0 +1,144 @@
+/*
+			       I m a k e f i l e
+
+    $Header: Imakefile,v 1.0 91/10/04 17:00:57 rthomson Exp $
+    
+    Imakefile for PEXt (PEX Toolkit) widget library.
+
+    Rich Thomson
+    Design Systems Division
+    Evans & Sutherland Computer Corporation
+
+    $Log:	Imakefile,v $
+# Revision 1.0  91/10/04  17:00:57  rthomson
+# Initial revision
+# 
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+	   Copyright 1991 by Evans & Sutherland Computer Corporation,
+			      Salt Lake City, Utah
+					
+			      All Rights Reserved
+					
+     Permission to use, copy, modify, and distribute this software and its
+	documentation for any purpose and without fee is hereby granted,
+     provided that the above copyright notice appear in all copies and that
+	both that copyright notice and this permission notice appear in
+   supporting documentation, and that the names of Evans & Sutherland not be
+       used in advertising or publicity pertaining to distribution of the
+	      software without specific, written prior permission.
+					
+   EVANS & SUTHERLAND  DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+     INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+     EVENT SHALL EVANS & SUTHERLAND BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+  CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+     DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+	TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+			 PERFORMANCE OF THIS SOFTWARE.
+					
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-*/
+
+#include <Library.tmpl>
+
+/**/# DEFINES defines optional parts of PEXt to be compiled.
+/**/# Add -DES_PICK_EXTENSION to compile in support for the E&S picking
+/**/# extension
+        DEFINES =
+
+ EXTRA_INCLUDES = -I.
+
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       LINTLIBS = $(LINTXLIB)
+
+/**/# Directory where PEXt include files will be installed
+     PEXTINCDIR = $(USRINCDIR)/PEXt
+
+/**/# Directory where PHIGS include files will be found
+#if UseInstalled
+    PHIGSINCDIR = $(INCDIR)/phigs
+#else
+    PHIGSINCDIR = $(EXTENSIONSRC)/lib/PEX/include
+#endif
+
+/**/# PHIGSERRH and PHIGSFUNCH are used to generate error message text.
+      PHIGSERRH = $(PHIGSINCDIR)/phigserr.h
+     PHIGSFUNCH = $(PHIGSINCDIR)/phigscfunc.h
+
+
+HEADERS = \
+	Animator.h \
+	AnimatorP.h \
+	Converters.h \
+	PEXt.h \
+	Primitive.h \
+	Quarks.h \
+	Sphere.h \
+	StringDefs.h \
+	Structure.h \
+	WorkstatP.h \
+	Workstati.h
+
+SRCS = \
+	Animator.c \
+	Converters.c \
+	Initialize.c \
+	Primitive.c \
+	Structure.c \
+	Workstati.c \
+	dump_end.c \
+	dump_middle.c \
+	dump_start.c
+
+OBJS = \
+	Animator.o \
+	Converters.o \
+	Initialize.o \
+	Primitive.o \
+	Structure.o \
+	Workstati.o \
+	dump_names.o
+
+SRCS1 = \
+	dump_end.c \
+	dump_middle.c \
+	dump_start.c \
+	$(PHIGSERRH) \
+	$(PHIGSFUNCH)
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = man
+
+MakeSubdirs($(SUBDIRS))
+
+/*
+ * always generate unshared library too 
+ */
+NormalLibraryTarget(PEXt,$(OBJS))
+InstallLibrary(PEXt,$(USRLIBDIR))
+
+BuildIncludes($(HEADERS),.,.)
+InstallMultiple($(HEADERS),$(PEXTINCDIR))
+
+DependTarget()
+DependSubdirs($(SUBDIRS))
+
+/**/# dump_names is constructed automatically from scripts; it contains
+/**/# a routine to print out the error name and function name based on
+/**/# the symbolic values found in phigscfunc.h and phigserr.h
+dump_names.c: $(SRCS1)
+	cp dump_start.c dump_names.c
+	chmod +w dump_names.c
+	awk '/.*#define.*Pfn_[a-z0-9_]*/{ \
+		print "\t{ " $$2 ", \"" substr($$2,5,length($$2)) "\" }," }' \
+	    $(PHIGSFUNCH) >> dump_names.c
+	cat dump_middle.c >> dump_names.c
+	awk '/.*#define.*PE[A-Z0-9]*/{ \
+		print "\t{ " $$2 ", \"" substr($$2,3,length($$2)) "\" }," }' \
+	    $(PHIGSERRH) >> dump_names.c
+	cat dump_end.c >> dump_names.c
+
+clean::
+	$(RM) dump_names.c

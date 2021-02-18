@@ -1,0 +1,30 @@
+;
+; $Id: uumrc_vi,v 1.1 1991/09/09 22:39:01 ohm Exp $
+;
+;;	uumrc For VI-mode
+;;
+;;	default uumrc
+;;	For uum (Wnn V4)
+;;	use pubdic
+
+setconvenv	@LIBDIR/@LANG/wnnenvrc
+setkankanaenv	@LIBDIR/@LANG/wnnenvrc_R
+
+setjishopath    @LIBDIR/@LANG/dic/pubdic/
+sethindopath    @LIBDIR/@LANG/dic/usr/@USR/
+
+setuumkey	@LIBDIR/@LANG/rk.vi/uumkey
+setrkfile	@LIBDIR/@LANG/rk.vi
+
+setconvkey      	@LIBDIR/cvt_key_tbl
+setconvkey      ST*	@LIBDIR/cvt_key_tbl.ST
+setconvkey      gmw*	@LIBDIR/cvt_key_tbl.gm
+setconvkey      gmw16*	@LIBDIR/cvt_key_tbl.gm
+setconvkey      gmw24*	@LIBDIR/cvt_key_tbl.gm
+setconvkey      kterm*	@LIBDIR/cvt_key_tbl.kt
+setconvkey      xterm*	@LIBDIR/cvt_key_tbl.kt
+
+waking_up_in_henkan_mode
+flow_control_on
+send_ascii_char
+;convkey_always_on

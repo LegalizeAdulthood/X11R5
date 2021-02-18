@@ -1,0 +1,27 @@
+.TH GL_AddWindowAssocInfo 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_AddWindowAssocInfo \- add information associated with a window
+.SH SYNTAX
+void GL_AddWindowAssocInfo(target,key,associnfo)
+.br
+	Window target;
+.br
+	VPTF key;
+.br
+	GLPointer associnfo;
+.SH ARGUMENTS
+.IP target 1i
+The window to which the associated info should be added.
+.IP key 1i
+The key which will be used to lookup this particular piece of 
+associated data.
+.IP associnfo 1i
+The associated information, us. a pointer to a structure.
+
+.SH DESCRIPTION
+This function adds some associated information to the list which is 
+maintained with each window.  They key will be used in calls to 
+GL_Search_DataList to retrieve the associated information.
+
+.SH "SEE ALSO"
+GL_AddFuncPtr(3GL), GL_Search_DataList(3GL), GraphLib Programming Manual

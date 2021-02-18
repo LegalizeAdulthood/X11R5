@@ -1,0 +1,325 @@
+.NH 2
+ListLocale Widget
+.LP
+.XS
+	ListLocale Widget
+.XE
+.IN "ListLocale widget" "" "@DEF@"
+.Ds 0
+.TA 2.0i
+.ta 2.0i
+.sp
+Application header file	<X11/Xaw/ListLc.h>
+.IN "ListLc.h" ""
+Class header file	<X11/Xaw/ListLcP.h>
+.IN "ListLcP.h" ""
+Class	listLocaleWidgetClass
+.IN "listLocaleWidgetClass" ""
+Class Name	ListLocale
+.IN "ListLocale widget" "class name"
+Superclass	Simple
+.sp
+.De
+.LP
+This widget does same functions as List widget, however the list text is
+multibyte text.  The multibyte text is encoded in the locale of \fBfontSet\fP.
+.NH 3
+Resources
+.LP
+When creating a ListLocale widget instance, the following resources are
+retrieved from the argument list or from the resource database:
+.LP
+.IN "ListLocale widget" "resources"
+.ps 9
+.nr PS 9
+.vs 11
+.nr VS 11
+.TS H
+expand;
+lw(1i) lw(1i) lw(1i) lw(.5i) lw(2i).
+_
+.sp 3p
+.TB
+Name	Class	Type	Notes	Default Value
+.sp 3p
+_
+.TH
+.R
+.sp 3p
+accelerators	Accelerators	AcceleratorTable		NULL
+ancestorSensitive	AncestorSensitive	Boolean	D	True
+background	Background	Pixel		XtDefaultBackground
+backgroundPixmap	Pixmap	Pixmap		XtUnspecifiedPixmap
+borderColor	BorderColor	Pixel		XtDefaultForeground
+borderPixmap	Pixmap	Pixmap		XtUnspecifiedPixmap
+borderWidth	BorderWidth	Dimension		1
+callback	Callback	Callback		NULL
+colormap	Colormap	Colormap		Parent's Colormap
+columnSpacing	Spacing	Dimension		6
+cursor	Cursor	Cursor		XC_left_ptr
+cursorName	Cursor	String		NULL
+defaultColumns	Columns	int		2
+depth	Depth	int	C	Parent's Depth
+destroyCallback	Callback	XtCallbackList		NULL
+fontSet	FontSet	FontSet		XtDefaultFontSet
+forceColumns	Columns	Boolean		False
+foreground	Foreground	Pixel		XtDefaultForeground
+height	Height	Dimension	A	Enough space to contain the list
+insensitiveBorder	Insensitive	Pixmap		GreyPixmap
+internalHeight	Height	Dimension		2
+internalWidth	Width	Dimension		4
+list	List	Pointer		name of widget
+longest	Longest	int	A	0
+mappedWhenManaged	MappedWhenManaged	Boolean		True
+numberStrings	NumberStrings	int	A	computed for NULL terminated list
+pasteBuffer	Boolean	Boolean		False
+pointerColor	Foreground	Pixel		XtDefaultForeground
+pointerColorBackground	Background	Pixel		XtDefaultBackground
+rowSpacing	Spacing	Dimension		2
+screen	Screen	Screen	R	Parent's Screen
+sensitive	Sensitive	Boolean		True
+translations	Translations	TranslationTable		See below
+verticalList	Boolean	Boolean		False
+width	Width	Dimension	A	Enough space to contain the list
+x	Position	Position		0
+y	Position	Position		0
+.sp 3p
+_
+.TE
+.ps 11
+.nr PS 11
+.vs 13
+.nr VS 13
+.Ac
+.As
+.Bg
+.Gp
+.Bc
+.Bp
+.Bw
+.IP \fBcallback\fP 1.5i
+All functions on this list are called whenever the \fBnotify\fP action is
+invoked.  The \fIcall_data\fP argument contains information about the element
+selected and is described in detail in the \fBListLocale Callbacks\fP section.
+.Cm
+.IP \fBcolumnSpacing\fP 1.5i
+.br
+.ns
+.IP \fBrowSpacing\fP 1.5i
+The amount of space, in pixels, between each of the rows and columns
+in the list. 
+.Cu
+.Cn
+.IP \fBdefaultColumns\fP 1.5i
+The default number of columns.  This value is used when neither the
+width nor the height of the ListLocale widget is specified or when
+\fBforceColumns\fP is \fBTrue\fP.
+.Dp
+.Dc
+.IP \fBforceColumns\fP
+Forces the default number of columns to be used regardless of the
+ListLocale widget's current size. 
+.IP \fBforeground\fP 1.5i
+A pixel value which indexes the widget's colormap to derive the color
+used to paint the text of the list elements.
+.Hw
+.Ib
+.IP \fPinternalHeight\fP 1.5i
+.br
+.ns
+.IP \fPinternalWidth\fP 1.5i
+The margin, in pixels, between the edges of the list and the
+corresponding edge of the ListLocale widget's window.
+.IP \fBlist\fP 1.5i
+An array of multibyte text strings displayed in the ListLocale widget.  If
+\fBnumberStrings\fP is zero (the default) then the \fBlist\fP must be
+NULL terminated.  If a value is not specified for the \fBlist\fP, then
+\fBnumberStrings\fP is set to 1, and the name of the widget is used as
+the \fBlist\fP, and \fBlongest\fP is set to the length of the name of the
+widget.  The \fBlist\fP is used in place, and must be available
+to the ListLocale widget for the lifetime of this widget, or until it is
+changed with \fBXtSetValues\fP or \fBXawListLocaleChange\fP.
+.br
+.ns
+.IP
+The multibyte text is encoded in the locale of \fBfontSet\fP.
+.IP \fBlongest\fP
+Specifies the width, in pixels, of the longest string in the current
+list.  The ListLocale widget will compute this value if zero (the default)
+is specified.  If this resource is not correctly specified, selection of
+list items may not work properly.
+.Mm
+.IP \fBnumberStrings\fP 1.5i
+The number of strings in the current list.  If a value of zero (the
+default) is specified, the ListLocale widget will compute it.  When computing
+the number of strings the ListLocale widget assumes that the \fBlist\fP is NULL
+terminated. 
+.IP \fBpasteBuffer\fP 1.5i
+If this resource is set to \fBTrue\fP then the name of the currently
+selected list element will be put into \fBCUT_BUFFER_0\fP.
+.Pf
+.Pb
+.Sc
+.Se
+.Tr
+.IP \fBverticalList\fP 1.5i
+If this resource is set to \fBTrue\fP then the list elements will be 
+presented in column major order.
+.Xy
+.NH 3
+ListLocale Actions
+.IN "ListLocale widget" "actions"
+.LP
+The ListLocale widget supports the following actions:
+.IP \(bu 5
+Highlighting and unhighlighting the list element under the
+pointer with \fBSet\fP and \fBUnset\fP
+.IP \(bu 5
+Processing application callbacks with \fBNotify\fP
+.LP
+The following is the default translation table used by the ListLocale Widget:
+.IN "ListLocale widget" "default translation table"
+.LP
+.Ds 
+.TA .5i 2.25i
+.ta .5i 2.25i
+<Btn1Down>,<Btn1Up>:	Set(\|) Notify(\|)
+.sp
+.De
+.LP
+The full list of actions supported by ListLocale widget is:
+.IP \fBSet\fP(\|) 1.5i
+\fISets\fP the list element that is currently under the pointer.  To
+inform the user that this element is currently set, it is drawn with
+foreground and background colors reversed.  If this action is called when
+there is no list element under the cursor, the currently \fIset\fP
+element will be \fIunset\fP.
+.IP \fBUnset\fP(\|) 1.5i
+Cancels the \fIset\fP state of the element under the pointer,
+and redraws it with normal foreground and background colors.
+.IP \fBNotify\fP(\|) 1.5i
+Calls all callbacks on the ListLocale widget's callback list.  Information
+about the currently selected list element is passed in the
+\fIcall_data\fP argument (see \fBListLocale Callbacks\fP below).
+.NH 3
+ListLocale Callbacks
+.IN "ListLocale widget" "callbacks"
+.LP
+All procedures on the ListLocale widget's callback list will have a
+\fBXawListLocaleReturnStruct\fP passed to them as \fIcall_data\fP.  The
+structure is defined in the ListLocale widget's application header file.
+.LP
+.Ds 0
+.TA .5i 2.25i
+.ta .5i 2.25i
+.IN "XawListLocaleReturnStruct" "" "@DEF@"
+typedef struct _XawListLocaleReturnStruct {
+	String string;	/* string shown in the list. */
+	int list_index;	/* index of the item selected. */
+} XawListLocaleReturnStruct;
+.IN "XawListLocaleReturnStruct" ""
+.NT
+The \fIlist_index\fP item used to be called simply \fIindex\fP.
+Unfortunately, this name collided with a global name defined on some
+operating systems, and had to be changed.
+.NE
+.De
+.NH 3
+Changing the List
+.LP
+To change the list that is displayed, use
+.PN XawListLocaleChange .
+.IN "XawListLocaleChange" "" "@DEF@"
+.FD 0
+void XawListLocaleChange(\fIw\fP, \fIlist\fP, \fInitems\fP, \fIlongest\fP, \fIresize\fP)
+.br
+     Widget \fIw\fP;
+.br
+     String * \fIlist\fP;
+.br
+     int \fInitems\fP, \fIlongest\fP;
+.br
+     Boolean \fIresize\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the ListLocale widget.
+.IP \fIlist\fP 1i
+Specifies the new list for the ListLocale widget to display.
+.IP \fInitems\fP 1i
+Specifies the number of items in the \fIlist\fP.  If a value less than 1
+is specified, \fIlist\fP must be NULL terminated, and the number of
+items will be calculated by the ListLocale widget.
+.IP \fIlongest\fP 1i
+Specifies the length of the longest item in the \fIlist\fP in pixels.
+If a value less than 1 is specified, the ListLocale widget will calculate the
+value.
+.IP \fIresize\fP 1i
+Specifies a Boolean value that if \fBTrue\fP indicates that the
+ListLocale widget should try to resize itself after making the change.
+The constraints of the ListLocale widget's parent are always enforced,
+regardless of the value specified here.
+.LP
+.PN XawListLocaleChange
+will \fIunset\fP all list elements that are currently \fBset\fP before
+the list is actually changed.  The \fIlist\fP is used in place, and must
+remain usable for the lifetime of the ListLocale widget, or until \fIlist\fP
+has been changed again with this function or with \fBXtSetValues\fP.
+.NH 3
+Highlighting an Item
+.LP
+To highlight an item in the list, use
+.PN XawListLocaleHighlight .
+.IN "XawListLocaleHighlight" "" "@DEF@"
+.FD 0
+void XawListLocaleHighlight(\fIw\fP, \fIitem\fP)
+.br
+     Widget \fIw\fP;
+.br
+     int \fIitem\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the ListLocale widget.
+.IP \fIitem\fP 1i
+Specifies an index into the current list that indicates the item to be
+highlighted.
+.LP
+Only one item can be highlighted at a time.
+If an item is already highlighted when
+.PN XawListLocaleHighlight 
+is called,
+the highlighted item is unhighlighted before the new item is highlighted.
+.NH 3
+Unhighlighting an Item
+.LP
+To unhighlight the currently highlighted item in the list, use
+.PN XawListLocaleUnhighlight .
+.IN "XawListLocaleUnhighlight" "" "@DEF@"
+.FD 0
+void XawListLocaleUnhighlight(\fIw\fP)
+.br
+     Widget \fIw\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the ListLocale widget.
+.NH 3
+Retrieving the Currently Selected Item
+.LP
+To retrieve the list element that is currently \fIset\fP, use
+.PN XawListLocaleShowCurrent .
+.IN "XawListLocaleShowCurrent" "" "@DEF@"
+.FD 0
+XawListLocaleReturnStruct *XawListLocaleShowCurrent(\fIw\fP)
+.br
+     Widget \fIw\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the ListLocale widget.
+.LP
+.PN XawListLocaleShowCurrent
+returns a pointer to an
+.PN XawListLocaleReturnStruct
+structure,
+containing the currently highlighted item.
+If the value of the index member is XAW_LIST_NONE,
+.IN "XAW_LIST_NONE"
+the string member is undefined, and no item is currently selected.

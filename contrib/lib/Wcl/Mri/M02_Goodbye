@@ -1,0 +1,68 @@
+!  This resource file represents a very basic application: a single button
+!  which changes its own behavior and label.  The first time it is
+!  pressed, it changes its label and its activate callback.  Subsequent
+!  presses cause a confirmation dialog to pop-up.
+!
+!  This example uses WcSetValueCB().  The argument looks exactly like a
+!  resource specification.  The WcSetValueCB() callback actually does an
+!  XtSetValue to set the value in the target (named) widget.
+!
+!  This example also uses WcManageCB().  The argument is the name of a
+!  widget.  Wildcards work in names exactly as in resource
+!  specifications.  The name resoultion search begins at the root widget.
+!
+!  Note that multiple callbacks may be invoked in a callback list, as in 
+!  the button's activateCallback resource.  Each specification may optionally
+!  be separated by a comma.  In the below example, the specifications are 
+!  also put on separate lines (the `\' escapes the newline in resource files 
+!  just like in C), with additional whitepspace (tabs and blanks) for 
+!  stylistic reasons.
+!
+!  If you are using Motif 1.0, then this applies:
+!
+!    Note also that the dialog is created using one of the Motif
+!    constructors, and the constructor introduces a dialogShell.  Since we
+!    want the button to manage the child of the shell, not simply the shell,
+!    we must use the seemingly redundant specification:
+!
+!	*push.activateCallback: WcManageCB( *exitDialog_popup.exitDialog )
+!
+!    If we had used the more intuitive but wrong:
+!
+!	*push.activateCallback: WcManageCB( *exitDialog )
+!
+!    then a small, empty dialog shell would appear at the upper left corner
+!    of the display.  This is a VERY common mistake made by Mri beginners.
+!
+!  If you are using Motif 1.1, then this applies:
+!
+!    The dialog is created using one of the Motif 1.1 constructors.  These
+!    constructors now all introduce a dialog shell with `_popup' appended
+!    to the name specified as the widget name.  Therefore, in this example,
+!    the widget `exitDialog' is a child of the dialogShell widget named
+!    `exitDialog_popup'.  This allows the more intuitive naming of
+!    the child:
+!
+!	*push.activateCallback: WcManageCB( *push*exitDialog )
+!		-- or more simply --
+!	*push.activateCallback: WcManageCB( *exitDialog )
+!
+!    Note that the name `*push.exitDialog' does not apply to any widget!!
+!    This is a common point of confusion.
+!
+!*wcTrace: True
+Mri.wcChildren:		push
+Mri.title:		M02_Goodbye
+
+*push.wcClass:		xmPushButtonWidgetClass
+*push.wcPopups:		exitDialog
+*push.labelString:	Hello World, I'm Mri.  Please Push Me!
+*push.activateCallback: WcSetValueCB(					     \
+			    this.activateCallback: WcManageCB(*exitDialog) ) \
+			WcSetValueCB(					     \
+			    this.labelString:      Goodbye! )
+
+*exitDialog.wcConstructor:	XmCreateQuestionDialog
+*exitDialog.wcManaged:		False
+*exitDialog.messageString:	Do you really want to exit?
+*exitDialog.okCallback:		WcExitCB(1)

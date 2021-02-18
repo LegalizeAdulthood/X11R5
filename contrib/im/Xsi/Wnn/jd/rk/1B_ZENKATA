@@ -1,0 +1,5 @@
+;
+; $Id: 1B_ZENKATA,v 1.1 1991/09/09 22:39:23 ohm Exp $
+;
+(defvar a (all))
+(a)	(tozenkata (a))

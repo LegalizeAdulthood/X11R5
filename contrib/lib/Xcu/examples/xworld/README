@@ -1,0 +1,12 @@
+This directory contains a "Good-bye, World" example of using the
+widget layout manager.  The file "world.wl" contains a near minimal
+example of a layout description, and world.c is a minimal client
+to execute a program using that description.  Note that world.c
+contains the "make_tag_class_list()" function explicitly.  It can be
+generated automatically as shown in the xmake example.
+
+Clicking the mouse in the widget will cause a callback that terminates the
+program.  To make and execute :
+
+	make world
+	./world world

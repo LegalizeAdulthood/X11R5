@@ -1,0 +1,135 @@
+Contents of the files of the GWM distribution
+
+Contents of the files FILES:
+
+FILES: 		all sources
+xpm/FILES:	sources of xpm library
+FILES_KIT: 	doc + data (distributed)
+FILES_BAK:	other files saved on daily backup
+FILES_AUX:	other files (big) to be preserved when cleaning dir
+
+So, the differents sets of files are determined by: (distrib is KIT)
+
+ALL	 	SHAR		KIT(with src)	KIT(binary)
+
+FILES		FILES		FILES		gwm
+xpm/FILES       xpm/FILES	xpm/FILES
+FILES_KIT	FILES_KIT	FILES_KIT	FILES_KIT
+FILES_BAK
+FILES_AUX
+
+Contents of the files:
+
+wool.h
+wool.c	
+	main body of the WOOL interpreter, macros to allow our object-oriented
+	C programming, definition of "pure lisp" objects
+
+wool.lex
+wool.yac 
+	WOOL parser
+
+malloc.c
+	Fast malloc/free with extensive debugging facilities
+
+reference.c
+	memory management module via reference count
+
+wool-gwm.c
+	WOOL-GWM interface. Here are defined extensions in C to build new WOOL
+	functions to handle GWM primitives.
+	Look at this file to know how to code new WOOL primitives
+
+wob.h
+wob.c
+	generic wob routines
+
+plug.c
+bar.c
+menu.c
+client.c
+screen.c
+	specific routines to each wob type
+
+Makefile
+Make.TEMPLATE
+	installation/revision management routines
+
+wops.c
+	Window OPerationS (non interactive)
+
+user.c
+	Interactive operations (rubberbanding)
+
+wl_*.h
+wl_*.c
+	Definition and implementation module for each of the WOOL types
+
+gwm.h
+	global GWM variables
+
+gwm.c
+	main body of GWM
+
+machine.h
+machine.c
+	portability patches
+
+xpm/*
+	library to read XPM (v2) color X11 pixmap files
+
+error.c
+	X error handlers
+
+icccm.c
+	routines to implement ICCCM conventions
+
+EXTERN.h
+INTERN.h
+	package to simulate the IMPORT/EXPORT of modula II
+
+COPYRIGHT
+	the full copyright text
+
+doc/
+	The LaTeX documentation
+
+shar/unshar
+	(same file) Shell-archive maker/extracter, WITHOUT checksums, to be
+	used with RCS to manage revisions on only ONE file, the full
+	distribution
+
+gwm/
+	directories for WOOL programs and X11 bitmaps
+
+	in it, files belong to the standard profile, except:
+
+	MWM emulator:
+		mwm.gwm
+		mwmprofile.gwm
+		mwmrc.gwm
+		mwm-menusrc.gwm
+		bindings.gwm
+		buttons.gwm
+		mwm-functions.gwm
+		mwm-icon.gwm
+		mwm-menus.gwm
+		mwm-placements.gwm
+		mwm-utils.gwm
+		mwm-win.gwm
+		zoom-win.gwm
+		X.xbm
+		cornerPlug.xbm
+		mwm-iclb.xbm
+		mwm-iclt.xbm
+		mwm-icrb.xbm
+		mwm-icrt.xbm
+		mwm-ictlb.xbm
+		mwm-ictlt.xbm
+		mwm-ictb.xbm
+		mwm-ictt.xbm
+		mwm-ictrb.xbm
+		mwm-ictrt.xbm
+		itemSep.xbm
+		mini.xbm
+		right-arrow.xbm

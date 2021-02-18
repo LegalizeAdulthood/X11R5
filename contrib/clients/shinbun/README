@@ -1,0 +1,43 @@
+	shinbun - OPENLOOK(?) interface to USENET news system that uses
+		  the NNTP remote news server
+
+Installation guide
+	(1) Edit confi.h.dist
+	    1. For SunOS/JLE users
+		Add the following lines.
+			-----------
+			#define MLE
+			#define JLE
+			-----------
+
+	    2. For everyone
+		Change the following fields.
+			-------------------------------
+			MAILADDRESS, ORGANIZATION, GCOS,
+			DEFAULT_DIST_NAME
+			-------------------------------
+
+	(2) Make
+
+	    1.	Edit Imakefile
+
+		1) For i18nxview, JLE users
+			Change the fields like this
+		---------------------------------------------------------
+		EXTRA_LIBRARIES= -lxview -lolgx -lX11 -lmle -ljapanese -lc
+		DEFINES= -DOW_I18N
+		---------------------------------------------------------
+
+		2) For xview, SunOS users
+
+			Change the fields like this
+		-------------------------------------
+		EXTRA_LIBRARIES= -lxview -lolgx -lX11
+		DEFINES=
+		-------------------------------------
+
+	   2.	xmkmf
+
+	   3.	make
+
+	   4.   make install

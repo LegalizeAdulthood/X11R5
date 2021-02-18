@@ -1,0 +1,62 @@
+.TH DPBINDIC 1
+.SHNAME
+dpbindic \- Convert a binary-form dictionary into the text-form dictionary
+.SHSYNOPSYS
+.B dpbindic
+[
+.B\-xiu
+[
+.I frequency
+]
+]
+.I "binary-file"
+[
+.I "text-file"
+]
+.SH DESCRIPTION
+.I Dpbindic
+outputs the file information of the binary-form dictionary file specified in
+\B "binary-file".
+At this time, the word information of the dictionary can be output in text form
+to the standard output.  To do so, use
+.I "test-file"
+to specify the text-form dictionary used as the source of binary-form dictionary file.
+If this specification is omitted, the text dictionary file information in the binary
+dictionary file will be output.  The standard grammar file name is
+/user/lib/iroha/dic/hyoujun.gram. It will be used if the grammar file name specification
+is omitted.  The output format of word information data is specified using an option.
+.SHOPTIONS
+.TP
+.B\-x
+Outputs the data without using omission symbol @, which is used when the initial word represents the reading.
+.TP
+.B\-i
+Replaces the reading and word for output.
+.TP
+.B\-u
+Outputs the candidates used in conversion.  Outputs all candidates having 
+.I frequency
+or more.  If
+.I frequency
+is omitted, all candidates having frequency 1 will be output.
+.SHEXAMPLES
+.PP
+(1) If the text-form dictionary file name is omitted:
+.nf
+.B
+%dibindic iroha.d
+.B
+(Text dictionary file name = Directory size + Word size, packed)
+.B
+iroha.swd = 2985 + 5306 pak a4
+.B
+iroha.mwd = 36276 + 113139 pak a4
+.PP
+(2) If the text-form dictionary file name iroha.mwd is specified:
+.nf
+.B
+%dpbindic iroha.d iroha.mwd
+.B
+(Text dictionary file name = Directory size + Word size, packed)
+.B
+iroha.mwd = 36276 + 113139 pak a4

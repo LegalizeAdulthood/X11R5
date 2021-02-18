@@ -1,0 +1,287 @@
+## ###################################################################### ##
+##         Copyright IBM Corporation 1988,1991 - All Rights Reserved      ##
+##        For full copyright information see:'andrew/config/COPYRITE'     ##
+## ###################################################################### ##
+# Every vopcon file should have the following:
+@set(period 20)
+@set(machines "vice4")
+@set(externalerrorfile "/dev/console")
+@instrument(function errors, displaytype logerror)
+#@instrument(function errorlog, displaytype drawerrorwindow)
+#@instrument(text "Vice Op Console", displaytype drawprogramname, remotefunction vicecalls)
+# End of mandatory stuff
+@set(maxheight 2000,
+	minheight 400,
+	desiredwidth 600,
+	maxwidth 800,
+	minwidth 500)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 30,
+	xmax 40,
+	ymin 25,
+	ymax 50,
+	label "Eth Errs",
+	leftclickstring "There have been $ ethernet collisions in the last minute",
+	text "$",
+	remotefunction ethererrors)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 40,
+	xmax 50,
+	ymin 25,
+	ymax 50,
+	label "Eth Sends",
+	leftclickstring "There have been $ ethernet packets sent in the last minute",
+	text "$",
+	remotefunction etherwrites)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 50,
+	xmax 60,
+	ymin 25,
+	ymax 50,
+	label "Eth Rcvs",
+	leftclickstring "There have been $ ethernet packets received in the last minute"
+	text "$",
+	remotefunction ethergoodreads)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 60,
+	xmax 70,
+	ymin 25,
+	ymax 50,
+	highlightinvertmin 95,
+	highlightinvertmax 110,
+	label "*",
+	text "$ %",
+	remotefunction disk1inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 70,
+	xmax 80,
+	ymin 25,
+	ymax 50,
+	highlightinvertmin 95,
+	highlightinvertmax 110,
+	label "*",
+	text "$ %",
+	remotefunction disk2inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 80,
+	xmax 90,
+	ymin 25,
+	ymax 50,
+	highlightinvertmin 95,
+	highlightinvertmax 110,
+	label "*",
+	text "$ %",
+	remotefunction disk3inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 90,
+	xmax 100,
+	ymin 25,
+	ymax 50,
+	highlightinvertmin 95,
+	highlightinvertmax 110,
+	label "*",
+	text "$ %",
+	remotefunction disk4inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 30,
+	xmax 40,
+	ymin 50,
+	ymax 75,
+	label "Connects",
+	leftclickstring "There are $ connections",
+	text "$",
+	remotefunction connections)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 40,
+	xmax 50,
+	ymin 50,
+	ymax 75,
+	label "Fetchs"
+	text "$",
+	leftclickstring "There have been $ files fetched in the last minute",
+	remotefunction fetchs)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 50,
+	xmax 60,
+	ymin 50,
+	ymax 75,
+	label "Fetch rate"
+	text "$",
+	leftclickstring "The transfer rate for file fetches is $ bytes per minute",
+	remotefunction fetchdatarate)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 60,
+	xmax 70,
+	ymin 50,
+	ymax 75,
+	label "Stores"
+	text "$",
+	leftclickstring "There have been $ files stored in the last minute",
+	remotefunction stores)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 70,
+	xmax 80,
+	ymin 50,
+	ymax 75,
+	label "Store rate"
+	text "$",
+	leftclickstring "The transfer rate for file stores is $ bytes per minute",
+	remotefunction storedatarate)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 80,
+	xmax 90,
+	ymin 50,
+	ymax 75,
+	label "VM in Use"
+	text "$ %",
+	leftclickstring "The current VM usage is $%",
+	remotefunction vminuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 90,
+	xmax 100,
+	ymin 50,
+	ymax 75,
+	label "Size"
+	text N/A,
+	leftclickstring "The current size of file server process is N/A"
+	remotefunction vminuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	text *
+	xmin 40,
+	xmax 60,
+	ymin 0,
+	ymax 25,
+	textfont andy14b,
+	ceiling 10,
+	highlightinvertmin -1,
+	highlightinvertmax 10,
+	remotefunction ClusterName)
+@instrument(
+	displaytype indicator,
+	text "Cluster * is down"
+	xmin 30,
+	xmax 70,
+	ymin 0,
+	ymax 25,
+	textfont andy14b,
+	threshhold 11,
+	highlightinvertmin 11,
+	highlightinvertmax 3000,
+	remotefunction ClusterName)
+@instrument(
+	boxed,
+	displaytype indicator
+	text "Booted at *"
+	xmin 0
+	xmax 40,
+	ymin 0,
+	ymax 25,
+	remotefunction boottime)
+@instrument(
+	boxed,
+	displaytype indicator
+	text "Started at *"
+	xmin 60,
+	xmax 100,
+	ymin 0,
+	ymax 25,
+	remotefunction starttime)
+@instrument(
+	boxed,
+	displaytype drawlog,
+	xmin 30,
+	xmax 100,
+	ymin 75,
+	ymax 100,
+	remotefunction remotelog)
+@instrument(
+	boxed,
+	displaytype ekggraph,
+	xmin 0,
+	xmax 20,
+	ymin 25,
+	ymax 50,
+	text "$",
+	leftclickstring "The CPU utilization is $ %",
+	remotefunction TotalCPU)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 30,
+	ymin 25,
+	ymax 50,
+	label "CPU"
+	text $,
+	remotefunction totalcpu)
+@instrument(
+	boxed,
+	displaytype ekggraph,
+	xmin 0,
+	xmax 20,
+	ymin 50,
+	ymax 75,
+	valuemax 500,
+	leftclickstring "There have been $ IOs in the last minute ^ is fullscale value",
+	remotefunction totalio)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 30,
+	ymin 50,
+	ymax 75,
+	label "I/O"
+	text $,
+	remotefunction totalio)
+@instrument(
+	boxed,
+	displaytype ekggraph,
+	xmin 0,
+	xmax 20,
+	ymin 75,
+	ymax 100,
+	valuemax 250,
+	leftclickstring "There have been $ vice calls in the last minute ^ is fullscale",
+	remotefunction vicecalls)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 30,
+	ymin 75,
+	ymax 100,
+	label "Calls"
+	text $,
+	leftclickstring "There have been $ Vice calls in the last minute",
+	remotefunction vicecalls)

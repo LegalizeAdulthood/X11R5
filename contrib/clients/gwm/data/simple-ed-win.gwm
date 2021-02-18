@@ -1,0 +1,197 @@
+; simple frame with editable name on the upper right corner, and icon to left
+; ===========================================================================
+
+;;File: simple-ed-win.gwm -- simple frame for xterm
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.6 -- May 22 1990
+;;GWM Version: 1.5
+
+(defaults-to
+  simple-ed-win.borderwidth 5
+  simple-ed-win.font name-font
+  simple-ed-win.active darkgrey
+  simple-ed-win.inactive grey
+  simple-ed-win.label.background white
+  simple-ed-win.label.foreground black
+  edit-keys.return "Return"
+  edit-keys.backspace "BackSpace"
+  edit-keys.delete "Delete"
+
+  simple-ed-win.context (list
+    'borderwidth simple-ed-win.borderwidth
+    'font simple-ed-win.font
+    'active simple-ed-win.active
+    'inactive simple-ed-win.inactive
+    'background simple-ed-win.label.background
+    'foreground simple-ed-win.label.foreground
+  )    
+)
+
+(: iconify-fsm
+  (fsm-make 
+    (state-make 
+      (on (buttonpress action-button any)
+	(with (mouse-pos ())
+	  (move-window window-icon (current-event-x) (current-event-y))
+	  (map-window window-icon)
+	  (setq window window-icon)
+	  (raise-window)
+	  (move-window)
+	  (unmap-window window-window)))
+      (on (buttonrelease select-button any)
+	(progn (iconify-window)(raise-window)))
+      standard-title-behavior
+      standard-behavior
+)))
+
+(: icon-plug '(with (borderwidth 1 background simple-ed-win.label.background
+				 foreground simple-ed-win.label.foreground
+		       borderpixel background fsm  iconify-fsm)
+	(plug-make icon-pixmap)))
+
+(defun update-icon (update-icon.title)
+  (if (window-icon?)
+      (send-user-event 'get-title (window-icon))))
+
+(: edit-fsm  
+  (fsm-make 
+    (: sed.edit-fsm.normal 
+      (state-make
+	(on (double-button any any) 
+	  (progn
+	    (set-focus wob)
+	    (wob-background simple-ed-win.label.foreground)
+	    (with (foreground simple-ed-win.label.background)
+	      (wob-tile 
+		(active-label-make
+		  (# 'title wob) simple-ed-win.font))))
+	  sed.edit-fsm.editable)
+	(on (button any (together with-alt with-control))
+	  (progn
+	    (set-focus wob)
+	    (wob-background simple-ed-win.label.foreground)
+	    (with (foreground simple-ed-win.label.background)
+	      (wob-tile 
+		(active-label-make
+		  (# 'title wob) simple-ed-win.font))))
+	  sed.edit-fsm.editable)
+	(on (user-event 'name-change)
+	  (progn
+	    (## 'title wob (: s window-name))
+	    (with (background simple-ed-win.label.background
+		foreground simple-ed-win.label.foreground)
+	      (wob-tile (active-label-make s simple-ed-win.font)))
+	))
+	standard-title-behavior  
+	standard-behavior
+    ))
+    (: sed.edit-fsm.editable
+      (state-make
+	(on (keypress (key-make edit-keys.return) any)
+	  (sed.edit-fsm.de-edit t)
+	  sed.edit-fsm.normal)
+	(on (double-button any any)
+	  (sed.edit-fsm.de-edit t)
+	  sed.edit-fsm.normal)
+	(on (keypress edit-keys.backspace any)
+	  (progn
+	    (## 'title wob 
+	      (if (: s (match "\\(.*\\)."
+		    (# 'title wob) 1))
+		s
+		(setq s "")))
+	    (with (foreground simple-ed-win.label.background)
+	      (wob-tile (active-label-make s simple-ed-win.font)))
+	))
+	(on (keypress edit-keys.delete any)
+	  (progn
+	    (## 'title wob (: s ""))
+	    (with (foreground simple-ed-win.label.background)
+	      (wob-tile (active-label-make s simple-ed-win.font)))
+	))
+	(on (keypress any any)
+	  (progn
+	    (## 'title wob 
+	      (: s (+ (# 'title wob) (last-key))))
+	    (with (foreground simple-ed-win.label.background)
+	      (wob-tile (active-label-make s simple-ed-win.font)))
+	))
+	(on (user-event 'name-change) 
+	  (progn
+	    (## 'title wob (: s window-name))
+	    (with (foreground simple-ed-win.label.background)
+	      (wob-tile (active-label-make s simple-ed-win.font)))
+	))
+	(on focus-out
+	  (sed.edit-fsm.de-edit ())
+	  sed.edit-fsm.normal)
+	standard-title-behavior
+	standard-behavior
+    ))
+))
+    
+(de sed.edit-fsm.de-edit (set-focus?)
+  (wob-background simple-ed-win.label.background)
+  (wob-tile (label-make (# 'title wob) simple-ed-win.font))
+  (set-x-property "WM_NAME" (# 'title wob))
+  (set-x-property "WM_ICON_NAME" (# 'title wob))
+  (update-icon (# 'title wob))
+  (if set-focus?
+    (set-focus)))
+
+(: titlebar-fsm 
+  (fsm-make
+    (state-make
+      (on (user-event 'focus-in)  (wob-background simple-ed-win.active))
+      (on (user-event 'focus-out) (wob-background simple-ed-win.inactive))
+      standard-title-behavior
+      standard-behavior)))
+
+(: editable-plug '(with (borderwidth 1 background 
+      simple-ed-win.label.background font simple-ed-win.font
+      property (list 'title window-name) fsm edit-fsm)
+    (plug-make (label-make window-name))))
+
+(: titlebar (: my-title-bar 
+    (with (borderwidth 1 background simple-ed-win.inactive
+	fsm titlebar-fsm
+	borderpixel simple-ed-win.label.foreground
+	bar-min-width 16 bar-max-width 22)
+      (bar-make icon-plug () editable-plug))))
+
+(: sed-window-fsm
+  (fsm-make
+    (state-make
+      (on focus-in
+	(progn
+	  (if autoraise (raise-window))
+	  (send-user-event 'focus-in)
+	  (wob-borderpixel simple-ed-win.active)))
+      (on focus-out
+	(progn (send-user-event 'focus-out)
+	  (wob-borderpixel simple-ed-win.inactive)))
+      (if (and (boundp 'emacs-mouse-loaded) emacs-mouse-loaded)
+	(state-make 
+	  (on (button 1 with-control) (emacs-click 1))
+	  (on (button 2 with-control) (emacs-click 2))
+	  (on (buttonpress 3 with-control)
+	    (std-pop-menu emacs-pop))))
+      window-behavior
+      standard-behavior
+)))
+
+
+(: simple-ed-win.result '(with (inner-borderwidth 1 fsm sed-window-fsm 
+		    borderwidth simple-ed-win.borderwidth
+		    borderpixel simple-ed-win.inactive
+		    grabs (+ window-grabs 
+			     (if (and (boundp 'emacs-mouse-loaded) 
+				      emacs-mouse-loaded)
+				 (list (button any with-control)))))
+			     (window-make titlebar () () () ())))
+
+(defname 'simple-ed-win.data screen. ())
+(df simple-ed-win () (if simple-ed-win.data simple-ed-win.data
+			 (: simple-ed-win.data (eval simple-ed-win.result))))
+
+

@@ -1,0 +1,23 @@
+JS_ISCONNECT( )
+
+名称
+
+	js_isconnect	サーバと接続されているかの判定
+
+形式
+
+	#include "jllib.h"
+
+	int
+	js_isconnect(env)
+	struct wnn_env *env;
+
+機能
+
+	環境 env のサーバと接続されているかを調べる。
+
+リターンバリュー
+
+	接続されていれば、0 を返す。
+	接続されていなければ、-1 を返す。
+

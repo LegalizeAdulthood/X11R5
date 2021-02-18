@@ -1,0 +1,143 @@
+.ad l
+.nh
+.TH XTP 1 "16 June 1990"
+.SH NAME
+xtp - file transfer program
+.SH SYNOPSIS
+.B "xtp"
+[ \fI-options\fP ... ] \fI<host/ip address>\fP \fI<home directory>\fP
+.SH DESCRIPTION
+.PP
+.I Xtp
+is a utility for retrieving, listing, or printing files from a remote
+network site, or sending files to a remote network site.
+.I Xtp
+performs most of the same functions as the \fIftp\fP program, but does
+not require any interactive commands.  You simply specify the file transfer
+task on the command line and \fIxtp\fP performs the task automatically.
+.SH EXAMPLES
+.PP
+To retrieve file display.tar.Z from host wizard.dupont.com, use:
+.PP
+     xtp -binary -retrieve display.tar.Z wizard.dupont.com
+.PP
+To retrieve all the files from directory \fIpublic/documents\fP from host 
+wizard.dupont.com, use:
+.PP
+     xtp -binary -retrieve documents/ wizard.dupont.com public
+.PP
+.SH OPTIONS
+.TP
+.B "-binary"
+retrieve files as binary.
+.TP
+.B "-exclude \fIexpression\fP"
+exclude files that match the \fIregular expression\fP.
+.TP
+.B "-directory \fIexpression\fP"
+list the names of files and their attributes that match the 
+\fIregular expression\fP.
+.TP
+.B "-ident \fIpassword\fP"
+specifies password.
+.TP
+.B "-print \fIexpression\fP"
+print files that match the \fIregular expression\fP.
+.TP
+.B "-retrieve \fIexpression\fP"
+retrieve files that match the \fIregular expression\fP.
+
+Retrieved files are stored on your local host directory as the full
+name of the retrieved file.  For example, if the retrieved file is
+named \fIdocuments/xtp.man\fP on the remote FTP server, it will appear
+in your home directory as \fIdocuments/xtp.man\fP.
+.TP
+.B "-send \fIexpression\fP"
+send files that match the \fIregular expression\fP.
+.TP
+.B "-timeout \fIseconds\fP"
+specifies maximum seconds to logon to the remote FTP server.  If this time
+expires, the program terminates.
+.TP
+.B "-user \fIname\fP"
+identify yourself to the remote FTP server.
+.PP
+If \fB-user\fP is specified but not \fB-ident\fP, the password is obtained
+from you interactively.
+.PP
+If neither \fB-print\fP, \fB-retrieve\fP, or \fB-send\fp are specified
+on the command line, a directory of files is listed for the remote
+network host.
+.PP
+Filename searching begins at the home directory.  Some remote hosts
+may have thousands of files causing a significant delay satisfying
+your request.  You can reduce the searching required by specifying
+\fI<home directory>\fP on the command line.  This limits the filename
+search to the specified directory and any of its subdirectories.
+.PP
+If only the program name is specified on the command line, the program command
+syntax and options are listed.
+.SH REGULAR EXPRESSIONS
+A \fIregular expression\fP is zero or more branches, separated by
+\fB|\fP.  It matches anything that matches one of the branches.
+.PP
+A branch is zero or more pieces, concatenated.  It matches a match for
+the first, followed by a match for the second, etc.
+.PP
+A piece is an atom possibly followed by \fB*\fP, \fB+\fP, or \fB?\fP.
+An atom followed by \fB*\fP matches a sequence of 0 or more matches of
+the atom.  An atom followed by \fB+\fP matches a sequence of 1 or more
+matches of the atom.  An atom followed by \fB?\fP matches a match of
+the atom, or the null pattern.
+.PP
+An atom is a \fIregular expression\fP in parentheses (matching a match
+for the \fIregular expression\fP), a range (see below), \fB.\fP
+(matching any single character), \fB^\fP (matching the null pattern at
+the beginning of the input pattern), \fB$\fP (matching the null pattern
+at the end of the input pattern), a \fB\'\fP followed by a single
+character (matching that character), or a single character with no
+other significance (matching that character).
+.PP
+A range is a sequence of characters enclosed in \fB[]\fP.  It normally
+matches any single character from the sequence.  If the sequence begins
+with \fB^\fP, it matches any single character not from the rest of the
+sequence.  If two characters in the sequence are separated by \fB-\fP,
+this is shorthand for the full list of ASCII characters between them
+(e.g.  \fB[0-9]\fP matches any decimal digit). To include a literal
+\fB]\fP in the sequence, make it the first character (following a
+possible \fB^\fP).  To include a literal \fB-\fP, make it the first or
+last character.
+.SH SEE ALSO
+ftp(1C)
+.SH COPYRIGHT
+Copyright 1990 E. I. Dupont de Nemours & Company
+.PP
+Permission to use, copy, modify, distribute, and sell this software and
+its documentation for any purpose is hereby granted without fee,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation, and that the name of E. I. Dupont de Nemours
+& Company not be used in advertising or publicity pertaining to
+distribution of the software without specific, written prior
+permission.  E. I. Dupont de Nemours & Company makes no representations
+about the suitability of this software for any purpose.  It is provided
+"as is" without express or implied warranty.
+.PP
+E. I. Dupont de Nemours & Company disclaims all warranties with regard
+to this software, including all implied warranties of merchantability
+and fitness, in no event shall E. I. Dupont de Nemours & Company be
+liable for any special, indirect or consequential damages or any
+damages whatsoever resulting from loss of use, data or profits, whether
+in an action of contract, negligence or other tortious action, arising
+out of or in connection with the use or performance of this software.
+.SH ACKNOWLEDGEMENTS
+Steve Singles, University of Delaware, for the initial implementation of
+this program.
+.PP
+Henry Spencer, University of Toronto, for the implementation of the
+\fIregular expression\fP interpreter and the text in \fBREGULAR
+EXPRESSIONS\fP.
+.SH AUTHOR
+John Cristy, E.I. DuPont De Nemours & Company Incorporated
+
+

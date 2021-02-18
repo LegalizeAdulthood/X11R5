@@ -1,0 +1,29 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+/* ********************************************************************** *\
+ createinset
+	
+	Create the source code for a new inset
+
+	This builds and installs a program which creates the source code
+	for a new inset by copying the source in /usr/andrew/lib/null/* and
+	systematically changing the names.
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+SYSLIBS = -lm
+
+NormalObjectRule()
+ProgramTarget(createinset, createinset.o, ${MALLOCLIB} ${UTILLIB}, ${SYSLIBS} ${BSDLIB})
+InstallProgram(createinset, $(DESTDIR)/bin)
+
+NormalHelpRule()
+InstallDocs(cres8et.help, $(DESTDIR)/help)
+InstallHelpAlias(cres8et, createinset createinsets creatinset  \
+				newinset generateinset)
+
+DependTarget()

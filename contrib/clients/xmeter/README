@@ -1,0 +1,73 @@
+xmeter displays a histogram of data returned by rstat(3).  It can be
+told to monitor multiple hosts, or to monitor multiple statistics on the
+same host.
+
+Copyright (c) 1991, Bob Schwartzkopf
+
+Permission to use, copy, modify and distribute this software and its
+documentation for any purpose is hereby granted without fee, provided
+that the above copyright notice appear in all copies and that both the
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of the RAND Corporation not be used
+in advertising or publicity pertaining to distribution of the software
+without specific, written prior permission.  The RAND Corporation
+makes no representations about the suitability of this software for
+any purpose.  It is provided "as is" without express or implied
+warranty.
+
+Author: Bob Schwartzkopf (bobs@rand.org)
+	The RAND Corporation
+	1700 Main Street
+	Santa Monica, CA 90406-2138
+
+Edit history
+
+Patchlevel 7
+	- Add composite stats for total packets, disk accesses, total
+	  pages paged in and out, and total swaps.
+	- Display version, scale and downtime, if appropriate, if mouse
+	  button pushed while pointer is in stripchart.
+	- Fixed bugs when determining if host is down.
+
+Patchlevel 6
+	- Clear stripcharts when monitored statistic is changed.
+	- Allow setting of monitored stat in .Xdefaults.
+	- Added -v option to display version number.
+	- Fork new process to wait for dead host to come back up.
+
+Patchlevel 5
+	- Put explict closes of sockets back in after clnt_destroy().
+	  Apparently some versions of clnt_destroy don't close the
+	  socket.
+	- Minor changes to XMeter.ad.
+
+Patchlevel 4
+	- Allow user to specify foreground, border, internal border and
+	  highlight color for each level.
+	- Fixed bug in determining width/height of form widget.
+	- Allow user to specify label foreground and background colors
+	  independently of stripcharts.
+	- Made all colors either class Foreground or Background, should
+	  simplify .Xdefaults files.
+
+Patchlevel 3
+	- Added "cols" and "rows" options, allows rectangular
+	  layout of graphs.  Removed "orientation" option.
+	- Backgrounds of stripcharts can now be set to user specified
+	  bitmaps with "*Bitmap" resources.
+	- Added op, wp, ep and fp options, which takes a program name as an
+	  argument.  When a graph enters state OK, WARN, ERROR or FATAL, the
+	  specified program is invoked.
+	- Added menus which allow the monitored statistic to be changed
+	  on the fly.
+
+Patchlevel 2
+	- Changed resource name of paned widgets to host name.
+	- Used actual time between rstat(3) calls instead of "update"
+	  interval for computing graph values.
+	- Rewrote functions that return graph values.
+	- Fixed divide by 0 errors in fcpu(), fsys() and fuser().
+	- Use RSTATVERS_TIME instead of RSTATVERS.
+
+Patchlevel 1
+	- Fixed memory leak.

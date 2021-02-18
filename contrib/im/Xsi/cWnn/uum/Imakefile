@@ -1,0 +1,95 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:32:10 ohm Exp $
+/**/#
+       UUMOWNER = root
+       INCLUDES = -I$(CWNNINCLUDESRC) -I$(CWNNROMKANSRC)
+        DEFINES = $(CWNNDEFINES) $(CWNNLANGDEF)
+   INSTPGMFLAGS = $(INSTUIDFLAGS) -o $(UUMOWNER)
+LOCAL_LIBRARIES = $(CWNNJLIB) $(CWNNCONVLIB)
+
+HDRS= buffer.h cvtcode.h sdefine.h sheader.h
+SRC1= epilogue.c header.c kensaku.c kuten.c jis_in.c \
+      prologue.c touroku.c jikouho.c jutil.c w_string.c \
+      printf.c termio.c hinsi.c termcap.c \
+      ttyfdslot.c setutmp.c redraw.c history.c key_bind.c \
+      screen.c basic_op.c uif.c cursor.c jhlp.c \
+      select_ele.c inspect.c wnnrc_op.c functions.c
+OBJ1= epilogue.o header.o kensaku.o kuten.o jis_in.o \
+      prologue.o touroku.o jikouho.o jutil.o w_string.o \
+      printf.o termio.o hinsi.o termcap.o \
+      ttyfdslot.o setutmp.o redraw.o history.o key_bind.o \
+      screen.o basic_op.o uif.o cursor.o jhlp.o \
+      select_ele.o inspect.o wnnrc_op.o functions.o
+SRC2= $(CWNNETCSRC)/strings.c
+OBJ2= strings.o
+SRC3= $(CWNNETCSRC)/sstrings.c
+OBJ3= sstrings.o
+SRC4= $(CWNNETCSRC)/bcopy.c
+OBJ4= bcopy.o
+SRC5= $(CWNNETCSRC)/xutoj.c
+OBJ5= xutoj.o
+SRC6= $(WNNETCSRC)/yincoding.c
+OBJ6= yincoding.o
+SRC7= $(WNNETCSRC)/py_table.c
+OBJ7= py_table.o
+SRC8= $(WNNETCSRC)/zy_table.c
+OBJ8= zy_table.o
+LOCAL_ETCSRCS= $(SRC2) $(SRC3) $(SRC4) $(SRC5) $(SRC6) $(SRC7) $(SRC8)
+LOCAL_ETCOBJS= $(OBJ2) $(OBJ3) $(OBJ4) $(OBJ5) $(OBJ6) $(OBJ7) $(OBJ8)
+SRCS= $(SRC1) $(LOCAL_ETCSRCS)
+OBJS= $(OBJ1) $(LOCAL_ETCOBJS)
+
+AllTarget(uum)
+SingleProgramTarget(uum,$(OBJS),$(LOCAL_LIBRARIES),$(WNNTERM_LIB))
+
+includes:: $(HDRS) $(SRC1)
+
+LinkSourceFile(buffer.h,$(WNNUUMSRC))
+LinkSourceFile(cvtcode.h,$(WNNUUMSRC))
+LinkSourceFile(sdefine.h,$(WNNUUMSRC))
+LinkSourceFile(sheader.h,$(WNNUUMSRC))
+LinkSourceFile(epilogue.c,$(WNNUUMSRC))
+LinkSourceFile(header.c,$(WNNUUMSRC))
+LinkSourceFile(kensaku.c,$(WNNUUMSRC))
+LinkSourceFile(kuten.c,$(WNNUUMSRC))
+LinkSourceFile(jis_in.c,$(WNNUUMSRC))
+LinkSourceFile(prologue.c,$(WNNUUMSRC))
+LinkSourceFile(touroku.c,$(WNNUUMSRC))
+LinkSourceFile(jikouho.c,$(WNNUUMSRC))
+LinkSourceFile(jutil.c,$(WNNUUMSRC))
+LinkSourceFile(w_string.c,$(WNNUUMSRC))
+LinkSourceFile(printf.c,$(WNNUUMSRC))
+LinkSourceFile(termio.c,$(WNNUUMSRC))
+LinkSourceFile(hinsi.c,$(WNNUUMSRC))
+LinkSourceFile(termcap.c,$(WNNUUMSRC))
+LinkSourceFile(ttyfdslot.c,$(WNNUUMSRC))
+LinkSourceFile(setutmp.c,$(WNNUUMSRC))
+LinkSourceFile(redraw.c,$(WNNUUMSRC))
+LinkSourceFile(history.c,$(WNNUUMSRC))
+LinkSourceFile(key_bind.c,$(WNNUUMSRC))
+LinkSourceFile(screen.c,$(WNNUUMSRC))
+LinkSourceFile(basic_op.c,$(WNNUUMSRC))
+LinkSourceFile(uif.c,$(WNNUUMSRC))
+LinkSourceFile(cursor.c,$(WNNUUMSRC))
+LinkSourceFile(jhlp.c,$(WNNUUMSRC))
+LinkSourceFile(select_ele.c,$(WNNUUMSRC))
+LinkSourceFile(inspect.c,$(WNNUUMSRC))
+LinkSourceFile(wnnrc_op.c,$(WNNUUMSRC))
+LinkSourceFile(functions.c,$(WNNUUMSRC))
+
+instclient:: install
+
+InstallProgram(uum,$(CWNNBINDIR))
+
+WnnSpecialObjectRule($(OBJ2),$(SRC2),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ3),$(SRC3),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ4),$(SRC4),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ5),$(SRC5),$(CWNNETCSRC),)
+WnnSpecialObjectRule($(OBJ6),$(SRC6),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ7),$(SRC7),$(WNNETCSRC),)
+WnnSpecialObjectRule($(OBJ8),$(SRC8),$(WNNETCSRC),)
+
+DependTarget()
+
+clean::
+	$(RM) $(HDRS) $(SRC1)

@@ -1,0 +1,22 @@
+#ifndef WcTopDir
+#define WcTopDir ..
+#endif
+
+#include "../Wc.tmpl"
+
+XCULIB = -lXcu
+
+SRCS    = Cri.c
+OBJS    = Cri.o
+APPDEFS = C01_Hello C02_Bmgr1 C03_Deck1 C04_shad C05_bmgr C06_bwmenu C07_manip
+
+      INCLUDES  = -I$(TOP) $(X11INC)
+LOCAL_LIBRARIES = $(SHRLIBDIR) $(XCPLIB) $(WCLIB) $(XCULIB)
+                  $(X11LIBDIR) $(XMULIB) $(XTOOLLIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+
+
+ComplexProgramTarget(Cri)
+
+MakeDirectories(install,$(INSTAPP)/cri)
+InstallMultipleFlags($(APPDEFS),$(INSTAPP)/cri,$(INSTAPPFLAGS))

@@ -1,0 +1,22 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+RASTERS = car.raster \
+	christy.raster \
+	cube.raster \
+	doug.raster \
+	dragon.raster \
+	face.raster \
+	flag.raster \
+	fred.raster \
+	horse.raster \
+	itclogo.raster \
+	rtfm.raster \
+	tree.raster
+
+MkdirTarget($(DESTDIR)/lib/rasters)
+
+InstallMultiple($(RASTERS), $(INSTINCFLAGS), $(DESTDIR)/lib/rasters)
+

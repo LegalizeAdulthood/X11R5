@@ -1,0 +1,34 @@
+   DPS_INCLUDES = ../../include
+ EXTRA_INCLUDES = -I$(DPS_INCLUDES)
+        DPS_LIB = ../../lib/dps/libdps.a
+      DPSTK_LIB = ../../lib/dpstk/libdpstk.a
+      PSRES_LIB = ../../lib/psres/libpsres.a
+LOCAL_LIBRARIES = $(DPSTK_LIB) $(PSRES_LIB) $(XMLIB) $(XTOOLLIB) $(DPS_LIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+         PSWRAP = ../../clients/pswrap/pswrap
+
+SRCS = colorwraps.psw drawwraps.psw fontwraps.psw stdwraps.psw \
+       textwraps.psw colormgr.c draw.c drawsupport.c \
+       stdobjects.c textmgr.c textobject.c
+
+OBJS = colorwraps.o drawwraps.o fontwraps.o stdwraps.o \
+       textwraps.o colormgr.o draw.o drawsupport.o \
+       stdobjects.o textmgr.o textobject.o
+
+DERIVED_FILES = colorwraps.h colorwraps.c drawwraps.h drawwraps.c \
+                fontwraps.h fontwraps.c stdwraps.h stdwraps.c \
+                textwraps.h textwraps.c
+
+.SUFFIXES: .psw
+
+.psw.o :
+	$(PSWRAP) -o $*.c -h $*.h $<
+	$(CC) -c $(CFLAGS) $*.c
+	$(RM) $*.c
+
+ComplexProgramTarget(draw)
+
+InstallAppDefaults(Draw)
+
+clean ::
+	$(RM) $(DERIVED_FILES)

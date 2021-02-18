@@ -1,0 +1,75 @@
+!###############################################################################
+!
+! File:         Winterp.ad
+! RCS:          $Header: Winterp.ad,v 1.2 91/10/02 22:40:42 mayer Exp $
+! Description:  Winterp application defaults file -- install in 
+!		/usr/lib/X11/app-defaults/Winterp
+! Author:       Niels Mayer, HPLabs
+! Created:      Thu Mar  7 08:00:52 1991
+! Modified:     
+! Language:     N/A
+! Package:      N/A
+! Status:       X11r5 contrib tape release
+!
+! WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+! XLISP version 2.1, Copyright (c) 1989, by David Betz.
+!
+! Permission to use, copy, modify, distribute, and sell this software and its
+! documentation for any purpose is hereby granted without fee, provided that
+! the above copyright notice appear in all copies and that both that
+! copyright notice and this permission notice appear in supporting
+! documentation, and that the name of Hewlett-Packard and David Betz not be
+! used in advertising or publicity pertaining to distribution of the software
+! without specific, written prior permission.  Hewlett-Packard and David Betz
+! make no representations about the suitability of this software for any
+! purpose. It is provided "as is" without express or implied warranty.
+!
+! HEWLETT-PACKARD AND DAVID BETZ DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+! SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
+! IN NO EVENT SHALL HEWLETT-PACKARD NOR DAVID BETZ BE LIABLE FOR ANY SPECIAL,
+! INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+! LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+! OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+! PERFORMANCE OF THIS SOFTWARE.
+!
+! See ./winterp/COPYRIGHT for information on contacting the authors.
+!
+! Please send modifications, improvements and bugfixes to mayer@hplabs.hp.com
+! Post XLISP-specific questions/information to the newsgroup comp.lang.lisp.x
+!###############################################################################
+
+! NOTE: the resources specified in this file are all commented out with
+! the '!' character. The value specified is the default value as set in
+! ./src-server/config.h
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Winterp application resources.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Winterp.lispInitFile: initialize.lsp
+! Winterp.lispTranscriptFile: 
+! Winterp.lispLibDir: ./
+! Winterp.enableXtErrorBreak: true
+! Winterp.enableXtWarningBreak: false
+! Winterp.enableXErrorBreak: true
+! Winterp.enableInitMsgs: true
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Resources pertaining to WINTERP's Unix Domain Socket xlisp eval server.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Winterp.enableUnixServer: true
+! Winterp.unixSocketFilepath: /tmp/.winterp_serv
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Resources pertaining to the TCP/IP eval server. Note that by default
+! WINTERP does not compile with the TCP/IP eval server code defined. In
+! order to allow for a TCP/IP server socket, you should uncomment the line
+! /* #define WINTERP_WANT_INET_SERVER */ in file winterp/src-server/config.h
+! and recompile. You will also have to set resource "enableInetServer"
+! to "true".
+!
+! Note that the TCP/IP eval server is a security hole -- that is
+! why it is disabled by default.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+! Winterp.enableInetServer: false
+! Winterp.servicePort: 23751
+! Winterp.serviceName: widget_interp

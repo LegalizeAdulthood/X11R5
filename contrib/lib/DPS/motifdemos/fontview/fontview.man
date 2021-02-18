@@ -1,0 +1,45 @@
+.TH fontview 1 "2 October 1991" "Adobe Systems"
+.SH NAME
+fontview \- Display PostScript font viewer
+.SH SYNTAX
+fontview [toolkit options] [-debug]
+.SH DESCRIPTION
+.PN Fview
+allows the user to view all of the available fonts on a given X/DPS
+server.  If the X server specified, does not support the Display
+PostScript extension, a message will be printed and the program will
+exit.  
+
+After starting up, a font panel will be visible on the left side of the
+window.  Selection is made by choosing the font in the top scroll box
+and the size in the selector box (or text box) immediately below.
+
+Fview has several demos which may change without notice.  The current
+implementation has six:  Character Set, Quotation, Text Wheel, Outline
+Text, Slanted Text, and a text Fountain.  Character Set and Quotation
+output predefined
+text, while Text Wheel, Outline Text, Slanted Text, and Fountain
+prompt the user
+for input.
+
+After executing a demo, the demo "page" scrolls up the proper amount to
+accomidate it.  A scrollbar (at right) may be used to examine text which
+has scrolled off of the screen.  If a new demo is executed, the scrollbar
+will move back to the bottom of the window to view the new output.
+
+.SH DIAGNOSTICS
+Usage of the -debug option will open up a text context on stdout.  All
+PostScript sent to the X/DPS extension will be displayed on the screen
+as well.
+
+.SH BUGS
+Slanted Text and Outline Text shoud be modifiers rather than demos themselves.
+
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+PostScript and Display PostScript are registered trademarks of Adobe Systems
+Incorporated.
+.PP
+Copyright (c) 1990-1991 Adobe Systems Incorporated.  All rights reserved.
+

@@ -1,0 +1,30 @@
+The trivial examples in this directory illustrate the important aspects
+of the Widget Layout Description Language, WLDL.
+
+Each file, ex1.wl, ex2.wl, ex3.wl, and ex4.wl, has instructive comments.
+
+Ex2.wl is formed by adding a few lines to ex1.wl, etc.
+
+To see the results, merely run the compiled versions through the provided
+"xlayout" previewer, as follows (interrupt to exit):
+
+	xlayout ex1
+	xlayout ex2
+	xlayout ex3
+	xlayout ex4
+
+If you prefer shadows to picture frames, edit the file "default_resources",
+so that the shadow resource is "True" instead of "False", then recompile
+each example.  (Recompile as in the lines above, replacing "xlayout" by "wlc".)
+
+The four elements of the WLDL are:
+
+	1) Widget Hierarchy
+	2) Resource Specification
+	3) Default Resource Specification
+	4) Directives
+
+Widget Hierarchy and Resource specification are introduced in ex1.
+Default Resource specification is introduced in ex2.
+(Ex3 is a transition example containing a couple more widgets.)
+Directives are introduced in ex4.

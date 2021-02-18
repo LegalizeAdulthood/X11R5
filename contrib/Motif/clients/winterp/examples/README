@@ -1,0 +1,334 @@
+; WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+; XLISP version 2.1, Copyright (c) 1989, by David Betz.
+;
+; Permission to use, copy, modify, distribute, and sell this software and its
+; documentation for any purpose is hereby granted without fee, provided that
+; the above copyright notice appear in all copies and that both that
+; copyright notice and this permission notice appear in supporting
+; documentation, and that the name of Hewlett-Packard and Niels Mayer not be
+; used in advertising or publicity pertaining to distribution of the software
+; without specific, written prior permission.  Hewlett-Packard and Niels Mayer
+; makes no representations about the suitability of this software for any
+; purpose.  It is provided "as is" without express or implied warranty.
+
+The WINTERP examples directory contains example Winterp-Lisp code. Some of
+the files in this directory are complete applications, some are just test
+code, and some are "random" winterp-lisp forms that I ended up typing in
+the process of experimenting with Motif using WINTERP,
+
+==============================================================================
+
+Applications & Utilities:
+------------------------
+
+* bitmap-br.lsp: loading this file defines function BROWSE-BITMAP-DIRECTORY.
+	Given a directory containing only X bitmap files, calling
+	function (BROWSE-BITMAP-DIRECTORY <bitmap_directory_path>)
+	will create a browser of the bitmaps in directory
+	<bitmap_directory_path>. Clicking on the bitmap image in the 
+	browser will set your root window background to the specified
+	bitmap.
+
+* bitmap-br2.lsp: Similar to bitmap-br.lsp, except that simply loading this
+	file will bring up a browser of the bitmaps in directory
+	/usr/include/X11/bitmaps/*. Unlike bitmap-br.lsp, this file
+	contains comments on what is happening in this simple application..
+
+* calculator.lsp: A simple calculator. The layout on this example leaves
+	much to be desired. Shows a use of widget subclassing.
+	Just load this file to bring up application.
+
+* colorsetr.lsp: each time you load this file, it will bring up a window
+	containing a single slider for red, green, and blue colors. 
+	You can use the sliders to create a colors, then
+	click the button "Set Color On Selected Widget", followed by
+	clicking on the widget whose color you want to set. 
+	Once the color on a widget has been set, you may move the sliders
+	to change that color value without having to reselect the widget.
+	By bringing up multiple instances of the colorsetr.lsp application
+	you can set multiple color planes in other winterp widgets...
+	Note that this uses XM_GET_COLORS to generate top/bottom/shadow
+	colors based on the background color you've dialed in. Unless you
+	have a lot of planes on your display, this can cause you to run out
+	of colors quickly. Note that this works only on Motif 1.1.
+
+* fake-app.lsp: Example application using XM_MAIN_WINDOW_WIDGET_CLASS +
+	XM_ROW_COLUMN_WIDGET_CLASS/:simple_menu_bar +
+	XM_ROW_COLUMN_WIDGET_CLASS/:simple_pulldown_menu
+	to create a window with a menubar and pulldowns, etc. Just load this
+	file to see the application. Note that this works on Motif 1.1 only.
+
+* graphcalc.lsp: A calculator with "direct manipulation" graphic display of
+	previous results (a sort of graphical spreadsheet, perhaps). 
+	Users may also enter expressions in infix notation and these will
+	be displayed with disambiguation provided by precedence rules. To
+	run the calculator, just load this file.  NOTE: this file requires
+	version of WINTERP extended for HP's XmGraph widget (Motif 1.0
+	only) which allows you to lay out other Motif widgets in an
+	arbitrary directed graph with widgets connected by XmArg "gadgets".
+	Since most of you don't have the HP XmGraph widget, this
+	application is not very useful for you. However, this may serve as
+	an interesting example of the use/abuse of subclassed Motif widgets.
+	[graphcalc-options.lsp and graphcalc-options.lsp are application
+	options	that may be loaded separately from graphcalc.lsp.
+
+* grep-br.lsp: A file-search browser application that uses the unix
+	grep(1) program to search through files. Type the 
+	string or regular expression for searching into the XmText widget
+	labeled "Search for string"; type the set of wildcarded set of
+	files into the XmText widget labeled "From Files". After clicking
+	on the "DO SEARCH" push-button. The matching lines output by grep
+	will appear in the XmList widget. Double clicking on a line in the 
+	XmList widget will display the file in the XmText view-area widget,
+	with the matching line at the top of the widget. In addition to
+	being a useful, yet simple, application, grep-br.lsp is also a
+	good example of subclassing Motif widgets inside WINTERP.
+
+* helloworld.lsp: 10 lines of Winterp-Lisp code is all that is needed
+	to produce the canonical "Hello World" program in WINTERP.
+
+* identifier.lsp: A useful UI debugging tool. Loading this file creates a
+	panel that allows you to click on a widget to identify it, click on
+	a widget to destroy it, or change the foreground and background
+	colors of the widget you click on. For Motif 1.1, the "Identify
+	Selected Widget" button becomes especially useful because it will
+	print out the widget's fully qualified resource name -- this allows
+	setting	up your X-resources on a per widget basis and allows you to
+	better understand which widgets are affected by a particular
+	setting in your ~/.Xdefaults...
+
+* mail-br.lsp: Load this file to create a simple mail browser. 
+	This creates a browser of the last 30 MH messages in your
+	MH folder +inbox. This assumes that (1) you have MH, (2) you have
+	folder +inbox, (3) "scan" is on your $PATH. (4) various other
+	things I forgot...
+
+* man-br.lsp: Load this file to create a simple manual page browser for
+	looking at formatted manual pages installed in
+	/usr/local/man/cat3/*.3X. I use this application to browse my Motif
+	manual pages, which are kept in that directory. To start WINTERP up
+	running man-br as a standalone application, do:
+	"winterp -init_file <path>/man-br.lsp -no_unix_server -no_init_msgs &"
+	where "<path>/man-br.lsp" is the full path to this file.
+		Assumptions:
+			(1) You have formatted manual pages for Motif
+			    in /usr/local/man/cat3/*.3X.
+			(2) $PAGER environment variable is set to a paging
+			    program such as "less" or "more".
+			(3) xterm(1) program is on your $PATH.
+		Hints:
+			The names of the Motif manual pages displayed in
+			the file-selection-box browser will be more
+			intuitive if you convert the manual page names to
+			long-filenames -- for details, see the
+			doc/build.doc script supplied with Motif 1.1.
+			(Within HP, you may pick up the longfilename
+			formatted manpages via anonymous ftp from
+			hplnpm.hpl.hp.com, directory pub,
+			file OSFMotif1.1.1-man-output.tar.Z)
+
+* w_ctrlpnl.lsp: Loading this file creates a control panel for WINTERP,
+	including a rudimentary way to edit and send lisp to winterp's
+	xlisp evaluator without having to use the gnuemacs interface
+	(src-client/winterp.el) or src-client/wl.c. The following
+	user-interface actions are provided:
+		** Double-Click file in file-selection-box puts file into
+		   XmText widget for editing or viewing.
+		** "Edit($EDITOR)": the selected file gets edited by the
+		   editor set in environment variable $EDITOR. You may
+		   override $EDITOR by setting Winterp-variable
+		   *SYSTEM-EDITOR*.
+		** "Load File": loads the selected file into WINTERP.
+		** "Save File": this is a No-Op for now.
+		** "Eval @ Point": evaluates the Winterp-Lisp expression
+		   you've typed into the control-panel's XmText editor.
+		   The cursor (point) must be WITHIN the expression's
+		   parentheses in order for it to get evaluated. The
+		   evaluated expression is highlighted in the XmText editor.
+		   (This needs some fixing; If the cursor isn't at the
+		   right place, you'll get an "error: index out of range".)
+		** <- (left arrow): moves to front of the current
+		   Lisp expression. Note that this function doesn't
+		   quite work right (generates "error: index out of range"
+		   if the cursor isn't at the right place).
+		** -> (right arrow): moves to end of the current
+		   Lisp expression. Note that this function doesn't
+		   quite work right (generates "error: index out of range"
+		   if the cursor isn't at the right place).
+		** Debug (toggle): turns on/off entry into XLISP's
+		   debugger when an error is signalled. For more
+		   info, see XLISP variable *breakenable* in
+		   ./../doc/xlisp.doc.
+		** Trace (toggle): turns on/off printing of XLISP
+		   backtrace when an error occurs and debugging is enabled.
+		   For more info, see XLISP variable *tracenable* in
+		   ./../doc/xlisp.doc.
+		** GC Msgs (toggle): turns on/off printing of messages
+		   when a garbage collection occurs. For more info, see
+		   XLISP variable *gc-flag* in ./../doc/xlisp.doc.
+		** Err-Cont: Invokes XLISP's '(continue)', which will
+		   allow you to continue from a "continuable error"
+		   if Debug is On.
+		** Err-^Level: Invokes XLISP's '(clean-up)', which will
+		   clean up from the current error, and pop you up one
+		   level in the debugger's error stack.
+		** Err-~Level: Invokes XLISP's '(top-level)', which will
+		   clean up from the current error, and pop you back to
+		   the top-level read/eval/print loop.
+
+==============================================================================
+
+"Libraries:"
+-----------
+
+* initialize.lsp: this file contains various XLISP definitions that are
+	essential for proper lisp usage. This file also contains various
+	personal customizations for WINTERP. You should do the following:
+	(1) copy this file to <homedir>/.winterp
+	(2) set resource "Winterp.lispInitFile: <homedir>/.winterp"
+	(3) Customize sections commented out at the end of this file.
+		* Uncomment "LOAD" statements
+		* Add XLISP globals that one wants customized.
+		* Load any other personal macros, etc.
+
+* prov-req.lsp: a simple attempt at Common Lisp's provide/require
+	functionality. Note that this uses the X11r4 routine
+	XT_RESOLVE_PATHNAME (XtResolvePathname()), therefore you can only
+	use this w/ Motif 1.1. Use this library if you need a way of 
+	loading Winterp-Lisp files along a specified "search path".
+	See documentation in file for details.
+
+==============================================================================
+
+WINTERP/Motif Tests & Examples:
+------------------------------
+
+* Command.lsp: demonstrate XM_COMMAND_WIDGET_CLASS methods and callbacks.
+	Just load this file to see widget.
+
+* FileSB.lsp: demonstrate XM_FILE_SELECTION_BOX_WIDGET_CLASS methods and
+	callbacks. Just load this file to see widget.
+
+* Form1.lsp: demonstrate simple use of XM_FORM_WIDGET_CLASS. 
+	This example is the same as formtest.c on p 88 of Doug Young's
+	Motif book. Just load this file to see example.
+
+* Form2.lsp: demonstrate use of XM_FORM_WIDGET_CLASS using
+	:xmn_top_position and :xmn_bottom_position constraints. This is
+	similar to formtest.c on p 91-92 of Doug Young's Motif book.
+	Just load this file to see example.
+	
+* Form3.lsp: demonstrate more complicated use of XM_FORM_WIDGET_CLASS to
+	lay out a panel for our multimedia controller. Just load this file
+	to see example.
+
+* List.lsp: demonstrate XM_LIST_WIDGET_CLASS methods and callbacks. Shows
+	off different selection modes available, and callback support
+	for the different modes. Just load this file to see example.
+
+* RowColumn.lsp: demonstrate usage of Motif 1.1's XmCreateSimple*()
+	routines, namely XM_ROW_COLUMN_WIDGET_CLASS/:simple_radio_box
+	XM_ROW_COLUMN_WIDGET_CLASS/:simple_check_box
+	XM_ROW_COLUMN_WIDGET_CLASS/:simple_option_menu.
+	Just load this file to see examples. Note that 
+	XM_ROW_COLUMN_WIDGET_CLASS/:simple_option_menu invokes Motif 1.1's
+	popup-menu bug (see ./../doc/BUGS for details).
+
+* SHELL.lsp: tests out the following classes and methods on those classes
+	OVERRIDE_SHELL_WIDGET_CLASS, TRANSIENT_SHELL_WIDGET_CLASS,
+	TOP_LEVEL_SHELL_WIDGET_CLASS, APPLICATION_SHELL_WIDGET_CLASS,
+	TOP_LEVEL_POPUP_SHELL_WIDGET_CLASS,
+	APPLICATION_POPUP_SHELL_WIDGET_CLASS,
+	OVERRIDE_POPUP_SHELL_WIDGET_CLASS,
+	TRANSIENT_POPUP_SHELL_WIDGET_CLASS,
+	XM_DIALOG_POPUP_SHELL_WIDGET_CLASS. Just load this file to see
+	examples.
+
+* Scale.lsp: shows use of XM_SCALE_WIDGET_CLASS. Just load this file to see
+	example.
+
+* SelectioB.lsp: tests XM_SELECTION_BOX_WIDGET_CLASS methods and callbacks.
+	Just load this file to see examples.
+
+* Text.lsp: tests XM_TEXT_WIDGET_CLASS methods and callbacks. Also
+	demonstrates use of :CALL_ACTION_PROC to invoke a widget action
+	procedure programmatically. Just load this file to see examples.
+
+* accel.lsp: Example of Xtoolkit accelerator usage via
+	method :INSTALL_ALL_ACCELERATORS. Load this file, and type letters
+	[a-z] into any pushbutton widget. each pushbutton widget
+	has a single accelerator, one of key [a-z]. Accelerators for
+	all other pushbuttons get installed onto each pushbutton... The
+	accelerator arms the pushbutton, and the pushbutton's arm
+	callback enters the typed character into the text widget.
+
+* callbacks.lsp: Demonstrates using callbacks and timeouts. Just
+	load this file and click on the "start" or "stop" button...
+
+* dialogshel.lsp: Demonstrates WINTERP's dialog shells, and what happens
+	when you manage/unmanage them. You may either load this file in
+	it's entirety, or interactively evaluate individual forms using
+	gnu-emacs or w_ctrlpnl.lsp.
+
+* getvalues.lsp: a random test to see whether the code
+	in winterp/src-server/w_resources.c has any machine dependencies.
+	Load this file, and if your stdout beeps and you see messages
+	about "failed: ..." then please send the output to
+	mayer@hplabs.hp.com. NOTE: the actual graphical result of loading
+	this file is not pretty. In fact, it's not supposed to be pretty....
+
+* hostlookup.lsp: A stupid example using X_REFRESH_DISPLAY to popup
+	and display contents of a "working dialog" before a time-consuming
+	subprocess begins to execute. Note that X_REFRESH_DISPLAY is only
+	defined on HPUX WINTERPs. You may be able to get this working for
+	your machine as well...	see
+	src-server/w_utils.c:Wut_Prim_X_REFRESH_DISPLAY() and
+	src-server/utils.c for details....
+	
+* interact.lsp: This file is not meant to be loaded. Rather, you should
+	interactively evaluate forms within the file while inside the
+	gnu-emacs editor. Basically, this file demos playing around with
+	some of WINTERP's interactive features using the GET_MOUSED_WIDGET
+	primitive.
+
+* mng-test.lsp: this file tests out managing and unmanaging widget
+	arrays/lists. It is best used by interactively evaluating 
+	individual expressions (via the gnu-emacs interface), rather than
+	loading the entire file.
+
+* pixmaps.lsp: Play around with pixmaps. These are just random individual
+	forms I eval'd to play around and test pixmaps, pixmap garbage
+	collection, image cacheing, etc. Many of the pixmaps mentioned in
+	this file do not exist on your machine. Also, this file assumes
+	that you've already loaded rc-shell.lsp.
+
+* popen.lsp: examples of playing around with POPEN to collect data
+	from UNIX.
+
+* popup-menu.lsp: POPUP menu example. This is a 1-to-1 translation of the
+	popup menu example in the Motif Programmer's Guide. Just 'load'
+	this file to see the example. Note that for Motif 1.1, this example
+	invokes window-manager "close" bug.  See ./../doc/BUGS for details.
+
+* radiobox1.lsp: a straightforward example for creating a radio box. See
+	radiobox2.lsp for a better way using a WINTERP-subclassed
+	toggle-button. Just load this file to see the example.
+
+* radiobox2.lsp: A better (?) way of creating a radio box, using
+	subclassing of togglebutton. Note that this version doesn't waste
+	as much memory as radiobox1.lsp because it defines a single
+	entry-callback on the rowcolumn widget instead of forcing each
+	toggle-button to have separate copies of very similar
+	callback-closures.  Just load this file to see the example.
+
+* rc-shell.lsp: Load this file to put up a shell containing a row-column
+	manager. I use this as an experimentation area for playing around
+	with individual widgets.
+
+* scooter.lsp: a silly example that scoots (moves) windows around the
+	screen while changing their colors. This can really tie up your
+	X server and window manager, so be careful...
+
+* trans.lsp: Tests of Xt translation, accelerator facilities. Also test
+	winterp's "Lisp()" action, which allows you to call the lisp
+	evaluator from a translation/accelerator table.

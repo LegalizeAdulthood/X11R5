@@ -1,0 +1,192 @@
+!----------------------------------------------------------------------
+! 
+! This demos is intended to show something about every single
+! Athena widget.  At least one of each is instantiated.  This
+!  example is derived from xwidgets.c in X11R4/examples/Xaw
+!  
+! Note that we do not bind the destroy callback to the application
+! shell.  This is because the Wc converters are not registered yet
+! when the application shell is created by XtInitialize.  We get
+! functionally identical results by binding the destroyCallback of
+! the application shell's only child.
+! 
+! There is nothing which prevents the Wc converters from being
+! registered early, except that most programmers would rather take
+! advantage of XtInitialize() rather than programming an equivalent
+! sequence of Xt... calls themselves.
+! 
+!----------------------------------------------------------------------
+
+*input:                  True
+
+App.wcChildren:		paned
+App.title:		App using App1.All
+
+App*label.destroyCallback: MyDestroyedCB(Gone)
+App.paned.quit.destroyCallback: MyDestroyedCB()
+App.paned.dialog.destroyCallback: MyDestroyedCB
+!
+! Most of the widgets are children of the paned window.
+!
+
+*paned.wcClass:		panedWidgetClass
+*paned.wcChildren:	quit, label, dialog, viewport, form, \
+			box, stripChart, text, box2, textFile
+*Paned.width:           350
+
+*quit.wcClass:		commandWidgetClass
+*quit.callback:		MyQuitCB( App )
+*quit.font:		-*-courier-bold-r-*-240-*
+
+*label.wcClass:		labelWidgetClass
+*label.label:           At least one of each Athena Widget.
+*label.font:		*lucida-bold-i-*-240-*
+
+!
+! A Dialog with an Ok button which changes the list
+! contents when pressed via the MyOkayCB() callback.
+!
+
+*dialog.wcClass:	dialogWidgetClass
+*dialog.wcChildren:	command
+*Dialog*Font:		*times-bold-i-*-180-*
+*Dialog.label:          I am a Dialog widget.
+*Dialog.label.font:	*new century schoolbook-bold-r-*-180-*
+*Dialog.value:          Enter new value here.
+*Dialog*resizable:      True
+
+*Dialog.command.wcClass:	commandWidgetClass
+*Dialog*command*label:		ok
+*Dialog*command*callback:	MyOkayCB( *list )
+
+!
+! A Viewport with a List child
+!
+!
+*viewport.wcClass:	viewportWidgetClass
+*viewport.wcChildren:	list
+*Viewport*allowVert:	True
+
+*list.wcClass:		listWidgetClass
+*list*Font:		*new century schoolbook-bold-i-*-140-*
+
+!
+! Create a Form with Buttons Including a MenuButton with Menu
+!
+
+!*form*wcTrace:		True
+
+*form.wcClass:		formWidgetClass
+*form.wcChildren:	formLabel, command, toggle, menuButton, menu
+*Form*resizable:	True
+*form*Font:		*lucidabright-demibold-*-180-*
+
+*form.formLabel.wcClass:	labelWidgetClass
+*form.formLabel.wcPopups:	popup1, popup2, popup3
+*Form*formLabel.label:		popup menus here
+*formLabel.translations: \
+	<Btn1Down>:	XawPositionSimpleMenu(popup1) MenuPopup(popup1)	\n\
+	<Btn2Down>:	XawPositionSimpleMenu(popup2) MenuPopup(popup2)	\n\
+	<Btn3Down>:	XawPositionSimpleMenu(popup3) MenuPopup(popup3)
+
+*popup1.wcClassName:     SimpleMenu
+*popup1.wcChildren:      menulabel, foo, bar, glorp, nerp
+*popup2.wcClassName:     SimpleMenu
+*popup2.wcChildren:      menulabel, foo, bar, glorp, nerp
+*popup3.wcClassName:     SimpleMenu
+*popup3.wcChildren:      menulabel, foo, bar, glorp, nerp
+
+*menulabel.wcClassName:	SmeBSB
+*popup1.menulabel.label:	popup1
+*popup2.menulabel.label:	popup2
+*popup3.menulabel.label:	popup3
+*foo.wcClassName:       SmeBSB
+*bar.wcClassName:       SmeBSB
+*glorp.wcClassName:     SmeBSB
+*nerp.wcClassName:      SmeBSB
+
+*form.command.wcClass:		commandWidgetClass
+*form.command.fromHoriz:	*formLabel
+*form.command.callback:		MyCountCB( *formLabel )
+
+*form.toggle.wcClass:		toggleWidgetClass
+*form.toggle.fromHoriz:		*form.command
+*form.toggle.callback:		MyCountCB( *formLabel )
+
+*form.menuButton.wcClass:	menuButtonWidgetClass
+*form.menuButton.fromHoriz:	*form.toggle
+
+*menu.wcClass:			simpleMenuWidgetClass
+*menu.wcManaged:		False
+*menu.wcChildren:		menuEntry1, menuEntry2, menuLine, \
+				menuEntry3, menuEntry4, menuEntry5
+
+*menuEntry1.wcClass:	smeBSBObjectClass
+*menuEntry2.wcClass:	smeBSBObjectClass
+*menuEntry3.wcClass:	smeBSBObjectClass
+*menuEntry4.wcClass:	smeBSBObjectClass
+*menuEntry5.wcClass:	smeBSBObjectClass
+*menuLine.wcClass:	smeLineObjectClass
+
+!
+! Create a box with a clock and a logo.
+!
+
+*Box*allowResize:        True
+*box.wcClass:		boxWidgetClass
+*box.wcChildren:	clock, logo
+
+*clock.wcClass:		clockWidgetClass
+*logo.wcClass:		logoWidgetClass
+
+!
+! Create a Box widget with a label and a scrollbar.
+!
+
+*box2.wcClass:		boxWidgetClass
+*box2.wcChildren:	scrollbar, scroll_label
+
+*scrollbar.wcClass:	scrollbarWidgetClass
+*scrollbar.jumpProc:	MyThumbedCB(*scroll_label)
+*scrollbar.scrollProc:	MyScrolledCB(*scroll_label)
+*scrollbar*orientation:  horizontal
+*scrollbar*length:       100
+
+*scroll_label.wcClass:	labelWidgetClass
+*scroll_label.Font:	*-charter-bold-i-*-180-*
+
+!
+! Create a strip chart  Note that we
+! need to exit, not destroy, with SriptCharts,
+! because there is a bug in StripChart`DestroyGC.
+!
+
+*stripChart.wcClass:	stripChartWidgetClass
+*stripChart.getValue:	MyTimeSinceTouchedCB
+*StripChart*update:      1
+*StripChart*jumpScroll:  1
+*StripChart.destroyCallback: WcExitCB
+
+!
+! Text widget
+!
+
+*text.wcClass:		asciiTextWidgetClass
+*text*height:            75
+*text*string:            Look ma, a text widget!
+*text*editType:          edit
+*text*scrollVertical:    whenNeeded
+*text*scrollHorizonal:   whenNeeded
+*text*Font:		 *-lucidatypewriter-bold-r-*-190-*
+
+!
+! Text widget tied to a file
+!
+
+*textFile.wcClass:	asciiTextWidgetClass
+*textFile*type:          file
+*textFile*string:        /etc/motd
+*textFile*scrollVertical:    whenNeeded
+*textFile*scrollHorizonal:   whenNeeded
+*textFile*height:        75
+*textFile*Font:          *clean-medium-r-*-150-*

@@ -1,0 +1,10 @@
+;;; -*-Scheme-*-
+;;;
+;;; Replaces file xwidgets when the Motif widgets are to be used
+
+(provide 'motif)
+
+(require 'xwidgets)
+
+(set! widget-load-path '(xm))
+(set! load-always '(support))

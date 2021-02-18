@@ -1,0 +1,186 @@
+Widget Creation Functions
+-------------------------
+
+The widget creation Library provides several types of functions
+which are called by client applictions:
+
+	1.	Registration Functions
+	2.	Creation Functions
+	3.	Callback Argument Parsing Utilities
+
+Two include files are provided which declare the functions and
+supporting data types used by the Widget Creation Library.  Many
+applications should only need to include WcCreate.h which
+contains what can be considered "public" function declarations.
+
+If you are writing additional resource converters, or sophisticated
+callbacks, you will probably want to include WcCreateP.h which contains
+what can be considered "private" function declarations as well as
+typedefs for several datatypes used by the Widget Creation Library.
+
+Widget Set Registration Functions
+---------------------------------
+
+For each widget set, Wcl provides a widget-set registration function:
+
+   AriRegisterAll(app)  registers Athena widget set
+   MriRegisterAll(app)  registesr Motif  widget set
+   OriRegisterAll(app)  registers Open Look widget set
+   CriRegisterAll(app)  registers Cornell University widget set
+
+In addition to widget class and constructor registration, functions
+above also register necessary callbacks and other support functions.
+Conditionally, they also register the very usefull table widget.
+
+
+WcWidgetCreation() - see WcCreate.c
+------------------
+
+This function takes a Widget as its only argument.  A widget tree
+rooted at the widget is created from the Xrm database.  This widget
+is called the root widget in this discussion, but it can really be any
+widget. WcWidgetCreation returns 1 if the widget creation failed.
+
+The Xrm database is usually loaded as a matter of course by calling
+XtInitialize().  It is possible to load the resource database directly,
+using XrmGetFileDatabase() and XrmMergeDatabases().  See the function
+WcLoadResourceFileCB in the file WcCallb.c for an example.
+
+The algorithm used by WcWidgetCreation is recursive, as follows:
+
+    1.  Fetch the wcChildren resource from Xrm database for the
+        initial widget.  This will be a list of widget names.
+
+    2.  For each child:
+
+    3.  Fetch the set of Wc resources.
+
+    3a. If wcResFile is specified, load that resource file and
+        fetch the Wc resources again.
+
+    3b. Using the wcClass, wcClassName, wcConstructor or WcTemplate
+        resource, create the new child widget.  Widget creation uses 
+        resources defined in the Xrm database specific to the type
+        of the widget, such as labelString for XmLabels.
+
+    3c. If wcCallback resource is defined (specifying a list of
+        callback functions), invoke each callback in order.
+
+    3d. If wcTrace is True, then dump the name of the just created
+        widget to stdout.
+
+    3e. If wcManaged is True (the default), then this widget will be
+        managed along with all of its siblings, after they are all
+        created (a single call to XtManageChildren is invoked by Wc).
+
+    3f. If the newly created widget has wcChildren specified, then
+        recursively invoke step (2.) above.  Note that this
+        implements a depth first creation policy, which is generally
+        optimal for widget trees with manager widget nodes.
+
+Note that WcWidgetCreation() does a depth first creation, and that
+the order of creation is controlled by the order of the names in the
+wcChildren resource.
+
+Earlier versions of Wc required bizarre contortions when using
+constructors in order to avoid toolkit warnings such as:
+
+    Xt Warning: not all widgets have same parent in XtManageChildren()
+
+You don't need to worry about this anymore - this behavior was
+considered a `bug' not a `feature' and therefore has been fixed.
+
+
+WcCreateNamedPopups()
+WcCreateNamedChildren() - see WcCreate.c
+----------------------
+
+These functions create named children of a reference widget by invoking
+the same algorithm as WcWidgetCreation, except that only the specifically
+named children are created, rather than all the children.
+
+Registration Functions - see WcReg.c
+----------------------
+
+The Widget Creation Library converts strings in the database, such as
+"XmCreateFileSelectionBox", into its needed types, such as constructors,
+using Xt converters.  These converters intrinsicly know nothing: they
+must be told what each string maps into.  The converters learn about
+the appropriate mappings via the registration functions:
+
+    WcRegisterCallback()
+    WcRegisterClassPtr()
+    WcRegisterClassName()
+    WcRegisterConstructor()
+    WcRegisterAction()
+
+By default, these registration routines ignore attempts to re-register
+a string-to-whatever mapping.  This is generally useful, in that it
+helps to catch duplicate and therefore unneeded invocations of the
+registration routines.
+
+In some clients, there exists the need to override such registrations.
+For example, interface builders built using the Widget Creation Library
+and a C interpreter or a dynamic linking environment may allow a given
+callback name to refer to different functions as the application
+evolves.  The following functions are provided to support these cases:
+
+    WcAllowDuplicateRegistration()
+    WcAllowDuplicateCallbackReg()
+    WcAllowDuplicateClassPtrReg()
+    WcAllowDuplicateClassNameReg()
+    WcAllowDuplicateConstructorReg()
+
+An interface builder will probably call WcAllowDuplicateRegistration()
+before any callbacks, classes, et al are registered.  It may also be
+appropriate to first register all standard callbacks and widgets, and
+then call WcAllowDuplicateRegistration().
+
+WcRegisterCallback() - see WcReg.c
+--------------------
+
+Probably all of your useful applications will require your own
+callbacks.  These callbacks are registered with the Widget Creation
+Library's string-to-callback converter using WcRegisterCallback().
+
+In fact, this function is used by Wc itself to register the standard Wc
+supplied callbacks, such as WcSetValueCB and WcExitCB.  See the
+function WcRegisterWcCallbacks() at the end of WcCallb.c to see how
+Wc uses this function internally.
+
+WcRegisterClassPtr() - see WcReg.c
+--------------------
+
+This function is used to tell the Widget Creation Library about a
+widget class pointer which can be used within XtCreateWidget().  The
+name of the widget class pointer is passed in as a string (for example,
+"xmPushButtonWidgetClass").  This string value can be provided as the
+wcClass resource value within a resource file.
+
+WcRegisterClassName() - see WcReg.c
+---------------------
+
+This function is used to tell the Widget Creation Library about a
+widget class name.  The name is mapped to a widget class pointer which
+can be used within XtCreateWidget().  The name of the widget class  is
+passed in as a string (for example, "XmPushButton").  This string value
+can be provided as the wcClassName resource value within a resource
+file.
+
+WcRegisterConstructor()  - see WcReg.c
+-----------------------
+
+This function is used to tell the Widget Creation Library about a
+widget constructor.  The name of the constructor is passed in as a
+string (for example, "XmCreatePushButton").  This string value can be
+provided as the wcConstructor resource value within a resource file.
+
+WcRegisterAction()  - see WcReg.c
+-----------------
+
+This is a simple wrapper around XtAppAddActions().  If you are
+registering many actions, you probably should copy the function
+WcRegisterWcActions() in WcActions.c and make the obvious
+modifications rather than using this function.  This will help
+performance.
+

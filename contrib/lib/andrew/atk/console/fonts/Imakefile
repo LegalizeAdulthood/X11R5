@@ -1,0 +1,16 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+FontRule()
+
+DeclareFont(con10)
+DeclareFont(con12)
+
+#ifdef WM_ENV
+install.time:: con10.fwm con12.fwm
+	$(RM) $(DESTDIR)/fonts/console10.fwm
+	$(RM) $(DESTDIR)/fonts/console12.fwm
+	$(LN) con10.fwm $(DESTDIR)/fonts/console10.fwm
+	$(LN) con12.fwm $(DESTDIR)/fonts/console12.fwm
+#endif /* WM_ENV */

@@ -1,0 +1,12 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:43:24 ohm Exp $
+/**/#
+   INSTALLFLAGS = $(INSTDATFLAGS)
+
+all::
+
+RKS = 2A_CTRL \
+	2B_LATIN \
+	mode
+
+InstallMultiple($(RKS),$(LWNNWNNDIR)/rk)

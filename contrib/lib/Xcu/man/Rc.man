@@ -1,0 +1,60 @@
+.TH XcuRc 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuRc \- Geometry management according to "row by column" specifications
+.ne 4
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / Composite / Constraint / XcuTbl / XcuRc
+
+.ne 4
+.SH DESCRIPTION
+\ 
+.br
+The \fBRc\fR  geometry manager
+lays out a fixed number of widgets in an \fInr\fR by \fInc\fR array.
+The input semantics are simply "\fInr\fR X \fInc\fR", which is
+converted into the appropriate \fBXcuTbl\fR format.
+Although not awfully useful in itself, it should serve as a template for
+more ambitious endeavors.
+
+.ne 4
+.SH DIAGNOSTICS
+\ 
+.br
+Lex and yacc parsing errors are reported.
+
+.ne 10
+.SH EXAMPLES
+\ 
+.br
+.sp
+.TS
+allbox tab(;);
+c c c.
+#1;#2;#3
+#4;#5;#6
+.TE
+.sp 
+2 X 3
+
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

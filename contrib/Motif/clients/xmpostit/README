@@ -1,0 +1,55 @@
+                       Xmpostit--Postit Note (tm) program
+                        by David Mischel, Genentech, Inc.
+
+
+Xmpostit implements a note keeping facility analagous to "real"
+Postit Notes (tm).  All notes are created by the "pad" which first
+appears when the program begins.  Pressing mouse button 3 (MB3) on the
+pad pops up a menu which allows different sized notes to be created.
+The actual size can be altered by the local window manager as the user
+chooses.
+
+Notes can have a user supplied name at time of creation.  Once
+created text can be typed in or pasted via the X CUT BUFFER.  Notes
+are saved as files on-line in $HOME/.postitnotes.  When xmpostit
+starts it will read all files of the proper format in that directory
+and display each note as a "button" on the pad.  The label on the
+button is the name of the note.  Pressing the button with MB1 will pop
+up the note.  Note text, size and screen location when poped up are
+all saved when the note is saved.
+
+Buttons on the individual notes control saving, printing, destroying
+and stashing.  Stashing causes the note to popdown and the
+corresponding button on the pad to become active.
+
+Xmpostit began life as an attempt to learn the Motif tool kit.  I
+chose xpostit because it was a fairly straight forward piece of
+software.  Along the way I made a few changes in the interface.
+Xmpostit can read xpostit files through v3 but writes a different file
+format.  Thus if you already have xpostit notes in $HOME/.postitnotes
+and you run xmpostit and save all notes, xpostit may not work properly
+when next run.
+
+You must have libXm.a and the Motif include files installed to
+compile xmpostit.  Xmpostit was developed and compiled on a VAX 8650
+running BSD4.3 with X11R5 and Motif 1.1.3 installed.  I have not
+ported it to other platforms so there may be some issues around names
+and locations of include files, etc.  R5 contrib installation
+procedures should work.  In the source dir type
+
+        xmkmf -a
+        make
+        make install
+        make install.man
+
+good luck and enjoy!
+
+< david
+
+David Mischel
+Scientific Computing
+Genentech, Inc.
+South San Francisco, CA
+
+dm@genie.gene.com
+

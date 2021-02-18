@@ -1,0 +1,200 @@
+\&
+.sp 1
+.ce 3
+\s+1\fBSection 2\fP\s-1
+
+\s+1\fBData Structures\fP\s-1
+.sp 2
+.nr H1 8
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.LP
+.XS
+Section 2: Data Structures
+.XE
+.LP
+These data structures are used by routines in MVEXlib:
+.sp
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef XID VideoIn;
+typedef XID VideoOut;
+typedef XID VideoIO;
+typedef XID VideoReference;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	VideoIO	vio;
+	Atom	port;
+	Bool	frames_available;
+	Bool	timecodes_available;
+	Bool	frame_accurate;
+} MVEXSetupState;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	Bool	negative;
+	int	hour;
+	int	minute;
+	int	second;
+	int	frame;
+	int	field;
+} MVEXTimecode;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	Bool	negative;
+	int	frame;
+	int	field;
+} MVEXFrame;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	long	numerator;
+	long	denominator;
+} MVEXFraction;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	long	num_base;
+	long	num_increment;
+	long	num_limit;
+	int	num_type;	/* MVEXGeometricRange or MVEXLinearRange */
+	long	denom_base;
+	long	denom_increment;
+	long	denom_limit;
+	int	denom_type;	/* MVEXGeometricRange or MVEXLinearRange */
+} MVEXFractionRange;
+.De
+.bp
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	XRectangle	base;
+	XRectangle	limit;
+	int	x_inc;
+	int	y_inc;
+	int	width_inc;
+	int	height_inc;
+	int	type;	/* MVEXGeometricRange or MVEXLinearRange */
+} MVEXRectangleRange;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	MVEXFraction	frame_rate;	/* max nominal rate (frames/sec) */
+	MVEXRectangleRange	src;	/* set of possible source rectangles */
+	MVEXRectangleRange	dest;	/* set of possible dest rectangles */
+	MVEXFractionRange	x_scale;	/* set of dst/src width ratios */
+	MVEXFractionRange	y_scale;	/* set of dst/src height ratios */
+	Bool	identity_aspect;	/* must x_scale == y_scale? */
+} MVEXPlacement;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	MVEXFraction	frame_rate;	/* frames/sec in signal format */
+	MVEXFraction	field_rate;	/* fields/sec in signal format */
+	int	width;	/* signal width (in pixels) */
+	int	height;	/* signal height (in pixels) */
+	int	priority_steps;	/* priority resolution */
+	int	concurrent_use;	/* max simultaneous use */
+	int	nplacement;	/* number of placements */
+	MVEXPlacement	*placement;	/* placement list */
+} MVEXGeometry;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	Window	window;	/* identifies client requesting ownership */
+	VideoID	vid;	/* resource to be owned */
+} MVEXOwner;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	Bool	composite;	/* True if RenderVideo will modify pixels or
+				 * if CaptureGraphics will blend video and
+				 *  graphics */
+	Bool	opaque;		/* True if pixels cannot be interpreted
+				 * by a Core type */
+	VisualID	visualid;	/* video window visual ID */
+} MVEXWindowModel;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+    int depth;				/* depth */
+    VisualID visualid;			/* visual ID used for colormaps in */
+					/* CaptureGraphics, window in */
+					/* RenderVideo */
+    Bool opaque;			/* True if video input pixels cannot */
+					/* be interpreted by a Core type */
+    unsigned long	model_mask;	/* Window, Pixmap and/or Composite */
+    unsigned long	red_mask;
+    unsigned long	green_mask;
+    unsigned long	blue_mask;
+} MVEXRenderModel;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	MVEXFraction	normal_saturation;
+	MVEXFraction	normal_contrast;
+	MVEXFraction	normal_hue;
+	MVEXFraction	normal_bright;
+	int		n_saturation;
+	int		n_contrast;
+	int		n_hue;
+	int		n_bright;
+	MVEXFractionRange	*saturation;
+	MVEXFractionRange	*contrast;
+	MVEXFractionRange	*hue;
+	MVEXFractionRange	*bright;
+} MVEXVideoAbility;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	VideoReference	vref;	/* VideoIn reference ID */
+	int	ncontrols;
+	MVEXControl	*controls;
+	MVEXGeometry	geometry;
+	MVEXModelInfo	model_info;
+	XRectangle	clip_size;
+} MVEXVin;
+.De
+.Ds 0
+.TA .5i 2i 4i
+.ta .5i 2i 4i
+typedef struct {
+	VideoReference	vref;	/* VideoOut reference ID */
+	int	ncontrols;
+	MVEXControl	*controls;
+	MVEXGeometry	geometry;
+	MVEXModelInfo	model_info;
+} MVEXVout;
+.De
+.bp

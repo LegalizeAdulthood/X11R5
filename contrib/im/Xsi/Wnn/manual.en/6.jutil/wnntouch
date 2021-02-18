@@ -1,0 +1,14 @@
+WNNTOUCH(1)
+
+NAME
+    wnntouch - To re-write the haeder of dictionary.
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/wnntouch binary_dictionary
+
+DESCRIPTION
+    Wnntouch re-writes the header of dictionary for matching the inode of
+    dictionary and the inode of file.
+
+SEE ALSO
+    dtoa(1), atod(1)

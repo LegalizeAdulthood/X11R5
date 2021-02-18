@@ -1,0 +1,21 @@
+# $Header: /n/lacey/usr/local/src/video/MVEX/server/ddx/rasterops/RCS/Imakefile,v 1.5 1991/09/24 06:25:24 toddb Exp $
+#include <Server.tmpl>
+        SRCS = roMvexInit.c roRender.c
+        OBJS = roMvexInit.o roRender.o
+ STD_DEFINES = ServerDefines
+ CDEBUGFLAGS = ServerCDebugFlags
+    INCLUDES =	-I$(SERVERSRC)/include \
+		-I$(SERVERSRC)/ddx/rasterops \
+		-I$(INCLUDESRC) \
+		-I../../include \
+		-I../../../include \
+		-I../mi
+ EXT_DEFINES = ExtensionDefines
+    LINTLIBS = ../mi/llib-lmi.ln ../../dix/llib-ldix.ln
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(romvex,$(OBJS))
+LintLibraryTarget(romvex,$(SRCS))
+NormalLintTarget($(SRCS))
+DependTarget()
+

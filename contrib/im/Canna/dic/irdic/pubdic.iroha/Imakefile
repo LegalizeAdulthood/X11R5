@@ -1,0 +1,23 @@
+#include "../../../config.sh"
+
+               DICDIR = $(LIBDIR)/dic
+          IROHADICDIR = $(DICDIR)/iroha
+            SAMPLEDIR = $(IROHADIR)/sample
+         SAMPLESRCDIR = $(IROHADIR)/sample/src
+
+                 DICS = dics.dir iroha.d fuzokugo.d hojomwd.t hojoswd.t
+all:
+
+MakeDirectories(install,$(IROHADICDIR))
+InstallNonExec(iroha.d,$(IROHADICDIR))
+InstallNonExec(fuzokugo.d,$(IROHADICDIR))
+InstallNonExec(hojomwd.t,$(IROHADICDIR))
+InstallNonExec(hojoswd.t,$(IROHADICDIR))
+InstallNonExec(dics.dir,$(IROHADICDIR))
+
+install::
+	$(RM) $(DESTDIR)$(DICDIR)/hyoujun.gram ;
+	$(LN) $(DESTDIR)$(IROHADICDIR)/fuzokugo.d \
+	$(DESTDIR)$(DICDIR)/hyoujun.gram
+
+DependDependency()

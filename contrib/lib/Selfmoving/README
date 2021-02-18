@@ -1,0 +1,100 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                            THE SELFMOVING WIDGET                             %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+This is the Selfmoving widget distribution. The Selfmoving widget has been designed to be used by programmers who have to write applications in which the user shoud be able to move, to resize, to delete and to align others widgets.
+
+
+ROADMAP
+--------------------------------------------------------------------------------
+
+You will find in this distribution:
+
+
+- Imakefile   : The imake file that will be used to build the distribution on a
+                X11R5 site. (See building instructions below)
+ 
+- Se          : The directory containing the Selfmoving widget code. For more 
+                details read the README file in this directory.
+
+- Athena_demo : This directory contains a demo programming using the Selfmoving
+                widget with the Athena widget set.
+
+- Motif_demo  : This directory contains a demo programming using the Selfmoving
+                widget with the OSF/Motif widget set.
+
+- Doc         : This directory contains a user's guide to the Selfmoving widget
+                
+
+
+BUILDING INSTRUCTIONS
+--------------------------------------------------------------------------------
+
+If you have installed X11R5 on your machine you can compile the Selfmoving widget and the Athena demo program in the following way:
+
+  1) cd to the top of the Selfmoving distribution (The directory where you found
+     this file)
+
+  2) Type: xmkmf -a
+     This will build all Makefiles in the distribution.
+     Furthermore this step will create the ./X11/Se directory structure and
+     create the ./X11/Se/SelfM.h and ./X11/Se/SelfMP.h include files.
+
+  3) Type: make
+     This will compile the Selfmoving widget and the Athena demo program
+     This step will create the SelfM.o and libSe.a files in ./Self
+     It will create the aw_demo.o and aw_demo files in ./Athena_demo.
+
+Before running the aw_demo program in the ./Athena_demo directory you should
+set your XENVIRONMENT variable to point to the full path of the aw_demo.dat
+resource file in ./Athena_demo  or at least type: aw_demo -g 300X300
+
+
+WARNING: To build the demo program in ./Motif_demo follow the instructions given
+         in the README file in that directory.
+
+
+INSTALLING
+--------------------------------------------------------------------------------
+
+To install the Selfmoving library and include files type:
+
+  - make install
+you must have the proper priveleges to do that
+
+
+This will 
+
+- add Se/libSe.a in your X11R5 library directory 
+
+- add  X11/Se/SelfM.h and X11/Se/SelfMP.h in your X11R5 include directory
+
+
+
+INFORMATIONS, UPDATES, BUG REPORTS
+--------------------------------------------------------------------------------
+
+
+e-mail  : selfmoving@uliis.unil.ch
+
+FAX     : (+) 41 21 692 20 50
+
+Mail    : UNIVERSITY OF LAUSANNE
+          Institut d'informatique
+          The Selfmoving widget
+          College Propedeutique
+          1015 LAUSANNE
+          SWITZERLAND
+
+ftp     : iissun1.unil.ch  130.223.63.2  directory: Selfmoving
+
+
+
+--------------------------------------------------------------------------------
+
+                                                   Hubert Rechsteiner
+                                                   Doris Hirt
+                                                   Nicolas Repond

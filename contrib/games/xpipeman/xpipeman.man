@@ -1,0 +1,125 @@
+.\" Man page for xpipeman.
+.TH XPIPEMAN 6 "7 July 1991"
+.SH NAME
+xpipeman \- connect the pipes to stop the leaks (X Windows)
+.SH SYNOPSIS
+.B /usr/games/xpipeman 
+.SH DESCRIPTION
+.LP
+Xpipeman is a game of skill requiring the user to connect together
+pieces of a pipe to allow a liquid to flow through without
+leaking out.  The liquid flows out of the block marked with an "S".
+The aim of the game is to connect as many pieces of pipe to the
+start block as possible. 
+.LP
+A random sequence of blocks is generated and displayed down the right
+hand side of the screen. The next pipe block that has to be placed is under
+the arrow marked "next". After a block has been placed a new block is
+displayed on the end of the sequence and the next block appears under the arrow.
+.LP
+After a period of time the liquid starts to flow. It first fills up the
+"flow start" meter at the right of the screen. When this is full it then
+begins to flow out of the start block and into any pipe blocks connected to
+it.
+.LP
+To finish  successfully each level a certain number of blocks have to be
+connected to the start. This is indicated by the "Remaining" count. This
+count is decremented as the liquid flows through the blocks. This is the
+minimum number of blocks that must be connected, any further blocks
+connected generate extra points. The number of blocks that must be
+connected increases with each level.
+.LP
+To make life more difficult there are also object blocks where pieces of
+pipe cannot be placed. The number of object blocks also increases with
+each level.
+.LP
+Blocks can be moved and placed either by using the mouse and its buttons
+or by using the keyboard. For the mouse, button 1 (left) moves the next pipe
+block to the position pointed to by the mouse. Button 2 (middle) places
+a piece of pipe. Pipes may not be placed on the start block, objects, or any
+filled/partially filled pipe sections. Once a block has been placed it may
+NOT be moved.
+.LP
+At higher levels some pieces of pipe only let the liquid flow one
+direction. These pipe sections have an arrow within them indicating
+the allowed flow direction. Successful connection of one of these
+sections earns extra bonus points.
+.LP
+The game is over when the required number of blocks have not been
+connected or there are no more levels (I doubt the latter will happen
+before the first!).
+.LP
+The default keyboard setup is as follows:
+.RS
+.TP
+.B z
+move one square left
+.TP
+.B x
+move one square right
+.TP
+.B \'
+move one square up
+.TP
+.B /
+move one square down
+.TP
+.B spc
+place a piece of pipe
+.TP
+.B tab
+speed up the flow
+.RE
+.LP
+If no more blocks can be placed then pressing the tab key will cause
+the flow to speed up.
+.LP
+.SH RESOURCES
+.LP
+xpipeman.scorefile
+.RS
+Set this to the path of your personal score file.  The file will be
+created if it does not exist.  The default: ./xpipescores
+.RE
+.LP
+.SH OPTIONS
+.LP
+In addition to the normal XToolkit options, xpipeman accepts command line
+options for the following resource:scorefile
+.LP
+.RS
+For example: xpipeman -scorefile myscorefile
+.RE
+.LP
+.SH SCORING
+.LP
+Each pipe connected to the flow scores 10 points. Any pipe placed on top
+of another piece of empty pipe incurs a penalty of 20 points. Any pipe
+not connected to the flow also incurs a penalty, but this time of only 10
+points. A bonus 40 points is awarded each time there is a flow crossover
+and a bonus of 10 points is awarded for each one way pipe used (later
+levels). The name for the high score list comes from the USER environment variable.
+.LP
+.SH FILES
+.LP
+  ./xpipescores \-\- the score file
+.LP
+.LP
+.SH BUGS
+.LP
+Type ahead may be a problem on some slower machines. To reduce the problem
+try to use the mouse instead of the keyboard. (I have a SPARCstation which
+seems to work fine!). Other tips to reduce type ahead: plan the flow by
+looking at the sequence down the right hand side of the screen and most of
+all don't panic as the flow approaches!.
+.bp
+.SH AUTHOR
+.LP
+This was written by Nigel Paver 
+.IP
+JANET: pavern@uk.ac.man.cs
+.IP
+INER: pavern%uk.ac.man.cs@nsfnet-relay.ac.uk
+.LP
+with acknowledgements to Brian Warkentine (brianw@Sun.COM).
+

@@ -1,0 +1,145 @@
+*** /tmp/,RCSt1a04992	Tue Aug 20 19:00:58 1991
+--- emacs.c	Tue Aug 20 05:59:02 1991
+***************
+*** 450,455 ****
+--- 450,458 ----
+  #endif  /* not WNN3 */
+  #endif  /* EGG */
+  #endif  /* NEMACS */
++ #ifdef IROHA
++       syms_of_iroha ();
++ #endif
+  
+        keys_of_casefiddle ();
+        keys_of_cmds ();
+*** /tmp/,RCSt1a04995	Tue Aug 20 19:01:31 1991
+--- kanji.c	Tue Aug 20 06:00:42 1991
+***************
+*** 41,46 ****
+--- 41,47 ----
+  #include "kanji.h"
+  
+  Lisp_Object VNEMACS, VEGG, VWNN3, VWNN4V3, VWNN4;
++ Lisp_Object VIROHA;
+  
+  int kanji_code_min;
+  int kanji_code_max;
+***************
+*** 754,758 ****
+--- 755,763 ----
+  #ifdef WNN4
+    DEFVAR_LISP ("WNN4", &VWNN4, "");
+    VWNN4 = Qt;
++ #endif
++ #ifdef IROHA
++   DEFVAR_LISP ("IROHA", &VIROHA, "");
++   VIROHA = Qt;
+  #endif
+  }
+*** /tmp/,RCSt1a04998	Tue Aug 20 19:01:46 1991
+--- nconfig.h	Tue Aug 20 05:52:02 1991
+***************
+*** 24,31 ****
+  #ifdef NEMACS
+  
+  /* define EGG if you want to use EGG */
+! #define EGG
+  
+  #ifdef EGG
+  /* define one of WNN3, WNN4, and WNN4V3 */
+  #define WNN4V3
+--- 24,34 ----
+  #ifdef NEMACS
+  
+  /* define EGG if you want to use EGG */
+! /* #define EGG */
+  
++ /* define IROHA if you want to use IROHA */
++ #define IROHA
++ 
+  #ifdef EGG
+  /* define one of WNN3, WNN4, and WNN4V3 */
+  #define WNN4V3
+***************
+*** 43,47 ****
+--- 46,54 ----
+  #define INCWNN
+  #endif  /* not WNN3 */
+  #endif  /* not WNN4V3 */
++ 
++ #ifdef IROHA
++ #define LIBIROHA /usr/local/lib/iroha/libiroha.a
++ #endif /* IROHA */
+  
+  #endif  /* NEMACS */
+*** /tmp/,RCSt1a05001	Tue Aug 20 19:02:04 1991
+--- puresize.h	Tue Aug 20 08:10:38 1991
+***************
+*** 23,29 ****
+  
+  #ifdef NEMACS
+  #undef PURESIZE
+! #ifdef EGG
+  #ifdef HAVE_X_WINDOWS
+  #define PURESIZE 200000
+  #else
+--- 23,29 ----
+  
+  #ifdef NEMACS
+  #undef PURESIZE
+! #if defined(EGG) || defined(IROHA)
+  #ifdef HAVE_X_WINDOWS
+  #define PURESIZE 200000
+  #else
+*** /tmp/,RCSt1a05004	Tue Aug 20 19:02:19 1991
+--- ymakefile	Tue Aug 20 07:17:01 1991
+***************
+*** 7,12 ****
+--- 7,14 ----
+  /* 90.2.27  modified for Nemacs Ver.3.3.1 by K.Handa
+  	add dependency on puresize.h and nconfig.h to alloc.c and data.c
+  	change definition of WNNLIB and WNNINC */
++ /* 90.12.11 modified for Nemacs Ver.3.3.1 by A.Kon
++ 	add definition for IROHA */
+  
+  /* Makefile for GNU Emacs.
+     Copyright (C) 1985, 1987, 1988 Free Software Foundation, Inc.
+***************
+*** 45,50 ****
+--- 47,53 ----
+  #include "nconfig.h"
+  WNNLIB = LIBWNN
+  WNNINC = INCWNN
++ IROHALIB = LIBIROHA
+  #endif
+  /* end of patch */
+  
+***************
+*** 228,233 ****
+--- 231,239 ----
+  #else  /* not WNN4V3 nor WNN3 */
+  NOBJ = kanji.o
+  #endif  /* not WNN4V3 nor WNN3 */
++ #ifdef IROHA
++ NOBJ = kanji.o iroha.o
++ #endif /* IROHA */
+  #endif
+  #else   /* not NEMACS */
+  KANJI_H =
+***************
+*** 277,283 ****
+  /* define otherobj as list of object files that make-docfile
+     should not be told about.  */
+  #ifdef NEMACS  /* 90.2.28  by K.Handa */
+! otherobj= $(termcapobj) lastfile.o $(mallocobj) $(WNNLIB)
+  #else
+  otherobj= $(termcapobj) lastfile.o $(mallocobj)
+  #endif
+--- 283,289 ----
+  /* define otherobj as list of object files that make-docfile
+     should not be told about.  */
+  #ifdef NEMACS  /* 90.2.28  by K.Handa */
+! otherobj= $(termcapobj) lastfile.o $(mallocobj) $(WNNLIB) $(IROHALIB)
+  #else
+  otherobj= $(termcapobj) lastfile.o $(mallocobj)
+  #endif

@@ -1,0 +1,9 @@
+;
+; $Id: 2_VITHROW,v 1.1 1991/09/09 22:39:59 ohm Exp $
+;
+(defvar char (all))
+
+;(char)	(char)(off vithrow)
+
+(if VIzenkaku)(char)		(char)(off vithrow)(on zenkaku)(off VIzenkaku)
+(unless VIzenkaku)(char)	(char)(off vithrow)

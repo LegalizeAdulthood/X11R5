@@ -1,0 +1,261 @@
+.\" @(#)msgfmt.man 1.6 91/10/01 SMI; from Sun
+.TH msgfmt 1 "27 Sep 1991"
+.SH NAME
+msgfmt \- create a message object from a message file
+.SH SYNOPSIS
+.B msgfmt
+[
+.B \-v
+]
+[
+.BI \-o " output-file"
+]
+.IB filename .po
+\&.\|.\|.
+.IX "msgfmt" "" "\fLmsgfmt\fP \(em create message object file"
+.IX "messages" "create message object file"
+.SH DESCRIPTION
+.LP
+.B msgfmt
+creates
+message object files
+from portable object files
+(\f2filename\f3.po\f1).
+.LP
+The 
+.B \&.po 
+file contains messages displayed to users by system commands
+or by application programs.
+.B \&.po
+files can be edited, and the
+messages in them can be rewritten
+in any language supported by the system.
+.LP
+The
+.BR xgettext (1)
+command
+can be used to create 
+.B \&.po
+files from script or programs.
+.LP
+The
+.B msgfmt
+command does not change the
+portable object files.
+.SS "Portable Object Files"
+.IX "messages" "creating portable object files"
+.IX "messages" "editing messages"
+.IX "\&.po files" "portable object files"
+.IX "\&.mo files" "message object files"
+.LP
+Formats for all
+.B \&.po
+files are the same.
+Each
+.B \&.po
+file contains one or more lines, with each line
+containing either a comment or a statement.
+Comments start the line with a hash mark (#) and end with
+the newline character.
+All comments are ignored.
+.LP
+The format of a statement is:
+.IP
+.I directive value
+.LP
+Each directive starts at the beginning of the line and is
+separated from
+.I value
+by white space (such as one or more space or tab characters).
+.I value
+consists of one or more quoted strings separated by white space.
+Use any of the following types of directives:
+.IX "messages" "setting the domain"
+.IX "messages" "setting the message identifier"
+.IX "messages" "setting the message string"
+.RS
+.B domain
+.I domainname
+.br
+.B msgid
+.I message_identifier
+.br
+.B msgstr
+.I message_string
+.RE
+.LP
+The behavior of the 
+.B domain
+directive is affected by the options used.
+See
+.SM OPTIONS
+for the behavior when the 
+.B \-o
+option is specified.
+If the
+.B \-o
+option is not specified, the behavior of the
+.B domain
+directive is as follows:
+.RS
+.TP 3
+\(bu
+All
+.I msgids
+from the beginning of each
+.B \&.po
+file to the first 
+domain directive
+are put into a default message object file,
+.BR messages.mo .
+.TP
+\(bu
+When
+.B msgfmt
+encounters a
+.BI domain " domainname"
+directive in the
+.B \&.po
+file,
+all following
+.I msgids
+until the next
+.B domain
+directive are put into the message object file
+.IB domainname .mo\f1.
+.TP
+\(bu
+Duplicate 
+.I msgids
+are defined in the scope of each domain.
+That is, a
+.I msgid
+is considered a duplicate only if the identical
+.I msgid
+exists in the same domain.
+.TP
+\(bu
+All duplicate
+.I msgids
+are ignored.
+.RE
+.LP
+The
+.B msgid
+directive specifies the value of a message identifier associated with the
+directive that follows it.
+The
+.I message_identifier
+string identifies a target string to be used at retrieval time.
+Each statement containing a
+.B msgid
+directive must be followed by a statement containing a
+.B msgstr
+directive.
+.LP
+The
+.B msgstr
+directive specifies the target string associated with the
+.I message_identifier
+string declared in the immediately preceding
+.B msgid
+directive.
+.br
+.ne 6
+.SH OPTIONS
+.TP 15
+.B \-v
+Verbose.  List duplicate message identifiers.
+Message strings are not redefined.
+.TP
+.BI \-o " output-file"
+Specify the output file name.
+All messages are put into
+.IR output-file .
+All
+.B domain
+directives in the
+.B \&.po
+file are ignored.
+All duplicate
+.I msgids
+are ignored.
+.SH EXAMPLES
+.LP
+In the following examples
+.B blob.po
+and
+.B blip.po
+are portable message objects files.
+.RS
+.nf
+.ft 3
+example% cat blob.po
+#
+# The default domain object file is always "messages.mo"
+#
+msgid  "blob 111"
+msgstr "blob 111 target"
+msgid  "blob 222"
+msgstr "blob 222 target"
+#
+domain "blob_domain"
+msgid  "blob 111"
+msgstr "blob 111 target"
+msgid  "blob 333"
+msgstr "blob 333 target"
+#
+domain "zork_domain"
+msgid  "zork 111"
+msgstr "zork 111 target"
+msgid  "zork 222"
+msgstr "zork 222 target"
+.fi
+.ft 1
+.LP
+.nf
+.ft 3
+example% cat blip.po
+#
+# Comment line
+#
+msgid  "blip 111"
+msgstr "blip 111 target"
+#
+domain "blip_domain"
+msgid  "blip 222"
+msgstr "blip 222 target"
+#
+domain "zork_domain"
+msgid  "zork 222"
+msgstr "zork 222 target"
+msgid  "zork 333"
+msgstr "zork 333 target"
+.ft 1
+.fi
+.RE
+.LP
+The following example will produce the output files,
+.BR messages.mo ,
+.BR blob_domain.mo ,
+and
+.BR zork_domain.mo .
+.IP
+.B example% msgfmt blob.po
+.LP
+The example below will produce the output files,
+.BR messages.po ,
+.BR blob_domain.po ,
+.BR blip_domain.po ,
+and
+.BR zork_domain.po .
+.IP
+.B example% msgfmt blob.po blip.po
+.LP
+The following example will produce the output file
+.BR hello.mo .
+.IP
+.B example% msgfmt \-o hello.mo blob.po blip.po
+.SH "SEE ALSO"
+.BR xgettext (1),
+.BR gettext (3)

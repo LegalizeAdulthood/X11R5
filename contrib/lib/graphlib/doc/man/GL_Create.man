@@ -1,0 +1,25 @@
+.TH GL_Create 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Create \- Generic variable argument creation routine.
+.SH SYNTAX
+GLPointer GL_Create(<type>, ..., GL_Done)
+.SH ARGUMENTS
+.IP <type> 1i
+Type of thing to create.
+
+.SH DESCRIPTION 
+GL_Create is the generic creation routine for any type of object.
+The general format which is used for each part of the variable arguments is
+ <option>, [arguments,].  For information on specific options, look
+at the man page for that type of routine.
+Because of the way that the variable arguments are created, certain types
+are "subclassed" off of others.  The practical effect of this is that
+the options used for a superclass may be used in any of its subclasses,
+for example, all of the window options can be used in the creation of a 
+label or stripchart.
+Any call to GL_Create has to be terminated by GL_Done, this is what tells
+the routine when all of the commands are done.
+
+.SH "SEE ALSO"
+GL_Resources(3GL), GL_Window(3GL), GL_Label(3GL), GL_StripChart(3GL),
+GL_Button(3GL), GL_Menu(3GL), GraphLib Programming Manual

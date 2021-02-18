@@ -1,0 +1,12 @@
+4
+1 left
+2 left
+3 right
+4 right
+
+# DATA GOES ABOVE THIS LINE
+
+First line contains number of widgets to modify, followed by
+For each widget to modify,
+	the number of the widget to modify (0 to n-1)
+	the new justification (left, center, right)

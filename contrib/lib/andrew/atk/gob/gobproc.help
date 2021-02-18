@@ -1,0 +1,20 @@
+\begindata{text,269302240}
+\textdsversion{12}
+\template{help}
+\chapter{Proclist for Gob
+
+}
+gobview-set-logical-rec:  Set Logical Rectangle
+
+gobview-Clear:  "Clear Objects
+
+gobview_add-path:  Add Path
+
+gobview-add-oval:  Add Oval
+
+gobview_add-arc:  Add Arc
+
+gobview-add-label:  Add Label
+
+
+\enddata{text,269302240}

@@ -1,0 +1,109 @@
+! This is a demonstration of the use of the static text widget class.
+! I think it clearly shows the effects of gravity and justification.
+! The exclusives widget class is used to contain the choices for the
+! justification and gravity and each has a caption as a label.  The
+! children of the exclusives widgets are rectButtons.
+
+!*wcTrace:               True
+Ori.wcChildren:		control
+Ori.title:		O05_SText
+
+*threeD:		TRUE
+*background:		grey
+
+*control.wcClass:	controlAreaWidgetClass
+*control.layoutType:	fixedrows
+*control.measure	5
+*control.wcChildren:	statText,justcap,gravcap, quit
+
+*statText.wcClass:	staticTextWidgetClass
+*statText.width:	440
+*statText.height:	300
+*statText.alignment:	left
+*statText.borderWidth:	1
+*statText.wrap:		FALSE
+*statText.recomputeSize:	FALSE
+*statText.string:	Now is the time for all good men to come\nto the aid\
+ of the party.  The quick brown\nfox jumped over the lazy dog.  All men\n\
+are created equal.  We, the people, in order\nto form a more perfect union...
+
+
+*justcap.wcClass:	captionWidgetClass
+*justcap.label:		Justification:
+
+*justcap.position:	top
+*justcap.alignment:	center
+*justcap.WcChildren:	options
+
+*options.wcClass:	exclusivesWidgetClass
+*options.layoutType:	fixedrows
+*options.measure:	5
+*options.wcChildren:	left,center,right
+
+*left.wcClass:		rectButtonWidgetClass
+*left.select:		WcSetValueCB(*statText.alignment: left)
+*left.label:		Left
+
+*center.wcClass:	rectButtonWidgetClass
+*center.select:		WcSetValueCB(*statText.alignment: center)
+*center.label:		Center
+*center.set:		TRUE
+*center.default:	TRUE
+
+*right.wcClass:		rectButtonWidgetClass
+*right.select:		WcSetValueCB(*statText.alignment:  right)
+*right.label:		Right
+
+*gravcap.wcClass:	captionWidgetClass
+*gravcap.label:		Gravity:
+
+*gravcap.position:	top
+*gravcap.alignment:	center
+*gravcap.wcChildren:	goptions
+
+*goptions.wcClass:	exclusivesWidgetClass
+*goptions.layoutType:	fixedrows
+*goptions.measure:	5
+*goptions.wcChildren:	cg,ng,sg,eg,wg,nwg,neg,swg,seg
+
+*cg.wcClass:		rectButtonWidgetClass
+*cg.select:		WcSetValueCB(*statText.gravity: center)
+*cg.label:		Center
+*cg.set:		TRUE
+*cg.default:		TRUE
+
+*ng.wcClass:		rectButtonWidgetClass
+*ng.select:		WcSetValueCB(*statText.gravity: north)
+*ng.label:		North
+
+*sg.wcClass:		rectButtonWidgetClass
+*sg.select:		WcSetValueCB(*statText.gravity: south)
+*sg.label:		South
+
+*eg.wcClass:		rectButtonWidgetClass
+*eg.select:		WcSetValueCB(*statText.gravity: east)
+*eg.label:		East
+
+*wg.wcClass:		rectButtonWidgetClass
+*wg.select:		WcSetValueCB(*statText.gravity: west)
+*wg.label:		West
+
+*nwg.wcClass:		rectButtonWidgetClass
+*nwg.select:		WcSetValueCB(*statText.gravity: northwest)
+*nwg.label:		NorthWest
+
+*neg.wcClass:		rectButtonWidgetClass
+*neg.select:		WcSetValueCB(*statText.gravity: northeast)
+*neg.label:		NorthEast
+
+*swg.wcClass:		rectButtonWidgetClass
+*swg.select:		WcSetValueCB(*statText.gravity: southwest)
+*swg.label:		SouthWest
+
+*seg.wcClass:		rectButtonWidgetClass
+*seg.select:		WcSetValueCB(*statText.gravity: southeast)
+*seg.label:		SouthEast
+
+*quit.wcClass:		oblongButtonGadgetClass
+*quit.label:		Quit
+*quit.select:		WcExitCB

@@ -1,0 +1,88 @@
+; ICON WITH COMPUTER LOOK
+; =======================
+
+;;File: term-icon.gwm -- little computer whith name in screen
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.0 -- Feb 1 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+;;=============================================================================
+;;                    define the screen-dependent resources
+;;=============================================================================
+
+(if (not (boundp 'term-icon))	;define only once
+  (with (wob wob)			; saves current wob
+    (declare-screen-dependent
+      term-icon.screen-data
+      term-icon.foreground
+      term-icon.background
+      term-icon.borderpixel)
+      ;; user-settable defaults
+    (for screen (list-of-screens)
+      (defaults-to
+	term-icon.foreground black
+	term-icon.background white
+	term-icon.borderpixel black)
+)))
+
+(defaults-to
+  term-icon.borderwidth 0
+  term-icon.font small-font)
+
+(setq term-icon.context
+  '(font term-icon.font	     
+    foreground term-icon.foreground
+    background term-icon.background
+    borderwidth term-icon.borderwidth
+    borderpixel term-icon.borderpixel))
+
+(de corner (name) 
+  (plug-make (pixmap-make name)))
+
+;; fsm
+;;====
+
+(: icon-plug-fsm
+  (fsm-make
+    (state-make
+      icon-behavior
+      (on (user-event 'get-title) (update-plug-in-icon update-icon.title))
+      (on (user-event 'get-icon) (update-plug-in-icon window-icon-name))
+      standard-behavior
+)))
+
+
+;;=============================================================================
+;;                    The deco
+;;=============================================================================
+
+(defun term-icon args
+  (with-eval
+    (+ term-icon.context
+      (get-context (std-resource-get 'TermIcon 'term-icon))
+      args
+    )
+    (with (fsm icon-fsm
+	context (context-save term-icon.context)
+	grabs icon-grabs menu 'icon-pop
+	property (+ property (list 'context context)))
+      (window-make 
+	(with (tile (pixmap-make "xterm-t")
+	    bar-min-width 0 bar-max-width 32)
+	  (bar-make   (corner "xterm-tl") () (corner "xterm-tr")))
+	(with (tile (pixmap-make "xterm-l")
+	    bar-min-width 8 bar-max-width 8)
+	  (bar-make  ))
+	(with (tile (pixmap-make "xterm-r")
+	    bar-min-width 8 bar-max-width 8)
+	  (bar-make  ))
+	(with (tile (pixmap-make "xterm-b")
+	    bar-min-width 0 bar-max-width 32)
+	  (bar-make  (corner "xterm-bl") () (corner "xterm-br")))
+	(with (fsm icon-plug-fsm)
+	  (plug-make 
+	    (label-make window-icon-name))))
+)))
+

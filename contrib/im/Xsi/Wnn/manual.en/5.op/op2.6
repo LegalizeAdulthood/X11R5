@@ -1,0 +1,43 @@
+(4) Environment Settings for vi
+
+The following describes the environment settings when used with the Wnn key 
+bindings for vi.
+
+  (1) Wnn key bindings for vi users
+
+  Set the environment variable UUMRC to /usr/local/lib/wnn/uumrc_vi.
+
+    If your shell is csh: setenv UUMRC /usr/local/lib/wnn/uumrc_vi  
+    If your shell is sh:  UUMRC=/usr/local/lib/wnn/uumrc_vi
+                          export UUMRC 
+    If these are placed in your .login (csh) or .profile (sh) file, it will be
+    setup automatically.
+
+  (2) Mode Switchings for vi
+
+  [vi ]  vi mode
+  * uum input mode entered on vi input command (i,I,a,A,s,S,o,O,C,R,/,?).
+  * Returns to vi mode on ESC or other terminator.
+  * Switches to ex mode on ":".
+  * Changes to non-vi mode on ZZ.
+  [ex ] ex mode
+  * uum input mode on ex input command (/,?).
+  * Returns to vi mode on RET or other terminator.
+  * Changes to non-vi mode on x, wq, q, q!, su, sh, !sh, !csh or other such
+    command.
+
+  The F10 key or HOME key switch between the non-vi and vi-modes.
+  The mode automatically changes from vi mode to non-vi mode when vi is exited.
+  The F10 key or HOME key change modes,too.
+
+  [1 r] ZENKAKU Numeric mode
+        F5 key - Numbers are output in full width.
+  [ksn] Thin ruled-line mode
+        F6 key - Refer to the file /usr/local/lib/wnn/rk.vi/2B KEISEN
+                  The numeric keypad is bound to character surrounding
+                  ruled line segments.
+  [KSN] Thick ruled-line mode
+        F7 key - Refer to the file /usr/local/lib/wnn/rk.vi/2C KEISEN1
+                  The numeric keypad is bound to character surrounding
+                  ruled line segments.
+

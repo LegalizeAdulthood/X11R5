@@ -1,0 +1,15 @@
+/* You will have to edit this to suit */
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = AnswerGarden ImageMagick bitmap cpicker cxterm editres emu \
+	exterm gwm i18nOlwmV2 ixterm kterm lclock listres palette pbmplus \
+	pixmap shinbun snftobdf tvtwm twm viewres vine xalarm xcalendar \
+	xcdplayer xclipboard xco xcolors xcrtca xdaliclock xdu xedit xfed \
+	xfig xforecast xhelp xlbiff xlogin xmail xmailwatcher xmessage \
+	xmeter xmh xmon xphoon xplot xpostit xprompt xproof xrsh xscope \
+	xtalk xtiff xtv
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

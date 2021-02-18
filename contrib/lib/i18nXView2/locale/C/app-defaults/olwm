@@ -1,0 +1,12 @@
+! @(#)olwm 1.2 90/12/12; SMI
+!
+! Default OLWM app-defaults (Xrm) file for "C" locale
+!
+!
+!
+olwm.TitleFont.C:	-b&h-lucida-bold-r-normal-sans-*-120-*-*-*-*-*-*
+olwm.MenuButtonFont.C:	-b&h-lucida-medium-r-normal-sans-*-120-*-*-*-*-*-*
+olwm.TextFont.C:	-b&h-lucida-medium-r-normal-sans-*-120-*-*-*-*-*-*
+olwm.IconFont.C:  	-b&h-lucida-medium-r-normal-sans-*-120-*-*-*-*-*-*
+olwm.GlyphFont.C:	-sun-open look glyph-*-*-*-*-*-120-*-*-*-*-*-*
+olwm.BoldFontEmulation.japanese:False

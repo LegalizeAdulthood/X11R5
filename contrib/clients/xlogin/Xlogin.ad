@@ -1,0 +1,69 @@
+!
+! $Id: Xlogin.ad,v 1.2 1991/10/04 17:05:15 stumpf Exp stumpf $
+!
+
+Xlogin*version:			2.01
+Xlogin*haveClassDefaults:	true
+
+Xlogin*backgroundBitmapFile:	gray
+Xlogin.foreground:		yellow
+Xlogin.Form.background:		red
+
+
+!Xlogin*userFiles:		/usr/spool/mail/stumpf
+Xlogin*showVersion:		true
+
+Xlogin*showMOTD:		IfChanged
+Xlogin*Accelerators:	#override\n\
+	<Btn1Down>:	set() notify()	\n\
+	<Btn2Down>:	set() notify()	\n\
+	<Btn3Down>:	set() notify()	\n\
+	<Key>0x20:	set() notify()	\n\
+	<Key>Return:	set() notify()	\n\
+	<Key>F1:	set() notify()
+Xlogin*Command*Translations:	#override\n\
+	<Btn1Down>:	set() notify()	\n\
+	<Btn2Down>:	set() notify()	\n\
+	<Btn3Down>:	set() notify()	\n\
+	<Key>0x20:	set() notify()	\n\
+	<Key>Return:	set() notify()	\n\
+	<Key>F1:	set() notify()
+
+Xlogin*noLastloginLabel:	No lastlogin time found
+Xlogin*nologinLabel:		Sorry, no logins permitted!
+Xlogin*noClassDefaults*font:	-*-fixed-medium-*-*-*-14-*-*-*-c-*-iso8859-*
+Xlogin*loginInfo*font:	-adobe-times-medium-r-normal--*-180-*-*-p-*-iso8859-1
+Xlogin*version*font:		-*-fixed-medium-*-*-*-14-*-*-*-c-*-iso8859-*
+
+Xlogin*motdLabel.vertDistance:		2
+Xlogin*motdLabel.unchangedLabel:	%F did not change
+Xlogin*motdLabel.changedLabel:	 	something new in %P
+Xlogin*motdLabel*font:	-b&h-lucida-bold-i-normal-sans-*-140-*-*-p-*-iso8859-1
+
+Xlogin*motdText.displayCaret:	False
+Xlogin*motdText.vertDistance:	0
+Xlogin*motdText.resizable:	True
+Xlogin*motdText*font:		-misc-fixed-medium-r-normal--*-120-*-*-c-*-iso8859-1
+
+Xlogin*exitButton.vertDistance:		20
+Xlogin*exitButton.justify:		center
+Xlogin*exitButton.highlightThickness:	2
+Xlogin*exitButton.borderWidth:		2
+Xlogin*exitButton.internalHeight:	3
+Xlogin*exitButton.internalWidth:		3
+Xlogin*exitButton.label:		Click here to continue
+Xlogin*exitButton*font:			-*-*-demibold-r-normal-*-18-*-*-*-p-*-*-*
+
+!
+! NOTE: this ifdef has no meaning unless this file is loaded
+!       with xrdb!
+!
+#ifdef COLOR
+Xlogin*loginInfo*foreground:		DeepPink
+Xlogin*motdLabel*foreground:		red
+Xlogin*Command*background:		lightcyan
+!Xlogin.Form.Background:		LemonChiffon
+Xlogin*Label.Background:		LemonChiffon
+Xlogin*noClassDefaults.foreground:	green
+Xlogin*noClassDefaults.background:	firebrick
+#endif

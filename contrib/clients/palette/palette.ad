@@ -1,0 +1,33 @@
+Palette*Background: white
+Palette*Foreground: Black
+#
+Palette*font: *courier-bold-r*14*
+#
+Palette*vp*horizontal*Background: White
+Palette*vp*horizontal*Foreground: Red
+Palette*vp*vertical*Background:White
+Palette*vp*vertical*Foreground: Red
+#
+Palette*boxCB*Background: White
+#
+Palette*form1*labelCC*resizable: False
+#
+Palette*labelCC*Background: White
+#
+Palette*Quit*Background: Red
+Palette*Quit*font: *courier-bold-o*14*
+#
+Palette*Help*Background: Cyan
+Palette*Help*font: *courier-bold-o*14*
+#
+Palette*iconPixmap*Background: Blue
+Palette*iconPixmap*Foreground: Black
+#
+Palette.helpPopup*Background: yellow
+#
+Palette.helpPopup*helpText*width: 360
+Palette.helpPopup*helpText*height: 110
+Palette.helpPopup*helpText*font: *courier-medium-r*14*
+#
+Palette.helpPopup*helpDone*Background: Green
+Palette.helpPopup*helpDone*font: *courier-bold-o*14*

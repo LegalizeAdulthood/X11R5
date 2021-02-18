@@ -1,0 +1,46 @@
+!
+! These are my main XMailbox resources.  I put this file into $XAPPLRESDIR
+! and point to an Mri interface definition with the -resources command line,
+! or if I don't specify one on the command line, this file says to use the
+! Mri interface in /user/peebles/x11/xmail/XMailbox.res.
+!
+
+! The mail box file to monitor.  You would replace this with the name
+! of the mail box file to monitor:
+!	/usr/mail/peebles
+!
+xmailbox.mailbox:		./FakeMailBox
+
+! The default Mri interface resource file.  I typically override this
+! with the xmailbox -resources command line option
+!
+xmailbox.wcResources:		./XMailbox.res
+
+!
+! Internal xmailbox behavioral resources
+! (See man page)
+xmailbox.hideNoMail:		True
+xmailbox.flash:			True
+xmailbox.flashTimeout:		100
+xmailbox.flashNumber:		2
+xmailbox.beep:			False
+xmailbox.timeout:		60
+xmailbox.nomailboxWarningMessage: False
+
+*xmailbox.geometry:		+6+733
+xmailbox*fontList:		6x13
+
+! A fancy script for grepping From and Subject lines from a standard
+! unix mailbox file.  THIS IS A PERL SCRIPT.  DELETE THIS LINE IF
+! YOU DO NOT HAVE PERL INSTALLED ON YOUR SYSTEM.
+! 
+!xmailbox.fromCmd:            	/user/peebles/x11/xmail/mailfrom
+
+! My script above combines the subject and the sender into a line nicely
+! formatted line, so I'll tell xmailbox that I'm not interested in him
+! getting the subject for me.  IF YOU DELETED THE LINE ABOVE, YOU MAY 
+! WISH TO DELETE THIS LINE TOO.
+!
+!xmailbox.includeSubject:	False
+
+

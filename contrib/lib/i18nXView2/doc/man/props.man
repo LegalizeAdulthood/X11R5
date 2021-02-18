@@ -1,0 +1,25 @@
+.\" %\&Z%%\&M% %\&I% %\&E% SMI;
+.TH props 1 "18 July 1991"
+.SH NAME
+.B props
+\- Graphical interface to set Open Windows resources.
+.SH SYNOPSIS
+.B props
+[-options ...]
+.SH DESCRIPTION
+.PP
+The \fIprops\fP program enables users to change such desktop features as
+color and mouse behavior through a graphical interface. The Open Windows
+resource values modified by \fIprops\fP are stored in the .Xdefaults file
+in the user's home directory.
+.SH OPTIONS
+\fIprops\fP accepts all of the standard XView toolkit command line options.
+.SH FILES
+.TP 15
+.B ~/.Xdefaults                 
+Modified resource values are stored here.
+.SH "SEE ALSO"
+.BR xrdb(1)
+.SH BUGS
+\fIprops\fP rearranges the order in which resources are listed in the
+user's .Xdefaults file as well as removing any comments therein.

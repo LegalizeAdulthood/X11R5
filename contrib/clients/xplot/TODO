@@ -1,0 +1,13 @@
+Implement the command line options in GNU graphics:
+	fontsize, font, --
+	signed, unsigned -- ??
+
+Implement the enhancements to "plot"
+		  r: rotate() -- to rotate text...
+	- put fillstyle option in the "label" command
+
+Check into the V9 plot file format... nahhh.
+	(Probably better to put that into "plot2plot" or something
+	 like that.)
+
+Plus: Get library, named pipe, etc. working

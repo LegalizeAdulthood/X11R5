@@ -1,0 +1,34 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                            THE SELFMOVING WIDGET                             %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+This directory contains the documentation for the Selfmoving widget in compressed postcript format
+
+ROADMAP
+--------------------------------------------------------------------------------
+
+You will find in this directory:
+
+
+- titlepage.ps.Z   : Just a front page
+ 
+- Selfmoving.ps.Z  : Selfmoving user's guide
+
+
+                
+
+BUILDING INSTRUCTIONS
+--------------------------------------------------------------------------------
+
+uncompress each file with the uncompress command and send it to your poscript 
+printer
+
+--------------------------------------------------------------------------------
+
+                                                   Hubert Rechsteiner
+                                                   Doris Hirt
+                                                   Nicolas Repond
+     

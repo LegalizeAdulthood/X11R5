@@ -1,0 +1,177 @@
+Fri Jul  5 02:18:20 EDT 1991
+
+Hi.  I'm Dean Rubine, currently a graduate student and research scientist
+at Carnegie Mellon.  If you need to contact me, try dandb+@andrew.cmu.edu,
+Dean.Rubine@cs.cmu.edu, call (USA) 412-268-6715, or write
+	Dean Rubine
+	CMU Information Technology Center
+	4910 Forbes Avenue
+	Pittsburgh, PA 15213-3890
+
+This directory and its subdirectories contain the first release of my gesture
+code. 
+-------------------------------------------------------------------------
+
+There are X deliverables in this distribution:
+	librecog.a - a C library for gesture recognition
+	tt - a program which produces gesture recognizers from mouse data files
+	mrecord - a program for producing mouse data files for tt
+	libgdev.a - a window system independent graphics library
+	gdp - an example gesture-based application
+	gesture - a simplw NeXT app that illustrates gesture recognition 
+All programs and libraries, source files and documentation (including this
+file) are
+	Copyright (C) 1991 Dean Rubine.
+
+ Permission to use, copy, modify, and distribute this software and its
+ documentation for any purpose and without fee is hereby granted, provided
+ that the above copyright notice appear in all copies and that both that
+ copyright notice and this permission notice appear in supporting
+ documentation.  This software is provided "as is" without express or
+ implied warranty.
+
+----------------------------------------------------
+
+The code here has been tested on various hardware, each running a
+different variant of UNIX: IBM RT, DEC Vax, IBM RS6000, and DEC PMAX.
+
+All you need to ftp is the file ``gesture.tar.Z''.  Get this file over (use
+binary mode), put it in a directory by itself, and in that directory execute:
+	uncompress -c gesture.tar | tar xvf -
+This will recreate the subdirectory structure described here.  After
+everything is unpacked, the easiest way to make all this stuff is simply to
+run ``make'' in this directory.  Assuming everything compiles without
+complaint (yeah, right!) try out the gdp program using gestures trained
+by me:
+	gdp/gdp gdp/gdpDEAN.cl
+record/README contains a short description of the gestures.  Each gesture is
+made by pressing the left mouse button, drawing the gesture, and then stopping
+the mouse movement while HOLDING DOWN THE MOUSE BUTTON.  After the gesture
+is recognized, you generally get to manipulate something for as long as you
+hold the button down.   There's no quit command in gdp, so just ^C at the
+shell from which you started gdp.
+
+    Once gdp works for you (it may not work great since you may make the
+gestures differently than I do), try training the gdp recognizer with your
+own gestures, as follows:
+	cd record
+	gdprec
+		(give 15 examples of each gesture class, as explained in
+		 record/README.  gdprec creates gdp.train)
+	  [ After gdprec, you may want to move gdp.train to gdp.test, and
+	    do gdprec again, creating a new gdp.train.  This way you can
+	    evaluate the classifier trained using gdp.train on the gestures
+	    in gdp.test ]
+	gdptrain
+	  [ this runs the training program ../recognition/tt, and writes the
+	    resulting classifier in the file gdp.cl]
+	../gdp/gdp gdp.cl
+	  [ this tries out gdp with your gestures ]
+
+------
+The release consists of the following subdirectories:
+
+recognition - this directory contains the basic functions that are used for
+  single-path (e.g. mouse) gesture training and recognition.  There are no
+  window system or graphics references of any kind in this directory. 
+  Example mouse data used for training and testing is gotten out of .train
+  and .test files, whose contents are ascii listings of mouse points. 
+
+  The program tt (trainer-tester) takes the .train file and produces a
+  classifier to distinguish between the classes of gestures in the .train
+  file.  If desired, it can write the classifier it a .cl file.  It also
+  takes a .test file, and evaluates the gestures in that file, reporting
+  on the number of correct and incorrect classifications of the gestures
+  in that file.
+
+  This directory is the only one currently being distributed that has what I
+  consider to be robust and well-tested code.  I am especially interested in
+  bug fixes and porting problems in any of this code.  I have already
+  incorporated some fixes from Thomas Baudel of U of Toronto.  Thomas returned
+  sources that he had made ANSI C and C++ compatible.  I am not including those
+  here, since they will not compile on my Vax system (which presumably is
+  not ANSI).  Thomas's changes that I am NOT distributing  include:
+	(1) changing the function declarations to ANSI function
+	    prototype form, and
+	(2) altering all my printf-like functions that take a variable
+	    number of variably-typed arguments so they take a fixed number
+	    of arguments.
+
+  Much of this code has debugging statements of the form
+	Z('C') printf("...stuff...");
+  In this case, the printf will occur if -ZC in given on the command line of
+  the program.  Each letter refers to a particular item of interest, and has
+  it's own verbosity level:  -ZCC will print more detail than -ZC.
+
+      A quick grep reveals the following -Z options:
+
+	-ZF	in fv.c, debugs feature vector calculations
+	-Za	in sc.c, prints average covariance matrix
+	-ZC	in sc.c, prints details of classification of feature vectors
+	-Zc	in tt.c, dumps classifier after calculating it
+	-Zf	in tt.c, prints feature vectors during training
+	-Ze	in tt.c, prints details about misclassications
+
+gdev - this directory contains a port of a graphics layer I did to x11r4, as
+  well as some other systems.  The x11r4 port is minimal, thrown together in
+  a couple of days, and only works enough to support the programs in the gdp
+  and record directories.
+
+gdp - contains gdp, a C version of a very simple gesture-based drawing
+  program.   WARNING: The code is VERY UGLY.  I hacked this together really
+  fast out of bits and pieces of code I had lying around.  The original GDP I
+  did was written in an old version of Objective-C (and ran on a uVAX), and
+  I've elected not to distribute it.  The only point of this gdp is to
+  demonstrate a simple, real-live, mouse-based gesture program running under
+  X11.
+
+record - contains a very simple program for recording examples of gestures.
+  This program was used to create the various .test and .train files, used
+  for testing and training classifiers.
+
+NeXT - contains code from Dale Amon.  IMPORTANT: This code shares nothing with
+  the code in the aforementioned directories.  Dale took and old copy of my
+  *multiple* finger gesture recognition, and did a simple training and testing
+  app on the NeXT.  Ideally, the old multi-finger code should be replaced with
+  the newer, single-finger (i.e. mouse) code in the dist directory.  Even more
+  ideally, gestures should be integrated into the AppKit somehow.  I make even
+  less of guarantee about this code then the null guarantee that I make about
+  all the rest of the code in this ftp distribution.
+
+papers - contains postscript versions of some papers I wrote about this stuff.
+  In some cases the papers are incomplete, since I don't have all of the
+  figures in postscript form.  I'll try to remedy this with a scanner soon;
+  in the meantime, I'm happy to send paper copies via the U.S. mail.
+  Just email me a postal address.
+
+  The available papers are:
+
+     Specifying Gestures by Example, to appear in SIGGRAPH '91 proceedings.
+
+     Integrating Gesture Recognition and Direct Manipulation, USENIX
+	Summer '91 Technical Proceedings
+
+      Thesis Summary: The Automatic Recognition of Gestures
+
+      PhD Thesis: The Automatic Recognition of Gestures (not yet done, but
+	should be by this August.)
+
+   So far only the first is in the papers directory, but I'm working on it.
+
+-----
+
+I plan to put out a new release with prettier code as well as bug
+fixes.  The next release will certainly not happen before September, 1991,
+since I am going away for all of August and have many other things to
+do between now and then.
+
+If you actually use any of this stuff, please send me some mail letting
+me know.  If you like, send me back bug fixes and new programs as well.
+Unless you tell me not to, I'll try to incorporate everything I get into the
+next release.  I'll send mail when that release is ready.
+
+   Enjoy,
+   Dean Rubine   (dandb+@andrew.cmu.edu or Dean.Rubine@cs.cmu.edu)
+
+P.S. Feel free to email me or call me at 412-268-6715 with any questions.
+

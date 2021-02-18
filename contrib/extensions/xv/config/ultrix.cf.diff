@@ -1,0 +1,12 @@
+23,24d22
+< #define BuildXvExt YES
+< #define ExtensionOSDefines -DXV
+30d27
+< #define XtxServer YES
+40,43d36
+< #define BuildXvExt YES
+< #define BuildXvParallax NO
+< #define BuildXvRasterOps YES
+< #define ExtensionOSDefines -DXV
+53d45
+< 

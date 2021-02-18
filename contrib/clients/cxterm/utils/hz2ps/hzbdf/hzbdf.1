@@ -1,0 +1,59 @@
+.TH hzbdf 1 "18 July 1991"
+.SH NAME
+hzfont2bdf, bdf2hzfont (version 2.0) \- programs to convert between hz
+font format and X window bdf font format
+.SH SYNTAX
+.B hzfont2bdf
+[
+.B\-gb 
+(default) or
+.B\-big5
+]
+
+.B bdf2hzfont
+<
+.B\-gb
+or
+.B\-big5
+>
+.I hzName size
+[
+.I all_zero_char_code
+]
+.SH DESCRIPTION
+Utility programs to convert between the hz and bdf font format.  The program 
+.PN bdf2hzfont 
+takes input from stdin and 
+.PN hzfont2bdf 
+writes to stdout.
+
+The user can specify whether the font file is in GB or BIG5 code.  
+
+For
+.PN hzfont2bdf,
+the FONT field of the generated bdf file is 
+.I hzName
+concatenated with 
+.I size. 
+The 
+.I all_zero_char_code
+code will be used for all blank bitmaps.
+
+You may need to edit some of the fields of the generated bdf file, such
+as the COPYRIGHT, FOUNDRY, FONT, COMMENT, and BBX fields. 
+.SH COPYRIGHT
+Copyright (C) 1989, 1991	Ricky Yeung 
+.sp
+All rights reserved.
+Permission to copy and distribute verbatim copies of the source code
+and accompanied documents for non-commercial purposes is granted,
+but changing them is not allowed.
+There is absolutely no warranty for this program.
+.SH AUTHOR
+Ricky Yeung
+.SH BUGS
+Bug reports and comments should be sent to
+yeung@decwrl.dec.com or yeung@atd.dec.com.
+.SH DISCLAIMER
+This software has no connection with my employer.
+

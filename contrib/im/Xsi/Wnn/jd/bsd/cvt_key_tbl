@@ -1,0 +1,7 @@
+;
+; $Id: cvt_key_tbl,v 1.1 1991/09/09 22:40:26 ohm Exp $
+;
+kl	\x81
+ku	\x82
+kr	\x83
+kd	\x84

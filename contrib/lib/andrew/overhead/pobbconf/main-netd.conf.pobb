@@ -1,0 +1,41 @@
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+#
+%include pobbconfig.defs
+#
+#
+#	/etc/netd.conf - network services configuration file
+#
+#	NOTES:
+#		sending /etc/netd a HUP signal will cause it to reread file
+#		sending /etc/netd a TERM signal will cause it to exit
+#		the pid may be obtained via cat /etc/netd.pid
+#
+# Standard internet services
+echo/udp	inet dgram  wait   daemon /usr/etc/echod	echod
+discard/udp	inet dgram  wait   daemon /usr/etc/discardd	discardd
+finger/tcp	inet stream nowait daemon	/usr/etc/fingerd	fingerd
+daytime/tcp	inet stream nowait daemon	/usr/etc/daytimed	daytimed
+#ftp/tcp		inet stream nowait daemon	/usr/etc/ftpd	ftpd
+telnet/tcp	inet stream nowait root	/usr/etc/telnetd	telnetd	-console
+#
+# Unix specific internet services
+#biff/udp	inet dgram  wait   root /usr/etc/comsat    comsat
+#tftp/udp	inet dgram  wait   root /usr/etc/tftpd	tftpd
+#talk/udp	inet dgram  wait   root /usr/etc/talkd	talkd
+#shell/tcp	inet stream nowait root	/usr/etc/rshd	rshd
+#login/tcp	inet stream nowait root	/usr/etc/rlogind	rlogind
+#exec/tcp	inet stream nowait root	/usr/etc/rexecd	rexecd
+#
+# VICE II authenticated services
+vshell/tcp	inet stream nowait root	/usr/etc/rshd	rshd -v
+vlogin/tcp	inet stream nowait root	/usr/etc/rlogind	rlogind -v
+#vexec/tcp	inet stream nowait root	/usr/etc/rexecd	rexecd -v
+#
+# VICE II services used by fileservers, staging and control machines
+#client/tcp	inet stream nowait root	/usr/etc/serverd	serverd
+#

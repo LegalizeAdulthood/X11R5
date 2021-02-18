@@ -1,0 +1,109 @@
+\begindata{text,268752700}
+\textdsversion{12}
+\template{help}
+\chapter{EZ Changes
+
+}
+\section{New Features
+
+}\leftindent{
+\bold{Pagebreak Insets}
+
+
+\leftindent{The earlier troff command, .bp, has now been replaced by pagebreak 
+insets.  In addition to forcing pagebreaks on printing or previewing, the new 
+insets can be scanned in the EZ window via commands from the new \bold{Page} 
+menu.  For more information, see the revised  \italic{ez}  help file.}
+
+
+\bold{Footnotes}
+
+
+\leftindent{Footnote entries can now be included in EZ documents through the 
+use of footnote insets.  Entries are edited in the EZ window using the 
+standard editing features.  Footnotes are ordered and placed at the bottom of 
+pages when printing or previewing the document.  For more information, see the 
+new  \italic{ez-footnotes}  help document.}
+
+
+\bold{Table of Contents}
+
+
+\leftindent{Tables of contents can now be automatically created for EZ 
+documents via the new \bold{Page} menu.  By default, tables are created from 
+titles formatted with \bold{Chapter}, \bold{Section}, \bold{Subsection}, or 
+\bold{Function} styles.  New preferences, used to control the creation, 
+enumeration, and printing of tables of contents are also available.  
+
+
+The Table of Contents feature is still under development, and some options may 
+not work as well as others.  For more information, see the new 
+ \italic{ez-contents}  help document.}
+
+
+\bold{Index}
+
+
+\leftindent{Indexes can now be created for EZ documents.  Terms can be indexed 
+manually, automatically, or indexed from a separate file.
+
+
+The Index feature is still under development, and some options may not work as 
+well as others.  For more information, see the new  \italic{ez-contents}  help 
+document.}}
+
+
+\section{New Editing Packages
+
+}\leftindent{
+\bold{ltext}
+
+
+\leftindent{EZ now supports the editing of lisp code with the ltext editing 
+package.  The ltext package includes a number of new features, such as 
+parenthesis balancing, automatic indentation of code, and automatic 
+highlighting of definitions and comments.  For more information, see the new 
+ \italic{ltext}  help file.}
+
+
+\bold{mtext} 
+
+
+\leftindent{The mtext package allows you to create and edit Modula-2 programs 
+in EZ.  The new package introduces features such as automatic formatting of 
+comments and keywords and two keybindings, used for indentation and linefeeds. 
+ For more information, see the new  \italic{mtext}  help file.}
+
+
+\bold{ptext}
+
+
+\leftindent{The editing of Pascal programs can now be done using EZ's ptext 
+editing package.  New features include the automatic formatting of comments 
+and keywords and two extra keybindings, used for indentation and linefeeds. 
+ For more information, see the  \italic{ptext}  help file.}}
+
+
+\section{Related tools}
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{\italic{ez
+
+ez-contents
+
+ez-footnotes
+
+ez-index
+
+ptext
+
+ctext
+
+ltext
+
+mtext\
+}}\enddata{text,268752700}

@@ -1,0 +1,17 @@
+.TH GL_ExposeChildren 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_ExposeChildren \- Expose all children of a window
+.SH SYNTAX 
+void GL_ExposeChildren(win)
+.br
+	Window win;
+.SH ARGUMENTS
+.IP win 1i
+The window whose children should be exposed.
+
+.SH DESCRIPTION
+This call will recursively expose all of the children of a certain window.
+
+.SH "SEE ALSO"
+XSendEvent(3X11), GraphLib Programming Manual
+ 

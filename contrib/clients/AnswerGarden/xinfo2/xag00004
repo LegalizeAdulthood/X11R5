@@ -1,0 +1,13 @@
+@begin(    header)
+version:  0.7
+authoring_date: 6/4/91
+author:  Mark Ackerman
+show_author: ShowNone
+author_organization:  MIT
+expiration_date: 6/4/92
+@end   (header          )
+@b<The Answer Garden>
+
+This version of the Answer Garden answers
+questions about the X Window System.
+

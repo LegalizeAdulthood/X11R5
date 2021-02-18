@@ -1,0 +1,32 @@
+   DPS_INCLUDES = ../../include
+ EXTRA_INCLUDES = -I$(DPS_INCLUDES)
+        DPS_LIB = ../../lib/dps/libdps.a
+LOCAL_LIBRARIES = $(XMLIB) $(XTOOLLIB) $(DPS_LIB) $(XLIB)
+         PSWRAP = ../../clients/pswrap/pswrap
+
+#ifndef ImageDir
+#define ImageDir $(LIBDIR)/images
+#endif
+       IMAGEDIR = ImageDir
+
+SRCS = wwraps.psw wonderland.c winit.c
+
+OBJS = wwraps.o wonderland.o winit.o
+
+DERIVED_FILES = wwraps.h wonderwraps.c
+
+.SUFFIXES: .psw
+
+.psw.o :
+	$(PSWRAP) -o $*.c -h $*.h $<
+	$(CC) -c $(CFLAGS) $*.c
+	$(RM) $*.c
+
+ComplexProgramTarget(wonderland)
+
+InstallAppDefaults(Wonderland)
+InstallNonExec(flowers90.ps,$(IMAGEDIR)/Wonderland.ps)
+
+clean ::
+	$(RM) $(DERIVED_FILES)
+

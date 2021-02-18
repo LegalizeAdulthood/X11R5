@@ -1,0 +1,25 @@
+.TH GL_Add_To_DataList 3GL "5Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Add_To_DataList \- Add some data into the datalist
+.SH SYNTAX
+void GL_Add_To_DataList(List, Key, Data)
+.br
+	GL_DataList List;
+.br
+	VPTF Key;
+.br
+	GLPointer Data;
+.SH ARGUMENTS
+.IP List 1i
+The List in which to add the data
+.IP Key 1i
+The Key to use to add the Data
+.IP Data 1i
+The data to put into the list using the key.
+
+.SH DESCRIPTION
+This routine puts a piece of data into the datalist using the key given.
+the data can be retrieved by using GL_Search_DataList(3GL).
+
+.SH "SEE ALSO"
+GL_Search_DataList(3GL), GL_Init_DataList(3GL), GraphLib Programming Manual

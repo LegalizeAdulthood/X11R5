@@ -1,0 +1,393 @@
+*** ./config/ibm.cf	Mon Sep 30 12:13:06 1991
+--- ../x11r5b.mit.rs6000/config/ibm.cf	Tue Sep 17 13:44:21 1991
+***************
+*** 25,32 ****
+  
+  #ifdef RsArchitecture
+  
+- #define BuildPliExt     YES
+- #define PliExtImp       /etc/plikext.imp
+  #define ProjectRoot		/usr/local/X11R5
+  
+  #define SystemV			YES
+--- 25,30 ----
+***************
+*** 36,46 ****
+  #define ExecableScripts		YES
+  #define Malloc0ReturnsNull	YES
+  #define CppCmd			/usr/lpp/X11/Xamples/util/cpp/cpp
+! #ifdef BuildPliExt
+! #define StandardDefines         -DSYSV -DAIXV3 -DXPLI
+! #else
+! #define StandardDefines         -DSYSV -DAIXV3 
+! #endif /* BuildPliExt */
+  #define ExpandManNames		YES
+  #define XibmServer 		YES
+  #define ibmIncludeSKYWAY	YES
+--- 34,40 ----
+  #define ExecableScripts		YES
+  #define Malloc0ReturnsNull	YES
+  #define CppCmd			/usr/lpp/X11/Xamples/util/cpp/cpp
+! #define StandardDefines         -DSYSV -DAIXV3
+  #define ExpandManNames		YES
+  #define XibmServer 		YES
+  #define ibmIncludeSKYWAY	YES
+*** ./config/ibmLib.rules	Thu Sep 19 09:38:10 1991
+--- ../x11r5b.mit.rs6000/config/ibmLib.rules	Fri May 10 09:28:10 1991
+***************
+*** 26,36 ****
+  #define PositionIndependentCFlags -bM\:SRE
+  #endif
+  #ifndef ExtraLoadFlags
+- #ifdef RsArchitecture
+- #define ExtraLoadFlags -bnodelcsect  -bI\:PliExtImp
+- #else
+  #define ExtraLoadFlags -bnodelcsect
+- #endif /* ~RsArchitecture */
+  #endif
+  
+  /*
+--- 26,32 ----
+*** ./server/Imakefile	Thu Sep 19 09:38:42 1991
+--- ../x11r5b.mit.rs6000/server/Imakefile	Fri Jul 26 20:56:32 1991
+***************
+*** 30,42 ****
+  #if BuildXInputExt
+        OTHEREXTS = $(EXTENSIONSRC)/server/xinput/libxinput.a
+  #endif
+- #if BuildPliExt
+- PLIEXTS = $(EXTENSIONSRC)/server/xpli/libxpli.a
+- #endif
+  
+          DEPDIRS = $(FONTSRC)/lib/font $(EXTENSIONSRC)/server
+!      NONPEXEXTS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a $(PLIEXTS)
+!      EXTENSIONS = $(NONPEXEXTS) $(PEXLIBS) 
+           XAULIB = $(XAUTHSRC)/libXau.a
+         XDMCPLIB = $(XDMCPLIBSRC)/libXdmcp.a
+               OS = os/libos.a $(XAULIB) $(XDMCPLIB)
+--- 30,39 ----
+  #if BuildXInputExt
+        OTHEREXTS = $(EXTENSIONSRC)/server/xinput/libxinput.a
+  #endif
+  
+          DEPDIRS = $(FONTSRC)/lib/font $(EXTENSIONSRC)/server
+!      NONPEXEXTS = $(OTHEREXTS) $(EXTENSIONSRC)/server/libext.a
+!      EXTENSIONS = $(NONPEXEXTS) $(PEXLIBS)
+           XAULIB = $(XAUTHSRC)/libXau.a
+         XDMCPLIB = $(XDMCPLIBSRC)/libXdmcp.a
+               OS = os/libos.a $(XAULIB) $(XDMCPLIB)
+*** ./server/ddx/mi/miinitext.c	Mon Sep 23 13:08:35 1991
+--- ../x11r5b.mit.rs6000/server/ddx/mi/miinitext.c	Wed Aug 15 08:42:38 1990
+***************
+*** 50,67 ****
+  #ifdef XIDLE
+  extern void XIdleExtensionInit();
+  #endif
+- #ifdef XPLI
+- extern void PLIExtensionInit();
+- extern int  PLIProcessCommandArgument(argc,argv);	
+- #endif /* XPLI */
+  
+- /* New addition */
+- #include <scrnintstr.h>
+- 
+  /*ARGSUSED*/
+  void
+! InitExtensions(screenInfo, argc, argv)
+!     ScreenInfo  *screenInfo;
+      int		argc;
+      char	*argv[];
+  {
+--- 50,59 ----
+  #ifdef XIDLE
+  extern void XIdleExtensionInit();
+  #endif
+  
+  /*ARGSUSED*/
+  void
+! InitExtensions(argc, argv)
+      int		argc;
+      char	*argv[];
+  {
+***************
+*** 92,106 ****
+  #ifdef XIDLE
+      XIdleExtensionInit();
+  #endif
+- #ifdef XPLI
+- 	PLIExtensionInit(screenInfo,argc,argv);	
+- #endif /* XPLI */
+- } /* of InitExtensions() */
+- int  extProcessCommandArgument( argc, argv,i)
+- {
+- #ifdef XPLI
+- 	return(PLIProcessCommandArgument(argc,argv,i));	
+- #else /* ~XPLI */
+- 	return(0);
+- #endif /* ~XPLI */
+  }
+--- 84,87 ----
+*** ./server/dix/dispatch.c	Wed Oct  2 16:20:48 1991
+--- ../x11r5b.mit.rs6000/server/dix/dispatch.c	Thu Jul 18 22:41:41 1991
+***************
+*** 92,111 ****
+  char dispatchException = 0;
+  char isItTimeToYield;
+  
+- /* New additions. */
+- static short numInputs = 0;	/* number of entries in otherInputs */
+- /* For each entry in otherInputs, if *p1 != *p2, call (*fn)()
+-     to process the associated input event. */
+- #define MAX_OTHER_INPUTS 16
+- #define DO_PROCESS	TRUE
+- #define DONT_PROCESS	FALSE
+- static struct s_otherInputs {
+-   long *p1, *p2;
+-   DevicePtr devP; /* typically a DevicePtr */
+-   void (*fn)();
+-  } otherInputs[MAX_OTHER_INPUTS];
+- /* End of New additions. */
+- 
+  /* Various of the DIX function interfaces were not designed to allow
+   * the client->errorValue to be set on BadValue and other errors.
+   * Rather than changing interfaces and breaking untold code we introduce
+--- 92,97 ----
+***************
+*** 116,175 ****
+  #define SAME_SCREENS(a, b) (\
+      (a.pScreen == b.pScreen))
+  
+- /* Add an entry in otherInputs: p1 and p2 point to 2 long's.  The locations
+-    they point ot become unequal when input is available from the input
+-    device that made this call.  When that happens, the function pointed
+-    to by fn is called. */
+  void
+- AddInputCheck (p1, p2, devP, fn)
+-     long *p1, *p2;
+-     DevicePtr devP; 
+-     void (*fn) ();
+- {
+-   if (numInputs == MAX_OTHER_INPUTS)
+-     return;   /* should have an error here */
+-   otherInputs[numInputs].p1 = p1;
+-   otherInputs[numInputs].p2 = p2;
+-   otherInputs[numInputs].devP = devP;
+-   otherInputs[numInputs].fn = fn;
+- 
+-   numInputs++;
+- }
+- 
+- /* Returns the number of slots where p1 != p2,
+-    indicating input is available */
+- int
+- CheckInputs(do_process)
+- Bool do_process;	/* do we call dispatch routine? */
+- {
+-   int num_hits = 0;
+-   struct s_otherInputs *oiP;
+- 
+-   /* For old-timers: ProcessInputEvents goes first */
+-   if (checkForInput[0] && checkForInput[1]	/* Make sure they're set! */
+-       && *checkForInput[0] != *checkForInput[1])
+-     {
+-       num_hits++;
+-       if (do_process)
+- 	ProcessInputEvents();
+-     }
+- 
+-   /*
+-    * For new guys, NIL pointers mean input always available.
+-    * Otherwise, input available if referenced locations not equal.
+-    */
+-   for (oiP=&otherInputs[0]; oiP < &otherInputs[numInputs]; oiP++)
+-     if (oiP->p1 == 0 || oiP->p2 == 0 || *oiP->p1 != *oiP->p2)
+-     {
+-       num_hits++;
+-       if (do_process && oiP->fn)
+- 	(*oiP->fn)(oiP->devP, oiP->p1, oiP->p2);
+-     }
+- 
+-   return num_hits;
+- }
+- 
+- void
+  SetInputCheck(c0, c1)
+      long *c0, *c1;
+  {
+--- 102,108 ----
+***************
+*** 183,195 ****
+      TimeStamp systime;
+  
+      /* To avoid time running backwards, we must call GetTimeInMillis before
+!      * calling ProcessInputEvents via CheckInputs().
+       */
+      systime.months = currentTime.months;
+      systime.milliseconds = GetTimeInMillis();
+      if (systime.milliseconds < currentTime.milliseconds)
+  	systime.months++;
+!     CheckInputs(DO_PROCESS);
+      if (CompareTimeStamps(systime, currentTime) == LATER)
+  	currentTime = systime;
+  }
+--- 116,129 ----
+      TimeStamp systime;
+  
+      /* To avoid time running backwards, we must call GetTimeInMillis before
+!      * calling ProcessInputEvents.
+       */
+      systime.months = currentTime.months;
+      systime.milliseconds = GetTimeInMillis();
+      if (systime.milliseconds < currentTime.milliseconds)
+  	systime.months++;
+!     if (*checkForInput[0] != *checkForInput[1])
+! 	ProcessInputEvents();
+      if (CompareTimeStamps(systime, currentTime) == LATER)
+  	currentTime = systime;
+  }
+***************
+*** 266,274 ****
+  
+      while (!dispatchException)
+      {
+!       if (CheckInputs(DO_PROCESS) > 0)
+  	{
+! 	  FlushIfCriticalOutputPending();
+  	}
+  
+  	nready = WaitForSomething(clientReady);
+--- 200,209 ----
+  
+      while (!dispatchException)
+      {
+!         if (*icheck[0] != *icheck[1])
+  	{
+! 	    ProcessInputEvents();
+! 	    FlushIfCriticalOutputPending();
+  	}
+  
+  	nready = WaitForSomething(clientReady);
+***************
+*** 294,302 ****
+              requestingClient = client;
+  	    while (!isItTimeToYield)
+  	    {
+! 	      if (CheckInputs(DO_PROCESS) > 0)
+  		{
+! 		  FlushIfCriticalOutputPending();
+  		}
+  	   
+  		/* now, finally, deal with client requests */
+--- 229,238 ----
+              requestingClient = client;
+  	    while (!isItTimeToYield)
+  	    {
+! 	        if (*icheck[0] != *icheck[1])
+  		{
+! 		    ProcessInputEvents();
+! 		    FlushIfCriticalOutputPending();
+  		}
+  	   
+  		/* now, finally, deal with client requests */
+*** ./server/dix/events.c	Mon Sep 30 11:03:25 1991
+--- ../x11r5b.mit.rs6000/server/dix/events.c	Thu Aug 22 15:47:46 1991
+***************
+*** 147,158 ****
+  static Mask lastEventMask;
+  
+  #define CantBeFiltered NoEventMask
+- #ifdef XPLI
+- /* Pli Extension needs the filters to get the mask for a particular event.*/
+- Mask filters[128] =
+- #else
+  static Mask filters[128] =
+- #endif /* ~XPLI */
+  {
+  	NoSuchEvent,		       /* 0 */
+  	NoSuchEvent,		       /* 1 */
+--- 147,153 ----
+***************
+*** 212,229 ****
+  	FatalError("SetMaskForEvent: bogus event number");
+      filters[event] = mask;
+  }
+- 
+- #ifdef XPLI
+- /* avoid making filters global for extensions */
+- Mask
+- GetMaskForEvent(event)
+-     int event;
+- {
+-     if ((event < LASTEvent) || (event >= 128))
+- 	FatalError("SetMaskForEvent: bogus event number");
+-     return filters[event];
+- }
+- #endif XPLI
+  
+  void
+  SetCriticalEvent(event)
+--- 207,212 ----
+*** ./server/dix/main.c	Wed Oct  2 14:45:01 1991
+--- ../x11r5b.mit.rs6000/server/dix/main.c	Mon Sep 23 11:58:10 1991
+***************
+*** 223,234 ****
+  	ResetGCPrivates();
+  	ResetFontPrivateIndex();
+  	InitOutput(&screenInfo, argc, argv);
+- 	/* allow extensions to call AddScreen before numScreens check */
+- 	InitExtensions(&screenInfo, argc, argv);
+  	if (screenInfo.numScreens < 1)
+- 	{
+  	    FatalError("no screens found");
+! 	}
+  	for (i = 0; i < screenInfo.numScreens; i++)
+  	{
+  	    if (!CreateGCperDepth(i))
+--- 223,231 ----
+  	ResetGCPrivates();
+  	ResetFontPrivateIndex();
+  	InitOutput(&screenInfo, argc, argv);
+  	if (screenInfo.numScreens < 1)
+  	    FatalError("no screens found");
+! 	InitExtensions(argc, argv);
+  	for (i = 0; i < screenInfo.numScreens; i++)
+  	{
+  	    if (!CreateGCperDepth(i))
+***************
+*** 246,254 ****
+  	if (SetDefaultFontPath(defaultFontPath, &i) != Success)
+  	    ErrorF("failed to set default font path '%s'", defaultFontPath);
+  	if (!SetDefaultFont(defaultTextFont))
+- 	{
+  	    FatalError("could not open default font '%s'", defaultTextFont);
+- 	}
+  	if (!(rootCursor = CreateRootCursor(defaultCursorFont, 0)))
+  	    FatalError("could not open default cursor font '%s'",
+  		       defaultCursorFont);
+--- 243,249 ----
+*** ./server/os/utils.c	Mon Sep 23 18:44:58 1991
+--- ../x11r5b.mit.rs6000/server/os/utils.c	Fri Jul 19 23:22:17 1991
+***************
+*** 238,250 ****
+  #endif
+      for ( i = 1; i < argc; i++ )
+      {
+! 	/* call extension first, so it can peek/override if it wants */
+!         if(skip = extProcessCommandArgument(argc, argv, i))
+! 	{
+! 	    i += (skip - 1);
+! 	}
+! 	/* call ddx next, so it can peek/override if it wants */
+!         else if(skip = ddxProcessArgument(argc, argv, i))
+  	{
+  	    i += (skip - 1);
+  	}
+--- 238,245 ----
+  #endif
+      for ( i = 1; i < argc; i++ )
+      {
+! 	/* call ddx first, so it can peek/override if it wants */
+!         if(skip = ddxProcessArgument(argc, argv, i))
+  	{
+  	    i += (skip - 1);
+  	}

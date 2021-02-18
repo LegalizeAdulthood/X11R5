@@ -1,0 +1,50 @@
+#include <GLLibrary.tmpl>
+#include "GraphLib.tmpl"
+
+INCLUDES = -I$(TOP)
+HEADERS = \
+	sysdef.h \
+	stddef.h \
+	limits.h \
+	varargs.h \
+	eventmgr.h \
+	window.h \
+	gc.h \
+	miscutils.h \
+	geommgr.h \
+	resmgr.h \
+	resfns.h 
+
+SRCS = \
+	varargs.c\
+	eventmgr.c\
+	window.c\
+	gc.c\
+	miscutils.c\
+	geommgr.c\
+	resmgr.c\
+	resfns.c
+
+OBJS = \
+	varargs.o \
+	eventmgr.o \
+	window.o \
+	gc.o \
+	miscutils.o\
+	geommgr.o\
+	resmgr.o\
+	resfns.o
+
+all:: $(OBJS)
+NormalLibraryObjectRule()
+
+#if SharedLibGL
+SharedLibraryObjectRule()
+#endif
+
+BuildIncludes($(HEADERS),gl,..)
+MakeDirectories(install,$(INCDIR)/gl)
+InstallMultiple($(HEADERS),$(INCDIR)/gl)
+
+DependTarget()
+

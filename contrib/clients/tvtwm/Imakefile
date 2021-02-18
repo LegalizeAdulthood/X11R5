@@ -1,0 +1,85 @@
+XCOMM
+XCOMM Here is an Imakefile for tvtwm.  The below defines for make are
+XCOMM neccessary to have things work as expected, please don't remove
+XCOMM any of them.
+XCOMM
+
+         YFLAGS = -d
+        DEPLIBS = $(DEPXMULIB) $(DEPEXTENSIONLIB) $(DEPXLIB)
+
+XCOMM
+XCOMM   Any of these three lines can be commented out.  The first two are
+XCOMM for Xpm support.  If you do not wish to use the Xpm library functions,
+XCOMM comment these two lines out.  The last line is for support to allow
+XCOMM the xloadimage program by Jim Frost to perform your background loading.
+XCOMM (thus allowing loading of other image formats besides Xpm or Xbm)
+XCOMM                                 Chris P. Ross
+XCOMM                                 <cross@eng.umd.edu>
+XCOMM
+XCOMM   Also note, if you install your libXpm.a in a strange place, you'll
+XCOMM have to adjust $(XPMLIB) below.  You may also have to change the
+XCOMM include path of the compile, so that the code can include from
+XCOMM <X11/xpm.h>.
+XCOMM
+
+         XPMLIB	= -lXpm
+        XPM_DEF = -DXPM
+    XLOADIM_DEF = -DXLOADIMAGE=\"/usr/local/bin/xloadimage\"
+
+XCOMM   Ultrix doesn't have a mkstemp in libc...
+
+#ifdef UltrixArchitecture
+  LOCAL_DEFINES = $(XPM_DEF) -DNOSTEMP
+#else
+  LOCAL_DEFINES = $(XPM_DEF)
+#endif
+
+LOCAL_LIBRARIES = $(XMULIB) $(EXTENSIONLIB) $(XPMLIB) $(XLIB)
+       LINTLIBS = $(LINTXMU) $(LINTEXTENSIONLIB) $(LINTXLIB)
+        DEFINES = ExtensionDefines $(LOCAL_DEFINES) $(SIGNAL_DEFINES)
+
+           SRCS = gram.c lex.c deftwmrc.c add_window.c gc.c list.c twm.c \
+		parse.c menus.c events.c resize.c util.c version.c iconmgr.c \
+		cursor.c icons.c vdt.c move.c LocPixmap.c
+
+           OBJS = gram.o lex.o deftwmrc.o add_window.o gc.o list.o twm.o \
+		parse.o menus.o events.o resize.o util.o version.o iconmgr.o \
+		cursor.o icons.o vdt.o move.o LocPixmap.o
+
+AllTarget(tvtwm ssetroot)
+
+SpecialObjectRule(parse.o, ,'-DSYSTEM_INIT_FILE="'$(TWMDIR)'/system.twmrc"')
+SpecialObjectRule(vdt.o, ,$(XLOADIM_DEF))
+#if !HasPutenv
+SpecialObjectRule(util.o, ,-DNOPUTENV)
+#endif
+
+depend:: lex.c gram.c deftwmrc.c 
+
+ComplexProgramTarget(tvtwm)
+NormalProgramTarget(ssetroot,ssetroot.o,,$(LOCAL_LIBRARIES),)
+
+MakeDirectories(install,$(TWMDIR))
+InstallNonExec(system.twmrc,$(TWMDIR))
+XCOMM InstallNamedProg(ssetroot,xsetroot,$(BINDIR))
+
+gram.h gram.c: gram.y
+	$(YACC) $(YFLAGS) gram.y
+	$(MV) y.tab.c gram.c
+	$(MV) y.tab.h gram.h
+
+clean::
+	$(RM) y.tab.h y.tab.c lex.yy.c gram.h gram.c lex.c deftwmrc.c 
+
+deftwmrc.c:  system.twmrc
+	$(RM) $@
+	@echo '/* ' >>$@
+	@echo ' * This file is generated automatically from the default' >>$@
+	@echo ' * twm bindings file system.twmrc by the twm Imakefile.' >>$@
+	@echo ' */' >>$@
+	@echo '' >>$@
+	@echo 'char *defTwmrc[] = {' >>$@
+	sed -e '/^#/d' -e 's/"/\\"/g' -e 's/^/    "/' -e 's/$$/",/' \
+		system.twmrc >>$@
+	@echo '    (char *) 0 };' >>$@
+

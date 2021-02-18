@@ -1,0 +1,81 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef SNAP_ENV
+
+/*  *WARNING*
+   This Imakefile parses the installed amsvers.h file to determine the name for the messageserver executable program.  BEWARE!
+ *WARNING* */
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#endif /* RESOLVER_ENV */
+
+LOCALINCLUDES	=	-I${BASEDIR}/include/ams
+
+PRODUCT	=	messageserver
+
+OBJS		=	errmsgs.o ms.o
+
+#if defined(ANDREW_MALLOC_ENV) && defined(DEBUG_MALLOC_ENV)
+PLUMBER_LIB = ${BASEDIR}/lib/libplumber.a
+#else
+#if defined(ANDREW_MALLOC_ENV)
+PLUMBER_LIB = ${BASEDIR}/lib/libmalloc.a
+#endif
+#endif
+
+LIBS_PART_A= \
+	${BASEDIR}/lib/libmssrv.a \
+	${BASEDIR}/lib/libmsshr.a \
+	${BASEDIR}/lib/libeli.a \
+	${BASEDIR}/lib/librxp.a
+
+LIBS_PART_B= \
+	${BASEDIR}/lib/libmail.a \
+	${BASEDIR}/lib/liberrors.a \
+	${UTILLIB} ${PRSLIB} \
+	${PLUMBER_LIB} \
+	${BASEDIR}/lib/libgasp.a \
+	${RESOLVER_LIB}
+
+NSNAP_LIBS= \
+	${LIBS_PART_A} \
+	${BASEDIR}/lib/libsnap.a \
+	${LIBS_PART_B}
+
+TSNAP_LIBS= \
+	${LIBS_PART_A} \
+	${BASEDIR}/lib/libsnapt.a \
+	${LIBS_PART_B}
+
+
+NormalObjectRule()
+
+#ifdef USE_MMDF_ENV
+ProgramTarget(messageserver, ${OBJS}, ${NSNAP_LIBS} , ${SUPLIBS} ${NETLIBS} ${MMDFLIBS} ${BSDLIB})
+#else
+ProgramTarget(messageserver, ${OBJS}, ${NSNAP_LIBS} , ${SUPLIBS} ${NETLIBS} ${BSDLIB})
+#endif
+
+DEST = $(DESTDIR)/etc/snap/services/`awk -f imkfile.awk  ${BASEDIR}/include/ams/amsvers.h`
+DEST_t = $(DESTDIR)/etc/snap/servicest/`awk -f imkfile.awk  ${BASEDIR}/include/ams/amsvers.h`
+
+InstallFileToFile(messageserver, $(INSTPROGRWFLAGS), $(DEST))
+
+#ifdef USE_MMDF_ENV
+ProgramTarget(messageservert, ${OBJS}, ${TSNAP_LIBS}, ${SUPLIBS} ${NETLIBS} ${MMDFLIBS} ${BSDLIB})
+#else
+ProgramTarget(messageservert, ${OBJS}, ${TSNAP_LIBS}, ${SUPLIBS} ${NETLIBS} ${BSDLIB})
+#endif
+
+InstallFileToFile(messageservert, $(INSTPROGRWFLAGS), $(DEST_t))
+
+DependTarget()
+
+#endif /* SNAP_ENV */

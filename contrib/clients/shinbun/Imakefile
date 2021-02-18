@@ -1,0 +1,47 @@
+#
+# Imakefile for shinbun
+#
+LDOPTIONS= -L$(USRLIBDIR) -lxview -lolgx -lX11 -lmle -ljapanese -lc
+DEFINES= -DOW_I18N # remove if i18n isn't need
+
+BITMAPS=news.arrive.icon news.arrive.mask.icon \
+	news.non.arrive.icon news.non.arrive.mask.icon \
+	post.edit.icon post.edit.mask.icon \
+	article.cursor articles.cursor news.icon \
+	news.mask.icon
+
+HDRS=	clientlib.h conf.h nntp.h shinbun.h config.h \
+	sb_tool.h sb_ui.h sb_item.h sb_shinbun.h \
+	sb_canvas.h sb_def.h
+
+SRCS=	clientlib.c shinbun.c shinbun_cmd.c shinbun_post.c \
+	shinbun_newsrc.c version.c newsbiff.c shinbun_bracket.c \
+	sb_cmd.c sb_cmd_support.c sb_main.c sb_menu.c \
+	sb_pane.c sb_post.c sb_tool.c sb_view.c \
+	sb_canvas_pane.c sb_canvas_cmd.c sb_tool_props.c \
+	sb_sign_props.c sb_newsrc_props.c sb_biff_props.c 
+
+OBJS=	clientlib.o shinbun.o shinbun_cmd.o shinbun_post.o \
+	shinbun_newsrc.o version.o newsbiff.o shinbun_bracket.o \
+	sb_cmd.o sb_cmd_support.o sb_main.o sb_menu.o \
+	sb_pane.o sb_post.o sb_tool.o sb_view.o \
+	sb_canvas_pane.o sb_canvas_cmd.o sb_tool_props.o \
+	sb_sign_props.o sb_newsrc_props.o sb_biff_props.o
+
+ComplexProgramTarget(shinbun)
+
+PO_FILE=shinbun.messages.po
+MO_FILE=shinbun.messages.mo
+
+# Install message file
+INSTALL_MO_DIR=./japanese/LC_MESSAGES
+MSGFMT=	$(BINDIR)/msgfmt
+
+install::
+	MakeDir($(INSTALL_MO_DIR))
+	$(MSGFMT) $(PO_FILE)
+
+InstallMultiple($(MO_FILE),$(INSTALL_MO_DIR))
+
+# To install on i18nXView
+#InstallMultiple($(MO_FILE),$(LIBDIR)/lib/locale/japanese/LC_MESSAGES)

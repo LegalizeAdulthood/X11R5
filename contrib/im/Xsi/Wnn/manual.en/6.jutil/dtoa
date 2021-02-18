@@ -1,0 +1,25 @@
+DTOA(4)
+
+NAME
+   dtoa - To convert the binary form of dictionary back to UJIS format.
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/dtoa [-n][-s][-e] <binary_dictionary> [frequency_file]
+
+DESCRIPTION
+    Dtoa converts the binary format dictionary to text format, and output to 
+    standard output.  
+    The second parameter can indicate more than one user usage frequency file 
+    (for a particular user), which will be reflected in the text format
+    dictionary. 
+
+ * Function options 
+	-s  Order the entries in text dictionary according to pronunciation.
+
+	-n  Attach sequence numbers to the output.
+
+	-e  To convert the special format. (There are space, tab and etc in
+	    Kanji string)
+
+SEE ALSO
+    atod(4), wnntouch(4), UJIS_format_dictionary(6)

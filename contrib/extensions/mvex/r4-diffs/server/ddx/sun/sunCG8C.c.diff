@@ -1,0 +1,413 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Mvex-r1 -rR4-Mvex-r1 server/ddx/sun/RCS/sunCG8C.c,v 
+*** 1.13	1991/09/24 06:04:27
+--- 1.9	1991/09/23 02:33:10
+***************
+*** 1,8 ****
+! /*
+   * sunCG8C.c --
+   *	Functions to support the sun CG8 board as a memory frame buffer.
+   */
+  
+  /************************************************************
+  Copyright 1987 by Sun Microsystems, Inc. Mountain View, CA.
+  
+--- 1,13 ----
+! /* $Header: /usr/local/src/video/release/mvex-r1/server/ddx/sun/RCS/sunCG8C.c,v 1.9 1991/09/23 02:33:10 toddb Exp $ */
+! /*-
+   * sunCG8C.c --
+   *	Functions to support the sun CG8 board as a memory frame buffer.
+   */
+  
++ /****************************************************************/
++ /* Modified from sunCG4C.c for X11R4 by TAKAHASHI Naoto	        */
++ /****************************************************************/
++ 
+  /************************************************************
+  Copyright 1987 by Sun Microsystems, Inc. Mountain View, CA.
+  
+***************
+*** 88,97 ****
+  
+  static u_char overlayBack[128*1024];			/* backup for overlay */
+  
+  extern Pixrect *sun_pr_screen;
+!  
+  /*-
+   *-----------------------------------------------------------------------
+   * sunCG8CInit --
+   *	Attempt to find and initialize a cg8 framebuffer used as mono
+   *
+--- 93,359 ----
+  
+  static u_char overlayBack[128*1024];			/* backup for overlay */
+  
++ /* XXX - next line means only one CG8 - fix this */
++ static ColormapPtr sunCG8CInstalledMap;
++ 
+  extern Pixrect *sun_pr_screen;
+! extern int TellLostMap(), TellGainedMap();
+! 
+! static void
+! sunCG8CUpdateColormap(pScreen, index, count, rmap, gmap, bmap)
+!     ScreenPtr	pScreen;
+!     int		index, count;
+!     u_char	*rmap, *gmap, *bmap;
+! {
+!     struct fbcmap sunCmap;
+! 
+!     sunCmap.index = index;
+!     sunCmap.count = count;
+!     sunCmap.red = rmap;
+!     sunCmap.green = gmap;
+!     sunCmap.blue = bmap;
+! 
+! #ifdef SUN_WINDOWS
+!     if (sunUseSunWindows()) {
+! 	static Pixwin *pw = 0;
+! 
+! 	if (! pw) {
+! 	    if ( ! (pw = pw_open(windowFd)) )
+! 		FatalError( "sunCG8CUpdateColormap: pw_open failed\n" );
+! 	    pw_setcmsname(pw, "X.V11");
+! 	}
+! 	pw_putcolormap(pw, index, count, rmap, gmap, bmap);
+!     }
+! #endif SUN_WINDOWS
+! 
+!     if (ioctl(sunFbs[pScreen->myNum].fd, FBIOPUTCMAP, &sunCmap) < 0) {
+! 	perror("sunCG8CUpdateColormap");
+! 	FatalError( "sunCG8CUpdateColormap: FBIOPUTCMAP failed\n" );
+!     }
+! }
+! 
+! /*-
+!  *-----------------------------------------------------------------------
+!  * sunCG8CSaveScreen --
+!  *	Preserve the color screen by turning on or off the video
+!  *
+!  * Results:
+!  *	None.
+!  *
+!  * Side Effects:
+!  *	Video state is switched
+!  *
+!  *-----------------------------------------------------------------------
+!  */
+! static Bool
+! sunCG8CSaveScreen (pScreen, on)
+!     ScreenPtr	  pScreen;
+!     Bool    	  on;
+! {
+!     int		state = on;
+! 
+!     if (on != SCREEN_SAVER_ON) {
+! 	SetTimeSinceLastInputEvent();
+! 	state = 1;
+!     } else {
+! 	state = 0;
+!     }
+!     (void) ioctl(sunFbs[pScreen->myNum].fd, FBIOSVIDEO, &state);
+!     return( TRUE );
+! }
+! 
+! /*-
+!  *-----------------------------------------------------------------------
+!  * sunCG8CCloseScreen --
+!  *	called to ensure video is enabled when server exits.
+!  *
+!  * Results:
+!  *	Screen is unsaved.
+!  *
+!  * Side Effects:
+!  *	None
+!  *
+!  *-----------------------------------------------------------------------
+!  */
+! /*ARGSUSED*/
+! static Bool
+! sunCG8CCloseScreen(i, pScreen)
+!     int		i;
+!     ScreenPtr	pScreen;
+! {
+!     Bool    ret;
+! 
+!     pScreen->CloseScreen = (Bool (*)()) pScreen->devPrivates[sunCG8CScreenIndex].ptr;
+!     ret = (*pScreen->CloseScreen) (i, pScreen);
+!     sunCG8CInstalledMap = NULL;
+!     (void) (*pScreen->SaveScreen) (pScreen, SCREEN_SAVER_OFF);
+!     return ret;
+! }
+! 
+! /*-
+!  *-----------------------------------------------------------------------
+!  * sunCG8CInstallColormap --
+!  *	Install given colormap.
+!  *
+!  * Results:
+!  *	None
+!  *
+!  * Side Effects:
+!  *	Existing map is uninstalled.
+!  *	All clients requesting ColormapNotify are notified
+!  *
+!  *-----------------------------------------------------------------------
+!  */
+! static void
+! sunCG8CInstallColormap(cmap)
+!     ColormapPtr	cmap;
+! {
+!     register int i;
+!     register Entry *pent;
+!     register VisualPtr pVisual = cmap->pVisual;
+!     u_char	  rmap[256], gmap[256], bmap[256];
+! 
+!     if (cmap == sunCG8CInstalledMap)
+! 	return;
+!     if (sunCG8CInstalledMap)
+! 	WalkTree(sunCG8CInstalledMap->pScreen, TellLostMap,
+! 		 (pointer) &(sunCG8CInstalledMap->mid));
+!     if ((pVisual->class | DynamicClass) == DirectColor) {
+! 	for (i = 0; i < 256; i++) {
+! 	    pent = &cmap->red[(i & pVisual->redMask) >>
+! 			      pVisual->offsetRed];
+! 	    rmap[i] = pent->co.local.red >> 8;
+! 	    pent = &cmap->green[(i & pVisual->greenMask) >>
+! 				pVisual->offsetGreen];
+! 	    gmap[i] = pent->co.local.green >> 8;
+! 	    pent = &cmap->blue[(i & pVisual->blueMask) >>
+! 			       pVisual->offsetBlue];
+! 	    bmap[i] = pent->co.local.blue >> 8;
+! 	}
+!     } else {
+! 	for (i = 0, pent = cmap->red;
+! 	     i < pVisual->ColormapEntries;
+! 	     i++, pent++) {
+! 	    if (pent->fShared) {
+! 		rmap[i] = pent->co.shco.red->color >> 8;
+! 		gmap[i] = pent->co.shco.green->color >> 8;
+! 		bmap[i] = pent->co.shco.blue->color >> 8;
+! 	    }
+! 	    else {
+! 		rmap[i] = pent->co.local.red >> 8;
+! 		gmap[i] = pent->co.local.green >> 8;
+! 		bmap[i] = pent->co.local.blue >> 8;
+! 	    }
+! 	}
+!     }
+!     sunCG8CInstalledMap = cmap;
+!     sunCG8CUpdateColormap(cmap->pScreen, 0, 256, rmap, gmap, bmap);
+!     WalkTree(cmap->pScreen, TellGainedMap, (pointer) &(cmap->mid));
+! }
+! 
+  /*-
+   *-----------------------------------------------------------------------
++  * sunCG8CUninstallColormap --
++  *	Uninstall given colormap.
++  *
++  * Results:
++  *	None
++  *
++  * Side Effects:
++  *	default map is installed
++  *	All clients requesting ColormapNotify are notified
++  *
++  *-----------------------------------------------------------------------
++  */
++ static void
++ sunCG8CUninstallColormap(cmap)
++     ColormapPtr	cmap;
++ {
++     if (cmap == sunCG8CInstalledMap) {
++ 	Colormap defMapID = cmap->pScreen->defColormap;
++ 
++ 	if (cmap->mid != defMapID) {
++ 	    ColormapPtr defMap = (ColormapPtr) LookupIDByType(defMapID,
++ 							      RT_COLORMAP);
++ 
++ 	    if (defMap)
++ 		(*cmap->pScreen->InstallColormap)(defMap);
++ 	    else
++ 	        ErrorF("sunCG8C: Can't find default colormap\n");
++ 	}
++     }
++ }
++ 
++ /*-
++  *-----------------------------------------------------------------------
++  * sunCG8CListInstalledColormaps --
++  *	Fills in the list with the IDs of the installed maps
++  *
++  * Results:
++  *	Returns the number of IDs in the list
++  *
++  * Side Effects:
++  *	None
++  *
++  *-----------------------------------------------------------------------
++  */
++ /*ARGSUSED*/
++ static int
++ sunCG8CListInstalledColormaps(pScreen, pCmapList)
++     ScreenPtr	pScreen;
++     Colormap	*pCmapList;
++ {
++     *pCmapList = sunCG8CInstalledMap->mid;
++     return (1);
++ }
++ 
++ 
++ /*-
++  *-----------------------------------------------------------------------
++  * sunCG8CStoreColors --
++  *	Sets the pixels in pdefs into the specified map.
++  *
++  * Results:
++  *	None
++  *
++  * Side Effects:
++  *	None
++  *
++  *-----------------------------------------------------------------------
++  */
++ static void
++ sunCG8CStoreColors(pmap, ndef, pdefs)
++     ColormapPtr	pmap;
++     int		ndef;
++     xColorItem	*pdefs;
++ {
++     u_char	map[256];
++     register int i;
++ 
++     if (pmap != sunCG8CInstalledMap)
++ 	return;
++     while (ndef--) {
++ 	if (pdefs->flags & DoRed) {
++ 	    i = pdefs->pixel >> pmap->pVisual->offsetRed;
++ 	    map[i] = pdefs->red >> 8;
++ 	    sunCG8CUpdateColormap(pmap->pScreen, i, 1, map, 0, 0);
++ 	}
++ 	if (pdefs->flags & DoGreen) {
++ 	    i = pdefs->pixel >> pmap->pVisual->offsetGreen;
++ 	    map[i] = pdefs->green >> 8;
++ 	    sunCG8CUpdateColormap(pmap->pScreen, i, 1, 0, map, 0);
++ 	}
++ 	if (pdefs->flags & DoBlue) {
++ 	    i = pdefs->pixel >> pmap->pVisual->offsetBlue;
++ 	    map[i] = pdefs->blue >> 8;
++ 	    sunCG8CUpdateColormap(pmap->pScreen, i, 1, 0, 0, map);
++ 	}
++ 	pdefs++;
++     }
++ }
++ 
++ /*-
++  *-----------------------------------------------------------------------
+   * sunCG8CInit --
+   *	Attempt to find and initialize a cg8 framebuffer used as mono
+   *
+***************
+*** 117,136 ****
+  			sunFbs[index].info.fb_width,
+  			sunFbs[index].info.fb_height,
+  			monitorResolution, monitorResolution,
+! 			sunFbs[index].info.fb_width))
+      	return (FALSE);
+      
+!     if (!sunScreenAllocate (pScreen))
+! 	return FALSE;
+! 
+!     sunCGScreenInit (pScreen);
+! 
+!     if (!sunScreenInit (pScreen))
+! 	return FALSE;
+! 
+!     sunSaveScreen( pScreen, SCREEN_SAVER_OFF );
+! 
+!     return cfbCreateDefColormap(pScreen);
+  }
+  
+  /*-
+--- 379,401 ----
+  			sunFbs[index].info.fb_width,
+  			sunFbs[index].info.fb_height,
+  			monitorResolution, monitorResolution,
+! 			sunFbs[index].info.fb_width * 4))
+      	return (FALSE);
+      
+!     pScreen->SaveScreen = sunCG8CSaveScreen;
+!     
+!     pScreen->devPrivates[sunCG8CScreenIndex].ptr = (pointer) pScreen->CloseScreen;
+!     pScreen->CloseScreen = sunCG8CCloseScreen;
+!     
+! #ifndef STATIC_COLOR
+!     pScreen->InstallColormap = sunCG8CInstallColormap;
+!     pScreen->UninstallColormap = sunCG8CUninstallColormap;
+!     pScreen->ListInstalledColormaps = sunCG8CListInstalledColormaps;
+!     pScreen->StoreColors = sunCG8CStoreColors;
+! #endif
+!     
+!     sunCG8CSaveScreen( pScreen, SCREEN_SAVER_FORCER );
+!     return (sunScreenInit(pScreen) && cfbCreateDefColormap(pScreen));
+  }
+  
+  /*-
+***************
+*** 159,164 ****
+--- 424,433 ----
+      j = (int *) CG8Cfb->overlay;
+      k = (int *) overlayBack;
+      end = i + (128 / sizeof (int)) * 1024;
++     if ( screenInfo.screens[mindex] )
++       ((PixmapPtr)screenInfo.screens[mindex]
++         ->devPrivate)->devPrivate.ptr 
++         = (pointer)(!select?overlayBack:CG8Cfb->overlay);
+      if (!select)
+        while (i < end) {
+  	*i++ = 0;
+***************
+*** 188,194 ****
+      address = (caddr_t) 0;
+  #else
+      address = valloc(length);
+!     if (address == (caddr_t)NULL) {
+  	ErrorF("Could not allocate room for %s.\n", fbName);
+  	return ((caddr_t)NULL);
+      }
+--- 457,463 ----
+      address = (caddr_t) 0;
+  #else
+      address = valloc(length);
+!     if (address == (caddr_t)NULL)
+  	ErrorF("Could not allocate room for %s.\n", fbName);
+  	return ((caddr_t)NULL);
+      }
+***************
+*** 321,330 ****
+  {
+      int i;
+  
+      i = AddScreen(sunCG8CInit, argc, argv);
+      if (i >= 0)
+      {
+! 	/* Now set the enable plane for screen 0 */
+  	sunCG8CSwitch(pScreenInfo->screens[i], i != 0);
+  #ifdef RASTEROPS
+  	if (! roCreate (pScreenInfo, i))
+--- 590,606 ----
+  {
+      int i;
+  
++     if (sunGeneration != serverGeneration)
++     {
++ 	sunCG8CScreenIndex = AllocateScreenPrivateIndex();
++ 	if (sunCG8CScreenIndex < 0)
++ 	    return FALSE;
++     }
+      i = AddScreen(sunCG8CInit, argc, argv);
+      if (i >= 0)
+      {
+! 	if ( !i )
+! 	    pScreenInfo->screens[1] = 0;
+  	sunCG8CSwitch(pScreenInfo->screens[i], i != 0);
+  #ifdef RASTEROPS
+  	if (! roCreate (pScreenInfo, i))

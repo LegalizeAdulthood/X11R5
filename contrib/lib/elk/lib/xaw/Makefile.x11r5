@@ -1,0 +1,79 @@
+.DEFAULT:
+	$(LINK) ../../../lib/xaw/$< $<
+
+WIDGET_SET= xaw
+
+O= ascii.o\
+   box.o\
+   clock.o\
+   command.o\
+   dialog.o\
+   form.o\
+   grip.o\
+   label.o\
+   list.o\
+   menubutton.o\
+   paned.o\
+   panner.o\
+   porthole.o\
+   repeater.o\
+   scrollbar.o\
+   shell.o\
+   simplemenu.o\
+   sme.o\
+   smebsb.o\
+   smeline.o\
+   stripchart.o\
+   toggle.o\
+   tree.o\
+   viewport.o
+
+.SUFFIXES: .d .c .o
+
+.c.o:
+	$(CC) $(CFLAGS) -I../../src -c $<
+
+.d.c:
+	../../src/scheme -l ../xt/make-widget $< $@ $(WIDGET_SET)
+
+.d.o:
+	../../src/scheme -l ../xt/make-widget $< $*.c $(WIDGET_SET)
+	$(CC) $(CFLAGS) -I../../src -c $*.c
+
+all: $(O)
+
+$(O): ../xt/make-widget
+
+ascii.o:	ascii.d
+box.o:		box.d
+clock.o:	clock.d
+command.o:	command.d
+dialog.o:	dialog.d
+form.o:		form.d
+grip.o:		grip.d
+label.o:	label.d
+list.o:		list.d
+menubutton.o:	menubutton.d
+paned.o:	paned.d
+panner.o:	panner.d
+porthole.o:	porthole.d
+repeater.o:	repeater.d
+scrollbar.o:	scrollbar.d
+shell.o:	shell.d
+simplemenu.o:	simplemenu.d
+sme.o:		sme.d
+smebsb.o:	smebsb.d
+smeline.o:	smeline.d
+stripchart.o:	stripchart.d
+toggle.o:	toggle.d
+tree.o:		tree.d
+viewport.o:	viewport.d
+
+../xt/make-widget:
+	$(LINK) ../../../lib/xt/make-widget ../xt
+
+lint:
+	lint $(LINTFLAGS) -abxh -I../../src *.c | egrep -v '\?\?\?'
+
+clean:
+	rm -f *.o *.c

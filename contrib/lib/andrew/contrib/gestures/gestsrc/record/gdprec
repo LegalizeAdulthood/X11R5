@@ -1,0 +1,6 @@
+set -x
+for i
+in line rect copy Rotate delete pack ellipse .dot move
+do
+	mrecord -s -o gdp.train -c $i
+done

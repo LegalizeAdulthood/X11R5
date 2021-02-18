@@ -1,0 +1,77 @@
+!
+! Multi-display demo
+! This application demonstrates cooperation of multiple displays,
+! simply creating it's UI on different displays
+!
+! Note, you may have to edit this resource file to use your node names,
+! look for display specifications:  bugs:0.0
+!
+! Motif Widgets for Multi-Display Demo
+!
+MDmotif.wcChildren:		rc
+
+*rc.wcClassName:		XmRowColumn
+*rc.wcChildren:			exit, close, bugs, snap, crackle, pop
+
+*exit.wcConstructor:		XmCreatePushButton
+*exit.activateCallback:		WcExitCB
+
+*close.wcConstructor:		XmCreatePushButton
+*close.activateCallback:	KillWidgetTreeOnDisplay
+
+*bugs.wcConstructor:		XmCreatePushButton
+*bugs.labelString:              bugs:0.0
+*bugs.activateCallback:		NewWidgetTreeOnDisplay( bugs:0.0 )
+
+*snap.wcConstructor:		XmCreatePushButton
+*snap.labelString:              snap:0.0
+*snap.activateCallback:		NewWidgetTreeOnDisplay( snap:0.0 )
+
+*crackle.wcConstructor:		XmCreatePushButton
+*crackle.labelString:           crackle:0.0
+*crackle.activateCallback:	NewWidgetTreeOnDisplay( crackle:0.0 )
+
+*pop.wcConstructor:		XmCreatePushButton
+*pop.labelString:               :0.0
+*pop.activateCallback:		NewWidgetTreeOnDisplay( )
+
+!
+! Athena Widgets for Multi-Display Demo
+!
+
+MDathena.wcChildren:		table
+
+*table.wcClassName:		Table
+*table.wcChildren:		aexit, aclose, abugs, asnap, acrackle, apop
+!		child   	c r cs rs opts
+*table.layout:	aexit		0 0  1  1	;\
+		aclose		0 1  1  1	;\
+		abugs		0 2  1  1	;\
+		asnap		0 3  1  1	;\
+		acrackle	0 4  1  1	;\
+		apop		0 5  1  1
+
+*aexit.wcClass:		commandWidgetClass
+*aexit.label:		exit
+*aexit.callback:	WcExitCB
+
+*aclose.wcClass:	commandWidgetClass
+*aclose.label:		close
+*aclose.callback:	KillWidgetTreeOnDisplay
+
+*abugs.wcClass:		commandWidgetClass
+*abugs.label:		bugs:0.0
+*abugs.callback:	NewWidgetTreeOnDisplay( bugs:0.0 )
+
+*asnap.wcClass:		commandWidgetClass
+*asnap.label:		snap:0.0
+*asnap.callback:	NewWidgetTreeOnDisplay( snap:0.0 )
+
+*acrackle.wcClass:	commandWidgetClass
+*acrackle.label:	crackle:0.0
+*acrackle.callback:	NewWidgetTreeOnDisplay( crackle:0.0 )
+
+*apop.wcClass:		commandWidgetClass
+*apop.label:	        :0.0	
+*apop.callback:		NewWidgetTreeOnDisplay( )
+

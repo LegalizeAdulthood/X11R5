@@ -1,0 +1,56 @@
+."		"@(#)pclose_renderer.3PEXIM	1.2 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.pclose_renderer.3PEXIM
+."	
+.TH "CLOSE RENDERER" 3PEXIM "12-JUNE-91"
+.SH NAME
+CLOSE RENDERER \- close and release a \s-1PEX\s+1 renderer 
+.IX "Renderer" "CLOSE RENDERER"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+pclose_renderer ( wkid )
+Pint	wkid;		\fIRenderer \s-1ID\s+1 given by application\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine closes the specified renderer and releases the \s-1X\s+1 resources
+associated with that Renderer.
+.SS C Input Parameters
+.IP \fIwkid\fP
+This is the \s-1ID\s+1 by which the application identifies the
+Renderer.  The application specifies the \s-1ID\s+1 when it opens the Renderer
+(using \s-1OPEN RENDERER\s+1).  A Renderer \s-1ID\s+1 is synonymous with
+a workstation identifier and is passed to other \s-1PHIGS\s+1 workstation
+routines to set views or lights.
+.SS Function Return
+\f3pclose_renderer\f1 returns an integer status.  A value of \s-1POK\s+1
+indicates successful execution.
+.SH ERRORS
+.IP PEXIMERRBadWKID
+The specified Renderer is not open
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "OPEN RENDERER"
+.SM "BEGIN RENDERING"
+.fi

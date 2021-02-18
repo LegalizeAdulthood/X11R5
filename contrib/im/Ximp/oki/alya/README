@@ -1,0 +1,17 @@
+	Kana-Kanji Conversion Front-end alya
+
+This front-end, "alya" is a sample implementation for evaluating the XIMP protocol.
+It uses sj3 as a conversion engine in this release.
+
+Install
+	Please edit the Imakefile.
+
+	SONYDIR
+		Sony's contributed directory which contains sj3 library and
+		headers.
+
+	CCONVDIR
+		cconv library's directory which included kinput (in X11R4).
+
+Note
+	This front-end supports only "over-the-spot" input style.

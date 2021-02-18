@@ -1,0 +1,100 @@
+3.2.3 Operation
+
+(1) Invoking uum
+
+To invoke uum, type "uum" and press the Return key. The lowest line on the
+screen is used for as a conversion line.
+Data typed in is displayed on this conversion line.
+
+< Figure 2.3.1 >
+
+
+
+
+
+
+
+
+(2) Input of "readings"
+
+The state where readings are being input is called "reading input mode". 
+Text which is converted to kanji is, in principle, always in hiragana.Input 
+is always in insert mode. When inputting in the middle of a line, the character 
+string to the right of the cursor (including the character under the cursor) 
+is pushed sequentially to the right. Readings are displayed underlined.  When a 
+"$" is displayed at the head or tail of the conversion line, a portion of the 
+line has been scrolled off screen at the head or tail of the line.
+ 
+
+  Reading Input Mode Functions Table
+
+  Keysym     (Command)| Function
+  --------------------+------------------------------------------------
+  Right	           ^F | Move the cursor to the right
+  Left             ^B | Move the cursor to the left
+  F11              ^D |	Delete the character under the cursor
+  Meta + Right     ^E |	Move the cursor to the right end of the line
+  Meta + Left      ^A |	Move the cursor to the left end of the line
+  Meta + Up        ^K |	Delete from the cursor on
+  Meta + F13       ^] |	Input description code
+		      |	  nn.mm   [Return] 
+                      |   (Where nn and mm are the description code for
+                      |    the character)
+  Meta + F14   ^_  ^? |	Input JIS character codes
+	 	      |	  x[x[x[x [Return]   (xxxx: JIS code)
+	           ^V |	Directly input the next character typed without
+                      | entering it into the conversion process
+  --------------------+------------------------------------------------
+
+
+
+(3) Conversion
+
+When the convert key is pressed, continuous phrase kana-kanji conversion takes
+place, and the "reading" display is replaced with "kana-kanji mixed text", and
+edit mode is entered. It is possible to edit in this mode. This is covered in
+part (4) following.
+If the desired kanji are displayed, then no edit is necessary and you can
+proceed directly to the confirmation phase covered in part (5) following.
+
+
+(4) Editing
+
+When the desired kanji were not displayed by the conversion operation, the text
+can be edited by the operations described in the following table. This state is
+called "edit mode".
+
+  Edit Mode Function Table
+
+  Keysym     (Command)| Function
+  --------------------+---------------------------------------------------------
+  Right            ^F | Move the cursor to the right
+  Left             ^B | Move the cursor to the left
+  Down             ^N | Display the next candidate
+  Up               ^P | Display the previous candidate
+  F14              ^O | Increase the size of the phrase by one character
+  F13              ^I | Decrease the size of the phrase by one character
+  Meta + Up        ^K | Return Kanji to the original "reading" they were
+                      | converted from.
+                      | (From the highlighted phrase on)
+  Meta + Right     ^E | Move the phrase indication to the right end of the line
+  Meta + Left      ^A | Move the phrase indication to the left end of the line
+  Kanji            ^W | Display all candidates (large phrase)
+                      |  (All candidates are displayed one line at a time
+                      |   numbered (0, 1, 2, ...). If the desired kanji is
+                      |   displayed it can be selected by inputting its number.)
+                      | Down    Display the next candidate group
+                      | Up      Display the previous candidate group
+                      | n       Select the candidate (n= 0,1,2,Ž¥Ž¥Ž¥)
+                      | ^G      Cancel all candidate display
+                   ^Z | Display all candidates (small phrase)
+                      |  (All candidates are displayed one line at a time
+                      |   numbered (0, 1, 2, ...). If the desired kanji is
+                      |   displayed it can be selected by inputting its number.)
+                      | Down    Display the next candidate group
+                      | Up      Display the previous candidate group
+                      | n       Select the candidate (n= 0,1,2,Ž¥Ž¥Ž¥)
+                      | ^G      Cancel all candidate display
+                   ^C | Return to input mode after conversion
+                   ^V | Inspect (Display detailed information about candidates)
+  --------------------+---------------------------------------------------------

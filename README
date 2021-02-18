@@ -1,0 +1,31 @@
+Here is a roadmap to the R5, public-patch-26, sources:
+
+	README		this file
+	RELNOTES.PS	Release Notes in PostScript
+	RELNOTES.TXT	Release Notes in plain text
+	RELNOTES.ms	Release Notes, troff source, -ms macros
+	mit-1.tar.Z	MIT core distribution, part 1
+	mit-2.tar.Z	MIT core distribution, part 2
+	mit-3.tar.Z	MIT core distribution, part 3
+	mit-4.tar.Z	MIT core distribution, part 4
+	xdm-auth/	Info about HasXdmAuth config option
+	contrib-1.tar.Z Contrib distribution, part 1
+	contrib-2.tar.Z Contrib distribution, part 2
+	contrib-3.tar.Z Contrib distribution, part 3
+
+After transferring the files, please read the release notes for
+information on how to extract and build the software.
+
+A quick guide to the MIT tar files:
+
+mit-1		Contains everything not in mit-2, mit-3, and mit-4. :-)
+mit-2		Contains mit/clients/, mit/demos/, mit/rgb/, and mit/server/.
+mit-3		Contains mit/fonts/bdf/.
+mit-4		Contains mit/doc/ and mit/hardcopy/.
+
+A quick guide to the Contrib tar files:
+
+contrib-1	Contains clients, demos, games, fonts, examples, doc, util
+contrib-2	Contains libraries, input methods, extensions, fortran, and
+		Motif clients
+contrib-3	Contains InterViews, XView, and Andrew

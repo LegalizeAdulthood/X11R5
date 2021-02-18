@@ -1,0 +1,23 @@
+# $Header: /n/lacey/usr/local/src/video/MVEX/lib/RCS/Imakefile,v 2.3 1991/09/26 21:29:09 toddb Exp $
+#include <Library.tmpl>
+
+SRCS = ScrUtil.c Util.c MVEXCaptGr.c MVEXQuStup.c \
+	MVEXChOwn.c MVEXCrVid.c MVEXQuVid.c \
+	MVEXRndVid.c MVEXSelEvt.c MVEXStpVid.c MVEXRect.c MVEXFrac.c
+
+OBJS = ScrUtil.o Util.o MVEXCaptGr.o MVEXQuStup.o \
+	MVEXChOwn.o MVEXCrVid.o MVEXQuVid.o \
+	MVEXRndVid.o MVEXSelEvt.o MVEXStpVid.o MVEXRect.o MVEXFrac.o
+
+      CCOPTIONS = LibraryCCOptions
+    STD_DEFINES = LibraryDefines $(ALIGN_DEFINES)
+    CDEBUGFLAGS = LibraryCDebugFlags
+       INCLUDES = -I. -I../include -I$(XLIBSRC) -I$(TOP) -I$(TOP)/X11
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       LINTLIBS = $(LINTXLIB)
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(mvex,$(OBJS))
+LintLibraryTarget(mvex,$(SRCS))
+NormalLintTarget($(SRCS))
+DependTarget()

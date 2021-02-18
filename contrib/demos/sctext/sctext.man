@@ -1,0 +1,47 @@
+.\" @(#)sctext.man	1.1	91/05/08
+.TH sctext 1 "8 May 1991"
+.SH NAME
+sctext \- display scaled text
+
+.SH SYNOPSIS
+.B sctext
+[
+.BI \-display " displayname"
+]
+[
+.BI \-aspect
+]
+[
+.BI \-filename " textfile"
+]
+[
+.BI \-string " display string"
+]
+[
+.BI \-fn " font pattern"
+]
+.SH DESCRIPTION
+.I sctext
+demonstrates scalable fonts.  By default, it displays the given
+.I string
+or the contents of
+.I filename
+in a window, with a font scaled to match the window's size.
+If the
+.I -aspect
+flag is given, the program will request that any window manager
+retain its aspect ratio so that the text is evenly scaled.  Otherwise
+the text will be anamorphically scaled to fit the window.
+A new font pattern can be specified with the 
+.I -fn
+option.
+.I sctext
+will attempt to use the set of fonts that match this pattern.
+If the fonts are not scalable, it will attempt to use the bitmap
+font instance which best fits.
+.SH SEE ALSO
+    xfade(1)
+.SH COPYRIGHT
+Copyright (c) 1990 by David Lemke & Network Computing Devices, Inc.
+.br
+(lemke@ncd.com)

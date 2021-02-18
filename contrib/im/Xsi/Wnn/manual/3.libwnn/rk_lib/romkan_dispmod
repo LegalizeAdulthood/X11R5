@@ -1,0 +1,28 @@
+ＲＯＭＫＡＮ＿ＤＩＳＰＭＯＤＥ（ＪＴ＿ＬＩＢ）
+
+
+名称
+    romkan_dispmode ― ローマ字仮名変換モード表示用文字列の取り出し
+
+形式
+    #include	<wnn/rk_spcl_val.h>
+
+    char	*romkan_dispmode()
+
+機能説明
+    romkan_dispmode は、ローマ字仮名変換の現在のモードを表現する表示用文字列を
+    返す。文字列はモード定義表に書かれているものである。
+    モードの変更は、あらかじめ romkan_init の第３引き数を０以外にして呼んでおいて、
+    romkan_getc が返す CHMSIG によって知ることができる。ただし、
+    romkan_dispmode はモードの変更に関わらず動作する。
+    結果として返るポインタは、ローマ字仮名変換のワークエリア内を指しているので、
+    このポインタの先を変更してはならない。
+
+使用上の注意事項
+    予め romkan_init が呼ばれていなければならない。
+
+関連項目
+    romkan_init(JT_LIB), romkan_next(JT_LIB), romkan_clear(JT_LIB), 
+    romkan_getc(JT_LIB), romkan_ungetc(JT_LIB), 2A_CTRL(JT_ENV), 
+    2B_ROMKANA(JT_ENV)
+

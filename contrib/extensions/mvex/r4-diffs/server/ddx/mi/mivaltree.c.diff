@@ -1,0 +1,62 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/mi/RCS/mivaltree.c,v 
+*** 1.1.1.1	1991/09/26 21:03:55
+--- 1.4	1991/09/26 21:07:29
+***************
+*** 168,174 ****
+      RegionRec		childUnion;
+      Bool		overlap;
+      RegionPtr		borderVisible;
+-     Bool		shrunk;
+      
+      /*
+       * Figure out the new visibility of this window.
+--- 168,173 ----
+***************
+*** 257,262 ****
+--- 256,263 ----
+  			(* pScreen->TranslateRegion) (&pChild->clipList,
+  						      dx, dy);
+  			pChild->drawable.serialNumber = NEXT_SERIAL_NUMBER;
++                         if (pScreen->ClipNotify)
++                             (* pScreen->ClipNotify)(pChild, dx, dy);
+  			if (clipNotify)
+  			    (* clipNotify) (pChild, dx, dy);
+  
+***************
+*** 302,308 ****
+      }
+  
+      borderVisible = pParent->valdata->before.borderVisible;
+-     shrunk = pParent->valdata->before.shrunk;
+      (* pScreen->RegionInit) (&pParent->valdata->after.borderExposed, NullBox, 0);
+      (* pScreen->RegionInit) (&pParent->valdata->after.exposed, NullBox, 0);
+  
+--- 303,308 ----
+***************
+*** 422,435 ****
+      if (pParent->backStorage)
+      {
+  	(* pScreen->Subtract) (exposed, &pParent->clipList, universe);
+- 	if (shrunk && (*pScreen->RegionNotEmpty) (exposed))
+- 	{
+- 	    RegionPtr	temp, CreateUnclippedWinSize();
+- 	    
+- 	    temp = CreateUnclippedWinSize (pParent);
+- 	    (* pScreen->Intersect) (exposed, exposed, temp);
+- 	    (* pScreen->RegionDestroy) (temp);
+- 	}
+  	(* pScreen->SaveDoomedAreas)(pParent, exposed, dx, dy);
+      }
+      
+--- 422,427 ----
+***************
+*** 437,442 ****
+--- 429,436 ----
+  
+      pParent->drawable.serialNumber = NEXT_SERIAL_NUMBER;
+  
++     if (pScreen->ClipNotify)
++         (* pScreen->ClipNotify) (pParent, dx, dy);
+      if (clipNotify)
+  	(* clipNotify) (pParent, dx, dy);
+  }

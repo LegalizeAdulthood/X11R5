@@ -1,0 +1,16 @@
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+#if BuildServer
+  SERVERSUBDIRS = server
+#else
+#if BuildPexClients
+  SERVERSUBDIRS = server/PEX/dipex/swap
+#endif
+#endif
+        SUBDIRS = $(SERVERSUBDIRS) lib include test xv
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs(lib)
+MakeLintSubdirs(lib,install.ln,install.ln)

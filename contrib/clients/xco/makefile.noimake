@@ -1,0 +1,20 @@
+PROGRAM = xco
+XDIR = /usr/local/X11R5
+DEFINES = -DRGBDATABASE=\"$(XDIR)/lib/X11/rgb.txt\"
+CFLAGS = -g -I$(XDIR)/include -DNOSTDHDRS
+LIBS = $(XDIR)/lib/libX11.a
+INSTALLDIR = $(XDIR)
+SRC = xco.c xargs.c
+OBJ = xco.o xargs.o
+
+${PROGRAM}: ${OBJ}
+	${CC} ${CFLAGS} -o ${PROGRAM} ${OBJ} ${LIBS}
+
+xco.o: xco.c
+	${CC} -c ${CFLAGS} ${DEFINES} xco.c
+
+clean: 
+	rm -f ${OBJ} ${PROGRAM} *.s core
+
+install: ${PROGRAM}
+	install -c -s -m 0755 ${PROGRAM} ${INSTALLDIR}

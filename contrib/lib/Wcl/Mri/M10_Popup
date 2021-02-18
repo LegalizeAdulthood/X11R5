@@ -1,0 +1,66 @@
+!	This example shows the use of a new callback:
+!		WcSetTypeValueCB( widget.resource: type, value )
+!	This new callback is actually a very dangerous callback.
+!	If you get the type wrong, the application will probably crash.
+!	Don't do that!  Seriously, this is exactly the same problem
+!	as you have if you use XtSetValues directly (that is what
+!	the callback does).  
+!
+!	You are MUCH more safe if you use WcSetValueCB instead.  The
+!	ONLY ONLY ONLY reason to use WcSetTypeValueCB is when you
+!	need to change a *sub-resource* of a widget.  
+!	
+!	How do you know when its a sub-resource?  When you are *certain*
+!	that the resource exists, yet WcSetValueCB complains that
+!	the widget does not have the resource. 
+!
+!	Sometimes, the widget documentation gives you a clue.  Sometimes,
+!	you discover it by looking at the source.
+!
+!	Sometimes, somebody tells you.  I'm telling you: with XmText
+!	widgets, the resources titled "XmTextOutputResource Set" are
+!	all sub-resources.  I looked at the source, and that's also
+!	the way XawText widgets work.
+!
+Mri.WcChildren:		msgWindow
+Mri.title:		M10_Popup
+
+*XmText.translations:	#augment \n\
+                <Btn3Down>: MriPopupACT( *msgFontMenu )
+
+*msgWindow.wcClassName:		XmText
+*msgWindow.wcPopups:		msgFontMenu
+*msgWindow.activateCallback:	WcSetValueCB(this.value: Saw that return )
+*msgWindow.fontList:		*times-bold-i-*--14-*
+*msgWindow.value:		XmText with a popup menu
+
+*msgFontMenu.WcConstructor:	XmCreatePopupMenu
+*msgFontMenu.WcChildren:	msgFont1, msgFont2, msgFont3, Quit
+
+*msgFont1.wcConstructor:	XmCreateCascadeButton
+*msgFont1.labelString:		courier bold oblique 10
+*msgFont1.fontList:		*courier-bold-o-*--10-*
+*msgFont1.activateCallback:	WcSetTypeValueCB(		\
+				    *msgWindow.fontList: 	\
+					FontList,		\
+					*courier-bold-o-*--10-* )
+
+*msgFont2.wcConstructor:	XmCreateCascadeButton
+*msgFont2.labelString:		helvetica bold oblique 18
+*msgFont2.fontList:		*helvetica-bold-o-*--18-*
+*msgFont2.activateCallback:	WcSetTypeValueCB(		\
+				    *msgWindow.fontList:	\
+					FontList,		\
+					*helvetica-bold-o-*--18-*)
+
+*msgFont3.wcConstructor:	XmCreateCascadeButton
+*msgFont3.labelString:		courier bold oblique 34
+*msgFont3.fontList:		*courier-bold-o-*--34-*
+*msgFont3.activateCallback:	WcSetTypeValueCB(		\
+				    *msgWindow*fontList:	\
+					FontList:		\
+					*courier-bold-o-*--34-* )
+
+*Quit.wcConstructor:		XmCreateCascadeButton
+*Quit.fontList:			*times-bold-i-*--14-*
+*Quit.activateCallback:		WcExitCB

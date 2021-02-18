@@ -1,0 +1,19 @@
+# $Header: /users/x11devel/x11r5/mit/extensions/RCS/Imakefile,v 1.8 1991/09/22 22:41:16 toddb Exp $
+#define PassCDebugFlags /* as nothing */
+
+        SUBDIRS = protocol lib encoding
+           SRCS = trimfonts.c highlight.c
+
+all:: trimfonts highlight
+
+all::
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	for i in $(SUBDIRS) ;\
+	do \
+	    (cd $$i ; echo making "in $(CURRENT_DIR)/$$i..."; \
+	    $(MAKE) $(MFLAGS) all); \
+	done
+
+NormalProgramTarget(trimfonts,trimfonts.o,,,)
+NormalProgramTarget(highlight,highlight.o,,,)
+DependTarget()

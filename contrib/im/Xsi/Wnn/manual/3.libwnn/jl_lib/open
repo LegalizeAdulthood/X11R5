@@ -1,0 +1,53 @@
+JL_OPEN( )
+
+名称
+
+	jl_open		サーバとコネクションを張り環境をサーバ内に作る。	
+
+形式
+
+	#include "jllib.h"
+
+	struct wnn_buf *
+	jl_open(env_n, server_n, wnnrc_n, error_handler, message_handler, timeout)
+	char *env_n;			/* 環境名 */
+	char *server_n;			/* サーバ名 */
+	char *wnnrc_n;			/* wnnrcファイル名 */
+	int  (*error_handler)();	/* エラー・ハンドラ */
+	int  (*message_handler)();	/* メッセージ・ハンドラ */	
+	int timeout;			/* タイムアウト時間 */
+
+
+機能
+
+	環境名 env_n、及び、サーバ名 server_n で指定された環境を作り、
+	新しく変換バッファを作って返す。
+
+	server_n が null ポインタ、および、null 文字列の時は、
+	/etc/hosts に jserver という alias が定義されているホストを探
+	し、それに接続しようとする。それも書かれていない場合には、
+	unix domain の socket で接続しようとする。
+
+	環境名の環境を jserver 内に作る。初期化ファイル wnnrc が指定さ
+	れた場合、環境の初期化ファイルとして用い、そのファイルの指定
+	(辞書指定、付属語ファイル指定、パラメータ指定)をその環境に対し
+	て行なう。
+
+	指定された辞書ファイル、頻度ファイルが存在しない場合の処理を、
+	エラー・ハンドラ error_handler、メッセージ・ハンドラ 
+	message_handler で指定する。jl_dic_add を参照。
+
+	timeout(秒)以内に、サーバと接続できない場合は、接続を中断し異
+	常終了する。タイムアウトの設定のために、SIGALARM を使用してい
+	る。timeout が 0 または、負の場合は、SIGALARM を使用しない。
+	js_connect を参照。
+
+リターンバリュー
+
+	正常終了時には、バッファのポインタを返す。
+	異常終了時には NULL を返す。
+
+使用上の注意
+
+	タイムアウトには、SIGALARM を使用しているので、注意が必要である。
+	SIGALARM を使用する場合には、timeout に 0 を設定しなければならない。

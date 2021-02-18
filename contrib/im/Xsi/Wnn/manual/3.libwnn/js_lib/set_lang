@@ -1,0 +1,37 @@
+JS_SET_LANG( )		/* New */
+
+名称
+
+	js_set_lang		環境に、ランゲージをセットする。
+	js_get_lang		環境から、ランゲージをとりだす。
+
+形式
+
+	#include "jslib.h"
+
+	void
+	js_set_lang(env, lang)
+	struct wnn_env *env;
+	char *lang;
+
+	char *
+	js_get_lang(env)
+	struct wnn_env *env;
+
+機能
+
+	js_set_lang は、環境 env に、使用するランゲージ lang をセットする。
+	lang が、NULL の場合、環境変数 $LANG から取り出す。
+	$LANG が、設定されていない場合は、デフォルトの値が設定される。
+	デフォルトの値は、
+		js_JP.ujis@xim=Wnn
+	である。
+
+	js_get_lang は、環境 env に、設定されているランゲージへの
+	ポインターを返す。
+	
+
+
+リターンバリュー
+
+

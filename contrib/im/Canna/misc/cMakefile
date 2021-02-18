@@ -1,0 +1,21 @@
+    CFLAGS = $(INCLUDES) $(DEFINES) $(DEBUGFLAGS)
+  INCLUDES = -I/usr/include/iroha -I/usr/include/X11
+   DEFINES = 
+DEBUGFLAGS = 
+
+all: sample
+
+sample: sample.o
+	cc sample.o -lXn -liroha -lXmu -lX11 -o $@
+
+ttysample: ttysample.o
+	cc ttysample.o -liroha -lcurses -o $@
+
+default.rdic: default.rdef
+	mkromdic default.rdef
+
+jdaemon.rdic: jdaemon.rdef
+	mkromdic jdaemon.rdef
+
+just.rdic: just.rdef
+	mkromdic just.rdef

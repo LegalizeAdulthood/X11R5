@@ -1,0 +1,22 @@
+/*
+ * Change XCUROOT below to match your xcu directory!
+ * Put this file into Project.tmpl or your .cf file in the config directory.
+ * imake considerations:
+ *   Specify -DUseInstalledXcu to get installed Xcu library and includes.
+ *   Don't specify it before installing Xcu
+ */
+
+#ifndef _XcuUse
+#ifdef UseInstalledXcu
+#define _XcuUse(a,b) a
+#else
+#define _XcuUse(a,b) b
+#endif
+#endif
+
+    XCUROOT = /usr/local/src/xcu
+    DEPXCULIB = _XcuUse($(USRLIBDIR),$(XCUROOT)/src)/libXcu.a
+    XCULIB = _XcuUse(-lXcu,$(DEPXCULIB))
+    XCUINCFLAG = _XcuUse(,-I$(XCUROOT)/src)
+
+#undef _XcuUse

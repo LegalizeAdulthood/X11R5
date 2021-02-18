@@ -1,0 +1,108 @@
+.\"	$Header: /usr/people/sam/tiff/man/man1/RCS/pal2rgb.1,v 1.7 91/07/16 16:14:51 sam Exp $
+.\"
+.\" Copyright (c) 1990, 1991 Sam Leffler
+.\" Copyright (c) 1991 Silicon Graphics, Inc.
+.\"
+.\" Permission to use, copy, modify, distribute, and sell this software and 
+.\" its documentation for any purpose is hereby granted without fee, provided
+.\" that (i) the above copyright notices and this permission notice appear in
+.\" all copies of the software and related documentation, and (ii) the names of
+.\" Sam Leffler and Silicon Graphics may not be used in any advertising or
+.\" publicity relating to the software without the specific, prior written
+.\" permission of Sam Leffler and Silicon Graphics.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+.\" EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+.\" WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+.\" 
+.\" IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+.\" ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+.\" OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+.\" WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+.\" LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+.\" OF THIS SOFTWARE.
+.\"
+.TH PAL2RGB 1 "May 18, 1991"
+.SH NAME
+pal2rgb \- convert a palette color
+.SM TIFF
+image to a full color image
+.SH SYNOPSIS
+.B pal2rgb
+[
+.B \-none
+] [
+.B \-packbits
+] [
+.B \-lzw
+] [
+.B \-contig
+] [
+.B \-separate
+] [
+.B \-8bit
+] [
+.B \-16bit
+] [
+.B \-rowsperstrip
+.I n
+]
+.I "from-file to-file"
+.SH DESCRIPTION
+.I Pal2rgb
+converts a palette color
+.SM TIFF
+image to a full color image by
+applying the colormap of the palette image to each sample
+to generate a full color
+.SM RGB
+image.
+By default, 
+.I pal2rgb
+inspects the colormap values and assumes either 16-bit
+or 8-bit values according to the maximum value.
+That is, if no colormap entry greater than 255 is found,
+.I pal2rgb
+assumes the colormap has only 8-bit values; otherwise
+it assumes 16-bit values (as required by the
+.SM TIFF
+specification).
+To force the colormap to be treated as having 8-bit or
+16-bit values, the
+.B \-8bit
+or
+.B \-16bit
+flag may be specified, respectively.
+.PP
+The output image can be compressed with one of the
+compression algorithms supported by 
+.IR libtiff :
+.B \-packbits
+for Macintosh Packbits,
+.B \-lzw
+for Lempel-Ziv & Welch,
+.B \-none
+for no compression.
+If no compression-related option is specified, the input
+file's compression algorithm is used.
+.PP
+As for
+.IR tiffcp (1),
+the 
+.SM TIFF
+directory information of the input image is copied through
+to the output image. 
+The
+.BR \-contig ,
+.BR \-separate ,
+and
+.B \-rowsperstrip
+options may be used to control the data organization of
+the output image.
+.SH BUGS
+Only 8-bit images are handled.
+.SH "SEE ALSO"
+.IR tiffinfo (1),
+.IR tiffcp (1),
+.IR tiffmedian (1),
+.IR libtiff (3)

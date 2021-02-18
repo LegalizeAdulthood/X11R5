@@ -1,0 +1,111 @@
+THE ANSWER GARDEN
+
+(See the file COPYRIGHT for copyright and trademark information.)
+
+This is prototype software for a help/consulting system called Answer
+Garden.  There is a description of the purpose of Answer Garden in the
+Proceedings of the ACM Conference on Office Information Systems, 1990.
+I will be happy to send you a copy of this or later research papers if
+you email me at the address below.  Below is a very short description:
+
+   Answer Garden allows groups to develop databases of commonly asked
+   questions that grow "organically" as new questions arise and are
+   answered.  It is designed to help in situations (such as field service
+   organizations and customer "hot lines") where there is a continuing
+   stream of questions, many of which occur over and over, but some of
+   which the group has never seen before.  The system includes a
+   branching network of diagnostic questions, as well as facilities for
+   other retrieval engines, to help users find the answers they want.  If
+   the answer is not present, the system automatically sends the question
+   to the appropriate expert, and the expert returns the answer as well
+   as inserts it into the branching network.  Thus, the information
+   database of answers and diagnostic questions grows over time.  Experts
+   can also modify this network and database in response to users'
+   problems.
+
+Answer Garden has been tested extensively on Decstations, Sparcs, and
+Sun 3s.  It has been built and run on Vaxen, IBM PC-RTs, Sonys, and some
+Encore flavors.  The Sonys are System V machines.  If you port Answer
+Garden to a new machine, please let me know.
+
+*NOTE*:  For the MIT contrib tape,this is version .79.  It is 
+well past beta stage in terms of code maturity - but it is missing:
+
+	- a full database.  I am releasing only a sample
+	  database in this round.  It is missing, for example,
+	  the Frequently Asked Questions from xpert.  Contact 
+	  me if you wish to become a research site or for later
+	  releases.  
+	- the surrounding programs.  There is a suite
+	  of authoring/design agents and information
+	  retrieval engines that are not ready for
+	  prime time yet (hence this being release .79).
+        - a real connection to experts.  For research sites,
+	  I have experts standing by (actually sitting by)
+	  to answer questions.  This release does *not*
+	  have real mail addresses for these global addresses. 
+          If you are interested in being a research site,
+	  please contact me.
+
+In addition, the filenames for the information database have been
+changed to fit some OS' filename length limitations.
+
+*NOTE*:  I will be releasing later version of the software and
+the database to the net.  I am placing this version here mostly
+for people who do not have access to the net.  If you want to know
+about later releases, please send mail to 
+
+	ag@xv.mit.edu
+
+
+
+You need to do 3 things to install AnswerGarden besides make'ing it:
+
+1.  Change the resource file (called AnswerGarden) in the following
+	ways:
+
+   a.  You should change the AnswerGarden*Directory resource in
+   the AnswerGarden resources file (called AnswerGarden) to be
+   the correct address of the information files.  This needs to
+   be an absolute address, and I will be happy to take
+   suggestions on a less crufty way of doing this.
+   
+   b.  You should point the AnswerGarden*StatisticsFile
+   resource in the Answer Garden resources file to be the
+   correct address of the statistics file that will be saved.
+   
+   c.  You should change the AnswerGarden*mailerType resource
+   in the AnswerGarden resources file to be one of the set {mh,
+   binmail}.  I have set it to 'binmail' because that is faster
+   to evoke than is mh.  You may need to change it if you don't
+   run (for some reason) /bin/mail.  Capitalization doesn't
+   matter on "mh" and "binmail".
+   
+   d.  In general, you should follow the directions in the
+   AnswerGarden resource file.  There are instructions at the
+   top of the file.
+
+2.  You should check permissions on the files.  I always get them wrong.
+
+3.  You will probably want to alias AG or ag to be similar to
+the following shell script:
+
+#
+setenv XAPPLRESDIR /u2/ack/rel.75
+/u2/ack/rel.75/ag
+
+where /u2/ack/rel.75 is the location of both the binary and the AnswerGarden
+resources file.  If you install the AnswerGarden resources file in 
+/usr/lib/X11/app-defaults, you do not need to set the XAPPLRESDIR 
+environment variable for users (hint, hint).
+
+If there are any problems, send me email so I can correct these
+instructions (and fix any problems).
+
+Thanks
+
+			Mark Ackerman
+			("Ack")
+			MIT/Center for Coordination Science 
+
+

@@ -1,0 +1,112 @@
+.\" $Header: wstring.3,v 1.2 90/12/30 03:22:28 morisaki Exp $
+.\" $Date: 90/12/30 03:22:28 $
+.\" Copyright 1990 by OMRON Corp.  All Rights Reserved.
+.TH WSTRING 3  "October, 1990"
+.UC 4
+.SH NAME
+.B wcscpy, wcsncpy, wcslen, wcscat, wcsncat, wcscmp, wcsncmp, wcschr, wcsrchr
+\- wchar string operations
+.SH SYNOPSIS
+.nf
+.B #include \f2<X11/wchar.h>
+.PP
+.B wchar *wcscat\f2(ws1, ws2)
+.B wchar \f2*ws1, *ws2\f3;
+.PP
+.B wchar *wcsncat\f2(ws1, ws2, n)
+.B wchar \f2*ws1, *ws2\f3;
+.B int n;
+.PP
+.B int wcscmp\f2(ws1, ws2)
+.B wchar \f2*ws1, *ws2\f3;
+.PP
+.B int wcsncmp\f2(ws1, ws2, n)
+.B wchar \f2*ws1, *ws2\f3;
+.B int n;
+.PP
+.B wchar *wcscpy\f2(ws1, ws2)
+.B wchar \f2*ws1, *ws2\f3;
+.PP
+.B wchar *wcsncpy\f2(ws1, ws2, n)
+.B wchar \f2*ws1, *ws2\f3;
+.B int n;
+.PP
+.B int wcslen\f2(ws)
+.B wchar \f2*s\f3;
+.PP
+.B wchar *wcschr\f2(ws, c)
+.B wchar \f2*s, c\f3;
+.PP
+.B wchar *wcsrchr\f2(ws, c)
+.B wchar \f2*s, c\f3;
+.fi
+.SH DESCRIPTION
+These functions operate on wnull-terminated wchar strings.
+They do not check for overflow of any receiving wchar string.
+Here the wnull stands for a null that is defined in wchar as constant WNULL.
+.PP
+.B Wcscat
+appends a copy of wchar string
+.I ws2
+to the end of wchar string
+.IR ws1 .
+.B Wcsncat
+copies at most
+.I n
+characters.  Both return a pointer to the wnull-terminated result.
+.PP
+.B Wcscmp
+compares its arguments and returns an integer
+greater than, equal to, or less than 0, according as
+.I ws1's codes
+is greater than, equal to, or less than
+.IR ws2's .
+.B Wcsncmp
+makes the same comparison but looks at at most
+.I n
+characters.
+.PP
+.B Wcscpy
+copies wchar string
+.I ws2
+to
+.I ws1,
+stopping after the wnull character has been moved.
+.B Wcsncpy
+copies exactly
+.I n
+characters, truncating or wnull-padding
+.I ws2;
+the target may not be wnull-terminated if the length of
+.I ws2
+is
+.I n
+or more.  Both return
+.IR ws1 .
+.PP
+.B Wcslen
+returns the number of non-wnull characters in
+.IR ws .
+.PP
+.B Wcschr
+.RB ( Wcsrchr)
+returns a pointer to the first (last) occurrence of character 
+.I wc
+in wchar string
+.I ws,
+or zero if
+.I wc
+does not occur in  the wchar string.
+.PP
+Both wcindex and wcrindex treat terminator WNULL as an occurance of 
+character
+.I wc
+in wchar string
+.I ws\.
+.SH "SEE ALSO"
+strcpy(3), strcmp(3), ...
+.br
+Information Processing -- Programming Language C,
+ADDENDUM 3 Multibyte Support Extensions, SC22/WG14/N145R 1991-04-22
+.br
+ISO DIS 10646(UCS), 4 November 1990.

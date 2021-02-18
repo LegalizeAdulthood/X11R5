@@ -1,0 +1,98 @@
+
+
+                                 gtextv
+                      Gesture Based TextView Object
+
+
+                             Scott W. Hassan
+                           Medical Informatics
+                           St. Louis, Missouri
+                      hassan@informatics.wustl.edu
+
+
+After seeing the Gesture Package developed by Dean Rubine*, I decided
+that Andrew needed an interface for gestures.  I put together this
+simple text object that uses a few hand-made gestures to cut, copy,
+paste, scroll, and set the dot.
+
+*      Dean Rubine
+        CMU Information Technology Center
+        4910 Forbes Avenue
+        Pittsburgh, PA 15213-3890
+        Dean.Rubine@cs.cmu.edu
+
+
+1.0 Compiling:
+
+1. ftp the gestures package from emsworth.andrew.cmu.edu (128.2.30.62). 
+file: /gestures/gestures.tar.Z
+
+2. uncompress, untar, and make it.
+
+3. In the gtextv's Imakefile, change the GESTURE variable to reflect the
+installation directory.
+
+4. genmake and make it.
+
+5. run the test program.
+
+2.0 The Gestures:
+
+Flick Up:
+	-- Scrolls one screen view full of text up.
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+Flick Down:
+	-- Scrolls one screen view full of text down.
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+
+Flick Top:
+	-- Scrolls to the top of the document.
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+
+Flick Bottom:
+	-- Scrolls to the bottom of the document.
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+Region Start:
+	-- Position of the start of a Region.
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+Region End:
+	-- Position of the end of a Region and then highlight.
+
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+Select Region:
+	-- Selects a region of text.  (simply, drag the mouse over text.  The
+starting and ending points determine the region. )
+
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+
+
+
+Cut Region:
+	-- Delete the selected Region from the text and place it in the cut
+buffer.  Using the start of the gesture as the hot-spot.  Here are two
+common gestures for delete.
+
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+ could not be displayed.]	[An Andrew ToolKit view (an animated drawing)
+             was included here, but could not be displayed.]
+
+
+
+Paste Region:
+	-- Yanks a Region from the cut buffer to the start of the gesture.
+	Note: Try to make it rounder than the figure.  Basically, an upper-case P.
+  [An Andrew ToolKit view (an animated drawing) was included here, but
+                        could not be displayed.]
+3.0 Comments:
+
+	I think this is an interesting type of interface, fast and efficient. 
+If you have any additions to gtextv, please send them to me.  I created
+this template textview object so that others could build on it, taking a
+lot of load off me.  Well, have fun.

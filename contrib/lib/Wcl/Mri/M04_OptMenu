@@ -1,0 +1,98 @@
+!  Option Menus
+!  ------------
+!
+!  Option Menus are a topic which deserves special consideration, because
+!  they are abit different from what you might expect.  As the Pulldown
+!  example resource file demonstrates, one may create a cascade button
+!  before or after the menu which is controlled by the cascade.  One might
+!  reasonably assume that the same is true for option menus.
+!
+!  Unfortunately, this is an incorrect assumption.  One MUST first create
+!  the pulldown menu which displays the available options, and THEN invoke
+!  the convenience function XmCreateOptionMenu.  This may or may not be a
+!  bug, depending on your point of view.
+!
+!  The widget called an OptionMenu is really a row column with two managed
+!  children: a label, and a cascade.  The significant issue is the size of
+!  the cascade: it is forced to be wide enough for the longest selection
+!  on the pulldown menu.  One cannot after the fact set the subMenuId on
+!  the cascade, because the cascade does not generally size itself based
+!  on the subMenu elements: normally cascade buttons size themselves based
+!  on their label.
+!
+!  One might assume that the RowColumn created by XmCreateOptionMenu would
+!  have a special set_values() method which does the appropriate thing
+!  when subMenuId is set, but this is clearly not the case: the set_values() 
+!  method does something, but it certainly is not appropriate.  Expect a 
+!  core dump if you try it.
+!
+!  So, if you want to use option menus, do it as shown in this example:
+!  first create the pulldown menu using XmCreatePulldownMenu, then create
+!  the `OptionMenu' using XmCreateOptionMenu.  The order of creation is
+!  determined by the order of the widget names in the parent's wcChildren
+!  resource:
+!
+!    *com.wcChildren:        doMenu, undoMenu, doOption, undoOption
+!
+!  Here is a trouble shooting tip: if you use XmCreateOptionMenu and the
+!  cascade button's label is `<optMenName>_cascadeBtn' then you do not
+!  have the subMenuId set properly on the option menu.  Check for spelling
+!  on the resource name, on the resource value, and possibly use
+!  `*wcTrace: True' to make sure you give the right name for the pulldown
+!  menu.
+!
+!  Also, remember to make the menu's initially unmanaged by setting
+!  wcManaged: False on each menu.  You can't do this globally,
+!  unfortunately, because there is no actual Motif widget class named
+!  XmPulldownMenu.  Sigh.
+!
+!----------------------------------------------------------------------
+!
+!*wcTrace:		True
+!
+Mri.wcChildren:		com
+Mri.title:		M04_OptMenu
+!
+*com.wcClassName: XmRowColumn
+*com.wcChildren:  quit, doMenu, undoMenu, nextMenu, doOption, undoOption, next
+!
+*quit.wcClassName:		XmPushButton
+*quit.labelString:		Push this button to quit the Option Menu demo
+*quit.activateCallback:		WcExitCB
+!
+*doOption.wcConstructor:	XmCreateOptionMenu
+*doOption.labelString:		Do It
+*doOption.subMenuId:		*doMenu
+!
+*undoOption.wcConstructor:	XmCreateOptionMenu
+*undoOption.labelString:	Undo It
+*undoOption.subMenuId:		*undoMenu
+!
+*next.wcConstructor:		XmCreateOptionMenu
+*next.subMenuId:		*nextMenu
+!
+*doMenu.wcConstructor:		XmCreatePulldownMenu
+*doMenu.wcManaged:		False
+*doMenu.wcChildren:		opt1, opt2
+!
+*undoMenu.wcConstructor:	XmCreatePulldownMenu
+*undoMenu.wcManaged:		False
+*undoMenu.wcChildren:		opt1, opt2, opt3
+!
+*nextMenu.wcConstructor:	XmCreatePulldownMenu
+*nextMenu.wcManaged:		False
+*nextMenu.wcChildren:		opt2, opt1, opt2, opt3, opt1
+!
+! Note that the specification for buttons opt1 and opt2 are actually used
+! twice each: both menus have children named opt1 and opt2, so the
+! children of both menus will have these same resources, and thus, will
+! use the following resource specifications:
+!
+*opt1.wcClassName:	XmPushButton
+*opt1.labelString:	Now
+!
+*opt2.wcClassName:	XmPushButton
+*opt2.labelString:	Wat's the rush!!
+!
+*opt3.wcClassName:	XmPushButton
+*opt3.labelString:	My Mistake...

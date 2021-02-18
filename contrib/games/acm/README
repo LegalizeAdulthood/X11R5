@@ -1,0 +1,174 @@
+acm Flight Simulator version 2.3
+
+What is acm?
+------------
+
+Acm is a LAN-oriented, multiplayer aerial combat simulation.  My main design
+objective was to provide source code that could be easily compiled and
+executed on a wide variety of platforms.  To that end, acm is written entirely
+in C, exploiting the programming features of Unix, X11, and the BSD socket
+interface.
+
+Players engage in air to air combat against one another using heat seeking
+missiles and cannons.
+
+Acm exists as two programs.  The first, named "acm", is a small program
+that, when invoked, starts a flight session on a given workstation.  The
+second component, named "acms", is a server process that manages the
+multiplayer environment.  It also manages the flight simulation and
+display management that is required.  Most players will prefer to run the
+acms process on a back-end server system on their local area network.  Players
+at client workstations can then invoke the acm program to begin play.
+
+I play acm using a server that is a Mips RC3240 (rated at roughly 18.5
+SPECmarks).  I get very adequate display performance using a Mips RS2030
+color workstation (10.0 SPECmarks) or an NCD monochrome X terminal.  My
+choice of servers is probably overkill.  I suspect that an 10+ SPECmark
+system could handle a typical mutiplayer load.
+
+This is the second release of acm.  The original version has been ported
+to a variety of Unix derivatives and system architectures.
+
+Riley Rainey
+riley@mips.com
+May 22, 1991
+
+
+What's different with revision 2.3:
+-----------------------------------
+
+This revision repairs several portability problems uncovered in revision 2.2.
+
+A problem with IEEE math in interpolate.c has been worked-around.  Invalid
+interpolation requests (which shouldn't happen in acm) will now result in
+messages being printed to standard error.
+
+Several debugging code fragments are now only conditionally compiled. See
+manifest.h for more information.
+
+A problem controlling aircraft resupply could generate unexpected errors
+from a system's sqrt function ("sqrt: domain error", for example). It has been
+fixed.
+
+
+What's different with revision 2.2:
+-----------------------------------
+
+Explosions now appear in the skies of acm.  Explosions will appear when an
+aircraft is struck by a missile or cannon shell.  Players go out with a
+bang, too.
+
+The flight simulation model has been tweaked to allow for spins.  I don't
+think you can really spin an F-16, but if you'd like to try it in acm, do
+this: build up some airspeed in level flight and then go vertical (pitch
+up to ninety degrees, or thereabouts).  Cut the throttle and afterburner
+and keep the nose pointed vertically.  Eventually, the F-16 will begin to
+fall back to earth -- an typically enter a spin.  The only recovery 
+procedure that I've tried that works is to apply full forward (down)
+elevator to break the stall; then re-apply power.
+
+Elevator trim has been added.  The (J) key sets to the elevator trim to
+be equal to the current elevator setting.  The (U) key resets it to the
+normal takeoff setting.  Typically, you'll get the aircraft into the
+pitch configuration that you want (e.g. level flight) and then press the
+(J) key -- then move the elevator control to the neutral position
+(the center of the HUD).
+
+Aircraft now have functioning landing gear.  The (G) key acts as the landing
+gear handle.  A landing gear handle and status lights are located to the right
+of the radar set.
+
+Each aircraft now carries a limited number of air-to-air missiles (eight, to
+be precise). 
+
+Aircraft can now be re-armed and re-fueled on the ground.
+To do this, a player must land successfully at the team's home airfield
+and come to a complete stop.  After an interval of not greater than 30
+seconds, the aircraft will be completely re-armed and refueled.  Aircraft
+damage is repaired, as well.
+
+Acm's reaction to the resizing of its window has been improved substantially.
+
+The code handling the HUD altitude, airspeed, and heading ladders has been
+improved.
+
+A problem with acms dumping core when it cannot access the graphics
+description files has been fixed.  Thanks go to Mark Moraes.
+
+Acm now makes an effort to select an appropriate X Visual to run in.  These
+changes are based on code supplied by Mark Hall.
+
+A problem with unwanted NoExpose events on monochrome displays was fixed
+by Georges Lauri.
+
+Acm's usage of the X DISPLAY environment variable has been improved with the
+help of some code from Michael Pall.  Now systems where the acm server is
+running on the same system as the X server can get "unix:*" and "local:*"
+connections.
+
+
+GENERAL NOTES
+-------------
+
+This software is divided into two major parts: the 3-D graphics routines
+and the flight simulator itself.  The 3-D stuff is contained in the V
+directory.  V/lib holds the library itself.  V/test contains a program
+that can be used to test your port of the V library.
+
+Fsim contains the remainder of the flight simulator. imake and make files
+have been provided.  The code has a Berkeley tilt to it in many
+places, so people with hybrid OS's will probably want to lean that
+direction when selecting compiling and linking options.
+
+Acm binaries can be installed in your standard games directory. "make install"
+will do this.
+
+The acm server, acms, must currently be started manually.  It's intended
+that it will eventually be managed automatically by inetd, but that's
+not in the code yet.  I have access to a network that includes a 16+ SPECMark
+server and 12 to 18 SPECMark workstations (i.e. a MIPS 3240 along with
+MIPS 2030 and Magnum workstations) (translate SPECMarks into millions of
+instructions per second by whatever formula you like ..).  I generally 
+rlogin to the 3240 and start the acms process on it and leave that xterm
+window hanging around;  then, from another xterm window, I'll fire off
+the acm command that starts my flying session.  Other players enter the
+game by simply firing off an "acm servername" command.
+
+I'm not saying that acm is a particularly accurate flight simulator. I'm
+not an aero engineer, but I did spend a fair amount of time studying
+several college-level texts on the subject while I was designing this
+software.  This probably doesn't resemble real-time flight simulators
+too much but, again, that's not my line of work.  Comments and
+suggestions to improve this software are welcome.
+
+Several "features" in this revision of the software:
+
+	* flaps and landing gear can be lowered at rediculously high speeds.
+
+	* you can fly through mountains.
+
+	* engines do not flame-out.
+
+
+FONTS IN ACM
+------------
+
+Unfortunately, font naming standards among different X ports aren't what they
+might be.  Frequently, acm porters find that acm compiles, but will not run
+because the font names on my system don't match the font names on theirs.
+
+Several fonts are adequate for acm's use.  Check out newPlayer.c and you'll
+see several #defines that select reasonable fonts for many platforms.  You can
+usually recompile newPlayer.c with the right "-Dxxxxx" switch and get flying.
+
+
+CREDITS
+-------
+
+In the original release, I overlooked several important credits.  The
+input routine at the heart of the acm server is based on code from xtrek
+that was written by Dan A. Dickey, he has provided some valuable help in
+improving the robustness of this code.  The 3-D routines were written by
+me, but are based closely on two valuable articles from the March and
+April 1981 issues of Byte Magazine titled "Three-Dimensional Computer
+Graphics" by Franklin C. Crow.

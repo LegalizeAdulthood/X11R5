@@ -1,0 +1,67 @@
+.TH XCRTCA 1 "Release 5" "X Version 11"
+.SH NAME 
+xcrtca \- CRT color analyzer driver
+.SH SYNOPSIS
+.B xcrtca
+[ \fIoptions\fP]
+.SH DESCRIPTION
+.I Xcrtca
+is used in conjunction with
+.I xsccd
+to create a color database for the Xcms
+color managment system using either the Minolta CA-100 (default) or Tektronix
+J17, low cost colorimeters.
+.LP
+The Minolta CA-100 in use at the MIT X
+Consortium includes the Low Luminance option which is necessary to get the
+required accuracy for readings at low luminance levels.
+The CA-100 outputs measurements in the CIExyY color space at a baud rate of
+9600.
+.LP
+The output format for the Tektronix J17 is selectable on the device as well
+as the baudrate.
+Select either CIExyY or CIEXYZ format for use with this program.
+The default baud rate for the J17 is 2400.  Note that the default
+baudrate for this program is 9600, therefore, unless you select 9600
+on the J17, you will need to specify the baudrate with the
+.B -baud
+option.
+.SH OPTIONS
+.TP
+.B \-device \fIdevice name\fP
+Name of the colorimeter: "ca100" (default) or "j17".
+.TP
+.B \-format \fR[\fP xyY \fR|\fP XYZ \fR]\fP
+Format of measurements received from the colorimeter.
+.TP
+.B \-baud \fIbaudrate\fP
+Baud rate of the colorimeter.  Default for this program is 9600.
+.TP
+.B \-delay \fIseconds\fP
+The amount of delay between the change of the color patch and the first
+reading of each primary color.  Default is 4 seconds.
+.TP
+.B \-file \fIfile name\fP
+File name for the results, otherwise results are sent to stdout.
+.TP
+.B \-input \fIpathname\fP
+Pathname of the tty.  Default for this program is /dev/ttya.
+.TP
+.B \-name \fIname string\fP
+Name (e.g., manufacturer) to be associated with the CRT.
+.TP
+.B \-model \fImodel string\fP
+Model of the CRT.
+.SH CAVEATS
+This program has been coded for a Sun SparcStation and for a default visual
+with 8 bits_per_rgb.
+.SH "SEE ALSO"
+xsccd(1), xcmsdb(1)
+.SH COPYRIGHT
+Copyright 1991 by Massachusetts Institute of Technology.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHOR
+Dave Sternlicht, Keith Packard, MIT X Consortium.
+.br
+Al Tabayoyon, Chuck Adams, Tektronix Inc.

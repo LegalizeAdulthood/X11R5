@@ -1,0 +1,277 @@
+.\" $Header: /usr/people/sam/tiff/man/man3/RCS/intro.3t,v 1.8 91/07/16 16:14:29 sam Exp $
+.\"
+.\" Copyright (c) 1988, 1989, 1990, 1991 Sam Leffler
+.\" Copyright (c) 1991 Silicon Graphics, Inc.
+.\"
+.\" Permission to use, copy, modify, distribute, and sell this software and 
+.\" its documentation for any purpose is hereby granted without fee, provided
+.\" that (i) the above copyright notices and this permission notice appear in
+.\" all copies of the software and related documentation, and (ii) the names of
+.\" Sam Leffler and Silicon Graphics may not be used in any advertising or
+.\" publicity relating to the software without the specific, prior written
+.\" permission of Sam Leffler and Silicon Graphics.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+.\" EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+.\" WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+.\" 
+.\" IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+.\" ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+.\" OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+.\" WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+.\" LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+.\" OF THIS SOFTWARE.
+.\"
+.TH INTRO 3T "June 18, 1991"
+.SH NAME
+intro \- introduction to
+.IR libtiff ,
+a library for reading and writing
+.SM TIFF
+files
+.SH SYNOPSIS
+.B "#include <tiffio.h>"
+.br
+cc file.c
+.B -ltiff
+.SH DESCRIPTION
+.I Libtiff
+is a library for reading and writing data files encoded with the
+.I "Tag Image File"
+format, Revision 5.0.
+This file format is suitable for archiving multi-color and
+monochromatic image data.
+.PP
+The library supports several compression algorithms, as indicated
+by the
+.I Compression
+field, including:
+no compression (1),
+.SM CCITT
+1D Huffman compression (2),
+.SM CCITT
+Group 3 Facsimile compression (3),
+.SM CCITT
+Group 4 Facsimile compression (4),
+Lempel-Ziv & Welch compression (5),
+word-aligned 1D Huffman compression (32771), and
+PackBits compression (32773).
+In addition, several nonstandard compression algorithms are supported:
+the 4-bit compression algorithm used
+by the
+.I ThunderScan
+program (32809) (decompression only), Pixar's
+Picio compression scheme (32900),
+Silicon Graphics' compression scheme (32901),
+and NeXT's 2-bit compression algorithm (32766) (decompression only).
+Directory information may be in either little- or big-endian byte
+order\-byte swapping is automatically done by the library.
+Data bit ordering may be either Most Significant Bit (\c
+.SM MSB\c
+) to Least Significant Bit (\c
+.SM LSB\c
+) or
+.SM LSB
+to
+.SM MSB.
+Data may not have more than four samples per pixel.
+Finally, the library does not support files in which the
+.IR BitsPerSample ,
+.IR Compression ,
+.IR MinSampleValue ,
+or
+.IR MaxSampleValue
+fields are defined differently on a per-sample basis
+(in Rev. 5.0 the
+.I Compression
+tag is not defined on a per-sample basis, so this is immaterial).
+.PP
+In addition to the nonstandard compression schemes, the library also
+supports one other nonstandard facility: a
+.I Matteing
+field (32995) that indicates whether or not sample
+.IR SamplesPerPixel \-1
+in each pixel holds Alpha (matteing) data.
+When Alpha data is present, associated sample data
+are assumed to be pre-multiplied by Alpha.
+(The
+.I Matteing
+tag is a registered
+.I private
+tag that has been assigned to Silicon Graphics.)
+.SH "LIST OF ROUTINES"
+The following routines are available.
+Consult specific manual pages for details on their operation.
+.sp 5p
+.nf
+.ta \w'TIFFWriteEncodedStrip'u+2n +\w'Appears on Page'u+2n
+\fIName\fP	\fIAppears on Page\fP	\fIDescription\fP
+.sp 5p
+TIFFCheckTile	tile.3t	very x,y,z,sample is within image
+TIFFClose	close.3t	close an open file
+TIFFComputeTile	tile.3t	return tile containing x,y,z,sample
+TIFFCurrentRow	query.3t	return index of current scanline
+TIFFCurrentStrip	query.3t	return index of current strip
+TIFFCurrentTile	query.3t	return index of current tile
+TIFFError	error.3t	library error handler
+TIFFFdOpen	open.3t	open a file for reading or writing
+TIFFFileno	query.3t	return open file descriptor
+TIFFFileName	query.3t	return name of open file
+TIFFFlush	flush.3t	flush all pending writes
+TIFFFlushData	flush.3t	flush pending data writes
+TIFFGetField	getfield.3t	return tag value in current directory
+TIFFGetMode	query.3t	return open file mode
+TIFFIsTiled	query.3t	return true if image data is tiled
+TIFFOpen	open.3t	open a file for reading or writing
+TIFFReadBufferSetup	rdbuf.3t	specify i/o buffer for reading
+TIFFReadDirectory	readdir.3t	read the next directory
+TIFFReadEncodedStrip	rdestrip.3t	read and decode a strip of data
+TIFFReadRawStrip	rdrstrip.3t	read a raw strip of data
+TIFFReadEncodedTile	rdetile.3t	read and decode a tile of data
+TIFFReadRawTile	rdrtile.3t	read a raw tile of data
+TIFFReadScanline	readline.3t	read and decode a row of data
+TIFFReadTile	readtile.3t	read and decode a tile of data
+TIFFReverseBits	swab.3t	reverse bits in an array of bytes
+TIFFScanlineSize	size.3t	return size of a scanline
+TIFFSetDirectory	setdir.3t	set the current directory
+TIFFSetField	setfield.3t	set a tag's value in the current directory
+TIFFSwabShort	swab.3t	swap bytes of short
+TIFFSwabLong	swab.3t	swap bytes of long
+TIFFSwabArrayOfShort	swab.3t	swap bytes of an array of shorts
+TIFFSwabArrayOfLong	swab.3t	swap bytes of an array of longs
+TIFFTileSize	size.3t	return size of a tile
+TIFFVGetField	getfield.3t	return tag value in current directory
+TIFFVSetField	setfield.3t	set a tag's value in the current directory
+TIFFWarning	warning.3t	library warning handler
+TIFFWriteDirectory	writedir.3t	write the current directory
+TIFFWriteEncodedStrip	wrestrip.3t	compress and write a strip of data
+TIFFWriteRawStrip	wrrstrip.3t	write a raw strip of data
+TIFFWriteEncodedTile	wretile.3t	compress and write a tile of data
+TIFFWriteRawTile	wrrtile.3t	write a raw tile of data
+TIFFWriteScanline	writeline.3t	write a scanline of data
+TIFFWriteTile	wrrtile.3t	compress and write a tile of data
+.fi
+.SH "TAG USAGE"
+The table below lists the
+.SM TIFF
+tags that are recognized and handled by the library.
+If no use is indicated in the table, then the library
+reads and writes the tag, but does not use it internally.
+.sp 5p
+.nf
+.ta \w'PhotometricInterpretation'u+2n +\w'Value'u+2n +\w'R/W'u+2n
+\fITag Name\fP	\fIValue\fP	\fIR/W\fP	\fILibrary's Use\fP
+.sp 5p
+Artist	315	R/W
+BadFaxLines	326	R/W
+BitsPerSample	258	R/W	lots
+CellLength	265		parsed but ignored
+CellWidth	264		parsed but ignored
+CleanFaxData	327	R/W
+ColorMap	320	R/W
+ColorResponseCurves	301	R/W
+ColorResponseUnit	300	R/W
+Compression	259	R/W	choosing compression routines
+ConsecutiveBadFaxLines	328	R/W
+DataType	32996	R/W
+DateTime	306	R/W
+DocumentName	269	R/W
+FillOrder	266	R/W	control bit order
+FreeByteCounts	289		parsed but ignored
+FreeOffsets	288		parsed but ignored
+GrayResponseCurve	291	R/W
+GrayResponseUnit	290	R/W
+Group3Options	292	R/W	used by Group 3 code
+Group4Options	293	R/W
+HostComputer	316	R/W
+ImageDescription 	270	R/W
+ImageDepth	32997	R/W	lots
+ImageLength	257	R/W	lots
+ImageWidth	256	R/W	lots
+InkSet	332	R/W
+JPEGProc	33603	R/W	used by JPEG code
+JPEGQTablePrecision	33605	R/W	used by JPEG code
+JPEGQTables	33606	R/W	used by JPEG code
+JPEGDCTables	33607	R/W	used by JPEG code
+JPEGACTables	33608	R/W	used by JPEG code
+LumaCoefs	33611	R/W
+YCbCrSampling	33612	R/W
+Make	271	R/W
+Matteing	32995	R/W	used by picio code
+MaxSampleValue	281	R/W
+MinSampleValue	280	R/W
+Model	272	R/W
+NewSubFileType	254	R/W	
+Orientation	274	R/W
+PageName	285	R/W
+PageNumber	297	R/W
+PhotometricInterpretation	262	R/W	Group 3 code
+PlanarConfiguration	284	R/W	data i/o
+Predictor	317	R/W	used by LZW code
+PrimaryChromaticities	319		parsed but ignored
+ResolutionUnit	296	R/W
+RowsPerStrip	278	R/W	data i/o
+SamplesPerPixel	277	R/W	lots
+Software	305	R/W
+StripByteCounts	279	R/W	data i/o
+StripOffsets	273	R/W	data i/o
+SubFileType	255	R/W	
+Thresholding	263	R/W	
+TileWidth	322	R/W	tiled interfaces
+TileLength	323	R/W	tiled interfaces
+TileDepth	32998	R/W	tiled interfaces
+WhitePoint	318		parsed but ignored
+XPosition	286	R/W
+XResolution	282	R/W
+YPosition	286	R/W
+YResolution	283	R/W	used by Group 3 2d encoding
+.nf
+.SH DIAGNOSTICS
+All error messages are directed to the
+.IR TIFFError ()
+routine which may be redefined by applications to
+redirect messages.
+By default messages are directed to
+.B stderr
+in the form:
+.IR "module: message\en."
+Warning messages are likewise directed to the
+.IR TIFFWarning ()
+routine.
+.SH "SEE ALSO"
+.IR fax2tiff (1),
+.IR tiff2bw (1),
+.IR tiffdither (1),
+.IR tiffdump (1),
+.IR tiffcp (1),
+.IR tiffcmp (1),
+.IR tiffgt (1),
+.IR tiffinfo (1),
+.IR tiffmedian (1),
+.IR tiffsv (1),
+.br
+.IR "Tag Image File Format Specification \(em Revision 5.0" ,
+an Aldus/Microsoft Technical Memorandum,
+August 8, 1988.
+.br
+.IR "The Spirit of TIFF Class F" ,
+an appendix to the TIFF 5.0 specification prepared by Cygnet Technologies.
+.SH BUGS
+It is not possible to overwrite the contents of a strip with
+.IR TIFFWriteEncodedStrip ()
+and
+.IR TIFFWriteRawStrip ()
+since they
+.I append
+to a strip.
+Likewise,
+.IR TIFFWriteEncodedTile ()
+and
+.IR TIFFWriteRawTile ()
+append to a tile.
+The library does not support random access to compressed data
+that is organized with more than one row or tile per strip.
+The library does not handle unknown tags
+(perhaps it should just save them for the application?).
+The library does not do enough validity checking
+of a directory's contents.

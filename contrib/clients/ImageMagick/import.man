@@ -1,0 +1,100 @@
+.ad l
+.nh
+.TH IMPORT 1 "1 July 1991" "X Version 11"
+.SH NAME
+import - dump an image of an X window as MIFF
+.SH SYNOPSIS
+.B "import"
+[ \fIoptions\fP ... ] \fIfile\fP
+.SH DESCRIPTION
+.PP
+.I Import
+is an X Window System window dumping utility.
+.I Import
+allows X users to store window images in a specially formatted dump
+file.  This file can then be read by the \fIDisplay\fP utility for
+redisplay, printing, editing, formatting, archiving, image processing, etc.
+The target window can be specified by id or name or be selected by clicking 
+the mouse in the desired window.  The keyboard bell is rung once at the 
+beginning of the dump and twice when the dump is completed.
+.SH EXAMPLES
+.PP
+To select a X window and save it in the MIFF format to a file on disk
+titled window.miff, use:
+.PP
+     import window.miff
+.PP
+To save the entire X server screen in the MIFF format to a file on disk
+titled root.miff, use:
+.PP
+     import -window root root.miff
+.SH OPTIONS
+\fIImport\fP options can appear on the command line or in your X resources
+file (see X(1)).  Options on the command line supercede values specified
+in your X resources file.
+.TP 5
+.B "-border"
+include image borders in the output image.
+.TP 5
+.B "-display \fIhost:display[.screen]\fP"
+specifies the X server to contact; see \fBX(1)\fP.
+.TP 5
+.B "-frame"
+include window manager frame.
+.TP 5
+.B "-monochrome"
+transform image to black and white.
+.TP 5
+.B "-scene"
+image scene number.
+.TP 5
+.B "-screen"
+This option indicates that the GetImage request used to obtain the image
+should be done on the root window, rather than directly on the specified
+window.  In this way, you can obtain pieces of other windows that overlap
+the specified window, and more importantly, you can capture menus or other
+popups that are independent windows but appear over the specified window.
+.TP 5
+.B "-window \fIid\fP"
+select window with this id or name.
+
+With this option you can specify the target window by id or name rather
+than using the mouse.  Specify 'root' to select X's root window as the
+target window.
+.PP
+Change \fI-\fP to \fI+\fP in any option above to reverse its effect.  For
+example \fB+frame\fP means do include window manager frame.
+.PP
+Specify \fIfile\fP as \fI-\fP for standard input or output.
+.PP
+.SH ENVIRONMENT
+.PP
+.TP 5
+.B DISPLAY
+To get the default host, display number, and screen.
+.SH SEE ALSO
+X(1), display(1), XtoPS(1)
+.SH COPYRIGHT
+Copyright 1991 E. I. du Pont de Nemours & Company                           
+.PP                                                                           
+Permission to use, copy, modify, distribute, and sell this software and    
+its documentation for any purpose is hereby granted without fee,           
+provided that the above copyright notice appear in all copies and that     
+both that copyright notice and this permission notice appear in            
+supporting documentation, and that the name of E. I. du Pont de Nemours     
+& Company not be used in advertising or publicity pertaining to            
+distribution of the software without specific, written prior               
+permission.  E. I. du Pont de Nemours & Company makes no representations    
+about the suitability of this software for any purpose.  It is provided    
+"as is" without express or implied warranty.                               
+.PP
+E. I. du Pont de Nemours & Company disclaims all warranties with regard     
+to this software, including all implied warranties of merchantability      
+and fitness, in no event shall E. I. du Pont de Nemours & Company be        
+liable for any special, indirect or consequential damages or any           
+damages whatsoever resulting from loss of use, data or profits, whether    
+in an action of contract, negligence or other tortious action, arising     
+out of or in connection with the use or performance of this software.      
+.SH AUTHORS
+John Cristy, E.I. du Pont De Nemours & Company Incorporated
+

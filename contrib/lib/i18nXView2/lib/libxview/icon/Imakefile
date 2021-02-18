@@ -1,0 +1,56 @@
+#
+# @(#)Imakefile 1.3 90/02/26 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=     icon.h icon_load.h
+HDRSPRIVATE=    icon_impl.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP) -I$(TOOLDIR)
+
+OBJS =\
+	icon.o\
+	icon_obj.o\
+	icon_load.o\
+	icon_input.o\
+	icon_data.o
+
+SRCS =\
+	icon.c\
+	icon_obj.c\
+	icon_load.c\
+	icon_input.c\
+	icon_data.c
+
+all::
+
+#if DebugLibXvol && ProfileLibXvol
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvol
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvol
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvol,$(OBJS))
+SubdirCompoundLibTarget(xview,$(OBJS))
+
+#if ProfileLibXvol
+SubdirProfiledLibTarget(xvol,$(OBJS))
+#endif
+
+#if DebugLibXvol
+SubdirDebuggedLibTarget(xvol,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

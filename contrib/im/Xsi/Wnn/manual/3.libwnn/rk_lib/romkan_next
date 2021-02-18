@@ -1,0 +1,25 @@
+ＲＯＭＫＡＮ＿ＮＥＸＴ（ＪＴ＿ＬＩＢ）
+
+
+名称
+    romkan_next  ―  ローマ字仮名変換非変換文字の入力
+
+形式
+    #include		<wnn/rk_spcl_val.h>
+
+    letter	romkan_next()
+
+機能説明
+    romkan_next は、文字入力関数 keyin (romkan_init を参照。) からの値を文字単
+    位にまとめたコード(１バイトコードの文字はそのまま、２バイトコードの場合は 、
+    上位バイ ト×２５６＋下位バイト)を返す。この関数は、ローマ字仮名変換を行わ
+    ずに入力文字を受け取るときに使用する。
+
+使用上の注意事項
+    最初の romkan_next を呼ぶ前に、romkan_init で初期処理をしておかなければな
+    らない。
+
+関連項目
+    romkan_init(JT_LIB), romkan_getc(JT_LIB), romkan_clear(JT_LIB), 
+    romkan_dispmode(JT_LIB), romkan_ungetc(JT_LIB), 2A_CTRL(JT_ENV), 
+    2B_ROMKANA(JT_ENV)

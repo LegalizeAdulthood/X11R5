@@ -1,0 +1,68 @@
+#
+# @(#)Imakefile 50.1 90/12/12 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=     base.h generic.h pkg_public.h pkg.h xview_xvin.h \
+                drawable.h xv_error.h
+HDRSPRIVATE=    xv_debug.h xv_list.h draw_impl.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP)
+
+SRCS=\
+	xv.c\
+	xv_init.c\
+	xv_init_x.c\
+	generic.c\
+	drawable.c\
+	xv_debug.c\
+	xv_parse.c\
+	xv_list.c\
+	xv_error.c\
+	base_data.c
+
+OBJS=\
+	xv.o\
+	xv_init.o\
+	xv_init_x.o\
+	generic.o\
+	drawable.o\
+	xv_debug.o\
+	xv_parse.o\
+	xv_list.o\ 
+	xv_error.o\
+	base_data.o
+
+all::
+
+#if DebugLibXvin && ProfileLibXvin
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvin
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvin
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvin,$(OBJS))
+
+SubdirCompoundLibTarget(xview, $(OBJS))
+
+#if ProfileLibXvin
+SubdirProfiledLibTarget(xvin,$(OBJS))
+#endif
+
+#if DebugLibXvin
+SubdirDebuggedLibTarget(xvin,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

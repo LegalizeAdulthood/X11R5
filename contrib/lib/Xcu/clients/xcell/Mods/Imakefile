@@ -1,0 +1,13 @@
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+CELL = FileDir/Cell/Mods
+
+MODS = 3_11 3_7 4_10 4_16 4_19 5_13 5_21 6_16 \
+       lccr4 lccrrr4 lcr4 lcr5
+
+AllTarget()
+
+MakeDirectories(install,$(CELL))
+InstallMultiple($(MODS),$(CELL))
+
+DependTarget()

@@ -1,0 +1,191 @@
+; Icon Manager Support For Twm Emulator
+; =====================================
+;
+; Author : Arup Mukherjee (arup@grasp.cis.upenn.edu) [Dec 1989]
+;
+; Within the restrictions of the GWM copyright, you may do whatever you
+; want with this code. It would be nice, however, if my name were to remain 
+; in it somewhere.
+;
+; New and improved (faster) icon manager. Credit due to 
+; J.K.Wight@newcastle.ac.uk for the redesign suggestion
+;
+
+
+(if (not (boundp 'icon-pixmap))
+    (: icon-pixmap (pixmap-make title-background
+				(+ bitmaps-dir "iconify.xbm")
+				title-foreground)))
+
+(if (not (boundp 'iconify-before-icon-mgr))
+    (: iconify-before-icon-mgr iconify-window))
+
+(de iconify-window ()
+    (if (not iconify-by-unmapping)
+	(iconify-before-icon-mgr)
+      (if (window-is-mapped)
+	  (unmap-window)
+	(map-window)))
+    (if (and show-icon-mgr (boundp 'icon-mgr-wob))
+	  (send-user-event 'icon-mgr-rethink icon-mgr-wob)))
+
+(: make-iconification-mgr
+   (fsm-make
+    (state-make
+     (on enter-window
+       (set-focus (# 'window wob-property)))
+     (on leave-window
+       (set-focus ()))
+     (on (buttonpress any any)
+	 (with (window (# 'window wob-property))
+             (iconify-window)
+             (set-focus))))))
+
+(: icon-mgr-plug-fsm
+   (fsm-make
+    (state-make
+     (on (user-event 'icon-mgr-rethink)
+	 (with (w1 wob)
+	       (if (with (window (# 'window wob-property))
+			 (window-is-mapped))
+		   (progn (wob w1)
+			  (wob-tile (with (foreground icon-mgr-background)
+                                        (pixmap-make (width icon-pixmap)
+                                                     (height icon-pixmap)))))
+		 (progn (wob w1)
+			(wob-tile icon-pixmap))))))))
+
+(: icon-mgr-label-plug-fsm
+   (fsm-make
+    (state-make
+     (on (user-event 'icon-mgr-rethink)
+	 (with (w1 wob
+		   borderwidth 0 background icon-mgr-background
+		   foreground icon-mgr-foreground
+		   borderpixel icon-mgr-background
+		   font icon-mgr-font   
+		   dumb-temporary     
+		   (active-label-make (with (window (# 'window wob-property))
+					    window-icon-name)))
+	       (wob w1)
+	       (wob-tile dumb-temporary)
+	       (move-window (icon-mgr-x-pos) (icon-mgr-y-pos)))))))
+	       
+
+
+(df update-menu-expr extras
+    (: menu-expr '(menu-make))
+    (with (borderwidth 0 background icon-mgr-background
+		       foreground icon-mgr-foreground
+		       borderpixel icon-mgr-background
+		       font icon-mgr-font
+		       direction vertical)
+
+	  (for window (sort (+ (list-of-windows 'window))
+			    (lambda (w1 w2)
+			      (compare (with (window w1) (window-name))
+				       (with (window w2) (window-name)))))
+	       (if (and (not (member (window-name) icon-mgr-exclusions))
+			(not (= window icon-mgr-dying-window)))
+		   (progn
+		     (: mgd-bar 
+			 (with (fsm make-iconification-mgr
+				    font icon-mgr-font
+				    property (+ (list 'window window)
+						property))
+			       (bar-make
+				(with (fsm icon-mgr-plug-fsm)
+				      (if (and (not (window-is-mapped))
+					       (not (member window extras)))
+					  (plug-make icon-pixmap)
+					(with (foreground icon-mgr-background)
+					      (plug-make 
+                                             (pixmap-make
+                                              (width icon-pixmap)
+                                              (height icon-pixmap))))))
+				(with (fsm icon-mgr-label-plug-fsm)
+				      (plug-make (active-label-make
+						  (window-icon-name))))
+				())))
+		     (: menu-expr (+ menu-expr (list mgd-bar))))))
+	  (with (menu-max-width icon-mgr-max-width 
+				menu-min-width icon-mgr-min-width
+				fsm ())
+		(if (> (length menu-expr) 1)
+		    (: icon-mgr-menu (eval menu-expr))
+		  (: icon-mgr-menu ())))))
+		  
+
+(if (not (boundp 'icon-mgr-x-pos))
+    (df icon-mgr-x-pos ()
+	(with (wob (menu-wob icon-mgr-menu))
+	      (if (or (> (+ icon-mgr-xpos (wob-width)) screen-width)
+		      (> (+ icon-mgr-xpos icon-mgr-xstickyness) screen-width))
+		  (- screen-width (+ wob-width 2))
+		icon-mgr-xpos))))
+	   
+(if (not (boundp 'icon-mgr-y-pos))
+    (df icon-mgr-y-pos ()
+	(with (wob (menu-wob icon-mgr-menu))
+	      (if (or (> (+ icon-mgr-ypos (wob-height)) screen-height)
+		      (> (+ icon-mgr-ypos icon-mgr-ystickyness) screen-height))
+		  (- screen-height (+ wob-height 2))
+		icon-mgr-ypos))))
+	   
+(df icon-mgr-display extras
+    (if (boundp 'icon-mgr-wob)
+	(progn
+	  (with (wob icon-mgr-wob)
+		     (setq icon-mgr-xpos 
+			   (+ wob-x 1))
+		     (setq icon-mgr-ypos 
+			   (+ (+ wob-y window-client-y) 1)))
+	  (kill-window icon-mgr-wob)
+	  (unbind 'icon-mgr-wob)))
+    (process-events)
+    (progn
+      (if (not (= (length extras) 0))
+        (eval (list 'update-menu-expr (eval extras)))
+      (update-menu-expr))
+      (with (reenter-on-opening ())
+	    (if icon-mgr-menu
+		(if (or (not (boundp 'icon-mgr-xpos)) 
+			(not (boundp 'icon-mgr-ypos)))
+		    (: icon-mgr-wob 
+		       (place-menu icon-mgr-name icon-mgr-menu))
+                (: icon-mgr-wob (place-menu icon-mgr-name
+                                            icon-mgr-menu
+                                            (icon-mgr-x-pos)
+                                            (icon-mgr-y-pos))))
+            (icon-mgr-display)))))
+
+(df icon-mgr-toggle ()
+    (if show-icon-mgr
+	(progn
+	  (setq show-icon-mgr ())
+	  (setq iconify-by-unmapping ())
+	  (if (boundp 'icon-mgr-wob)
+	      (progn
+		(kill-window icon-mgr-wob)
+		(unbind 'icon-mgr-menu)
+		(unbind 'icon-mgr-wob))))
+      (progn (setq show-icon-mgr t)
+	     (setq iconify-by-unmapping t)
+	     (icon-mgr-display))))
+
+(: to-be-done-after-setup 
+   '(progn
+      (if show-icon-mgr
+	  (progn
+	    (: setup-done t)
+	    (eval icon-mgr-font)
+	    (icon-mgr-display)
+	    (if show-icon-mgr
+		(with (wob icon-mgr-wob)
+		      (move-window (icon-mgr-x-pos) (icon-mgr-y-pos))))
+	    (process-exposes)
+	    ))))
+	    
+
+      
+

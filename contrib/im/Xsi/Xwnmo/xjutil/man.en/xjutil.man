@@ -1,0 +1,46 @@
+.\"
+.\" $Id: xjutil.man,v 1.1 1991/09/13 09:07:43 proj Exp $
+.\"
+.TH XJUTIL 4 "Release 5" "X Version 11"
+.SH NAME
+xjutil \- Dictionary Utirity Manager
+.SH SYNOPSIS
+.B /usr/bin/xjutil \fIdisplay-name atom-name acount\fP
+.SH DESCRIPTION
+The \fIxjutil\fP is a dictionary utility manager operates dictionaries of
+\fIWnn\fP. It is executed by \fIxwnmo\fP automatically.
+.SH OPARATIONS
+\fIXjutil\fP has the following operations for dictionary of \fIWnn\fP.
+.TP 8
+.B Add dictionary:
+You can add new dictionary in your conversion environment.
+.TP 8
+.B Output list of dictionaries:
+You can see a list of current loaded dictionaries in your conversion
+environment.
+.TP 8
+.B Registry:
+You can registry new word in your private dictionary.
+.TP 8
+.B Search:
+You can search word in dictionary. And if you push any button on one word
+, you can operate its word. (\fIdetele/disable/enable/comment\fP)
+.TP 8
+.B Change parameters:
+You can change some parameter of conversion environment.
+.TP 8
+.B Output information of dictionaries:
+You can see feather infomations of dictionaries. And if you push any button
+on one dictionary, you can operate its dictionary.
+(\fIdetele/disable/enable/comment\fP)
+.TP 8
+.B Change Accessory Vocabulary:
+You can change a accessory vocabulary file.
+.SH "SEE ALSO"
+xwnmo(1X)
+.SH COPYRIGHT
+Copyright 1991 by OMRON Corporation
+.br
+Copyright 1991 by Massachusetts Institute of Technology
+.SH AUTHOR
+Seiji Kuwari (OMRON Corporation)

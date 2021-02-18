@@ -1,0 +1,39 @@
+.TH GL_Label 3GL "6Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Label \- Make a window which has a text label in it.
+.SH SYNTAX
+(Window)GL_Create(GL_Label,
+.br
+			<option>, [args,]
+.br
+		     ...,
+.br
+		     GL_Done);
+.SH ARGUMENTS
+.IP GL_Label 1i
+Type specifier for the GL_Create call
+.IP GL_Done 1i
+Mark to terminate variable arguments list.
+
+.SH DESCRIPTION
+This call creates a window which has a single text object in it.
+It is a subclass of a window and programmers can therefore use any
+of the options for a window (see GL_Window(3GL)).  This window is implemented
+as just a standard window with a text object in it (see GL_TextObject(3GL)).
+
+.SH OPTIONS
+
+.IP "GLL_InitialLabel, <char *label>" 1i
+This specifies the label that the window is supposed to start out with.
+This defaults to NULL.
+.IP "GLL_LeftBuffer, <int buffer>" 1i
+This specifies the amount of space to leave to the left of the label.
+This default to 2 pixels.
+.IP "GLL_Font, <XFontStruct *font>" 1i
+This specifies the font that the label is supposed to use.  Because the text
+objects currently do not support different fonts this option is unsupported
+this will be fixed real soon now.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Window(3GL), GL_TextObject(3GL), GraphLib
+Programming Manual

@@ -1,0 +1,12 @@
+*** renderers.c.r5	Fri May 10 14:46:40 1991
+--- renderers.c	Wed Oct  9 16:25:03 1991
+***************
+*** 29,34 ****
+--- 29,35 ----
+  {
+      BitmapRegisterFontFileFunctions ();
+      SpeedoRegisterFontFileFunctions ();
++     Type1RegisterFontFileFunctions();
+  }
+  
+  static FontRenderersRec	renderers;

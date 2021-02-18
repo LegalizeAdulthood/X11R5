@@ -1,0 +1,11 @@
+XCOMM $XConsortium: Imakefile,v 1.1 91/08/27 20:29:24 rws Exp $
+        DEPLIBS = $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XTOOLLIB) $(XLIB)
+          SRCS1 = xcrtca.c
+          OBJS1 = xcrtca.o
+          SRCS2 = xsccd.c
+          OBJS2 = xsccd.o
+
+all:: xcrtca xsccd
+ComplexProgramTarget_1(xcrtca,$(LOCAL_LIBRARIES),NullParameter)
+ComplexProgramTarget_2(xsccd,NullParameter,NullParameter)

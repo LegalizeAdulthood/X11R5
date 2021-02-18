@@ -1,0 +1,69 @@
+.TH IROHASTAT 1
+.SH "名前"
+irohastat \- かな漢字変換サーバの情報の表示
+.SH "形式"
+.B "irohastat [{\-is|\-irohaserver} \fIiroha-server\fP"]
+[\-p] [\-t] [\-a]
+.SH "説明"
+.PP
+\fIirohastat(1)\fPはかな漢字変換サーバ\fIirohaserver(1M)\fPの情報を表
+示します。表示される情報としては，接続しているサーバの存在する
+マシン名，\fIirohaserver(1M)\fPのバージョン，サーバに接続しているクラ
+イアントの数，サーバに接続しているユーザ名，ユーザ番号，ソケット番号，
+使用しているコンテクストの数，サーバへの接続時間，サーバの使用時間，ア
+イドル時間，クライアントの存在するホスト名，各プロトコルの使用頻度等が
+あります。
+.PP
+\fIirohastat(1)\fPをオプション無しで呼び出した時の表示は次のようになり
+ます。
+.sp
+.ft CW
+.nf
+  Connected to machine1
+  Iroha Server (Ver. 1.2)
+  Total connecting clients 1
+  USER_NAME    ID   NO U_CX          C_TIME   U_TIME   I_TIME  HOST_NAME
+  kon           5    0    4  Tue 21  8:49am       11    12:48   machine2
+.fi
+.ft
+.sp
+.PP
+それぞれの項目の意味は次のとおりです。
+.IP "USER_NAME" 16
+ユーザ名
+.IP "ID" 16
+ソケット番号
+.IP "NO" 16
+ユーザ番号
+.IP "U_CX" 16
+使用しているコンテクストの数
+.IP "C_TIME" 16
+接続した時間(時:分)
+.IP "U_TIME" 16
+サーバの使用時間(時間:分'秒)
+.IP "I_TIME" 16
+アイドル時間(時間:分)
+.IP "HOST_NAME" 16
+クライアントの存在するホスト名
+.SH "オプション"
+.IP "\-is \fIiroha-server\fP (または，\-irohaserver \fIiroha-server\fP)" 12
+かな漢字変換サーバを指定します。
+.IP "\-p" 12
+使用されたプロトコルの頻度が表示されます。
+.IP "\-t" 12
+irohastat を起動したユーザに関し
+てID，NO，U_CX，C_TIME，U_TIME，I_TIME，HOST_NAME，などの情報とともに
+使用したプロトコルの頻度が表示されます。
+.IP "\-a" 12
+すべてのユーザのすべての情報が表示されます。
+.SH "関連ファイル"
+.IP "/usr/local/lib/iroha/irohahost" 36
+irohaserver が動作しているホスト名
+.SH "関連項目"
+.PP
+irohaserver(1M), irohakill(1M), irohacheck(1)
+.PP
+.SH "環境変数"
+.PP
+.IP "IROHAHOST" 12
+\fIirohaserver(1M)\fPが動いているホスト名を指定する。

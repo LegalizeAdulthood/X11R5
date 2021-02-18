@@ -1,0 +1,135 @@
+#define DoNormalLib NormalLibX
+#define DoSharedLib SharedLibX
+#define DoDebugLib DebugLibX
+#define DoProfileLib ProfileLibX
+#include <Library.tmpl>
+
+#if Malloc0ReturnsNull
+        DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+   SHLIBLDFLAGS = -assert pure-text 
+    CDEBUGFLAGS = -DOW_I18N -DNO_PLUGGIN -DXSF_X11R5 -DDEBUG -DXSF_FONT -O4 
+   INSTALLFLAGS = $(INSTINCFLAGS)
+      LDOPTIONS = -L. -L$(TOP)/lib/X/ -lX11 -L$(TOP)/lib/Xmu/ -lXmu -lmle -lc
+
+     PUBLIC_HDR = XSunExt.h $(TOP)/lib/X/Xlcint.h
+    PRIVATE_HDR =   \
+	Htt.h \
+	HttMessage.h \
+	HttTransTbl.h \
+	HttXsfSun.h \
+	XSunIMImpl.h\
+	XSunIMCm.h  \
+	XSunIMMMan.h\
+	XSunIMPriv.h\
+	XSunIMProt.h\
+	XSunIMPub.h \
+	XSunIMCore.h
+#ifdef notdef
+	XSunIMWnn4.h\
+	XSunJclib.h \
+        XSunJilib.h \
+	XSunCconv.h 
+#endif /* notdef */
+
+	HEADERS = $(PUBLIC_HDR) $(PRIVATE_HDR)
+    HEADER_DIRS = 
+    SOXIMLIBREV = 0.0
+       LINTLIBS =
+
+LCSRCS = \
+	Htt.c \
+	HttDisplay.c \
+	HttFXlib.c \
+	HttMessage.c \
+	HttMode.c \
+	HttToUtil.c \
+	HttXimp.c \
+	HttXimpUtil.c \
+	HttxsfIMIF.c \ 
+	HttxsfINT.c \
+        XSunExt.h   \
+	XSunIM.c    \
+	XSunIMCm.c  \
+	XSunIMCm.h  \
+	XSunIMConf.c\
+	XSunIMMMan.c\
+	XSunIMMMan.h\
+	XSunIMPriv.h\
+	XSunIMProt.h\
+	XSunIMPub.h \
+	XSunIMCore.h\
+        XSunIMSubr.c\
+	HttHenkan.c \
+	HttKanjiWork.c \
+	HttSelKanji.c \
+	HttTransTbl.c \
+	HttKeyPress.c \
+	HttDmyHenkan.c \
+	HttConvert.c \
+	HttSxc.c
+#ifdef notdef
+	XSunIMCio.c\
+	XSunIMCio.h\
+	XSunIMCioA.c\
+	XSunIMCioC.c\
+	XSunIMCioL.c\
+	XSunIMCioP.c\
+	XSunIMCioS.c\
+	XSunIMWnn4.h\
+	XSunIMWnn4.c\
+        XSunJclib.c \
+	XSunJclib.h \
+        XSunJilib.h \
+        XSunJilib.c \
+	XSunCconv.c \
+	XSunCconv.h 
+#endif /* notdef */
+
+LCOBJS = \
+	Htt.o \
+	HttDisplay.o \
+	HttFXlib.o \
+	HttMessage.o \
+	HttMode.o \
+	HttToUtil.o \
+	HttXimp.o \
+	HttXimpUtil.o \
+	HttxsfIMIF.o \ 
+	HttxsfINT.o \
+	XSunIM.o    \
+	XSunIMCm.o  \
+	XSunIMConf.o\
+	XSunIMMMan.o\
+        XSunIMSubr.o\
+	HttHenkan.o \
+	HttKanjiWork.o \
+	HttSelKanji.o \
+	HttTransTbl.o \
+	HttKeyPress.o \
+	HttDmyHenkan.o \
+	HttConvert.o \
+	HttSxc.o
+#ifdef notdef
+	XSunIMCio.o\
+	XSunIMCioA.o\
+	XSunIMCioC.o\
+	XSunIMCioL.o\
+	XSunIMCioP.o\
+	XSunIMCioS.o\
+	XSunIMWnn4.o \
+        XSunJclib.o \
+        XSunJilib.o \
+	XSunCconv.o \
+
+#endif /* notdef */
+
+SRCS = $(LCSRCS)
+OBJS = $(LCOBJS)
+
+all::
+
+ComplexProgramTarget(Htt)
+DependTarget(Htt)
+

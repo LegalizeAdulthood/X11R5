@@ -1,0 +1,28 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LIBS	=	${BASEDIR}/lib/libmail.a \
+		${UTILLIB} \
+		${BASEDIR}/lib/liberrors.a \
+		${MALLOCLIB}
+
+RM_FILES	=	${ROOTDIR}/usr/bin/newaliases \
+			${ROOTDIR}/usr/ucb/newaliases \
+			${ROOTDIR}/usr/bin/mailq \
+			${ROOTDIR}/usr/ucb/mailq \
+			${ROOTDIR}/usr/ucb/vacation
+
+NormalObjectRule()
+ProgramTarget(sendmail, sendmail.o, ${LIBS}, ${BSDLIB})
+#ifdef RUN_AMDS_ENV
+install.time::
+	@echo 'Sendmail has been built but not installed.'
+	@echo 'Install sendmail manually when the system build has completed successfully.'
+#endif /* RUN_AMDS_ENV */
+
+DependTarget()

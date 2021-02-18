@@ -1,0 +1,32 @@
+ＲＯＭＫＡＮ＿ＧＥＴＣ（ＪＴ＿ＬＩＢ）
+
+
+名称
+    romkan_getc  ―  ローマ字仮名変換の変換文字の入力
+
+形式
+    #include	<wnn/rk_spcl_val.h>
+
+    letter	romkan_getc()
+
+機能説明
+    romkan_getc は、文字入力関数 keyin (romkan_init を参照。)により文字の入力
+    を行いながら、初期処理関数 romkan_init により与えられた変換表に従ってロー
+    マ字仮名変換などのコード変換を行う。１回の呼び出しで１文字(１バイトコード
+    の文字はそのまま、２バイトコードの場合は、上位バイト×２５６＋下位バイト)
+    を返す。返される文字は変換確定文字の他に、画面エコーバックのための変換未確
+    定文字、DELET コード(romkan_init の第２引数に指定したコード)、入力エラーコ
+    ード、モード変更コードを返す。これらは確定文字と区別するために最上位ビット
+    が１のコードである。
+    モード変更コードは romkan_init の第３引数を０以外で指定した場合に限り返す。
+    なお、入力エラー, モード変更コードは rk_spcl_val.h で NISEBP, CHMSIG に 
+    define されている。
+
+使用上の注意事項
+    最初の romkan_getc を呼ぶ前に、romkan_init で初期処理をしておかなければな
+    らない。
+
+関連項目
+    romkan_init(JT_LIB), romkan_next(JT_LIB), romkan_clear(JT_LIB), 
+    romkan_dispmode(JT_LIB), romkan_ungetc(JT_LIB), 2A_CTRL(JT_ENV),
+    2B_ROMKANA(JT_ENV)

@@ -1,0 +1,6 @@
+! some sample settings you may want to change
+
+Fig.internalborderwidth: 3
+Fig.geometry:		+0+0
+Fig.iconX:		+0
+Fig.iconY:		-0

@@ -1,0 +1,73 @@
+XMailbox*.mailbox:			./FakeMailBox
+XMailbox*wcResources:			./XMailbox.res
+
+XMailbox*hideNoMail:			False
+XMailbox*flashNumber:			5
+XMailbox*beep:				True
+XMailbox*nomailboxWarningMessage: 	False
+XMailbox*timeout:			15
+XMailbox*geometry:			564x88-+0+0
+
+! Mr. Beldar is playing games with -name !
+!
+xmailbox_mono*geometry:			510x88-+0+0
+minireg*geometry:			175x58-+0-+100
+
+!XMailbox*fromCmd:			/user/beldar/bin/mailfrom
+
+minireg*fontList:	6x10
+minireg*font:		6x10
+minireg*beep:		False
+minireg*fromCmd:	/user/beldar/bin/watchminireg2
+
+XMailbox*XmText.translations: #override \
+        <Key>Return:		activate()\n\
+        Shift<Key>Tab:		prev-tab-group() \n\
+        Ctrl<Key>Tab:		next-tab-group() \n\
+        <Key>Tab:		self-insert() \n\
+	Ctrl<Key>Up:		previous-page()\n\
+	Ctrl<Key>Down:		next-page()\n\
+        Shift<Key>Up:		previous-line() key-select(up)\n\
+	Shift<Key>Down:		next-line() key-select(down)\n\
+        ~Ctrl ~Shift <Key>Up:		previous-line() \n\
+        ~Ctrl ~Shift <Key>Down:		next-line() \n\
+        <Key>Home:		beginning-of-file() \n\
+	<Key>End:		end-of-file()\n\
+        Ctrl<Key>Right:		forward-word()\n\
+        Shift<Key>Right:	key-select(right)\n\
+	<Key>Right:		forward-character()\n\
+	Ctrl<Key>Left:		backward-word()\n\
+	Shift<Key>Left:		key-select(left)\n\
+	<Key>Left:		backward-character()\n\
+	Shift<Key>Delete:	delete-previous-word()\n\
+	<Key>Delete:		delete-previous-character()\n\
+        Shift<Key>BackSpace:	delete-previous-word()\n\
+	<Key>BackSpace:		delete-previous-character()\n\
+	Ctrl<Key>a:		beginning-of-line()\n\
+	Ctrl<Key>d:		delete-next-character()\n\
+	Ctrl<Key>e:		end-of-line()\n\
+	Ctrl<Key>h:		delete-previous-character()\n\
+	Ctrl<Key>k:		kill-to-end-of-line()\n\
+	Ctrl<Key>y:		unkill()\n\
+	Ctrl<Key>p:		previous-line()\n\
+	Ctrl<Key>n:		next-line()\n\
+	Ctrl<Key>f:		forward-character()\n\
+	Ctrl<Key>b:		backward-character()\n\
+	Alt<Key>v:		previous-page()\n\
+	Alt<Key>Delete:		delete-previous-word()\n\
+	Alt<Key>b:		backward-word()\n\
+	Alt<Key>f:		forward-word()\n\
+	Alt<Key>\<:		beginning-of-file()\n\
+	Alt<Key>\>:		end-of-file()\n\
+	Ctrl<Key>v:		next-page()\n\
+	~Ctrl <Key>:		self-insert()\n\
+	Shift<Btn1Down>:	extend-start()\n\
+	<Btn1Down>:		grab-focus() \n\
+	Button1<PtrMoved>:	extend-adjust()\n\
+	<Btn1Up>:		extend-end()\n\
+	<Btn2Down>:		secondary-start() \n\
+	Button2<PtrMoved>:	secondary-adjust()\n\
+        <LeaveWindow>:		leave()\n\
+        <FocusIn>:		focusIn()\n\
+        <FocusOut>:		focusOut()\n\
+	<Unmap>:		unmap()

@@ -1,0 +1,56 @@
+$Id: README,v 1.2 1991/09/19 09:41:15 proj Exp $
+
+			Xwchar Library
+
+This library is to support the wide character set -- process codeset
+which is used for data processing internally in program, not opened to
+user.  The data type reflecting the process codeset is wchar_t and
+implemented firstly for X window system, so that the library is called
+Xwchar library.
+
+We define the data type of wchar_t to be the wide 4-byte, not as
+usually 2-byte[JLER91, JLEP91].  The reason is to make wchar to be
+capable for supporting multilingual data processing, not only for
+couple of languages(English plus one Eastern language usually).  The
+encoding of 4-byte form is defined with respect to the canonical form
+of ISO DIS 10646(UCS) [D10646]. 
+
+All functions of the library is classified majorly to three fields:
+Code Classification(iswcntrl()...), Code Conversion(wcstombs()...)
+and String Manipulation(wcscpy()...).  Most of these functions are
+defined in ANSI C Multibyte Support[MSE91a], some are creative(atowc(),
+iswblank()...) which are used often in the implementation of X i18n.
+Maybe ANSI C forgets to include them. :-)
+
+
+To build Xwchar you should use the following commands:
+
+	% cd Xwchar
+	% xmkmf <Topdir> <Curdir> (you may set Topdir and Curdir)
+	% make includes
+	% make depend
+	% make all
+
+After building, It can be installed in your local bin using:
+
+	% make install
+
+Enjoy it!
+
+						Li Yuhong
+						OMRON Corporation
+
+---------
+Reference
+
+[D10646] ISO DIS 10646, Universal Coded Character Set(UCS),
+         4 November, 1990
+
+[JLER88] JLE Release Note, 1988, Sun Micro systems, Inc.
+
+[JLEP88] JLE Programmers Manual, 1988, Sun Micro systems, Inc.
+
+[MSE91a] Information Processing -- Programming Language C --
+	 ADDENDUM 3
+	 Multibyte Support Extensions
+	 SC22/WG14/N145R 1991-04-22

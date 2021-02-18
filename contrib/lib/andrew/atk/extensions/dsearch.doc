@@ -1,0 +1,47 @@
+\begindata{text,268747912}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\chapter{Dsearch}
+
+
+
+This file is intended to contain the programmer's documentation for dynamic 
+search.  There is no short-term plan for completing this document.  Some 
+information on searching may be found in the file search.help.
+
+
+Dsearch has the following classprocedures and methods:
+
+
+
+\section{Quick reference list for }dynsearch
+
+
+
+\fixedtext{boolean \bold{dynsearch_}InitializeClass }\fixedindent{();} 
+
+\enddata{text,268747912}

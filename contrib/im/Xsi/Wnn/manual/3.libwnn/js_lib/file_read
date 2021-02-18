@@ -1,0 +1,25 @@
+JS_FILE_READ( )
+
+名称
+
+	js_file_read		サーバ側のファイルをロードする。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_file_read(env,fn)
+	struct wnn_env *env;	/* 環境 */
+	char	*fn;		/* ファイル名 */
+
+機能
+
+	サーバマシン上のファイル fn をロードする。
+	既にサーバ中に同じファイルがある場合はなにもしない。
+
+リターンバリュー
+
+	戻り値としてファイルIDを返す。
+	異常終了時には、-1 を返す。
+

@@ -1,0 +1,273 @@
+XBoard Version 1.3
+
+Copyright 1991 by Digital Equipment Corporation, Maynard, Massachusetts.
+
+All Rights Reserved
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation, and that the name of Digital not be
+used in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+DIGITAL DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+DIGITAL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+SOFTWARE.
+
+XBoard is an X11/R4-based user interface for GNU Chess.  It uses the R4 Athena
+widgets and Xt Intrinsics to provide an interactive referee for managing
+a chess game between a user and a computer opponent or between two computers.
+You can also use XBoard without a chess program to play through games in files
+or to play through games manually (force mode).  In this case, moves aren't
+validated by XBoard.  XBoard manages a digital chess clock for each player
+and resets the clocks if time control is achieved within a given number of
+moves.  A game can be started with the initial chess position, with a series
+of moves from a game file or with a position from a position file.  The "match"
+shell script runs a series of games between two machines, alternating sides.
+The man page xboard.1 describes the features of XBoard.
+
+XBoard was written by Dan Sears and Chris Sears.  XBoard borrows its colors,
+icon and piece bitmaps from xchess which was written and copyrighted by
+Wayne Christopher.  We thank him for his work on XChess.
+
+
+CAVEATS
+
+XBoard depends on the Xt Intrinsics and Athena widget set.  XBoard uses R4
+features.  In particular, R3 just won't do and the Athena widgets included
+with the DEC and SUN releases won't do either.  The Athena widgets are either
+missing in the DEC standard distribution or in the wrong (R3) place in SUN
+OpenWindows.
+
+XBoard works best with the version 3.1+ of gnuchess posted in volume 19 of
+comp.sources.misc.  This release of gnuchess was dated: Mon Apr 15 10:20 1991
+by Mike McGann and the first patch is necessary for XBoard to work properly.
+GNU Chess must be compiled with the -DCHESSTOOL option for use with XBoard.
+
+gnuchess version 3.1+ is available on gatekeeper.dec.com
+in /pub/comp.sources.misc/volume19/gnuchess
+
+If you *do not* have the GNU Chess version 3.1+ then you *must* add the
+following to your .Xdefaults file:
+
+XBoard*whiteString:                     white\n
+XBoard*blackString:                     black\n
+
+
+CHANGES
+
+Version 1.1 -- Mon Jan  7 14:46:03 PST 1991
+
+  - Fixed a bug in HandleUserMove() where the user could make a move while the
+    machine was thinking.  The fix detects and ignores these moves.  onMove
+    was not being used and was removed.
+
+  - Substantially rewrote and simplified the clock code.  If a game was paused
+    and then resumed, the clocks were out of sync.
+
+  - Konstantinos Konstantinides added the -searchTime option.
+
+  - Rewrote TwoMachinesPlay mode.
+
+  - Rewrote DisplayClocks().
+
+  - Hal Peterson contributed a new Imakefile.
+
+  - Added a declaration, xtVersion, which will quickly break on R3 Intrinsics.
+
+  - For people who don't like or use chess clocks a clockMode switch
+    has been added.  It is on by default.  It can be turned off in the
+    .Xdefaults file with
+
+        XBoard.clockMode:    False
+
+  - Detect if the visual doesn't support color.  If so, run in monoMode.
+    An alternative would be to detect grayscale visual and use a collection
+    of gray user interface colors.
+
+  - Works with gcc now.  gcc complained about casting float constants
+    as XtPointers.
+
+  - Added keyboard equivalents.  Added an iconify keystroke, C or c.
+
+  - Added StrStr() because many systems don't have this ANSI function.
+
+  - Substantially rewrote and simplified the Two Machine code.
+
+  - The bitmaps have been pushed into the bitmaps directory.
+
+  - Fixed a bug where a player could play after a game had been finished.
+
+  - Fixed a bug where hint didn't work.  The local version of gnuchessr
+    had been hacked.  The fix was to clone stderr and stdout for gnuchessr.
+
+  - Kayvan Sylvan contributed a patch for ESIX.
+    It seems that select() on pipes is broken on his system.  We declined
+    to incorporate his patch though, because it was a work-around for
+    something that was broken on one system, and selfishly, that system
+    was not my own.  Nevertheless, it is likely that other System V users
+    on PC's may need to use this patch and it is is included as the file
+    ESIX.patch.  To use it, type
+
+        patch xboard.c ESIX.patch
+
+  - Any button restarts a paused game.
+
+  - Warning messages get displayed in the message box.
+
+  - getlogin() does not work in all cases.
+    It was replaced by getpwuid(getuid())->pw_name).
+
+  - For systems with smaller screens, XBoard can use smaller pieces,
+    and a smaller board.  -bigSizeMode False uses a smaller set of pieces.
+    These are scaled versions of the large pieces.  They look ok but could
+    be improved.
+
+  - -iconic doesn't work properly.  If XBoard is opened iconic then
+    iconifying it later with a keystroke doesn't work.  I think
+    this is an Xt bug.
+
+  - the remoteShell resource was added for HP-UX systems
+    and other systems where the remoteShell isn't rsh.
+
+  - older non-ANSI versions of Sun compilers complain vociferously.
+
+  - Roger Dubar, Konstantinos Konstantinides, Wolfgang S. Rupprecht,
+    Paul Scowen, Mvh Smidt and Kayvan Sylvan all helped immensely during
+    beta-testing.
+
+Version 1.2 -- Tue Jun 11 17:14:12 PDT 1991
+
+  - Added a lex parser for algebraic games.  It should be easy to use the parser
+    for other interfaces such as the Microsoft Windows version.
+    It parses comments of the form [anything] and ! to the end of a line.
+
+  - Corrected the queening code.  XBoard was sending the wrong syntax.
+    It was sending for example h8(Q) when it should have been sending h8q.
+    Thanks to Paul Vaughan and Mike McGann for pointing this out.
+
+  - Moved the man page from xboard.1 to xboard.man.  This makes imake man page
+    installs work correctly.  Thanks to Richard K. Lloyd for pointing this out.
+
+  - Changed the forwards/backwards/readgamefile code to allow a play to step
+    back and forth in a game.  If he steps all the way to the beginning
+    he has to restart the game.  If he gets into a mated position, same problem.
+
+  - Modified the code to use the R4 routines rather than R3 compatibility.
+
+  - Added a PopUp dialog for getting file names.
+
+  - If the first character of the file is not `1' then the first line
+    of a game or position file is displayed as the name in a label widget.
+
+  - Minor hacks to work with R5 alpha.  Had to add an event handler to the
+    boardWidget to get translations to work.  This may go away with the real R5.
+    Added <Message>WM_PROTOCOLS: QuitProc() for R5 ICCCM compatibility.
+
+  - If the DisplayWidth or DisplayHeight is less than 800, use small size mode.
+    Also the size of the name widget was reduced from 500 pixels to 400 pixels
+    because in small size mode there was a gap on the right.
+    Changed the default font from fixed to helvetica_oblique14 to:
+        -*-helvetica-bold-r-normal--14-*-*-*-*-*-*-*
+    helvetica_oblique14 is a font alias not on all R4 systems.
+    Curiously enough, the 17 point is not available on 75dpi systems
+    and the 18 point font is not available on 100dpi systems.
+    Thanks to Richard K. Lloyd for pointing these out.
+
+  - Fixed a compiler warning for gcc and an error for the IBM RT compilers.
+    This is the VOID_PROC macro in xboard.h.  Thanks to David Jensen for this.
+
+  - -iconic doesn't work at all now.  The Iconify() does work.  This was
+    a tradeoff and it is really an Xt bug.
+
+  - fixed a problem with the new version of gnuchessr where xboard wasn't
+    getting gnuchessr error messages for illegal moves.  The problem seems
+    to be fixed *without* any gnuchess changes but this is likely to be
+    highly system dependant.  There should be a new line on line 246 of nondsp.c
+
+        printz ("Illegal move (no matching move generated)");
+
+    The xboard fix was to set non-blocking i/o on the read pipe for gnuchessr
+
+        fcntl(from_prog[0], F_SETFL, O_NDELAY);
+
+  - The bitmap file names were changed so that none exceeded 14 characters.
+    This is necessary for R5.
+
+  - Added the CHESSDIR environment variable.  Game and position files are
+    found in this directory.  If this variable is not declared, then the
+    current directory is used.  File names starting with / are treated
+    specially.
+
+  - Fixed a bug where saving a long game, resetting and saving a short game
+    resulted in appending the end of the long game to the short one.
+    If a game is just being played out and there is no reason for gnuchessr
+    to be used, ignore pipe signals.  This allows people to use xboard
+    as a chess board without need for gnuchess.  Also, trivially bad moves
+    such as e2e2 are not passed on to gnuchessr but instead ignored out of
+    hand.  This allows people using xboard as a chessboard with gnuchessr
+    to pick a piece up, think and put it back down without making a move.
+    Thanks to Jeff Kenton for pointing these out.
+
+  - Fixed a bug where the checkmate message wasn't being parsed and xboard
+    kept playing.  Also, the message was added to game file if saved.
+    Thanks to Scott Hemhill for pointing this out.
+
+  - enumerations are not really integers on some C compilers.  I added casting.
+    The new version of gnuchess expects the "go" command for two machine
+    and machine plays white cases.  The whiteString resource is for
+    compatibility with previous gnuchess versions which get confused by go.
+    Thanks to Martin D. for catching these.
+
+  - There was an off by one error with the clock resetting code.  Also,
+    the clock display highliting was wrong.  Thanks to Bill Shauck for
+    pointing these out.
+
+  - Changed the protocol that xboard uses to work with the new version of
+    gnuchessr.
+
+  - For version 1.2, Jeff Kenton, Richard LLoyd, David Jensen, Martin D.,
+    Bill Schmidt, Scott Hemphill, Paul Vaughan and Bill Shauck all found
+    a lot of bugs that we put into xboard just to see if they were paying
+    attention.  They were.
+
+Thu Jun 20 15:04:06 PDT 1991
+
+  Minor fixes to the 1.2 release
+
+  - Multiple uses of the get positition file button got confused
+    on the second click.
+
+  - Long game file comments cause core dumps on HP systems.
+
+  - Parsed comments as [ ..............text follows ] into d7d5
+
+  - New-line wasn't always being added to forward move strings sent to gnuchess.
+
+  - Put easy back into the initString.  This DISABLES easy mode which by
+    default is ON.
+
+  - Can't do a backward move when it isn't your turn because gnuchess
+    gets confused.  Similar bug for forward move.  Do a bunch of moves,
+    back up move and go forward.  These get filtered out now.
+
+Thu Jun 27 15:06:25 PDT 1991
+
+  - Bug in my forward move fix.  Didn't work for playgamefile mode.
+
+  - Remove comment popups during a reset.
+
+Sat Oct  5 11:27:11 PDT 1991
+
+  - PATCHLEVEL 6 verseion 1.3
+
+  - Changed default chess program name from gnuchessr to gnuchessx
+    per Mike McGann change Mon Aug 1 10:20 1991
+
+  - Placed in R5 contrib.

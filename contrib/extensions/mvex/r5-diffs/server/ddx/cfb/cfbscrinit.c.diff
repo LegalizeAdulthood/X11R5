@@ -1,0 +1,68 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/cfb/RCS/cfbscrinit.c,v 
+*** 1.9	1991/09/24 03:26:20
+--- 1.10	1991/09/24 03:29:21
+***************
+*** 62,75 ****
+  
+  static VisualRec visuals[] = {
+  /* vid  class        bpRGB cmpE nplan rMask gMask bMask oRed oGreen oBlue */
+  #ifndef STATIC_COLOR
+!     0,  PseudoColor, _BP,  1<<PSZ,   PSZ,  0,   0,   0,   0,   0,   0,
+!     0,  DirectColor, _BP, _CE,       PSZ,  _RM, _GM, _BM, _RS, _GS, _BS,
+!     0,  GrayScale,   _BP,  1<<PSZ,   PSZ,  0,   0,   0,   0,   0,   0,
+!     0,  StaticGray,  _BP,  1<<PSZ,   PSZ,  0,   0,   0,   0,   0,   0,
+  #endif
+!     0,  StaticColor, _BP,  1<<PSZ,   PSZ,  _RM, _GM, _BM, _RS, _GS, _BS,
+!     0,  TrueColor,   _BP, _CE,       PSZ,  _RM, _GM, _BM, _RS, _GS, _BS
+  };
+  
+  #define	NUMVISUALS	((sizeof visuals)/(sizeof visuals[0]))
+--- 62,75 ----
+  
+  static VisualRec visuals[] = {
+  /* vid  class        bpRGB cmpE nplan rMask gMask bMask oRed oGreen oBlue */
++     0,  TrueColor,   _BP,  _CE,  PSZ,  _RM,  _GM,  _BM,  _RS, _GS,   _BS,
+  #ifndef STATIC_COLOR
+!     0,  PseudoColor, _BP,  _CE,  PSZ,  0,    0,    0,    0,   0,     0,
+!     0,  DirectColor, _BP,  _CE,  PSZ,  _RM,  _GM,  _BM,  _RS, _GS,   _BS,
+!     0,  GrayScale,   _BP,  _CE,  PSZ,  0,    0,    0,    0,   0,     0,
+!     0,  StaticGray,  _BP,  _CE,  PSZ,  0,    0,    0,    0,   0,     0,
+  #endif
+!     0,  StaticColor, _BP,  _CE,  PSZ,  _RM,  _GM,  _BM,  _RS, _GS,   _BS,
+  };
+  
+  #define	NUMVISUALS	((sizeof visuals)/(sizeof visuals[0]))
+***************
+*** 79,85 ****
+  static DepthRec depths[] = {
+  /* depth	numVid		vids */
+      1,		0,		NULL,
+!     8,		NUMVISUALS,	VIDs
+  };
+  
+  #define NUMDEPTHS	((sizeof depths)/(sizeof depths[0]))
+--- 79,85 ----
+  static DepthRec depths[] = {
+  /* depth	numVid		vids */
+      1,		0,		NULL,
+!    24,		NUMVISUALS,	VIDs
+  };
+  
+  #define NUMDEPTHS	((sizeof depths)/(sizeof depths[0]))
+***************
+*** 182,188 ****
+  	    i = 0;
+      }
+      return miScreenInit(pScreen, pbits, xsize, ysize, dpix, dpiy, width,
+! 			8, NUMDEPTHS, depths,
+  			visuals[i].vid, NUMVISUALS, visuals,
+  			&cfbBSFuncRec);
+  }
+--- 182,188 ----
+  	    i = 0;
+      }
+      return miScreenInit(pScreen, pbits, xsize, ysize, dpix, dpiy, width,
+! 			24, NUMDEPTHS, depths,
+  			visuals[i].vid, NUMVISUALS, visuals,
+  			&cfbBSFuncRec);
+  }

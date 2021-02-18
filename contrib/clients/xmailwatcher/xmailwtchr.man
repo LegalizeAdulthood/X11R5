@@ -1,0 +1,143 @@
+.TH XMAILWATCHER 1 "October 1991" GDMR
+.SH NAME
+xmailwatcher -- periodically check for mail
+.SH SYNOPSIS
+.B xmailwatcher
+[-\fItoolkitoption\fP ...] [-\fIoption\fP ...]
+.SH DESCRIPTION
+.I xmailwatcher
+checks the user's mailbox periodically.  If there is new mail, or
+optionally if there is any mail at all, the user is notified.  Two methods
+of display are used: if the application is in the iconic state the icon window
+displays a \fInomail\fP or \fImail\fP
+bitmap, with foreground and background values
+inverted by default in the latter case; if the application is non-iconic a
+list of senders and subjects is displayed, with a scrollbar if necessary.
+.PP
+.I xmailwatcher
+understands both
+.I sendmail
+and
+.I MMDF
+formats of mailbox automatically.
+.SH OPTIONS
+.I xmailwatcher
+accepts all of the standard toolkit command line options.  In addition, the
+following are accepted:
+.TP 8
+.B \-allmail (\fPor\fB \-allMail)
+Report whenever there is any mail in the mailbox.  By default only new mail
+is reported.  Sets the \fI.newMail\fP application resource to \fIFalse\fP.
+.TP 8
+.B \-icongeometry \fIgeometryspec\fB (\fRor\fB \-iconGeometry)
+Specifies the geometry for the icon window.  Sets the \fI.iconShell.geometry\fP
+resource.
+.TP 8
+.B \-mailbox \fImailboxname\fP
+Specifies the name of the mailbox to be polled (defaults to \fI.mail\fP in the
+user's current directory).  Sets the \fI.mailbox\fP application resource.
+.TP 8
+.B \-newmail (\fPor\fB \-newMail)
+Report only new mail in the mailbox (the default).  Sets the \fI.newMail\fP
+application resource to \fITrue\fP.
+.TP 8
+.B \-poll \fIpollinterval\fB
+Specifies the interval in seconds between successive mailbox checks (defaults
+to 67 seconds).  Sets the \fI.pollInterval\fP application resource.
+.TP 8
+.B \-silent
+Don't ring the bell when new mail arrives.  Sets the \fI.silent\fP application
+resource to \fITrue\fP.
+.TP 8
+.B \-soundfile \fIsoundFileName\fB (\fRor\fB \-soundFile)
+If on a Sun-4, attempt to copy \fIsoundFileName\fP to /dev/audio instead of
+ringing the bell.  \fBNOTE\fP that the audio device on the \fIclient\fP
+host is used, not the server host, so you don't want to do this if
+you're using an X-terminal.  Sets the \fI.soundFile\fP application
+resource.
+.SH WIDGET HIERARCHY
+.I xmailwatcher
+has the following widget hierarchy:
+.sp
+.nf
+.ta .5i 1.0i 1.5i 2.0i 2.5i 3.0i 3.5i 4.0i 4.5i 5.0i 5.5i 6.0i 6.5i 7.0i
+	MailWatcher xmailwatcher
+		Viewport viewport
+			Label messages
+		TransientShell iconShell
+			Label icon
+.fi
+.SH X DEFAULTS
+In addition to the usual resources and classes used by the widgets in its
+hierarchy,
+.I xmailwatcher
+understands the following application resources:
+.TP 8
+.B bellVolume (\fpclass\fB BellVolume)
+Specifies the volume with which the bell should be rung when mail arrives
+(default zero).  See the \fIXlib\fP documentation for details.
+.TP 8
+.B bufferSize (\fpclass\fB BufferSize)
+Defines the size of the buffer used to hold the sender/subject details
+(default 8K).
+.TP 8
+.B fullNames (\fpclass\fB FullNames)
+If \fITrue\fP, display the full text of the "From:" header.  If \fIFalse\fP
+(the default), attempt to extract the sender's real name from the "From:"
+header.
+.TP 8
+.B iconBackground (\fpclass\fB Background)
+Specifies the background colour of the \fInomail\fP icon and the default
+foreground colour of the \fImail\fP icon.
+.TP 8
+.B iconForeground (\fpclass\fB Foreground)
+Specifies the foreground colour of the \fInomail\fP icon and the default
+background colour of the \fImail\fP icon.
+.TP 8
+.B iconMailBackground (\fpdefault\fB iconForeground)
+Specifies the background colour of the \fImail\fP icon.
+.TP 8
+.B iconMailForeground (\fpdefault\fB iconBackground)
+Specifies the foreground colour of the \fImail\fP icon.
+.TP 8
+.B mailBitmap (\fpclass\fBMailBitmap)
+Specifies the name of a bitmap to display in the icon window when mail has
+arrived (defaults to \fIletters\fP).  The \fIXmu\fP string-to-bitmap
+converter is registered to handle this resource.
+.TP 8
+.B mailbox (\fpclass\fB Mailbox)
+Specifies the name of the mailbox to be polled (defaults to \fI.mail\fP in
+the user's current directory).
+.TP 8
+.B newMail (\fpclass\fB NewMail)
+If \fITrue\fP (the default) the user is only informed of new mail.  If
+\fIFalse\fP the user is informed whenever there is any mail in the mailbox.
+In the latter case if the application is iconic then a complete
+parse of the mailbox is unnecessary; if it is of non-zero
+size, the parse is deferred until the application is de-iconified.
+.TP 8
+.B nomailBitmap (\fpclass\fB NomailBitmap)
+Specifies the name of a bitmap to display in the icon window when no mail has
+arrived (defaults to \fInoletters\fP).  The \fIXmu\fP string-to-bitmap
+converter is registered to handle this resource.
+.TP 8
+.B pollInterval (\fpclass\fB PollInterval)
+Specifies the interval in seconds between successive mailbox checks (defaults
+to 67 seconds).
+.TP 8
+.B setTitle (\fpclass\fB SetTitle)
+If \fITrue\fP (the default), sets the main window's title, as displayed by the
+window manager, to indicate when the mailbox was last altered.  If \fIFalse\fP,
+leaves the title unchanged.
+.TP 8
+.B silent (\fpclass\fB Silent)
+If \fITrue\fP don't ring the bell when new mail arrives.
+.TP 8
+.B soundFile (\fpclass\fB SoundFile)
+If on a Sun-4, the name of a file to copy to /dev/audio when new mail arrives.
+\fBNOTE\fP that this takes place on the \fIclient\fP host, not the server host.
+.SH "SEE ALSO"
+mailbox(1),
+xbiff(1)
+.SH AUTHOR
+George Ross, gdmr@dcs.ed.ac.uk

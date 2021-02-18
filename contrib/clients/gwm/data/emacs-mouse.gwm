@@ -1,0 +1,58 @@
+; EMACS MOUSE CODES
+; =================
+
+;;File: emacs-mouse.gwm -- control codes for GOSLING emacs mouse support
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.0 -- Jan 31 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+; This package traps mouse control-clicks and send them as keycodes to the
+; underneath xterm, supposedly running a Gosling emacs. You will need the
+; "gwm.ml" MockLisp package to interpret them
+; Sends: ^X 7 x ; y ; n
+; Where x,y are the click coordinates in char (increment) positions,
+; and n the button number
+; The variable "emacs-mouse-loaded" is set to t for decorations supporting it
+
+(defname 'emacs-pop screen.)
+
+(de emacs-click (n)
+    (: l (current-event-window-coords))
+    (send-key-to-window 0x78 with-control)	;  ^X
+    (send-key-to-window 0x37 alone)		;  7
+    (: x (# 0 l))
+    (: y (# 1 l))
+    (send-key-to-window (+ 0x30 (/ x 10)) alone);  x
+    (send-key-to-window (+ 0x30 (% x 10)) alone)
+    (send-key-to-window 0x3b alone)		;  ; 
+    (send-key-to-window (+ 0x30 (/ y 10)) alone);  y
+    (send-key-to-window (+ 0x30 (% y 10)) alone)
+    (send-key-to-window 0x3b alone)		;  ; 
+    (send-key-to-window (+ 0x30 n) alone)	;  button number
+))
+
+(with (fsm pop-fsm menu ())
+    (: emacs-pop 
+       (menu-make
+	   (item-make "Macro" 		; ^Xe
+	       (progn (send-key-to-window 0x78 with-control)
+		      (send-key-to-window 0x65 alone)))
+	   (item-make "Copy"		; Esc-W
+	       (progn (send-key-to-window 0xff1b alone)
+		      (send-key-to-window 0x77 alone)))
+	   (item-make "Cut"		; ^W
+	       (progn (send-key-to-window 0x77 with-control)))
+	   (item-make "Paste" 		; ^Y
+	       (progn (send-key-to-window 0x79 with-control)))
+	   (item-make "Re-Search" 	; ^S^M
+	       (progn (send-key-to-window 0x73 with-control)
+		      (send-key-to-window 0x6d with-control)))
+	   (item-make "Goto Func"	; Esc-xv fu 
+	       (progn 
+		      (send-key-to-window 0xff1b alone)
+		      (send-key-to-window "xv fu " alone)))
+       ))
+)
+
+(: emacs-mouse-loaded t)

@@ -1,0 +1,330 @@
+## ###################################################################### ##
+##         Copyright IBM Corporation 1988,1991 - All Rights Reserved      ##
+##        For full copyright information see:'andrew/config/COPYRITE'     ##
+## ###################################################################### ##
+# Every vopcon file should have the following:
+@set(period 5)
+@set(externalerrorfile "/dev/console")
+@instrument(function errors, displaytype logerror)
+#@instrument(function errorlog, displaytype drawerrorwindow)
+#@instrument(text "Vice Op Console", displaytype drawprogramname, remotefunction vicecalls)
+# End of mandatory stuff
+@set(maxheight 2000,
+	minheight 400,
+	desiredwidth 600,
+	maxwidth 800,
+	minwidth 500)
+@instrument(
+    boxed,
+    displaytype indicator,
+    xmin 31,
+    xmax 40,
+    ymin 21,
+    ymax 40,
+    label "Store"
+    text "$",
+    leftclickstring "The transfer rate for file stores is $",
+    remotefunction storedatarate)
+@instrument(
+    boxed,
+    displaytype indicator,
+    xmin 40,
+    xmax 49,
+    ymin 21,
+    ymax 40,
+    label "Fetch"
+    text "$",
+    leftclickstring "The transfer rate for file fetches is $",
+    remotefunction fetchdatarate)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 31,
+	xmax 49,
+	ymin 40,
+	ymax 50,
+	text "Data Rates"
+	remotefunction fetchdatarate)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 50,
+	xmax 100,
+	ymin 40,
+	ymax 50,
+	text "  RPC Indicators ",
+	remotefunction rpcbytessent)
+@instrument(
+    boxed,
+    displaytype indicator,
+    xmin 50,
+    xmax 60,
+    ymin 21,
+    ymax 40,
+    label "Pckts sent",
+    text "$",
+    remotefunction rpcpacketssent)
+@instrument(
+    boxed,
+    displaytype indicator,
+    xmin 60,
+    xmax 70,
+    ymin 21,
+    ymax 40,
+    label "Pckts rcvd",
+    text "$",
+    remotefunction rpcpacketsrcvd)
+@instrument(
+    boxed,
+    displaytype indicator,
+    xmin 70,
+    xmax 80,
+    ymin 21,
+    ymax 40,
+    label "Pckts lost",
+    text "$",
+    remotefunction rpcpacketslost)
+@instrument(
+    boxed,
+    displaytype indicator,
+    xmin 80,
+    xmax 90,
+    ymin 21,
+    ymax 40,
+    label "bytes rcvd",
+    text "$",
+    remotefunction rpcbytesrcvd)
+@instrument(
+    boxed,
+    displaytype indicator,
+    xmin 90,
+    xmax 100,
+    ymin 21,
+    ymax 40,
+    label "bytes sent",
+    text "$",
+    remotefunction rpcbytessent)
+@instrument(
+    boxed,
+    displaytype ekggraph,
+    xmin 0,
+    xmax 20,
+    ymin 20,
+    ymax 40,
+    text "$ %",
+    leftclickstring "The CPU utilization is $ %",
+    remotefunction TotalCPU)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 30,
+	ymin 20,
+	ymax 40,
+	text "$ %",
+	remotefunction TotalCPU)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 0,
+	xmax 30,
+	ymin 40,
+	ymax 50,
+	text "Percent of CPU utilization",
+	remotefunction totalcpu)
+@instrument(
+    boxed,
+    displaytype indicator,
+    text *
+    xmin 40,
+    xmax 60,
+    ymin 0,
+    ymax 20,
+    textfont andy14b,
+    ceiling 30,
+    highlightinvertmin -1,
+    highlightinvertmax 30,
+    remotefunction ClusterName)
+@instrument(
+	displaytype indicator,
+	text "Cluster * is down",
+	xmin 30,
+	xmax 70,
+	ymin 1,
+	ymax 19,
+	textfont andy14b,
+	threshhold 31,
+	highlightinvertmin 31,
+	highlightinvertmax 9999,
+	remotefunction ClusterName)
+@instrument(
+    boxed,
+    displaytype indicator
+    text "Booted at *"
+    xmin 0
+    xmax 40,
+    ymin 0,
+    ymax 20,
+    remotefunction boottime)
+@instrument(
+    boxed,
+    displaytype indicator
+    text "Started at *"
+    xmin 60,
+    xmax 100,
+    ymin 0,
+    ymax 20,
+    remotefunction starttime)
+@instrument(
+    boxed,
+    displaytype drawlog,
+    xmin 30,
+    xmax 100,
+    ymin 80,
+    ymax 100,
+    remotefunction remotelog)
+@instrument(
+    boxed,
+    displaytype ekggraph,
+    xmin 0,
+    xmax 20,
+    ymin 50,
+    ymax 67,
+    valuemax 500,
+    leftclickstring "There have been $ IOs in the last minute 500 is fullscale value",
+    remotefunction totalio)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 30,
+	ymin 50,
+	ymax 67,
+	text " $ ",
+	remotefunction totalio)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 0,
+	xmax 30,
+	ymin 67,
+	ymax 75,
+	text "I/Os per minute",
+	remotefunction totalio)
+@instrument(
+    boxed,
+    displaytype ekggraph,
+    xmin 0,
+    xmax 20,
+    ymin 75,
+    ymax 92,
+    valuemax 250,
+    leftclickstring "There have been $ vice calls in the last minute 250 is fullscale",
+    remotefunction vicecalls)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 30,
+	ymin 75,
+	ymax 92,
+	text " $ ",
+	remotefunction vicecalls)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 0,
+	xmax 30,
+	ymin 92,
+	ymax 100,
+	text " Vice calls per minute",
+	remotefunction vicecalls)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 31,
+	xmax 70,
+	ymin 70,
+	ymax 80,
+	text "Ethernet Indicators"
+	remotefunction etherwrites)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 31,
+	xmax 40,
+	ymin 51,
+	ymax 70,
+	label "Writes",
+	text $,
+	remotefunction etherwrites)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 40,
+	xmax 50,
+	ymin 51,
+	ymax 70,
+	label "Errors",
+	text $,
+	remotefunction ethererrors)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 50,
+	xmax 60,
+	ymin 51,
+	ymax 70,
+	label "Bytes rcvd",
+	text $,
+	remotefunction etherbytesrcvd)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 60,
+	xmax 70,
+	ymin 51,
+	ymax 70,
+	label "Bytes sent",
+	text $,
+	remotefunction etherbytessent)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 71,
+	xmax 100,
+	ymin 70,
+	ymax 79,
+	text "Vice Indicators",
+	remotefunction vicecalls)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 71,
+	xmax 80,
+	ymin 51,
+	ymax 70,
+	text $,
+	label "Fetchs",
+	remotefunction fetchs)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 80,
+	xmax 90,
+	ymin 51,
+	ymax 70,
+	text $,
+	label "Stores",
+	remotefunction stores)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 90,
+	xmax 100,
+	ymin 51,
+	ymax 70,
+	text $,
+	label "Conns",
+	remotefunction connections)
+

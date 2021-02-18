@@ -1,0 +1,624 @@
+.TH XALARM 1 "Release 4" "X Version 11"
+.SH NAME
+xalarm - alarm clock for X
+.LP
+xmemo - memo for X
+.LP
+xfortune - fortune for X
+.LP
+xyow - yow for X
+.SH SYNOPSIS
+.B xalarm
+[-\fItoolkitoption\fP ...] [-option ...] [message_text]
+.LP
+.B xmemo
+[-\fItoolkitoption\fP ...] [-option ...] [message_text]
+.LP
+.B xfortune
+[-\fItoolkitoption\fP ...] [-option ...]
+.LP
+.B xyow
+[-\fItoolkitoption\fP ...] [-option ...]
+.SH DESCRIPTION
+.I xalarm 
+is an interactive alarm program for X11, analogous to
+.I leave(1),
+but much more powerful.  You can set the alarm either by command line options,
+or by entering the time using the popup window.  At the appropriate time,
+.I xalarm
+pops up a window to tell you that your time is up.  The time the alarm is to
+trigger may be a specific time or a time for
+.I xalarm
+to wait before triggering.
+
+You can tell 
+.I xalarm
+to pop up warning windows, at specified times before the alarm is to trigger,
+in order to warn you of the impending triggering of the alarm, and specify
+what message you want the alarm to display.
+
+You can also make
+.I xalarm
+read alarm times and dates, along with the message to display in the alarm,
+from a file.  This enables you to forget your regular or important
+appointments, but
+.I xalarm
+will tell you by popping up at the appropriate time.
+
+The alarm window itself consists of a box of buttons and an area containing
+the alarm message.  To give you an opportunity to carry on after the alarm has
+triggered and be late anyway,
+.I xalarm
+allows you to snooze the alarm.
+.SH SETTING THE ALARM
+If no time is specified,
+.I xalarm
+will pop up a window in order for an alarm time to be entered.  This form is
+suitable for inclusion as a menu option under a window manager.
+
+The window is also popped up if an invalid alarm or warning time is given
+(see below for time syntax), or if you specify that confirmation should be
+sought before setting the alarm.
+
+The window gives you an opportunity to change the alarm setting, warning times,
+and the message
+.I xalarm
+will display when the alarm is triggered.
+
+The dialog box can be resized to
+edit any message larger than the space given by default.  The keymap used by
+the Athena dialog widget is modelled on the text buffer keymap of the
+editor/environment
+.I emacs(1).
+
+This popup window comprises of three separate windows, dealing with the alarm
+time, the warning time(s) and confirmation of all the settings (where you can
+also re-edit the alarm message).  If the window is popped up, then you can
+re-edit the alarm time or warning time(s) by switching through the windows
+using the
+.I edit
+buttons.  Confirmation of a window's settings is made using the
+.I enter
+buttons, and the translations resource is set so that the
+.I return
+key will do the same thing.  If confirmation is not enabled, then the
+window for confirmation of all settings will not be popped up even if the other
+windows are.
+
+Also see the examples section.
+.SH USING AN ALARM FILE
+You can make
+.I xalarm
+look for alarm times and messages in an alarm file.  This form is suitable for
+inclusion in your
+.I X
+start up or initialisation  script.
+
+If the environment
+variable
+.I XALARM
+is set, it is assumed to be the name of the file to read from.  If it is not
+absolute, it is assumed to be relative to your home directory.  Otherwise,
+.I xalarm
+tries
+.I .xalarm
+in your home directory.
+
+Each line in the file should consist of the date the alarm is to trigger,
+optionally followed the by time and/or message.  If they are present, they must
+be separated from the date by a `-' on its own.  If both are given, the time
+must come first, but if no time is specified, the alarm will trigger
+immediately.
+
+The date is in the form of that given by
+.I date(1),
+(day of week, month, day of month) but can be in any order and case is not
+significant.  If any is omitted, it is assumed to correspond to today.  The
+month and day of the week must consist of at least the first 3 characters of
+the name.
+
+Any line beginning with `#' or `!' is ignored, so this can be used to insert
+comments in the alarm file.
+
+All other command line options and resources still apply.  Also see the
+examples section.
+.SH TIMES
+The time format is quite flexible and natural.  The definition is that
+for times given with 3 or 4 digits,
+the last 2
+digits are always assumed to be minutes.
+Absolute times may be suffixed with `am' or `pm', and are assumed to be in
+hours if given with 1 or 2 digits.
+Times relative to the present time must be prefixed by a `+', and are assumed
+to be in minutes if given with 1 or 2 digits.
+The hours and minutes can be separated with a `:', `.' or `-'.
+The format is a super-set (by far) of the format recognised by
+.I leave(1).
+Also see the examples section.
+.SH SNOOZING THE ALARM
+Snoozing is done by selecting a time to snooze using the
+.I +mins
+buttons (they can be pressed as often as necessary) and pressing the 
+.I snooze
+button.  The snooze time may be zeroed by clicking on the
+.I snoozetime
+button (it has these two functions; display and zero).  For the really lazy,
+the initial value of
+.I snoozetime
+can be set by either a command line option or by its resource.
+.SH MORE ON XALARM
+Even after you have set the alarm and confirmed it, you can reset the alarm
+as long as you know the
+.I xalarm
+process number.  This can be found by using the
+command line option to list process numbers, or
+.I ps(1).
+
+.I xalarm
+makes maximum use of resources, as well as having a number of command
+line options, and these can be used to control most of the appearance of
+.I xalarm
+and (just about) all of its behaviour.  Both command line options and useful
+resources are listed below.
+
+When
+.I xalarm
+is invoked it immediately attempts to fork off a child and exit itself, leaving
+the child to continue with the alarm.  The child disappears when the X session
+on which display 
+.I xalarm
+is using is terminated.
+
+You can exit from
+.I xalarm
+at any time by pressing the available
+.I quit
+button, or by using the delete option under your window manager (the option
+bound to a function often called
+.I f.delete
+by the window manager).
+.SH XMEMO, XFORTUNE & XYOW
+
+In reality,
+.I xmemo
+is just a front end to
+.I xalarm
+(implemented as
+.I xalarm -time +0 -nowarn),
+while
+.I xfortune
+and
+.I xyow
+are front ends to
+.I xmemo
+(implemented as
+.I xmemo \fI"\fP`fortune`\fI"\fP
+etc.).
+Options supplied to them on the command line still override these defaults,
+however.
+.PP
+Note that
+.I xfortune
+and
+.I xyow
+require
+.I fortune(6)
+and
+.I yow(6)
+respectively -
+.I yow(6)
+comes with
+.I emacs(1).
+Also note that since they are front ends to
+.I xmemo,
+you can actually give extra message text to include on the command line.  If
+you specify a time in the future, you can edit the message text when asked to
+confirm (if enabled).
+.SH OPTIONS
+.I xalarm
+accepts all of the standard X Toolkit command line options along with the
+additional options listed below:
+.TP 8
+.B \-help \-h
+Print a (possibly) helpful usage message.
+.TP 8
+.B \-version \-v
+Print out the version number of
+.I xalarm
+in the form
+.I version.patchlevel.
+.TP 8
+.B \-appointments
+This option makes
+.I xalarm
+read alarm times from a file.  Each line in the file should consist of a date
+and optional time and/or message.  If the date specified at the beginning of
+the line is today and the time has not passed, then the time is used to set an
+alarm.  This must be given as the first option on the command line.
+.TP 8
+.B \-t[ime] \fItime\fP
+This option indicates at what time the alarm is to be triggered.  Times
+relative to the present must be preceded with a `+', absolute times may end
+with `am' or `pm'.
+.TP 8
+.B \-w[arn] \fItime[,time...]\fP
+Indicate the time(s) before the alarm is due to trigger when a warning should
+be given.  They need not be in any particular order, and should be in the same
+format as for relative times, as above, but without the preceding `+'.  Note that
+multiple times must be separated by commas but without any spaces.
+.TP 8
+.B \-l[ist]
+List the process numbers of any
+.I xalarm
+processes running on the current host.  Note that this lists what
+.I ps(1)
+thinks are
+.I xalarm
+processes, and only on the current host.
+.TP 8
+.B \-r[eset] \fIpid\fP
+Send a signal to the process number
+.I pid.
+If the process is an
+.I xalarm,
+it will pop up the confirmation window to allow you to re-edit the alarm
+settings.
+.TP 8
+.B \-s[nooze] \fItime\fP
+Indicate the time that
+.I snoozetime
+should initially have when the alarm triggers. It should be in the same format
+as for relative times, but without the preceding `+'.
+.TP 8
+.B \-nowarn \-nw
+This option overrides the resource value and forces
+.I xalarm
+not to give any warnings.  This is the same as setting the warning times
+resource to the empty string.
+.TP 8
+.B \-confirm \-c
+This option overrides the resource value and forces
+.I xalarm
+to ask for confirmation, unless the alarm is due to trigger immediately.
+.TP 8
+.B \-noconfirm \-nc
+As above, but prevents any confirmation being sought.
+.TP 8
+.B \-bell \-beep \-b
+This option overrides the resource value and forces
+.I xalarm
+to ring the terminal bell when any warnings and the alarm trigger.
+.TP 8
+.B \-nobell \-nobeep \-nb
+As above, but prevents any warnings and the alarm ringing the bell when they
+trigger.
+.TP 8
+.B \fImessage_text\fP
+The remaining unrecognised text is used as the message displayed with the
+triggering of the alarm.  Note that each separate argument is assumed to be a
+single line, so words must be quoted if they are to appear on the same line.
+For example:
+.TP 8
+			% \fBxalarm "On one line" Secondline "Third line"\fP
+
+It is a good idea always to use quotes, even when a line is only one word.
+Newlines within arguments are recognised, so that input from other tools can be
+used:
+.TP 8
+			% \fBxalarm -time +0 "`fortune -l`"\fR
+
+Also note that 
+.I xalarm
+deletes its copy of any message given on the command line, so your boss can't
+see what it is by looking at the
+.I xalarm
+process.
+.SH EXAMPLES
+An entry in an
+.I X
+initialisation file, before the window manager is executed, making
+.I xalarm
+check the alarm file for today's appointments, asking for confirmation before
+each of the alarms are set, and putting all alarm, confirmation and warning
+windows (if any) at a specific geometry:
+.PP
+.nf
+	xclock &
+	xbiff &
+	xalarm -appointments -confirm -geometry +5+5 &
+	exec twm
+.fi
+
+The alarm file might contain, for example, the lines:
+
+.nf
+	# This is just a comment.
+	! So is this.  Format is: date [- [time] [message]]
+
+	Wednesday - 12:30pm Football !!!
+	Sun 29 september - 9pm Drag yourself home.
+	Oct 4 - Contrib sometime today...
+.fi
+
+So that every Wednesday I have an alarm set for 12:30pm; on Sunday September 29
+there is an alarm to be set for 9pm; on October 4 the alarm is to trigger
+straight away.
+.PP
+A
+.I twm(1)
+window manger entry which makes
+.I xalarm
+ask for confirmation and ring the terminal bell when any warnings and the alarm
+are triggered, and have the snooze time initially set to 5 minutes:
+.PP
+.nf
+	Menu "Utilities" {
+		...
+		"alarm":	f.exec "xalarm -confirm -snooze 5 -beep &"
+		...
+	}
+.fi
+.PP
+To set an alarm for 5 o'clock in the evening, without the default warnings or
+confirmation, but with the default alarm message:
+.TP 8
+	% \fBxalarm -time 5pm -nowarn -noconfirm\fR
+.PP
+To set an alarm for 2 hours in advance, warning 1 minute and 5 minutes before it,
+with a message other than the default:
+.TP 8
+	% \fBxalarm -time +2.00 -warn 5,1 "Get off your bottom"\fR
+.PP
+To set an alarm for 4.30 (not specifying am/pm, so it is whichever is first),
+with the default warnings and a message other than the default:
+.TP 8
+	% \fBxalarm -time 4:30 "Time to sneak off home!"\fR
+.PP
+Assuming that there is only one
+.I xalarm
+running, which we want to reset, we first find out its process number, and then
+we can reset it:
+.nf
+
+	% \fBxalarm -list\fR
+	xalarms: 12345
+	% \fBxalarm -reset 12345\fR
+
+.fi
+To put a 2 line message on the display
+.I foo
+immediately (this will only work if the display
+.I foo
+can be opened):
+.TP 8
+	% \fBxmemo -display foo:0.0 "Bob!" "The bar for lunch?"\fR
+.PP
+To quietly display a fortune at a specific geometry:
+.TP 8
+	% \fBxfortune -geometry +10+300 -nobeep\fR
+.PP
+To display a Zippy quote (yow!!!) at a specific geometry in 5 minutes and
+(characteristically) ring the bell:
+.TP 8
+	% \fBxyow -geometry +100+100 -time +5 -beep\fR
+.SH RESOURCES
+.PP
+The widget structure is as follows:
+.PP
+.nf
+	XAlarm
+		alarm
+			buttonbox
+				quit snooze snooze1 snooze5 snooze15 snoozetime
+			message
+		When?
+			when
+				label value ok toggle quit
+			warnings
+				label value ok toggle quit
+			confirm
+				label value ok cancel quit
+		Warning!
+			warning
+				dismiss message quit
+.fi
+.PP
+Some example resources are:
+.PP
+.nf
+	! For some nice colours...
+	XAlarm*background:			LightYellow
+	XAlarm*foreground:			IndianRed
+	XAlarm*Command.background:		IndianRed
+	XAlarm*Command.foreground:		LightYellow
+	! But this is what you normally get...
+	XAlarm*background:			White
+	XAlarm*foreground:			Black
+	XAlarm*Command.background:		Black
+	XAlarm*Command.foreground:		White
+
+	! Perhaps the most commonly used resources...
+	XAlarm.bell:				True
+	XAlarm.confirm:				True
+	XAlarm.warnings:			5,15
+	XAlarm.snooze:				0
+	
+	! If you want a more compact alarm window, try these...
+	XAlarm.alarm.buttonbox.snooze1.fromVert:	quit
+	! This will vary depending on button labels & font...
+	XAlarm.alarm.buttonbox.snooze1.horizDistance:	-100
+	XAlarm.alarm.buttonbox.snooze5.fromVert:	quit
+	XAlarm.alarm.buttonbox.snooze15.fromVert:	quit
+	XAlarm.alarm.buttonbox.snoozetime.fromHoriz:	snooze
+
+	! Plus, if you want...
+	XAlarm.alarm.message.fromHoriz:		buttonbox
+	! This will vary depending on button labels & font...
+	XAlarm.alarm.message.vertDistance:		-56
+
+	! Some other defaults...
+	XAlarm*font: -adobe-new century schoolbook-bold-r-*-*-12-*
+	XAlarm.alarm.message.font: -adobe-new century schoolbook-bold-i-*-*-24-*
+	XAlarm.alarm.background:		Black
+	XAlarm.alarm.message.label:		Alarm Call!!!
+	XAlarm.alarm.buttonbox.quit.label:	Quit
+	XAlarm.alarm.buttonbox.snooze.label:	Snooze
+	XAlarm.alarm.buttonbox.snooze1.label:	+1 min
+	XAlarm.alarm.buttonbox.snooze5.label:	+5 mins
+	XAlarm.alarm.buttonbox.snooze15.label:	+15 mins
+
+	XAlarm.When?.width:			300
+.fi
+.SH TOOLKIT OPTIONS
+The following standard X Toolkit command line arguments are commonly used with 
+.I xalarm:
+.TP 8
+.B \-display \fIdisplay\fP
+This option specifies the X server to contact.
+.TP 8
+.B \-geometry \fIgeometry\fP
+This option specifies the preferred size and position of
+.I xalarm.
+It is a little meaningless to specify a size; it is as large as need be.
+.TP 8
+.B \-xrm \fIresourcestring\fP
+This option specifies a resource string to be used.  This is especially
+useful for setting resources that do not have separate command line options.
+.SH ENVIRONMENT
+.TP 8
+.B DISPLAY
+to get the default host and display number.
+.TP 8
+.B XENVIRONMENT
+to get the name of a resource file that overrides the global resources
+stored in the RESOURCE_MANAGER property.
+.TP 8
+.B XALARM
+to get the name of the appointments file.  Otherwise, it is assumed to be the
+file
+.I .xalarm.
+Any file not given as the full path is assumed to be relative to the home
+directory.
+.SH "SEE ALSO"
+X(1),
+leave(1),
+emacs(1),
+twm(1),
+ps(1),
+date(1),
+fortune(6),
+yow(6)
+.SH BUGS
+.TP 8
+.B Times:
+
+.I xalarm
+believes the system clock.
+
+If the time is relative to the present and confirmation is sought, the alarm
+and warnings are set from when the time is confirmed, not from when
+.I xalarm
+was invoked.
+
+The response when an invalid time or warning time is entered is not
+particularly friendly or helpful.
+
+Can't cope with specified times more than 24
+hours away.  Can't accept things like:
+.TP 8
+			% \fBxalarm -time +70\fR
+
+.B
+It must be in proper hours and minutes, otherwise things like the following
+would be ambiguous:
+.TP 8
+			% \fBxalarm -time +100\fR
+.B
+
+Date checking when reading alarms from the alarm file is pretty rudimentary -
+if a date is semantically false but syntactically correct,
+.I xalarm
+will not notice.
+
+Only times corresponding today's date are checked, even if
+.I xalarm -appointments
+is invoked one minute before midnight.
+.TP 8
+.B Editing:
+The dialog box doesn't expand automatically when editing, useful when editing
+the alarm message, and it uses a subset of the
+.I emacs(1)
+editor/environment keymap for text buffers (which is certainly not a bug!).
+
+However, the 
+.I return
+key event is translated by default into the
+.I confirm
+button event, as it is translated similarly in the alarm time and warning
+dialog boxes.
+To insert a newline, use
+.I ctrl-m
+(since under
+.I emacs(1)
+the
+.I return
+key is a synonym for
+.I ctrl-m,
+under
+.I X
+they generate different events), or just change the relevant resource(s) so
+that
+.I return
+produces the desired effect.  For example, to make
+.I return
+insert a newline in all
+dialog boxes, you could use the resource:
+.TP 8
+		XAlarm*translations: #override <Key>Return: newline()
+.TP 8
+.B Resetting:
+Signalling is implemented very simply, and if the process signalled is not an
+.I xalarm,
+strange things may occur.  Usually, nothing will happen.
+.TP 8
+.B Exiting:
+Normally desirable,
+.I xalarm
+is killed when the X session on which display it is using is terminated whether
+you like it or not.
+
+You can't use the window manager menu option bound to
+.I f.delete
+to kill xalarm when the confirmation window is popped up.
+Only the alarm itself can be killed this way.
+.TP 8
+.B Input:
+Doesn't take input from a pipe etc.
+.SH COPYRIGHT
+Copyright 1991, Simon Marshall.
+.SH AUTHOR
+Simon Marshall, PhD Self Defense Group, Dept. of Computer Science, University
+Of Hull, UK.  S.Marshall@Hull.ac.UK
+.SH CONTRIBERS
+Massive thanks have to go to Bill Leonard, Harris Computer Systems Division,
+Florida, for harassing me with suggestions for improvements to make
+.I xalarm
+a useful tool and this manual page easier to understand, and Andreas Stolcke,
+International Computer Science Institute, Berkeley, for his help fixing code.
+Without both, xalarm would still be pretty much as version 2.
+
+Thanks also to J Braham Levy, Stefan Haenssgen, Jamie Zawinski, Jason Venner
+and Kimmo Suominen for their help with version 3.
+
+For their help and suggestions with previous versions of
+.I xalarm,
+I would also like to thank (in no real order) Dave Brooks, Reiner Hammer,
+Jay Lawlor, Janet Anstett, Gordon Freedman, Francois-Regis
+Colin and Jeffrey Mast.  If I've missed anyone, sorry.
+.SH COMMENTS
+I'd like some; comments, suggestions, code, bug reports and fixes, etc.  Don't
+forget to include which version of
+.I xalarm
+you are using (from
+.I xalarm -version),
+machine/OS, X11 release/patch number etc.

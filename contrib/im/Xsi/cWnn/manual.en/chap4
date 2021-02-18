@@ -1,0 +1,466 @@
+
+			*****************************************
+			*	Chapter 4	COMMANDS	*
+			*****************************************
+
+
+
+
+   4.1 OVERVIEW   
+   ============
+
+This chapter gives a description of the cWnn commands and other utilities available.
+
+ cWnn Commands :
+ ~~~~~~~~~~~~~
+  1. cserver  - The startup of the server 
+  2. uum     -	The startup of the front-end client 
+  3. wnnkill - The termination of the server 
+  4. wnnstat - The current usage status of the server 
+
+ cWnn Utilities :
+ ~~~~~~~~~~~~~~
+  5. atod     -	The creation of the binary form of a dictionary
+  6. dtoa     - The restoration of a dictionary to its text form
+  7. atof     - The creation of the binary form of a grammar file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 4-1 -
+
+   4.2 cserver - THE STARTUP OF THE SERVER    
+   =======================================
+
+ * Description 
+	cserver  -  The multi-user Chinese server.
+
+ * Standard path 
+	/usr/local/bin/cWnn4/cserver
+
+ * Command format 
+	cserver [-f file] [-s file]
+
+ * Function 
+	cserver  provides  the  services and  resources required  by the users (clients) 
+	during the conversion.
+	The  input  environment  is  provided  by the  front-end processor (uum), which 
+	sends  the  conversion request  to the cserver,  which subsequently performs the 
+	service.
+
+	Normally, once  the system is up, fork() will be executed and the server runs as 
+	background process. 
+	The startup  of cserver can be set in "/etc/rc"  to be executed automatically in 
+	the Unix system.
+
+	When the cserver command is executed, all the files defined in
+	"/usr/local/lib/wnn/zh_CN/cserverrc" will be read and the appropriate operations will 
+	be performed.
+	Besides,  all  dictionaries  and  usage  frequency  files of the clients will be 
+	maintained by the cserver. Please refer to section 5.2 for more details. 
+
+ * Function options 
+	-f file  --  "file"  will  be set as the initialization file, which replaces the 
+		     default cserverrc.
+
+	-s file  --  "file" will be set as the logfile of cserver.
+		     When  "file"  is  defined  as "-",  the logfile will be sent to the 
+		     standard error output.
+
+ * Related files 
+	/tmp/cd_sockV1 
+	/tmp/CSERVER.EXIST
+
+ * Reference 
+	cserverrc(5.2)
+ 
+
+
+
+					- 4-2 -
+
+   4.3  uum - THE STARTUP OF THE CLIENT    
+   =====================================
+
+ * Description  
+	uum, -  The execution of the Chinese input front-end processor.
+
+ * Standard path 
+	/usr/local/bin/cWnn4/uum
+
+ * Command format 
+	uum[-h/H] [-x/X]
+		[-k uumkey_file] [-c convert_key_file]
+		[-r auto_file] 	  [-D server_hostname]
+		[-n username]     [-l number of lines for conversion input]
+		[-L lang]
+
+ * Function description 
+	The default input automaton definition directory is 
+	"/usr/local/lib/wnn/zh_CN/rk_p/".
+
+	Once uum is executed, the initialization file is searched in the following 
+	order : 
+  	    (1) The file specified by the WNNRC C-Shell environment variable.
+  	    (2) @HOME/.uumrc
+  	    (3) /usr/local/lib/wnn/zh_CN/uumrc  (standard path)
+
+	The communication  between  uum  and  cserver is  via the socket where uum 
+	sends a conversion request to the cserver, which will perform the conversion
+	request and pass the result back to uum.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 4-3 -
+ * Function options 
+   	-H  	The input mode will be set to ON after the startup of uum.
+
+ 	-h   	The input mode will be set to OFF after the startup of uum(default).
+
+   	-X 	During uum startup, the flow control of tty is ON (default).
+
+   	-x	During uum startup, the flow control of tty is OFF.
+
+	-k  uumkey_file 
+		Set  the key code definition file.  By default, it is searched in the
+		following order :
+  		(1) The filename indicated by setuumkey in the uumrc initialization
+	   	    file.
+  		(2) /usr/local/lib/wnn/zh_CN/uumkey
+	
+	-c  convert_key_file 
+		Set  the key code conversion file.  By default, it is searched in the
+		following order :
+  		(1) The filename indicated by setconvkey in the uumrc initialization
+		    file.
+  		(2) /usr/local/lib/wnn/cvt_key_tbl
+
+	-r  auto_file 
+		Set the input mode definition file of the input automaton.
+		By default, it is searched in the following order :
+  		(1) The filename indicated by setautofile in the uumrc 
+		    initialization file.
+  		(2) /usr/local/lib/wnn/zh_CN/rk/mode
+
+	-l  lines
+		Indicates the number of lines for the Chinese input operation.  
+		(0 < lines < window line-1).  The default value is 1.
+
+	-D  server_hostname
+		The user can select the server from another host by using this 
+		option.  If no hostname is specified, the one specified by the
+		environment variable CSERVER will be used.
+		Each  environment of  the client can be set by defining in the 
+		"setconvenv" initialization file.
+
+	-n  username
+		Indicates the username for the client. The value in environment
+		variable CWNNUSER will be taken as the default value.  If CWNNUSER 
+		is not defined, the username of the current client will be taken.
+
+	-L lang
+		Indecates the language.
+		For chinese zh_CN, for japanese ja_JP.
+					- 4-4 -
+ * Note
+	During  the startup  of uum, a "pty" is required from the operating system. 
+	If "pty" is unable to be obtained, uum startup will fail.
+	Similarly, if the initialization file, input automaton definition files and 
+	key code definition file are not read in, uum startup will also fail.
+
+ * Reference  
+	cserver(4.2)  uumrc(5.3)  uumkey(5.6)  
+	cvt_key_tbl(5.7)  romkan(6)
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 4-5 -
+
+   4.4 wnnstat - REPORT THE CURRENT STATUS OF THE SERVER   
+   ======================================================
+
+ * Description 
+	wnnstat  -  To show the current status of cserver.
+
+ * Standard path 
+	/usr/local/bin/cWnn4/wnnstat
+
+ * Command format 
+	wnnstat [-w] [-e] [-E] [-f] [-F] [-d] [-D] [-L lang] [hostname]
+
+ * Function 
+	To request  for the current execution status of the server for the current host 
+	or another machine given the hostname.
+	With the function options as shown below, different information can be obtained.
+
+ * Function options 
+  	-w   	List username, hostname, socket number and the environment number.
+
+ 	-e   	List environment number, environment name and reference count.
+
+  	-E   	List environment number, environment name, reference count, grammatical 
+		file number, dictionary file number and the filenames.
+
+  	-f   	List file id of each cWnn file in the server, the file type, location of 
+		file, reference count and filename.
+
+	-F      Same as -f
+
+  	-d   	List dictionary number, type, file number, filename and usage frequency 
+		filename of the dictionaries.
+
+	-D   	List dictionary number, type, conversion method, number of entries, 
+		static/dynamic, current usage status, priority, alias, file name, 
+		[(alias:usage frequency filename)], [password (frequency password)]
+		of the dictionaries.
+
+	-L lang
+		Indecates the language.
+		For chinese zh_CN, for japanese ja_JP.
+ * Note
+	Dictionary number is different from file number. 
+	File number refers to the standardized number among cWnn files.
+	Dictionary number refers to the logical dictionary number in the server.
+	One dictionary may consist of different usage frequency files.
+	Different conversion methods make use of different dictionaries.
+
+					- 4-6 -
+
+   4.5 wnnkill - THE SERVER TERMINATION    
+   =====================================
+
+ * Description
+        wnnkill  -  The termintation of cserver.
+
+ * Standard path
+        /usr/local/bin/cWnn4/wnnkill
+
+ * Command format
+        wnnkill [-L lang] [hostname]
+
+ * Function
+        To terminate the cserver of the current machine or the specified hostname 
+	(other machine).  
+	If  hostname  is  specified,  wnnkill will terminate the server for that 
+	particular hostname.
+	If  some  client  still  exists  on  the  server  of the stated host, the 
+	termination will fail.
+
+	-L lang
+		Indecates the language.
+		For chinese zh_CN, for japanese ja_JP.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 4-7 -
+
+   4.6 atod - DICTIONARY CREATION   
+   ==============================
+
+ * Description 
+	atod  -  To convert the text format of dictionary to binary format.
+
+ * Standard path 
+	/usr/local/bin/cWnn4/atod
+
+ * Command format 
+	atod [filename] 
+
+ * Function 
+	This command converts a dictionary text file into binary format.
+
+ * Function options
+	-b	To convert the dictionary for  encoded (Bianma) input.
+
+	-c	To convert the dictionary for Pinyin/Zhuyin-Hanzi conversion. 
+
+ * Note 
+	Two atod's are available :
+	    (1) atod_py  (for Pinyin)
+	    (2) atod_zy  (for Zhuyin)
+	Options -p and -z can be used respectively.
+	The option -c is taken as default.
+		
+ * Reference
+	dtoa(4.7)
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 4-8 -
+
+   4.7 dtoa - CONVERSION OF BINARY DICTIONARY INTO TEXT FORMAT    
+   ===========================================================
+
+ * Description 
+	dtoa  -  To convert the binary form of dictionary back to text form.
+
+ * Standard path 
+	/usr/local/bin/cWnn4/dtoa
+
+ * Command format 
+	dtoa [-n] [-s] < filename>  [< usage frequency filename>  ....]
+
+ * Function  
+	To  convert the binary form of the dictionary to text form, and output to 
+	standard output.  
+	The second parameter can indicate more than one user usage frequency file 
+	(for a particular user), which  will be reflected in the text form of the 
+	dictionary. 
+
+ * Function options 
+	-s    	Order the entries in text dictionary according to pronunciation.
+
+	-n 	Attach sequence numbers to the output.
+
+ * Note
+	Two dtoa's are available :
+            (1) dtoa_py  (for Pinyin)
+            (2) dtoa_zy  (for Zhuyin)
+        Options -p and -z can be used respectively.
+	The Pinyin and Zhuyin dictionary has the same format.
+	By using atod and dtoa, user can convert between Pinyin and Zhuyin
+	dictionaries.
+	
+ * Reference 
+	atod(4.6)
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+					- 4-9 -
+
+   4.8 atof - FREQUENCY FILE CREATION   
+   ==================================
+
+ * Description 
+	atof  -  To convert the text form of grammatical rules into binary format.
+
+ * Standard path 
+	/usr/local/bin/cWnn4/atof
+
+ * Command format 
+	atof [filename] 
+
+ * Function 
+	This command converts a text file of grammatical rules into binary format.
+

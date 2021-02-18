@@ -1,0 +1,82 @@
+#define DoNormalLib NormalLibX
+#define DoSharedLib SharedLibX
+#define DoDebugLib DebugLibX
+#define DoProfileLib ProfileLibX
+#include <Library.tmpl>
+
+#if Malloc0ReturnsNull
+        DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+
+    SHLIBLDFLAGS = -assert pure-text 
+     CDEBUGFLAGS = -DOW_I18N -DI18N_SI -I.
+     EDB_DEFINES = -DERRORDB=\"$(LIBDIR)/XErrorDB\"
+     KDB_DEFINES = -DKEYSYMDB=\"$(LIBDIR)/XKeysymDB\"
+     CMS_DEFINES = -DXCMS_DEFAULT_DBPATH=\"$(LIBDIR)/Xcms.txt\"
+     NLS_DEFINES = -DXNLSPATHDEFAULT=\"$(NLSDIR)\"
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       INCLUDES = -I$(TOP) -I$(TOP)/X11 -I../../include -I.
+     PUBLIC_HDR = olgx.h
+    PRIVATE_HDR = busy.h grey.h olgx_impl.h
+	HEADERS = $(PUBLIC_HDR) $(PRIVATE_HDR)
+    HEADER_DIRS = $(TOP)/olgx olgx_private
+   SOOLGXLIBREV = 103.2
+       LINTLIBS =
+
+SRCS =\
+	ol_button.c	\
+	ol_color.c	\
+	ol_draw.c	\
+	ol_init.c	\
+	ol_misc.c	\
+	ol_sb.c		\
+	ol_slider.c	\
+	$(HEADERS)
+
+OBJS =\
+	ol_button.o	\
+	ol_color.o	\
+	ol_draw.o	\
+	ol_init.o	\
+	ol_misc.o	\
+	ol_sb.o		\
+	ol_slider.o	
+
+all:: init
+
+LinkFileList(init, $(PRIVATE_HDR) , olgx_private, ..)
+
+LibraryObjectRule()
+
+#if DoSharedLib
+#if DoNormalLib
+SharedLibraryTarget(olgx,$(SOOLGXLIBREV),$(OBJS),shared,..)
+#else
+SharedLibraryTarget(olgx,$(SOOLGXLIBREV),$(OBJS),.,.)
+#endif
+InstallSharedLibrary(olgx,$(SOOLGXLIBREV),$(USRLIBDIR))
+#endif
+#if DoNormalLib
+NormalLibraryTarget(olgx,$(OBJS))
+InstallLibrary(olgx,$(USRLIBDIR))
+#endif
+
+#if DoProfileLib 
+ProfiledLibraryTarget(olgx,$(OBJS))
+InstallLibrary(olgx_p,$(USRLIBDIR))
+#endif
+
+#if DoDebugLib && DebugLibPlgx
+DebuggedLibraryTarget(olgx,$(OBJS))
+InstallLibrary(olgx_d,$(USRLIBDIR))
+#endif
+
+LintLibraryTarget(olgx,($SRCS))
+
+MakeDirectories(init, $(HEADER_DIRS))
+
+InstallMultiple($(HEADERS),$(INCROOT)/olgx)
+DependTarget()
+
+NormalLintTarget($(SRCS))
+

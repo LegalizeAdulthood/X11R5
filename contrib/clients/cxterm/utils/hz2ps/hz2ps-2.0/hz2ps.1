@@ -1,0 +1,85 @@
+.TH hz2ps 1 "6 June 1991"
+.SH NAME
+hz2ps (version 2.0) \- convert a hanzi (GB/BIG) file to PostScript
+.SH SYNTAX
+.B hz2ps
+[
+.I options
+] [
+.I file
+]
+.SH DESCRIPTION
+The
+.PN hz2ps
+program converts a GB (HGB) or BIG5 hanzi file to PostScript.  
+It supports both horizontal and vertical printing mode with
+or without page numbers.
+Other printing options and fonts can also be selected.
+.PP
+The possible options are
+.IP \-gb
+use GB encoding. This is the default.
+.IP \-big
+use BIG5 encoding.
+.IP \-h
+horizontal printing mode. This is the default.
+.IP \-v
+vertical printing mode.
+.TP 5
+.BI \-margin "\ left \ right \ bottom \ top"
+margins measured in inches from lower left corner of a page.
+Default is \-margin 1 7.5 1 10.
+.TP 5
+.BI \-ls \ line-spacing
+line height (width) in horizontal (vertical) printing mode,
+measured in points (1 in = 72 points).
+Default is \-ls 15.
+.TP 5
+.BI \-htab \ n
+number of hanzi between two adjacent tabs.
+Default is 4.
+.TP 5
+.BI \-hf "\ hanzi-font \ point-size \ inter-hanzi-spacing"
+measure in points. Default is \-hf Beijing 10 1.  Note that point-size
+is not the same as bitmap size, see \-hbm below.  
+.TP 5
+.BI \-hbm \ m
+use an m x m hanzi bitmap matrix. Default is \-hbm 24.
+.TP 5
+.BI \-af "\ ascii-font \ point-size \ width \ descender"
+Default is \-af Courier 10 6 2.
+.TP 5
+.BI \-pnp "\ left \ bottom"
+positions to print page number, 
+measured in inches from the lower left corner of a page.
+Default is \-pnp 4.15 0.5.
+.TP 5
+.BI \-pns \ page-number
+starting page number.
+Default is 1.
+.TP 5
+.BI \-nopn
+no page number printed.
+.PP
+The font files and the PostScript prolog file should all be under the
+directory HZDIR (setenv HZDIR the-hanzi-directory).
+.SH FILES
+Each bitmap file contains the bitmaps of consecutive valid code in
+ascending order.
+The bitmap of each hanzi is scanned from left to right, and top to bottom.
+For the NxN/8 bytes belonging to an N dot hanzi, the MSB of the first byte
+is the upper left bit; the LSB of the last byte is the lower right bit.
+A black (white) pixel is represented by a 1 (0).
+.SH COPYRIGHT
+Copyright (C) 1989, 1991  Fung F. Lee
+.sp
+All rights reserved.
+Permission to copy and distribute verbatim copies of the source code
+and accompanied documents for non-commercial purposes is granted,
+but changing them is not allowed.
+There is absolutely no warranty for this program.
+.SH AUTHOR
+Fung F. Lee
+.SH BUGS
+Bug reports and comments should be sent to lee@milo.stanford.edu.
+

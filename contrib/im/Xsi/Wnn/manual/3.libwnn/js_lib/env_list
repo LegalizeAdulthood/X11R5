@@ -1,0 +1,25 @@
+JS_ENV_LIST( )
+
+名称
+
+	js_env_list		サーバ中の全ての環境に関する情報を得る。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_env_list(server, ret)
+	WNN_JSERVER_ID *server;	
+	struct wnn_ret_buf *ret;
+
+機能
+
+	サーバ server 中の全ての環境に関する情報を得る。
+	ret->buf には、struct wnn_env_info の配列が、環境数だけ返される。
+
+リターンバリュー
+
+	正常終了時には、環境の数を返す。
+	異常終了時には、-1 を返す。
+

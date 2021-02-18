@@ -1,0 +1,112 @@
+ユーザインタフェースライブラリでは個々の入力に対して表示するべき文字列
+と確定した文字列を返します。
+例えば、"kanjini$<$space$>$shimasu$<$return$>$"のような
+入力があった時に、
+ユーザインタフェースライブラリに対する入出力は以下のようになります。
+
+\begin{table}[h]
+\hspace{4cm}
+	\begin{tabular}{|c|l|l|}\hline
+	{}				&	\multicolumn{2}{c|}{出力}\\
+	\cline{2-3}
+	\multicolumn{1}{|c|}{\raisebox{1.5ex}[0pt]{入力}} & 表示 & 確定文字\\
+	\hline\hline
+	k				&	k			&	{}\\
+	a				&	か			&	{}\\
+	n				&	かn			&	{}\\
+	j				&	かんj		&	{}\\
+	i				&	かんじ		&	{}\\
+	n				&	かんじn		&	{}\\
+	i				&	かんじに	&	{}\\
+	$<$ space $>$	&	漢字に		&	{}\\
+	s				&	s			&	漢字に \\
+	h				&	sh			&	{}\\
+	i				&	し			&	{}\\
+	m				&	しm			&	{}\\
+	a				&	しま		&	{}\\
+	s				&	しまs		&	{}\\
+	u				&	します		&	{}\\
+	$<$return$>$	&	{}			&	します \\
+	\hline
+	\end{tabular}
+\end{table}
+
+アプリケーションプログラムの仕事は以下の３つから構成されます。
+
+\begin{enumerate}
+  \item １文字毎の入力をユーザインタフェースライブラリに与える
+  \item その結果ユーザインタフェースライブラリが返す中間表示文字列を表示する
+  \item 確定文字列として返って来た文字列を入力として取り扱う
+\end{enumerate}
+
+すなわち、アプリケーションプログラムは何らかの入力(例えばキーボードか
+らのキー入力)を１文字毎にユーザイ
+ンタフェースライブラリに与えてやると、その結果となる中間結果文字列がユー
+ザインタフェースライブラリより返って来るのでそれを表示する、と言った処
+理を行います。もちろん確定文字列として返って来た文字列は自分の入力とし
+て扱うわけです。
+
+スペースキーが変換キーであるとか、矢印キーがモードによって違うふるまい
+をするキーであるとかのユーザインタフェースにかかわる処理はユーザインタ
+フェースライブラリ内部で行われますのでアプリケーションプログラムはそう
+いった煩わしいことに関知する事無く日本語入力が行えます。
+
+さて上記で説明した、キーを与えると中間結果および確定文字列を返す
+関数は jrKanjiString という関数です。
+先のサンプルプログラムでは24行目に使われており、プログラム中、中心的な
+役割---かな漢字変換---を行っています。
+
+この関数を使うにはまず次のように
+ヘッダ
+ファイルをインクルードしなければなりません。
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+    #include <iroha/jrkanji.h>
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+jrKanjiString は以下のような関数
+仕様を持っています。
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+  jrKanjiString(context_id, ch, buffer_return,
+                bytes_buffer, kanji_status_return)
+  int context_id;
+  int ch;
+  char *buffer_return;
+  int bytes_buffer;
+  jrKanjiStatus *kanji_status_return;
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+jrKanjiString は引数として {\it context\_id}、{\it ch}、
+{\it buffer\_return}、{\it bytes\_buffer}、{\it kanji\_status\_return}を受
+け付けます。
+
+{\it context\_id} にはコンテクスト識別子を指定します。コンテクスト
+については次の節で説明します。
+
+{\it ch}は入力された文字です。
+
+{\it buffer\_return} は確定した文字列が返されるバッファです。このバッファ
+はアプリケーションプログラムが準備して jrKanjiString に与えてやらなけ
+ればなりません。確定文字列が発生した時に jrKanjiString は確定した文字
+列をこのバッファに格納して返して来ます。{\it buffer\_return} と同時にこ
+のバッファのサイズを {\it bytes\_buffer} として一緒に与えなければなりま
+せん。
+jrKanjiString はどんなに長い文字列が確定文字列として発生したとし
+ても {\it bytes\_buffer} で与えられた長さ以上の文字を buffer\_return に
+格納することはありません。
+
+{\it kanji\_status\_return}というのが中間表示のための情報その他が入って
+いるjrKanjiStatus型の構造体です。jrKanjiStatus型についてはのちほど説明
+します。

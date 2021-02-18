@@ -1,0 +1,35 @@
+JS_FILE_STAT( )
+
+名称
+
+	js_file_stat	 ファイルのタイプを調べる。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_file_stat(env,path, s)
+	struct wnn_env *env;	/* 環境 */
+	char *path;		/* ファイルのパス名 */
+	WNN_FILE_STAT *s;
+
+機能
+
+	パス名 path で指定したファイルのタイプが辞書であるか、頻度ファ
+	イルであるか、付属語ファイルであるかを調べる。辞書である場合に
+	は、辞書の種類を調べ、固定形式辞書か登録可能形式辞書かを調べる。
+	結果、s に格納する。
+	ファイル名の最大文字数は、100 文字である。
+
+リターンバリュー
+
+	正常終了時には ファイルのタイプ
+		WNN_STATIC_DICT		固定形式辞書
+		WNN_UD_DICT		登録可能形式辞書
+		WNN_HINDO_FILE		頻度ファイル
+		WNN_FUZOKUGO_FILE	付属語ファイル
+		WNN_NOT_A_JISHO		その他
+	を返す。
+	ファイルが存在しない時、異常終了時には -1 を返す。
+

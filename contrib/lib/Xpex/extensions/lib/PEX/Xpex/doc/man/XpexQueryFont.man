@@ -1,0 +1,106 @@
+.\" $Header: XpexQueryFont.man,v 2.5 91/09/11 16:02:40 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\"
+.TH XpexQueryFont 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexQueryFont, XpexListFonts, XpexListFontsWithInfo, 
+XpexQueryTextExtents \- Functions that return logical 
+information specific to a font
+.SH "Synopsis"
+.nf
+XpexFontInfo *XpexQueryFont(dpy, font_id)
+.br
+    Display *dpy;
+.br
+    pexFont font_id;
+.sp
+XpexString *
+XpexListFonts(dpy, pattern, max_names, actual_count)
+.br
+    Display *dpy;
+.br
+    char *pattern;
+.br
+    int max_names;
+.br
+    int *actual_count; /* RETURN */
+.sp
+XpexString *
+XpexListFontsWithInfo(dpy, pattern, maxnames, 
+.br
+	actual_count, info)
+.br
+	Display *dpy;
+.br
+	XpexString pattern;
+.br
+	int maxnames;
+.br
+	int *actual_count;  /* RETURN */
+.br
+	XpexFontInfo **info;  /* RETURN */
+.sp
+XpexExtentInfo **XpexQueryTextExtents(dpy, text_path, font_id, 
+.br
+	char_expansion, char_spacing, char_height, text_alignment, string, 
+.br
+	num_strings, num_info)
+.br
+	Display  *dpy;
+.br
+	int  text_path;
+.br
+	XpexFont  font_id;
+.br
+	XpexFloat  char_expansion;
+.br
+	XpexFloat  char_spacing;
+.br
+	XpexFloat  char_height;
+.br
+	XpexTextAlignmentData  *text_alignment;
+.br
+	XpexString  strings[];
+.br
+	int  num_strings;
+.br
+	int  *num_info; /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+return from XOpenDisplay.
+.IP \fIfont_id\fP 1i 
+Specifies the font id.
+.SH "Description"
+Refer to the PEX Protocol Specificaton Document, Section 12.2.
+.SH "Structures"
+To be added
+.SH "Errors"
+PEXFont, FloatingPointFormat
+.SH "Related Commands"
+To be added

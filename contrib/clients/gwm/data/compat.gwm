@@ -1,0 +1,26 @@
+; GWM: backwards compatibility
+; ============================
+
+;;File: compat.gwm -- redefines old behaviors
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.0 -- Aug 29 89
+;;State: Exp
+;;GWM Version: 1.4
+
+; say (uses-gwm-version "1.4.1.13" t) at the head of sections needing
+; 1.4.1.13 behavior, and (uses-gwm-version "1.4.1.13" ()) to revert to current
+; version.
+
+(defun uses-gwm-version (old-version entering)
+  (if
+      (= old-version "1.4.1.13")
+    	(if entering {
+	  } {
+	  }
+	  )
+    )
+  )))
+
+	  
+	    
+    

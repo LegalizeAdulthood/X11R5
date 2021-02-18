@@ -1,0 +1,137 @@
+/* $Header: /usr3/Src/emu/tdesc/RCS/xterm-auxTrans,v 1.1 91/09/30 18:15:33 me Exp $ */
+
+/*
+ * Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+ *
+ *                        All Rights Reserved
+ *
+ * Permission to use, copy, modify, and distribute this software and its 
+ * documentation for any purpose and without fee is hereby granted, 
+ * provided that the above copyright notice appear in all copies and that
+ * both that copyright notice and this permission notice appear in 
+ * supporting documentation, and that the names of PCS or the authors not
+ * be used in advertising or publicity pertaining to distribution of the
+ * software without specific, written prior permission.  
+ * 
+ * PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+ * ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+ * PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+ * OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+ * USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ * OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+ *
+ */
+
+/*
+ * Auxilliary keyboard translation definitions for the emu "xterm" terminal.
+ *
+ * Author: Michael Elbel
+ * Date: September 30th, 1991
+ * Description: This file contains translations for various different
+ *		keyboard settings a xterm might have.
+ *
+ * Revision History:
+ *
+ * $Log:	xterm-auxTrans,v $
+# Revision 1.1  91/09/30  18:15:33  me
+# Initial revision
+# 
+ *
+ */
+
+/* Application Keypad */
+*term.xterm-auxTrans-appKeypad:						\
+	/* Group 1 */							\
+	:<Key>KP_0:	key-input("Op")\n				\
+	:<Key>KP_1:	key-input("Oq")\n				\
+	:<Key>KP_2:	key-input("Or")\n				\
+	:<Key>KP_3:	key-input("Os")\n				\
+	:<Key>KP_4:	key-input("Ot")\n				\
+	:<Key>KP_5:	key-input("Ou")\n				\
+	:<Key>KP_6:	key-input("Ov")\n				\
+	:<Key>KP_7:	key-input("Ow")\n				\
+	:<Key>KP_8:	key-input("Ox")\n				\
+	:<Key>KP_9:	key-input("Oy")\n				\
+	/* Group 2 */							\
+	:<Key>KP_Decimal: key-input("On")\n				\
+	:<Key>KP_Subtract: key-input("Om")\n				\
+	:<Key>KP_Separator: key-input("Ol")\n				\
+	:<Key>KP_Enter:	key-input("OM")\n				\
+
+/* Numeric Keypad */
+*term.xterm-auxTrans-numKeypad:						\
+	/* Group 1 */							\
+	:<Key>KP_0:	key-input("0")\n				\
+	:<Key>KP_1:	key-input("1")\n				\
+	:<Key>KP_2:	key-input("2")\n				\
+	:<Key>KP_3:	key-input("3")\n				\
+	:<Key>KP_4:	key-input("4")\n				\
+	:<Key>KP_5:	key-input("5")\n				\
+	:<Key>KP_6:	key-input("6")\n				\
+	:<Key>KP_7:	key-input("7")\n				\
+	:<Key>KP_8:	key-input("8")\n				\
+	:<Key>KP_9:	key-input("9")\n				\
+	/* Group 2 */							\
+	:<Key>KP_Decimal: key-input(".")\n				\
+	:<Key>KP_Subtract: key-input("-")\n				\
+	:<Key>KP_Separator: key-input(",")\n				\
+	:<Key>KP_Enter:	key-input("\r")\n				\
+
+/* Application Cursor Keys */
+*term.xterm-auxTrans-appCKeys:						\
+	~Shift <Key>Left:	key-input("OD")\n			\
+	~Shift <Key>Right:	key-input("OC")\n			\
+	~Shift <Key>Down:	key-input("OB")\n			\
+	~Shift <Key>Up:		key-input("OA")\n			\
+	
+/* Normal Cursor Keys */
+*term.xterm-auxTrans-normCKeys:						\
+	~Shift <Key>Left:	key-input("[D")\n			\
+	~Shift <Key>Right:	key-input("[C")\n			\
+	~Shift <Key>Down:	key-input("[B")\n			\
+	~Shift <Key>Up:		key-input("[A")\n			\
+
+/* Function Keys */
+*term.xterm-auxTrans-fkeys:						\
+	:<Key>F1:	key-input("[11~")\n				\
+	:<Key>F2:	key-input("[12~")\n				\
+	:<Key>F3:	key-input("[13~")\n				\
+	:<Key>F4:	key-input("[14~")\n				\
+	:<Key>F5:	key-input("[15~")\n				\
+	:<Key>F6:	key-input("[17~")\n				\
+	:<Key>F7:	key-input("[18~")\n				\
+	:<Key>F8:	key-input("[19~")\n				\
+	:<Key>F9:	key-input("[20~")\n				\
+	:<Key>F10:	key-input("[21~")\n				\
+	:<Key>F11:	key-input("[23~")\n				\
+	:<Key>F12:	key-input("[24~")\n				\
+	:<Key>F13:	key-input("[25~")\n				\
+	:<Key>F14:	key-input("[26~")\n				\
+	:<Key>F15:	key-input("[28~")\n				\
+	:<Key>F16:	key-input("[29~")\n				\
+	:<Key>F17:	key-input("[31~")\n				\
+	:<Key>F18:	key-input("[32~")\n				\
+	:<Key>F19:	key-input("[33~")\n				\
+	:<Key>F20:	key-input("[34~")\n				\
+
+/* Misc. Function Keys (the ones above the cursor keys) */
+*term.xterm-auxTrans-miscFkeys:						\
+	~Shift <Key>Find:	key-input("[1~")\n			\
+	~Shift <Key>Insert:	key-input("[2~")\n			\
+	~Shift <Key>Cancel:	key-input("[3~")\n			\
+	~Shift <Key>Select:	key-input("[4~")\n			\
+	~Shift <Key>Prior:	key-input("[5~")\n			\
+	~Shift <Key>Next:	key-input("[6~")\n			\
+
+/* Umlaute on braces and so on */
+*term.emu-auxTrans-multiKeys:						  \
+  ~Shift Mod1<Key>bracketleft:	call-parser(ROP_INSERT_CHAR, "", A, 228)\n\
+  Shift Mod1<Key>bracketleft:	call-parser(ROP_INSERT_CHAR, "", A, 196)\n\
+  ~Shift Mod1<Key>bracketright:	call-parser(ROP_INSERT_CHAR, "", A, 252)\n\
+  Shift Mod1<Key>bracketright:	call-parser(ROP_INSERT_CHAR, "", A, 220)\n\
+  ~Shift Mod1<Key>backslash:	call-parser(ROP_INSERT_CHAR, "", A, 246)\n\
+  Shift Mod1<Key>backslash:	call-parser(ROP_INSERT_CHAR, "", A, 214)\n\
+  ~Shift Mod1<Key>grave:	call-parser(ROP_INSERT_CHAR, "", A, 223)\n\
+  Shift Mod1<Key>grave:		call-parser(ROP_INSERT_CHAR, "", A, 167)\n\
+

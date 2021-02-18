@@ -1,0 +1,117 @@
+.TH XTREE 1 "Release 5" "X Version 11"
+.SH NAME
+xtree - tree graphing filter
+.SH SYNOPSIS
+.B "xtree"
+[-option ...]
+.SH DESCRIPTION
+The \fIxtree\fP program is a filter that generates tree graphs from 
+outline-style representations of data provided on the standard input.
+Pressing on nodes in the tree causes their name to be printed on the
+standard output in one of several formats.
+.SH OPTIONS
+This program accepts all of the standard X Toolkit command line options
+as well as the following:
+.TP 8
+.B \-separator \fIstring\fP
+This option specifies the character or string prefix for each line.  The
+number of separators at the beginning of the line determines the level in
+the tree.  This is the same as setting the \fBseparator\fP resource.  The
+default value is a tab.
+.TP 8
+.B \-vertical
+This option indicates that the tree should be displayed vertically instead
+of horizontally.  This is a shorthand for setting the \fBgravity\fP resource
+of the \fITree\fP widget to \fBnorth\fP.
+.TP 8
+.B \-iformat \fIformat-name\fP
+This option specifies the format in which tree data on the standard input is
+encoded.  The \fIformat-name\fP may be either \fBnumber\fP or \fBseparator\fP.
+This is the same as setting the \fBinputFormat\fP resource.  The default value
+is \fBseparator\fP.
+.TP 8
+.B \-oformat \fIformat-name\fP
+This option specifies the format in which the names of nodes that have been 
+pressed should be printed on the standard output.  The \fIformat-name\fP may 
+be: \fBnumber\fP, \fBseparator\fP, \fBname\fP, or \fBresource\fP.  This is
+the same as setting the \fBoutputFormat\fP resource.  The default value 
+is \fBname\fP.
+.TP 8
+.B \-nbase \fInumber\fP
+This option specifies the level of the highest nodes in the tree for
+\fBnumber\fP output when \fBnumber\fP was not used for input .  
+It is the same as setting the \fBnumberBase\fP resource.  The default is 1,
+and this value is overridden by any \fBnumber\fP input.
+.SH RESOURCES
+The following application resources may be set in addition to the individual
+widget resources described in the Athena Widget Set documentation:
+.TP 8
+.B "separator (\fPclass\fB Separator)"
+This resource specifies a string that is used as a prefix on each input line
+to indicate the depth of that line in the tree.  The default is a tab.
+.TP 8
+.B "numberBase (\fPclass\fB NumberBase)"
+This resource specifies the number index of top-most nodes on output.  If the
+input data is in \fBnumber\fP format, the first entry of the input will
+override this value.  The default is 1.
+.TP 8
+.B "inputFormat (\fPclass\fB Format)"
+This resource specifies the format in which tree data on the standard input is
+encoded.  The \fIformat-name\fP may be either \fBnumber\fP or \fBseparator\fP
+(which is the default).
+.TP 8
+.B "outputFormat (\fPclass\fB Format)"
+This resource specifies the format in which the names of nodes that have been
+pressed should be printed on the standard output.  The \fIformat-name\fP may 
+be either \fBnumber\fP, \fBseparator\fP, \fBname\fP (the default), or 
+.BR resource .
+.SH FORMATS
+Input and output data may have the following formats:
+.TP 8
+.B separator
+In this format, lines are indented using the \fBseparator\fP resource to
+indicate their depth in the tree.  A child is indicated by indenting with
+one separator more than the preceeding line; a sibling is 
+indicated by indenting with the same number of separators as the preceeding
+line.  This format may be used for both input and output.
+.TP 8
+.B number
+In this format, lines are prefixed with their depth in the tree followed by
+a colon and optional whitespace.  If this format is only used for output, then
+the \fBnumberBase\fP resource is used for the level of the first entry.  This
+format may be used for both input and output.
+.TP 8
+.B name
+In this output-only format, only the text of the node is printed when the
+command button for the node is pressed.
+.TP 8
+.B resource
+In this output-only format, the text of all node from the root down to the
+pressed node are printed, separated by a period.  This is most useful when
+looking at trees of resources.
+.SH "WIDGET HIERARCHY"
+Resources may be specified for the following Athena widgets (class name):
+.sp
+.nf
+.ta .5i 1.0i 1.5i 2.0i 2.5i 3.0i 3.5i 4.0i 4.5i 5.0i 5.5i 6.0i 6.5i 7.0i
+xtree (XTree)
+	pane (Paned)
+		buttonbox (Box)
+			quit (Command)
+	form (Form)
+		porthole (Porthole)
+			tree (Tree)
+				\fIentry-name\fP (Command)
+		panner (Panner)
+.fi
+.sp
+where \fIentry-name\fP is the contents of the label with all non-alphanumeric
+characters removed.
+.SH "SEE ALSO"
+X(1), Athena Widget Set documentation
+.SH COPYRIGHT
+Copyright 1990, Massachusetts Institute of Technology.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.SH AUTHOR
+Jim Fulton, MIT X Consortium

@@ -1,0 +1,69 @@
+以下にユーザインタフェースライブラリを用いた簡単な例を示します。
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+     1	#include <stdio.h>
+     2	#include <iroha/jrkanji.h>
+     3	
+     4	#define MAX_SIZE 1024
+     5	
+     6	main()
+     7	{
+     8	  int c, nbytes;
+     9	  unsigned char workbuf[MAX_SIZE];
+    10	  jrKanjiStatus ks;
+    11	
+    12	  jrKanjiControl(0, KC_INITIALIZE, 0);
+    13	  {
+    14	    jrKanjiStatusWithValue ksv;
+    15	
+    16	    ksv.ks = &ks;
+    17	    ksv.buffer = workbuf;
+    18	    ksv.bytes_buffer = MAX_SIZE;
+    19	    ksv.val = IROHA_MODE_HenkanMode;
+    20	    jrKanjiControl(0, KC_CHANGEMODE, &ksv);
+    21	  }
+    22	  c = getchar();
+    23	  while(c != EOF) {
+    24	    nbytes = jrKanjiString(0, c, workbuf, MAX_SIZE, &ks);
+    25	    if (nbytes > 0) {
+    26	      workbuf[nbytes] = '\e0';
+    27	      printf("%s\en", workbuf);
+    28	    }
+    29	    c = getchar();
+    30	  }
+    31	  jrKanjiControl(0, KC_FINALIZE, 0);
+    32	  exit(0);
+    33	}
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+\vspace{0.5cm}
+
+このプログラムをコンパイルし、実行した結果は以下のようになります。以下
+の例で△は半角のスペース文字を入力していることを表します。
+
+\begin{center}
+\hbox{\vrule\vbox{\hrule{
+\hbox to 16cm{\kern20pt\vbox{\kern10pt
+\begin{verbatim}
+    % cc sample1.c -liroha -lsocket -lnsl -o sample1
+    % sample1
+    koreha△kantanna△puroguramudesu.△
+    これは
+    簡単な
+    プログラムです。
+    % ■
+\end{verbatim}
+\kern10pt}\kern20pt}
+}\hrule}\vrule}
+\end{center}
+
+\vspace{0.5cm}
+
+上記プログラムでは、12行目〜21行目で初期化処理を行い、22行目〜30行目で
+入力された文字をローマ字かな変換/かな漢字変換しています。31行目は終了
+処理です。以下では上記プログラムの各部分について、もう少し詳しく説明し
+ます。

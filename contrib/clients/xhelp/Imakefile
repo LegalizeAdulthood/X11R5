@@ -1,0 +1,16 @@
+SRCS =  xhelp.c fileServices.c Directory.c DirectoryMgr.c MultiList.c RegExp.c ScrolledList.c
+OBJS =  xhelp.o fileServices.c Directory.o DirectoryMgr.o MultiList.o RegExp.o ScrolledList.o
+
+DEPLIBS = XawClientDepLibs
+
+LOCAL_LIBRARIES = XawClientLibs
+
+SYS_LIBRARIES = -lm
+
+#LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB) $(EXTENSIONLIB)
+
+ComplexProgramTarget(xhelp)
+
+InstallAppDefaults(XHelp)
+
+

@@ -1,0 +1,34 @@
+#!/bin/sh
+## ###################################################################### ##
+##         Copyright IBM Corporation 1988,1991 - All Rights Reserved      ##
+##        For full copyright information see:'andrew/config/COPYRITE'     ##
+## ###################################################################### ##
+
+
+ALMOST=$1
+SDPOOLBASEFILE=$2
+
+# Figure out how much "s" space is already taken
+SDUSEDSTR="`size $ALMOST \
+	| sed -n -e '/ \.s/p' -e '/ \.lit/p' \
+	| sed -e 's/^[^0-9]*\([1-9][0-9]*\).*$/\1 + /'` 0"
+
+SDUSED=`expr $SDUSEDSTR`
+
+# Subtract 4 bytes for ourselves and 4k bytes for rounding and "common" symbols
+SDPOOLSIZE=`expr 65536 - 4096 - $SDUSED`
+
+# Make the ".c" file with the GP free poll declarations
+# Subtract 4 bytes for ourselves and 16 bytes for rounding
+cat > ./${SDPOOLBASEFILE}.c  <<END
+unsigned long int sdpool[(($SDPOOLSIZE&~0xF)>> 2)-5] ;
+unsigned short int sdpoolstart = 0 ;
+unsigned short int sdpoolend = sizeof sdpool ;
+END
+
+
+# Compile and link it with everything in .sbss
+cc -c -g -G 65535 ${SDPOOLBASEFILE}.c -o ${SDPOOLBASEFILE}.x \
+&& rm -f ${SDPOOLBASEFILE}.c \
+&& ld -r -d -G 65535 ${SDPOOLBASEFILE}.x -o ${SDPOOLBASEFILE}.o \
+&& rm -f ${SDPOOLBASEFILE}.x

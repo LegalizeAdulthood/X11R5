@@ -1,0 +1,15 @@
+Ari.wcChildren:		box
+Ari.title:		A08_ClkLogo
+
+*box.wcClassName:	Box
+*box.wcChildren:	clock, logo, label
+*box.translations:	<Key>Return:	WcExitACT() \n\
+			<Key>Tab:	WcSystemACT( echo Yo Dude! ) \n\
+			<Key>Delete:	WcSystemACT( Ari A08_ClkLogo &)
+
+*clock.wcClassName:	ClockWidget
+
+*logo.wcClassName:	LogoWidget
+
+*label.wcClassName:	Label
+*label.label:		Try hitting Delete, Tab, and Return

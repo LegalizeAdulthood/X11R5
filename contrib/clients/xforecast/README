@@ -1,0 +1,31 @@
+Basically a cute little program that lets you pop up
+weather for places in the US that the weather server
+at Michigan knows about.  
+
+Change the 3 lines in the Imakefile to point to the
+place where the usa bitmap, the cities file and the
+weather programs are.
+
+First mouse button pops up weather for the city, second
+pops up weather for the state (when the pointer is
+on a city).
+
+This is basically an x-wrapper for a perl script
+that gets the weather information.  If you don't 
+have Perl and can't get it, I do have a C version
+of 'weather'.  And if you're not on Internet, then
+you can't access the weather server and there's little
+point to run this program.
+
+The usa bitmap was derived from one posted to the
+newsgroup news.lists.ps-maps (and converted to 
+and xbm).
+
+Tested on Sun 4/20s, SS2s, running SunOS 4.1.1,
+HP300s running HP-UX 7.0, and a DECstation 3100.
+
+Have fun and enjoy.  Send comments, critiques or whatever 
+to: frank@cis.ohio-state.edu.
+
+--Frank Adelstein.
+

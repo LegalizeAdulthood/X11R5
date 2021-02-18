@@ -1,0 +1,25 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = play.do 
+IHFILES = play.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+LIBS = 	${BASEDIR}/lib/atk/libbasics.a \
+	${BASEDIR}/lib/libclass.a  \
+	${MALLOCLIB}
+ClassTestProgramTarget(play, playtest.o, ${LIBS},)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(play.help, ${DESTDIR}/help)
+InstallHelpAlias(play, music)
+
+MkdirTarget(${DESTDIR}/doc/atk/music)
+InstallDocs(play.doc,${DESTDIR}/doc/atk/music)

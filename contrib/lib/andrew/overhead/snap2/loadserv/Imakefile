@@ -1,0 +1,40 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOAD_LIBS_I = \
+	$(BASEDIR)/lib/libgasp.a \
+	$(BASEDIR)/lib/libmail.a \
+	$(UTILLIB) \
+	$(BASEDIR)/lib/liberrors.a \
+	$(AFSBASEDIR)/lib/liblwp.a \
+	$(AFSBASEDIR)/lib/afs/libacl.a
+
+LOAD_LIBS_S = \
+	$(BASEDIR)/lib/libsnap.a \
+	${LOAD_LIBS_I}
+
+LOAD_LIBS_T = \
+	$(BASEDIR)/lib/libsnapt.a \
+	${LOAD_LIBS_I}
+
+DependTarget()
+
+NormalObjectRule()
+
+#ifdef AFS_ENV
+ProgramTarget(loadservs, loadserv.o, ${LOAD_LIBS_S} , ${BSDLIB})
+InstallFileToFile(loadservs, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/services/loadserv)
+ProgramTarget(loadservt, loadserv.o, ${LOAD_LIBS_T} , ${BSDLIB})
+InstallFileToFile(loadservt, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/servicest/loadserv)
+#endif /* AFS_ENV */
+
+ProgramTarget(loadavs, loadav.o snaperr.o snpfkscb.o, $(BASEDIR)/lib/libsnap.a, ${SUPLIBS} ${NETLIBS})
+InstallFileToFile(loadavs, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/loadav)
+
+ProgramTarget(loadavt, loadav.o snaperr.o snpfkscb.o, $(BASEDIR)/lib/libsnapt.a,${SUPLIBS} ${NETLIBS})
+InstallFileToFile(loadavt, $(INSTPROGFLAGS), $(DESTDIR)/etc/snap/loadavt)

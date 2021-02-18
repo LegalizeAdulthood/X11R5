@@ -1,0 +1,27 @@
+.TH GL_InvertibleRectangle 10Jul91 "GraphLib 0.5a"
+.SH NAME
+GL_InvertibleRectangle \- a rectangle which can invert itself.
+.SH SYNTAX
+GLPointer GL_Create(GL_InvertibleRectangle,
+.br
+		       <option>, [args,]
+.br
+		    ...,
+.br
+		    GL_Done);
+.SH DESCRIPTION
+This call will create a rectangle which when inverted will invert the area
+in which it is drawn.  This is useful for menus which need to be inverted.
+Because of implementation details, the invertible rectangle needs to be the
+first thing which draws itself when it is exposed.  It should therefore
+be the last object installed. (See comments in the menu code, this is a very
+implementation specific requirement, and a standard general way of dealing
+with this will be created in a future release.)
+
+.SH OPTIONS
+
+.IP "GLIR_InvertRect, <int x, int y, int width, int height>"
+This specifies the rectangle which should be inverted.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Object(3GL), GraphLib Programming Manual

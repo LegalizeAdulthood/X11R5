@@ -1,0 +1,7 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+install.time::
+	@sh -c '(cd ..; make Aliases; exit 0)'

@@ -1,0 +1,31 @@
+#include "../config.sh"
+
+       IROHAROOT = ..
+      SOIROHAREV = 1
+        IROHASRC = $(IROHAROOT)/lib/iroha
+     DEPIROHALIB = $(IROHASRC)/libiroha.so.$(SOIROHAREV)
+        IROHALIB = -L$(IROHASRC) -liroha
+
+        INCLUDES = -I$(IROHAROOT) -I$(IROHASRC) \
+			-I$(IROHAROOT)/include \
+			-I.
+   SYS_LIBRARIES = -lcurses
+   LOCAL_LDFLAGS = $(IROHALIB)
+
+            OBJS = can.o henkan.o misc.o setutmp.o term.o
+            SRCS = can.c henkan.c misc.c setutmp.c term.c
+
+         PROGRAM = can
+
+AllTarget(can)
+can: $(OBJS) $(DEPLIBS)
+	RemoveTargetProgram($@)
+	$(CC) -o $@ $(OBJS) $(LDOPTIONS) $(LOCAL_LIBRARIES) $(LDLIBS) $(EXTRA_LOAD_FLAGS)
+InstallMultipleFlags($(PROGRAM),$(BINDIR),$(INSTUIDFLAGS))
+InstallProgram(can,$(BINDIR))
+InstallManPage(can,$(MANDIR))
+DependTarget()
+LintTarget()
+
+clean::
+	$(RM) $(PROGRAM)

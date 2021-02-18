@@ -1,0 +1,190 @@
+'\" T
+.TH PALETTE N "X Tools" "S&SSi"
+.\" Copyright 1990, 1991, Systems & Software Solutions, Inc, Marietta, GA
+.SH NAME
+palette \- X11 color FG/BG palette selection tool
+
+.SH SYNOPSIS
+.PP
+.B palette [[+|-]gray] [[+|-]grey] -o [usual Xt options]
+
+.SH OPTIONS
+.PP
+.B [+]gray
+.PP
+.B [+]grey
+.IP "" 4
+Any of these allows the various gray
+colors
+(gray1,
+gray2,
+etc)
+to be displayed.
+The default is that only Gray,
+LightGray,
+etc
+are selected.
+.PP
+.B -gray
+.PP
+.B -grey
+.IP "" 4
+Either of these disallows displaying of
+the various gray colors
+(gray1,
+gray2,
+etc).
+(This is the default.)
+to be displayed.
+.PP
+.B -o
+.IP "" 4
+This forces
+.I palette
+to output the selected values
+when the program is terminated
+via the
+.B Quit
+button,
+in the format
+
+.IP "" 8
+-bg
+.I selected_bg_color
+-fg
+.I selected_fg_color
+
+.SH DESCRIPTION
+.PP
+.I Palette
+displays a list of the colors known to
+the standard colormap
+(as described in the
+.B rgb.txt
+file).
+Each known color name is displayed inside a
+.I color display button
+whose borders are displayed in the
+named color.
+.PP
+If there are very many colors,
+only a few dozen are typically displayed,
+but all the colors are available via
+the scrollbars that will then appear.
+.PP
+The text box at the bottom of
+.I palette
+displays the chosen colors;
+the background is in the selected background
+color and the text itself is displayed in the
+chosen foreground color.
+Below this box are areas which display the names
+of the currently selected colors as well.
+.PP
+At the very bottom are two buttons,
+.B Quit
+and
+.B Help.
+Selecting
+.B Quit
+exits
+.I palette;
+selecting
+.B Help
+pops up a help box,
+which explains the color selection process
+(described below).
+.PP
+Pressing either the
+.B right
+mouse button or the
+.B B
+key
+over a color display button
+will modify the background color.
+The
+.B center
+mouse button or the
+.B S
+key
+almost anywhere on the palette tool
+will swap the background and foreground color.
+Either the
+.B left
+mouse button or the
+.B F
+key
+over a color display button
+will modify the foreground color.
+.SH DEFAULTS
+.PP
+All the usual Xt and Athena widget
+defaults are available.
+The following widgets may have their
+resources modified via the app-defaults
+file or the user's .Xdefaults file.
+.sp
+.TS
+tab (|);
+lB lB lB
+_ _ _
+c l l.
+Lvl|Name|Desc
+1|palette|main application shell
+2|vpaned1|container for everything
+3|vp|viewport
+4|boxCB|box containing color buttons
+5|<color name>|button for that color
+3|form1|container for all but color buttons
+4|TEXT|color display text area (label)
+4|Quit|quit button
+4|Help|help popup button
+4|bglCC|BG: label
+4|bgnCC|background color name (label)
+4|fglCC|FG: label
+4|fgnCC|foreground color name (label)
+||
+1|HelpPopup|popup help shell
+2|HelpBox|help container
+3|HelpText|help text
+3|Done|help done (popdown) button
+.TE
+
+.SH FILES
+.PP
+.B /usr/lib/X11/app-defaults/palette
+(or wherever such client default files live)
+contains the suggested defaults for
+.I palette.
+.PP
+.B ~/.Xdefaults
+contains the user's defaults for
+.I palette.
+
+.SH CAVEATS
+.PP
+About the only checking done is for widget creation;
+if it can't create a widget it cleans up and exits.
+.PP
+Currently only 512 color names are allowed.
+Colors beyond this number are ignored.
+This is easily changed via the MAXCOLORS
+constant in the Makefile.
+This restriction should disappear in the next release.
+
+.SH AUTHOR
+ Miles O'Neal
+ Systems & Software Solutions, Inc.
+ 3641 Silver Leaf Lane
+ Marietta, GA 30060-5889
+ 1-404-435-6049
+ cs.utexas.edu!pensoft!meo
+ meo@pencom.com
+
+.SH ACKNOWLEDGEMENTS
+ Charisse Castignoli (charisse@sware.com) - suggestions
+ Nick Hennenfent (nick@sware.com) - suggestions & testing
+ Ken Seefried (ken@sware.com) - suggestions
+.PP
+Thanks to SecureWare for use of their
+system during off-hours for this development.

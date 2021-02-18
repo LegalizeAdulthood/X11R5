@@ -1,0 +1,58 @@
+\begindata{text,268729252}
+\textdsversion{12}
+\template{help}
+\chapter{Addalias: Concatenator for help.aliases file
+
+}
+\section{What addalias is
+
+}\leftindent{
+Addalias is a program for use in setting up, and maintaining the Andrew Help 
+System's 'help.aliases' file.  The help.aliases file is a three-column list 
+consisting of an 'alias' or key-name, the name of the actual file to look at 
+or program to execute, and the location in the source tree from where that 
+file came:
+
+
+alias	file	!src
+
+
+What addalias does is it takes a file containing new information (in the above 
+format) and add it to the master list.  It replaces old alias information with 
+new and inserts new information in place alphabetically sorted by 'alias'.
+
+
+This program is primarily for use within the construction of the Andrew 
+Software (ATK/AMS), which is handled via Imakefiles.
+
+
+}\section{Starting addalias
+
+}\leftindent{
+To run addalias:
+
+
+addalias local-alias-additions-file master-alias-file
+
+
+NOTE: the program 'addalias' is installed into $DESTDIR/etc not $DESTDIR/bin - 
+so you will probably have to use it's full path in order to execute it.
+
+
+}\section{Advice
+
+}\leftindent{
+For consistancy and control - it is probably best if this program is only used 
+indirectly through the software construction process (Imakefiles -> imake -> 
+Makefiles -> make)
+
+
+}\section{Related tools}  
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{\italic{help\
+}}\enddata{text,268729252}

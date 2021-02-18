@@ -1,0 +1,7 @@
+xmotdbltst	Tests motion events and double clicks in the same 
+   translation table.  Purpose is to show that this is erratic.
+
+xtryaccel	Adds an XtInstallAccelerators call to xrowcolumn.  q and p keys 
+   should invoke actions from anywhere in the application.  Note that
+   this does not work in Motif because modifies translation and 
+   accelerator tables internally.

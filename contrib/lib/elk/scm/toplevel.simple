@@ -1,0 +1,23 @@
+;;; -*-Scheme-*-
+;;;
+;;; Simple and stupid read-eval-print loop (for testing purposes)
+
+(define (top-level)
+  (letrec ((top-level-input)
+	   (top-level-prompt "> ")
+	   (top-level-environment (the-environment)))
+
+    (do () ((eof-object? top-level-input))
+      (call-with-current-continuation
+       (lambda (control-point)
+	 (set! top-level-control-point control-point)
+	 (do () ((eof-object? top-level-input))
+	   (display top-level-prompt)
+	   (set! top-level-input (read))
+	   (if (eof-object? top-level-input)
+	       (begin
+		 (newline) (exit)))
+	   (write (eval top-level-input top-level-environment))
+	   (newline)))))))
+
+(top-level)

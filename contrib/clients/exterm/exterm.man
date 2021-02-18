@@ -1,0 +1,109 @@
+.TH EXTERM 1 "28 May 1991" "X Version 11"
+.SH NAME
+Exterm \- terminal emulator for X
+.SH SYNOPSIS
+.B exterm
+[-\fItoolkitoption\fP ...] [-option ...]
+.SH DESCRIPTION
+The \fIexterm\fP program is an excellent terminal emulator for the 
+X Window System.
+It provides DEC VT102 and Tektronix 4014 
+compatible terminals for programs that can't
+use the window system directly.
+It comes from \fIxterm\fP in the core programs of the distribution of the
+X Window System.
+The most of the functions are the same as original \fIxterm\fP's, however,
+it has capabilities of displaying and by using xwnmo inputing multilingual 
+strings.
+.PP
+.SH OPTIONS
+The \fIexterm\fP terminal emulator 
+accepts all of the standard \fIxterm\fP command line options except the 
+difference of the ``-fn'' option. Besides, the following options are
+added (if the option begins with a
+.RB ` + '
+instead of a
+.RB ` \- ',
+the option is restored to its default value):
+.TP 8 
+.BI \-fn " fontset"
+This option specifies a comma separated fontset string list,
+and whitespace immediately on either side of a separating comma is ignored.
+The fonts of the fontset must be of the same height, the same font ascent, 
+and the same font descent.
+The width of the kanji or chinese hanzi font  must be the double of the width
+of the ascii font.
+Also, the first font of the fontset should be the ascii font.
+The default is ``fixed''.
+.TP 8
+.BI \-fb " bold-fontset"
+This option specifies a string list of bold fontset to be used when 
+displaying bold text.  
+The string list format is the same as that of the ``-fn'' option.
+The bold fontset must be the same height and width as the normal fontset.
+If no bold fontset is specified, the normal fontset will be used,
+and the bold fontset will be produced by overstriking this 
+fontset.
+The default is not specified.
+.TP 8 
+.BI \-xnllanguage " locale-name"
+This option specifies a locale name, which is used for different language.
+If this option is not specified, \fIexterm\fP will use the LANG environment.
+If LANG is also not specified, then use the default.
+The locale can later be changed by \fIxlcMenu\fP menu or by escape sequence 
+``ESC ] Ps 3 string NP'' on \fIexterm\fP.
+The default is ``C''.
+.TP 8
+.BI \-pflist " preload-fontset"
+This option specifies a string list of font which the user wants to
+preload. This option is only valid when the \fIexterm\fP is made by -DXML.
+The default is not specified.
+.TP 8
+.BI \-imstyle " input-method-style"
+This option specifies input method style name which is used for input
+by xwnmo. Three styles are available now, they are ``OverTheSpot'',
+``OffTheSpot'', and ``Root''. Input style can later be specified or 
+changed by \fIvtMenu\fP menu on \fIexterm\fP.
+The default is not specified.
+.SH "X DEFAULTS"
+The program understands all of the core xterm resource names
+except ``font1 (class Font1)'', ``font2(class Font2)'', ``font3(class Font3)'',
+``font4 (class Font4)'', ``font5(class Font5)'', ``font6(class Font6)''.
+Besides, the following new resources are added.
+.TP 8
+.B "ploadFontList (\fPclass\fB PloadFontList)"
+Specifies the name of the preload font list.  The default is not specified.
+This one is only valid when the \fIexterm\fP is made by -DXML.
+.TP 8
+.B "fontSet (\fPclass\fB FontSet)"
+Specifies the name of the fontset.  The default is ``fixed''.
+.TP 8
+.B "xnlLanguage (\fPclass\fB XnlLanguage)"
+Specifies the name of the locale.  The default is ``C''
+.TP 8
+.B "preeditType (\fPclass\fB PreeditType)"
+Specifies the name of the input method style.  The default is not specified.
+.SH "SEE ALSO"
+xterm(1), X(1), pty(4), tty(4)
+.br
+.I ``Xterm Control Sequences''
+.SH DIAGNOSISES
+If ``emacs'' or ``vi'' can not work properly on \fIexterm\fP, try to check 
+the file ``/etc/termcap''. Maybe the capabilities of the xterm is the old 
+one.
+.PP
+On BSD operating system, if the current locale is stateful, \fIexterm\fP
+should be set to echo the Control Characters as themselves by ``stty -ctlecho''.
+.PP
+If the MSB of the code of the current locale is 1, \fIexterm\fP should 
+be set to pass all 8 bits by ``stty pass8''.
+.SH BUGS
+\fIExterm\fP assumes that the width of Kanji or Hanzi characters is 
+as twice as that of ASCII characters. Of course variable-width fonts are 
+not handled
+like \fIxterm\fP. 
+.SH COPYRIGHT
+Copyright 1991, OMRON Corporation.
+.br
+See \fIX(1)\fP for a full statement of rights and permissions.
+.sp

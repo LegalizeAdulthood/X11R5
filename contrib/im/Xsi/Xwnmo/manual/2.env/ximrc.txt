@@ -1,0 +1,132 @@
+
+
+
+XIMRC(4)            UNIX Programmer's Manual             XIMRC(4)
+
+
+
+名称
+     ximrc - Ｘウィンドウ・インプットマネージャー (xwnmo(1X)) 用
+     環境設定ファイル
+
+形式
+     //uussrr//llooccaall//lliibb//wwnnnn//xxiimmrrcc (( デフォルト ))
+
+解説
+     _X_i_m_r_c ファイルは、 _x_w_n_m_o の環境を設定するファイルです。ユー
+     ザごとに異なった設定が可能です。同じエントリがある場合は、後
+     のものが優先されます。セミコロン (;) で始まる行は、コメント
+     行です。
+
+     _X_w_n_m_o は、以下の順序でこのファイルをサーチします。
+
+     1. リソース "ximrcName" で指定されたもの
+             2. $HOME/.ximrc
+             3. /usr/local/lib/wnn/ximrc ( デフォルト )
+
+     この設定ファイルで記述できるものは、以下の通りです。それらが
+     設定されない場合は、デフォルトが使用されます。
+
+     sseettuuuummrrcc << ランゲージ名 >> <<_u_u_m_r_c ファイル名 >>
+             それぞれの言語ごとに、 _x_w_n_m_o が参照する _u_u_m_r_c ファイ
+             ルを指定します。デフォルトしては、
+             "@LIBDIR/@LANG/uumrc" です。です。
+
+     pprreellooaaddrrkkffiillee << ランゲージ名 >>
+             あらかじめ起動時にオートマトンテーブルをロードしてお
+             く言語を指定します。デフォルトでは、 Root-mode の言
+             語のオートマトンテーブルだけがロードされます。
+
+     sseettbbaacckkssppaacceecchhaarr <<_b_a_c_k_s_p_a_c_e__c_h_a_r>>
+             バックワードのコードを指定します。デフォルトでは、コ
+             ンソールの ERASE コードをコピーします。コンソールが
+             オープンできない場合は、 0xff です。
+
+サンプル
+     setuumrc        ja_JP           /usr/demos/ja_JP/uumrc
+     setuumrc        zh_CN           /usr/demos/zh_CN/uumrc
+     preloadrkfile   ja_JP
+     preloadrkfile   zh_CN
+     setbackspacechar ^H
+
+関連項目
+     xwnmo(1X)
+
+CCOOPPYYRRIIGGHHTT
+     Copyright 1991 by OMRON Corporation
+     Copyright 1991 by Massachusetts Institute of Technology
+
+
+
+
+
+Printed 9/3/91              Release 5                           1
+
+
+
+
+
+
+XIMRC(4)            UNIX Programmer's Manual             XIMRC(4)
+
+
+
+AAUUTTHHOORR
+     Seiji Kuwari (OMRON Corporation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Printed 9/3/91              Release 5                           2
+
+
+

@@ -1,0 +1,84 @@
+.\" $Header: PEXtRotate.man,v 1.0 91/10/04 17:02:08 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtRotateX 3PEXt "January 11th, 1991"
+.SH NAME
+\fBPEXtRotate, PEXtRotateX, PEXtRotateY, PEXtRotateZ\fP
+\(em compose a rotation matrix as a local transform structure element
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Structure.h>
+.sp 1
+void PEXtRotate (\fIangle, composition\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIangle\fP;
+	Pcompose_type	\fIcomposition\fP;
+.fi
+.sp 1
+void PEXtRotateX (\fIangle, composition\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIangle\fP;
+.br
+	Pcomp_type	\fIcomposition\fP;
+.fi
+.sp 1
+void PEXtRotateY (\fIangle, composition\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIangle\fP;
+.br
+	Pcomp_type	\fIcomposition\fP;
+.fi
+.sp 1
+void PEXtRotateZ (\fIangle, composition\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIangle\fP;
+.br
+	Pcomp_type	\fIcomposition\fP;
+.fi
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+These convenience procedures create rotation matrices using the PHIGS functions
+\fBprotate\fP, \fBprotate_x\fP, \fBprotate_y\fP, \fBprotate_z\fP,
+respectively.  The resulting matrix appears as a \fBSET LOCAL
+TRANSFORMATION 3\fP (\fBSET LOCAL TRANSFORMATION\fP in the case of
+\fBPEXtRotate\fP) structure element with the given \fIcomposition\fP.
+If the current edit mode is set to \fIPINSERT\fP, then the matrix
+is inserted into the currently open structure.  If the current edit mode
+is set to \fIPREPLACE\fP, then the matrix replaces the current structure
+element in the currently open structure.
+.SH RETURN VALUE
+None
+.SH SEE ALSO
+\fBPEXtTranslate(3)\fP
+.br
+\fBPEXtNonUniformScale(3)\fP
+.br
+\fBPEXtBuildTran(3)\fP
+.br
+\fBprotate(3)\fP
+.br
+\fBprotate_x(3)\fP
+.br
+\fBprotate_y(3)\fP
+.br
+\fBprotate_z(3)\fP
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

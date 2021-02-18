@@ -1,0 +1,28 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/cfb/RCS/cfbmskbits.c,v 
+*** 1.3.1.1	1991/09/22 02:32:34
+--- 1.3.1.2	1991/09/22 18:30:18
+***************
+*** 149,159 ****
+  #if	(BITMAP_BIT_ORDER == MSBFirst)
+  int cfbmask[] =
+      {
+! 	0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF
+      }; 
+  int cfbrmask[] = 
+      {
+! 	0x00FFFFFF, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00
+      };
+  #else	/* (BITMAP_BIT_ORDER == LSBFirst) */
+  int cfbmask[] =
+--- 149,159 ----
+  #if	(BITMAP_BIT_ORDER == MSBFirst)
+  int cfbmask[] =
+      {
+! 	0xFFFFFFFF, 0x00FF0000, 0x0000FF00, 0x000000FF
+      }; 
+  int cfbrmask[] = 
+      {
+! 	0x00000000, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00
+      };
+  #else	/* (BITMAP_BIT_ORDER == LSBFirst) */
+  int cfbmask[] =

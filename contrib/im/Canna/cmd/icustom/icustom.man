@@ -1,0 +1,53 @@
+.TH ICUSTOM 1
+.SH "NAME"
+icustom \- Customizing tool for Canna
+.SH "SYNOPSIS"
+.B "icustom [filename]"
+.SH "DESCRIPTION"
+.PP
+icustom enables the setting and editing of initialize (customize) file 
+to be conversational and simplified. 
+.PP
+If the initialize (customize) files exist when icustom(1) starts, 
+they are read automatically.  The priority of reading them is basically 
+the following order: 
+.IP (1) 4
+file specified in the environmental variable IROHAFILE
+.IP (2) 4
+\&.iroha under the home directory
+.IP (3) 4
+$(IROHALIB)/default.iroha
+.IP NOTE 8
+The variable IROHALIB is assigned to /usr/local/lib/iroha by default.
+.PP
+The reading is done also by directly specifying the initialize (customize)
+file name in filename at start time.
+.PP
+Basic operations are as follows:  Use cursor keys to move the cursor.
+Use the Return key for selection.  The ESC or 'q' key is available to
+quit the menu.
+.PP
+The cursor moves responding to combination of a cursor key and the CTRL key.
+It moves up, down, left, and right in response to pressing of 
+CTRL+p, +n, +b, and +f, respectively.
+.SH "MENU"
+.IP "Read the customize file" 34
+Enables an initialize (customize) file to be edited.
+.IP "Retaining the result in the customize file" 34
+Retains the result of editing (customizing) in a file.
+.IP "Set the dictionary used" 34
+Sets what Romaji-to-Kana table, 
+system dictionary, Bushu conversion dictionary, 
+and user dictionary are used.
+.IP "Customize keys" 34
+Customizes key operations.
+.IP "Customize mode display character strings" 34
+Sets the character strings displayed in each mode.
+.IP "Customize other functions" 34
+Sets the initial mode and On/Off options.
+.IP "Quit" 34
+Quits icustom(1).  If you select ``Retention and quit''
+at this time, the result
+of editing (customizing) is retained in the last read file.  If you select
+``Cancel'', you can continue the editing (customizing).  This function is 
+useful when you erroneously select "Cancel".

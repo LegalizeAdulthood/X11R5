@@ -1,0 +1,45 @@
+.TH XHELP 1 "10 September 1991"
+.SH NAME
+xhelp \- X Window System Help Facility 
+.SH SYNOPSIS
+\fIUSER MODE\fB
+.LP
+	xhelp  \fIhelp_file.hlp\fB  \fIhelp_topic_id\fB  
+.LP
+	(Alternative, from an application, using the interface provided in xhelp.h.)
+.LP
+\fIDEVELOPER MODE\fB
+.LP
+	xhelp
+.LP
+	xhelp \fIhelp_file.hlp\fB
+.LP
+.SH DESCRIPTION
+.LP
+\fBXHELP\fR is a shared, context-sensitive help facility for use with X
+applications.  A simple interface is provided (in xhelp.h) to give application
+code access to the help facility.  The interface is responsible for invoking
+XHELP and processing help requests.   
+.SH OPTIONS
+.TP
+\fB\XHELP has two modes of operation: USER and DEVELOPER MODE.
+.LP
+\fB\fIUSER MODE\fB
+is intended  primarily for use by applications.  Using the XHELP interface,
+provided in xhelp.h (See this file for instructions), automatically brings up the help 
+facility in "read-only" mode.  XHELP can be invoked in USER MODE from the command line
+by supplying two parameters: a help FILENAME and a help TOPIC ID. 
+.LP
+\fB\fIDEVELOPER MODE\fB is used by application "developers" to create, edit and save
+help files. (These features are not present in USER MODE.)  Running XHELP from the command
+line, supplying either no parameters, or one parameter (a help FILENAME, without the 
+topic id) brings up the help facility in DEVELOPER MODE.  
+.LP
+For convenience, text may be cut and pasted between XHELP and other applications.  
+.TP
+.SH RELATED FILES
+See the file "xhelp.h" for information on interfacing application code
+to the help facility.  
+.LP
+.SH AUTHORS
+Mark Newsome (mnewsome@eng.auburn.edu) and Cherri M. Pancake

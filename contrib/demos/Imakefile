@@ -1,0 +1,9 @@
+/* You will have to edit this to suit */
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = beach_ball2 muncher plaid psycho pyramid scdisp sctext vandal xtree
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

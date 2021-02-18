@@ -1,0 +1,28 @@
+.TH GL_AddFuncPtr 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_AddFuncPtr \- Add Callback Functions
+.SH SYNTAX
+void GL_AddFuncPtr(win, ...)
+.br
+        Window win;
+.SH ARGUMENTS
+.IP win 1i
+The window to which the callback functions should be added.
+
+.SH DESCRIPTION
+Variable arguments in the same format as used in GL_Create calls,
+that is Event | <Options>, [ OptionValues ,] CallbackFunction.  Legitimate 
+Options are GL_Restricted, which will have the callback only be called
+if the Event happens inside of the restriction rectangle.  Restriction
+rectangles are inclusive The rectangle is specified in the order
+top, bottom, left, right. Legitimate functions for restriction are 
+ButtonPress, ButtonRelease, EnterNotify, LeaveNotify, KeyPress, KeyRelease,
+and MotionNotify.  Callback Functions will be called with the arguments
+XEvent *report, GL_DataList assoclist.  report will be the XEvent 
+structure which caused the callback, assoclist will be the list 
+associated with the window.  After all of the Functions are listed, the
+last entry should be GL_Done.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_AddWindowAssocInfo(3GL), 
+GraphLib Programming Manual

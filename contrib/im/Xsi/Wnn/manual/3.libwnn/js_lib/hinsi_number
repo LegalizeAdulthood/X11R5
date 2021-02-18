@@ -1,0 +1,27 @@
+JS_HINSI_NUMBER()
+
+名称
+
+	js_hinsi_number		品詞名を品詞番号に変換する。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_hinsi_number(server, name)
+	WNN_JSERVER_ID *server;
+	w_char *name;
+
+機能
+
+	品詞名 name を品詞番号に変換し、その品詞番号を返す。
+	通常の品詞の品詞番号は、0から始まる。
+	復号品詞の品詞番号は、2 バイトの十分大きい値(FUKUGOU_START)
+	から、逆向きに付けられる。
+
+リターンバリュー
+
+	品詞番号を返す。
+	異常終了時には、-1 を返す。
+

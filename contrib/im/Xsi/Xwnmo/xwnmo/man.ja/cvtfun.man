@@ -1,0 +1,53 @@
+.\"
+.\" $Id: cvtfun.man,v 1.1 1991/09/13 08:10:25 proj Exp $
+.\"
+.TH CVTFUN 4 "Release 5" "X Version 11"
+.SH 名称
+cvtfun \- Ｘウィンドウ・インプットマネージャー(xwnmo(1X))用
+ファンクションキー変換テーブル
+.SH 形式
+.B /usr/local/lib/wnn/cvt_fun_tbl (デフォルト)
+.SH 解説
+\fIXLookupString()\fP で返されたファンクションキーのコード(\fIKeySym\fP) を、
+１バイトの文字(\fIWnn code\fP) へ変換するためのテーブルです。
+.PP
+.TP 8
+.B コーディンクフォーマット:
+[ \fIKeySym-entry\fP <space_character> \fPWnn-code\fP ]
+.PP
+セミコロン (;) で始まる行は、コメント行です。
+.TP 8
+.B コードの記述法
+0??             ---> ８進数
+.br
+0x?? or 0X??    ---> １６進数
+.br
+??              ---> １０進数
+.SH サンプル
+Kanji           0x81
+.br
+Left            0x82
+.br
+Up              0x83
+.br
+Right           0x84
+.br
+Down            0x92
+.br
+F1              0x91
+.br
+F2              0x90
+.br
+F3              0x93
+.SH 注意
+このテーブルにより変換されたコードは、オートマトンテーブルである
+\fI2A_CTRL\fP (デフォルト)で評価され、その後、\fIuumkey\fP により評価
+されます。
+.SH 関連項目
+xwnmo(1X), 2A_CTRL(4_JT), uumkey(4_JT), cvtmt(4X)
+.SH COPYRIGHT
+Copyright 1991 by OMRON Corporation
+.br
+Copyright 1991 by Massachusetts Institute of Technology
+.SH AUTHOR
+Seiji Kuwari (OMRON Corporation)

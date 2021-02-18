@@ -1,0 +1,277 @@
+!  Dialogs
+!  -------
+!
+!  This example allows instances of each type of Motif dialog to be
+!  selected from a pulldown menu.  Both statically created and dynamically
+!  created dialogs are demonstrated.
+!
+!  Resource Naming Considerations when using Dialog Constructors
+!  -------------------------------------------------------------
+!
+!  Motif constructors often introduce extra widgets.  In this example, the
+!  dialogs are created with XmCreate*Dialog constructors.  With Motif 1.1,
+!  these constructors all instroduce dialogShells of the name 
+!  <dialogName>_popup.  Therefore, when you want to specify the resources
+!  of the dialog, you must remember to include the dialog shell name, or
+!  use `*' as a wildcard.  
+!
+!  *********************************************************
+!  ** NOTE!  THIS IS AN INCOMPATIBILITY WITH MOTIF 1.0 !! **
+!  *********************************************************
+!
+!  For example:
+!
+!	*foo.wcChildren:		dialog
+!	*foo.dialog.wcConstructor:	XmCreateQuestionDialog
+!	*foo*dialog.messageString:	whatever
+!
+!
+!  This new naming convention now allows the following to work:
+!
+!    *push.activateCallback:	WcManageCB( *dialog )
+!
+!  Under Motif 1.0, you may recall that this would have popped-up only
+!  the dialog shell, which would be empty.  Its child, in this case
+!  the question dialog, would still be unmanaged and so would not have
+!  been visible.
+!
+!
+!  Widgets Statically Created By XmCreate*Dialog Should Be Unmanaged
+!  -----------------------------------------------------------------
+!
+!  Otherwise, they will appear at widget creation time in the upper
+!  left location of the screen (at least when using mwm).  Probably
+!  not what you had in mind.   
+!
+!
+!  Dynamically Created Widgets
+!  ---------------------------
+!
+!  Most of the dialogs in this example are dynamically created.  
+!  When they are created, the WcCreateChildrenCB() specifies
+!  the parentage of the dynamically created widget.  The dynamcially
+!  created children are NOT listed in any wcChildren resource.
+!
+!	o	The heirarchy of statically (initially) created 
+!		widgets is specified by wcChildren resources.
+!
+!	o	The parentage of dynamically created widgets
+!		is specified by the first argument to the
+!		WcCreateChildrenCB() callback function.
+!
+!  Multiple Identical Widgets
+!  --------------------------
+!
+!  This example allows multiple identical copies of the dynamically
+!  created dialog boxes.  The buttons on such dynamic dialos
+!  invoke WcDestroyCB, which is effectively XtDestroy().
+!
+!  Dynamically Created Once Only
+!  -----------------------------
+!
+!  The WorkingDialog presents an example of a common use of dynamically
+!  created widgets.  The WorkingDialog is dynamically created the first
+!  time it is asked for, and from then on it is simply unmanaged and
+!  re-managed.  
+!
+!  ----------------------------------------------------------------------
+!
+! The dialogs listed as children of Mri are the statically created dialogs:
+!
+Mri.wcChildren:		menuBar, BulletinBoardDialog, ErrorDialog
+Mri.title:		M05_Dialogs
+
+! Only the first two dialogs are statically created, with exactly
+! one instance existing throughout the life of the process.
+!
+! The button's callback unmanages the BulletinBoardDialog 
+! child of the shell.
+!
+*BulletinBoardDialog.wcConstructor:	XmCreateBulletinBoardDialog
+*BulletinBoardDialog.wcManaged:		False
+!*BulletinBoardDialog.wcTrace:		True
+*BulletinBoardDialog.wcChildren:	bbButton
+*bbButton.wcConstructor:		XmCreatePushButton
+*bbButton.labelString:			Button on a BulletinBoardDialog
+*bbButton.activateCallback:		WcUnmanageCB( ~BulletinBoardDialog )
+
+! Statically created, so buttons just unmanage:
+!
+*ErrorDialog.wcConstructor:		XmCreateErrorDialog
+!*ErrorDialog.wcTrace:			True
+*ErrorDialog.wcManaged:			False
+*ErrorDialog.messageString:		Error Dialog Message
+*ErrorDialog.cancelCallback:		WcUnmanageCB(this)
+*ErrorDialog.helpCallback:		WcUnmanageCB(this)
+*ErrorDialog.okCallback:		WcUnmanageCB(this)
+
+! All the other dialogs are dynamically created, so they start out 
+! managed, and the std buttons destroy the pop-up (parent) shell:
+
+*cancelCallback:	WcDestroyCB( ~ )
+*helpCallback:		WcDestroyCB( ~ )
+*okCallback:		WcDestroyCB( ~ )
+
+*FileSelectionDialog.wcConstructor:	XmCreateFileSelectionDialog
+!*FileSelectionDialog.wcTrace:		True
+
+!
+! The button's callback destroys the parent of the parent of the button
+! which is the dialog shell.
+!
+*FormDialog.wcConstructor:		XmCreateFormDialog
+!*FormDialog.wcTrace:			True
+*FormDialog.wcChildren:			fdButton
+*fdButton.wcConstructor:		XmCreatePushButton
+*fdButton.labelString:			Button on a FormDialog
+*fdButton.activateCallback:		WcDestroyCB( ^^ )
+
+*InformationDialog.wcConstructor:	XmCreateInformationDialog
+!*InformationDialog.wcTrace:		True
+
+*MessageDialog.wcConstructor:		XmCreateMessageDialog
+!*MessageDialog.wcTrace:			True
+
+*PromptDialog.wcConstructor:		XmCreatePromptDialog
+!*PromptDialog.wcTrace:			True
+
+*QuestionDialog.wcConstructor:		XmCreateQuestionDialog
+!*QuestionDialog.wcTrace:		True
+
+*SelectionDialog.wcConstructor:		XmCreateSelectionDialog
+!*SelectionDialog.wcTrace:		True
+
+*WarningDialog.wcConstructor:		XmCreateWarningDialog
+!*WarningDialog.wcTrace:			True
+
+!  Note: this dialog is dynamically created, and then
+!  simply unmanaged and remanaged.
+! 
+*WorkingDialog.wcConstructor:		XmCreateWorkingDialog
+!*WorkingDialog.wcTrace:			True
+*WorkingDialog.cancelCallback:		WcUnmanageCB( this )
+*WorkingDialog.helpCallback:		WcUnmanageCB( this )
+*WorkingDialog.okCallback:		WcUnmanageCB( this )
+
+!  ----------------------------------------------------------------------
+!
+!  Below are the resources for the menuBar and all its children.
+!
+!  ----------------------------------------------------------------------
+
+*menuBar.wcConstructor:	XmCreateMenuBar
+*menuBar.wcChildren:	fileMenu, file, \
+			staticDialogMenu, staticDialogs, \
+			dynamicDialogMenu, dynamicDialogs
+
+! fileMenu contains only a quit button
+
+*fileMenu.wcConstructor: XmCreatePulldownMenu
+*fileMenu.wcManaged:	 False
+*fileMenu.wcChildren:    quit
+
+*quit.wcConstructor:	XmCreateCascadeButton
+*quit.labelString:	Quit
+*quit.activateCallback:	WcExitCB
+
+*file.wcConstructor:	XmCreateCascadeButton
+*file.labelString:	File
+*file.subMenuId:	*fileMenu
+
+! staticDialogMenu contains one button for each dialog
+! which is statically (initially) created.  These dialogs
+! are managed (popped-up) when the cascade button is activated.
+
+*staticDialogs.wcConstructor:	XmCreateCascadeButton
+*staticDialogs.labelString:	Manage Existing Dialogs
+*staticDialogs.subMenuId:	*staticDialogMenu
+
+*staticDialogMenu.wcConstructor:	XmCreatePulldownMenu
+*staticDialogMenu.wcManaged:		False
+*staticDialogMenu.wcChildren:		bb, ed
+
+! The BulletinBoardDialog was statically created, so we just need to
+! manage it.
+! Note unexpected wierdness of name:
+
+*bb.wcConstructor:	XmCreateCascadeButton
+*bb.labelString:	Manage BulletinBoardDialog
+*bb.activateCallback:	WcManageCB( \
+	*BulletinBoardDialog_popup.BulletinBoardDialog)
+
+! Statically created, just manage the ErrorDialog to make it pop-up.
+! Note that only one ErrorDialog widget exists, so once it is managed
+! subsequent menu button selection have no apparent effect.
+
+*ed.wcConstructor:	XmCreateCascadeButton
+*ed.labelString:	Manage ErrorDialog
+*ed.activateCallback:	WcManageCB(*ErrorDialog)
+
+! dynamicDialogMenu contains one button for each dialog
+! which can be dynamically created.  These dialogs are
+! created when the appropriate cascade button is activated.
+
+*dynamicDialogs.wcConstructor:	XmCreateCascadeButton
+*dynamicDialogs.labelString:	Create New Dialogs
+*dynamicDialogs.subMenuId:	*dynamicDialogMenu
+
+*dynamicDialogMenu.wcConstructor:	XmCreatePulldownMenu
+*dynamicDialogMenu.wcManaged:		False
+*dynamicDialogMenu.wcChildren:		fsd, fd, id, md, pd, \
+					qd, sd, warn, sep, work
+
+*sep.wcConstructor:	XmCreateSeparatorGadget
+
+! For all the rest of the dialogs, they are created, not just managed.
+!
+! This causes a new FileSelectionDialog to be created as a child of
+! the application shell.
+
+*fsd.wcConstructor:	XmCreateCascadeButton
+*fsd.labelString:	Create FileSelectionDialog
+*fsd.activateCallback:	WcCreateChildrenCB( Mri, FileSelectionDialog )
+
+! The form dialog will be the child of the parent of the menu shell
+! which is the ancestor of the `fd' cascade button.
+!
+*fd.wcConstructor:	XmCreateCascadeButton
+*fd.labelString:	Create FormDialog
+*fd.activateCallback:	WcCreateChildrenCB( ~^, FormDialog)
+
+*id.wcConstructor:	XmCreateCascadeButton
+*id.labelString:	Create InformationDialog
+*id.activateCallback:	WcCreateChildrenCB( Mri, InformationDialog)
+
+*md.wcConstructor:	XmCreateCascadeButton
+*md.labelString:	Create MessageDialog
+*md.activateCallback:	WcCreateChildrenCB( Mri, MessageDialog)
+
+*pd.wcConstructor:	XmCreateCascadeButton
+*pd.labelString:	Create PromptDialog
+*pd.activateCallback:	WcCreateChildrenCB( Mri, PromptDialog)
+
+*qd.wcConstructor:	XmCreateCascadeButton
+*qd.labelString:	Create QuestionDialog
+*qd.activateCallback:	WcCreateChildrenCB( Mri, QuestionDialog)
+
+*sd.wcConstructor:	XmCreateCascadeButton
+*sd.labelString:	Create SelectionDialog
+*sd.activateCallback:	WcCreateChildrenCB( Mri, SelectionDialog)
+
+*warn.wcConstructor:	XmCreateCascadeButton
+*warn.labelString:	Create WarningDialog
+*warn.activateCallback:	WcCreateChildrenCB( Mri, WarningDialog)
+
+! Here is something different: On the first push, the working dialog 
+! is created.  On subsequent pushes, it is just managed.
+!
+*work.wcConstructor:	XmCreateCascadeButton
+*work.labelString:	Create WorkingDialog
+*work.activateCallback:	WcCreateChildrenCB( Mri, WorkingDialog), \
+	WcSetValueCB( *work.labelString: Manage WorkingDialog),  \
+	WcSetValueCB( *work.activateCallback: \
+				WcManageCB( *WorkingDialog) )
+
+*dialogs.wcConstructor:	XmCreateCascadeButton
+*dialogs.subMenuId:	*dialogMenu
+*dialogs.labelString:	Dialogs

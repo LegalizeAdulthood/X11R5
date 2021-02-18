@@ -1,0 +1,17 @@
+Copyright 1991 Sony Corporation
+Apr 29, 1991
+
+	sjx input method server
+
+This directory contains the following.
+
+	sj3	- sj3serv (Japanese conversion server)
+		- dict (Japanese dictionary)
+
+	sjx	- sjx input method server
+
+	sjxdemo	- sample client
+
+Machine:	Sony NEWS Workstation
+OS:		NEWS-OS 4.0
+

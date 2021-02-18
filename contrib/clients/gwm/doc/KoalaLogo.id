@@ -1,0 +1,280 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%DocumentFonts:
+%%Pages: 1
+%%BoundingBox: 0 0 63 67
+%%EndComments
+
+IdrawDict begin -4 -3 translate
+
+%I Idraw 9 Grid 8 
+
+%%Page: 1 1
+
+Begin
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ .72 0 0 .72 0 0 ] concat
+/originalCTM matrix currentmatrix def
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ .405405 0 0 .405405 -80.468 -191.432 ] concat
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ .842909 -.538057 .538057 .842909 -308.881 481.616 ] concat
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+.5 SetP
+%I t
+[ .859323 0 0 .859323 345.861 70.6232 ] concat
+%I
+165 417 34 29 Elli
+End
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+.5 SetP
+%I t
+[ .859323 0 0 .859323 411.457 69.1847 ] concat
+%I
+165 417 34 29 Elli
+End
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ .859323 0 0 .859323 414.895 -39.9503 ] concat
+%I
+122 528 47 38 Elli
+End
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ 1 0 0 .8 0 77.3797 ] concat
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+0 SetP
+%I t
+[ .859323 0 0 .859323 405.442 69.1847 ] concat
+%I
+133 393 11 20 Elli
+End
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ .172622 0 0 .172622 472.215 305.102 ] concat
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ 2.98684 0 0 2.98684 -107.355 -826.809 ] concat
+%I
+125 447 3 5 Elli
+End
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ 2.98684 0 0 2.98684 -85.3553 -826.809 ] concat
+%I
+125 447 3 5 Elli
+End
+
+End %I eop
+
+End %I eop
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ .287703 0 0 .287703 452.421 382.401 ] concat
+%I
+169 145 33 24 Elli
+End
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+0 SetP
+%I t
+[ .287703 0 0 .287703 436.597 323.134 ] concat
+%I
+212 342 7 7 Elli
+End
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ -.287703 0 0 .287703 586.203 381.825 ] concat
+%I
+169 145 33 24 Elli
+End
+
+Begin %I Elli
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+0 SetP
+%I t
+[ -.287703 0 0 .287703 595.122 322.271 ] concat
+%I
+212 342 7 7 Elli
+End
+
+End %I eop
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p
+0 SetP
+%I t
+[ 1 0 0 1 -110 34 ] concat
+
+Begin %I Poly
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ 1.76684 0 0 1 -34.2549 163 ] concat
+%I 8
+284 512
+295 512
+239 401
+295 290
+261 290
+217 379
+284 512
+295 512
+8 Poly
+End
+
+Begin %I Poly
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ 1.76684 0 0 1 -34.2549 163 ] concat
+%I 7
+214 383
+228 412
+228 512
+205 512
+205 291
+214 291
+214 383
+7 Poly
+End
+
+End %I eop
+
+End %I eop
+
+End %I eop
+
+4 3 translate
+
+%%Trailer
+
+end

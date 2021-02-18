@@ -1,0 +1,29 @@
+;;; -*-Scheme-*-
+
+(define point)
+(define saved #f)
+(define (print s) (display s) (newline))
+
+(define (inner)
+  (dynamic-wind
+   (lambda () (print "  in"))
+   (lambda () (dynamic-wind
+	       (lambda () (print "    in"))
+	       (lambda () (if saved
+			      (begin (print "      throw") (point 100))
+			      (begin
+				(call-with-current-continuation
+				 (lambda (x) (set! point x)))
+				(print "      catch")
+				(set! saved #t) #v)))
+	       (lambda () (print "    out"))))
+   (lambda () (print "  out"))))
+
+(define (outer)
+  (dynamic-wind
+   (lambda () (print 'in))
+   (lambda () (inner))
+   (lambda () (print 'out))))
+
+(outer)
+(outer)

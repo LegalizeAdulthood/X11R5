@@ -1,0 +1,30 @@
+#! /bin/sh
+# .xinitrc.
+echo "Initializing X11R5 and Sun's Sample Implementation"
+
+# If R5 is not install in the default directory
+# Please modifiy INSTALL_ROOT.
+INSTALL_ROOT=/usr
+
+OPENWINHOME=$INSTALL_ROOT/lib/X11
+LD_LIBRARY_PATH=$INSTALL_ROOT/lib:/usr/lib
+MANPATH=/usr/man:$INSTALL_ROOT/man
+XFILESEARCHPATH=$OPENWINHOME/%L/%N
+PATH=$INSTALL_ROOT/bin/X11:$INSTALL_ROOT/bin:$PATH
+export OPENWINHOME LD_LIBRARY_PATH MANPATH XFILESEARCHPATH PATH
+
+if [ -f $HOME/.Xdefaults ]; then
+    xrdb $HOME/.Xdefaults 		# Load Users X11 resource database
+fi
+
+olwm -f -3 &
+
+Htt &
+sleep 4
+cmdtool -Wp 0 0 -Ws 500 77 -WP 2 834 +Wi  -C   &
+cmdtool -Wp 551 84 -Ws 589 687 -WP 342 835 +Wi   &
+cmdtool -Wp -1 113 -Ws 549 528 -WP 1023 835 -Wi   &
+textedit -Wp 557 218 -Ws 593 628 -WP 959 836 -Wi   &
+textedit -Wp 0 0 -Ws 593 628 -WP 895 836 -Wi   &
+props
+wait

@@ -1,0 +1,52 @@
+.TH CAN 1
+.SH "NAME"
+can \- Japanese frontend
+.SH "SYNOPSIS"
+.B "can [ \fIshell\fP ]"
+.SH "DESCRIPTION"
+.LP
+\fICan\fP supprts the way to input Japanse on TTY kanji terminals.
+\fICan\fP is a client of irohaserver and it has same interface 
+of Kana to Kanji conversion as other clients of irohaserver.
+.LP
+When evironment vairable \fIIROHAHOST\fP is set, \fIcan\fP connects to
+the irohaserver which equals to the value of \fIIROHAHOST\fP.
+When no value is set, \fIcan\fP connects to the irohaserver on local host.
+\fICan\fP proceeds, even if no irohaserver is connected,
+but you cannot cenvert Kana to Kanji.
+.LP
+When you executes \fIcan\fP, \fIcan\fP invokes new shell.
+If \fIshell\fP argument is given, \fIcan\fP executes it.
+If not and  environment variable \fISHELL\fP is set, \fIcan\fP executes
+shell which equals to the value of variable \fISHELL\fP
+If none of them are set, \fIcan\fP executes "/bin/csh" automatically.
+.LP
+
+.SH "WARNING"
+.LP
+When your TTY is not a Kanji termal or no pty is available,
+\fIcan\fP cannot be executed.
+.LP
+When shell, invoked by \fIcan\fP, does not support kanji code 
+collectly. some characters are printed incollectly.
+.LP
+\fICan\fP cannot follow to resizing of window on SYSTEM V.
+
+.SH "SEE ALSO"
+.BR "irohaserver(1)".
+
+.SH "COPYRIGHT"
+.PP
+Copyright 1992 NEC Corporation, Tokyo, Japan.
+.PP
+This software is based on the original version of Wnn(uum) developed by
+Kyoto University Research Institute for Mathematical Sciences (KURIMS),
+OMRON TATEISI ELECTRONICS CO. and ASTEC, Inc.
+.sp
+Copyright
+Kyoto University Research Institute for Mathematical Sciences
+1987, 1988, 1989
+.sp
+Copyright OMRON TATEISI ELECTRONICS CO. 1987, 1988, 1989
+.sp
+Copyright ASTEC, Inc. 1987, 1988, 1989

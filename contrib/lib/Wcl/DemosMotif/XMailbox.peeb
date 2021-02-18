@@ -1,0 +1,128 @@
+/*
+ * XMailbox.res
+ *
+ * Mri resource file for xmailbox.
+ *
+ * This interface MUST include a XmText widget.
+ * It must be registered w/ the main application using RegisterText().
+ * See below.
+ *
+ * There are a number of functions that can be bound to various events
+ * within the interface.  Commonly these are attached to something like
+ * an activateCallback on a PushButton:
+ *
+ * WcExitCB	
+ *	Will exit the application.
+ *
+ * ClearText
+ *	This clears the messages in the mailbox window.  The next 
+ *	incoming mail will become the first message in the window.
+ *	This action happens automatically when the mailbox is emptied
+ *	from a mailer like xmh or elm.
+ *
+ * HideMail
+ *	Causes the mailbox window to disappear until the next incoming mail
+ *	arrives.  Keeps the desktop clean.  When the hideNoMail resource
+ *	is set to true, the mailbox window is hidden whenever there are
+ * 	no unread mail messages left.
+ *
+ * ReScan
+ *	Causes the mailbox to be rescanned for all unread messages and
+ *	the mailbox window to be updated.  This action might be performed
+ *	after a ClearText, when you wish to see some past message.
+ *
+ * None, some, or all of these actions may be used freely within this
+ * interface.  There are a number of Mri internal actions as well, 
+ * (WcExitCB is one of them) see Mri documentation for details.
+ *
+ */
+
+/*
+ * toplevel declaration.
+ */
+XMailbox*xmailbox.wcChildren:		bb
+
+/*
+ * Uncomment this for a trace of the widget hierarchy.  Useful for building
+ * resource files.
+ */
+!*wcTrace:				True
+
+XMailbox*bb.wcConstructor:		XmCreateBulletinBoard
+XMailbox*bb.wcChildren:			table
+XMailbox*bb.defaultPosition:            True
+
+/*
+ * The Text window.  Some kind of XmText construct MUST be declared and
+ * used for displaying mail messages.
+ */
+XMailbox*text.wcConstructor:            XmCreateScrolledText
+XMailbox*text.wcPopups:			menuBar
+XMailbox*text.wcCallback:               RegisterText ( this )
+XMailbox*text.editable:                 False
+XMailbox*text.editMode:                 MULTI_LINE_EDIT
+XMailbox*text.columns:                  40
+XMailbox*text.rows:                     5
+
+XMailbox*XmText.translations:   #augment \n\
+                <Btn3Down>: MriPopupACT( *menuBar )
+
+/*
+ * I use a Table widget to hold it all together
+ */
+XMailbox*table.wcClass:			TableWidgetClass
+XMailbox*table.wcChildren:		text
+
+!                               	c r cs rs opts
+XMailbox*table.layout:	textSW		0 0  1  1     ;
+
+XMailbox*table.columnSpacing:         	5
+XMailbox*table.rowSpacing:            	5
+XMailbox*table.borderWidth:           	0
+XMailbox*table.internalHeight:        	5
+XMailbox*table.internalWidth:         	5
+
+/*
+ * Buttons attahced to a pulldown menu for invoking built in actions
+ */
+XMailbox*clear.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*clear.labelString:		Rubout
+XMailbox*clear.mnemonic:		R
+XMailbox*clear.activateCallback:	ClearText
+
+XMailbox*quit.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*quit.labelString:		Quit
+XMailbox*quit.mnemonic:			Q
+XMailbox*quit.activateCallback:		WcExitCB
+
+XMailbox*hide.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*hide.labelString:		Hide
+XMailbox*hide.mnemonic:			H
+XMailbox*hide.activateCallback:		HideMail
+
+XMailbox*rescan.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*rescan.labelString:		Rescan
+XMailbox*rescan.mnemonic:		R
+XMailbox*rescan.activateCallback:	ReScan
+
+XMailbox*cmd.wcConstructor:		XmCreatePushButtonGadget
+XMailbox*cmd.labelString:		Mail
+XMailbox*cmd.mnemonic:			M
+XMailbox*cmd.activateCallback:		WcSystemCB (/usr/bin/X11/xterm  -e /usr/bin/mailx &)
+
+XMailbox*sep1.wcConstructor:            XmCreateSeparator
+
+XMailbox*sep2.wcConstructor:            XmCreateSeparator
+XMailbox*sep2.separatorType:            Double_Line
+
+XMailbox*mlabel.wcConstructor:		XmCreateLabelGadget
+XMailbox*mlabel.labelString:		Commands
+
+/*
+ * the menubar
+ */
+XMailbox*menuBar.wcConstructor:         XmCreatePopupMenu
+XMailbox*menuBar.wcChildren:            mlabel, sep1, \
+					clear, hide, rescan, cmd, \
+					sep2, quit
+

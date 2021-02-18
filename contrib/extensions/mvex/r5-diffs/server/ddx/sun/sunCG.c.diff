@@ -1,0 +1,107 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/sun/RCS/sunCG.c,v 
+*** 1.1	1991/09/24 05:27:22
+--- 1.3	1991/09/24 05:58:57
+***************
+*** 55,75 ****
+  
+  #ifdef SUN_WINDOWS
+      if (sunUseSunWindows()) {
+! 	static Pixwin *pw = 0;
+  
+! 	if (! pw) {
+! 	    if ( ! (pw = pw_open(windowFd)) )
+! 		FatalError( "sunCGUpdateColormap: pw_open failed\n" );
+! 	    pw_setcmsname(pw, "X.V11");
+! 	}
+! 	pw_putcolormap(
+! 	    pw, index, count, &rmap[index], &gmap[index], &bmap[index]);
+      }
+  #endif SUN_WINDOWS
+  
+      if (ioctl(sunFbs[pScreen->myNum].fd, FBIOPUTCMAP, &sunCmap) < 0) {
+! 	perror("sunCGUpdateColormap");
+! 	FatalError( "sunCGUpdateColormap: FBIOPUTCMAP failed\n" );
+      }
+  }
+  
+--- 55,75 ----
+  
+  #ifdef SUN_WINDOWS
+      if (sunUseSunWindows()) {
+!         static Pixwin *pw = 0;
+  
+!         if (! pw) {
+!             if ( ! (pw = pw_open(windowFd)) )
+!                 FatalError( "sunCGUpdateColormap: pw_open failed\n" );
+!             pw_setcmsname(pw, "X.V11");
+!         }
+!         pw_putcolormap(
+!             pw, index, count, &rmap[index], &gmap[index], &bmap[index]);
+      }
+  #endif SUN_WINDOWS
+  
+      if (ioctl(sunFbs[pScreen->myNum].fd, FBIOPUTCMAP, &sunCmap) < 0) {
+!         perror("sunCGUpdateColormap");
+!         FatalError( "sunCGUpdateColormap: FBIOPUTCMAP failed\n" );
+      }
+  }
+  
+***************
+*** 208,213 ****
+--- 208,214 ----
+   *
+   *-----------------------------------------------------------------------
+   */
++ 
+  static void
+  sunCGStoreColors(pmap, ndef, pdefs)
+      ColormapPtr	pmap;
+***************
+*** 215,237 ****
+      xColorItem	*pdefs;
+  {
+      SetupScreen(pmap->pScreen);
+!     u_char	rmap[256], gmap[256], bmap[256];
+!     xColorItem	expanddefs[256];
+      register int i;
+  
+      if (pmap != pPrivate->installedMap)
+! 	return;
+      if ((pmap->pVisual->class | DynamicClass) == DirectColor) {
+! 	ndef = cfbExpandDirectColors(pmap, ndef, pdefs, expanddefs);
+! 	pdefs = expanddefs;
+      }
+      while (ndef--) {
+! 	i = pdefs->pixel;
+! 	rmap[i] = pdefs->red >> 8;
+! 	gmap[i] = pdefs->green >> 8;
+! 	bmap[i] = pdefs->blue >> 8;
+! 	sunCGUpdateColormap(pmap->pScreen, i, 1, rmap, gmap, bmap);
+! 	pdefs++;
+      }
+  }
+  
+--- 216,238 ----
+      xColorItem	*pdefs;
+  {
+      SetupScreen(pmap->pScreen);
+!     u_char      rmap[256], gmap[256], bmap[256];
+!     xColorItem  expanddefs[256];
+      register int i;
+  
+      if (pmap != pPrivate->installedMap)
+!         return;
+      if ((pmap->pVisual->class | DynamicClass) == DirectColor) {
+!         ndef = cfbExpandDirectColors(pmap, ndef, pdefs, expanddefs);
+!         pdefs = expanddefs;
+      }
+      while (ndef--) {
+!         i = pdefs->pixel;
+!         rmap[i] = pdefs->red >> 8;
+!         gmap[i] = pdefs->green >> 8;
+!         bmap[i] = pdefs->blue >> 8;
+!         sunCGUpdateColormap(pmap->pScreen, i, 1, rmap, gmap, bmap);
+!         pdefs++;
+      }
+  }
+  

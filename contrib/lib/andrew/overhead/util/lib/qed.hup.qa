@@ -1,0 +1,25 @@
+btw.c:#ifdef WNSNEEDED
+getla.c:#ifdef sun
+getla.c:#ifdef sun
+pause.c:#ifndef sys_rt_r2	/* Unspeakably bogus: generates ``panic: syscall: narg > 6'' crashes! */
+setprof.c:#ifdef TESTINGSETPROF
+t2open.c:#ifdef VMUNIX
+t2open.c:# ifdef VMUNIX
+t2open.c:# ifdef VMUNIX
+topen.c:#ifdef VMUNIX
+topen.c:#ifndef	SIGRETRO
+topen.c:# ifdef VMUNIX
+topen.c:# ifdef VMUNIX
+../hdrs/cputype.h:#ifdef vax
+../hdrs/cputype.h:#ifdef sun
+../hdrs/cputype.h:#ifdef sunV3
+../hdrs/cputype.h:#ifdef mc68020
+../hdrs/cputype.h:#ifdef ibm032
+../hdrs/cputype.h:#ifdef romp
+../hdrs/cputype.h:#ifndef CPUTYPE2
+../hdrs/fdplumb.h:#ifndef PLUMBFDLEAKS
+../hdrs/itc.h:#ifndef	_ITC
+../hdrs/potpourri.h:#ifndef NOSAY
+../hdrs/potpourri.h:#ifndef NOASSERT
+../hdrs/potpourri.h:#ifdef LWP
+../hdrs/util.h:#ifdef FILE

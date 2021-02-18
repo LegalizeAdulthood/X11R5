@@ -1,0 +1,80 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+#define IHaveSubdirs 
+
+SUBDIRS = samples
+
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef WHITEPAGES_ENV
+WHITEPAGESFILES =  btcreate.o btr.o btr1.o btr2.o btr3.o btr4.o btstat.o btw.o btwp.o \
+	getcpw.o gtvpwent.o gtvpwkey.o gtvpwnam.o gtvpwuid.o getvuid.o  \
+	wpbase.o wpcbase.o wpcgen.o wpcname.o wpfuzz.o wpgen.o wpname.o wpstat.o 
+#else /* WHITEPAGES_ENV */
+WHITEPAGESFILES =
+#endif /* WHITEPAGES_ENV */
+
+#ifdef SCOunix
+OBJS = abbrpath.o alquery.o andrwdir.o \
+	andydir.o cellauth.o cawp.o config.o \
+	desym.o errhdlr.o \
+	fdplumb.o fdplumb2.o fdplumb3.o \
+	fdplumb4.o fdplumb5.o fdplumb6.o \
+	foldedeq.o fpacheck.o fselect.o gtime.o \
+	fwrtallc.o getaddr.o gethome.o getla.o \
+	getmyhom.o getpty.o hname.o lcappend.o lineprom.o \
+	localdir.o newstr.o nicetime.o pause.o \
+	procstuf.o profile.o readlink.o svcconf.o \
+	setprof.o t2open.o tfail.o thiscell.o times.o \
+	titles.o tokpak.o tokunpak.o topen.o \
+	uerror.o ulsindex.o ulstlmat.o ulstrcmp.o \
+	usignal.o vclose.o venusop.o verbose.o \
+	writeall.o ossup.o osasm.o unscribe.o
+#else
+OBJS = abbrpath.o alquery.o andrwdir.o \
+	andydir.o cellauth.o cawp.o config.o \
+	desym.o errhdlr.o \
+	fdplumb.o fdplumb2.o fdplumb3.o \
+	fdplumb4.o fdplumb5.o fdplumb6.o \
+	foldedeq.o fpacheck.o fselect.o gtime.o \
+	fwrtallc.o getaddr.o gethome.o getla.o \
+	getmyhom.o getpty.o hname.o lcappend.o lineprom.o \
+	localdir.o newstr.o nicetime.o pause.o \
+	procstuf.o profile.o readlink.o svcconf.o \
+	setprof.o t2open.o tfail.o thiscell.o times.o \
+	titles.o tokpak.o tokunpak.o topen.o \
+	uerror.o ulsindex.o ulstlmat.o ulstrcmp.o \
+	usignal.o vclose.o venusop.o verbose.o \
+	writeall.o ossup.o unscribe.o
+#endif /* SCOunix */
+
+AFS_OBJS =  lcstring.o ucstring.o
+
+DependTarget()
+
+NormalObjectRule()
+LibraryTarget(libutil.a, $(OBJS) ${WHITEPAGESFILES})
+InstallLibrary(libutil.a, $(DESTDIR)/lib)
+
+LibraryTarget(libafs.a, $(AFS_OBJS))
+InstallLibrary(libafs.a, $(DESTDIR)/lib)
+
+    TESTLIBS = ${UTILLIB} ${MALLOCLIB} ${PRSLIB}
+TestingOnlyTestingRule(${TESTLIBS}, ${BSDLIB})
+
+NormalHelpRule()
+InstallFile(global.prf, $(INSTINCFLAGS), ${DESTDIR}/lib)
+InstallDocs(setup.help prefs.help prefs.tutr, ${DESTDIR}/help)
+InstallFileToFile(setup.help, $(INSTINCFLAGS), ${DESTDIR}/doc/SetUp.ref)
+#ifdef WHITEPAGES_ENV
+InstallDocs(wp.help, ${DESTDIR}/help)
+InstallDocs(WP.ins WP.ovr WP.pgr WP.adm, ${DESTDIR}/doc/ams)
+InstallHelpAlias(wp, whitepages white_pages white-pages)
+#endif
+InstallHelpAlias(setup, andrewsetup)
+InstallHelpAlias(prefs, preferences ams-preferences messages-preferences ms-preferences preference customize customizing customization)

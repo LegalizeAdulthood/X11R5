@@ -1,0 +1,572 @@
+!  The Answer Garden Project
+!   
+!    Answer Garden is a trademark of the Massachusetts Institute of
+!      Technology.  All rights reserved.
+!
+!
+!    Mark Ackerman
+!    MIT/Center for Coordination Science
+!    ackerman@athena.mit.edu
+!    ackerman@xv.mit.edu
+!
+!	This is the appdefaults file for Answer Garden version 0.73
+!
+!	Problems you may encounter:
+!
+!	1.  If the buttons do not have labels, change the colors below
+!		which are set to medium spring green to black.  Or,
+!		just comment out the lines since the default is black.
+!		Some monochrome servers will map this color to black,
+!		and a few to white.
+!	2.  On some X terminals (NCDs, eg), you may need to change
+!		the fonts to be 100dpi fonts.
+!
+!	Site managers should
+!	
+!	1.  Determine whether end-users should be allowed to
+!		edit nodes.  If not, change editMode below to
+!		False, and comment out the translations for
+!		the GrapherButton widget.  You should also
+!		compile with the -DNO_EDIT flag.
+!	2.  Change the data directory and the statistics file
+!		to whatever is appropriate.  Don't forget the
+!		final '/' on the directory resource.
+!	3.  Select which mailer to use.  I currently support
+!		mh or /bin/mail.  If you have neither of
+!		these, let me know and I will add yours.
+!	4.  Set the global expert list to whatever you choose.
+!		If you will have a local expert, this resource
+!		should be set to this local expert.  If there
+!		no expert associated with a node, mail from
+!		that node will get directed to this expert list.
+!	5.  Change the organization resource to the name of
+!		your organization
+!
+!	Optional resources if you plan to edit or if you want
+!       to receive a copy of any question or comment you make through
+!       hitting the mail (I'm unhappy) button:
+!
+!	In editing, your name@address is determined at runtime
+!	unless you set:
+!
+!	1.  You can set your name@address to be anything you
+!		want with the mailName resource.  If you cannot
+!		map into an arpanet-style address, please let me know.
+!	2.  If you do not set the mailMachineName resource, and
+!		the system call hostname and gethostbyname return
+!		an official machine name that does not include 
+!		an arpanet domain, you should fill in the resource 
+!		domainName below.  This	is to allow mail to find you.
+!	3.  If you want a node expert for each node, and this will
+!		be the same person, you can set the default node
+!		expert with the nodeExpert resource.  
+!
+
+!
+!	Send any bugs to me at either of the above email addresses.
+!
+!	Thanks
+!
+!					Ack
+!
+
+
+
+
+!  Some general resources.  THESE SHOULD BE SET AT EACH SITE.
+!
+AnswerGarden*editMode: True
+AnswerGarden*Directory: ./xinfo2/
+AnswerGarden*statisticsFile:  ./statfile
+AnswerGarden*mailerType: binmail
+AnswerGarden*globalExpertList: x-contrib@xv.mit.edu
+AnswerGarden*organization: MIT
+
+AnswerGarden*useMail: True
+AnswerGarden*useLocalExpert: False
+!AnswerGarden*localExpertList: devnull@xv.mit.edu 
+
+! feel free to to change these to whatever you want!
+!
+!AnswerGarden*button1.foreground: medium sea green
+!AnswerGarden*button2.foreground: medium sea green
+!AnswerGarden*button3.foreground: medium sea green
+!AnswerGarden*button4.foreground: medium sea green
+!AnswerGarden*button5.foreground: medium sea green
+!AnswerGarden*Grapher*grapherQuit.foreground: medium sea green
+AnswerGarden*shapeStyle: rectangle
+
+!  Some more general resources.  THESE SHOULD BE SET IF YOU WILL EDIT OR
+!       USE MAIL.
+!  	See instructions above.
+!AnswerGarden*mailName: ackerman@athena.mit.edu
+AnswerGarden*mailMachineName: machine.mit.edu
+!AnswerGarden*domainName: mit.edu
+AnswerGarden*nodeExpert: devnull@xv.mit.edu 
+
+
+!  General mailer info
+!     If you want the user to get a copy of any question or comment,
+!     set this to GeneralQuestionWithCopyCallback.  If you do not want
+!     him/her to get a copy, set this to GeneralQuestionCallback.
+!     (The internal default is GeneralQuestionCallback, ie, no copy.)
+
+AnswerGarden*questionCallback: GeneralQuestionWithCopyCallback
+
+
+!  Some more general resources.  A site manager MAY wish to
+!  change these depending on whether EDITING is available.  If
+!  editing is not available to all people, then comment out
+!  these translations.
+!
+
+
+
+AnswerGarden*GrapherButton.translations: #override \
+     Ctrl<Btn3Down>:       set() \n\
+     Ctrl<Btn3Up>:         grapher_button_cut_selection_string() unset()\n\
+     Ctrl<Btn2Down>:       set() grapher_button_edit_notify() \
+				XawPositionSimpleMenu(editMenuShell) \
+				XtMenuPopup(editMenuShell)\n\
+     Ctrl<Btn2Up>:         unset()\n\
+     Ctrl<Btn1Down>:       set() \n\
+     Ctrl<Btn1Up>:         grapher_button_node_notify() unset() \n\
+     <BtnDown>:            set() \n\
+     <BtnUp>:              grapher_button_node_notify() unset() \n
+
+
+AnswerGarden*Command.translations: #override \
+	<BtnDown>:   set() \n\
+	<BtnUp>:     notify() unset()\n
+
+!AnswerGarden*Knedit.translations: #override \
+!     Ctrl<Btn2Down>:      knedit_internal_edit_action()  \
+!				XawPositionSimpleMenu(editMenuShell) \
+!				XtMenuPopup(editMenuShell)\n
+
+
+
+
+
+
+!  This general resource should stay the same for all instances of
+!  a given information database.  It is the address to which global
+!  experts should reply.  For the X field research, change this at your peril.
+!  For contrib tape users, change this!
+!  This is set for the X database.
+AnswerGarden*trackingServerAddress: devnull@xv.mit.edu
+
+
+!  Some general resources.  These should stay the same.
+!
+AnswerGarden*BorderWidth: 2
+AnswerGarden*box.borderWidth: 0
+AnswerGarden*Command.BorderWidth: 1
+!AnswerGarden*cursor: top_left_arrow
+AnswerGarden*title: AnswerGarden
+
+
+
+
+
+!  All fonts for the various nodes.  You may need to change these to be
+!	be 100dpi fonts.
+!
+
+!AnswerGarden*Text.font: -misc-fixed-medium-r-normal--13-100-100-100-c-70-iso8859-1
+AnswerGarden*Text*font: -misc-fixed-bold-r-normal--13-120-75-75-c-70-iso8859-1
+
+
+AnswerGarden*Command.font: -adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1
+AnswerGarden*GrapherButton.font: -adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1
+AnswerGarden*Knedit.font: -adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1
+AnswerGarden*Knedit.boldFont: -adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1
+AnswerGarden*Knedit.italicFont: -adobe-helvetica-medium-o-normal--12-120-75-75-p-67-iso8859-1
+
+AnswerGarden*qAForm*qAIndexText*font: -misc-fixed-bold-r-normal--13-100-100-100-c-70-iso8859-1
+!AnswerGarden*qAForm*qABodyText*font: -misc-fixed-medium-r-normal--13-100-100-100-c-70-iso8859-1
+
+AnswerGarden*mailerKnedit.font: -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1
+AnswerGarden*mailerKnedit.boldFont: -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso8859-1
+AnswerGarden*mailerKnedit.italicFont: -misc-fixed-bold-r-semicondensed--13-120-75-75-c-60-iso8859-1
+
+
+
+
+!  Some defaults for the SBrowser widgets (once called Knedits)
+!
+AnswerGarden*Knedit.height:  400
+AnswerGarden*sbrowserForm*button1.label:  Close
+AnswerGarden*sbrowserForm*button2.label:  Help
+AnswerGarden*sbrowserForm*button3.label:  I'm unhappy
+AnswerGarden*sbrowserForm*button4.label:  Forward page
+AnswerGarden*sbrowserForm*button5.label:  Back page
+AnswerGarden*sbrowserViewport.borderWidth: 1
+AnswerGarden*sbrowserForm*button2.sensitive: False
+AnswerGarden*sbrowserForm*button4.sensitive: False
+AnswerGarden*sbrowserForm*button5.sensitive: False
+AnswerGarden*sbrowserForm*buttonBox.borderWidth: 0
+
+!  Discussion node type
+!
+AnswerGarden*discussionForm.borderWidth: 0
+AnswerGarden*discussionLabel.borderWidth: 0
+AnswerGarden*discussionLabel.label:  Topic discussion
+AnswerGarden*discussionText.height: 368 
+AnswerGarden*discussionText.width: 600
+AnswerGarden*discussionForm.height: 400
+AnswerGarden*discussionForm.width: 500
+AnswerGarden*discussionText.borderWidth: 1
+AnswerGarden*discussionForm*buttonBox.borderWidth: 0
+AnswerGarden*discussionForm*button1.label: Close
+AnswerGarden*discussionForm*button2.label: Help
+AnswerGarden*discussionForm*button3.label: I'm unhappy
+AnswerGarden*discussionForm*button4.label: Forward msg
+AnswerGarden*discussionForm*button5.label: Back msg
+AnswerGarden*discussionForm*button4.sensitive: False
+AnswerGarden*discussionForm*button5.sensitive: False
+AnswerGarden*discussionForm*button2.sensitive: False
+
+
+AnswerGarden*codeForm.borderWidth: 0
+AnswerGarden*codeLabel.label: Code segment
+AnswerGarden*codeLabel.borderWidth: 0
+AnswerGarden*codeForm.height: 400
+AnswerGarden*codeForm.width: 500
+AnswerGarden*codeText.height: 368 
+AnswerGarden*codeText.width: 600
+AnswerGarden*codeText.borderWidth: 1
+AnswerGarden*codeForm*buttonBox.borderWidth: 0
+AnswerGarden*codeForm*button1.label: Close
+AnswerGarden*codeForm*button2.label: Help
+AnswerGarden*codeForm*button3.label: I'm unhappy
+AnswerGarden*codeForm*button4.label: Forward msg
+AnswerGarden*codeForm*button5.label: Back msg
+AnswerGarden*codeForm*button4.sensitive: False
+AnswerGarden*codeForm*button5.sensitive: False
+AnswerGarden*codeForm*button2.sensitive: False
+
+
+!  The Control node (the first node that starts up)
+!
+
+AnswerGarden*control*button2.sensitive: False
+AnswerGarden*control*button3.label: View Tree
+AnswerGarden*control*button4.label: Ask Questions
+AnswerGarden*control*button5.label: Other
+AnswerGarden*control*button2.label: Help
+AnswerGarden*control*button1.label: Quit
+AnswerGarden*control*controlKnedit.width:  330
+AnswerGarden*control.width: 330
+AnswerGarden*control.height:  225
+AnswerGarden*control*button3.horizDistance: 30
+AnswerGarden*control*controlButtonBox.borderWidth: 0
+AnswerGarden*control*Command.BorderWidth: 2
+
+AnswerGarden*controlKnedit.height: 200
+AnswerGarden*controlKnedit.borderWidth: 0
+AnswerGarden*controlKnedit.topMargin: 30
+AnswerGarden*controlKnedit.separatorHeight: 12
+
+AnswerGarden*control*button5.translations: #override \
+     <BtnDown>:       set() \
+			XawPositionSimpleMenu(otherMenuShell) \
+			XtMenuPopup(otherMenuShell)\n\
+     <BtnUp>:         unset() XtMenuPopdown()\n
+
+AnswerGarden*otherMenuShell*otherMenuButton1.label: history list
+AnswerGarden*otherMenuShell*otherMenuButton2.label: text search
+AnswerGarden*otherMenuShell*otherMenuButton2.sensitive: False
+AnswerGarden*otherMenuShell*otherMenuButton3.label: send bug report
+AnswerGarden*otherMenuShell*otherMenuButton3.sensitive: False
+
+AnswerGarden*HistoryList*button1.label: Close
+AnswerGarden*HistoryList*button2.label: Help
+AnswerGarden*HistoryList*button2.sensitive: False
+AnswerGarden*HistoryList*button3.label: I'm Unhappy
+AnswerGarden*HistoryList*button3.sensitive: False
+AnswerGarden*HistoryList*buttonBox.borderWidth: 0
+AnswerGarden*HistoryList*historyListViewport.height: 100
+AnswerGarden*HistoryList*historyListViewport.borderWidth: 1
+AnswerGarden*HistoryList*historyListList.borderWidth: 0
+
+
+
+!  The mailer popup
+!
+AnswerGarden*mailerForm*mailerKnedit.leftMargin: 10
+AnswerGarden*mailerForm*mailerKnedit.topMargin: 13
+AnswerGarden*mailerForm*mailerKnedit.rightMargin: 10
+! should be set to the point size of the font being used
+AnswerGarden*mailerForm*mailerKnedit.lineHeight: 13
+! reduce the amount of whitespace between paragraphs
+AnswerGarden*mailerForm*mailerKnedit.separatorHeight: 7
+AnswerGarden*mailerForm*mailerKnedit.topMargin: 20
+AnswerGarden*mailerForm*mailerKnedit.filename: \
+Please ask your question below. \n\n\
+Answer Garden will route your question automatically to the \n\
+appropriate human expert.  Answer Garden grows from\n\
+you asking questions.\n\
+\n\
+Your name will @b(not) be known to the expert.\n
+AnswerGarden*mailerForm*mailerKnedit.width: 494
+AnswerGarden*mailerForm*mailerKnedit.height: 100
+AnswerGarden*mailerForm*mailerKnedit.borderWidth: 0
+AnswerGarden*mailerForm*mailerText.width: 494
+AnswerGarden*mailerForm*mailerText.height: 238
+AnswerGarden*mailerShell.title: Sending mail
+AnswerGarden*mailerForm*mailerText.borderWidth: 1
+AnswerGarden*mailerForm*vertDistance: 4
+AnswerGarden*mailerForm*mailerText.vertDistance: 0
+AnswerGarden*mailerForm*mailerButton2.x: 275
+AnswerGarden*mailerForm*horizDistance: 4
+AnswerGarden*mailerButton1.label: Cancel Request
+AnswerGarden*mailerButton2.label: Send Message
+
+!  Graphers
+
+!AnswerGarden*grapherViewport.forceBars: True
+AnswerGarden*grapherViewport.useBottom: True
+AnswerGarden*Grapher.minHeight: 100
+AnswerGarden*Grapher.minWidth: 250
+!  The next two are not grapher resources per se; 
+!  they are application resources.  See comments in
+!  the routine Show_Grapher for more info.
+AnswerGarden*grapherMaxWidth: 800
+AnswerGarden*grapherMaxHeight: 600
+AnswerGarden*Grapher.GrapherButton.borderWidth: 0
+AnswerGarden*grapherForm*button1.label:  Close
+AnswerGarden*grapherForm*button2.label:  Help
+AnswerGarden*grapherForm*button3.label:  I'm unhappy
+AnswerGarden*grapherForm*button2.sensitive:  False
+AnswerGarden*grapherForm*buttonBox.borderWidth: 0
+
+
+!   The authoring system
+
+!   The edit file node
+!
+AnswerGarden*editorButton1.label: Abort
+AnswerGarden*editorButton2.label: Close
+AnswerGarden*editorButton3.label: Save File
+AnswerGarden*editorButton4.label: Edit File
+AnswerGarden*editorButton5.label: Edit NodeInfo
+AnswerGarden*editorButton6.label: Add Node
+AnswerGarden*editorButton7.label: Show
+AnswerGarden*editorText.width: 500
+AnswerGarden*editorText.height: 400
+AnswerGarden*editorDiscussion.height: 400
+AnswerGarden*editorDiscussion.width: 600
+
+!   The authoring menu
+!
+AnswerGarden*editMenuShell*editMenuButton1.label: edit node
+AnswerGarden*editMenuShell*editMenuButton2.label: edit node info
+AnswerGarden*editMenuShell*editMenuButton3.label: add node
+AnswerGarden*editMenuShell*editMenuButton4.label: connect to node
+AnswerGarden*editMenuShell*editMenuButton4.sensitive: False
+AnswerGarden*editMenuShell*editMenuButton5.label: delete node
+AnswerGarden*editMenuShell*editMenuButton5.sensitive: False
+AnswerGarden*editMenuShell*editMenuButton6.label: add item
+AnswerGarden*editMenuShell*editMenuButton6.sensitive: False
+AnswerGarden*editMenuShell*editMenuButton7.label:  set add link to auto
+
+
+!	The edit info node (lots of these)
+!
+AnswerGarden*editNIPForm*Box.orientation: horizontal
+AnswerGarden*editNIPForm*Box.borderWidth: 0
+AnswerGarden*editNIPForm*Box.horizDistance: 25
+AnswerGarden*editNIPForm*Toggle.width: 10
+AnswerGarden*editNIPForm*Label.justification: Left
+AnswerGarden*editNIPForm*Toggle.bitmap: white_pixmap
+AnswerGarden*editNIPForm*Toggle.height: 12
+AnswerGarden*editNIPForm*Label.borderWidth: 0
+AnswerGarden*editNIPForm*Text.editType: edit
+AnswerGarden*editNIPForm*Text.width: 200
+AnswerGarden*editNIPForm*Text.cursor: xterm
+AnswerGarden*editNIPForm*Text.scrollHorizontal: whenNeeded
+AnswerGarden*editNIPForm*Text.scrollVertical: whenNeeded
+AnswerGarden*editNIPForm*Scrollbar.height: 3
+AnswerGarden*editNIPForm*Scrollbar.width: 3
+AnswerGarden*editNIPForm*Form.borderWidth: 0
+AnswerGarden*editNIPForm*Toggle.shapeStyle: ellipse
+AnswerGarden*editNIPForm*editNIPInstructions.width: 400
+AnswerGarden*editNIPForm*editNIPInstructions.height: 175
+AnswerGarden*editNIPForm*editNIPInstructions.borderWidth: 0
+
+AnswerGarden*editNIPForm*editNIPNameLabel.label: Node name
+AnswerGarden*editNIPForm*editNIPNameLabel.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPNameLabel.justification: Left
+AnswerGarden*editNIPForm*editNIPNameToggle1.sensitive: False
+AnswerGarden*editNIPForm*editNIPNameToggle1Label.label: Auto
+AnswerGarden*editNIPForm*editNIPNameToggle1Label.sensitive: False
+AnswerGarden*editNIPForm*editNIPNameToggle1Label.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPNameToggle2.width: 10
+AnswerGarden*editNIPForm*editNIPNameToggle2Label.label: Manual
+AnswerGarden*editNIPForm*editNIPNameToggle2Label.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPNameToggle2.state: On
+AnswerGarden*editNIPForm*editNIPNameText.horizDistance: 25
+
+AnswerGarden*editNIPForm*editNIPLabelLabel.label: Label for Node
+AnswerGarden*editNIPForm*editNIPLabelLabel.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPLabelLabel.justification: Left
+AnswerGarden*editNIPForm*editNIPLabelBox.orientation: horizontal
+AnswerGarden*editNIPForm*editNIPLabelBox.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPLabelBox.horizDistance: 25
+AnswerGarden*editNIPForm*editNIPLabelToggle1Label.label: Auto
+AnswerGarden*editNIPForm*editNIPLabelToggle1.sensitive: False
+AnswerGarden*editNIPForm*editNIPLabelToggle1Label.sensitive: False
+AnswerGarden*editNIPForm*editNIPLabelToggle2Label.label: Manual
+AnswerGarden*editNIPForm*editNIPLabelToggle2.state: On
+AnswerGarden*editNIPForm*editNIPLabelText.horizDistance: 25
+
+AnswerGarden*editNIPForm*editNIPTypeLabel.label: Node Type
+AnswerGarden*editNIPForm*editNIPTypeLabel.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPTypeBox.orientation: horizontal
+AnswerGarden*editNIPForm*editNIPTypeBox.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPTypeBox.horizDistance: 25
+AnswerGarden*editNIPForm*editNIPTypeToggle1.state: On
+
+AnswerGarden*editNIPForm*editNIPStorageLabel.label: Storage Location
+AnswerGarden*editNIPForm*editNIPStorageLabel.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPStorageBox.orientation: horizontal
+AnswerGarden*editNIPForm*editNIPStorageBox.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPStorageBox.horizDistance: 25
+AnswerGarden*editNIPForm*editNIPStorageToggle1Label.label: Auto
+AnswerGarden*editNIPForm*editNIPStorageToggle1.state: On
+AnswerGarden*editNIPForm*editNIPStorageToggle1.sensitive: True
+AnswerGarden*editNIPForm*editNIPStorageToggle2Label.label: Manual
+AnswerGarden*editNIPForm*editNIPStorageText.horizDistance: 25
+AnswerGarden*editNIPForm*editNIPStorageText.editType: edit
+
+AnswerGarden*editNIPForm*editNIPDateLabel.label: Expiration date for node
+AnswerGarden*editNIPForm*editNIPDateLabel.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPDateBox.orientation: horizontal
+AnswerGarden*editNIPForm*editNIPDateBox.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPDateBox.horizDistance: 25
+AnswerGarden*editNIPForm*editNIPDateToggle1Label.label: Auto
+AnswerGarden*editNIPForm*editNIPDateToggle1.state: On
+AnswerGarden*editNIPForm*editNIPDateToggle1.sensitive: True
+AnswerGarden*editNIPForm*editNIPDateToggle2Label.label: Manual
+AnswerGarden*editNIPForm*editNIPDateText.horizDistance: 25
+
+AnswerGarden*editNIPForm*editNIPExpertLabel.label: Experts for this node
+AnswerGarden*editNIPForm*editNIPExpertLabel.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPExpertBox.orientation: horizontal
+AnswerGarden*editNIPForm*editNIPExpertBox.borderWidth: 0
+AnswerGarden*editNIPForm*editNIPExpertBox.horizDistance: 25
+AnswerGarden*editNIPForm*editNIPExpertToggle1Label.label: Auto
+AnswerGarden*editNIPForm*editNIPExpertToggle1.state: On
+AnswerGarden*editNIPForm*editNIPExpertToggle1.sensitive: True
+AnswerGarden*editNIPForm*editNIPExpertToggle2Label.label: Manual
+AnswerGarden*editNIPForm*editNIPExpertText.horizDistance: 25
+
+AnswerGarden*editNIPForm*editNIPButton1.vertDistance: 25
+AnswerGarden*editNIPForm*editNIPButton2.vertDistance: 25
+AnswerGarden*editNIPForm*editNIPButton1.label: Okay
+AnswerGarden*editNIPForm*editNIPButton2.label: Cancel
+
+!	The QA node type
+!
+AnswerGarden*qAForm*qALabel.label:  Questions and Answers
+AnswerGarden*qAForm*qALabel.borderWidth: 0
+AnswerGarden*qAForm*qAViewport.height: 350
+AnswerGarden*qAForm*qAViewport.width: 625
+AnswerGarden*qAForm*qAInnerForm.height: 350
+AnswerGarden*qAForm*qABodyText.height: 350
+AnswerGarden*qAForm*qABodyText.width: 450
+AnswerGarden*qAForm*qAIndexText.height: 350
+AnswerGarden*qAForm*qAIndexText.width: 10
+AnswerGarden*qAForm*qAIndexText.borderWidth: 0
+AnswerGarden*qAForm*qABodyText.borderWidth: 0
+AnswerGarden*qAForm*qABodyText.horizDistance: 10
+AnswerGarden*qAForm*qAViewport.borderWidth: 1
+AnswerGarden*qAForm*borderWidth: 1
+AnswerGarden*qAForm*qAInnerForm.borderWidth: 5
+AnswerGarden*qAForm*button1.label: Close
+AnswerGarden*qAForm*button2.label: Help
+AnswerGarden*qAForm*button3.label: I'm unhappy
+AnswerGarden*qAForm*button4.label: Forw QA
+AnswerGarden*qAForm*button5.label: Back QA
+AnswerGarden*qAForm*button4.sensitive: False
+AnswerGarden*qAForm*button5.sensitive: False
+AnswerGarden*qAForm*button2.sensitive: False
+AnswerGarden*qAForm*buttonBox.borderWidth: 0
+
+!	The journal node type
+!
+AnswerGarden*journalText.height: 368 
+AnswerGarden*journalText.width: 600
+AnswerGarden*journalText.x: 2
+AnswerGarden*journalText.y: 2
+AnswerGarden*journalForm.height: 400
+AnswerGarden*journalForm.width: 500
+AnswerGarden*journalForm.borderWidth: 0
+AnswerGarden*journalForm*buttonBox.borderWidth: 0
+AnswerGarden*journalText.borderWidth: 1
+AnswerGarden*journalForm*button1.label: Close
+AnswerGarden*journalForm*button2.label: Help
+AnswerGarden*journalForm*button3.label: I'm unhappy
+AnswerGarden*journalForm*button4.label: Date
+AnswerGarden*journalForm*button5.label: Save
+AnswerGarden*journalForm*button2.sensitive: False
+
+
+! A few special mailers for comments and bugs.
+!
+
+AnswerGarden*Info_Using_AnswerGarden*mailerForm*mailerKnedit.filename: \
+Please make any comments (flames, wished enhancements, ideas,\n\
+or praise) you wish below.  \n\
+Answer Garden will route your comments automatically to me. \n\
+\n\
+Thanks for helping me make Answer Garden better....\n\
+\n\
+Mark Ackerman\n\
+("Ack")\n
+
+AnswerGarden*Info_AG_Bugs*mailerForm*mailerKnedit.filename: \
+Please report bugs about Answer Garden below.  \n\
+Answer Garden will route your comments automatically to me. \n\
+\n\
+Thanks for helping me make Answer Garden better....\n\
+\n\
+Mark Ackerman\n\
+("Ack")\n
+AnswerGarden*Info_AG_Bugs*mailerText*string: \
+Type of system you are running on\n\
+  version of X (if known):\n\
+\n\n\
+  machine (e.g., Sun3, DecStation 3000):\n\
+\n\n\
+  version of the operating system (if known):\n\
+\n\n\
+  window manager (if known):\n\
+\n\n\
+  mailer (if known):\n\
+\n\n\
+Can you reproduce the bug at will?\n\
+\n\
+\n\
+Description of the bug (as much detail as possible, please):\n\
+\n
+
+! This gets used only if mail is disallowed
+
+AnswerGarden*mailerExcuseDialog*label: \
+No mail is allowed.  Contact your site administrator\n\
+for more information.\n\n
+AnswerGarden*mailerExcuseDialog*mailerExcuseButton.label: Okay
+
+! Some sample stack settings
+
+!AnswerGarden*nStacks: 2
+!AnswerGarden*Grapher.stack: 1
+!AnswerGarden*SBrowser.stack: 2
+!AnswerGarden*stack2.x: 500
+
+
+
+
+	

@@ -1,0 +1,22 @@
+This directory contains the sources for the emu menus.
+
+The emu menu fileset consists of :
+
+	README
+	Imakefile	Makefile
+	menus.c		menus.h
+	test_menus.c	Test_menus.ad
+
+   The Makefile in this directory will create a test program (test_menus)
+for exercising many of the menu features.  It should be used in conjunction
+with the Test_menus.ad resource file to work properly (type "xrdb -merge
+Test_menus.ad").
+
+   For the test program, clicking on a menu item will only execute a dummy
+callback which prints information to stderr (/tmp/emu.log).  Also, for
+this program setting or unsetting the menu item toggle checkmarks will not
+work.
+
+   The menus are an integral part of Emu system, but it is not necessary to
+include them as part of the program as emu can stand alone.
+

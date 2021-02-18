@@ -1,0 +1,54 @@
+.TH GL_Button 3GL "8Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Button \- General catagory of button creation.
+.SH SYNTAX
+(Window)GL_Create(<type>,
+.br
+		    <option>, [args,]
+.br
+		  ...,
+.br
+		  GL_Done);
+.SH ARGUMENTS
+.IP <type> 1i
+The type of button to create.  Legal types are GL_AthenaBtn, GL_CheckBox,
+GL_MacButton, GL_NeXTButton, GL_OpenButton, GL_OpenSinkButton,
+GL_RadioButton.
+.IP GL_Done 1i
+Mark to terminate variable arguments list.
+
+.SH DESCRIPTION
+This is the call to create various types of buttons which can do many varied
+and interesting things.  The different button types merely change the way
+that the button appears.  This is different in the RadioButtons, which
+have to have a group specified for them so that they can maintain the
+state that only a single radio button is on at any one time.
+
+.SH OPTIONS
+
+.IP "GL_BtnSwitch, <int bnum>" 1i
+This probably specifies the number of the button?
+.IP "GL_BtnAction, <VPTF actionfunc>" 1i
+This specifies the function which is to be called when the button is released.
+.IP "GL_BtnDraw+(state), <VPTF drawfunc>" 1i
+This specifies the function which is to be called when the button needs
+to be drawn in the given state.
+.IP "GL_BtnFG, <unsigned long color>" 1i
+This specifies the color that the buttons foreground should have.
+.IP "GL_BtnBG, <unsigned long color>" 1i
+This specifies the color for the background of the button.
+.IP "GL_BtnTX, <unsigned long color>" 1i
+This specifies the color for the text of the button.
+.IP "GL_BtnRadGrp, <GL_RadioGroup *>" 1i
+This specifies the radio group that a button should be put into. All members
+of the same radio group will only have a single item selected at any one time.
+.IP "GL_BtnFlags, <int flag>" 1i
+This if passed a 1? will make the button into a radio type button.
+
+.SH FEATURES?
+This section was documented by me (Eric Anderson), and as I neither wrote
+nor have really used this code the documentation for it is somewhat flakey.
+Hopefully this will be improved in the future.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Window(3GL), GraphLib Programming Manual

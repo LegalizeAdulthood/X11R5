@@ -1,0 +1,6 @@
+;
+; $Id: 2A_CTRL,v 1.1 1991/09/09 22:43:21 ohm Exp $
+;
+'\x81'			(switch latin)
+(if latin)q		(off latin)
+(unless latin)'^G'	(on latin)

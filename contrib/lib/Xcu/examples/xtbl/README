@@ -1,0 +1,40 @@
+Run "xtbl 6 -file tst6" for an example of how to modify a layout at runtime.
+
+Step 1 : Hit "_justify_" and the labels will justify as indicated.
+Step 2 : Hit "_gravity_" and the labels will migrate as indicated.
+Step 3 : Hit "_fill_" and two labels will expand to fill slack in their rows
+         (At this point, the layout will be messed up without the patch...)
+Step 4 : Hit "_text_" and the top label will change text, forcing the entire
+	 layout to reformat, because the new text is narrower and taller than
+	 the original text.
+
+To run other examples, the general usage instructions follow.
+
+Usage: xtbl # -file tst#
+    # can be one of the following : 5, 6, 7, 12, 13, 15, 17, 22
+    E.g., xtbl 6 -file tst6
+
+or,
+
+Usage: xtbl # -string "description"
+    E.g., xtbl 3 -string "tab(;) snl(~);\nc c\nc.\nup~left;up~right\nbottom"
+
+User places the resulting window which contains two "Tbl"s side by side.
+The left Tbl is the one given by the file or description string.
+The right Tbl is a column of command widgets, which, when activated,
+read the file indicated by the label to modify the left Tbl.
+See the 4 files for format descriptions.  There are commands/files for
+text, justification, gravity, and fill mode.
+
+    E.g., if _text_ contains:
+	
+	2
+	0
+	abc
+	1
+	xyz
+
+    The first two Label widgets will have their text changed
+    to "abc" and "xyz".
+
+

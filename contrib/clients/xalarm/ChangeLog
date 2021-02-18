@@ -1,0 +1,177 @@
+Sat Oct  5 15:37:59 1991  Simon Marshall  (sm at olympus)
+
+	* Released xalarm-3.
+
+Wed Oct  2 14:35:15 1991  Simon Marshall  (sm at olympus)
+
+	* Taken out the makeX and put that stuff in with config.1st, let the
+	user sort it out.
+
+Mon Sep 30 19:12:40 1991  Simon Marshall  (sm at olympus)
+
+	* Added -list so xalarm shows what ps thinks are the user's xalarm pids
+	are.  Had to alter the makefiles so that you could set where ps & the
+	rest where; added a config.1st to do this.
+
+Sun Sep 29 22:16:09 1991  Simon Marshall  (sm at olympus)
+
+	* Made xalarm capable of parsing a file for alarms, so for regular
+	times, it will set alarms automatically.
+
+Fri Sep 27 10:43:41 1991  Simon Marshall  (sm at olympus)
+
+	* Fed up with ``Is it only BSD that uses bzero, or only SYSV that uses
+	memset?  Or is it a bit of both?''  Wrote my own.
+
+Wed Sep 25 22:17:05 1991  Simon Marshall  (sm at olympus)
+
+	* Split README into README and INSTALL.  Made it all a touch more
+	portable?  Thanks to Andreas Stolcke.  Made the manual more readable,
+	thanks to suggestions by Bill Leonard.
+
+Tue Sep 24 21:54:30 1991  Simon Marshall  (sm at olympus)
+
+	* Added a -snooze & resource on suggestion by Bill Leonard, so you can
+	have a default snoozetime already set for you.  Corrected bits & bobs
+	in man page too.
+
+Sun Sep 15 21:41:52 1991  Simon Marshall  (sm at olympus)
+
+	* Cleaned up for release in contrib for R5; re-named xalarm-3 for good
+	measure.
+
+	* Added a -reset kill & signal trapper code so that you can wake up an
+	alarm and change the times.
+
+Thu Sep  5 12:24:56 1991  Simon Marshall  (sm at olympus)
+
+	* Added a make flag & fix for the X crash-on-zero-timeout (bug report
+	from Jamie Zawinsk).  Cleaned up Makefile & README.
+
+Mon Sep  2 11:54:20 1991  Simon Marshall  (sm at olympus)
+
+	* Fixed the little problem with the clear button, although the resource
+	still isn't changeable by the user.
+
+Tue Aug 27 17:08:47 1991  Simon Marshall  (sm at olympus)
+
+	* The timeout is now recalculated on confirmation so that if the time
+	is absolute, messing around during confirmation won't result in a late
+	alarm.
+
+Wed Aug 21 18:00:00 1991  Simon Marshall  (sm at olympus)
+
+	* Released xalarm-2.00.
+
+Tue Aug 20 10:25:58 1991  Simon Marshall  (sm at olympus)
+
+	* Fixed a little bug as a result of yesterday; if an invalid time is
+	given with the noconfirm option, the alarm message text is "".
+
+	* Finally made the popups get their geometry from the alarm, by
+	intercepting it from the command line...
+
+Mon Aug 19 13:56:53 1991  Simon Marshall  (sm at olympus)
+
+	* Added xmemo (thanks to an unconnected posting by Dan Jacobson, I
+	think) & found a bug in the manual - used -beep instead of -bell!!!
+	Added -beep & -nobeep to options...
+
+Sun Aug 18 11:17:45 1991  Simon Marshall  (sm at olympus)
+
+	* Put the toggling back (!) so you can fiddle with warning times too.
+
+	* Changed -at and -in to -time, -in times preceded by a `+' (but
+	warning times aren't).  None of that silly toggling etc.  Also made
+	some options have shorter aliases.
+
+	* Made xalarm overwrite any given message, so ps etc can't show what it
+	is.  From a comment by Reiner Hammer.
+
+Fri Aug 16 12:25:08 1991  Simon Marshall  (sm at olympus)
+
+	* Cleaned up here & there.
+
+	* Incorporated a hacked version of the time parser from xcal-3.2, Peter
+	Collinson et al.
+
+	* Changed the way warnings are given.  No longer within quotes, they
+	must be separated by commas (only).
+
+Wed Aug 14 12:58:29 1991  Simon Marshall  (sm at olympus)
+
+	* Corrected bug whereby time wasn't always correctly calculated when
+	given as 12 hour clock but >12 hours ahead.
+
+Tue Aug 13 12:41:32 1991  Simon Marshall  (sm at olympus)
+
+	* Added forking - so must easier than I had assumed.  No closing to do
+	after all.  Thanks to Gordon Freedman & Janet Anstett.
+
+Fri Aug  9 13:38:35 1991  Simon Marshall  (sm at olympus)
+
+	* Added -h[elp].
+
+Thu Aug  8 15:04:56 1991  Simon Marshall  (sm at olympus)
+
+	* Added -v[ersion]; I'm fed up with getting bug reports without it.
+
+	* Added a config to Makefile so as to make sure stuff is ready for
+	making & running/playing with.
+
+Mon Aug  5 15:46:00 1991  Simon Marshall  (sm at olympus)
+
+	* It appears that stuff in .../lib/X11/app-defaults is not
+	pre-processed with cpp, so we can't have "#ifdef" etc in there.  Moved
+	colour stuff to separate file.  From Scott Blachovicz & a multitude of
+	others.
+
+Sun Aug  4 15:12:06 1991  Simon Marshall  (sm at olympus)
+
+	* Corrected bug whereby When?.when.label was for "at" time when it
+	should be "in", when user gave invalid "in" time on the command line.
+
+	* If enabled, confirmation is now always sort, unless alarm is to
+	trigger immediately.
+
+	* Made warnings only accept times in the [[[h]h]m]m format a` la -in.
+	Invalid times result in an error message on stderr only.  Also added
+	-nowarn.  (Implemented as "-warn 0" :-)
+
+Fri Aug  2 09:46:42 1991  Simon Marshall  (sm at olympus)
+
+	* Added confirmation stuff to xalarm.  Does not confirm if using
+	relative time given on the command line.  Also added -confirm,
+	-noconfirm and -nobell.
+
+	* Split up xalarm into more meaningful pieces.  Preparation for
+	xalarm-2.00?
+
+Wed Jul 31 13:20:29 1991  Simon Marshall  (sm at olympus)
+
+	* Released xalarm-1.01.
+
+	* Made MakeX which looks for the absolute path of an executable.  Need
+	it for yow, as it is often not is a person's path.
+
+	* Fixed bug/mistake.  I had sometimes declared warg as an Arg, but
+	XtSetValues expects an ArgList.  Changed to declare as warg[1].  From
+	comments made by Dave Brooks, Bill Leonard & Braham Levy (plus more
+	once our mailer came up).
+
+	* Added 2 options; -bell and -warn "...".  By default the bell no
+	longer sounds, and the warning times can be specified.  Both have
+	resources of course.  From comments by Bill Leonard.
+
+	* Updated the manual & made it clearer.
+
+Tue Jul 30 10:29:22 1991  Simon Marshall  (sm at olympus)
+
+	* Changed the way the time is calculated.  No more fiddling with
+	strings & it's much more compact.
+
+	* Added Imakefile, sent by Andreas Stolcke (stolcke@edu.Berkeley.ICSI).
+	I don't know how useful it is, our imake isn't installed.
+
+	* Changed default font for value entry to 9x15bold in XAlarm.ad; it is
+	a little more readable.

@@ -1,0 +1,22 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+#define IHaveSubdirs
+
+#ifdef AMS_ENV
+EATMAIL = eatmail
+#endif /* AMS_ENV */
+
+#ifndef SGI_4D_ENV
+TM = tm
+#endif
+
+#if defined(sys_sun4_41) || defined(sys_sun3_41)
+ALINK = alink
+#endif
+
+SUBDIRS = compress demos gestures wpedit ltext m3text \
+	mtext ptext rctext rmtext ${TM} time $(EATMAIL) \
+	mit ${ALINK}

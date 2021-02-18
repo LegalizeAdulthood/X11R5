@@ -1,0 +1,78 @@
+\begindata{text,268887380}
+\textdsversion{12}
+\template{help}
+\define{keyword
+}
+\chapter{ADEW: The Andrew Development Environment Workbench}
+
+
+\section{What is ADEW?
+
+}\leftindent{
+The Andrew Development Environment Workbench (ADEW) is a user interface 
+management system that simplifies the creation of Andrew Toolkit ( \italic{ATK} 
+) applications.  It consists of numerous parts, notably:
+
+
+\bold{Arbcon, }an editing tool that sits in a separate window to aid in the 
+creation and editing of groups of insets.
+
+
+\bold{Value insets}, which are a set of buttons, switches and string entry 
+objects for user interaction.
+
+
+\bold{The Lset inset}, an inset desinged to lay out embedded insets in a tiled 
+fashion.
+
+
+\bold{Createcon}, a program that takes a group of insets and writes a 
+controller object for them that makes it easy for programmers to define how 
+the insets should interaction for a specific application.
+
+}
+\section{What can ADEW do?}\leftindent{
+
+
+ADEW can be used for rapid prototyping allowing non-programmers and 
+programmers alike to design applications.  Anyone interested in developing ATK 
+applications might well find ADEW a good starting place and a useful tool for 
+creating demo and test applications. 
+
+
+Some examples of applications which have been created using ADEW are:
+
+
+\leftindent{a calculator
+
+a simple Help program, 
+
+a piano \italic{inset} that can be sent through the mail, and can play back an 
+enclosed tune.}
+
+
+}\section{Learning more about ADEW}
+
+\leftindent{
+There are three documents in /usr/andrew/doc/adew which will assist you in 
+learning about ADEW.  They are:
+
+
+Overview.d
+
+Tutorial.d
+
+RefMan.d
+
+
+The Tutorial is a good place to start if you are interested in learning and 
+actually creating a sample program.
+
+}\leftindent{
+}\section{Program Author
+
+}
+\leftindent{Thomas Neuendorffer
+
+}
+\enddata{text,268887380}

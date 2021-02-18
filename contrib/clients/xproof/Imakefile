@@ -1,0 +1,128 @@
+/*
+ * Copyright 1991 University of Wisconsin-Madison
+ *
+ * Permission to use, copy, modify, distribute, and sell this software and its
+ * documentation for any purpose is hereby granted without fee, provided that
+ * the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation, and that the name of the University of Wisconsin-Madison not
+ * be used in advertising or publicity pertaining to distribution of the
+ * software without specific, written prior permission.  The University of
+ * Wisconsin-Madison makes no representations about the suitability of this
+ * software for any purpose.  It is provided "as is" without express or
+ * implied warranty.
+ *
+ * THE UNIVERSITY OF WISCONSIN-MADISON DISCLAIMS ALL WARRANTIES WITH REGARD TO
+ * THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS, IN NO EVENT SHALL THE UNIVERSITY OF WISCONSIN-MADISON BE LIABLE FOR
+ * ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+ * RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Author:   Marvin Solomon
+ *           Computer Sciences Department
+ *           University of Wisconsin, Madison WI
+ *           solomon@cs.wisc.edu or seismo!uwvax!solomon
+ *
+ * Current Maintainer:
+ *
+ *           Tim Theisen           Systems Programmer
+ * Internet: tim@cs.wisc.edu       Department of Computer Sciences
+ *     UUCP: uwvax!tim             University of Wisconsin-Madison
+ *    Phone: (608)262-0438         1210 West Dayton Street
+ *      FAX: (608)262-9777         Madison, WI   53706
+ */
+/* $Header: /src/X11/uw/xproof/RCS/Imakefile,v 3.18 1991/10/04 22:17:24 tim Exp $ */
+
+/* SITE-DEPENDENT PARAMETERS */
+
+/* If some of your servers do not adequately support Pixmaps include some
+ * version of the following lines (see README for explanation).
+ * I you don't have this problem with any of your servers, you can use
+#define UsePixmap -DUSEPIXMAP=\"true\"
+ * If you have this problem with some of your servers, you should use:
+#define UsePixmap -DUSEPIXMAP=\"false\"
+ */
+#if defined(VaxArchitecture) || defined(BobcatArchitecture)
+#define UsePixmap -DUSEPIXMAP=\"false\"
+#else
+#define UsePixmap -DUSEPIXMAP=\"true\"
+#endif
+
+/* The location of the ditroff font-description files */
+#define DescDir -DDESCDIR=\"/usr/lib/font\"
+
+/* Name of the target device */
+#define Device -DDEVICE=\"psc\"
+
+/* Place to install new fonts */
+#define FontInstDir $(FONTDIR)
+
+/* The following command should run ditroff on standard input and produce
+ * its results on standard output.
+ */
+DITROFF = ditroff -t
+
+/* END OF SITE-DEPENDENT PARAMETERS */
+
+# Things needed to build xproof
+           SRCS = getdevinfo.c showpage.c draw.c Proof.c xfontinfo.c \
+                  index.c main.c version.c
+           OBJS = getdevinfo.o showpage.o draw.o Proof.o xfontinfo.o \
+                  index.o main.o version.o
+         HFILES = Proof.h ProofP.h adobe.h bdfheader.h dev.h xproof.h \
+                  patchlevel.h
+       BDFFONTS = $(FONTSRC)/bdf
+    FONTINSTDIR = FontInstDir
+        DEFINES = DescDir Device UsePixmap
+
+        DEPLIBS = $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+       INCLUDES = -I$(TOP)
+
+
+# Faces that need fixing.  The Symbol font is already ok.  Other fonts are
+# not (currently) used by xproof.  See fixfont.c for more comments.
+#
+FACES = courB courBO courO courR helvB helvBO helvO helvR \
+	ncenB ncenBI ncenI ncenR timB timBI timI timR
+ 
+# Assume each of these faces comes in all of the following point sizes
+#
+SIZES = 08 10 12 14 18 24
+
+RESOLUTIONS = 75 100
+
+#ifndef UsePixmap
+#define UsePixmap
+#endif
+
+ComplexProgramTarget(xproof)
+NormalLintTarget($(SRCS))
+SingleProgramTarget(fixfont,fixfont.o,,)
+SingleProgramTarget(drawhacks,drawhacks.o,,)
+
+test: $(PROGRAM).prf $(PROGRAM)
+	$(PROGRAM) $(PROGRAM).prf
+
+$(PROGRAM).prf: $(PROGRAM).man
+	$(DITROFF) -man $(PROGRAM).man >$(PROGRAM).prf
+
+install-fonts: fixfont drawhacks
+	for resolution in $(RESOLUTIONS) ; do \
+	    for face in $(FACES) ; do \
+		for size in $(SIZES) ; do \
+		    echo $${resolution}dpi/$$face$${size}prf.pcf ; \
+		    ./fixfont <$(BDFFONTS)/$${resolution}dpi/$$face$$size.bdf |\
+		    $(FONTC) > $(FONTINSTDIR)/$${resolution}dpi/$$face$${size}prf.pcf; \
+		done; \
+	    done; \
+	    for size in $(SIZES) ; do \
+		echo $${resolution}dpi/dithack$$size.pcf ; \
+		./drawhacks $$size $$resolution | \
+		$(FONTC) >$(FONTINSTDIR)/$${resolution}dpi/dithack$$size.pcf ; \
+	    done; \
+	    $(MKFONTDIR) $(FONTINSTDIR)/$${resolution}dpi; \
+	done

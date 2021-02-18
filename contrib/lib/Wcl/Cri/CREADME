@@ -1,0 +1,21 @@
+This directory holds the beginnings of support for Gene Dyke's Cornell widgets.
+It assumes you have obtained version 1.6 that is compatible with X11R5.
+
+This directory has test programs for most of the Cornell widgets including
+versions of the demos that are in the Xcu examples/xlayout directory.  
+
+The directory Xcp has the source for CriRegisterAll.  I added callback
+functions for the public Xcu functions.  One callback, XcuBmgrManageCB is
+needed to make bmgr widgets work in Wcl.
+
+I have not added the Wlm widget at this time.
+
+I would be interested in hearing of problems, suggestions, or improvements
+you have.
+
+The Xcu widgets are available via FTP from 128.84.247.85.
+
+Kim Gillies
+National Optical Astronomy Observatory
+gillies@noao.edu
+6023259246

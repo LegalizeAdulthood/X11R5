@@ -1,0 +1,76 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 06:48:12 ohm Exp $
+/**/#
+/**/#
+/**/# X11R5 Input Method Test Program
+/**/# Imakefile v 1.0	Thu Mar 14 14:29:14 JST 1991
+/**/#
+/**/#
+/**/# Copyright 1991 by OMRON Corporation
+/**/# Copyright 1991 by the Massachusetts Institute of Technology
+/**/#
+/**/#	Author: Takashi Inoue	OMRON Corporation
+/**/#				takashi@ari.ncl.omron.co.jp
+/**/#
+
+/**/#ifndef uniosu
+/**/#ifndef	HasGcc
+/**/#define	HasGcc	YES
+/**/#endif
+/**/#endif
+
+ARCS =  $(XMULIB) $(XLIB)
+
+CDEBUGFLAGS = -g -DXML
+
+LOCAL_LIBRARIES = $(ARCS)
+
+#ifdef uniosu
+SYSLIBS= -lcurses -lj
+#else
+SYSLIBS= -lcurses -ltermcap
+#endif
+
+INCLUDES = -I$(TOP) -I$(XLIBSRC)
+
+TOP_INCLUDES =
+
+OBJS1 =	ximtest.o \
+	curses.o \
+	xresource.o \
+	chkim.o	\
+	chkic.o	\
+	chkutil.o \
+	keyev.o	\
+	chkfe.o	\
+	chkxls.o \
+	chkcset.o \
+	chkpsset.o \
+	callback.o \
+	chkreset.o \
+	funcv.o	\
+	final.o
+
+SRCS1 =	ximtest.c \
+	curses.c \
+	xresource.c \
+	chkim.c	\
+	chkic.c	\
+	chkutil.c \
+	keyev.c	\
+	chkfe.c	\
+	chkxls.c \
+	chkcset.c \
+	chkpsset.c \
+	callback.c \
+	chkreset.c \
+	funcv.c	\
+	final.c
+
+
+AllTarget(ximtest)
+SingleProgramTarget(ximtest, $(OBJS1), $(LOCAL_LIBRARIES), $(SYSLIBS))
+
+
+
+

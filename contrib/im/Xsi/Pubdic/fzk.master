@@ -1,0 +1,27 @@
+;
+;		Wnn version 4 接続ベクトル定義ファイル
+;        	    Pubdic Version    1989/11/7
+;
+#ifdef comment
+	このファイルは、生の定義ファイルではなく、以下のマクロの
+	定義/未定義により、それぞれの目的に応じた接続ベクトル定義
+	ファイルを cpp を使って生成するようになっている。
+
+	マクロ名	意味
+	=======================================================
+	KOUGO		口語で、ややくだけた表現
+	KANSAI		主に関西地方で使われる口語表現 (KOUGO を仮定)
+#endif
+
+#if KANSAI && !KOUGO
+#define KOUGO
+#endif
+
+#include "fzk.attr"
+#include "fzk.jirattr"
+#include "fzk.fzkattr"
+#include "fzk.jircon"
+#include "fzk.con"
+#include "fzk.shuutan"
+
+\bye

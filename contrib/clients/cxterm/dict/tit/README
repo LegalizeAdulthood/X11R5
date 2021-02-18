@@ -1,0 +1,42 @@
+List of Content in this Directory
+---------------------------------
+
+name		coding	description
+-------------	------	----------------------------------------
+PY.tit		GB	Standard PinYin input method
+TONEPY.tit	GB	Standard PinYin input method with tone 1-5
+SW.tit		GB	CCDOS style ShouWei input method (first & last part)
+
+Punct.tit	GB	Punctuation marks input table.
+QJ.tit		GB	Quan Jiao -- double-byte ASCII in GB coding
+CCDOSPY.tit	GB	CCDOS style abbreviated PinYin input method
+CTCPS3.tit	GB	Cantonese Phonetic CPS3 scheme
+			(by Fung-Fung Lee <lee@milo.stanford.edu>, see
+			 june.cs.washington.edu:~ftp/pub/yeung/cantonese.shar)
+
+ETZY.tit	BIG5	ETen ZhuYin (phonetic) input in ETen keyboard layout
+		(HKU)	(by Susie Chu <chu@ames.arc.nasa.gov>)
+PY-b5.tit	BIG5	Standard PinYin input method with tones for HKU BIG5.
+		(HKU)	(by Stephen G Simpson <simpson@math.psu.edu>)
+ZOZY.tit	BIG5	ETen ZhuYin (phonetic) input in second keyboard layout
+		(HKU)	as in ZeroOne, DACHEN system, etc.
+QJ-b5.tit	BIG5	Quan Jiao -- double-byte ASCII in  BIG5 coding
+Punct-b5.tit	BIG5	Punctuation marks input table.
+
+-------------------
+
+Note that HKU BIG5 is different from ETen (BIG5) coding.  The above BIG5
+dictionaries should be used with hku-ch16 font.  A conversion program
+is provided in utils/et2hku to convert files between these two coding.
+If you are using cxterm with ETen encoding fonts,  you should first
+convert the HKU Big5 encoding dictionaries in this directory to ETen
+encoding first.
+
+We welcome your contribution of any input methods.
+Future distribution of input methods will be made available by ftp at
+
+    cs.purdue.edu:pub/ygz/cxterm-dictionary		(128.10.2.1)
+
+Yongguang Zhang
+Purdue University Dept of Computer Sciences
+ygz@cs.purdue.edu

@@ -1,0 +1,46 @@
+\begindata{text,268823180}
+\textdsversion{12}
+\template{default}
+\bold{\bigger{\bigger{\center{Some current statistics from CMU}}}}
+
+
+The following statistics, though curent as of May, 1989, will become quickly 
+obsolete, given our past experience:
+
+
+\leftindent{\italic{Number of public or semi-public bboards on the system}: 
+ ~1900
+
+
+\italic{Typical number of bboards an individual subscribes to}: ~40
+
+
+\italic{Maximum known number of bboards one individual subscribes to}:  468
+
+
+\italic{Annual volume of bboard posts}:  ~10 Gigabytes
+
+
+\italic{Mean time between message postings on all public bboards}:  22 seconds
+
+
+\italic{Number of magazines (user-edited bboards culling gems from other 
+bboards)}:  34
+
+
+\italic{Number of registered Andrew users at CMU}:  ~8400
+
+
+\italic{Number of CMU users who read mail or bboards regularly using AMS}: 
+~3100
+
+
+\italic{Number of non-CMU sites subscribing to the multi-media "andrew-demos" 
+distribution list}:  33 (at least 5 of which are redistribution lists)
+
+}
+Some of the non-CMU sites are also using AMS on a very large scale; for 
+example, an IBM site in Rochester, Minnesota has nearly as many AMS bulletin 
+boards as the CMU installation.
+
+\enddata{text,268823180}

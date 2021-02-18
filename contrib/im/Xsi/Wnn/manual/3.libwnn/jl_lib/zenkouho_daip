@@ -1,0 +1,23 @@
+JL_ZENKOUHO_DAIP ( )
+
+名称
+
+	jl_zenkouho_daip - 全候補が大文節かどうかの判定
+
+形式
+
+	#include "jllib.h"
+	int	jl_zenkouho_daip(buf)
+	struct wnn_buf *buf;	/* バッファ */
+
+
+機能
+
+	現在選択している全候補が大文節のものなら 1 を返す。
+
+
+
+リターンバリュー
+
+
+使用上の注意事項

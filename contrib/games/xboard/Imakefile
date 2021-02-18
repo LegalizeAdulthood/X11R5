@@ -1,0 +1,22 @@
+#
+# Imakefile -- to generate a Makefile for xboard, use:
+#   /usr/local/X11/mit/config/imake \
+#       -I/usr/local/X11/mit/config \
+#       -DTOPDIR=/usr/local/X11/mit
+#
+
+   SYS_LIBRARIES = -lm
+ LOCAL_LIBRARIES = XawClientLibs
+         DEPLIBS = XawClientDepLibs
+
+SRCS = parser.c xboard.c
+OBJS = parser.o xboard.o
+
+AllTarget(xboard)
+
+depend:: parser.c
+
+clean::
+	$(RM) parser.c chess.lst
+
+ComplexProgramTarget(xboard)

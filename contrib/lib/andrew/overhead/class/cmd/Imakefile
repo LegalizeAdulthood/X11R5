@@ -1,0 +1,54 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOCALINCLUDES = -I../machdep/machine -I../lib
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+RESOLVER_LIB = 
+SYSLIBS = -L${DESTDIR}/lib -lresolv
+#else /* LIBDL_ENV */
+RESOLVER_LIB = ${RESOLVLIB}
+SYSLIBS =
+#endif /* LIBDL_ENV */
+#endif /* RESOLVER_ENV */
+
+
+#if defined(_IBMR2)
+CLASSLIBS = -L${DESTDIR}/lib -lclass
+#endif /* _IBMR2 */
+
+DependTarget()
+NormalObjectRule()
+
+#if !defined(_IBMR2) && !defined(LIBDL_ENV) && !defined(hp9000s800)
+ClassProgramTarget(dofix,../machdep/machine/dofix.o,../lib/libclass.a $(RESOLVER_LIB),${SUPLIBS})
+ClassProgramTarget(dotest,dotest.o,../lib/libclass.a $(RESOLVER_LIB),${SUPLIBS})
+#endif /* !_IBMR2 && !LIBDL_ENV  && !hp9000s800 */
+
+#ifdef LIBDL_ENV
+ClassProgramTarget(doindex,doindex.o,${BASEDIR}/lib/libclass.a $(RESOLVER_LIB),${SYSLIBS} ${SUPLIBS})
+#else /* LIBDL_ENV */
+#ifdef _IBMR2
+ClassProgramTarget(doindex,doindex.o,$(RESOLVER_LIB),${SYSLIBS} ${SUPLIBS} ${CLASSLIBS} ${BSDLIB})
+#else /* _IBMR2 */
+ClassProgramTarget(doindex,doindex.o,../lib/libclass.a $(RESOLVER_LIB),${SYSLIBS} ${CLASSLIBS} ${SUPLIBS})
+#endif /* _IBMR2 */
+#endif /* LIBDL_ENV */
+
+ProgramTarget(whichdo,whichdo.o,$(UTILLIB),${NETLIBS} ${BSDLIB})
+
+#if !defined(_IBMR2) && !defined(LIBDL_ENV) && !defined(hp9000s800)
+InstallClassProgram(dofix,$(DESTDIR)/bin)
+InstallClassProgram(dotest,$(DESTDIR)/bin)
+#endif /* !_IBMR2 && !LIBDL_ENV && !hp9000s800 */
+
+InstallClassProgram(doindex,$(DESTDIR)/bin)
+InstallProgram(whichdo,$(DESTDIR)/bin)
+
+InstallDocs(doindex.help, ${DESTDIR}/help)

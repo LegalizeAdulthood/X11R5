@@ -1,0 +1,8 @@
+#include <GraphLib.tmpl>
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = glclock perfmon
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

@@ -1,0 +1,13 @@
+xbitmap1	simplest bitmap editor, using BitmapEdit
+xbitmap2	add scrollbars to xbitmap1, using BitmapEdit
+xbitmap3	add small pixmaps to xbitmap1, using BitmapEdit.  Also add file writing.
+xbitmap4	implement xbitmap1 NOT USING BitmapEdit
+
+xbitmap5	xbitmap1 with scrollbars implemented with Viewport
+xbitmap6	xbitmap3 with small pixmaps implemented with Label
+xbitmap7	both scrollbars and small pixmaps to xbitmap1, using BitmapEdit
+xbitmap8	using BitmapEdit, both reads and writes standard bitmap files.
+
+BitmapEdit.c	Source file for BitmapEdit widget, described in chapters 5 and 6.
+BitmapEdiP.h	Private include file for BitmapEdit, described in Chapter 5.
+BitmapEdit.h	Public include file for BitmapEdit, described in Chapter 5.

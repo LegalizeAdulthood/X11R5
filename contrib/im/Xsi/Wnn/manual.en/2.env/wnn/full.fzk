@@ -1,0 +1,18 @@
+FULL.FZK(5)
+
+NAME
+    full.fzk - Fuzokugo information data (data format)
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/dic/pubdic/full.fzk
+
+DESCRIPTION
+    This data is Fuzokugo information data (data format) read at startup time
+    of jserver(1). This data is a database which contains connection of
+    fuzokugo and grammar information of word connection.
+    This table is created from Fuzokugo information data (UJIS format)
+    by atof(1) command.
+
+SEE ALSO
+    atof(1), fzk.u(5)
+

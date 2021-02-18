@@ -1,0 +1,11 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+OBJS = sc.o fv.o gf.o util.o matrix.o bitvector.o
+INCFILES = bool.h util.h bitvector.h fv.h sc.h matrix.h zdebug.h
+
+LibraryTarget(librecog.a, $(OBJS))
+ProgramTarget(tt, tt.o, librecog.a,-lm)
+InstallLibrary(librecog.a,$(BASEDIR)/lib/gestures)
+InstallMultiple($(INCFILES), $(INSTINCFLAGS),$(BASEDIR)/include/gestures)

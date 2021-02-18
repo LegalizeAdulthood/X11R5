@@ -1,0 +1,103 @@
+/*
+ * Slide.c - Slider widget for X11 Toolkit
+ * 
+ * Author:	Mike Yang (mikey@sgi.com)
+ *		Silicon Graphics, Inc.
+ * Date:	Mon Aug 9 1988
+ *
+ * Copyright (c) 1988, 1991 Mike Yang
+ *
+ * A slight modification of code taken from the X11R2 Scrollbar widget
+ *
+ */
+
+
+The Slide slider widget consists of a bargraph with an adjustable
+floating point value between 0 and 1.  The value is changed by middle
+clicking at the new point, or left or right adjustment through left or
+right button clicks.  At any time, the bargraph displays the current
+value.
+
+The class variable for the Slide slider widget is slideWidgetClass.
+
+When creating a Slide widget instance, the following resources are
+retrieved from the argument list or from the resource database (in
+addition to the common resources):
+
+Name		Type		Default		Description
+
+XtNlength	int		None		major dimension
+XtNorientation	XtOrientation	XtorientVertical  orientation (vert or horiz)
+XtNshown	float		NULL		percentage the thumb covers
+XtNthickness	int		14		minor dimension
+XtNthumb	Pixmap		Grey		thumb pixmap
+XtNtop		float		NULL		level of bargraph
+XtNfillColor	Pixel		black		filling color
+XtNfillPixmap	Pixmap		NULL		filling pixmap
+XtNscrollProc	XtCallbackList	NULL		callback for incremental change
+XtNscrollDCursor Cursor		XC_sb_down_arrow cursor for scrolling down
+XtNscrollHCursor Cursor		XC_sb_h_double_arrow idle horiz cursor
+XtNscrollLCursor Cursor		XC_sb_left_arrow cursor for scrolling left
+XtNscrollRCursor Cursor		XC_sb_right_arrow cursor for scrolling right
+XtNscrollUCursor Cursor		XC_sb_up_arrow	cursor for scrolling up
+XtNscrollVCursor Cursor		XC_sb_v_double_arrow idle vert cursor
+XtNthumbProc	XtCallbackList	NULL		callback for sliding change
+XtNjumpProc	XtCallbackList	NULL		callback for sliding change,
+						  but pass data by ref
+
+You can set the dimensions of the Slide two ways.  As for all widgets,
+you can use the XtNwidth and XtNheight resources.  In addition, you
+can use an alternative method that is independent of the vertical or
+horizontal orientation:
+
+XtNlength	Specifies the height for a vertical Slide and the width for
+		a horizontal Slide
+
+XtNthickness	Specifies the width for a vertical Slide and the height for
+		a horizontal Slide
+
+To create a Slide widget instance, use XtCreateWidget and specify the
+class variable slideWidgetClass.
+
+The callback procedure for the slide area is:
+
+void ScrollProc (cpick, client_data, position)
+  Widget cpick;
+  caddr_t client_data;
+  int position;
+
+cpick		Specifies the ID of the Slide
+client_data	Specifies the client data
+position	Returns the pixel position of the pointer in integer form
+
+The ScrollProc callback is used for incremental change and for getting
+feedback from the thumb and background.  The position argument is a
+signed quantity.  Using the default button bindings, Button 1 returns
+a positive value, and Button 3 returns a negative value.  In both
+cases, the magnitudew of the value is the distance of the pointer from
+the top (or left) of the Slide.  The value will never be greater than
+the length of the Slide.
+
+The callback procedure for the thumb area is:
+
+void ThumbProc (cpick, client_data, percent)
+  Widget cpick;
+  caddr_t client_data;
+  float percent;
+
+cpick		Specifies the ID of the Slide
+client_data	Specifies the client data
+percent		Specifies the floating point fill values (0.0 - 1.0)
+
+The ThumbProc callback is used to implement sliding change of value.
+With the default button bindings, Button2 changes the value
+interactively, and the ThumbProc is called on each new position of the
+pointer.
+
+It would be nice if microstepping (holding down the left or right
+button results in continuous, fine adjustment of the value) were
+implemented.  The Scrollbar widget also lacks this feature.
+
+To destroy a Slide widget instance, use XtDestroyWidget and specify
+the widget ID for the Slide.
+

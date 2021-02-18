@@ -1,0 +1,45 @@
+#
+# $Header: /../dude/usr3/emu/term/parser/RCS/Imakefile,v 2.2 90/07/26 02:10:42 jkh Exp Locker: terry $
+#
+#
+# This file is part of the PCS emu program.
+#
+# Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+#
+#                        All Rights Reserved
+#
+# Permission to use, copy, modify, and distribute this software and its 
+# documentation for any purpose and without fee is hereby granted, 
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in 
+# supporting documentation, and that the names of PCS or the authors not
+# be used in advertising or publicity pertaining to distribution of the
+# software without specific, written prior permission.  
+# 
+# PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+# ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+# PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+# OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+# OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+#
+# USE THIS IMAKEFILE FOR TESTING.
+#
+# As per convention, this makefile will create a stand-alone version
+# of the trie parser section of the emu widget for testing purposes.
+#
+CCOPTIONS = -Wall -g -pipe
+INCLUDES = -I. -I.. -I../tty -I../../include
+LOCAL_LIBRARIES = $(XTOOLLIB) $(XLIB)
+DEPLIBS =
+# use -DMALLOC_TEST to see what's going on with mallocing. Needs TRIE_TESTING.
+DEFINES = -DTRIE_ARG_CHECKING -DTRIE_TESTING -DSYSV -DPCS
+
+M_SRCS = ../../misc/strutils.c ../../misc/msgs.c
+M_OBJS = ../../misc/strutils.o ../../misc/msgs.o
+
+SRCS = try.c iops.c trie.c trie_aux.c new.c destroy.c $(M_SRCS)
+OBJS = try.o iops.o trie.o trie_aux.o new.o destroy.o $(M_OBJS)
+
+ComplexProgramTarget(test_parser)

@@ -1,0 +1,197 @@
+
+
+
+	Experimental Support for Extension Event Handling in Xt
+
+
+This directory contains patches to lib/Xt to provide support for
+dispatching of extension events to widgets and to applications.  This
+interface is experimental.  MIT makes no guarantee that any future
+version of the Intrinsics specification will contain these interfaces
+or any similar interfaces.  MIT makes no guarantee that the interfaces
+included here will be supported after Release 5.
+
+The extension event handling support consists of 4 new functions and
+1 new function type.  The new function type is an "event dispatcher",
+a procedure that is called by the Intrinsics with an event and that is
+responsible for determining a widget to which to dispatch the event.
+A new function to register these event dispatchers is added, as well
+as a function to allow the dispatcher to pass the event back to the
+Intrinsics together with a specific widget to which to dispatch the
+event.  The final two interfaces allow clients and widgets to register
+event handlers according to an event type rather than an event mask.
+These event handlers are the same as are registered by the existing
+Intrinsics procedures.
+
+To register an event handler procedure with the Intrinsics dispatch
+mechanism according to an event type, use XtAddEventTypeHandler.
+
+void XtAddEventTypeHandler(
+    Widget	    widget,
+    int		    event_type,
+    XtPointer	    select_data,
+    XtEventHandler  proc,
+    XtPointer	    client_data,
+    XtListPosition  position
+    )
+
+widget		Specifies the widget for which this event handler is
+		being registered.  Must be of class Core or any subclass.
+
+event_type	Specifies the event type for which to call this event handler.
+
+select_data	Specifies data used to request events of the specified type
+		from the server, or NULL.
+
+proc		Specifies the event handler to be called.
+
+client_data	Specifies additional data to be passed to the event handler.
+
+position	Specifies when the event handler is to be called
+		relative to other previously registered handlers.
+
+The XtAddEventTypeHandler function registers a procedure with the
+dispatch mechanism that is to be called when an event that matches the
+specified event_type is dispatched to the specified widget.  If
+event_type specifies one of the core X protocol events then select_data
+must be a pointer to a value of type EventMask, indicating the event
+mask to be used to select for the desired event.  This event mask will
+be included in the value returned by XtBuildEventMask.  If the widget
+is realized XtAddEventTypeHandler calls XSelectInput if necessary.
+The Intrinsics are not required to copy the event mask, therefore the
+caller must insure that the data remain valid as long as the event
+handler remains registered with this value of select_data.  Specifying
+NULL for select_data is equivalent to specifying a pointer to an event
+mask containing 0.  This is similar to the XtAddRawEventHandler
+function.  If event_type specifies an extension event type then
+select_data must be NULL and it is the responsibility of the client to
+call the appropriate extension facility (e.g. XShapeSelectInput) to
+select for any desired events.  (Further additions are anticipated
+here).  The position argument allows the client to control the order
+of invocation of event handlers registered for the same event type.
+If the client does not care about the order, it should normally
+specify XtListTail, which registers this event handler after any
+previously registered handlers for this event type.
+
+Each widget has a single registered event handler list, which will
+contain any procedure--client_data pair exactly once if it is
+registered with XtAddEventTypeHandler, regardless of the value(s) of
+select_data.
+
+
+To remove an event handler registered with XtAddEventTypeHandler, use
+XtRemoveEventTypeHandler.
+
+void XtRemoveEventTypeHandler(
+    Widget	    widget,
+    int		    event_type,			      
+    XtPointer	    select_data,
+    XtEventHandler  proc,
+    XtPointer	    closure
+    )
+
+widget		Specifies the widget for which the event handler was
+		registered.  Must be of class Core or any subclass.
+
+event_type	Specifies the event type for which the handler was registered.
+
+select_data	Specifies data used to deselect events of the specified type
+		from the server, or NULL.
+
+proc		Specifies the event handler to be removed.
+
+client_data	Specifies the additional client data with which the
+		procedure was registered.
+
+The XtRemoveEventTypeHandler function unregisters an event handler
+registered with XtAddEventTypeHandler for the specified event type.
+The request is ignored if client_data does not match the value given
+when the handler was registered.  If event_type specifies one of the
+core X protocol events, select_data must be a pointer to a value of
+type EventMask, indicating the event mask to be used to deselect for
+the appropriate event.  If the widget is realized, XtRemoveEventTypeHandler
+calls XSelectInput if necessary.  Specifying NULL for select_data is
+equivalent to specifying a pointer to an event mask containing 0.
+This is similar to the XtRemoveRawEventHandler function.  If
+event_type specifies an extension event type, select_data must be
+NULL and it is the responsibility of the client to call the appropriate
+extension facility (e.g. XShapeSelectInput) to deselect for any
+undesired events.  (Further additions are anticipated here).
+
+
+To register a procedure to dispatch events of a specific type within
+XtDispatchEvent, use XtSetEventDispatcher.
+
+void XtSetEventDispatcher(
+    XtAppContext	app,
+    int			min_event_type,
+    int			max_event_type,
+    XtEventDispatchProc	proc
+    )
+
+app		Specifies the application context in which the event
+		dispatcher is to be registered, or NULL.
+
+min_event_type	Specifies the range of event types for which the
+max_event_type	dispatcher is to be invoked.
+
+proc		Specifies the event dispatcher procedure.
+
+The XtSetEventDispatcher function registers the event dispatcher
+procedure specified by proc for events in the range min_event_type to
+max_event_type inclusive, overriding any previously registered
+procedure.  If proc is NULL, the default procedure is restored for the
+specified range.  If app is NULL, the procedure is registered in all
+current application contexts created by the calling process and in any
+future application contexts created by the process.
+
+In the future, when XtDispatchEvent is called with an event type in
+the range min_event_type to max_event_type, the specified proc (or the
+default dispatcher) will be invoked to determine a widget to which to
+dispatch the event.  The default dispatcher handles the Intrinsics
+modal cascade and keyboard focus mechanisms, handles the semantics of
+compress_enterleave and compress_motion, and discards all extension
+events.
+
+
+An event dispatcher procedure pointer is of type XtEventDispatchProc.
+
+typedef Boolean (*XtEventDispatchProc)(XEvent*)
+
+    XEvent *event;
+
+event	Passes the event to be dispatched.
+
+The event dispatcher procedure should determine the appropriate widget
+to receive the event, call XFilterEvent with the window of this
+widget, or None if the event is to be discarded, and if XFilterEvent
+returns False, dispatch the event to the widget using
+XtDispatchEventToWidget.  The procedure should return True if either
+XFilterEvent or XtDispatchEventToWidget returned True and False
+otherwise.
+
+
+To dispatch an event to a specified widget, use XtDispatchEventToWidget.
+
+Boolean XtDispatchEventToWidget(
+    Widget	widget,
+    XEvent	*event
+    )
+
+widget		Specifies the widget to which to dispatch the event.
+
+event		Specifies a pointer to the event to be dispatched.
+
+XtDispatchEventToWidget scans the list of registered event handlers
+for the specified widget and calls each handler that has been
+registered for the specified event type, subject to the
+continue_to_dispatch value returned by each handler.  The Intrinsics
+behave as if event handlers were registered at the head of the list
+for Expose, NoExpose, GraphicsExpose, and VisibilityNotify events to
+invoke the widget's expose procedure according to the exposure
+compression rules and to update the widget's visible field if
+visible_interest is True.  These internal event handlers never set
+continue_to_dispatch to False.
+
+XtDispatchEventToWidget returns True if any event handler was called
+and False otherwise.

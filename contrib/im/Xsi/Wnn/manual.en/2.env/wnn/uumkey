@@ -1,0 +1,326 @@
+UUMKEY(4)
+
+NAME
+    uumkey  -  The keyboard definition file for the uum
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/uumkey
+
+DESCRIPTION
+    uumkey is the definition file for the keyboard layout during conversion.
+    User can define the function of a particular key according to his needs.
+    Lines 
+	that begin with ":" or ";" are treated as comments.
+
+	include  <uumkey_filename> 
+	    Specifies the other keyboard definition files.
+
+	unset <command> 
+	    Specifies the command to remove all the function key definitions
+	    which correspond to <command>.
+
+	command  <key>  [ <key>  ....]
+	    Definition of function keys: <key> can be represented in decimal,
+	    hexadecimal, octal or character enclosed between single quotes.
+	    There  are 11 states  for the front-end processor. 
+	    (Refer to State Table)
+
+
+    State Table
++------------------------------------------------------------------------------+
+| State Number |                     Description                               |
+|--------------+---------------------------------------------------------------|
+| 	0      | The state of performing correction on the conversion result   |
+| 	1      | The state before conversion, ie. the input state.             |
+| 	2      | The state when segmentation is done to the words and phrases  |
+|	       | after conversion.					       |
+| 	3      | The initial state when the input buffer is empty.             |
+| 	4      | The state of cursor movement for the selection of candidates  |
+|              | for a Chinese character. (including the selection of phrase   |
+|              | candidates, performing certain operations, and selection of   |
+|              | grammatical category and dictionary when adding words.	       |
+| 	5      | The state  that specifies the range of characters to be added |
+|              | as a new word.						       |
+| 	6      | The input state for Pinyin during the addition of new words   |
+|              | to dictionary 						       |
+| 	7      | The state for searching/deleting word or dictionary 	       |
+| 	8      | The inspect state; search for a word and retrieve information |
+|              | of the word.                            		       |
+| 	9      | The state for dictionary search.                              |
+| 	A      | The inspect state.                                            |
++------------------------------------------------------------------------------+  
+ 
+    The following settings are specified in this file.
+	henkan_on   0123456789
+	    To set conversion state to ON or OFF.
+
+	quote_keyin   0123456789
+	    To quote the next input character so that function keys used for
+	    setting conversion state can also be used for input. This function
+	    is used for special cases when input of "convert_on" function key
+	    code is needed.
+
+	send_string  012
+	    To send the conversion characters together with the corresponding
+	    function code to application procedure.
+
+	kakutei   012
+	    (Confirm) To send the conversion character string to application
+	    procedure.
+
+	forward_char   01256
+	    156: To move the cursor one character position to the right
+	    0  : To move the cursor one word to the right
+	    2  : To remain the cursor position as ASCII, perform multi-phrase
+		 conversion for the character after the cursor, and move the
+		 cursor one word to the right.
+
+	backward_char   01256
+	    1  : To move the cursor one character position to the left.  
+		 If this function is used when the cursor is at the leftmost
+		 position of the unconverted portion or a  partially converted
+		 string, multi-phrase conversion will be performed and the
+		 cursor will move one word to the left.
+	    56 : To move the cursor one character to the left. 
+	    0  : To move the cursor one word to the left.
+	    2  : The  highlighted portion will remain as ASCII, the portion 
+		 beyond the highlighted  part will undergo multi-phrase
+		 conversion, and the cursor will move one word to the left.
+
+	goto_top_of_line   01256
+	    1256: To move the cursor to the first character of the line.
+	    0   : To move the cursor to the first word of the line.
+
+	goto_end_of_line   01256
+	    1256: To move the cursor to the last character of the line.
+	    0   : To move the cursor to the last word of the line.
+
+	delete_char_at_cursor   156
+	    To remove the character at the position of the cursor.
+
+	kaijo   02
+	    To change the converted  character strings after the cursor back
+	    to that before the conversion.
+
+	henkan   1
+	    To perform multi-phrase conversion.
+
+	tan_henkan   1
+	    To perform conversion for a single word.
+
+	tan_henkan_dai   1
+	    To perform conversion for a phrase.
+
+	nobi_henka   2
+	    During word elongation, the highlighted portion will be converted
+	    as a word and the remaining portion will undergo multi-phrase
+	    conversion.
+
+	nobi_henka_dai   2
+	    During compulsory word segmentation, the portion before the cursor
+	    will be converted to a phrase, and the portion after the cursor
+	    will undergo multi-phrase conversion.
+
+	jikouho   0
+	    To extract the next word candidate.
+
+	jikouho_dai   0
+	    To extract the next phrase candidate.
+
+ 	zenkouho   0
+	    To extract the previous word candidate.
+
+ 	zenkouho_dai   0
+	    To extract the previous phrase candidate.
+
+ 	select_jikouho   0
+	    To extract the next group of word candidates.
+
+ 	select_jikouho_dai   0
+	    To extract the next group of phrase cnadidates.
+
+ 	kana_henkan     1
+	    To perform Kanji-To-Kana conversion, ie. reverse conversion.
+
+ 	kill   156
+	    To remove the characters from and including the cursor position,
+	    and store them in the "kill" buffer.
+
+ 	yank   156
+ 	yank_e   1356
+	    To insert the content of the "kill" buffer into the current cursor 
+	    position.
+
+ 	bunsetu_nobasi   02
+	    To increase one character to the length of a word.
+
+ 	bunsetu_chijime   02
+	    To decrease one character from the length of a word.
+
+ 	jisho_utility   012
+ 	jisho_utility_e   0123
+	    To enter the dictionary operation state.
+
+ 	touroku   012
+ 	touroku_e    0123
+	    To enter the word addition state.
+
+ 	sainyuuryoku   1
+ 	sainyuuryoku_e    13
+	    To re-input the previously input character strings.
+
+	kuten    156
+	kuten_e    1356
+	    To input in kuten code mode.
+
+	jis    156
+	jis_e    1356
+	    To input in jis code mode.
+
+ 	redraw_line   012456789
+ 	redraw_line   0123456789
+	    To redraw the conversion input line.
+
+ 	previous_history   1
+ 	previous_history_e   13
+	    To extract the previous string stored in history.
+
+	next_history	1
+	next_history_e    13
+	    To extract the next string stored in history.
+
+ 	touroku_mark_set   5
+	    To set the beginning and ending position of the input string during 
+	    word addition. When the beginning and ending position are the same, 
+	    ie length of word is 0, return to the initial state.
+
+ 	touroku_return   6
+	  To end the input of string during word addition.
+
+ 	quit   4567 
+	    When in a state other than conversion state and input state
+	    (eg. viewing of candidates, word addition etc, state number 
+	    4,5,6,7), exit the state.
+
+ 	touroku_jump_forward   5
+	    During word addition, move the cursor by one word to the front.
+
+ 	touroku_jump_backward   5
+	    During word addition, move the cursor by one word to the rear.
+
+
+
+					- 5-16 -
+ 	change_to_insert_mode   0
+	    To change the converted input string back to insert mode, and there
+	    after, the converted Kanji cannot change back to its Kanaa form. 
+
+ 	quote   1
+ 	quote_e   13
+	    To omit passing the next input character (except "henkan_on" ) to
+	    the input automaton conversion. Instead, pass it directly to the
+	    conversion line.
+
+ 	forward_select   4789
+	    4 : When selecting candidates, the highlighted portion will move to
+		the right.
+	    789 : During dictionary search, if a line is not selected, it will
+		  scroll forward.
+
+ 	backward_select   4789
+	    4 : When selecting candidates, the highlighted portion will move to
+		the left.
+	    789 : During dictionary search, if a line is not selected, it will
+		  scroll backward.
+		
+ 	next_select   4789
+	    4   : To move to the next screen during the selection of candidates.
+	    789 : To move to the next line during dictionary search.
+
+ 	previous_select   4789
+	    4   : To move to the previous screen during the selection of
+		  candidates.
+	    789 : To move to the previous line during dictionary search.
+
+ 	linestart_select   4789
+	    4   : To move to the top of the screen during the selection of
+		  candidates.
+	    789 : During dictionary search, if a line is not selected, move to
+		  the first screen.
+
+ 	lineend_select   4789
+	    4   : To move to the end of the screen during the selection of
+		  candidates.
+	    789 : During dictionary search, if a line is not selected, move to
+		  the last screen.
+
+ 	select_select   4789
+	    4   : During the selection of candidates, select one candidate and
+		  exit from this state. 
+	    789 : During dictionary search, select a candidate and exit from
+		  this state.
+
+ 	send_ascii_char   0123456789    
+	    When the input buffer is empty, the ASCII character input will not
+	    be sent to the buffer.
+
+ 	not_send_ascii_char   0123456789  
+	    When the input buffer is empty, the ASCII character input will be
+	    sent to the buffer.
+
+ 	pop_send_ascii_char   0123456789
+	    If the input buffer is empty, the operation of the ASCII character
+	    input will be changed back to the previous state.
+
+ 	toggle_send_ascii_char   0123456789
+	    If the input buffer is  empty, the operation of the ASCII character
+	    input will be reversed (ie. if the current operation is
+	    "send_ascii_char", then it will be set to "not_send_ascii_char"
+	    and vice versa).
+
+ 	quote_send_ascii_char   
+	    In the "send_ascii_char" state, if the buffer is empty, the next
+	    ASCII character will enter the buffer.  However, subsequent
+	    characters will not enter the buffer even if it is empty.
+
+ 	reconnect_jserver   012456789
+	    To reconnect with the jserver
+
+ 	inspect   0
+	    To check the dictionary.
+
+ 	sakujo_kouho   0
+	    To delete a candidate. 
+
+ 	del_entry    89
+	    To delete dictionary as well as the words in the dictionary.
+
+ 	use_entry    89
+	    To temporary stop and subsequently reuse the dictionary as well as
+	    the words in the dictionary.
+
+ * Example  
+	;Commands		Code
+
+	forward_char		^F 0x90
+	jikouho			^N 0x92 ^W 0x9E
+	yank_e			^Y
+	select_select		32 ^J ^M 0x9E 0x9F
+
+
+
+
+
+					- 5-18 -
+NOTE
+    When the conversion state is OFF, the front-end processor will be temporary
+    disconnected. Therefore, the input automaton also stops functioning.
+    A key code refers to a code between  0 and 255. However, not all codes can 
+    be  entered  from  the keyboard. To input a code that cannot be entered 
+    directly via the keyboard, use key code conversion (cvt_key_tbl(4)) or
+    automaton.
+
+    Can not set output code of key code conversion to code of henkan_on entry.
+ 
+ * Reference 
+	uun(1), uunrc(4), cvt_key_tbl(4), automaton(4)

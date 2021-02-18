@@ -1,0 +1,35 @@
+/**/# Imakefile file for xdaliclock, Copyright (c) 1991 Jamie Zawinski.
+/**/#
+/**/#
+/**/# If you don't have the SHAPE extension, you shouldn't pass -DSHAPE
+/**/# and you don't need to link with -lXext.
+/**/#
+/**/# If your system doesn't have the select() system call, use -DNO_SELECT.
+/**/# This will make the usleep() system call be used instead (this pauses
+/**/# for the given number of microseconds).  If your system doesn't have
+/**/# either select() or usleep(), you've got some hacking to do.  :-)
+/**/#
+           SRCS = xdaliclock.c
+           OBJS = xdaliclock.o
+       INCLUDES = -I./numbers $(TOP_INCLUDES)
+        DEFINES = -DBUILTIN_FONT ExtensionDefines
+    CDEBUGFLAGS = -O
+         LDLIBS = $(EXTENSIONLIB) $(XLIB)
+      LDOPTIONS = -L$(USRLIBDIR) $(CDEBUGFLAGS) $(CCOPTIONS)
+            TAR = tar
+
+ComplexProgramTarget(xdaliclock)
+
+xdaliclock.o: defaults.h
+
+TARFILES= README xdaliclock.man Imakefile Makefile.simple \
+	xdaliclock.c defaults.h numbers
+
+uu:: xdaliclock.tar.Z.uu
+
+xdaliclock.tar: $(TARFILES)
+	$(TAR) -vcf $@ $(TARFILES)
+xdaliclock.tar.Z: $(TARFILES)
+	$(TAR) -vcf - $(TARFILES) | compress > $@
+xdaliclock.tar.Z.uu: $(TARFILES)
+	$(TAR) -vcf - $(TARFILES) | compress | uuencode $(@:.uu=) > $@

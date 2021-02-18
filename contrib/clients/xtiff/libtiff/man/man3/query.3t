@@ -1,0 +1,85 @@
+.\" $Header: /usr/people/sam/tiff/man/man3/RCS/query.3t,v 1.4 91/07/16 16:14:30 sam Exp $
+.\"
+.\" Copyright (c) 1988, 1989, 1990, 1991 Sam Leffler
+.\" Copyright (c) 1991 Silicon Graphics, Inc.
+.\"
+.\" Permission to use, copy, modify, distribute, and sell this software and 
+.\" its documentation for any purpose is hereby granted without fee, provided
+.\" that (i) the above copyright notices and this permission notice appear in
+.\" all copies of the software and related documentation, and (ii) the names of
+.\" Sam Leffler and Silicon Graphics may not be used in any advertising or
+.\" publicity relating to the software without the specific, prior written
+.\" permission of Sam Leffler and Silicon Graphics.
+.\" 
+.\" THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+.\" EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+.\" WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+.\" 
+.\" IN NO EVENT SHALL SAM LEFFLER OR SILICON GRAPHICS BE LIABLE FOR
+.\" ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND,
+.\" OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+.\" WHETHER OR NOT ADVISED OF THE POSSIBILITY OF DAMAGE, AND ON ANY THEORY OF 
+.\" LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE 
+.\" OF THIS SOFTWARE.
+.\"
+.TH TIFFCurrentRow 3T "June 18, 1991"
+.SH NAME
+TIFFCurrentRow, TIFFCurrentStrip, TIFFCurrentTile, TIFFFileno, TIFFFileName, TIFFGetMode, TIFFIsTiled  \- query routines
+.SH SYNOPSIS
+.B "#include <tiffio.h>"
+.br
+.B "long TIFFCurrentRow(TIFF* tif)"
+.br
+.B "int TIFFCurrentStrip(TIFF* tif)"
+.br
+.B "int TIFFCurrentTile(TIFF* tif)"
+.br
+.B "int TIFFFileno(TIFF* tif)"
+.br
+.B "char* TIFFFileName(TIFF* tif)"
+.br
+.B "int TIFFGetMode(TIFF* tif)"
+.br
+.B "int TIFFIsTiled(TIFF* tif)"
+.SH DESCRIPTION
+The following routines return status information about an open
+.SM TIFF
+file.
+.PP
+.IR TIFFCurrentRow (),
+.IR TIFFCurrentStrip (),
+and
+.IR TIFFCurrentTile (),
+return the current row, strip, and tile, respectively,
+that is being read or written.
+These values are updated each time a read or write is done.
+.PP
+.IR TIFFFileno ()
+returns the underlying file descriptor used to access the 
+.SM TIFF
+image in the filesystem.
+.PP
+.IR TIFFFileName ()
+returns the pathname argument passed to
+.IR TIFFOpen ()
+or
+.IR TIFFFdOpen ().
+.PP
+.IR TIFFGetMode ()
+returns the mode with which the underlying file was opened.
+On
+.SM UNIX
+systems, this is the value passed to the
+.IR open (2)
+system call.
+.PP
+.IR TIFFIsTiled ()
+returns a non-zero value if the image data has
+a tiled organization.
+Zero is returned if the image data is organized in strips.
+.SH DIAGNOSTICS
+None.
+.SH "SEE ALSO"
+.IR intro (3T),
+.IR TIFFOpen (3T),
+.IR TIFFFdOpen (3T)

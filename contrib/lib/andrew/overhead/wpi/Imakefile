@@ -1,0 +1,50 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = 
+#endif /* LIBDL_ENV */
+#endif /* RESOLVER_ENV */
+
+#ifdef AMS_ENV
+MAILLIB = ${BASEDIR}/lib/libmail.a
+#endif /* AMS_ENV */
+
+LIBS = libwpi.a ${MAILLIB} ${UTILLIB} ${PRSLIB} ${RESOLVER_LIB}
+
+NormalObjectRule()
+
+LibraryTarget(libwpi.a, wpilib.o)
+InstallFile(wpi.h,${INSTINCFLAGS},${DESTDIR}/include)
+InstallLibrary(libwpi.a, ${DESTDIR}/lib)
+
+#ifdef AMS_ENV
+ProgramTarget(wpi,wpi.o,${LIBS},$(SYS_LIBS) ${BSDLIB})
+InstallProgram(wpi, ${DESTDIR}/bin)
+InstallLink(${DESTDIR}/bin/wpi,${DESTDIR}/bin/forward)
+#endif AMS_ENV
+
+ProgramTarget(wpiupdat,wpiupdat.o,${LIBS},$(SYS_LIBS) ${BSDLIB})
+InstallProgram(wpiupdat, ${DESTDIR}/etc)
+
+ProgramTarget(wpq,wpq.o,${LIBS},$(SYS_LIBS) ${BSDLIB})
+InstallProgram(wpq, ${DESTDIR}/bin)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(wpq.help wpi.help forward.help wpiplcy.help, ${DESTDIR}/help)
+InstallHelpAlias(wpi, whitepagesinteractive)
+InstallHelpAlias(wpiplcy, wpipolicy whitepagesinteractivepolicy)
+InstallHelpAlias(forward, forwarding mail-forwarding ms-forwarding ms-forward)
+InstallHelpAlias(wpq, whitepagesquery)

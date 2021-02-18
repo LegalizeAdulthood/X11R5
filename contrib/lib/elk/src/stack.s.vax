@@ -1,0 +1,58 @@
+	.text
+
+	.globl	_stkbase
+	.globl	_Special
+
+	.globl	_stksize
+	.align	2
+_stksize:
+	.word	0x0000
+	movl	_stkbase,r0
+	subl2	sp,r0
+	addl2	$120,r0
+	ret
+
+	.globl	_saveenv
+	.align	2
+_saveenv:
+	.word	0x0000		# don't save any regs
+	movl	4(ap),r0	# buffer        -> r0
+	movl	fp,4(r0)	# frame pointer -> r0[1]
+	movl	16(fp),8(r0)	# pc of caller  -> r0[2]
+	movl	sp,12(r0)	# sp            -> r0[3]
+
+	movl	sp,r2		# set up loop
+	movl	_stkbase,r3
+	movl	r0,r4
+	addl2	$110,r4
+rep1:
+	movl	(r2)+,(r4)+	# should use movc3
+	cmpl	r2,r3
+	blss	rep1
+
+	movl	r4,r3		# new-old -> r0[0]  (``relocation'')
+	subl2	r2,r3
+	movl	r3,(r0)
+
+	movl	_Special,r0
+	ret
+
+	.globl	_jmpenv
+	.align	2
+_jmpenv:
+	.word	0x0000
+	movl	8(ap),r0	# return value
+	movl	4(ap),r1	# buffer
+
+	movl	12(r1),sp	# restore sp
+	movl	sp,r2		# set up loop
+	movl	_stkbase,r3
+	movl	r1,r4
+	addl2	$110,r4
+rep2:
+	movl	(r4)+,(r2)+	# should use movc3
+	cmpl	r2,r3
+	blss	rep2
+
+	movl	4(r1),fp	# restore fp
+	ret			# return from _saveenv

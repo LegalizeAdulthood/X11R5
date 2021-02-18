@@ -1,0 +1,67 @@
+;; some code for emulating the Suntools F5 and F7 keys
+;; (F5 raises or lowers a window and F7 iconifies or de-iconifies)
+;; to use, just include (load 'suntools-keys) in your .profile.gwm
+;;
+;; rwhitby@adl.austek.oz.au (Rod Whitby)
+;; Rod Whitby
+;; Austek Microsystems Pty. Ltd.
+;; Technology Park 
+;; Adelaide, SA 5095 Australia
+;; 
+;; ACSnet:	rwhitby@austek.oz	ARPA:	rwhitby@austek.oz.au
+;; UUCP:	uunet.uu.net!munnari!austek.oz.au!rwhitby
+;; 
+
+; Add Suntools L5 and L7 functionality
+; and duplicate it on F5 and F7 for X Terminals
+
+(setq visibility-behavior
+      (state-make
+       (on (keypress "L5" alone) (if (window-is-topmost (window-window))
+				     (lower-window)
+				   (raise-window)))
+       (on (keypress "F5" alone) (if (window-is-topmost (window-window))
+				     (lower-window)
+				   (raise-window)))
+       (on (keypress "L7" alone) (progn (iconify-window)(raise-window)))
+       (on (keypress "F7" alone) (progn (iconify-window)(raise-window)))
+       )
+      )
+
+(setq visibility-grabs
+      (list (key "L5" alone)
+	    (key "L7" alone)
+	    (key "F5" alone)
+	    (key "F7" alone)
+	    ))
+
+(: standard-title-behavior
+   (state-make
+    visibility-behavior
+    standard-title-behavior
+    standard-behavior
+    ))
+
+(setq window-behavior
+      (state-make
+       visibility-behavior
+       window-behavior
+       ))
+
+(setq icon-behavior
+      (state-make
+       visibility-behavior
+       icon-behavior
+       ))
+
+(reparse-standard-behaviors)
+
+(: grabs
+   (: root-grabs
+      (: window-grabs
+	 (: icon-grabs
+	    (+ 
+	     visibility-grabs
+	     grabs
+	     )))))
+

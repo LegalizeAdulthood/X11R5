@@ -1,0 +1,66 @@
+#include <GLLibrary.tmpl>
+#include <GraphLib.tmpl>
+ 
+OBJS = \
+     ../buttons/b_athena.o \
+     ../buttons/b_ckbox.o \
+     ../buttons/b_mac.o \
+     ../buttons/b_next.o \
+     ../buttons/b_open.o \
+     ../buttons/b_opensink.o \
+     ../buttons/b_radio.o \
+     ../buttons/buttons.o \
+     ../gl/eventmgr.o \
+     ../gl/gc.o \
+     ../gl/geommgr.o \
+     ../gl/miscutils.o \
+     ../gl/resfns.o \
+     ../gl/resmgr.o \
+     ../gl/varargs.o \
+     ../gl/window.o \
+     ../glsub/label.o \
+     ../glsub/stripchart.o \
+     ../menus/menus.o \
+     ../objects/fillpolyobj.o \
+     ../objects/invertrect.o \
+     ../objects/lineobj.o \
+     ../objects/object.o \
+     ../objects/polygonobj.o \
+     ../objects/textobj.o  
+ 
+SHOBJS = \
+     ../buttons/shared/b_athena.o \
+     ../buttons/shared/b_ckbox.o \
+     ../buttons/shared/b_mac.o \
+     ../buttons/shared/b_next.o \
+     ../buttons/shared/b_open.o \
+     ../buttons/shared/b_opensink.o \
+     ../buttons/shared/b_radio.o \
+     ../buttons/shared/buttons.o \
+     ../gl/shared/eventmgr.o \
+     ../gl/shared/gc.o \
+     ../gl/shared/geommgr.o \
+     ../gl/shared/miscutils.o \
+     ../gl/shared/resfns.o \
+     ../gl/shared/resmgr.o \
+     ../gl/shared/varargs.o \
+     ../gl/shared/window.o \
+     ../glsub/shared/label.o \
+     ../glsub/shared/stripchart.o \
+     ../menus/shared/menus.o \
+     ../objects/shared/fillpolyobj.o \
+     ../objects/shared/invertrect.o \
+     ../objects/shared/lineobj.o \
+     ../objects/shared/object.o \
+     ../objects/shared/polygonobj.o \
+     ../objects/shared/textobj.o  
+ 
+NormalLibraryTarget(gl,$(OBJS))
+InstallLibrary(gl,$(USRLIBDIR))
+#if SharedLibGL
+GraphLibSharedLibraryTarget(gl,$(SOGLLIBREV),$(SHOBJS))
+ 
+InstallSharedLibrary(gl,$(SOGLLIBREV),$(USRLIBDIR))
+#endif
+ 
+depend::

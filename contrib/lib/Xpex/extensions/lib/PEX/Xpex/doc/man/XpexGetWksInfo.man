@@ -1,0 +1,256 @@
+.\" $Header: XpexGetWksInfo.man,v 2.5 91/09/11 16:04:12 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexGetWksInfo 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexGetWksInfo, XpexGetDynamics, XpexGetViewRep \- 
+Functions that can be used to get information about 
+a PHIGS workstation resource.
+.SH "Synopsis"
+.nf
+Status XpexGetWksInfo(dpy, wks_id, valuemask, values)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexPWBitmask valuemask; /* RETURN */
+.br
+	XpexWksInfo  *values; /* RETURN */
+.sp
+Status XpexGetDynamics(dpy, drawable, dynamics)
+.br
+	Display  *dpy;
+.br
+	Drawable  drawable;
+.br
+	XpexDynamics  *dynamics; /* RETURN */
+.sp
+Status XpexGetViewRep(dpy, wks_id, index, 
+.br
+	view_update, requested, current)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexTableIndex  index;
+.br
+	XpexUpdateState  *view_update;  /* RETURN */
+.br
+	XpexViewRep  *requested;  /* RETURN */
+.br
+	XpexViewRep  *current;  /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIwks_id\fP 1i
+Specifies a workstation.
+.IP \fIvaluemask\fP 1i
+To be added
+.IP \fIvalues\fP 1i   
+Specifies a pointer to a structure of type XpexWksInfo.
+.IP \fIdrawable\fP 1i   
+Specifies the drawable.
+.IP \fIdynamics\fP 1i   
+Specifies a pointer to a structure of type XpexDynamics.
+.IP \fIindex\fP 1i
+To be added
+.IP \fIview_update\fP 1i
+To be added
+.IP \fIrequested\fP 1i
+To be added
+.IP \fIcurrent\fP 1i
+To be added
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 10.2.
+.SH "Structures"
+typedef XpexBitmask XpexPWBitmask[XpexPW_BitmaskSize];
+.sp
+typedef struct {
+.br
+	XpexDisplayUpdate  display_update;
+.br
+	XpexVisualState  visual_state;
+.br
+	XpexDisplayState  display_surface;
+.br
+	XpexUpdateState  view_update;
+.br
+	XpexListOfTableIndex  defined_views;
+.br
+	XpexUpdateState  wks_update;
+.br
+	XpexNpcSubvolume  req_npc_subvolume;
+.br
+	XpexNpcSubvolume  cur_npc_subvolume;
+.br
+	XpexViewport  req_wks_viewpt;
+.br
+	XpexViewport  cur_wks_viewpt;
+.br
+	XpexUpdateState  hlhsr_update;
+.br
+	XpexHlhsrMode  req_hlhsr_mode;
+.br
+	XpexHlhsrMode  cur_hlhsr_mode;
+.br
+	Drawable  drawable_id;
+.br
+	XpexLookupTable  marker_bundle;
+.br
+	XpexLookupTable  text_bundle;
+.br
+	XpexLookupTable  line_bundle;
+.br
+	XpexLookupTable  interior_bundle;
+.br
+	XpexLookupTable  edge_bundle;
+.br
+	XpexLookupTable  colour_table;
+.br
+	XpexLookupTable  depth_cue_table;
+.br
+	XpexLookupTable  light_table;
+.br
+	XpexLookupTable  colour_approx_table;
+.br
+	XpexLookupTable  pattern_table;
+.br
+	XpexLookupTable  text_font_table;
+.br
+	XpexNameSet highlight_incl;
+.br
+	XpexNameSet  highlight_excl;
+.br
+	XpexNameSet  invis_incl;
+.br
+	XpexNameSet  invis_excl;
+.br
+	XpexListOfPostedStructureInfo  posted_structs;
+.br
+	unsigned long  num_priorities;
+.br
+	XpexUpdateState buffer_update;
+.br
+	XpexBufferMode  req_buffer_mode;
+.br
+	XpexBufferMode  cur_buffer_mode;
+.br
+} XpexWksInfo;
+.sp
+typedef struct {
+.br
+	int  num_indices;
+.br
+	XpexTableIndex  *indices;
+.br
+} XpexListOfTableIndex;
+.sp
+typedef struct {
+.br
+	XpexCoord3D  min_val;
+.br
+	XpexCoord3D  max_val;
+.br
+} XpexNpcSubvolume;
+.sp
+typedef struct {
+.br
+	XpexFloat  x;
+.br
+	XpexFloat  y;
+.br
+	XpexFloat  z;
+.br
+} XpexCoord3D;
+.sp
+typedef struct {
+.br
+	XpexDynamicType  view_rep;
+.br
+	XpexDynamicType  marker_bundle;
+.br
+	XpexDynamicType  text_bundle;
+.br
+	XpexDynamicType  line_bundle;
+.br
+	XpexDynamicType  interior_bundle;
+.br
+	XpexDynamicType  edge_bundle;
+.br
+	XpexDynamicType  color_table;
+.br
+	XpexDynamicType  pattern_table;
+.br
+	XpexDynamicType  wks_transform;
+.br
+	XpexDynamicType  highlight_filter;
+.br
+	XpexDynamicType  invisibility_filter;
+.br
+	XpexDynamicType  hlhsr_mode;
+.br
+	XpexDynamicType  structure_modify;
+.br
+	XpexDynamicType  post_structure;
+.br
+	XpexDynamicType  unpost_structure;
+.br
+	XpexDynamicType  delete_structure;
+.br
+	XpexDynamicType  reference_modify;
+.br
+	XpexDynamicType  buffer_modify;
+.br
+} XpexDynamics;
+.sp
+typedef struct {
+.br
+	XpexTableIndex  index;
+.br
+	XpexViewEntry  view;
+.br
+} XpexViewRep;
+.sp
+typedef struct {
+.br
+	unsigned short  clipFlags;
+.br
+	XpexNpcSubvolume  clip_limits;
+.br
+	XpexMatrix  orientation;
+.br
+	XpexMatrix  mapping;
+.br
+} XpexViewEntry;
+.SH "Errors"
+PhigsWks, FloatingPointFormat, Value
+.SH "Related Commands"
+To be added

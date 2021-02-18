@@ -1,0 +1,5 @@
+;
+; $Id: 2F_restart,v 1.1 1991/09/11 02:30:58 ohm Exp $
+;
+(defvar alpha (all))
+(alpha) (restart)  

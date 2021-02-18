@@ -1,0 +1,27 @@
+      DEPXAWLIB = $(CONTRIBSRC)/lib/Xaw/libXaw.a
+         XAWLIB = $(DEPXAWLIB)
+   DEPXWCHARLIB = $(CONTRIBSRC)/lib/Xwchar/libXwchar.a
+       XWCHARLIB = $(DEPXWCHARLIB)
+
+LINKS = Viewres.ad \
+        viewres.c \
+        viewres.man
+
+DEFINES = -DXI18N
+DEPLIBS = $(DEPXAWLIB) $(DEPXWCHARLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XWCHARLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+  SYS_LIBRARIES = -lm
+           SRCS = viewres.c 
+           OBJS = viewres.o 
+
+ComplexProgramTarget(viewres)
+
+includes::
+	$(RM) $(LINKS)
+	for i in $(LINKS); do (set -x; $(LN) $(CLIENTSRC)/viewres/$$i .); done
+
+InstallAppDefaults(Viewres)
+
+clean::
+	$(RM) $(LINKS)

@@ -1,0 +1,29 @@
+#!/bin/sh 
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+#
+%include pobbconfig.defs
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+%ifdef pobb_WPUpdate
+
+cd ?[wpbuildDir]
+umask 022
+AUTH='?[CronAuth]'
+export AUTH
+HOME='?[wpbuildHome]'
+export HOME
+PATH='?[CronPath]'
+export PATH
+SHELL='/bin/csh'
+export SHELL
+USER='?[wpbuildUser]'
+export USER
+/bin/csh << 'xxFUNNYxx'
+su ?[wpbuildUser] `cat ?[WPPasswordFile]` -c "?[wpbuildDir]/buildwp >& ?[TempLog]/buildwp.log &" > /dev/console
+xxFUNNYxx
+
+%endif pobb_WPUpdate

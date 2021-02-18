@@ -1,0 +1,22 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS		=	org.do \
+			orgv.do
+
+IHFILES		=	org.ih orgv.ih
+
+NormalObjectRule()
+NormalATKRule()
+DependTarget()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+InstallLink(runapp, ${DESTDIR}/bin/org)
+
+NormalHelpRule()
+InstallDocs(org.help orgproc.help, ${DESTDIR}/help)
+InstallHelpAlias(orgproc, orgprocs)
+MkdirTarget(${DESTDIR}/doc/atk/org)
+InstallDocs(example1.org example2.org example3.org OrgPG.doc, ${DESTDIR}/doc/atk/org)
+InstallHelpAlias(org, orgs organization orgeditor)

@@ -1,0 +1,75 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+/* 
+ * array of global entry points for dynamic loader
+ *
+ * Defines a table of entry points and their names
+ *
+ */
+
+	.text
+/* macros which actually define entry points */
+
+/*   globalref - direct reference to global symbol x */
+
+#if defined(__STDC__) && !defined(__HIGHC__)
+#define globalref(x)	.globl x ; \
+	.text;	.long	x,1f;	.data;1: .asciz #x
+#else
+#define globalref(x)	.globl x ; \
+	.text;	.long	x,1f;	.data;1: .asciz "x"
+#endif
+
+/*   routine - reference to routine x - _x and (for ibm032) _.x */
+
+#if defined(__STDC__) && !defined(__HIGHC__)
+#define routine(x)	globalref(_ ## x);	globalref(_. ## x)
+#else
+#define routine(x)	globalref(_/**/x);	globalref(_./**/x)
+#endif
+
+	.globl	_globals
+	.globl	_globalcount
+
+_globals: /* beginning of entry point table */
+
+/* from libclass */
+	globalref(_class_RoutineStruct)
+	globalref(_class_Error)
+	routine(class_NewObject)
+	routine(class_Load)
+	routine(class_IsLoaded)
+	routine(class_Lookup)
+	routine(class_IsType)
+	routine(class_IsTypeByName)
+	routine(class_EnterInfo)
+	routine(class_SetClassPath)
+	routine(class_PrependClassPath)
+	routine(class_GetEText)
+	routine(class_GetTextBase)
+	routine(class_GetTextLength)
+
+
+/* common symbols referred to but not defined directly in libc.a */
+
+	globalref(_environ)		/* common symbol, defined nowhere */
+	globalref(_errno)		/* cerror */
+
+/* do not delete the following line - make depends on it */
+
+#include	<globalrefs._h>
+
+	.text
+
+_globalcount:
+	.long	(_globalcount-_globals)/8
+
+/* special cases for missing entry points under various machine types */
+
+	.globl	.oVncs
+	.set	.oVncs,0
+
+/* end of globals.s */

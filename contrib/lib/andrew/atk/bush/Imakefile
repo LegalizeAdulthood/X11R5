@@ -1,0 +1,28 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+DOBJS		=	bush.do \
+			bushv.do \
+			bushapp.do
+
+IHFILES		=	bush.ih bushv.ih bushapp.ih
+
+NormalObjectRule()
+NormalATKRule()
+DependTarget()
+
+DynamicObject(bush,$(UTILLIB), ${BSDLIB})
+DynamicObject(bushv,$(UTILLIB), ${BSDLIB})
+InstallClassFiles($(DOBJS),$(IHFILES))
+InstallLink(runapp, ${DESTDIR}/bin/bush)
+
+NormalHelpRule()
+InstallDocs(bush.help bshproc.help, ${DESTDIR}/help)
+InstallHelpAlias(bshproc, bushproc bushprocs)
+
+

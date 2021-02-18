@@ -1,0 +1,58 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = 
+#endif /* LIBDL_ENV */
+#endif /* RESOLVER_ENV */
+
+#ifdef AMS_ENV
+MAILLIB = ${BASEDIR}/lib/libmail.a
+#endif /* AMS_ENV */
+
+WPINI=wp.cfg
+WPINIHIST=lastpass oldpass passwd.add passwd.chg wpadd wpadd.old
+WPININAMES=givenmap nickanal.awk nickbun.awk nickmap nickmap.old override override.old
+LIBS	=	${MAILLIB} \
+		${UTILLIB}  ${DESLIB} \
+		${BASEDIR}/lib/liberrors.a \
+		${MALLOCLIB}
+
+DIRS = ${DESTDIR}/etc/initial_wp \
+	${DESTDIR}/etc/initial_wp/hist \
+	${DESTDIR}/etc/initial_wp/names
+
+NormalObjectRule()
+
+MkdirTarget($(DIRS))
+
+ProgramTarget(makeboth, makeboth.o, ${LIBS},  ${BSDLIB})
+InstallProgram(makeboth, ${DESTDIR}/etc)
+ProgramTarget(nickgen, nickgen.o, ${LIBS}, ${BSDLIB})
+InstallProgram(nickgen, ${DESTDIR}/etc)
+ProgramTarget(genaccts, genaccts.o, ${LIBS}, ${BSDLIB})
+InstallProgram(genaccts, ${DESTDIR}/etc)
+ProgramTarget(brisk, brisk.o, ${LIBS} ${RESOLVER_LIB},$(SYS_LIBS)  ${BSDLIB})
+InstallProgram(brisk, ${DESTDIR}/etc)
+InstallProgram(wpbuild, ${DESTDIR}/etc)
+InstallMultiple(${WPINI}, ${INSTINCFLAGS}, ${DESTDIR}/etc/initial_wp)
+InstallFileToFile(sample.drv, ${INSTPROGFLAGS}, ${DESTDIR}/etc/initial_wp/SAMPLE.driver)
+InstallMultiple(${WPINIHIST}, ${INSTINCFLAGS}, ${DESTDIR}/etc/initial_wp/hist)
+InstallMultiple(${WPININAMES}, ${INSTINCFLAGS}, ${DESTDIR}/etc/initial_wp/names)
+ProgramTarget(fwdpoll, fwdpoll.o, ${LIBS}, ${BSDLIB})
+InstallProgram(fwdpoll, ${DESTDIR}/etc)
+ProgramTarget(fwdlist, fwdlist.o, ${LIBS}, ${BSDLIB})
+InstallProgram(fwdlist, ${DESTDIR}/etc)
+
+DependTarget()
+

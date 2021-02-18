@@ -1,0 +1,239 @@
+! XMail resource default definitions for xmail version 1.4
+!
+! Do not use full wildcard (*) on the geometry specification, or it will
+! force all popups to initially anchor with those same coordinates.
+!
+! The colors utilized in this application defaults file are:
+!
+! ff0000 - red		ffff00 - yellow		0000ff - blue
+! 00ff00 - green	00ffff - cyan		ff00ff - magenta	
+! ffffff - white	000000 - black		00cd00 - green3
+! 2e8b57 - seagreen	a52a2a - brown		afeeee - paleturquoise
+! d2b48c - tan		daa520 - goldenrod	eedd82 - lightgoldenrod
+! f0e68c - khaki	ffe4e1 - misty rose	ffd700 - gold
+!
+! *expert:			True
+! .geometry:			+65+3
+! *iconGeometry:		+835+0
+!
+! *Abort.background:			#ffffff
+! *Abort.foreground:			#ff0000
+! *Autograph.background:			#00ffff
+! *autograph.background:			#afeeee
+! *aliasList*Background:			#ffff00
+! *aliasList.table.entry.background:	#00ffff
+! *alwaysignore*foreground:		#2e8b57
+! *noalwaysignore*foreground:		#ff0000
+! *autoprint*foreground:			#2e8b57
+! *noautoprint*foreground:		#ff0000
+! *background:				#ffff00
+! *borderColor:				#a52a2a
+! *Bcc.background:			#00ffff
+! *Bcc*AsciiSink*Background:		#00ffff
+*Bcc*scrollHorizontal:			whenNeeded
+*Bcc*Thickness:				5
+*Bcc*MinimumThumb:			3
+! *Cancel.background:			#ffe4e1
+! *Cancel.foreground:			#000000
+! *Cc.background:				#00ffff
+! *Cc*AsciiSink*Background:		#00ffff
+*Cc*scrollHorizontal:			whenNeeded
+*Cc*Thickness:				5
+*Cc*MinimumThumb:			3
+! *Copy.foreground:			#0000ff
+! *commandPanel.background:		#daa520
+! *copy.background:			#00ffff
+! *Deliver.background:			#00ff00
+! *Deliver.foreground:			#a52a2a
+! *Deliver.borderColor:			#a52a2a
+! *delete.foreground:			#ff0000
+! *delete.background:			#ffffff
+! *Drop.foreground:			#ff0000
+! *editorCommand:  xterm -name XMail -title "Message Edit" -display %s -e vi %s
+! *exit.foreground:			#0000ff
+! *expert*foreground:			#2e8b57
+! *noexpert*foreground:			#ff0000
+! *Folder.background:			#00ffff
+! *Font:					*-courier-bold-r-normal--14-*
+! *fileWindow*background:			#78fe78
+*fileWindow*scrollHorizontal:		whenNeeded
+*fileWindow*Thickness:			5
+*fileWindow*MinimumThumb:		3
+! *foreground:				#a52a2a
+! *forward.foreground:			#00cd00
+! *full.foreground:			#ff0000
+! *hold*foreground:			#2e8b57
+! *nohold*foreground:			#ff0000
+! *icon*background:			#ffd700
+! *icon*foreground:			#a52a2a
+! *inc.background:			#00ffff
+! *indexWindow*background:		#ffffb2
+*indexWindow*scrollHorizontal:		whenNeeded
+*indexWindow*Thickness:			10
+*indexWindow*MinimumThumb:		5
+! *list.background:			#d2b48c
+! *menu.background:			#d2b48c
+! *Newmail.foreground:			#0000ff
+! *next.foreground:			#00cd00
+! *previous.foreground:			#0000ff
+! *quit.foreground:			#ff0000
+! *quit.background:			#ffffff
+! *ReEdit.background:			#f0e68c
+! *ReEdit.foreground:			#a52a2a
+! *replyall.background:			#00ff00
+! *save.background:			#00ffff
+! *Save.foreground:			#0000ff
+! *set_menu*background:			#ffffb2
+! *statusWindow.background:		#a52a2a
+! *statusWindow.foreground:		#ffff00
+! *Subject.background:			#00ffff
+! *Subject*AsciiSink*Background:		#00ffff
+*Subject*scrollHorizontal:		whenNeeded
+*Subject*Thickness:			5
+*Subject*MinimumThumb:			3
+! *textWindow*background:			#ffffb2
+*textWindow.text*Wrap:			word
+! *textWindow.face.background:		#ffffff
+*textWindow*Thickness:			10
+*textWindow*MinimumThumb:		5
+! *titleBar*Background:			#a52a2a
+! *titleBar*Foreground:			#ffff00
+*titleBar.logo.background:		#ffffff
+*titleBar.logo.foreground:		#0000ff
+! *To.Background:				#00ffff
+! *To*AsciiSink*Background:		#00ffff
+*To*scrollHorizontal:			whenNeeded
+*To*Thickness:				5
+*To*MinimumThumb:			3
+! *undelete.foreground:			#00cd00
+! *write.foreground:			#00cd00
+! *Write.foreground:			#ff0000
+!
+*Bcc.translations:	#override \n\
+       <Key>Delete:	delete-previous-character() \n\
+       <Key>BackSpace:	delete-previous-character() \n\
+  Ctrl <Key>H:		delete-previous-character() \n\
+  Ctrl <Key>U:		beginning-of-line() kill-to-end-of-line() \n\
+  Ctrl <Key>W:		delete-previous-word() \n\
+       <Btn3Down>:	SetAliases() \n\
+       <Key>Return:	NextField()
+!
+*Cc.translations:	#override \n\
+       <Key>Delete:	delete-previous-character() \n\
+       <Key>BackSpace:	delete-previous-character() \n\
+  Ctrl <Key>H:		delete-previous-character() \n\
+  Ctrl <Key>U:		beginning-of-line() kill-to-end-of-line() \n\
+  Ctrl <Key>W:		delete-previous-word() \n\
+       <Btn3Down>:	SetAliases() \n\
+       <Key>Return:	NextField()
+!
+*indexWindow.translations: \
+  Ctrl <Key>L:		redraw-display() \n\
+  Ctrl <Key>V:		next-page() \n\
+  Ctrl <Key>Z:		scroll-one-line-up() \n\
+  Meta <Key>Q:		DoNothing() \n\
+  Meta <Key>V:		previous-page() \n\
+  Meta <Key>Z:		scroll-one-line-down() \n\
+  Meta <Key><:		beginning-of-file() \n\
+  Meta <Key>>:		end-of-file() \n\
+  None <Key>Return:	scroll-one-line-up() \n\
+  None <Key>space:	next-page() \n\
+  None <Key>G:		end-of-file() \n\
+  None <Key>a:		DoReply(a) \n\
+  None <Key>b:		previous-page() \n\
+  None <Key>c:		DoSave(c) \n\
+  None <Key>d:		DoSelected(d) \n\
+  None <Key>f:		DoSelected(P) \n\
+  None <Key>i:		DoCmd(inc) \n\
+  None <Key>j:		scroll-one-line-up() \n\
+  None <Key>k:		scroll-one-line-down() \n\
+  None <Key>m:		DoReply(s) \n\
+  None <Key>n:		DoSelected(n) \n\
+  None <Key>p:		DoSelected(-) \n\
+  None <Key>q:		Quit(q) \n\
+  None <Key>r:		DoSelected(p) \n\
+  None <Key>s:		DoSave(s) \n\
+  None <Key>u:		DoSelected(u) \n\
+  None <Key>w:		DoSave(w) \n\
+  None <Key>x:		Quit(x) \n\
+  None <Key>-:		scroll-one-line-down() \n\
+  None <Key>\':		beginning-of-file() \n\
+       <Btn1Down>:	select-start() SetSelect() \n\
+       <Btn1Motion>:	extend-adjust() \n\
+       <Btn1Up>:	extend-end(PRIMARY, CUT_BUFFER0) \n\
+       <Btn3Down>:	select-start() SetSelect() \n\
+       <Btn3Up>:	DoSelected(p) \n\
+  Ctrl <Key>R:		search(backward) \n\
+  Ctrl <Key>S:		search(forward)
+!
+*Subject.translations:	#override \n\
+       <Key>Delete:	delete-previous-character() \n\
+       <Key>BackSpace:	delete-previous-character() \n\
+  Ctrl <Key>H:		delete-previous-character() \n\
+  Ctrl <Key>U:		beginning-of-line() kill-to-end-of-line() \n\
+  Ctrl <Key>W:		delete-previous-word() \n\
+       <Btn3Motion>:	DoNothing() \n\
+       <Btn3Up>:	DoNothing() \n\
+       <Key>Return:	NextField()
+!
+*textWindow.text.translations: #override \
+  Ctrl <Key>J:		MenuPopdown(help) \n\
+  Ctrl <Key>L:		redraw-display() \n\
+  Ctrl <Key>V:		next-page() \n\
+  Ctrl <Key>Z:		scroll-one-line-up() \n\
+  Meta <Key>Q:		DoNothing() \n\
+  Meta <Key>V:		previous-page() \n\
+  Meta <Key>Z:		scroll-one-line-down() \n\
+  Meta <Key><:		beginning-of-file() \n\
+  Meta <Key>>:		end-of-file() \n\
+  Shift <Key>A:		DoReply(A) \n\
+  Shift <Key>C:		DoSave(C) \n\
+  Shift <Key>F:		DoReply(S) \n\
+  Shift <Key>G:		end-of-file() \n\
+  Shift <Key>M:		DoReply(r) \n\
+  Shift <Key>N:		DoCmd(file %) \n\
+  Shift <Key>P:		PrintMsg() \n\
+  Shift <Key>R:		DoReply(R) \n\
+  Shift <Key>S:		DoSave(S) \n\
+  None <Key>Linefeed:	MenuPopdown(help) \n\
+  None <Key>Return:	scroll-one-line-up() \n\
+  None <Key>-:		scroll-one-line-down() \n\
+  None <Key>\':		beginning-of-file() \n\
+  None <Key>space:	next-page() \n\
+  None <Key>a:		DoReply(a) \n\
+  None <Key>b:		previous-page() \n\
+  None <Key>c:		DoSave(c) \n\
+  None <Key>d:		DoSelected(d) \n\
+  None <Key>f:		DoSelected(P) \n\
+  None <Key>i:		DoCmd(inc) \n\
+  None <Key>j:		scroll-one-line-up() \n\
+  None <Key>k:		scroll-one-line-down() \n\
+  None <Key>m:		DoReply(s) \n\
+  None <Key>n:		DoSelected(n) \n\
+  None <Key>p:		DoSelected(-) \n\
+  None <Key>q:		Quit(q) \n\
+  None <Key>r:		DoSelected(p) \n\
+  None <Key>s:		DoSave(s) \n\
+  None <Key>u:		DoSelected(u) \n\
+  None <Key>w:		DoSave(w) \n\
+  None <Key>x:		Quit(x) \n\
+       <Key>?:		ShowHelp(text2) \n\
+       <Btn1Down>:	select-start() \n\
+       <Btn1Motion>:	extend-adjust() \n\
+       <Btn1Up>:	extend-end(PRIMARY, CUT_BUFFER0) \n\
+       <Btn2Down>:	insert-selection(PRIMARY, CUT_BUFFER0) \n\
+       <Btn3Down>:	extend-start() \n\
+       <Btn3Motion>:	extend-adjust() \n\
+       <Btn3Up>:	extend-end(PRIMARY, CUT_BUFFER0) \n\
+  Ctrl <Key>R:		search(backward) \n\
+  Ctrl <Key>S:		search(forward)
+!
+*To.translations:	#override \n\
+       <Key>Delete:	delete-previous-character() \n\
+       <Key>BackSpace:	delete-previous-character() \n\
+  Ctrl <Key>H:		delete-previous-character() \n\
+  Ctrl <Key>U:		beginning-of-line() kill-to-end-of-line() \n\
+  Ctrl <Key>W:		delete-previous-word() \n\
+       <Btn3Down>:	SetAliases() \n\
+       <Key>Return:	NextField()
+!

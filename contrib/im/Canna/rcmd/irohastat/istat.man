@@ -1,0 +1,72 @@
+.TH IROHASTAT 1
+.SH "NAME"
+irohastat \- Display information about the Kana-Kanji conversion server
+.SH "SYNOPSIS"
+.B "irohastat [{\-is|\-irohaserver} \fIiroha-server\fP"]
+[\-p] [\-t] [\-a]
+.SH "DESCRIPTION"
+.PP
+\fIirohastat(1)\fP displays information about the Kana-Kanji conversion
+server \fIirohaserver(1M)\fP.  The information includes the
+following: the name of the machine on which the connected server
+exists, the \fIirohaserver(1M)\fP's version, the number of clients
+connecting to the server, the name of the user connecting to the
+server, its user number, the socket number, the number of contexts,
+the time of connection to the server, the time of use of the server,
+the idle time, the name of the host under which the client exists, and
+the frequency of using each protocol.
+.PP
+If \fIirohastat(1)\fP is called without options, the following is
+displayed:
+.sp
+.ft CW
+.nf
+  Connected to machine1
+  Iroha Server (Ver. 1.2)
+  Total connecting clients 1
+  USER_NAME    ID   NO U_CX          C_TIME   U_TIME   I_TIME  HOST_NAME
+  kon           5    0    4  Tue 21  8:49am       11    12:48   machine2
+.fi
+.ft
+.sp
+.PP
+The items represent the following:
+.IP "USER_NAME" 16
+User name
+.IP "ID" 16
+Socket number
+.IP "NO" 16
+User number
+.IP "U_CX" 16
+Context number
+.IP "C_TIME" 16
+Time of connection (h:min)
+.IP "U_TIME" 16
+User time (h:min:s)
+.IP "I_TIME" 16
+Idle time (h:min)
+.IP "HOST_NAME" 16
+Name of the host under which the client exists
+.SH "OPTIONS"
+.IP "\-is \fIiroha-server\fP (or \-irohaserver \fIiroha-server\fP)" 12
+Specifies the Kana-Kanji conversion server.
+.IP "\-p" 12
+Displays the frequency of using the protocol.
+.IP "\-t" 12
+Displays information about the user who started irohastat.  It
+includes the frequency of using the protocol, as well as ID, NO, U_CX,
+C_TIME, U_TIME, I_TIME, and HOST_NAME.
+.IP "\-a" 12
+Displays all information about all users.
+.SH "FILES"
+.IP "/usr/local/lib/iroha/irohahost" 36
+Name of the host under which irohaserver is in operation.
+.SH "SEE ALSO"
+.PP
+irohaserver(1M), irohakill(1M), irohacheck(1)
+.PP
+.SH "ENVIRONMENT"
+.PP
+.IP "IROHAHOST" 12
+Specifies the name of the host under which \fIirohaserver(1M)\fP is in
+operation.

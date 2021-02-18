@@ -1,0 +1,83 @@
+##
+## "@(#)Imakefile 3.1 90/05/29 Copyr 1989 Sun Micro"
+##
+## 
+## Copyright 1989, 1990 by Sun Microsystems, Inc. and the X Consortium.
+## 
+##                         All Rights Reserved
+## 
+## Permission to use, copy, modify, and distribute this software and its 
+## documentation for any purpose and without fee is hereby granted, 
+## provided that the above copyright notice appear in all copies and that
+## both that copyright notice and this permission notice appear in 
+## supporting documentation, and that the names of Sun Microsystems,
+## the X Consortium, and MIT not be used in advertising or publicity 
+## pertaining to distribution of the software without specific, written 
+## prior permission.  
+## 
+## SUN MICROSYSTEMS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, 
+## INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+## EVENT SHALL SUN MICROSYSTEMS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+## CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+## USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+## OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+## PERFORMANCE OF THIS SOFTWARE.
+
+#define PassCDebugFlags
+
+#ifndef PexPhigsCDebugFlags
+#define PexPhigsCDebugFlags OptimizedCDebugFlags
+#endif
+
+#ifndef PexPhigsDefines
+#define PexPhigsDefines 
+#endif
+
+CDEBUGFLAGS = PexPhigsCDebugFlags
+    DEFINES = PexPhigsDefines
+
+     LIBCODE = ./libpexfb.a
+
+SRCS = fb_ar.c fb_erhd.c fb_inp.c fb_sedt.c fb_ws.c \
+	fb_cell.c fb_err.c fb_nset.c fb_stru.c fb_xfut.c \
+	fb_erfn.c fb_colr.c fb_fill.c fb_plin.c fb_text.c \
+	fb_ctrl.c fb_pmrk.c fb_util.c fb_esc.c \
+	fb_wst.c fb_mf.c fb_nurb.c fb_dcue.c fb_lite.c \
+	fb_pack.c fb_mcr.h fb_priv.h fb_bind.f
+
+OBJS = fb_ar.o fb_erhd.o fb_inp.o fb_sedt.o fb_ws.o \
+	fb_cell.o fb_err.o fb_nset.o fb_stru.o fb_xfut.o \
+	fb_erfn.o fb_colr.o fb_fill.o fb_plin.o fb_text.o \
+	fb_ctrl.o fb_pmrk.o fb_util.o fb_esc.o \
+	fb_wst.o fb_mf.o fb_nurb.o fb_dcue.o fb_lite.o \
+	fb_pack.o fb_bind.o 
+
+.SUFFIXES: .o .a
+
+   PEXAPIINC = -I../include
+  PEXINCLUDE = -I../../../include/PEX
+#   INCLUDES = $(PEXAPIINC) $(PEXINCLUDE) -I../../../../X11
+# update by shibata 1991.2.18 */
+    INCLUDES = $(PEXAPIINC) $(PEXINCLUDE) -I../../../../X11 -I../../../include
+
+all:: Pex
+
+extract : $(SRCS)
+
+Pex: ${OBJS}
+	@echo "putting off ar of $(LIBCODE)"; \
+#   ar rvl $(LIBCODE) $(OBJS)
+
+# Force Re-Compliation
+FRC:
+	@echo "forcing remake"
+
+#ifdef HPArchitecture
+SpecialObjectRule(hpext.o, $(IRULESRC)/$(MACROFILE), $(EXT_DEFINES))
+#endif
+
+DependTarget()
+
+lint-library: llib-lpexapi.ln
+llib-lpexapi.ln : phigs_cb.c phigs.c_bind
+	$(LINT) -uv -DLINT $(ALLDEFINES) -Cpexapi phigs_cb.c

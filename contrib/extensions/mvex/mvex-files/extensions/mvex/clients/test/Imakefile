@@ -1,0 +1,55 @@
+#if HasVoidSignalReturn
+            DEFINES = -DSIG=void
+#else
+            DEFINES = -DSIG=int
+#endif
+      IMAKE_DEFINES = $(DEFINES)
+         MVEXDEPLIB = $(EXTENSIONSRC)/mvex/lib/libmvex.a
+            MVEXLIB = $(EXTENSIONSRC)/mvex/lib/libmvex.a
+
+   XMVEX1SRCS = mvex1.c
+   XMVEX1OBJS = mvex1.o
+
+   XMVEX2SRCS = mvex2.c
+   XMVEX2OBJS = mvex2.o
+
+   XMVEX3SRCS = mvex3.c
+   XMVEX3OBJS = mvex3.o
+
+   XMVEX4SRCS = mvex4.c
+   XMVEX4OBJS = mvex4.o
+
+   XMVEX5SRCS = mvex5.c
+   XMVEX5OBJS = mvex5.o
+
+   XMVEX6SRCS = mvex6.c
+   XMVEX6OBJS = mvex6.o
+
+   XMVEX7SRCS = mvex7.c
+   XMVEX7OBJS = mvex7.o
+
+       SRCS = $(XMVEX1SRCS) $(XMVEX2SRCS) $(XMVEX3SRCS) $(XMVEX4SRCS) \
+		$(XMVEX5SRCS) $(XMVEX6SRCS) $(XMVEX7SRCS)
+       OBJS = $(XMVEX1OBJS) $(XMVEX2OBJS) $(XMVEX3OBJS) $(XMVEX4OBJS) \
+		$(XMVEX5OBJS) $(XMVEX6OBJS) $(XMVEX7OBJS)
+
+all:: mvex1 mvex2 mvex3 mvex4 mvex5 mvex6 mvex7
+
+NormalProgramTarget(mvex1, $(XMVEX1OBJS), $(MVEXDEPLIB), $(MVEXLIB) $(XLIB),)
+NormalProgramTarget(mvex2, $(XMVEX2OBJS), $(MVEXDEPLIB), $(MVEXLIB) $(XLIB),)
+NormalProgramTarget(mvex3, $(XMVEX3OBJS), $(MVEXDEPLIB), $(MVEXLIB) $(XLIB),)
+NormalProgramTarget(mvex4, $(XMVEX4OBJS), $(MVEXDEPLIB), $(MVEXLIB) $(XLIB),)
+NormalProgramTarget(mvex5, $(XMVEX5OBJS), $(MVEXDEPLIB), $(MVEXLIB) $(XLIB),)
+NormalProgramTarget(mvex6, $(XMVEX6OBJS), $(MVEXDEPLIB), $(MVEXLIB) $(XLIB),)
+NormalProgramTarget(mvex7, $(XMVEX7OBJS), $(MVEXDEPLIB), $(MVEXLIB) $(XLIB),)
+
+mvex1: $(XMVEX1LIBS)
+mvex2: $(XMVEX2LIBS)
+mvex3: $(XMVEX3LIBS)
+mvex4: $(XMVEX4LIBS)
+mvex5: $(XMVEX5LIBS)
+mvex6: $(XMVEX6LIBS)
+mvex7: $(XMVEX7LIBS)
+
+LintTarget()
+DependTarget()

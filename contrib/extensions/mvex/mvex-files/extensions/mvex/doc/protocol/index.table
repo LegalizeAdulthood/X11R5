@@ -1,0 +1,114 @@
+constant	VideoViolation		Events
+constant	VideoSync		Events
+constant	VideoSetup		Events
+constant	VideoOverride		Events
+constant	VideoRequest		Events
+
+constant	VideoRedirect		Event Masks
+constant	ViolationNotify		Event Masks
+constant	SyncNotify		Event Masks
+constant	SetupNotify		Event Masks
+constant	OverrideNotify		Event Masks
+
+constant	VideoGray		Visuals
+constant	VideoColor		Visuals
+
+		atoms			Terms
+		Atoms			Terms
+		atom			Terms
+		Atom			Terms
+		VIR			Terms
+		VOR			Terms
+		VW			Terms
+
+constant	CreateWindow		Core Requests
+constant	CopyArea		Core Requests
+constant	CopyPlane		Core Requests
+constant	GetImage		Core Requests
+constant	PutImage		Core Requests
+constant	MapWindow		Core Requests
+constant	UnmapWindow		Core Requests
+constant	MapSubwindows		Core Requests
+constant	UnmapSubwindows		Core Requests
+constant	ConfigureWindow		Core Requests
+constant	CirculateWindow		Core Requests
+constant	DestroyWindow		Core Requests
+constant	DestroySubwindow	Core Requests
+constant	ReparentWindow		Core Requests
+
+constant	Access			Errors
+constant	Alloc			Errors
+constant	Atom			Errors
+constant	Colormap		Errors
+constant	Drawable		Errors
+constant	GContext		Errors
+constant	IDChoice		Errors
+constant	Length			Errors
+constant	Match			Errors
+constant	Pixmap			Errors
+constant	Window			Errors
+constant	Video			Errors
+constant	Value			Errors
+
+constant	Acquired		Values
+constant	Always			Values
+constant	Brightness		Values
+constant	Capture			Values
+constant	Clip			Values
+constant	ClipByChildren		Values
+constant	Composite		Values
+constant	Contrast		Values
+constant	Contrast		Values
+constant	Denied			Values
+constant	DrawableChange		Values
+constant	Fail			Values
+constant	FrameMarker		Values
+constant	Geometric		Values
+constant	HardwareError		Values
+constant	Hue			Values
+constant	IncludeInferiors	Values
+constant	Input			Values
+constant	InverseGeometric	Values
+constant	InverseLinear		Values
+constant	Linear			Values
+constant	Lost			Values
+constant	MarkerReached		Values
+constant	Output			Values
+constant	Overlap			Values
+constant	Placement		Values
+constant	PseudoColor		Values
+constant	Render			Values
+constant	RequestOverride		Values
+constant	Reused			Values
+constant	Saturation		Values
+constant	Scale			Values
+constant	Stopped			Values
+constant	Subset			Values
+constant	Success			Values
+constant	TimecodeMarker		Values
+constant	TrueColor		Values
+
+constant	QueryVideo		MVEX Requests
+constant	QuerySetup		MVEX Requests
+constant	CreateVideo		MVEX Requests
+constant	RenderVideo		MVEX Requests
+constant	CaptureGraphics		MVEX Requests
+constant	StopVideo		MVEX Requests
+constant	ChangeOwnership		MVEX Requests
+constant	SelectVideoEvents	MVEX Requests
+
+		FRACTION		Types
+		FRACTIONRANGE		Types
+		FRAME			Types
+		MARKER			Types
+		OWNER			Types
+		PLACEMENT		Types
+		RECTANGLERANGE		Types
+		RENDERMODEL		Types
+		TIMECODE		Types
+		VIDEOABILITY		Types
+		VIDEOGEOMETRY		Types
+		VIDEOIN			Types
+		VIDEOIO			Types
+		VIDEOOUT		Types
+		VREFERENCE		Types

@@ -1,0 +1,17 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT/CCS
+expiration_date: 12/31/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 06/23/91
+mod_num: 14
+@end(header)
+@b<The X Window System>
+
+Are you having a problem with
+@Button(Finding information about X,General_Information)
+@Button(Using an X application,Using_Applications)
+@Button(Programming with X,General_Programming)
+@Button(Administering X,General_Admin)
+@button(Using Answer Garden, Info_AnswerGarden)

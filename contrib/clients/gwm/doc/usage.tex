@@ -1,0 +1,151 @@
+\chapter{Usage}
+{\tt gwm [-mtDFia] [-x screens]  [-f profile] [-p path] [-d display]}
+
+\section{Options}
+
+The following command-line options\footnote{The options follow the
+GETOPTS(3) conventions: they can be in any order, a space is optional between
+an option and its argument; they can be combined (as in {\tt -Dmt}), but all
+options must appear {\bf before} any argument, which is the managed display
+for {\tt gwm}.} are supported:
+
+\begin{description}
+
+\item[-f filename] Names an alternate file as a {\GWM} startup file.
+Default is {\bf .gwmrc.gwm} (note that the \verb".gwm" extension is
+optional, as for any {\WOOL} file).\sloppy 
+
+For instance, to use the {\sc Motif} emulation package, type
+\verb"gwm -f mwm".
+
+\item[-p~path] \label{GWMPATH}Gives the path to be searched for {\WOOL} or bitmap
+files when loaded, including the startup file. Overrides the setting by the
+environment variable {\bf GWMPATH}.  Defaults to \linebreak
+\verb".:$HOME:$HOME/gwm:GWMDIR", where {\tt GWMDIR} is the local directory
+where {\GWM} is installed (normally, {\tt /usr/local/lib/X11/gwm}).
+
+You can append or prepend a path to the current path by preceding the path
+given as argument to the \verb"-p" option by \verb"+" (for appending) or
+\verb"-" (for prepending). For instance, if you want to search the directory
+\verb"/usr/local/gwm" before the standard ones (including your homedir),
+just say: \verb"-p -/usr/local/gwm".
+
+\item[-d display] Specifies the name of the display whose windows must be
+managed, such as \verb"unix:0". The \verb"-d" is optional, you can type
+\verb"gwm unix:0".
+
+\item[-x screens] Do not manage the screens given in the comma-separated
+list of numbers, as in: {\tt -x 2,5,3}. Normally, {\GWM} manages {\bf all}
+the screens of the given display.
+
+\item[-1] Manages only the given screen, e.g. \verb"gwm -1 foo:0.2" manages
+only the third screen of the display number \verb"0" on the \verb"foo"
+machine. Same as defining the GWM\_MONOSCREEN shell variable.
+
+\item[-D] Enables debugging mode for {\WOOL} files. In this version the only
+effect of debug mode is to continue reading a file after a {\WOOL}
+error occurred. Default behavior is to abort reading a file after an error.
+Thus, if you modified your profile and introduced an error, {\GWM} will
+refuse to complete execution, use {\tt gwm -D} to run it anyway.
+
+\item[-s] Synchronize X calls, useful for debugging but slower.
+
+\item[-t] Turns tracing on, as if you had done the call \verb"(trace t)" in
+your profile.
+
+\item[-q] (Quiet) Does not print startup banner, and sets the {\WOOL}
+\verb"gwm-quiet" variable to 1.
+
+\item[-m] Maps all toplevel windows already on screen. Useful after
+unmapping some windows by accident.
+
+\item[-F] Does not freeze the server during pop-up menus, move and resize of
+the windows, which is the default behavior.
+
+\item[-i] Disables the setting of input focus by {\GWM} (\verb"set-focus"
+has no effects, except \verb"(set-focus ())", which resets the focus to
+PointerRoot) on a window, keypresses go to the window under the cursor. Very
+useful to debug profiles with only one screen.
+
+\item[-a] Asynchronously handle moves and resizes, do not cancel a
+move or a resize operation if the user released the button before the grid
+appeared, which is the default behavior.
+
+\item[-?] This, or any invalid option lists the available options and shows the
+default path defined at compile time by your local installer.
+
+\end{description}
+
+\section{Shell variables}
+
+{\GWM} can make use of the following shell variables:
+
+\begin{description}
+
+\item[GWMPATH] \sloppy for the path to search for files. If unset, defaults to
+\verb".:$HOME:$HOME/gwm:GWMDIR", where {\tt GWMDIR} is the local directory
+in which are installed all the standard {\GWM} files. (Normally {\tt
+/usr/local/lib/X11/gwm}). Overridden by the \verb"-p" command line option.
+
+\item[GWMPROFILE] for the name of the profile file. Defaults to
+\verb".gwmrc.gwm". Overridden by the \verb"-f" command line option.
+
+\item[DISPLAY] for the name of the X11 display to use, such as
+\verb"unix:0.0". Overridden by the \verb"-d" command line option.
+
+\item[GWM\_MONOSCREEN] if set will make {\GWM} manage only the given screen.
+
+\end{description}
+
+\section{Files}
+
+{\GWM} needs at least one file for its startup, \verb".gwmrc.gwm" which must
+be in {\GWM}'s path. New users do not need one, since a default profile should
+already be present in the default path. The standard profile (see
+\ref{standard-profile}, p~\pageref{standard-profile}) makes use of the
+\verb".profile.gwm" file in the home directory.
+
+The value of the default path can be printed by calling {\GWM} with the
+\verb"-?" command line option.
+
+The standard extensions used for {\GWM} file names are:
+\begin{description}
+\item[{\tt .gwm}] for {\WOOL} files.
+\item[{\tt .xbm}] for {\bf X}11 {\bf B}it{\bf M}ap files, such as those
+created with BITMAP(1).
+\item[{\tt .xpm}] for {\bf X}11 {\bf P}ix{\bf M}ap files, which is an ASCII
+portable format for distributing color images (see the \verb"pixmap-load"
+function, p~\pageref{pixmap-load}).
+\end{description}
+
+\section{Description}
+
+The {\GWM} command is a window manager client application of the X11 window
+server specified in the {\tt display} argument (or the  {\tt DISPLAY} shell
+variable if no argument is given), extensible via a built-in {\it lisp}
+interpreter, {\WOOL} (Window Object Oriented Lisp) used to build {\bf Wobs}
+(Window OBjects) which are used to decorate the windows of the other X11
+applications running on the display. {\GWM}
+tries to enforce the ICCCM conventions to communicate between X11 clients
+and thus should be compatible with any well-behaved X11 application.
+
+On startup, {\GWM} interprets its profile to build wobs describing how to
+decorate user windows, which we will call {\bf Clients}.  Then it creates
+{\bf Windows} around each client windows on the screens attached to the
+managed display. A Window is made of 4 (optional) {\bf Bars} on the 4 sides
+of the window.  Each of these bars is made of a variable number of {\bf
+Plugs}, the most primitive wobs.  {\bf Menus} can then be made with a list
+of bars. To each of these objects is associated a {\bf fsm} ({\bf F}inite
+{\bf S}tate {\bf M}achine) describing their behavior in terms of {\WOOL}
+code triggered by X or {\WOOL} events.
+
+When {\GWM} wants to decorate a window, it calls the user-defined {\WOOL}
+function \verb"describe-window" which must return a list of two window
+descriptions (one for the window itself, and one for its icon) made by the
+\verb"window-make" {\WOOL} primitive describing the window. To build these
+descriptions the user can query the client window for any X11 properties and
+use the X11 Resource Manager to decide how to decorate it.
+
+The screens must also be described by such a description that {\GWM} will find
+by calling the user-defined {\WOOL} function \verb"describe-screen" for each
+managed screen.

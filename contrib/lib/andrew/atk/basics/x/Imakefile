@@ -1,0 +1,45 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOCALINCLUDES = -I../common
+
+COMOBJS = ../common/region.o ../common/rect.o ../common/point.o ../common/physical.o
+
+OBJS = xws.o xim.o xcursor.o xfontd.o xgraphic.o menubar.o
+
+IHFILES = xws.ih xim.ih xcursor.ih xfontd.ih xgraphic.ih
+
+#ifdef X11_ENV
+#if defined(_IBMR2) || defined(HP800_ENV)
+X11LIBS = ${BASEDIR}/lib/libcmenu.a
+SYSLIBS = -L$(XLIBDIR) -lX11
+#else
+X11LIBS = ${BASEDIR}/lib/libcmenu.a  \
+	${XLIBDIR}/libX11.a
+#endif
+#endif /* X11_ENV */
+
+LIBS = $(X11LIBS) \
+	$(BASEDIR)/lib/liberrors.a \
+	$(UTILLIB)
+
+NormalObjectRule()
+NormalATKRule()
+
+FontRule()
+DeclareFont(amenu12)
+all:: xinit.o
+
+DynamicMultiObject(xws.do, $(OBJS) ${COMOBJS}, ${LIBS},${SYSLIBS} ${NETLIBS} ${BSDLIB})
+InstallClassFiles(xws.do, $(IHFILES))
+
+DependTarget()
+
+InstallDocs(atkx.doc,${DESTDIR}/doc/atk/basics)
+InstallDocs(menubar.help, ${DESTDIR}/help)
+InstallDocs(motif.intro, ${DESTDIR}/help)

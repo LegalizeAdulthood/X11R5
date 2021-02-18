@@ -1,0 +1,298 @@
+.\"
+.\" $Id: xwnmo.man,v 1.1 1991/09/13 08:12:20 proj Exp $
+.\"
+.TH XWNMO 1 "Release 5" "X Version 11"
+.SH NAME
+xwnmo \- Input Manager of the X Window System Version 11
+.SH SYNOPSIS
+.B xwnmo
+[\-\fIoption\fP ...]
+.SH DESCRIPTION
+The \fIxwnmo\fP is a input manager for Input Method of X Window System.
+It is based on [\fIX Window System, Version 11 Input Method Specifications\fP].
+It provides a multi-language input evironment for multiple clients in the
+X Window System Version 11. Clients can connect to it by using XIM library.
+.PP
+The conversion engine \fIxwnmo\fP use is the internationalized Wnn. 
+It selects conversion server in accordance with language of clients.
+.PP
+.TP 8
+\fIXwnmo\fP supports the following inputstyles:
+( XIMPreeditArea | XIMStatusArea )
+.br
+( XIMPreeditPosition | XIMStatusArea )
+.br
+( XIMPreeditNothing | XIMStatusNothing )
+.br
+( XIMPreeditCallbacks | XIMStatusArea )
+.br
+( XIMPreeditArea | XIMStatusCallbacks )
+.br
+( XIMPreeditPosition | XIMStatusCallbacks )
+.br
+( XIMPreeditCallbacks | XIMStatusCallbacks )
+.PP
+If you attmpt to connect \fIxwnmo\fP by using XIM library, You must
+set modifiers \fI_XWNMO\fP.
+.TP 8
+Concretely,
+XSetLocaleModifiers("@im=_XWNMO");
+.br
+or
+.br
+set environment
+\fBXMODIFIERS\fP=@im=_XWNMO and XSetLocaleModifiers("");.
+.PP
+For feather information about XIM library, please see the chapter 13 of
+Xdoc or [\fIX Window System, Version 11 Input Method Specifications\fP].
+.PP
+.SH XML
+According to \fIInput Method Specifications\fP, the locale which input method
+use is only one and static locale. Thence \fIxwnmo\fP provides only
+one languange environment which depends on the current locale of
+\fIXOpenIM\fP(). And you could not change this environment.
+But if libX11.a was compiled with
+.B XML
+define, clients can use multi locale
+environment. In other words, you can cange current languange environment
+on the fly by changing current locale. The way to use its environment
+is the following:
+.PP
+.TP 8
+.B Creating envitonment
+Call \fIXmlOpenIM()\fP instead of XOpenIM() ,set
+.B XNCurrentLanguage
+argument of XIC and call \fIXCreateIC\fP(). So \fIxwnmo\fP attempts to
+create as many language environment as possible and set current environment
+to the locale setted XNCurrentLanguage. If you don't set XNCurrentLanguage
+current environment is the first environment \fIxwnmo\fP created.
+A syntax of XNCurrentLanguage follows.
+.br
+.br
+current_language = \<language>'_'<territory>
+.TP 8
+.B Changing envitonment
+If you want to change current languange environment, set
+.B XNCurrentLanguage
+argument and call \fIXSetICValues()\fP.
+.PP
+\fIXwnmo\fP accept that
+.B XML
+clients and
+.B NON_XML
+cleints connect \fIxwnmo\fP at the same time.
+.SH XJp
+\fIXwnmo\fP is able to support XJp protocol. If You compile \fIxwnmo\fP
+with \fBXJP\fP define, it supports "Communication Kit" part of XJp protocol.
+And if You compile \fIxwnmo\fP with \fBXJP\fP and \fBXJP_DIRECT\fP define,
+it supports "Direct Interface" part of XJp protocol.
+.PP
+.SH SEP
+\fIXwnmo\fP is able to support SEP(SpotLocation Extended Protocol).
+If You compile \fIxwnmo\fP with \fBSPOT\fP define, it supports SEP.
+And please use \fI_XipChangeSpot()\fP function. it's interface follows.
+.PP
+.TP 4
+int \fB_XipChangeSpot\fP(\fIic\fP, \fIspot_x\fP, \fIspot_y\fP)
+XIC ic;
+.br
+short spot_x, spot_y;
+.PP
+ic:		Specifies the input context.
+.br
+spot_x, spot_y:	Specifies the coodicates of the ``spot''.
+.PP
+.SH OPTIONS
+\fIXwnmo\fP accepts the following options:
+.TP 8
+.B \-D \fIserver-name\fP
+This option specifies the machine name of conversion server.
+If this isn't set, first \fIJSERVER\fP environment is referred. And if it
+isn't set, \fIxwnmo\fP attempts to connect "\fIjserver\fP" machine.
+And if it's connect failed, \fIxwnmo\fP attempts to connect local machine.
+.TP 8
+.B \-n \fIuser-name\fP
+This option specifies the user name which is used as env-name of Wnn.
+If this isn't set, first \fIWNNUSER\fP environment is referred. And if it
+isn't set, the user name of process is referred.
+.TP 8
+.B \-lc \fIlanguage-name\fP
+This option specifies the \fIlanguage name\fP which is referred as the
+language environment of \fIRoot-mode\fP. If this isn't set, first
+\fILANG\fP environment is referred. And if it isn't set, the default
+is \fIja_JP\fP.
+A syntax of language-name follows.
+.br
+.br
+language = \<language>'_'<territory>
+.TP 8
+.B \-k \fIuumkey-file-name\fP
+This option specifies the path name of \fIuumkey-file\fP. For feather
+information about \fIuumkey-file\fP, please see Wnn namual.
+.TP 8
+.B \-r \fIromkan-file-name\fP
+This option specifies the directory name of \fIromkan-file\fP. For feather
+information about \fIromkan-file\fP, please see Wnn namual.
+.TP 8
+.B \-F \fIconvert-function-file-name\fP
+This option specifies the path name of \fIconvert-function-file\fP. The
+\fIconvert-function-file\fP contains the relation between function keys of X
+and keys of Wnn. The default is "/usr/local/lib/wnn/cvt_fun_tbl".
+For feather information about \fIconvert-function-file\fP, please see
+the manaul of cvtfun.
+.TP 8
+.B \-M \fIconvert-meta-file-name\fP
+This option specifies the path name of \fIconvert-meta-file\fP. The
+\fIconvert-meta-file\fP contains the relation between meta keys of X and
+keys of Wnn. The default is "/usr/local/lib/wnn/cvt_meta_tbl".
+For feather information about \fIconvert-meta-file\fP, please see the manaul of
+cvt_mt.
+.TP 8
+.B \-fs \fIfont-name-list\fP
+This option specifies the list of font name. The fontset of Root-mode
+is created from this list. The default is depend on the locale.
+A syntax of this list follows.
+.br
+.br
+font-name-list = \<fontname>{','fontname}
+.TP 8
+.B \-geometry \fIgeometry\fP
+This option specifies the preferred size and position of the xwnmo window;
+see \fIX(1)\fP
+.TP 8
+.B \-fg \fIcolor\fP
+This option specifies the color to use for displaying text of the xwnmo
+window. The default is ``black.''
+.TP 8
+.B \-bg \fIcolor\fP
+This option specifies the color to use for the background of the xwnmo window.
+The default is ``white.''
+.TP 8
+.B \-bd \fIcolor\fP
+This option specifies the color to use for the border of the xwnmo window.
+The default is ``black.''
+.TP 8
+.B \-bw \fInumber\fP
+This option specifies the width in pixels of the border surrounding the xwnmo
+window.
+.TP 8
+.B \-display \fIdisplay\fP
+This option specifies the X server to connect; see \fIX(1)\fP.
+.TP 8
+.B \-iconic
+This option indicates that \fIxwnmo\fP should ask the window manager to
+start it as an icon rather than as the normal window.
+.TP 8
+.B \#\fIgeom\fP
+This option specifies the preferred position of the icon window.
+It is shorthand for specifying the ``\fI*iconGeometry\fP'' resource.
+.TP 8
+.B \-help
+This causes \fIxwnmo\fP to print out a verbose message describing its options.
+.TP 8
+.B \-h
+This causes \fIxwnmo\fP to wake up in convertion \fIon\fP mode.
+The default is off mode.
+.TP 8
+.B \-H
+This causes \fIxwnmo\fP to wake up in convertion \fIoff\fP mode.
+.TP 8
+.B \-ju \fIxjtuil-name\fP
+This option specifies the path name of \fIxjutil\fP which is
+\fIthe dictionary utility manager\fP.
+The default is "/usr/bin/X11/xjutil".
+.SH RESOURCES
+\fIXwnmo\fP accepts the following resource names and classes:
+.TP 8
+.B "serverName (\fPclass\fB ServerName)"
+This option specifies the machine name of conversion server.
+If this isn't set, first \fIJSERVER\fP environment is referred. And if it
+isn't set, \fIxwnmo\fP attempts to connect "\fIjserver\fP" machine.
+And if it's connect failed, \fIxwnmo\fP attempts to connect local machine.
+.TP 8
+.B "userName (\fPclass\fB UserName)"
+Specifies the user name which is used as env-name of Wnn.
+If this isn't set, first \fIWNNUSER\fP environment is referred. And if it
+isn't set, the user name of process is referred.
+.TP 8
+.B "ximrcName (\fPclass\fB XimrcName)"
+Specifies the path name of \fIximrc-file\fP which is a start up file of
+\fIxwnmo\fP.
+If this isn't set, first \fI$HOME/.ximrc\fP is referred. And if it doesn't
+exist, the default is "/usr/local/lib/wnn/ximrc".
+For feather information about \fIximrc-file\fP, please see the manaul of
+\fIximrc-file\fP.
+.TP 8
+.B "cvtfunName (\fPclass\fB CvtfunName)"
+Specifies the path name \fIconvert-function-file\fP. The
+\fIconvert-function-file\fP contains the relation between function keys of X
+and keys of Wnn. The default is "/usr/local/lib/wnn/cvt_fun_tbl".
+For feather information about \fIconvert-function-file\fP, please see
+the manaul of cvtfun.
+.TP 8
+.B "cvtmetaName (\fPclass\fB CvtmetaName)"
+Specifies the path name of \fIconvert-meta-file\fP. The
+\fIconvert-meta-file\fP contains the relation between meta keys of X and
+keys of Wnn. The default is "/usr/local/lib/wnn/cvt_meta_tbl".
+For feather information about \fIconvert-meta-file\fP, please see the manaul
+of cvtmt.
+.TP 8
+.B "foreground (\fPclass\fB Foreground)"
+This option specifies the color to use for displaying text of the xwnmo
+window. The default is ``black.''
+.TP 8
+.B "background (\fPclass\fB Background)"
+Specifies the color to use for the background of the xwnmo window.
+The default is ``white.''
+.TP 8
+.B "borderColor (\fPclass\fB BorderColor)"
+Specifies the color to use for the border of the xwnmo window.
+The default is ``black.''
+.TP 8
+.B "display (\fPclass\fB Display)"
+Specifies the X server to connect.
+.TP 8
+.B "xjutilName (\fPclass\fB XjutilName)"
+Specifies the path name of \fIxjutil\fP which is \fIthe dictionary utility
+manager\fP.
+The default is "/usr/bin/X11/xjutil".
+.TP 8
+.B "icoinic (\fPclass\fB Iconic)"
+Indicates that \fIxwnmo\fP should ask the window manager to
+start it as an icon rather than as the normal window.
+.TP 8
+.B "geometry (\fPclass\fB Geometry)"
+Specifies the preferred size and position of the xwnmo window.
+.TP 8
+.B "iconGeometry (\fPclass\fB IconGeometry)"
+Specifies the preferred position of the icon window.
+.TP 8
+.B "borderWidth (\fPclass\fB BorderWidth)"
+Specifies the width in pixels of the border surrounding the xwnmo window.
+.TP 8
+.B "langName (\fPclass\fB LangName)"
+Specifies the \fIlocale name\fP which is referred as the
+language environment of \fIRoot-mode\fP. If this isn't set, first
+\fILANG\fP environment is referred. And if it isn't set, the default
+is \fIja_JP\fP.
+A syntax of language-name follows.
+.br
+.br
+language = \<language>'_'<territory>
+.TP 8
+.B \-fs \fIfont-name-list\fP
+This option specifies the list of font name. The fontset of \fIRoot-mode\fP
+is created from this list. The default is depend on the locale.
+A syntax of this list follows.
+.br
+.br
+font-name-list = \<fontname>{','fontname}
+.SH "SEE ALSO"
+ximrc(4X), cvtfun(4X), cvtmt(4X)
+.br\fIWnn Manual\fP (in the Wnn source directory)
+.SH COPYRIGHT
+Copyright 1991 by OMRON Corporation
+.br
+Copyright 1991 by Massachusetts Institute of Technology
+.SH AUTHOR
+Seiji Kuwari (OMRON Corporation)

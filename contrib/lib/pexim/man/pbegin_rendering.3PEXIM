@@ -1,0 +1,81 @@
+."		"@(#)pbegin_rendering.3PEXIM	1.2 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.pbegin_rendering.3PEXIM
+."	
+.TH "BEGIN RENDERING" 3PEXIM "12-JUNE-91"
+.SH NAME
+BEGIN RENDERING \- Begin immediate mode rendering on a \s-1PEX\s+1 Renderer
+.IX "Renderer" "BEGIN RENDERING"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+pbegin_rendering ( wkid )
+Pint	wkid;		\fIRenderer ID given by the application\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine puts the specified Renderer in immediate mode.  In this mode,
+all element insertion commands queue that element for immediately rendering.
+These commands are referred to as Output Commands (\s-1OC\s+1s).
+\s-1BEGIN RENDERING\s+1 also does the following:
+.RS
+.sp .3
+\(bu Clears the background to colour index 0
+.sp .2
+\(bu Clears the Z-buffer
+.sp .2
+\(bu Sets \s-1PEXIM\s+1 to double buffer mode
+.sp .2
+\(bu Set the Renderer state to \s-1PEXIM_RENDERING\s+1
+.RE
+.LP
+To exit immediate mode, call the \s-1END RENDERING\s+1 routine. 
+.\" It will also prevent any structures from 
+.\" being opened and will fail if a structure is open.
+.SS C Input Parameters
+.IP \fIwkid\fP
+This is the \s-1ID\s+1 by which the application identifies the
+Renderer.  The application specifies the \s-1ID\s+1 when it opens the Renderer
+(using \s-1OPEN RENDERER\s+1).  A Renderer \s-1ID\s+1 is synonymous with
+a workstation identifier and is passed to other \s-1PHIGS\s+1 workstation
+routines to set views or lights.
+.SS Execution
+Required state of specified Renderer before execution: \s-1PEXIM_IDLE\s+1.
+.br
+Specified Renderer's state after execution: \s-1PEXIM_RENDERING\s+1.
+.LP
+The application
+must call all workstation state setting routines before calling this routine.
+To set the background color use the \s-1SET COLOUR REPRESENTATION\s+1 routine.
+.SS Function Return
+\f3pbegin_rendering\f1 returns an integer status.  A value of \s-1POK\s+1 indicates successful execution. 
+.SH ERRORS
+.IP \s-1PEXIMERRB\s+1ad\s-1WKID\s+1
+Renderer is not open
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "OPEN RENDERER"
+.SM "END RENDERING"
+.SM "SET COLOUR REPRESENTATION"
+.fi
+

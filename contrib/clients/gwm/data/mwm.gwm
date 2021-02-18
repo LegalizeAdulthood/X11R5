@@ -1,0 +1,487 @@
+; STANDARD GWM PROFILE
+; ====================
+
+;;File: .gwmrc.gwm -- the GWM standard profile
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.4 -- June 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+;; this profile is monoscreen only
+
+(if (> (length (list-of-screens)) 1)
+    (progn
+      (? "The mwm profile works only on one screen. Restarting with -1fmwm\n")
+      (restart "gwm" "-1fmwm")))
+
+; banner
+; ======
+
+(if (= display-name "unix:0")
+    (if (: machine (getenv "machine"))
+	(: display-name (+ machine ":0"))))
+
+(? display-name "." screen " " screen-width " x " screen-height " x " 
+       screen-depth "\n"))
+(print "reading...")
+(: original-load load)
+(defun load (file) (? ".")(original-load file))
+
+; appearance
+; ==========
+
+(: name-font (font-make "9x15"))
+(: meter-font (font-make "9x15"))
+(: bull-font (font-make "9x15"))
+(: small-font (font-make "6x10"))
+(: fixed-font (font-make "fixed"))
+
+; global switches
+; ===============
+
+(: move-grid-style 3)
+(: resize-grid-style 4)
+
+(: property ())
+(: borderwidth 1)
+(: any-button (button any any))
+(: any-key (key any any))
+
+(: autoraise ())
+(: xterm-list '())
+(: xload-list '())
+(: no-set-focus ())
+(: to-be-done-after-setup '(progn))
+(: screen-opening '(progn))		; actions to be done before operation
+(: screen-closing '(progn))		; actions to be done when ending
+
+; per-screen data setting
+; =======================
+
+(defunq defname-in-screen-to args
+    (with (value (eval (# 0 args))
+		 vars (sublist 1 (length args) args))
+	  (for var vars
+	       (defname var screen. value))))
+
+(defunq set-color (name value)
+    (if (not (= screen. (namespace-of name))) {
+	(defname name screen.)
+	(for screen (list-of-screens)
+	     (set name (color-make value)))
+	}
+    ))
+
+(defunq set-pixmap args
+    (with (name (# 0 args)
+		pixmap-make-call (# 0 args 'pixmap-make))
+	  (if (not (= screen. (namespace-of name))) {
+	      (defname name screen.)
+	      (for screen (list-of-screens)
+		   (set name (eval pixmap-make-call)))
+	      }
+	  ))))
+
+; per-screen data
+; ===============
+
+(defname-in-screen-to () tile screen-tile bordertile menu root-cursor)
+
+(defname 'root-pop screen.)
+(defname 'window-pop screen.)
+(set-color black Black)
+(set-color white White)
+(set-color grey Grey)
+(set-color darkgrey DarkSlateGrey)
+(setq menuShadeColor grey)
+
+(load "mwmrc")
+(load "mwm-bindings")
+
+(set-pixmap icon-pixmap "icon20")
+    
+(defname 'look-3d screen.)
+(for screen (list-of-screens)
+    (if (= 'mono screen-type)
+	(: look-3d ())
+	(: look-3d t)
+    ))))
+
+
+; functions to affect decorations to a client name
+; =================================================
+
+; The assignement of decorations to client names:
+; a decoration is either:
+; 	a function yielding the decoration
+;       an unbound variable: the corresponding file is then loaded, which
+;       	must define the function
+
+(load "mwm-utils.gwm")
+
+(defname '-screen-name screen.)
+(for screen (list-of-screens)
+    (: -screen-name (+ "S" (itoa screen)))
+    (resource-put (+ -screen-name ".GwmWindow." ".window" screen-type) ())
+    (resource-put (+ -screen-name ".GwmIconWindow." ".icon"  screen-type) ())
+    (resource-put (+ -screen-name ".GwmIconPixmap." ".icon" screen-type) ())
+    (resource-put (+ -screen-name ".GwmPlacement." ".window" screen-type)
+	'default-placement)
+    (resource-put (+ -screen-name ".GwmIconPlacement." ".icon" screen-type)
+	'default-placement)
+)
+
+(: string-types '(string t atom t pointer t active t))
+
+(defun autoload-description (name)
+    (if (= 'string (type name)) (: name (atom name)))
+    (if (not (boundp name))
+	(load name)))
+
+
+(defun set-window-resource (client description resource-prefix screentype)
+  (if (or (= 'any screentype) (= screentype screen-type)) (progn
+    (if (# (type description) string-types)
+	(progn
+	      (if (match ".*[.]gwm" description)
+		  (: description (match "\\(.*\\)[.]gwm" description 1)))
+	      (autoload-description description)))
+    (setq description (eval description))
+    (if (: tmp 
+	   (if (= (type description) 'client)
+	       description
+	       (eval (list description))))
+	(resource-put (+ -screen-name resource-prefix client "." screentype)
+	    tmp)
+    ))))))
+
+(defunq set-window args
+    (if (= 3 (length args)) (set-window-resource 
+		(# 1 args) (# 2 args) '.GwmWindow. (# 0 args))
+	(= 2 (length args)) (set-window-resource
+		(# 0 args) (# 1 args) '.GwmWindow. 'any)
+	(? "ERROR: set-window must have 2 or 3 args "
+	   (+ '(set-window) args) "\n")
+    ))))   
+
+(defunq set-icon-window args
+    (if (= 3 (length args)) (set-window-resource
+		(# 1 args) (# 2 args) '.GwmIconWindow. (# 0 args))
+	(= 2 (length args)) (set-window-resource
+		(# 0 args) (# 1 args) '.GwmIconWindow. 'any)
+	(? "ERROR: set-icon-window must have 2 or 3 args "
+	   (+ '(set-icon-window) args) "\n")
+    ))))
+
+(defunq set-icon args
+    (if (= 3 (length args)) 
+	(resource-put 
+	    (+ -screen-name '.GwmIconPixmap. (# 1 args) "." (# 0 args))
+	    (expand-pixmap (# 2 args)))
+	
+	(= 2 (length args))
+	(resource-put
+	    (+ -screen-name '.GwmIconPixmap. (# 0 args) ".any")
+	    (expand-pixmap (# 1 args)))
+	
+	(? "ERROR: set-icon must have 2 or 3 args "
+	   (+ '(set-icon) args) "\n")
+    ))
+
+(defun expand-pixmap (obj)
+    (if (= 'list (type obj))
+	(eval (+ '(pixmap-make) obj))
+	(pixmap-make obj)))
+
+(defunq set-placement args
+    (if (= 3 (length args))
+	(resource-put 
+	    (+ -screen-name '.GwmPlacement. (# 1 args) "." (# 0 args))
+	    (# 2 args))
+	(= 2 (length args))
+	(resource-put (+ -screen-name '.GwmPlacement. (# 0 args) ".any")
+	    (# 1 args))
+	(? "ERROR: set-placement must have 2 or 3 args "
+	   (+ '(set-placement) args) "\n")
+    ))
+
+(defunq set-icon-placement args
+    (if (= 3 (length args))
+	(resource-put 
+	    (+ -screen-name '.GwmIconPlacement. (# 1 args) "." (# 0 args))
+	    (# 2 args))
+	(= 2 (length args))
+	(resource-put (+ -screen-name ".GwmIconPlacement." (# 0 args) ".any")
+	    (# 1 args))
+	(? "ERROR: set-icon-placement must have 2 or 3 args "
+	   (+ '(set-icon-placement) args) "\n")
+    ))
+
+; automatic placement
+; ===================
+
+(de apply1 (func arg)
+    (eval (list func arg)))
+
+(: opening 
+    '(progn 
+	    (apply1 (if (= window-status 'icon)
+			(resource-get 
+			    (+ -screen-name ".GwmIconPlacement." 
+			       window-client-class "." screen-type)
+			    "S.GwmIconPlacement.icon.any")
+			(resource-get 
+			    (+ -screen-name ".GwmPlacement." 
+			       window-client-class "." screen-type)
+			    "S.GwmPlacement.window.any"))
+	    t)
+	)))
+(: closing 
+    '(progn 
+	    (apply1 (if (= window-status 'icon)
+		 (resource-get 
+		     (+ -screen-name ".GwmIconPlacement."
+			 window-client-class "." screen-type)
+		     "S.GwmIconPlacement.icon.any")
+		 (resource-get 
+		     (+ -screen-name ".GwmPlacement." 
+			 window-client-class "." screen-type)
+		     "S.GwmPlacement.window.any"))
+	     ()))))
+
+; default placement make title bar in screen
+(defun default-placement (flag)
+    (if flag
+	(if (< window-y 0) (move-window window-x 0))))
+
+;(load "placements")
+(load "mwm-placements")
+
+; default behaviors
+; ==================
+
+(: standard-behavior
+    (state-make
+	(on (buttonpress 1 alone) (progn (raise-window)
+				(with (cursor cross-cursor) (move-window))))
+	(on (button 1 with-shift) (lower-window))
+	(on (buttonpress 1 with-alt) (progn (raise-window)
+				(with (cursor cross-cursor) (move-window))))
+	(on (button 1 (together with-shift with-alt)) (lower-window))
+	(on (buttonpress 3 alone) (menu.pop))
+	(on (buttonpress 3 with-alt) (menu.pop))
+    ))
+(: standard-title-behavior
+    (state-make
+	(on (buttonpress 2 alone) (progn (raise-window)(resize-window)))
+	(on (buttonpress 2 with-alt) (progn (raise-window)(resize-window)))
+	standard-behavior
+    ))
+(: window-behavior
+    (state-make
+	standard-behavior
+	(on (buttonpress 2 alone) (progn (raise-window)(resize-window)))
+	(on (buttonpress 2 with-alt) (progn (raise-window)(resize-window)))
+	(on focus-in (progn (if autoraise (raise-window))
+			    (send-user-event 'focus-in)))
+	(on focus-out (send-user-event 'focus-out))
+	(if no-set-focus
+	    (on enter-window (progn (if autoraise (raise-window))))
+	    (on enter-window (progn (if autoraise (raise-window))
+				    (set-focus)
+				    (set-colormap-focus))))
+	;(on leave-window (set-focus ()))
+	(on window-icon-pixmap-change
+	    (if (window-icon?)
+		(send-user-event 'icon-pixmap-change window-icon)))
+	(on name-change (send-user-event 'name-change))
+	(on (property-change "WM_ICON_NAME")
+	    (if (window-icon?)
+		(send-user-event 'name-change window-icon)))
+	))
+    ))
+(: icon-behavior
+    (state-make
+	(on (buttonrelease 2 any) (progn (iconify-window)(raise-window)))
+	standard-behavior
+    ))
+(: root-behavior
+    (state-make
+	(on (buttonpress 3 alone) (pop-root-menu))
+	(on (buttonpress 3 with-alt) (pop-root-menu))
+	(on (key (key-make "BackSpace") with-alt) 
+	    (execute-string (+ "(? " cut-buffer ")")))
+	(on (key (key-make "Delete") with-alt) (end))
+    ))
+
+(: grabs 
+    (: root-grabs
+       (: window-grabs
+	 (: icon-grabs
+	  (list
+	       (button any with-alt)
+	       (button 1 (together with-shift with-alt)))))))
+
+; simple fsms
+
+(: fsm (fsm-make (state-make standard-behavior)))
+(: window-fsm (fsm-make (state-make window-behavior))))
+(: icon-fsm (fsm-make (state-make icon-behavior)))
+(: root-fsm (fsm-make (state-make root-behavior)))
+
+; Pop-ups
+; =======
+
+(load "mwm-menus.gwm")
+(load "mwm-menusrc")
+
+(for screen (list-of-screens) (: menu 'window-pop)))
+
+; read user customizations in .profile.gwm, once per screen
+; =========================================================
+
+(? "[")
+(for screen (list-of-screens) (load "mwmprofile.gwm"))
+(? "]")
+
+; create menus with lists of xterms and xloads
+; ============================================
+
+(defname-in-screen-to ()  xterm-pop xload-pop)
+
+(for screen (list-of-screens)
+ (with (fsm pop-fsm)
+    (if (not (boundp 'root-pop)) (: root-pop
+       (menu.make
+	   item-separator
+	   item-separator
+	   (pop-label-make "Gwm")
+	   item-separator
+	   item-separator
+	   (item-make "Xterms..." () (menu.pop xterm-pop 3))
+	   (item-make "refresh" () (refresh))
+	   (item-make "restart" () (restart))
+	   (item-make "reload" () (load "mwm"))
+	   (item-make "Xloads..." () (menu.pop xload-pop 3))
+	   (item-make 
+	       "Wool infos" () (progn
+				  (hashinfo)(gcinfo)(wlcfinfo)(meminfo)))
+	   (item-make "Exec cut" () (execute-string (+ "(? " cut-buffer ")")))
+	   (item-make "End" () (end))
+       )))
+    
+    (if (not (boundp 'window-pop)) (: window-pop 
+       (menu.make
+	   (item-make "iconify" () (iconify-window))
+	   (item-make "re-load&dec" ()  
+	       (progn (load "mwm")(re-decorate-window)))
+	   (item-make "redecorate" ()  (re-decorate-window))
+	   (item-make "Exec cut"  () (execute-string (+ "(? " cut-buffer ")")))
+	   (item-make "Inst Colormap" ()  (set-colormap-focus))
+	   (item-make "client info" ()  
+	       (? "Window: " (window-client-class) "."
+		  (window-client-name) "."
+		  (window-name) "@"
+		  (window-machine-name) "\n"))
+	   (item-make "move" ()  (move-window))
+	   (item-make "Geometry" ()  
+	       (progn (: WIN window)(? "Geometry:" window-width "x"
+				       window-height "+"
+				       window-x "+"
+				       window-y "\n")))
+	   (item-make "kill" ()  (kill-window))
+       )))
+    (if (not (boundp 'icon-pop)) (: icon-pop window-pop))
+
+    (setq xterm-items '(menu.make 
+			   item-separator
+			   item-separator
+			   (pop-label-make "Xterms")
+			   item-separator
+			   item-separator
+			   (item-make "." ()  (! "xterm"))))
+    (for xterm-item xterm-list
+	 (: xterm-items 
+	    (+ xterm-items 
+	       (list (list 'item-make xterm-item ()
+			   (list '! (+ "rxterm " xterm-item)))))))
+    (: xterm-pop (eval xterm-items))
+    
+    (setq xload-items '(menu.make 
+			   item-separator
+			   item-separator
+			   (pop-label-make "Xloads")
+			   item-separator
+			   item-separator
+			   (item-make "." () (! "xload"))))
+    (for xload-item xload-list
+	 (: xload-items 
+	    (+ xload-items 
+	       (list (list 'item-make xload-item ()  
+			   (list '! (+ "rxload " xload-item)))))))
+    (: xload-pop (eval xload-items))
+))
+    
+(de pop-root-menu ()
+    ;(set-colormap-focus ()) => bug bizarre
+    (menu.pop root-pop)
+)
+
+; The simplest window: no-decoration
+; ==================================
+
+(defname 'simple-window-decoration screen.)
+(defname 'simple-icon-decoration screen.)
+(defname 'no-decoration screen.)
+
+(load "simple-icon-old")
+
+(for screen (list-of-screens)
+    (: simple-window-decoration 
+       (: no-decoration
+	  (with (fsm window-fsm
+		     borderwidth 0
+		     inner-borderwidth any
+		     menu window-pop)
+		(window-make () () () () ()))))
+    (: simple-icon-decoration (simple-icon))))
+
+; use the "simple-icon" package as the defaults for icons
+
+
+; DESCRIBE-SCREEN & DESCRIBE-WINDOW
+; =================================
+
+(de describe-screen ()
+  (with (fsm root-fsm cursor root-cursor menu root-pop tile screen-tile
+      grabs (+ (# 1 (# 'root keyBindings)) root-std-grabs)
+      opening 
+      '(progn (eval to-be-done-after-setup)
+	(eval screen-opening)
+	(? "Screen #" screen " ready.\n"))
+      closing '(eval screen-closing)
+    )
+    (window-make () () () () ())))
+
+(de describe-window ()
+    (list
+	 (if (: tmp (resource-get 
+			(+ -screen-name ".GwmWindow." 
+			   window-client-class "." screen-type) 
+			"S.GwmWindow.any.any"))
+	     tmp
+	     simple-window-decoration)
+	 (if (: tmp (resource-get
+			(+ -screen-name ".GwmIconWindow." 
+			   window-client-class "." screen-type) 
+			"S.GwmIconWindow.any.any"))
+	     tmp
+	     simple-icon-decoration)
+	 )
+)))
+
+;  Bye bye
+; ========
+
+(setq load original-load)
+(print "...done\n")

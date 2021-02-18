@@ -1,0 +1,450 @@
+
+		*************************************************
+		*	Chapter 3	PINYIN INPUT AND	*
+		*			PINYIN HANZI CONVERSION *
+		*************************************************
+
+
+
+
+   3.1 CONCEPT ON PINYIN INPUT    
+   ===========================
+	
+	In Chapter 2, we have already given a brief introduction on Pinyin input.  This 
+will be explained in greater detail now.
+
+	Pinyin  input  method  refers  to  the input  Chinese characters via Pinyin and 
+Pinyin- Hanzi conversion.  A good Pinyin input method  should provide users with a good 
+Pinyin input environment as well as a conversion mechanism with high accuracy.
+
+Pinyin-Hanzi conversion has the following 3 categories :
+	(a) Conversion based on character
+	(b) Conversion based on word
+	(c) Conversion based on phrase or any arbitrary Pinyin string
+
+(a) Conversion based on character
+    The result  of this  conversion is a Chinese character (Hanzi), which has the same 
+    pronunciation as the input Pinyin.
+    We  must  take note  that there are several Hanzi that have the same pronunciation.
+    Hence, one Pinyin corresponds to many Hanzi.  In order to obtain the correct Hanzi, 
+    it has to be selected among all the candidates.  This is a rather inconvenient way 
+    of conversion.
+
+(b) Conversion based on word
+    In  this conversion,  the result is a word.  This word may consist of two or 
+    more  characters.  Hence, the  number  of candidates is much reduced.  However, the 
+    need  to select candidates still exists.  Also, we need to take note that in such a 
+    system,  only  words  that  are  registed  can be found, and users need to have the 
+    concept of words.
+
+(c) Conversion based on phrase or any arbitrary Pinyin string
+    For this  conversion, the user is able to input any arbitrary length of Pinyin, and 
+    is  able to perform the conversion at any position of the input string.  The system 
+    analyses  the input string,  performs the  necessary  grammatical analysis and word 
+    segmentation, and subsequently produces a more accurate conversion output.
+
+
+
+
+
+					- 3-1 -
+    The diagram below shows the conversion process for the entire system. 
+
+<Table-c-3.1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    We will now explain the Pinyin input environment, Pinyin-Hanzi conversion and the 
+related environment operations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 3-2 -
+
+   3.2 PINYIN INPUT ENVIRONMENT   
+   ============================
+
+ Pinyin Input and its Internal/External Representations 
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	Pinyin can be input via three methods : Quanpin, Erpin and Sanpin (as described 
+						in Chapter 2).  
+These  methods  of  input  are not performed  internally, but through the definition of 
+external environment  of  the system.  This external environment definition is known as 
+Input  Automaton (refer  to Chapter 6).   It  provides  different input environment for 
+different users (clients), according to their needs.
+
+	Through the input automaton, the user input will be converted into the standard 
+Pinyin defined by the system.  For example :
+
+<Table-c-3.2>
+
+The  system  does not require  user to segment the Pinyin input string.  The users only 
+needs to  input  the correct  Pinyin and  the system  will perform  the segmentation on 
+the input.  For example, the input  "hanyuyuyin"  will be segmented  to "han yu yu yin" 
+automatically by the system.
+ 
+	The Pinyin  input interface  is an  editor by  itself.  Besides having the input
+feature, facility  such  as cursor movement, inserting  and  deleting  operations on the 
+input  string  are  also  provided.   To the user, one Pinyin is just like an individual 
+character.  For  example, "han" is not considered as three characters "h", "a", "n", but 
+is as a single unit "han".
+
+	At the user interface, the Pinyin input is represented as it is. However, within
+the  system,  each  Pinyin  is represented  by an  internal code  defined by the system. 
+Hence during the  conversion process, these internal representations are used instead of 
+the external representations of the Pinyin.
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 3-3 -
+
+   3.3 PINYIN HANZI CONVERSION    
+   ===========================
+
+	In cWnn system, there are two types of conversion : (1) Forward conversion
+							    (2) Reverse conversion
+ 	Forward conversion refers to Pinyin-Hanzi conversion, whereas reverse conversion 
+refers to  Hanzi-Pinyin conversion, ie, the input is Hanzi and the conversion result is 
+the corresponding Pinyin.  We will now only explain the Pinyin-Hanzi conversion.	
+
+	We  have  to  take note  that  Pinyin-Hanzi conversion  does  not always get the
+accurate result.  Hence, besides  providing  a  multi-phrase  conversion mechanism, cWnn 
+also provides facilities to perform re-editing, re-conversion as well as manual word and 
+phrase segmentation.
+
+
+1. Conversion Command
+~~~~~~~~~~~~~~~~~~~~~
+There are five conversion methods for Pinyin-Hanzi conversion.  The first three methods 
+listed  below  are  most  commonly  used.   The last  two methods  are meant for system 
+developers to check on grammatical analysis.
+
+(a) Multi-phrase conversion
+	Once  a  Pinyin  string  is  sent  for  conversion, the system will perform the
+	conversion based on the current environment (refer to Chapter 5) as well as the 
+	conversion parameters of the current environment.  After conversion, the result 
+	will appear on the input line,  with the cursor positioned at the first word of 
+	the sentense.  If a re-conversion is required (done by pressing the confirm key 
+	again), the conversion method as in (c) will be performed.
+
+(b) Word conversion
+	Treat  the  portion  of the  input string indicated by the cursor as a word and 
+	perform  word  conversion.   Output  the  candidate  word  that has the highest 
+	assessment value as result.
+
+(c) Word candidates extraction
+	Treat  the  portion  of  the input string indicated by the cursor as a word and 
+	perform  word  conversion.  Output  the  possible  word  candidates  under  the 
+	particular environment.
+
+(d) Phrase conversion 
+	Treat the portion  of the input string  indicated by the cursor as a phrase and 
+	perform  phrase conversion.  Output the candidate  phrase that  has the highest 
+	assessment value as result.
+
+
+
+
+
+					- 3-4 -
+(e) Phrase candidates extraction
+	Treat the portion of the input string indicated by the cursor  as  a phrase and 
+	perform  phrase  conversion.  Output the  possible phrase candidates  under the 
+	particular environment.
+
+
+2. Manual Word Segmentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+One difficulty faced in Pinyin-Hanzi conversion is to perform automatic word segmentation.
+When  the conversion result is incorrect, the user needs  to  segment the words by using 
+the  segmentation  keys (^O or ^I).  The word  indicated by the cursor will be segmented. 
+To complete the manual segmentation process, press the conversion key again.
+
+
+3. Assessment Formula for Multi-Phrase Conversion 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The multi-phrase conversion plays a major role in the Pinyin-Hanzi conversion.  The level 
+of accuracy  for this  conversion has a direct effect on the effectiveness of the system. 
+There  are  several factors that affect the conversion result of Pinyin-Hanzi conversion, 
+each  differs  according  to different  conditions.  The  followings  are  the assessment 
+formula  for  multi-phrase  conversion.  Users  are  able  to  change  the  corresponding 
+conversion parameters in order to obtain the most suitable conversion environment.
+
+(a) Assessment parameters
+	parameter (0) 	Number of phrase "n" 
+	    		During the assessment process, this is the maximum number of 
+			phrases that can be assessed at one time.
+
+	parameter (1) 	Number of words "m" 
+	    		During the assessment process, this is the maximum number of 
+			words that can be in a phrase.  
+ 
+(b) Word assessment parameters
+	parameter (2) 	Usage frequency weight
+	    		This is the usage frequency for each word in the dictionary.
+			When  a user  uses the dictionary, the system will create as 
+			well as manage  a usage frequency file for the user.  As the 
+			user uses the  system,  the usage frequency of  each word in 
+			the  dictionary  will be updated according to how  often the 
+			user  uses  each  word.   Hence,  each  user  will  have his 
+			individual usage frequency file. 
+	    
+	parameter (3) 	Word length weight
+	    		Word length refers to the number of characters in a word.
+
+
+
+
+
+					- 3-5 -
+	parameter (4) 	Tone correctness weight
+	    		This  is the accuracy of the four tones in the Pinyin input 
+			by the user compared to that in the dictionary. cWnn allows 
+			input with or without four tones.
+
+	parameter (5) 	Last used weight
+	    		Last used refers to the most recently used word for a Pinyin.
+			By  increasing  the weight of this parameter, the assessment 
+			value of each word can be increased dynamically.
+
+	parameter (6) 	Dictionary priority weight
+	    		Each  dictionary has  a priority defined  by the environment.  
+			By  changing  this  value,  assessment  values may be biased
+	    		towards certain dictionaries.
+	    
+(c) Phrase assessment parameters
+	parameter (7) 	Average word assessment value weight
+	    		A phrase  consists  of several  words, and each word has its 
+			own  word  assessment value as described above.  The average 
+			of these values is the average word assessment value.
+
+	parameter (8) 	Phrase length weight
+	    		Phrase length refers to the number of characters in a phrase.
+
+	parameter (9) 	Number of words weight 
+	    		This refers to the the number of words in a phrase.  Larger 
+			number  of  words  in  a  phrase  shows greater grammatical 
+			certainty among the words, and hence higher reliability.
+
+(d) Other paramters
+	Characters  other than  Pinyin that appear at the input line have their own 
+	individual usage frequency values.
+
+(e) Assessment formula for multi-phrase conversion
+	Assessment value for word :
+		f = (c1 x frequency) + (c2 x word length) + (c3 x tone correctness)
+		    + (c4 x last used) + (c5 x dictionary priority)
+
+	Assessment value for phrase :
+		F = k1 x avg( f1, f2, ..fm ) + (k2 x phrase length) 
+		    + (k3 x number of words in phrase)
+
+	Total assessment value for candidates of a phrase :
+		Vi = avg( Fi1 + Fi2 + ... + Fin )
+
+	Best assessment value for a phrase :
+		MAX( V1, V2, ... Vk )
+
+
+					- 3-6 -
+	Note :	* c1 =  parameter (2) 
+		  c2 =  parameter (3)
+	  	  c3 =  parameter (4)
+	  	  c4 =  parameter (5)
+	  	  c5 =  parameter (6)
+		* k1 =  parameter (7)
+	  	  k2 =  parameter (8)
+	  	  k3 =  parameter (9)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 3-7 -
+
+   3.4 ENVIRONMENT OPERATING FUNCTIONS    
+   ===================================
+
+	The cserver  manages several resources such   as dictionaries and grammar files.  
+Besides, it  creates  an environment for every user (client).  One  user  may have more 
+than  one  environment.  In  different  input  mode, each environment  has  defined its 
+dictionary files, corresponding usage frequency files and the grammar files.
+	When a user starts up uum (client), cserver will create an environment as well 
+as  set the dictionaries for the user. After that, the user is able to obtain the usage 
+status of the dictionaries from the system.
+
+1. Environment Operation
+~~~~~~~~~~~~~~~~~~~~~~~~
+<Table-c-3.3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 3-8 -
+2. Parameter Update
+~~~~~~~~~~~~~~~~~~~
+
+<Table-c-3.4>
+
+
+
+ 
+These  are the assessment  parameters for  multi-phrase conversion  mentioned above.
+The number in  the square bracket indicates the current parameter value.  To change
+the value, simply move the cursor to the parameter and press return, then enter the 
+new parameter value.
+
+
+
+
+	The  input  at  the  input  line is  not  only  restricted  to  Pinyin.  Other
+characters  are also  allowed.  For  example,  numbers, ASCII characters, punctuations
+and  brackets.   These  characters will  undergo  conversion  together with the Pinyin
+input.  Just like Pinyin, these  characters  have  parameters  which  can  be  defined
+externally.  The parameters are classified into the following categories.
+	
+(a) Usage frequency for numbers
+    This includes  0,1,2,3,4,5,6,7,8,9. Besides, the system has the facility to change 
+    the numbers into other format.  For example, "1234567" can be changed to 1,234,567,
+<Table-c-3.5>
+
+(b) Usage frequency for ASCII characters
+(c) Usage frequency for punctuations
+(d) Usage frequency for open brackets
+(e) Usage frequency for close brackets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 3-9 -

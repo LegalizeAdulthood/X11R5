@@ -1,0 +1,284 @@
+.TH ACM l "March 14, 1991"
+.SH NAME
+acm \- an aerial combat simulator for X
+.SH SYNOPSIS
+.B acm
+[
+.I server
+] [
+.I options
+]  
+.LP
+
+.SH DESCRIPTION
+
+acm is an air combat simulator that runs under the X window system.  Up to
+eight players can engage in simultaneous air combat.  Players fly jet aircraft
+equipped with radar, heat seeking missiles and cannon.
+
+The program, "acm", calls a daemon already running on the specified
+server_hostname and requests that your enter the game.  The shell variable
+"ACMSERVER" optionally specifies the name of the server host.
+
+Each player flies something close to either an F-16C Falcon or MIG-23.
+
+
+.SH USAGE REFERENCE
+
+To begin play, the flight simulator server must be started manually on a
+system that is accessible to all players. 
+
+The following command line will do that:
+
+.LP
+.TP
+	% acms
+
+The following command line options are recognized by acm:
+.LP
+.TP
+-geometry geometry_spec
+An X compatible window geometry specification
+.TP
+-team <1 or 2>
+Specifies the starting airfield.  Airfields are about 50 nm apart.
+Team 1 flies F-16's, team 2 flies MIG-23's.
+.TP
+-dv
+Use the X server's default visual for your screen.  Normally, acm will
+hunt for a Visual that has a depth of eight planes.  It will also create
+a private colormap for acm's use.  If your screen's default Visual is
+an 8-plane PseudoColor Visual, using this switch will allow acm to use
+the "public" Colormap so that other windows won't change color when acm
+is in use.
+
+
+.SH HOW TO TAKE-OFF
+
+
+Your mouse is the control stick.  The neutral position is the center of your
+view display -- denoted by the dot in the center of your heads-up-display (HUD).
+Moving the mouse away from you pitches the plane down, moving it back
+pitches the plane up.  Left and right inputs roll the aircraft in the
+corresponding direction.  On the ground at speeds up to 100 kts, nose
+wheel steering guides the aircraft.
+
+To take off for the first time, select 20 degrees of flaps (press H twice),
+then press the full throttle key (the 4 key on the main keyboard).  Keep the
+mouse in the neutral position until you are moving at about 140 kts, then pull
+the mouse about two-thirds of the way down the view window.  You should pitch
+up and lift off the ground fairly easily.  Gradually move the stick closer
+to the neutral position and let your airspeed build -- don't move it back to
+neutral too quickly or you will end up back on the ground again!  As your
+airspeed passes about 250 kts, raise the flaps (press Y twice) and landing
+gear (press G).  Congratulations, you're flying a multi-million dollar jet.
+
+
+.SH ENGINE CONTROLS
+
+
+The following keys control your engine thrust:
+
+.LP
+	4	Full Power
+.LP
+	3	Increase Power (about 2 percent)
+.LP
+	2	Decrease Power (about the same amount)
+.LP
+	1	Idle Power
+.LP
+	A	Toggle Afterburner
+
+Your engine gauge displays the power that you are generating.  Below that,
+you have displays showing your total fuel remaining as well as your current
+fuel consumption rate.  The afterburner uses fuel at an amazing rate; use it
+wisely.
+
+
+.SH LOOKING AROUND
+
+
+The keys of the numeric keypad control which direction you're looking outside
+of the cockpit:
+
+.LP
+		8 Forward
+.LP	
+	4 Left	5 Up	6 Right
+.LP
+		2 Aft
+
+It pays to look around when you're in a combat environment.  Your chances
+of staying alive increase remarkably.
+
+
+.SH THE HEADS UP DISPLAY (HUD)
+
+
+On the left side of the HUD is a ladder showing your current airspeed in
+nautical miles per hour (it displays true airspeed).  Above that, in the
+upper left corner, is a G-meter.  
+
+The right ladder shows altitude; above that
+is a readout of your current angle-of-attack in degrees ("a=X.X").  
+Your
+jet will stall at a 30 degrees positive angle of attack and negative 16 
+degrees. 
+
+The airplane symbol (something like "-O-") shows the direction
+that the relative wind is coming from.  The relative wind combines your
+current angles of attack and sideslip.  A ladder in the center of the
+HUD show your aircraft's current attitude. 
+
+The lower, horizontal ladder shows your current heading.  Discretes in the
+lower left-hand corner show the state of your weapons systems.  Slightly
+above them is a readout of your current thrust percentage as well as the
+state of your engine's afterburner -- the "AB" symbol means the
+afterburner is on.
+
+
+.SH USING YOUR RADAR DISPLAY
+
+
+The radar system has a field of view of 130 degrees vertically and side-to-side.
+Radar automatically locks onto the closest threat in its field of view.  A
+locked target is displayed as a solid block.  Other hostile targets are 
+displayed as hollow squares.
+
+Targetting information is displayed in the lower right corner of the display.
+The top number is the heading of the locked target, the next number is the
+relative heading you should steer to intercept the target (displayed as
+"ddd R", and the third number is the rate that you are closing with this
+target, expressed in knots.
+
+You can lock onto other targets by pressing the target designator key (Q).
+
+
+.SH WHO'S GUNNING FOR ME?
+
+
+Radar sets that are tracking your aircraft can be detected.  Your Threat
+Early Warning System (TEWS) display warns you of potential threats.  This
+circular display shows the relative direction of radars (other aircraft)
+that are looking at you.
+
+.SH ARMAMENTS
+
+
+Your aircraft is equipped with heat-seeking missiles and a 20 millimeter
+cannon.  Weapon information is displayed in the lower left-hand corner of
+your HUD.  Different weapons may be selected by pressing mouse button 3.
+
+The missiles are patterned after U.S. AIM-9M Sidewinders.  They can
+detect infared (IR) targets at any aspect (not just from the rear).  Their
+range varies dramatically with the altitude and closure rate.  The
+missile subsystem couples with your radar set to provide time-to-impact
+information when AIM-9's are selected.
+
+
+.SH EXAMPLES
+
+ acm bismarck 
+
+ acm bismarck -geometry 1000x500
+
+.SH KEYBOARD COMMAND LIST
+
+Stick and Rudder Controls
+
+.LP
+The Mouse if your stick.  It controls pitch and roll.
+.LP
+Z -- Rudder Left
+.LP
+C -- Rudder Right
+.LP
+X -- Center the Rudder
+
+
+
+Engine Controls
+
+.LP
+4 -- Full Power
+.LP
+3 -- Increase Power
+.LP
+2 -- Decrease Power
+.LP
+1 -- Idle
+.LP
+A -- Toggle Afterburner State
+
+
+
+Radar Controls
+
+.LP
+R -- Toggle Radar State (On/Standby)
+.LP
+Q -- Target Designator
+
+
+
+Flaps
+
+.LP
+H -- Extend 10 degrees
+.LP
+Y -- Retract 10 degrees
+
+
+
+Speed Brakes
+
+.LP
+S -- Extend
+.LP
+W -- Retract
+
+
+Weapon Controls
+
+.LP
+Mouse Button 2 -- Fire the selected weapon
+.LP
+Mouse Button 3 -- Select another weapon
+
+
+Pitch Trim Controls
+
+.LP
+U -- Set Take-off pitch trim
+.LP
+J -- Set pitch trim to the control stick's current pitch setting
+
+
+Other Controls
+
+.LP
+G -- Retract/Extend landing gear
+.LP
+P -- Self-Destruct (Quit the game)
+.LP
+L -- Launch a target drone
+
+
+
+View Controls (Numeric Keypad)
+
+.LP
+8 -- Forward
+.LP
+2 -- Aft
+.LP
+4 -- Left
+.LP
+6 -- Right
+.LP
+5 -- Up
+
+
+.SH AUTHOR
+Riley Rainey, riley@mips.com

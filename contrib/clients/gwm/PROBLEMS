@@ -1,0 +1,40 @@
+/*****************************************************************************\
+*                                                                             *
+* Some answers to common problems you may encounter while installing gwm:     *
+*                                                                             *
+\*****************************************************************************/
+
+/*****************************************************************************\
+* 			     COMPILATION PROBLEMS                             *
+\*****************************************************************************/
+
+Compiling on GWM and XPM on HP9000 series 300/400/800 computers:
+===============================================================
+
+Makefile for hp300:
+
+XLIBDIR   =
+C_COMPILER= gcc -pipe -traditional
+DEFINES = -DSYSV -DX11R4 -DSECURE -DSTATS -DUSER_DEBUG
+
+Makefile for hp800:
+
+XLIBDIR   =
+LIBS = -lX11R3 hpXError.o
+DEFINES = -DSYSV -DX11R3 -DSECURE -DSTATS -DUSER_DEBUG
+
+
+Undefined function: strcasecmp when linking
+===========================================
+
+execute:
+
+cd xpm
+sed s/strcasecmp/strcmp/g create.c >ncreate.c && mv ncreate.c create.c
+
+Error message when loading gwm:
+===============================
+ld: unrecognized option: -p
+ld: unrecognized option: -m
+
+in Makefile, change -Lxpm by -L xpm

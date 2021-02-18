@@ -1,0 +1,58 @@
+.\" $Header: PEXtSanity.man,v 1.0 91/10/04 17:02:09 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtSanityCheck 3PEXt "May 29th, 1990"
+.SH NAME
+\fBPEXtSanityCheck, PEXtError, SAFE_PEX\fP
+\(em PHIGS error message convenience functions
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.sp 1
+void PEXtSanityCheck (\fIfile, line, routine\fP)
+.br
+.ta .5i 2i
+	String	\fIfile\fP;
+.br
+	String	\fIline\fP;
+.br
+	Strinf	\fIroutine\fP;
+.fi
+.sp 1
+extern Pint \fBPEXtError\fP;
+.fi
+.sp 1
+SAFE_PEX (\fIroutine\fP)
+.br
+	String	\fIroutine\fP;
+.SS
+Required PHIGS Operating States
+.br
+(*, *, *, *)
+.fi
+\fP
+.SH DESCRIPTION
+These convenience procedures allow rudimentary error-detection for PHIGS
+routines that set an error return parameter.  The variable \fBPEX_error\fP
+is allocated by the PEX toolkit as a location for this error code by
+application programs.  It is used internally by the toolkit to store
+error codes as well.  The routine \fBPEXtSanityCheck\fP examines this
+variable and prints an error message to standard output if the value is
+non-zero.  The error message indicates an error occuring in the source
+\fIfile\fP on the given \fIline\fP after returning from the named
+\fIroutine\fP.
+.PP
+The macro \fBSAFE_PEX\fP expands into a call to \fBPEXtSanityCheck\fP with
+\fB__FILE__\fP and \fB__LINE__\fP as the \fIfile\fP and \fIline\fP
+arguments.
+.SH RETURN VALUE
+None
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

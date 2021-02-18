@@ -1,0 +1,38 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                              GWM MANUAL                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% adjust these for centering on the page:
+% upper-left corner of frame in title page must be at 60mm,60mm from 
+% upper-left corner of the page
+
+% normal (A4) on our Apple Laserwriter with dvi2ps
+%\hoffset 0cm
+%\voffset 0cm
+% normal (A4 & Letter) on our Apple Laserwriter with dvips v5.0
+\hoffset -5.5mm
+\voffset 0cm
+% our imagen
+%\hoffset -0.9cm
+%\voffset -2.2cm
+		   
+% NOTE: the following line MUST be commented out!
+%\includeonly{title}
+
+\documentstyle[twoside,colas]{report}
+
+% IF YOUR DVI PRINTER CHOKES ON INCLUDED POSTSCRIPT FILES
+% by the \special command, uncomment the following line:
+% \def\texpsfig#1#2#3{\fbox{Figure ``#1''}}
+
+\pagestyle{headings}
+\begin{document} 
+\include{title}
+\include{contents}
+\include{usage}
+\include{overview}
+\include{standard}
+\include{wool_ref}
+\include{quick_ref}
+\include{index}
+\end{document} 

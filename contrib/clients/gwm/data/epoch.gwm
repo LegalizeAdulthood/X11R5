@@ -1,0 +1,36 @@
+;;; Code to communicate with epoch
+;; Colas 1991-02-18
+;; this needs the epoch code "epoch-exec.el" loaded into epoch
+
+;; routine to send a string to be executed by epoch, supposed to be the 
+;; current window 
+
+(setq epoch:menu ())
+
+(defun send-epoch (code)
+  (set-x-property "EPOCH_EXEC"
+    (+ "(let ((protect epoch::event-handler)) (unwind-protect "
+      code
+      "(setq epoch::event-handler protect))))"
+)))
+
+;; Menu package:
+;; how to make a menu of epoch buffers to select current buffer
+
+(defunq string-menu-make (args)
+  (if epoch:menu
+    (with (wob (menu-wob epoch:menu)) (delete-window))
+  )
+  (pop-menu
+    (setq epoch:menu (menu-make-from-list (+
+	'((pop-label-make "Epoch Screens"))
+	(mapfor s args (list 'item-make s (list 'send-epoch-switch-buffer s))
+))))))
+
+(defunq send-epoch-switch-buffer (name)
+  (send-epoch (+ "(switch-to-buffer \"" name "\")")
+))
+
+;; All done
+
+(provide 'epoch)

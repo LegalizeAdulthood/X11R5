@@ -1,0 +1,97 @@
+			      Readme for xalarm-3
+
+			Welcome to xalarm for X11R4/5
+
+		    Ideal for the permanently late, like me
+
+		     Copyright (c) 1991 by Simon Marshall
+
+		   If you still end up late, don't blame me!
+
+
+DESCRIPTION
+~~~~~~~~~~~
+
+  xalarm is a program analogous to leave(1), only much more powerful.
+
+  xalarm sets an alarm to a time you specify and will tell you when the time is
+  up.  The ``time'' may be a specific given time or in a specific amount of
+  time, and xalarm can be set to warn you of the impending triggering of an
+  alarm.
+
+  If a time is not specified or recognised, or a warning time is not
+  recognised, xalarm prompts for one by popping up a dialog box.  This form is
+  suitable for inclusion as a menu option in a window manager.
+
+  You can make xalarm read alarms and the messages to display from a file.  The
+  alarms will only be set on the dates specified in the file.  This form is
+  suitable for inclusion in an X start up or initialisation script.
+
+  xalarm may ask for confirmation of the alarm settings.  The confirmation
+  gives you an opportunity to change the alarm setting, warnings times, and the
+  message xalarm will display when the alarm is triggered.  The dialog box can
+  be resized to edit any message larger than the space given by default.
+
+  Even after you have set the alarm and confirmed it, you can reset the alarm
+  as long as you know the xalarm process number - given by the -list option.
+
+  xalarm allows you to snooze the alarm after it is triggered, to give you an
+  opportunity to carry on and be late anyway - basically resetting the alarm.
+
+  The ``time'' format is quite flexible and natural, eg.  hmm, h:mm, h.mm,
+  h-mm, h, +m (for times that are relative), and absolute times can be suffixed
+  with an am/pm indicator (upper or lower case).  The format is a super-set of
+  the format recognised by leave(1).
+
+  xalarm makes maximum use of resources, as well as having a number of command
+  line options, and these can be used to control most of the appearance of
+  xalarm and (just about) all of its behaviour.
+
+  The current xalarm options include:
+	-appointments
+	-time time
+	-warn time[,time...]			-nowarn
+	-list
+	-reset pid
+	-snooze time
+	-confirm				-noconfirm
+	-bell	-beep				-nobell	-nobeep
+	-help
+
+  Also supplied are xmemo, xfortune and xyou front ends to xalarm.  Note that
+  xfortune and xyow require the fortune and yow programs respectively, so they
+  must be somewhere on your system.
+
+  To have a preview of the manual, try something like:
+
+% nroff -man xalarm.man | less		# or "more" if you haven't got "less".
+	or
+% xalarm -help
+
+  See the file INSTALL for help with installation and problems.
+
+
+THE END
+~~~~~~~
+
+  Xalarm uses Xt & Xaw stuff only, and may well be a useful aid to someone
+  trying to learn X, as I was/am.
+
+  You may have problems with X function names if using R3 or earlier;
+  application contexts are used, but this should not take much changing - using
+  #defines may do most of the job.
+
+  It trys to find fortune and yow for their absolute path names (so you don't
+  need the relevant directories in your path), but if you haven't got them, you
+  can hardly use xfortune or xyow - they don't come with this!
+
+  Written in an attempt to learn X Windows in as short a time as possible; it
+  may be written badly, but makes as much use of resources as possible.  I
+  don't think it is (but I wouldn't, would I?) and I have found it is very
+  useful for me now I'm to be responsible for giving lectures...
+
+	Simon.
+_______________________________________________________________________________
+    Simon Marshall, Dept. Computer Science, University of Hull, HU6 7RX, UK
+	     ``"La la la la la la la la la", means I love you...''
+			     S.Marshall@Hull.ac.UK

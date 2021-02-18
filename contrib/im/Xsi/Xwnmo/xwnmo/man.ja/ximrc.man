@@ -1,0 +1,57 @@
+.\"
+.\" $Id: ximrc.man,v 1.1 1991/09/13 08:10:30 proj Exp $
+.\"
+.TH XIMRC 4 "Release 5" "X Version 11"
+.SH 名称
+ximrc \- Ｘウィンドウ・インプットマネージャー(xwnmo(1X))用
+環境設定ファイル
+.SH 形式
+.B /usr/local/lib/wnn/ximrc (デフォルト)
+.SH 解説
+\fIXimrc\fP ファイルは、\fIxwnmo\fP の環境を設定するファイルです。
+ユーザごとに異なった設定が可能です。
+同じエントリがある場合は、後のものが優先されます。
+セミコロン (;) で始まる行は、コメント行です。
+.PP
+\fIXwnmo\fP は、以下の順序でこのファイルをサーチします。
+.TP 8
+1. リソース "ximrcName" で指定されたもの
+.br
+2. $HOME/.ximrc
+.br
+3. /usr/local/lib/wnn/ximrc (デフォルト)
+.PP
+この設定ファイルで記述できるものは、以下の通りです。
+それらが設定されない場合は、デフォルトが使用されます。
+.TP 8
+.B setuumrc <\fIランゲージ名\fP> <\fIuumrcファイル名 \fP>
+それぞれの言語ごとに、\fIxwnmo\fP が参照する \fIuumrc\fP ファイルを指定します。
+デフォルトしては、 "@LIBDIR/@LANG/uumrc" です。
+です。
+.TP 8
+.B preloadrkfile <\fIランゲージ名\fP>
+あらかじめ起動時にオートマトンテーブルをロードしておく言語を指定します。
+デフォルトでは、Root-mode の言語のオートマトンテーブルだけがロードされます。
+.TP 8
+.B setbackspacechar <\fIbackspace_char\fP>
+バックワードのコードを指定します。
+デフォルトでは、コンソールのERASEコードをコピーします。コンソールがオープン
+できない場合は、0xff です。
+.SH サンプル
+setuumrc        ja_JP           /usr/demos/ja_JP/uumrc
+.br
+setuumrc        zh_CN           /usr/demos/zh_CN/uumrc
+.br
+preloadrkfile   ja_JP
+.br
+preloadrkfile   zh_CN
+.br
+setbackspacechar ^H
+.SH 関連項目
+xwnmo(1X)
+.SH COPYRIGHT
+Copyright 1991 by OMRON Corporation
+.br
+Copyright 1991 by Massachusetts Institute of Technology
+.SH AUTHOR
+Seiji Kuwari (OMRON Corporation)

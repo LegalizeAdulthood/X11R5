@@ -1,0 +1,36 @@
+JL_FUZOKUGO_SET( )
+
+名称
+
+	jl_fuzokugo_set			付属語ファイルの設定を行なう。
+	jl_fuzokugo_set_e		付属語ファイルの設定を行なう。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_fuzokugo_set(buf,fname)
+	struct wnn_buf *buf;		/* バッファ */
+	char *fname;			/* 付属語ファイル名 */
+
+	int
+	jl_fuzokugo_set_e(env,fname)
+	struct wnn_env *env;		/* 環境 */
+	char *fname;			/* 付属語ファイル名 */
+
+機能
+
+	jl_fuzokugo_set は、付属語ファイル fname に
+	バッファ buf の環境の付属語ファイルを切り替える。
+	jl_fuzokugo_set_e は、付属語ファイル fname に
+	環境 env の付属語ファイルを切り替える。
+
+	付属語ファイルがクライアント・サイトにある場合には、
+	ファイル名の先頭に ! をつけた名前を fname に指定する。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

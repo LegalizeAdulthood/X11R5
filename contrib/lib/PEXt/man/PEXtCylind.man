@@ -1,0 +1,55 @@
+.\" $Header: PEXtCylind.man,v 1.0 91/10/04 17:02:04 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtCylinder 3PEXt "January 14th, 1991"
+.SH NAME
+\fBPEXtCylinder\fP \(em create a cylinder using \fBFILL AREA 3 WITH DATA\fP
+structure elements
+.sp 1
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Primitive.h>
+.sp 1
+void PEXtCylinder (\fInum_strips, height, radius\fP)
+.br
+.ta .5i 2i
+	\fBPint\fP	\fInum_strips\fP;
+.br
+	\fBPfloat\fP	\fIheight\fP;
+.br
+	\fBPfloat\fP	\fIradius\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+\fBPEXtCylinder\fP creates a cylinder, centered on the origin, of the given
+\fIheight\fP using \fInum_strips\fP \fBFILL AREA 3 WITH DATA\fP structure
+elements.  The axis of the cylinder is coincident with the Z axis in world
+coordinates.
+Since it
+uses \fInum_strips\fP structure elements to build the cylinder, it requires
+a current
+edit mode of \fIPINSERT\fP; otherwise only the last strip of the cylinder will
+remain, having replaced the previous elements.  The cylinder is constructed
+with vertex normals computed from the cylinder surface.
+.SH RETURN VALUE
+None
+.SH BUGS
+The routine should use a quadrilateral mesh, or a set of fill area sets to
+generate the cylinder in a single structure element.
+.sp 1
+There should be a way of specifying the orientation of the cylinder.
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

@@ -1,0 +1,150 @@
+/* $Header: Imakefile,v 2.4 91/09/11 16:03:35 sinyaw Exp $ */
+/*****************************************************************
+Copyright 1991 by Sony Microsystems Company, San Jose, California
+
+					All Rights Reserved
+
+Permission to use, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and
+that both that copyright notice and this permission notice appear
+in supporting documentation, and that the name of Sony not be used
+in advertising or publicity pertaining to distribution of the
+software without specific, written prior permission.
+
+SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+SOFTWARE.
+*****************************************************************/
+
+##
+##
+
+MANDIR = $(LIBMANDIR)
+MANSUFFIX = $(LIBMANSUFFIX)
+
+AllTarget()
+DependTarget()
+MakeDirectories(install.man,$(LIBMANDIR))
+
+InstallManPage(XpexAddToNameSet,$(MANDIR))
+InstallManPage(XpexApplicationData,$(MANDIR))
+InstallManPage(XpexAtext,$(MANDIR))
+InstallManPage(XpexBeginRendering,$(MANDIR))
+InstallManPage(XpexBuild,$(MANDIR))
+InstallManPage(XpexCellArray,$(MANDIR))
+InstallManPage(XpexChangeRenderer,$(MANDIR))
+InstallManPage(XpexCompose,$(MANDIR))
+InstallManPage(XpexCreateLookupTable,$(MANDIR))
+InstallManPage(XpexCreateNameSet,$(MANDIR))
+InstallManPage(XpexCreatePC,$(MANDIR))
+InstallManPage(XpexCreatePhigsWks,$(MANDIR))
+InstallManPage(XpexCreatePickMeasure,$(MANDIR))
+InstallManPage(XpexCreateRenderer,$(MANDIR))
+InstallManPage(XpexCreateSC,$(MANDIR))
+InstallManPage(XpexCreateStructure,$(MANDIR))
+InstallManPage(XpexEvaluate,$(MANDIR))
+InstallManPage(XpexExtFillArea,$(MANDIR))
+InstallManPage(XpexFillArea,$(MANDIR))
+InstallManPage(XpexFillAreaSet,$(MANDIR))
+InstallManPage(XpexGdp,$(MANDIR))
+InstallManPage(XpexGetEnumTypeInfo,$(MANDIR))
+InstallManPage(XpexGetExtensionInfo,$(MANDIR))
+InstallManPage(XpexGetImpDepConstants,$(MANDIR))
+InstallManPage(XpexGetNameSet,$(MANDIR))
+InstallManPage(XpexGetPC,$(MANDIR))
+InstallManPage(XpexGetPickDevice,$(MANDIR))
+InstallManPage(XpexGetPickMeasure,$(MANDIR))
+InstallManPage(XpexGetPredefinedEntries,$(MANDIR))
+InstallManPage(XpexGetSC,$(MANDIR))
+InstallManPage(XpexGetStructureInfo,$(MANDIR))
+InstallManPage(XpexGetTableInfo,$(MANDIR))
+InstallManPage(XpexGetWksInfo,$(MANDIR))
+InstallManPage(XpexInitialize,$(MANDIR))
+InstallManPage(XpexMarkers,$(MANDIR))
+InstallManPage(XpexNurbCurve,$(MANDIR))
+InstallManPage(XpexNurbSurface,$(MANDIR))
+InstallManPage(XpexOpenFont,$(MANDIR))
+InstallManPage(XpexPCValues,$(MANDIR))
+InstallManPage(XpexPolyline,$(MANDIR))
+InstallManPage(XpexPostStructure,$(MANDIR))
+InstallManPage(XpexQuadMesh,$(MANDIR))
+InstallManPage(XpexQueryFont,$(MANDIR))
+InstallManPage(XpexRedrawAllStructures,$(MANDIR))
+InstallManPage(XpexRenderOutputCmds,$(MANDIR))
+InstallManPage(XpexRendererAttributes,$(MANDIR))
+InstallManPage(XpexRotate,$(MANDIR))
+InstallManPage(XpexSCValues,$(MANDIR))
+InstallManPage(XpexScale,$(MANDIR))
+InstallManPage(XpexSearchNetwork,$(MANDIR))
+InstallManPage(XpexSetAtextStyle,$(MANDIR))
+InstallManPage(XpexSetBfInteriorStyle,$(MANDIR))
+InstallManPage(XpexSetCharHeight,$(MANDIR))
+InstallManPage(XpexSetEditingMode,$(MANDIR))
+InstallManPage(XpexSetGlobalTransform,$(MANDIR))
+InstallManPage(XpexSetIndividualAsf,$(MANDIR))
+InstallManPage(XpexSetInteriorStyle,$(MANDIR))
+InstallManPage(XpexSetLightState,$(MANDIR))
+InstallManPage(XpexSetLineType,$(MANDIR))
+InstallManPage(XpexSetMarkerType,$(MANDIR))
+InstallManPage(XpexSetModelClip,$(MANDIR))
+InstallManPage(XpexSetPatternAttr,$(MANDIR))
+InstallManPage(XpexSetSurfaceColor,$(MANDIR))
+InstallManPage(XpexSetSurfaceEdgeType,$(MANDIR))
+InstallManPage(XpexSetTableEntries,$(MANDIR))
+InstallManPage(XpexSetTextPath,$(MANDIR))
+InstallManPage(XpexSetViewRep,$(MANDIR))
+InstallManPage(XpexStoreOutputCmds,$(MANDIR))
+InstallManPage(XpexText,$(MANDIR))
+InstallManPage(XpexTransform,$(MANDIR))
+InstallManPage(XpexTranslate,$(MANDIR))
+InstallManPage(XpexTriangleStrip,$(MANDIR))
+
+InstallManPageAliases(XpexBeginRendering,$(MANDIR),
+	XpexBeginStructure XpexEndRendering XpexEndStructure)
+InstallManPageAliases(XpexChangeRenderer,$(MANDIR),
+	XpexGetRendererAttributes XpexGetRendererDynamics)
+InstallManPageAliases(XpexCreateLookupTable,$(MANDIR),
+	XpexCopyLookupTable XpexFreeLookupTable)
+InstallManPageAliases(XpexCreateNameSet,$(MANDIR),
+	XpexCopyNameSet XpexFreeNameSet)
+InstallManPageAliases(XpexCreatePC,$(MANDIR),
+	XpexCopyPC XpexFreePC)
+InstallManPageAliases(XpexCreatePhigsWks,$(MANDIR),XpexFreePhigsWks)
+InstallManPageAliases(XpexCreatePickMeasure,$(MANDIR),XpexFreePickMeasure)
+InstallManPageAliases(XpexCreateRenderer,$(MANDIR),XpexFreeRenderer)
+InstallManPageAliases(XpexCreateSC,$(MANDIR),
+	XpexCopySC XpexFreeSC)
+InstallManPageAliases(XpexCreateStructures,$(MANDIR),
+	XpexCopyStructure XpexDestroyStructures)
+InstallManPageAliases(XpexGetNameSet,$(MANDIR),XpexChangeNameSet)
+InstallManPageAliases(XpexGetPC,$(MANDIR),XpexChangePC)
+InstallManPageAliases(XpexGetPickDevice,$(MANDIR),XpexChangePickDevice)
+InstallManPageAliases(XpexGetPickMeasure,$(MANDIR),XpexUpdatePickMeasure)
+InstallManPageAliases(XpexGetPredefinedEntries,$(MANDIR),
+	XpexGetTableEntries XpexGetTableEntry)
+InstallManPageAliases(XpexGetSC,$(MANDIR),
+	XpexChangeSC XpexGetAncestors XpexGetDescendant
+	XpexGetElementInfo XpexGetFetchElements XpexGetStructuresInNetwork)
+InstallManPageAliases(XpexGetTableInfo,$(MANDIR),XpexGetDefinedIndices)
+InstallManPageAliases(XpexGetWksInfo,$(MANDIR),
+	XpexGetDynamics XpexGetViewRep)
+InstallManPageAliases(XpexInitialize,$(MANDIR),XpexQueryExtension)
+InstallManPageAliases(XpexOpenFont,$(MANDIR),XpexCloseFont)
+InstallManPageAliases(XpexPostStructure,$(MANDIR),
+	XpexGetWksPostings XpexUnpostAllStructures XpexUnpostStructure)
+InstallManPageAliases(XpexRedrawAllStructures,$(MANDIR),
+	XpexExecuteDeferredActions XpexMapDCtoWC XpexMapWCtoDC
+	XpexRedrawClipRegion XpexSetDisplayUpdateMode
+	XpexSetViewPriority XpexUpdateWorkstation)
+InstallManPageAliases(XpexRenderOutputCmds,$(MANDIR),XpexRenderNetwork)
+InstallManPageAliases(XpexSetTableEntries,$(MANDIR),XpexDeleteTableEntries)
+InstallManPageAliases(XpexSetViewRep,$(MANDIR),
+	XpexSetHlhsrMode XpexSetWksBufferMode XpexSetWksViewport
+	XpexSetWksWindow)

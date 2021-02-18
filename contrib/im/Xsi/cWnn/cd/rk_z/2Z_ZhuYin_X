@@ -1,0 +1,286 @@
+;
+; $Id: 2Z_ZhuYin_X,v 1.1 1991/09/11 02:31:37 ohm Exp $
+;
+;;  Comments:	      B C D F G H J K L M N P Q R S T  X  Z Zh Ch Sh i u Ž¹
+(defvar A  	(list ŽÅ ŽØ ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ     ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ Žç Žè    ))
+(defvar AI  	(list ŽÅ ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ     ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ   Žè    ))
+(defvar AN  	(list ŽÅ ŽØ ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ   ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ Žç Žè Žé  ))
+(defvar ANG  	(list ŽÅ ŽØ ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ   ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ Žç Žè    ))
+(defvar AO  	(list ŽÅ ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ   ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ Žç      ))
+(defvar E  	(list   ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË     ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ        ))
+(defvar E1	(list                                                Žç   Žé  ))
+(defvar EI  	(list ŽÅ   ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ             Ž×  ŽÓ     ŽÕ   Žè    ))
+(defvar EN  	(list ŽÅ ŽØ ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ   ŽÇ ŽË ŽÆ   ŽÖ ŽÙ       Ž×  ŽÓ  ŽÔ  ŽÕ Žç Žè Žé  ))
+(defvar ENG  	(list ŽÅ ŽØ ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ   ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ Žç Žè Žé  ))
+(defvar I0  	(list   ŽØ                       ŽÖ ŽÙ       Ž×  ŽÓ  ŽÔ  ŽÕ Žç Žè Žé  ))
+(defvar I1  	(list ŽÅ   ŽÉ       ŽÐ   ŽÌ ŽÇ ŽË ŽÆ ŽÑ     ŽÊ  ŽÒ                    ))
+(defvar IA  	(list     ŽÉ       ŽÐ   ŽÌ   ŽË   ŽÑ        ŽÒ                    ))
+(defvar IAN  	(list ŽÅ   ŽÉ       ŽÐ   ŽÌ ŽÇ ŽË ŽÆ ŽÑ     ŽÊ  ŽÒ                    ))
+(defvar IANG  	(list             ŽÐ   ŽÌ   ŽË   ŽÑ        ŽÒ                    ))
+(defvar IAO	(list ŽÅ   ŽÉ       ŽÐ   ŽÌ ŽÇ ŽË ŽÆ ŽÑ     ŽÊ  ŽÒ                    )) 
+(defvar IE	(list ŽÅ   ŽÉ       ŽÐ   ŽÌ ŽÇ ŽË ŽÆ ŽÑ     ŽÊ  ŽÒ                    )) 
+(defvar IN  	(list ŽÅ           ŽÐ   ŽÌ ŽÇ ŽË ŽÆ ŽÑ        ŽÒ                    ))
+(defvar ING  	(list ŽÅ   ŽÉ       ŽÐ   ŽÌ ŽÇ ŽË ŽÆ ŽÑ     ŽÊ  ŽÒ                    ))
+(defvar IONG  	(list             ŽÐ           ŽÑ        ŽÒ                    ))
+(defvar IU	(list     ŽÉ       ŽÐ   ŽÌ ŽÇ ŽË   ŽÑ        ŽÒ                    ))
+(defvar O  	(list ŽÅ     ŽÈ         ŽÌ ŽÇ   ŽÆ                        Žç Žè    ))
+(defvar ONG  	(list   ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ ŽÌ   ŽË     ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ           ))
+(defvar OU	(list   ŽØ ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ   ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ Žç      ))
+(defvar U  	(list ŽÅ ŽØ ŽÉ ŽÈ ŽÍ ŽÏ   ŽÎ ŽÌ ŽÇ ŽË ŽÆ   ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ        ))
+(defvar V  	(list             ŽÐ   ŽÌ   ŽË   ŽÑ        ŽÒ                    ))
+(defvar UA  	(list         ŽÍ ŽÏ   ŽÎ           ŽÖ            ŽÓ  ŽÔ  ŽÕ        ))
+(defvar UAI  	(list         ŽÍ ŽÏ   ŽÎ                        ŽÓ  ŽÔ  ŽÕ        ))
+(defvar UAN	(list   ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ ŽÌ   ŽË     ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ        ))
+(defvar VAN	(list             ŽÐ           ŽÑ        ŽÒ                    ))
+(defvar UANG  	(list         ŽÍ ŽÏ   ŽÎ                        ŽÓ  ŽÔ  ŽÕ        ))
+(defvar VE  	(list             ŽÐ   ŽÌ   ŽË   ŽÑ        ŽÒ                    ))
+(defvar UI  	(list   ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ           ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ        ))
+(defvar UN  	(list   ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ ŽÌ         ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ        ))
+(defvar VN	(list             ŽÐ           ŽÑ        ŽÒ                    ))
+(defvar UO  	(list   ŽØ ŽÉ   ŽÍ ŽÏ   ŽÎ ŽÌ   ŽË     ŽÖ ŽÙ ŽÊ     Ž×  ŽÓ  ŽÔ  ŽÕ        ))
+(A)8		(A)ŽÚŽÀ
+(A)87		(A)ŽÚŽÁ
+(A)86		(A)ŽÚŽÂ
+(A)83		(A)ŽÚŽÃ
+(A)84		(A)ŽÚŽÄ
+(AI)9		(AI)ŽÞŽÀ
+(AI)97		(AI)ŽÞŽÁ
+(AI)96		(AI)ŽÞŽÂ
+(AI)93		(AI)ŽÞŽÃ
+(AI)94		(AI)ŽÞŽÄ
+(AN)0		(AN)ŽâŽÀ 
+(AN)07		(AN)ŽâŽÁ  
+(AN)06		(AN)ŽâŽÂ 
+(AN)03		(AN)ŽâŽÃ  
+(AN)04		(AN)ŽâŽÄ  
+(ANG)';'	(ANG)ŽäŽÀ  
+(ANG)';'7	(ANG)ŽäŽÁ  
+(ANG)';'6	(ANG)ŽäŽÂ  
+(ANG)';'3	(ANG)ŽäŽÃ  
+(ANG)';'4	(ANG)ŽäŽÄ  
+(AO)L		(AO)ŽàŽÀ
+(AO)L7		(AO)ŽàŽÁ  
+(AO)L6		(AO)ŽàŽÂ  
+(AO)L3		(AO)ŽàŽÃ  
+(AO)L4		(AO)ŽàŽÄ  
+(E)K		(E)ŽÜŽÀ  
+(E)K7		(E)ŽÜŽÁ  
+(E)K6		(E)ŽÜŽÂ  
+(E)K3		(E)ŽÜŽÃ  
+(E)K4		(E)ŽÜŽÄ  
+(E1),		(E1)ŽÝŽÀ
+(E1),7		(E1)ŽÝŽÁ
+(E1),6		(E1)ŽÝŽÂ
+(E1),3		(E1)ŽÝŽÃ
+(E1),4		(E1)ŽÝŽÄ
+(EI)O		(EI)ŽßŽÀ
+(EI)O7		(EI)ŽßŽÁ
+(EI)O6		(EI)ŽßŽÂ
+(EI)O3		(EI)ŽßŽÃ
+(EI)O4		(EI)ŽßŽÄ
+(EN)P		(EN)ŽãŽÀ
+(EN)P7		(EN)ŽãŽÁ
+(EN)P6		(EN)ŽãŽÂ
+(EN)P3		(EN)ŽãŽÃ
+(EN)P4		(EN)ŽãŽÄ
+(ENG)/		(ENG)ŽåŽÀ
+(ENG)/7		(ENG)ŽåŽÁ
+(ENG)/6		(ENG)ŽåŽÂ
+(ENG)/3		(ENG)ŽåŽÃ
+(ENG)/4		(ENG)ŽåŽÄ
+(I0)		(I0)ŽÀ
+(I0)7		(I0)ŽÁ
+(I0)6		(I0)ŽÂ
+(I0)3		(I0)ŽÃ
+(I0)4		(I0)ŽÄ
+(I1)Žç		(I1)ŽçŽÀ
+(I1)Žç7		(I1)ŽçŽÁ
+(I1)Žç6		(I1)ŽçŽÂ
+(I1)Žç3		(I1)ŽçŽÃ
+(I1)Žç4		(I1)ŽçŽÄ
+(IA)Žç8		(IA)ŽçŽÚŽÀ
+(IA)Žç87		(IA)ŽçŽÚŽÁ
+(IA)Žç86		(IA)ŽçŽÚŽÂ
+(IA)Žç83		(IA)ŽçŽÚŽÃ
+(IA)Žç84		(IA)ŽçŽÚŽÄ
+(IAN)Žç0		(IAN)ŽçŽâŽÀ
+(IAN)Žç07	(IAN)ŽçŽâŽÁ
+(IAN)Žç06	(IAN)ŽçŽâŽÂ
+(IAN)Žç03	(IAN)ŽçŽâŽÃ
+(IAN)Žç04	(IAN)ŽçŽâŽÄ
+(IANG)Žç';'	(IANG)ŽçŽäŽÀ
+(IANG)Žç';'7	(IANG)ŽçŽäŽÁ
+(IANG)Žç';'6	(IANG)ŽçŽäŽÂ
+(IANG)Žç';'3	(IANG)ŽçŽäŽÃ
+(IANG)Žç';'4	(IANG)ŽçŽäŽÄ
+(IAO)ŽçL		(IAO)ŽçŽàŽÀ
+(IAO)ŽçL7	(IAO)ŽçŽàŽÁ
+(IAO)ŽçL6	(IAO)ŽçŽàŽÂ
+(IAO)ŽçL3	(IAO)ŽçŽàŽÃ
+(IAO)ŽçL4	(IAO)ŽçŽàŽÄ
+(IE)Žç,		(IE)ŽçŽÝŽÀ
+(IE)Žç,7		(IE)ŽçŽÝŽÁ
+(IE)Žç,6		(IE)ŽçŽÝŽÂ
+(IE)Žç,3		(IE)ŽçŽÝŽÃ
+(IE)Žç,4		(IE)ŽçŽÝŽÄ
+(IN)ŽçP		(IN)ŽçŽãŽÀ
+(IN)ŽçP7		(IN)ŽçŽãŽÁ
+(IN)ŽçP6		(IN)ŽçŽãŽÂ
+(IN)ŽçP3		(IN)ŽçŽãŽÃ
+(IN)ŽçP4		(IN)ŽçŽãŽÄ
+(ING)Žç/		(ING)ŽçŽåŽÀ
+(ING)Žç/7	(ING)ŽçŽåŽÁ
+(ING)Žç/6	(ING)ŽçŽåŽÂ
+(ING)Žç/3	(ING)ŽçŽåŽÃ
+(ING)Žç/4	(ING)ŽçŽåŽÄ
+(IONG)Žé/	(IONG)ŽéŽåŽÀ
+(IONG)Žé/7	(IONG)ŽéŽåŽÁ
+(IONG)Žé/6	(IONG)ŽéŽåŽÂ
+(IONG)Žé/3	(IONG)ŽéŽåŽÃ
+(IONG)Žé/4	(IONG)ŽéŽåŽÄ
+(IU)ŽçŽÁ		(IU)ŽçŽáŽÀ
+(IU)ŽçŽÁ7		(IU)ŽçŽáŽÁ
+(IU)ŽçŽÁ6		(IU)ŽçŽáŽÂ
+(IU)ŽçŽÁ3		(IU)ŽçŽáŽÃ
+(IU)ŽçŽÁ4		(IU)ŽçŽáŽÄ
+(O)I		(O)ŽÛŽÀ
+(O)I7		(O)ŽÛŽÁ
+(O)I6		(O)ŽÛŽÂ
+(O)I3		(O)ŽÛŽÃ
+(O)I4		(O)ŽÛŽÄ
+(ONG)Žè/		(ONG)ŽèŽåŽÀ
+(ONG)Žè/7	(ONG)ŽèŽåŽÁ
+(ONG)Žè/6	(ONG)ŽèŽåŽÂ
+(ONG)Žè/3	(ONG)ŽèŽåŽÃ
+(ONG)Žè/4	(ONG)ŽèŽåŽÄ
+(OU)ŽÁ		(OU)ŽáŽÀ
+(OU)ŽÁ7		(OU)ŽáŽÁ
+(OU)ŽÁ6		(OU)ŽáŽÂ
+(OU)ŽÁ3		(OU)ŽáŽÃ
+(OU)ŽÁ4		(OU)ŽáŽÄ
+(U)Žè		(U)ŽèŽÀ
+(U)Žè7		(U)ŽèŽÁ
+(U)Žè6		(U)ŽèŽÂ
+(U)Žè3		(U)ŽèŽÃ
+(U)Žè4		(U)ŽèŽÄ
+(UA)Žè8		(UA)ŽèŽÚŽÀ
+(UA)Žè87		(UA)ŽèŽÚŽÁ
+(UA)Žè86		(UA)ŽèŽÚŽÂ
+(UA)Žè83		(UA)ŽèŽÚŽÃ
+(UA)Žè84		(UA)ŽèŽÚŽÄ
+(UAI)Žè9		(UAI)ŽèŽÞŽÀ
+(UAI)Žè97	(UAI)ŽèŽÞŽÁ
+(UAI)Žè96	(UAI)ŽèŽÞŽÂ
+(UAI)Žè93	(UAI)ŽèŽÞŽÃ
+(UAI)Žè94	(UAI)ŽèŽÞŽÄ
+(UAN)Žè0		(UAN)ŽèŽâŽÀ
+(UAN)Žè07	(UAN)ŽèŽâŽÁ
+(UAN)Žè06	(UAN)ŽèŽâŽÂ
+(UAN)Žè03	(UAN)ŽèŽâŽÃ
+(UAN)Žè04	(UAN)ŽèŽâŽÄ
+(UANG)Žè';'	(UANG)ŽèŽäŽÀ
+(UANG)Žè';'7	(UANG)ŽèŽäŽÁ
+(UANG)Žè';'6	(UANG)ŽèŽäŽÂ
+(UANG)Žè';'3	(UANG)ŽèŽäŽÃ
+(UANG)Žè';'4	(UANG)ŽèŽäŽÄ
+(UI)ŽèO		(UI)ŽèŽßŽÀ
+(UI)ŽèO7		(UI)ŽèŽßŽÁ
+(UI)ŽèO6		(UI)ŽèŽßŽÂ
+(UI)ŽèO3		(UI)ŽèŽßŽÃ
+(UI)ŽèO4		(UI)ŽèŽßŽÄ
+(UN)ŽèP		(UN)ŽèŽãŽÀ
+(UN)ŽèP7		(UN)ŽèŽãŽÁ
+(UN)ŽèP6		(UN)ŽèŽãŽÂ
+(UN)ŽèP3		(UN)ŽèŽãŽÃ
+(UN)ŽèP4		(UN)ŽèŽãŽÄ
+(UO)ŽèI		(UO)ŽèŽÛŽÀ
+(UO)ŽèI7		(UO)ŽèŽÛŽÁ
+(UO)ŽèI6		(UO)ŽèŽÛŽÂ
+(UO)ŽèI3		(UO)ŽèŽÛŽÃ
+(UO)ŽèI4		(UO)ŽèŽÛŽÄ
+(V)Žé		(V)ŽéŽÀ
+(V)Žé7		(V)ŽéŽÁ
+(V)Žé6		(V)ŽéŽÂ
+(V)Žé3		(V)ŽéŽÃ
+(V)Žé4		(V)ŽéŽÄ
+(VAN)Žé0		(VAN)ŽéŽâŽÀ
+(VAN)Žé07	(VAN)ŽéŽâŽÁ
+(VAN)Žé06	(VAN)ŽéŽâŽÂ
+(VAN)Žé03	(VAN)ŽéŽâŽÃ
+(VAN)Žé04	(VAN)ŽéŽâŽÄ
+(VE)Žé,		(VE)ŽéŽÝŽÀ
+(VE)Žé,7		(VE)ŽéŽÝŽÁ
+(VE)Žé,6		(VE)ŽéŽÝŽÂ
+(VE)Žé,3		(VE)ŽéŽÝŽÃ
+(VE)Žé,4		(VE)ŽéŽÝŽÄ
+(VN)ŽéP		(VN)ŽéŽãŽÀ
+(VN)ŽéP7		(VN)ŽéŽãŽÁ
+(VN)ŽéP6		(VN)ŽéŽãŽÂ
+(VN)ŽéP3		(VN)ŽéŽãŽÃ
+(VN)ŽéP4		(VN)ŽéŽãŽÄ
+8		ŽÚŽÀ	;; a
+87		ŽÚŽÁ
+86		ŽÚŽÂ
+83		ŽÚŽÃ
+84		ŽÚŽÄ
+9		ŽÞŽÀ	;; ai
+97		ŽÞŽÁ
+96		ŽÞŽÂ
+93		ŽÞŽÃ
+94		ŽÞŽÄ
+0		ŽâŽÀ	;; an 
+07		ŽâŽÁ
+06		ŽâŽÂ
+03		ŽâŽÃ
+04		ŽâŽÄ
+';'		ŽäŽÀ	;; ang 
+';'7		ŽäŽÁ
+';'6		ŽäŽÂ
+';'3		ŽäŽÃ
+';'4		ŽäŽÄ
+L		ŽàŽÀ	;; ao 
+L7		ŽàŽÁ
+L6		ŽàŽÂ
+L3		ŽàŽÃ
+L4		ŽàŽÄ
+K		ŽÜŽÀ	;; e
+K7		ŽÜŽÁ
+K6		ŽÜŽÂ
+K3		ŽÜŽÃ
+K4		ŽÜŽÄ
+O		ŽßŽÀ	;; ei
+O7		ŽßŽÁ
+O6		ŽßŽÂ
+O3		ŽßŽÃ
+O4		ŽßŽÄ
+P		ŽãŽÀ	;; en
+P7		ŽãŽÁ
+P6		ŽãŽÂ
+P3		ŽãŽÃ
+P4		ŽãŽÄ
+/		ŽåŽÀ	;; eng
+/7		ŽåŽÁ
+/6		ŽåŽÂ
+/3		ŽåŽÃ
+/4		ŽåŽÄ
+-		ŽæŽÀ	;; er
+-7		ŽæŽÁ
+-6		ŽæŽÂ
+-3		ŽæŽÃ
+-4		ŽæŽÄ
+I		ŽÛŽÀ	;; o
+I7		ŽÛŽÁ
+I6		ŽÛŽÂ
+I3		ŽÛŽÃ
+I4		ŽÛŽÄ
+ŽÁ		ŽáŽÀ	;; ou
+ŽÁ7		ŽáŽÁ
+ŽÁ6		ŽáŽÂ
+ŽÁ3		ŽáŽÃ
+ŽÁ4		ŽáŽÄ
+;; ========================= others ===
+ŽÇ		ŽÇŽÁ	;; M
+ŽÏŽÇ		ŽÏŽÇŽÁ	;; Hm
+ŽÏ@		ŽÏ@ŽÁ	;; Hng
+@		@ŽÁ	;; Ng
+ŽË		ŽËŽÁ	;; N

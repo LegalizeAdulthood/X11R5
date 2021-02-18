@@ -1,0 +1,1173 @@
+;;File: std-popups.gwm -- 
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+; Pop-ups
+; =======
+
+(defname 'pop-item-font screen. menuFontList)
+(defname 'pop-item-height screen. 18)
+(defname 'pop-label-font screen. menuFontList)
+
+
+(with (font menuFontList) (: item-height (+ 4 (height "A"))))
+
+; Offset for cascading menus :
+(: menu.offset.x 8)
+(: menu.offset.y -4)
+
+(: menu-right-arrow 
+ (with (
+	borderwidth 0
+	fsm ()
+       )
+  (plug-make
+   (pixmap-make menuBackground "right-arrow" menuForeground)
+  )
+ )
+)
+
+
+; Left and right plugs for items (-> 3D look)
+(de border-plug-make (top h)
+	(with ( foreground (if top menuTopShadowColor menuBottomShadowColor)
+		fsm ()
+		borderwidth 0
+	      )
+	(plug-make (pixmap-make 2 h) )
+	)
+)
+
+(: border-plug-right (border-plug-make () item-height))
+(: border-plug-left  (border-plug-make t item-height))
+
+(: corner-plug (with (borderwidth 0 fsm ())
+		(plug-make (pixmap-make menuTopShadowColor 
+			"cornerPlug" menuBottomShadowColor) ) ))
+
+
+(: top-bar-menu 
+  (with (fsm () borderwidth 0 background menuTopShadowColor
+	  bar-min-width 2
+	  bar-max-width 2)
+	 (bar-make () corner-plug)
+  )
+)
+
+(: bottom-bar-menu 
+  (with (fsm () borderwidth 0 background menuBottomShadowColor
+	  bar-min-width 2
+	  bar-max-width 2)
+	 (bar-make corner-plug ())
+  )
+)
+
+;-------------------------------------------------------------------------
+
+
+; MENU.MAKE : args = list of items obtained by item-make or pop-label-make
+; =========
+(df menu.make args
+ (with (
+	borderwidth 0
+	menu ()
+	cursor menu-cursor
+	myMenu (eval (+ '(menu-make) 
+			(+ 
+				'(top-bar-menu) 
+				'(blank-item-separator)
+				args 
+				'(blank-item-separator)
+				'(bottom-bar-menu))))
+       )
+   (send-user-event 'make-opened-tile (menu-wob myMenu))
+ myMenu
+ )
+)
+
+
+;-------------------------------------------------------------------------
+; MENU.MOVE : places the menu inside the screen
+; =========
+(de menu.move (theMenu x y)
+ (with (theMenuWob (menu-wob theMenu)
+	w (width theMenuWob)
+	h (height theMenuWob)
+       )
+  (if (> (+ y h) screen-height)
+          (: y (- screen-height h)))
+  (if (> (+ x w) screen-width)
+          (: x (- screen-width w)))
+  (move-window theMenuWob x y)
+ )
+)
+
+
+
+;-------------------------------------------------------------------------
+
+; MENU.POP : "pop" of a menu : args = (menu-to-pop button-to-use <'here>)
+; ========
+(de menu.pop args
+  (with (menu-to-pop (if args (# 0 args) wob-menu) 
+      window-of-menu window)
+    (if (# 1 args) (: button-menu (# 1 args)))
+    (send-user-event 'update-items (menu-wob menu-to-pop))
+    (send-user-event 'activate-menu (menu-wob menu-to-pop))
+    (## 'current-valid-item (menu-wob menu-to-pop) 0)
+    (if (> (current-event-code) 5)
+      (send-user-event 'select-item (# 0 (# 'valid-items
+	    (menu-wob menu-to-pop)))))
+    (## 'menu-son wob (menu-wob menu-to-pop))
+    (## 'already-popped (menu-wob menu-to-pop) t)
+    (## 'father (menu-wob menu-to-pop) wob)
+    (setq popping-window window)
+    (with (grab-keyboard-also t)
+      (if (member 'here args)
+	(pop-menu menu-to-pop 'here)
+	(pop-menu menu-to-pop)
+    ))
+    (send-user-event 'set-grabs (menu-wob menu-to-pop))
+))
+
+;-------------------------------------------------------------------------
+
+
+; Borders plugs of item separators
+(: separator-plug-left
+	(with (
+		fsm ()
+		borderwidth 0 
+		foreground menuBackground
+		plug-tile (pixmap-make 4 3)
+		foreground menuTopShadowColor
+	      )
+	(draw-line plug-tile 0 0 0 2)
+	(draw-line plug-tile 1 0 1 2)
+	(plug-make plug-tile)
+	)
+)
+(: separator-plug-right
+	(with (
+		fsm ()
+		borderwidth 0
+		foreground menuBackground
+		plug-tile (pixmap-make 4 3)
+		foreground menuBottomShadowColor
+	      )
+	(draw-line plug-tile 2 0 2 2)
+	(draw-line plug-tile 3 0 3 2)
+	(plug-make plug-tile)
+	)
+)
+
+; Blank item separator (space between two consecutive items)
+(: blank-item-separator
+   (with (fsm () borderwidth 0
+	  background menuBackground
+          bar-min-width 3 )
+     (bar-make separator-plug-left () separator-plug-right )
+   )
+)
+
+; Item separator (line between two consecutive items)
+(: item-separator
+   (with (fsm () borderwidth 0
+	  tile (pixmap-make menuBackground "itemSep" menuForeground)
+          bar-min-width 3 background menuBottomShadowColor)
+     (bar-make separator-plug-left () separator-plug-right )
+   )
+)
+
+
+
+;-------------------------------------------------------------------------
+
+; VARIOUS UTILITIES :
+; =-=-=-=-=-=-=-=-=
+
+; Good button checking :
+(df check-button ()
+ (= button-menu (current-event-code))
+)
+
+
+(df valid-items eventual-wob
+ (if eventual-wob 
+  (with (wob (eval (# 0 eventual-wob)))
+   (# 'valid-items wob)
+  )
+   (# 'valid-items wob)
+ )
+)
+
+(df set-valid-items args
+(with (item-nb (eval (# 0 args)) eventual-wob (eval (# 1 args)))
+ (if eventual-wob 
+  (with (wob (eval eventual-wob))
+   (## 'valid-items wob item-nb)
+  )
+   (## 'valid-items wob item-nb)
+ )
+)
+)
+
+(df nb-valid-items ()
+  (length (# 'valid-items wob))
+)
+
+(df current-valid-item eventual-wob
+ (if eventual-wob 
+  (with (wob (eval (# 0 eventual-wob)))
+   (# 'current-valid-item wob)
+  )
+   (# 'current-valid-item wob)
+ )
+)
+
+(de set-current-valid-item (item-nb)
+  (## 'current-valid-item wob item-nb)
+)
+
+; Is the action "f.menu" ?
+(df action-is-f.menu ()
+ (= 'f.menu (# 0 (# 'action wob)))
+)
+
+(df menu-wob-of-action ()
+ (menu-wob (eval (# 1 (# 'action wob))))
+)
+
+(df menu-of-action ()
+ (eval (# 1 (# 'action wob)))
+)
+
+
+; The oldest menu father of the menu
+(de menu-oldest-father (theWob)
+ (with (father (or (# 'father theWob) root-window))
+  (if (with (wob father) (= 'menu wob-status)) 
+   (menu-oldest-father father)
+   theWob
+  )
+ )
+)
+
+; The oldest father of the menu to grab
+(de oldest-father-for-grab (theWob)
+ (with (father (or (# 'father theWob) root-window))
+  (if (with (wob father) (= 'menu wob-status)) 
+   (menu-oldest-father father)
+   (if (# 'is-button-menu father) father theWob)
+  )
+ )
+)
+
+
+; Setting of the current item :
+(df fix-current-item ()
+ (with (i 0 listOfValidItems (valid-items wob-parent) 
+        current-item (# i listOfValidItems))
+  (while current-item
+   (if (= wob current-item) 
+    (progn
+     (with (wob wob-parent) 
+	(## 'current-valid-item wob i)
+     )
+     (: current-item ())
+    )
+    (progn
+     (: i (+ i 1))
+     (: current-item (# i listOfValidItems))
+    )
+   )
+  )
+ )
+)
+
+(: menus-basic-state
+ (state-make
+ (on (user-event 'select-item)
+   (wob-tile (# 'opened-tile wob)))
+  (on (user-event 'goto-opened) () opened)
+  (on (user-event 'goto-activable) () activable)
+  (on (user-event 'depop) (: wob-background menuBackground) activable)
+  (on (user-event 'unselect-item)
+         (progn
+                 (with (wob wob-parent)
+                 (if (# 'item-menu-son wob)
+                         (send-user-event 'depop (# 'menu-son wob)))
+                 )
+                 (: wob-background menuBackground)
+         )
+  )
+  (on (user-event 'test-item-menu-popped)
+   (if (action-is-f.menu)
+     (: in-item-menu-popped
+         (and (> cerx 0)
+              (> cery 0)
+              (< cerx wob-width)
+              (< cery wob-height)
+         )
+     )
+   )
+  )
+ )
+)
+
+;-------------------------------------------------------------------------
+
+
+
+; ========================================================================
+; ITEMS' FSM : 4 states : activable / non-activable / closed / opened
+; ========================================================================
+
+(setq menus.fsm  
+(fsm-make 
+;-----------------------------------------------------------ACTIVABLE
+(: activable
+(state-make
+ (on (buttonpress any any) 
+    (if (check-button)
+     (progn  
+        (send-user-event 'unselect-item
+         (# (current-valid-item  wob-parent) (valid-items  wob-parent))
+	)
+	(if (action-is-f.menu)
+         (if (# 'already-popped wob)
+          (progn
+           (send-user-event 'unselect-item
+                (# (current-valid-item  (menu-wob-of-action))
+                       (valid-items  (menu-wob-of-action))) 
+	   )
+          )
+          (progn
+	   (with (theWob wob wob wob-parent)
+            (## 'item-menu-son wob theWob)
+	   )
+	   (menu.move (menu-of-action) (- (+ wob-x wob-width) menu.offset.x) 
+				       (+ wob-y menu.offset.y))
+           (with (theMenu (menu-of-action) wob wob-parent) 
+		(menu.pop theMenu button-menu 'here))
+          )
+         )
+    	)
+	(wob-tile (# 'opened-tile wob))
+	(send-user-event 'activate-menu (menu-oldest-father wob-parent))
+	(send-user-event 'goto-opened wob) 
+     )
+    )
+ )
+ (on (user-event 'update-items)
+   (if (not 
+        (with (condition (# 'enable-condition wob )
+	       wob window-of-menu)
+	(eval condition))
+       )
+	(send-user-event 'disable-item wob) 
+	(set-valid-items (+ (valid-items wob-parent) (list wob)) wob-parent)
+   ) 
+ )
+ (on (user-event 'disable-item) () non-activable)
+ (on (user-event 'activate-menu) 
+  (if (= wob (# (current-valid-item wob-parent) (valid-items wob-parent)))
+	(if (or (not (action-is-f.menu)) 
+	        (not (= wob (with (wob wob-parent) (# 'item-menu-son wob)))))
+		 (: wob-background menuBackground) 
+	)
+  )
+ closed)
+ (on (user-event 'make-opened-tile) 
+	(## 'opened-tile wob (item-tile.make wob-width wob-height))
+ )
+
+ menus-basic-state
+)
+)
+;-----------------------------------------------------------NON-ACTIVABLE
+(: non-activable
+	(state-make
+	 (on (buttonpress any any) 
+	   (if (check-button) 
+	    (send-user-event 'activate-menu (menu-oldest-father wob-parent))
+	   )
+	 )
+	 (on (buttonrelease any any) 
+	   (if (check-button) 
+		   (send-user-event 'depop (menu-oldest-father wob-parent))
+	   )
+	 )
+	 (on (user-event 'update-items)
+	   (if 
+	     (with  (condition (# 'enable-condition wob)
+		     wob window-of-menu)
+	       (eval condition))
+	       (progn
+	         (send-user-event 'enable-item wob) 
+	         (set-valid-items (+ (valid-items wob-parent) (list wob)) 
+			  wob-parent)
+	       ) 
+	   ) 
+	 )
+	 (on (user-event 'enable-item) () activable)
+	)
+)
+;-----------------------------------------------------------CLOSED
+(: closed 
+   (state-make 
+   (on enter-window 
+	(progn
+	 (: wob-tile (# 'opened-tile wob))
+	 (if (action-is-f.menu)
+	  (if (not (# 'already-popped wob))
+          (progn
+	   (with (theWob wob theMenu (menu-wob-of-action) wob wob-parent)
+	    (## 'item-menu-son wob theWob)
+	   )
+	   (menu.move (menu-of-action) (- (+ wob-x wob-width) menu.offset.x) 
+				       (+ wob-y menu.offset.y))
+           (with (theMenu (menu-of-action) wob wob-parent) 
+		(menu.pop theMenu button-menu 'here))
+	   (fix-current-item)
+          )
+	  )
+	 )
+	)
+   opened)
+
+   menus-basic-state
+  )
+)
+;-----------------------------------------------------------OPENED
+(: opened
+   (state-make
+   (on (buttonpress any any)
+    (if (and (check-button) (action-is-f.menu))
+     (send-user-event 'activate-menu  (menu-oldest-father wob-parent))
+    )
+   )
+   (on (buttonrelease any any)
+    (if (check-button)
+     (if (action-is-f.menu)
+      (progn
+       (fix-current-item)
+       (with (wob  (menu-wob-of-action))
+        (## 'current-valid-item wob 0))
+       (with (theWob (oldest-father-for-grab wob-parent))
+	(if (# 'is-button-menu theWob) 
+	 (send-user-event 'button-release theWob))
+       )
+       (send-user-event 'goto-activable  (menu-oldest-father wob-parent))
+       (send-user-event 'select-item 
+	(# 0 (valid-items  (menu-wob-of-action))) )
+      )
+      (progn
+       (setq std-popups.action (# 'action wob))
+       (send-user-event 'goto-activable (menu-oldest-father wob-parent))
+       (send-user-event 'depop (menu-oldest-father wob-parent))
+       (: wob-background menuBackground)
+       (wob wob-parent)
+       (wob (# 'father wob))
+       (with (window popping-window action-by-menu t) (eval std-popups.action))
+      )
+     ) 
+    )
+   )
+   (on leave-window
+    (if (action-is-f.menu)
+     (with (cerx (current-event-relative-x) 
+	    cery (current-event-relative-y))
+      (if (not
+          (and (> cerx 0)
+               (> cery 0)
+               (< cerx wob-width)
+               (< cery wob-height)
+          ) )
+	(with (cex (current-event-x) cey (current-event-y)
+		in-menu-son ())
+	(send-user-event 'in-menu-son-test (menu-wob-of-action))
+	(if (not in-menu-son)
+         (progn
+          (: wob-background menuBackground )
+          (send-user-event 'goto-activable  (menu-wob-of-action))
+          (send-user-event 'unselect-item
+                (# (current-valid-item  (menu-wob-of-action))
+                          (valid-items  (menu-wob-of-action))))
+          (send-user-event 'depop  (menu-wob-of-action))
+	  (send-user-event 'goto-closed wob)
+         )
+        )
+	)
+     )
+     )
+     (progn
+      (: wob-background menuBackground )
+      (send-user-event 'goto-closed wob)
+     )
+    )
+   )
+   (on (user-event 'goto-closed) () closed)
+   (on (user-event 'unselect-item) (: wob-background menuBackground))
+   menus-basic-state
+  )
+ )
+)
+)
+
+
+;-------------------------------------------------------------------------
+
+
+; MNEMO-LABEL-MAKE : making of a label with is underlined mnemonic
+; ================   or of the pixmap designed by the file "@file" .
+(de mnemo-label-make (label mnemo)
+(if (eq 0 (member "@" label))
+ (with ( pixmapFile (match "@\\(.*\\)" label 1))
+  (pixmap-make menuBackground pixmapFile menuForeground)
+ )
+ (if mnemo
+  (with (
+	 foreground menuForeground
+	 background menuBackground
+	 before-mnemo (match (+ "\\(.*\\)" mnemo) label 1)
+	 after-mnemo (match (+ "\\(.*" mnemo "\\)") label 1)
+	 font menuFontList
+	 x1 (if before-mnemo (- (width before-mnemo) label-horizontal-margin) 
+		 label-horizontal-margin)
+	 x2 (- (width after-mnemo) label-horizontal-margin)
+	 y (- item-height 6)
+        )
+   (draw-line (label-make label) (- x1 1) y (- x2 2) y)
+  )
+  (with (
+	 foreground menuForeground
+	 background menuBackground
+	 font menuFontList
+	)
+   (label-make label)
+  )
+ )
+)
+)
+
+
+;-------------------------------------------------------------------------
+
+
+; ITEM-TILE.MAKE : making of the selected framework of an item
+; ==============
+(de item-tile.make (w h)
+ (with (
+	foreground menuBackground
+	item-tile (pixmap-make (+ w (* 2 plug-separator)) h)
+	item-xmax (- w 5)
+	item-ymax (- h 1)
+       )
+ (with (foreground menuTopShadowColor)
+	(draw-line item-tile 4 0 item-xmax 0         )
+	(draw-line item-tile 4 1 item-xmax 1         )
+	(draw-line item-tile 4 0 4         item-ymax)
+	(draw-line item-tile 5 0 5         item-ymax)
+ )
+ (with (foreground menuBottomShadowColor)
+	(draw-line item-tile 4               item-ymax        item-xmax       item-ymax      )
+	(draw-line item-tile 5               (- item-ymax 1)  item-xmax       (- item-ymax 1))
+	(draw-line item-tile item-xmax       0                item-xmax       item-ymax      )
+	(draw-line item-tile (- item-xmax 1) 1                (- item-xmax 1) item-ymax      )
+ )
+ item-tile
+ )
+)
+
+
+;-------------------------------------------------------------------------
+
+
+; ITEM-MAKE  : 
+; =========
+; args : (label mnemonic action enable-condition blank-plug accelerator)
+(df item-make args
+    (with (
+	   label (+ (# 0 args) "") ; assure que 'label' est une string
+	   label-is-bitmap (eq 0 (member "@" label))
+	   mnemo (# 1 args) action (# 2 args)
+	   blank-plug (# 4 args) accelerator (# 5 args)
+           property (+ 
+		       '(opened-tile ())
+		       (list 'enable-condition (if (> (length args) 3) (# 3 args) t))
+		       (list 'action action) 
+		       (list 'mnemonic mnemo)
+		       '(already-popped  ())
+		    )
+	   borderwidth 0
+	   enable-pixmap (mnemo-label-make   label mnemo)
+	   bar-min-width (+ 
+			   (if label-is-bitmap 8 4)
+			   (height enable-pixmap))
+	   plug-separator 4
+	   fsm menus.fsm
+	   background menuBackground
+	  )
+	  (bar-make
+	      (if label-is-bitmap (border-plug-make t bar-min-width) border-plug-left)
+	      (with (borderwidth 0 font pop-item-font
+                   menuForeground ; Dynamic binding hack--boo hiss
+                     (if shadeDisabled
+                         menuShadeColor
+                         menuForeground)
+                   background menuBackground
+		     disable-pixmap (mnemo-label-make label mnemo)
+		     property (list 'item-label label 'mnemo mnemo
+				    'enable-pixmap  enable-pixmap
+				    'disable-pixmap
+                             (if shadeDisabled disable-pixmap
+                              (draw-line disable-pixmap
+                                0 (/ (height disable-pixmap) 2) 
+                              (width disable-pixmap) (/ (height disable-pixmap) 2)  ))
+			      )
+		     fsm 
+			(fsm-make (state-make 
+			 (on (user-event 'enable-item) 
+                                 (: wob-tile (# 'enable-pixmap wob))
+			 )
+			 (on (user-event 'disable-item) 
+                                 (: wob-tile (# 'disable-pixmap wob))
+			 )
+			 )
+		    ))
+		    (plug-make enable-pixmap)
+		)
+	      blank-plug 
+	      (if (not (= (# 0 action) 'f.menu)) accelerator)
+	      ()
+	      (if (= (# 0 action) 'f.menu) menu-right-arrow)
+	      (if label-is-bitmap (border-plug-make () bar-min-width) border-plug-right)
+  ) )
+)
+
+;-------------------------------------------------------------------------
+
+
+; POP-LABEL-MAKE : making of the menu's title
+; ==============
+(df pop-label-make (label)
+    (with (fsm ()
+	   background menuBackground
+	   foreground menuForeground
+	   borderwidth 0
+	   bar-min-width item-height bar-max-width item-height
+	   plug-separator 4
+	  ) 
+	  (bar-make
+	      border-plug-left
+	      ()
+	      (with (borderwidth 0 font pop-label-font 
+		     background menuBackground foreground menuForeground) 
+		    (plug-make (mnemo-label-make label ())))
+	      ()
+	      border-plug-right
+	  )
+    )
+)
+
+
+;-------------------------------------------------------------------------
+
+(de youngest-son (theWob)
+ (with (wob theWob son (# 'menu-son wob))
+  (if son (youngest-son son) wob)
+ )
+)
+
+(de propagate-key-event (user-evt-name)
+  (if (# 'menu-son wob) 
+   (send-user-event user-evt-name (youngest-son wob))
+   (send-user-event user-evt-name wob)
+  )
+)
+
+; UPDATE-GRAB : grabs the server with flag "grab-keyboard-also" to true
+; ===========   on the menu oldest father of the wob, then grabs the server
+;		on the oldest father with flag "grab-keyborad-also" to false.
+(de update-grab ()
+  (with (
+	 o-father (oldest-father-for-grab wob)
+	 m-o-father (menu-oldest-father wob)
+	)
+   (with (grab-keyboard-also t) (grab-server m-o-father))
+   (if (not (= o-father m-o-father)) (grab-server o-father))
+  )
+)
+
+
+; MENUS' FSM :
+; ==========
+(: pop-fsm 
+    (fsm-make 
+     (: pop-state (state-make 
+	(on enter-window
+	(progn 
+	 (if (and (not (current-event-from-grab)) (# 'active wob))
+	 (progn
+	  (if (# 'menu-son wob)
+	   (progn
+	    (: in-item-menu-popped ())
+            (with (
+		   cerx 
+		   (current-event-relative-x)
+		   cery 
+		   (- (+ (current-event-relative-y) wob-y) 
+		    (with (wob  (# 'item-menu-son wob)) wob-y))
+		  )
+	     (send-user-event 'test-item-menu-popped (# 'item-menu-son wob))
+	    )
+	    (if (not in-item-menu-popped)
+	     (progn
+	     (send-user-event 'goto-closed (# 'item-menu-son wob))
+	     (send-user-event 'unselect-item (# 'item-menu-son wob))
+	     ;(send-user-event 'depop (# 'menu-son wob))
+	     )
+	    )
+	   )
+	  )
+	 )
+	) )
+	)
+	(on (buttonpress any any) 
+	  (if (check-button) 
+               (progn
+		(if (and double-click-required (= button-menu 1))
+		 (progn 
+		  (if (< (- (current-event-time) time-of-last-release) 
+			 doubleClickTime)
+			(send-user-event 'double-click double-click-required)
+		  )
+		  (: double-click-required ())
+		 )
+		)
+		(send-user-event 'activate-menu (menu-oldest-father wob))
+	       )
+	   )
+	)
+	(on (buttonrelease any any) 
+	  (if (check-button) (send-user-event 'depop (menu-oldest-father wob))) )
+	(on (user-event 'depop) 
+	 (progn
+	  (if (# 'menu-son wob)
+	   (send-user-event 'depop (# 'menu-son wob))
+	  )
+	  (update-grab)
+	  (unpop-menu)
+	  (with (father (or (# 'father wob) root-window))
+	     (with (wob father)
+	      (## 'already-popped wob ())
+	      (## 'menu-son wob ())
+	      (## 'item-menu-son wob ())
+	     )
+	     (send-user-event 'button-release father)
+	     (with (wob father)
+	      (if (not (= wob-status 'menu)) (ungrab-server))
+	     )
+	  )
+	  (## 'menu-son wob ())
+	  (## 'item-menu-son wob ())
+	 )
+	)
+	(on (user-event 'activate-menu) 
+	 (progn
+	 (## 'active wob t)
+         (if (# 'menu-son wob)
+          (send-user-event 'activate-menu (# 'menu-son wob))
+	 ) 
+	 )
+	)
+	(on (user-event 'goto-activable) 
+	 (progn
+	 (## 'active wob ())
+         (if (# 'menu-son wob)
+          (send-user-event 'goto-activable (# 'menu-son wob))
+	 ) 
+	 )
+	)
+	(on (user-event 'update-items) (set-valid-items ()))
+	(on (user-event 'set-grabs) (update-grab))
+	(on (user-event 'in-menu-son-test)
+	  (: in-menu-son (and (> cex wob-x) (> cey wob-y)
+				(< cex (+ wob-x wob-width))
+			 	(< cey (+ wob-y wob-height)))))
+
+        ;--Keys Events :
+	;--UP------------------------------------------------
+	(on (keypress (key-make "Up") alone) 
+	 (propagate-key-event 'Up)
+	)
+	(on (user-event 'Up)
+	 (if (valid-items)
+	  (progn 
+	   (send-user-event 'unselect-item (# (current-valid-item) (valid-items)))
+	   (set-current-valid-item (% (- 
+		 (if (> (current-valid-item) 0) (current-valid-item) (nb-valid-items))
+		 1) (nb-valid-items))
+	   )
+	   (send-user-event 'select-item (# (current-valid-item) (valid-items)))
+	  )
+	 )
+	)
+	;--DOWN----------------------------------------------
+	(on (keypress (key-make "Down") alone) 
+	 (propagate-key-event 'Down)
+	)
+	(on (user-event 'Down)
+	 (if (valid-items)
+	  (progn 
+	   (send-user-event 'unselect-item (# (current-valid-item) (valid-items)))
+	   (set-current-valid-item (% (+ (current-valid-item) 1) (nb-valid-items)))
+	   (send-user-event 'select-item (# (current-valid-item) (valid-items)))
+	  )
+	 )
+	)
+	;--RIGHT---------------------------------------------
+	(on (keypress (key-make "Right") alone) 
+	 (propagate-key-event 'Right)
+	)
+	(on (user-event 'Right)
+	 (with (wob  (# (current-valid-item) (valid-items)))
+	  (if (action-is-f.menu)
+	   (with (theMenu (menu-wob-of-action))
+           (with (theWob wob wob wob-parent)
+            (## 'item-menu-son wob theWob)
+           )
+	   (menu.move (menu-of-action) (- (+ wob-x wob-width) menu.offset.x) 
+				       (+ wob-y menu.offset.y))
+           (with (theMenu (menu-of-action) wob wob-parent) 
+		(menu.pop theMenu button-menu 'here))
+           (send-user-event 'goto-activable  theMenu)
+           (send-user-event 'select-item (# 0 (valid-items  theMenu)) )
+	   )
+	  )
+	 )
+	)
+	;--LEFT----------------------------------------------
+	(on (keypress (key-make "Left") alone) 
+	 (propagate-key-event 'Left)
+	)
+	(on (user-event 'Left)
+	 (if (not (= wob (menu-oldest-father wob)))
+	  (progn
+          (send-user-event 'goto-activable  wob)
+          (send-user-event 'depop wob)
+	  (update-grab)
+	  )
+	 )
+	)
+	(on (keypress (key-make "Return") alone) 
+	 (propagate-key-event 'Return)
+	)
+	;--RETURN--------------------------------------------
+	(on (user-event 'Return)
+	 (if (valid-items)
+	  (if (with (wob (# (current-valid-item) (valid-items)) )
+	       (action-is-f.menu) )
+           (with (wob  (# (current-valid-item) (valid-items)))
+            (if (action-is-f.menu)
+             (with (theMenu (menu-wob-of-action))
+             (with (theWob wob wob wob-parent)
+              (## 'item-menu-son wob theWob)
+             )
+	   (menu.move (menu-of-action) (- (+ wob-x wob-width) menu.offset.x) 
+				       (+ wob-y menu.offset.y))
+           (with (theMenu (menu-of-action) wob wob-parent) 
+		(menu.pop theMenu button-menu 'here))
+             (send-user-event 'goto-activable  theMenu)
+             (send-user-event 'select-item (# 0 (valid-items  theMenu)) )
+             )
+            )
+          )
+	  (progn 
+	   (send-user-event 'unselect-item (# (current-valid-item) (valid-items)))
+	   (with (wob (# (current-valid-item) (valid-items)))
+            (setq std-popups.action (# 'action wob))
+            (send-user-event 'depop (menu-oldest-father wob-parent))
+            (: wob-background menuBackground)
+            (wob wob-parent)
+            (wob (# 'father wob))
+            (with (action-by-menu t) (eval std-popups.action))
+            (send-user-event 'goto-activable wob)
+	   )
+	  )
+	  )
+	 )
+	)
+	;--ESCAPE--------------------------------------------
+	(on (keypress (key-make "Escape") alone) 
+	 (propagate-key-event 'Escape)
+	)
+	(on (user-event 'Escape)
+	 (if (valid-items)
+	   (with (wob (# (current-valid-item) (valid-items)))
+	    (send-user-event 'unselect-item wob)
+            (send-user-event 'depop (menu-oldest-father wob-parent))
+	   )
+	 )
+	)
+	;--ANY KEY-------------------------------------------
+	(on (keypress any any)
+	 (with (cec (current-event-code) cem (current-event-modifier))
+	  (send-user-event 'keypress-any-any (menu-oldest-father wob))
+	 )
+	)
+	(on (user-event 'keypress-any-any)
+	    (progn
+	      (with (theKey cec
+			    theAcceleratorItem
+			    (# (atom (+ "key"
+					(itoa
+					 (keycode-to-keysym theKey alone))
+					"m" (itoa cem)))
+			       (# 'accelerator-list wob))
+			    theMnemonicItem 
+			    (# (atom (+ "key"
+					(itoa
+					 (keycode-to-keysym theKey alone))))
+			       (# 'mnemonic-list wob))
+			    theItem
+			    (if theAcceleratorItem theAcceleratorItem
+			      theMnemonicItem)
+			    enable (# 0 theItem)
+			    action (# 1 theItem)
+			    )
+		(if theItem
+		    (if (eval enable)
+			(progn
+			  (send-user-event 'Escape wob)
+			  (wob (# 'father wob))
+			  (with (action-by-menu t) (eval action))
+			  (send-user-event 'goto-activable wob)
+			  )
+		      )
+		  (if (# 'menu-son wob) 
+		      (send-user-event 'keypress-any-any (# 'menu-son wob))
+		    )
+		  )
+		)
+	      )
+	    )
+     )
+   )
+ )
+)
+
+
+;-------------------------------------------------------------------------
+
+
+; MK-BLANK-PLUG : making of a "blank" pixmap 
+; =============
+(de mk-blank-plug (w)
+ (with (fsm () foreground menuBackground borderwidth 0)
+  (plug-make (pixmap-make (+ 1 w) 1))
+ )
+)
+
+
+;-------------------------------------------------------------------------
+
+;*******************************
+(load "mwm-functions")
+;*******************************
+
+;-------------------------------------------------------------------------
+(de modifier-string.make (theModifiers)
+ (with (theRes ""
+	i 0 l (length theModifiers)
+       )
+  (while (< i l)
+   (with (modifier (# i theModifiers))
+   (: theRes (+ theRes
+    (if (= modifier 'any) ""
+        (= modifier 'alone) ""
+        (= modifier 'with-alt) "Alt+"
+        (= modifier 'with-shift) "Shift+"
+        (= modifier 'with-control) "Ctrl+"
+        (= modifier 'with-lock) "Lock+"
+        (= modifier 'with-modifier-1) "Mod1+"
+        (= modifier 'with-modifier-2) "Mod2+"
+        (= modifier 'with-modifier-3) "Mod3+"
+        (= modifier 'with-modifier-4) "Mod4+"
+        (= modifier 'with-modifier-5) "Mod5+"
+        (= modifier 'with-button-1) "But1+"
+        (= modifier 'with-button-2) "But2+"
+        (= modifier 'with-button-3) "But3+"
+        (= modifier 'with-button-4) "But4+"
+        (= modifier 'with-button-5) "But5+"
+        ""
+    )
+   ))
+   )
+   (: i (+ i 1))
+  )
+ theRes
+ )
+)
+
+
+
+;============================================================================
+; MWM-MENU.MAKE
+;============================================================================
+(df mwm-menu.make args
+ (with 
+  (state pop-state
+   mnemonic-list ()
+   accelerator-list ()
+   wgrabs window-grabs
+   wbeh ()
+   args-for-menu.make ()
+   max-width-label 0
+   max-width-acc 0
+  )
+ (with (font menuFontList)
+ (for item args
+  (with (label (# 0 item)
+	 acc   (# 2 item))
+   (if (eq 0 (member "@" label))
+ 	(with ( pixmapFile (match "@\\(.*\\)" label 1))
+  	(: label (pixmap-make menuBackground pixmapFile menuForeground))
+ 	)
+   )
+	(if label
+	(if (> (width label) max-width-label) 
+		(: max-width-label (width label))))
+	))
+ )
+ (for item args
+  (with (
+	 label 		  (# 0 item)
+	 mnemo 		  (# 1 item)
+	 acc   		  (# 2 item)
+	 key  		  (# 0 acc)
+	 modifier 	  (# 1 acc)
+	 fctn  		  (# 3 item)
+	 fctn.name 	  (# 0 fctn)
+	 fctn.name.string (match "[.]\\(.*\\)" fctn.name 1)
+	 transition 	  ()
+	 acc-string
+		 	  (+ 
+			   (if (= 'atom (type modifier))
+			      	(modifier-string.make (list modifier))
+				(modifier-string.make (sublist 1 (length modifier)
+						      modifier) )
+			   )
+		           key)
+	)
+   (if (= fctn.name 'f.separator)
+	(: args-for-menu.make (+ args-for-menu.make '(item-separator)))
+       (= fctn.name 'f.title)
+	(: args-for-menu.make (+ args-for-menu.make '(item-separator item-separator)
+			      (list (list 'pop-label-make label))
+			      '(item-separator item-separator) ))
+	; else
+	(progn
+	 (: args-for-menu.make
+	  (+ args-for-menu.make
+	   (list (list
+	    'item-make
+		label
+		mnemo
+		fctn (eval (atom (+ "e." fctn.name.string))) 
+		(if acc (mk-blank-plug 
+			(with (font menuFontList)
+			 (- max-width-label (width label)))))
+		(if acc 
+		(with (borderwidth 0
+		       fsm ()
+		       font menuFontList
+		       foreground menuForeground
+		       background menuBackground
+		      )
+		(plug-make (active-label-make acc-string)))
+		)
+	   ))
+	  )
+	 )
+	 (if (= fctn.name 'f.menu)
+	   (progn
+	   (: wgrabs (+ wgrabs 
+ 		(with (wob (menu-wob (eval (# 1 fctn)))) (# 'wgrabs wob))))
+	   (: wbeh (state-make wbeh 
+                (with (wob (menu-wob (eval (# 1 fctn)))) (# 'wfsm wob))))
+	   )
+	 )
+	 (if acc
+	  (progn
+	  (: transition
+		(list 'on (list 'keypress (key-make key) modifier)
+		  (list 'if (eval (atom (+ "e." fctn.name.string))) 
+			(list 'with '(action-by-menu t) fctn))
+	  	)
+	  )
+	  (: wgrabs (+ wgrabs (list (eval (list 'keypress (key-make key) modifier)))))
+	  (: wbeh   (eval (list 'state-make transition 'wbeh)))
+	  (## (atom (+ "key" (itoa (key-make 
+		 (if (# (atom key) to-lower-case-list)
+		 (# (atom key) to-lower-case-list) key
+		 )
+	      )) "m" (itoa (eval modifier))) )
+	   'accelerator-list 
+		 (list (eval (atom (+ "e." fctn.name.string))) fctn) )
+	  )
+	 )
+	 (if mnemo
+	     (with (key mnemo modifier with-alt)
+	       (## (atom (+ "key" (itoa (key-make (setq key
+		   (if (# (atom mnemo) to-lower-case-list)
+		      (# (atom mnemo) to-lower-case-list) mnemo)))))) 
+		   'mnemonic-list 
+		   (list (eval (atom (+ "e." fctn.name.string))) fctn) )
+	       (: transition
+		  (list 'on (list 'keypress (key-make key) modifier)
+			(list 'if (eval (atom (+ "e." fctn.name.string))) 
+			      (list 'with '(action-by-menu t) fctn))
+			)
+		  )
+	       (: wgrabs
+		  (+ wgrabs (list (eval
+				   (list 'keypress (key-make key) modifier)))))
+	       (: wbeh   (eval (list 'state-make transition 'wbeh)))
+	       (## (atom (+ "key" (itoa
+				   (key-make 
+				    (if (# (atom key) to-lower-case-list)
+					(# (atom key) to-lower-case-list) key)
+					 )) "m" (itoa (eval modifier))) )
+		   'accelerator-list 
+		 (list (eval (atom (+ "e." fctn.name.string))) fctn) )
+	       ))
+	)
+   )
+  )
+ )
+ (with (
+	fsm (fsm-make state)
+	property '(father () valid-items () menu-son () item-menu-son () active ()
+		   current-valid-item 0 wgrabs () wfsm () )
+	property (+ (list 'mnemonic-list mnemonic-list
+			  'accelerator-list accelerator-list) property)
+	myMenu (eval (+ '(menu.make) args-for-menu.make))
+	wob (menu-wob myMenu)
+       )
+  (## 'wfsm wob wbeh)
+  (## 'wgrabs wob wgrabs)
+  myMenu
+ )
+))
+
+
+
+
+;------------------------------------------------------------Fin----------
+

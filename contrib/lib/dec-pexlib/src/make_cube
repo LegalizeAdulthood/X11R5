@@ -1,0 +1,3 @@
+cc -c -o pst_colormap.o pst_colormap.c
+cc -c cube.o  cube.c
+cc -o cube cube.o pst_colormap.o ./libPEX.a -lX11 -lm -lc

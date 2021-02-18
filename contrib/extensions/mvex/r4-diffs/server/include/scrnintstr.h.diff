@@ -1,0 +1,13 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/include/RCS/scrnintstr.h,v 
+*** 1.1	1991/09/22 19:36:06
+--- 1.2	1991/09/22 19:42:27
+***************
+*** 118,123 ****
+--- 118,124 ----
+      void (* PaintWindowBorder)();	/* pWin, pRgn, which */
+      void (* CopyWindow)();		/* pWin, oldPt, pOldRegion */
+      void (* ClearToBackground)();	/* pWin, x,y,w,h, sendExpose */
++     void (* ClipNotify)();              /* pWin, dx, dy */
+  
+      /* Pixmap procedures */
+  

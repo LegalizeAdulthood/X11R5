@@ -1,0 +1,26 @@
+This is PEXlib from Digital.
+
+The are 2 directories beneath directory 'dec_pexlib':
+
+	'src'     - contains source, an Imakefile, a compressed postscript doc,
+		    a Makefile for Digital, and Digital specific include files 
+
+		  This Imakefile was tested to generate a Makefile
+		  that built a pexlib on a DEC, HP, and SUN at the X 
+		  Consortium.
+
+		  This directory contains a little script to compile and link 
+		  a test file named 'cube.'  cube.c and pst_colormap.c are
+		  required to generate image 'cube'. 
+
+
+	'include' - the other header files
+
+		Header files in this area vary from modified header
+		files from the X Window System Software Release 5 to digital 			specific MPEX*.h header files.
+
+		Updated PEX-SI include files are:
+
+			PEXlibint.h - includes X include correctly
+
+			PEXprotost.h -  includes X include correctly

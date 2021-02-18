@@ -1,0 +1,39 @@
+CuTbl is a geometry manager that lays out a fixed number of widgets
+according to a specification patterned after the "tbl" preprocessor
+for creating tables in documents.  Thus, to get a bunch of widgets
+to look like this:
+
+                     --------------------- ----------
+                    |                     |          |
+                    |                     |          |
+                    |                     |          |
+                    |---------- ----------|          |
+                    |          |          |          |
+                    |          |          |          |
+                    |          |          |          |
+                     ---------- ---------- ----------
+
+The "tbl" input specification would look like this:
+
+                                   c s c
+                                   c c ^.
+
+This is just a very simple example.  Actually, the widget is loaded up
+with lots of bells and whistles, such as the ability to specify
+equal sized columns and/or rows, left, right, or center justify the strings
+of the children widgets when they contain newlines (assuming the children can
+handle such a request, which the accompanying label widget, "XcuLabel", does),
+and certain widgets can be marked to "take up the slack" when adjusting the
+children to fit into the layout. The widget resizes elegantly (it allows
+resize requests from the children), looking at resources to determine whether
+the widgets, the internal padding, or the inter-child padding (or any
+combination of the three) adjust to fit the layout into the new size.
+
+Since an "m by n" layout array of widgets is a simple subset of this widget's
+capabilities, I have made it easy to subclass a widget that accepts a different
+input specification and merely transforms it into a tbl specification.  For
+example, the derived widget "XcuRc" transforms "2 x 2" into "c c\nc c.".
+
+XcuRc is a geometry manager subclassed from XcuTbl.  It is a trivial example
+of a XcuTbl subclass and is not meant to do anything very useful.
+

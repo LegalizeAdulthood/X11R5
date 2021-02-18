@@ -1,0 +1,124 @@
+; SIMPLE ICON  DECORATION
+; =======================
+
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.6 -- Mar. 1, 1990
+
+; A simple icon "a la Mac", following fully the ICCCs
+
+;; define here the screen-dependent resources
+(if (not (boundp 'simple-icon.data))	;define only once
+    (declare-screen-dependent
+     simple-icon.screen-data
+     simple-icon.foreground
+     simple-icon.background
+     simple-icon.borderpixel))
+
+;; user-settable defaults
+
+(defun simple-icon.screen-dependent-defaults ()
+  (defaults-to
+    simple-icon.foreground black
+    simple-icon.background white
+    simple-icon.borderpixel black))
+
+(defaults-to
+    simple-icon.legend ()
+    simple-icon.borderwidth 1
+    simple-icon.font small-font)
+
+(setq simple-icon.context
+      '(font simple-icon.font	     
+	     foreground simple-icon.foreground
+	     background simple-icon.background
+	     borderwidth simple-icon.borderwidth
+	     borderpixel simple-icon.borderpixel))
+
+(: simple-icon.title-fsm
+   (fsm-make
+    (state-make
+     icon-behavior
+     (on (user-event 'get-title) 
+	 (progn (with simple-icon.context
+		      (place-window-in-screen)
+		      (wob-tile (label-make update-icon.title)))
+		(update-placements)))
+     (on (user-event 'get-icon) 
+	 (progn (with simple-icon.context
+		      (wob-tile (label-make window-icon-name)))
+		(update-placements)))
+     ;; if icon pixmap set after creation, redecorate.
+     (on (user-event 'icon-pixmap-change)
+	 (if (# 'no-center-plug window)
+	     (re-decorate-window)))
+     )))
+
+(de simple-icon.center-plug? ()
+    (or (window-icon-window)
+	(progn
+	  (: tmp (resource-get 
+		  (+ -screen-name ".GwmIconPixmap." 
+		     (window-client-class) "." screen-type)
+		  "S.GwmIconPixmap.any.any"))
+	  (if (not (= (type tmp) 'pixmap))
+	      (progn
+		(: tmp (eval tmp))
+		(if (and tmp (# (type tmp) string-types))
+		    (: tmp (pixmap-make tmp)))))
+	  tmp
+	  )
+	 simple-icon-decoration.wip
+	 ))
+
+(: simple-icon.data
+   '(with simple-icon.context
+	  (with (fsm icon-fsm
+		     menu 'icon-pop
+		     simple-icon-decoration.wip (window-icon-pixmap)
+		     grabs icon-grabs
+		     center-plug? (simple-icon.center-plug?)
+		     property (if center-plug? property
+				(+ '(no-center-plug t) property)))
+	    (window-make
+	     ()				;top bar
+	     ()				;left bar
+	     ()				;right bar
+	     ;; base bar
+	     (if (and center-plug? simple-icon.legend)
+		 (bar-make () 
+			   (with (borderwidth 0 fsm simple-icon.title-fsm)
+			     (plug-make
+			      (label-make window-icon-name)))
+			   ())
+	       ())
+	     ;; center plug 
+	     (if (window-icon-window) 
+		 (window-icon-window)
+	       (and center-plug?
+		    (not (eq center-plug? simple-icon-decoration.wip)))
+	         (plug-make center-plug?)
+	       simple-icon-decoration.wip 
+	           (with (fsm icon-center-plug-with-pixmap-hint-fsm)
+		     (plug-make simple-icon-decoration.wip))
+	       (with (borderwidth 0 fsm simple-icon.title-fsm)
+		 (plug-make 
+		  (label-make window-icon-name)))
+	       )))))
+
+(: icon-center-plug-with-pixmap-hint-fsm (fsm-make
+    (state-make
+	(on (buttonrelease 2 any) (progn (iconify-window)(raise-window)))
+	(on (user-event 'icon-pixmap-change)
+	    (progn
+	      (wob-tile (window-icon-pixmap))
+	      (update-placements)))
+	icon-behavior
+    )))
+
+(de simple-icon ()
+    (if (boundp 'simple-icon.screen-data)
+	simple-icon.screen-data		; already loaded
+	(progn
+	  (simple-icon.screen-dependent-defaults)
+	  (setq simple-icon.screen-data	simple-icon.data))))
+

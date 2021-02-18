@@ -1,0 +1,49 @@
+;
+; $Id: mode,v 1.2 1991/09/13 05:15:18 proj Exp $
+;
+(search /usr/cwnn/cWnn/cd/rk    /usr/local/lib/cwnn/rk)
+
+(defmode PIN_YIN  on)
+	(defmode quan_pin  on) (defmode two_pin) (defmode two_pin_3key)
+(defmode BI_XING)
+	(defmode wu_bi on) (defmode qian_ma)
+	(defmode strk0  on) (defmode strk1) (defmode strk2) (defmode strk3)
+(defmode ASCII)
+	 (defmode ban_jiao on) (defmode quan_jiao)
+(defmode QI_TA)
+	(defmode chang_yong_zi on) (defmode guo_biao_ma)
+	(defmode qu_wei_ma) (defmode nei_ma)
+(defmode GONG_NENG)
+	(defmode select on)
+	(defmode G_M on) (defmode PJY)
+
+2A_CTRL
+(if  GONG_NENG
+	(if select	1F_select	2F_select	"选择:")
+)
+(if  PIN_YIN
+   (if quan_pin
+        1B_TOUPPER   2P_QuanPin  2P_RongCuo   2Z_tail_pin   "全拼:P" )
+   (if   two_pin
+     (if  G_M 1B_TOUPPER  2P_ErPin    2P_RC2   2Z_tail_pin  3P_ErPin  "二拼:P")
+     (if  PJY 1B_TOUPPER  2P_ErPin_P  2P_RC2_P 2Z_tail_pin  3P_ErPin_P "二拼:P")
+    )
+   (if   two_pin_3key
+     (if G_M 1B_TOUPPER 2P_ErPin_3K  2P_RC2  2Z_tail_pin  3P_ErPin  "三拼:P")
+    (if PJY 1B_TOUPPER 2P_ErPin_P_3K 2P_RC2_P 2Z_tail_pin 3P_ErPin_P "三拼:P")
+    )
+)
+(if  BI_XING
+	(if wu_bi   1B_BS  1B_TOLOWER  2B_WuBi   2Z_tail_ma  "五笔:z")
+	(if qian_ma 1B_BS  1B_TOLOWER  2B_QianMa 2Z_tail_ma  "钱码:?")
+)
+(if  ASCII
+	(if ban_jiao		"半角:")
+	(if quan_jiao		3B_quanjiao    "全角:")
+)
+(if  QI_TA
+	(if chang_yong_zi	2B_ch_yo_zi      "常用:")
+	(if guo_biao_ma	1B_TOLOWER   2B_ma_GuoBi  2Z_tail_ma	"国标:")
+	(if qu_wei_ma	1B_TOLOWER   2B_ma_QuWei    2Z_tail_ma	"区位:")
+	(if nei_ma	1B_TOLOWER   2B_ma_NeiMa    2Z_tail_ma	"内码:")
+)

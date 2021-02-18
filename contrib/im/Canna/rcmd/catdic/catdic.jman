@@ -1,0 +1,38 @@
+.TH CATDIC 1
+.SH "名前"
+catdic \- 辞書のダウンロードを行なう
+.SH "形式"
+.B "catdic [{\-is|\-irohaserver} \fIiroha-server\fP] [\-i|\-u \fIuser-name\fP] \fIremote-dic\fP [\-l \fIlocal-file\fP]"
+.SH "説明"
+.PP
+\fIirohaserver\fP(1M)が動作しているマシン(以下，リモートホスト)の
+ユーザ辞書ディレクトリにある辞書名\fIremote-dic\fPの辞書ファイルを
+カレントディレクトリへダウンロードします。
+.SH "オプション"
+.IP "\-is \fIiroha-server\fP (または \-irohaserver \fIiroha-server\fP)" 12
+ダウンロードしたい辞書のあるサーバマシンを指定します。
+.IP "\-i" 12
+システム辞書をダウンロードします。
+.IP "\-u \fIuser-name\fP"
+ユーザ名を指定します．他のユーザ名を指定することにより
+他のユーザの辞書を参照することが出来ます。
+.IP "\-l \fIlocal-file\fP"
+\fIlocal-file\fPは辞書ファイル名。省略された場合は，標準出力に出力されます。
+.SH "使用例"
+.nf
+
+  % catdic test 
+.fi
+.PP
+リモートホスト上の辞書名testの辞書ファイルの内容を標準出力に
+出力します。
+.nf
+
+  % catdic test \-l test2.t 
+.fi
+.PP
+リモートホストにある辞書名testの辞書ファイルをカレントディレ
+クトリのtest2.tというファイルにダウンロードします。
+.SH "関連情報"
+.PP
+irohaserver(1M), lsdic(1), mkdic(1)

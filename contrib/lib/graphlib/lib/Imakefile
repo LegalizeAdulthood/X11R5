@@ -1,0 +1,11 @@
+#include <GraphLib.tmpl>
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+/* Make sure glall is at the end, it assumes all the other stuff
+   Has already been compiled. */
+SUBDIRS = gl glsub buttons menus objects glall
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+

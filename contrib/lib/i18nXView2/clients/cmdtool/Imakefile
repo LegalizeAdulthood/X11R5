@@ -1,0 +1,27 @@
+#
+# Imakefile for cmdtool
+#
+# LIBRARY_DEST is the location of the XView libraries
+# HEADER_DEST is the location of the XView header files
+# LIBDIR is the directory containing the X11 library (libX11.a)
+#
+XVIEWLIBDIR=../../lib/libxview/
+OLGXLIBDIR=../../lib/libolgx/
+XLIBDIR=$(TOP)/lib/X
+XVIEWINCLUDEDIR=../../include/
+CDEBUGFLAGS= -DOW_I18N
+DEPLIBS=
+INCLUDES= -I.. -I$(XVIEWINCLUDEDIR) -I$(HEADER_DEST) -I$(TOP) -DSTANDALONE
+SRCS = cmdtool.c
+OBJS = cmdtool.o
+
+LDOPTIONS=-L$(XVIEWLIBDIR) -L$(OLGXLIBDIR) -L$(XLIBDIR) -lxview -lolgx -lX11 -lc
+
+shelltool:: cmdtool
+	-rm shelltool
+	ln cmdtool shelltool
+
+ComplexProgramTarget(cmdtool)
+
+install::
+

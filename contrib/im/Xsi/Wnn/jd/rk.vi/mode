@@ -1,0 +1,82 @@
+;
+; $Id: mode,v 1.1 1991/09/09 22:40:04 ohm Exp $
+;
+(search @LIBDIR/rk.vi @LIBDIR/rk)
+(defmode romkan)
+(defmode katakana)
+(defmode zenkaku)
+(defmode romzen)
+(defmode keisen)
+(defmode KEISEN1)
+(defmode esc)
+(defmode quote on)
+; For vi
+(defmode vimode off)
+(defmode vimove on)
+(defmode vijump off)
+(defmode viex off)
+(defmode vid off)
+(defmode vic off)
+(defmode vistr off)
+(defmode viquote off)
+(defmode VIquote off)
+(defmode vithrow off)
+(defmode VIzenkaku off)
+(defmode vish off)
+(defmode vimzrc off)
+; For C source mode
+(defmode cSrcMode off)
+(defmode comment off)
+
+2A_CTRL
+(if (and cSrcMode (not comment)) "[SRC]")
+(if (and vimode vijump) 2C_VI "[$$$]")
+(if (and vimode vimove) 2C_VI "[vi ]")
+(if (and vimode viex) 2C_VIEX "[ex ]")
+(if (and vimode vish) 2C_VISH "[!!!]")
+(when (and vimode vistr) 2C_VIEX)
+
+;(if (and (not vimode) esc) "[ESC]")
+(if (and (not vimode) quote)
+	(if zenkaku 3B_ZENKAKU "[ Q ]")
+	"[ q ]")
+
+(if (and (or vistr viquote) (and vimode VIquote)) 
+	(if zenkaku 3B_ZENKAKU "[viQ]")
+	(if VIzenkaku  2_VITHROW "[viQ]")
+	"[viq]")
+(if (and (and vimode vithrow) (or romzen (not romkan)))  2_VITHROW
+	(if romzen "[１R]")
+	(if VIzenkaku
+		(if (not katakana) "[あ ]")
+		"[ア ]")
+	(if (not VIzenkaku)
+		(if (not katakana) "[Aあ]")
+		"[ｱｲA]"))
+
+(if keisen 2B_KEISEN "[ksn]")
+(if KEISEN1 2C_KEISEN1 "[KSN]")
+	
+(if romzen
+	1B_newTOUPPER
+	2B_ROMKANA 2B_JIS 2B_DAKUTEN
+	3B_ZENASC (if vimode "[１R]")
+	"[１r]")
+
+(if romkan
+	1B_newTOUPPER
+	2B_ROMKANA 2B_JIS
+	(if (not katakana) 2B_DAKUTEN (if vimode "[あR]")
+	"[あr]")
+	(if zenkaku 3B_KATAKANA (if vimode "[アR]")
+	"[アr]")
+	3B_HANKATA (if vimode "[ｱｲR]")
+	"[ｱｲr]")
+
+2B_DAKUTEN
+(if (not katakana) 1B_ZENHIRA
+	(if zenkaku 3B_ZENKAKU "[あ ]")
+	"[Aあ]")
+
+(if zenkaku 1B_ZENKATA 3B_ZENKAKU "[ア ]")
+"[ｱｲA]"

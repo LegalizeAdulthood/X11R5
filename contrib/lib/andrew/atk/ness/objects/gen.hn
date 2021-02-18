@@ -1,0 +1,196 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+\* ********************************************************************** */
+/* $Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/gen.hn,v 1.10 1991/09/12 19:43:52 bobg Exp $ */
+/* $ACIS:$ */
+/* $Source: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/gen.hn,v $ */
+
+#ifndef _ness_gen_h_
+#define _ness_gen_h_
+
+#if !defined(lint) && !defined(LOCORE) && defined(RCS_HDRS)
+static char *gen_hn_rcsid = "$Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/gen.hn,v 1.10 1991/09/12 19:43:52 bobg Exp $";
+#endif
+
+/* gen.hn  -  definitions for nesscomp 
+
+	THIS FILE IS PROCESSED BY nodeclss.n TO PRODUCE gen.h
+	DO NOT EDIT gen.h
+
+	A source file which imports gen.h should also import nodeclss.h
+*/
+/* $Log: gen.hn,v $
+Revision 1.10  1991/09/12  19:43:52  bobg
+Update copyright notice
+
+Revision 1.9  1990/10/12  21:08:57  wjh
+revised yaccpar to eliminate saving parser state.
+	moved yycompile to gen.c
+	eliminated ErrorList
+	made the argument to MapRunError be a ness instead of an ErrorList
+
+Revision 1.8  89/09/17  08:52:21  wjh
+declaration of genPushScope
+
+Revision 1.7  89/09/03  22:46:36  wjh
+newness
+
+Revision 1.6  89/06/23  17:18:24  wjh
+(Items that should not be sent to downstairs are marked "R4".)
+
+Added a call to CheckForInterrupt in the function calls and internal gotos.  Thus loops can be terminated with ^G.   (interp.c)  R4
+
+Changed dokeys() so it uses im_DoKeySequence.  This means it is now possible to send a key sequence which involves the message line.  (interp.c)  R4
+
+Implemented DoMenu(object, menustring).   This function causes the same behavior as if the user selected the menu option.  At present the menu string must be exactly as originally defined;  see the warning above for im_DoMenu().  (interp.c, call.c)  R4
+
+Changed access to Ness library routines so they are always compiled.  (They used ot get the default of NoCompilation, so they were useless.)  (call.c)  
+
+Removed a superflous {} pair.  {This is purely a cosmetic change.}  (nessmark.c) 
+
+Fixed value_GetStringValue.  Formerly it was getting an invalid initial value.  {The fix was done by adding a call to nessmark_Initialize() in the stackString section.}  (nevent.c) 
+
+Modified the data stream so errors will not occur when a ness object is the outermost object.  The fix was to add two bytes, "00", at the end of the origin string to prevent the former occurence of a spurious "\}".  (ness.c) 
+
+Fixed menu handling so Ness and child menus get posted when there is a mouse click in an inset within the Ness.  Formerly neither set of menus was posted. (nessv.c) 
+
+Fixed dostmt, the function called from ness-load, which is recommended to be bound to ESC-ESC.  It was using a NULL pointer, so people were getting core dumps if they typed ESC-ESC before doing a compile.  (ness.c) 
+
+Avoided an infinite loop which occurred if a library function referred to a non-existent entry point within itself.  Did this by checking to see if the library function is already Compiling just before trying to compile it.  (call.c call.hn, call.h) 
+
+Revised system marker allocation so the compilation will not get a subsequent error.  (gen.c)
+
+Revised system marker allocation so it expands the space available if necessary. This will make it possible to compile larger programs.  (gen.c)
+
+Changed the type of TType to long from struct object *.  This will allow compilation on stricter compilers.  (interp.h) 
+
+Fixed nessmark_FinalizeObject so it would not reference a NULL pointer.  {Somehow the assembler noticed this bug!}  (nessmark.c) 
+
+Changed functions which deal with constant strings to have (char *) as there argument type (SaveError, exprnode_Create, ReportError, ExprError, RunError, LocateErrorFunc, QueryReadOnly, makeConst, printallerrors) or return type (Freeze, argcounterr, argtypeerr).  This prevents compile errors on picky compilers.  (interp.c, error.c, call.c, ness.c, nessv.c, search.c, nevent.c, nessmark.c, nessrun.ci)  R4 
+
+Changed Imakefile to store Imakefile in checkin rule.  (Imakefile)
+
+
+Revision 1.5  89/06/01  15:58:25  wjh
+campus release version
+ 
+ */
+
+#include "class.h"
+#include "nesssym.ih"
+#include "compdefs.h"
+#include "interp.h"
+#include "envt.h"	/* for TSysMarkRef */
+
+extern struct lex *curLex;
+extern struct ness *curNess;
+
+extern boolean predcond;
+
+#define predEQ	0
+#define predNE	1
+#define predLT	2
+#define predLE	5
+#define predGT	4
+#define predGE	3
+#define predT	6
+#define predF	7
+#define predOR	7
+#define predAND	6
+
+#define MAXEXPRDEPTH 500  /* the number of elts in predstatestack */
+
+nodeclass fixupstackrefnode {
+	TCodeRef refloc;		/* offset from start of function */
+	struct nesssym *sym;
+	struct fixupstackrefnode *next;	
+};
+
+struct errornode *yycompile();
+
+void genPush(/* */);	/* save current state for recursive compile */
+void genPop(/* */);		/* restore state of outer compile */
+
+nesssym_scopeType genNewScope(/* */);	
+		/* save current scope and make a new one */
+void genPopScope(/* */);	/* restore prior scope */
+void genPushScope(/* scope */);  /* install a scope temporarily */
+
+void genStartLocating(/* unsigned long objloc, boolean LocateInInitFunc */);  
+		/* initialize so compile only finds the loc */
+boolean genFinishLocating(/* long *Ploc, long *Plen */);  
+		/* turn off location mode and return result */
+void genSaveStmtStart(/* long tokeninx */);  
+		/* save location of statment start in source for errors */
+
+struct nessmark *makeFunction(/* TSysMarkRef *loc */); 
+		/*creates a marker for a new function */
+TSysMarkRef makeConst(/* unsigned char *s */);  
+		/*  return index of marker for const with s  */
+TSysMarkRef makeStyledConst(/* struct text *text, long pos, long len, 
+			boolean bsReduce */); 
+		/*  return index of marker for const from text at pos,len */
+TSysMarkRef makeGlobal();		
+		/*  return index of marker for a global var  */
+void addOp(/* struct nessmark *m, unsigned char op */);	
+		/* add operator to func def'n */
+TCodeRef refStack(/* struct nessmark *m, unsigned char op, TStackRef rand */); 
+		 /* add op w/ 1 byte rand */
+void fixRefStack(/* struct nessmark *m, TCodeRef loc, TStackRef val */);  
+		/* fix a refStack */
+TCodeRef refSysMark(/* struct nessmark *m, char op, TSysMarkRef rand */);  
+		/* op w/ 2 byte rand */
+void refAddress(/* struct nessmark *m, unsigned char op, 
+			struct object *address */);
+		/* add op followed by four byte operand */
+
+void genLinkGlobal(/* struct nesssym *sym */);	/* attach sym to *AttrDest */
+void genLocStore(/* struct nesssym *sym */);	/* call codelocStore */
+void defineBuiltins(/* nesssym_scopeType scope */);  
+		/* add def'ns of built-ins to symtab */
+TSysMarkRef genEnter(/* */);	/* generate function entry */
+boolean genExit(/* struct nesssym *parmlist, struct nesssym *locallist */);  
+		/* func exit */
+void startfunc(/* struct nesssym *fname */);
+void genreturn(/* boolean hasExpr */);
+void finishfunc(/* struct nesssym *fname, *locallist */);
+void abortfunc(/**/);	/* exit scope if in a func */
+struct nesssym * appendlists(/* struct nesssym *list1, *list2 */);
+
+struct exprnode *genarith(/* char op, exprnode left, exprnode right */);
+
+void gencomp(/* struct exprnode *left, *right */);   /* generate comparison code */
+void genvarref(/* struct nesssym *var */);
+void genvarstore(/* struct varnode *var */);
+struct varnode *genvarnode(/* struct nesssym *sym */);
+void genconstref(/* struct nesssym *constant */);
+void genop(/* unsigned char op */);
+
+long genlabel(/**/);  /*returns loc of next opcode emitted */
+long genbranch(/* unsigned char op, long dest */); /* emits branch to target; returns its loc */
+void fixbranch(/* long loc */); /* fix branch at 'loc' to go to next op code emitted */
+
+struct predstatenode * predpush(/* boolean cond, long loc */); /* return predicate state 
+					and init to cond */
+void predpop(/* */); /* restore predicate state */
+void predvalue(/* Texpr *type */);  /* emit code to generate value from a predicate */
+void predbranch(/* struct exprnode *expr */);  /* emit code to convert value to branching */
+void preddropthru(/* long rop */); /* generate branch & put fixup on dropthru list */
+void predtarget(/* long rop */); /* generate branch & put fixup on target list */
+void predfixdropthru(/**/); /* make elts of dropthru list goto next opcode emitted;  empty list */
+void predfixtarget(/**/); /* make elts of target list goto next opcode emitted;  empty the list */
+
+void genInit(/* nesssym_scopeType scope, struct lex *lex */); /* init internal vars */
+void demandsymboltype(/* sym, type */);  /* error message if wrong type  */
+void demandnodetype(/* exprnode, type */);  /* generate error if wrong type  */
+struct varnode *varIsStorable(/* varsym */); /* checks that var is a variable */
+struct varnode *varIsFunction(/* varsym */); /* checks that var is a function */
+struct nesssym *uniqueinscope(/* var, flags*/);  /* hide outer scope */
+void ProcessIdList(/* type, varlist, flags, kind */); 
+void parencheck(/* varnode left, struct toksym *right */);	/* check parenthesis match */
+void genCheckEndtag(/* struct nesssym *tag, long desired */);	/* check token after END */
+void genSaveFuncState(/* */);		/* save global initializer */
+void genRestoreFuncState(/* struct nesssym *func */);   /* resume global initializer */
+
+#endif _ness_gen_h_
+

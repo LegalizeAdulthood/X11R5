@@ -1,0 +1,132 @@
+
+
+
+XIMRC(4)            UNIX Programmer's Manual             XIMRC(4)
+
+
+
+NNAAMMEE
+     ximrc - Environment setting file of Input Manager of the X
+     Window System Version 11 (xwnmo(1X))
+
+SSYYNNOOPPSSIISS
+     //uussrr//llooccaall//lliibb//wwnnnn//xxiimmrrcc ((DDeeffaauulltt))
+
+DDEESSCCRRIIPPTTIIOONN
+     The _x_i_m_r_c file sets up the environment for the _x_w_n_m_o.  Indi-
+     vidual settings can be specified for each user.  Duplicate
+     entries will be overwritten.  Lines that start with a semi-
+     colon (;) are comments.
+
+     _X_w_n_m_o will search this file as follows:
+
+     1. Resource "ximrcName"
+             2. $HOME/.ximrc
+             3. /usr/local/lib/wnn/ximrc (Default)
+
+     The following settings are specified in this file.  Any set-
+     ting which is not specified will use the default value.
+
+     sseettuuuummrrcc <<_l_a_n_g_u_a_g_e__n_a_m_e>> <<_u_u_m_r_c__f_i_l_e__n_a_m_e>>
+             Specifies the _u_u_m_r_c file that _x_w_n_m_o uses for uumrc
+             each language.  The default is
+             "@LIBDIR/@LANG/uumrc".
+
+     pprreellooaaddrrkkffiillee <<_l_a_n_g_u_a_g_e__n_a_m_e>>
+             Specifies the language that automaton conversion
+             pre-load.  In default, the language of Root-mode is
+             loaded.
+
+     sseettbbaacckkssppaacceecchhaarr <<_b_a_c_k_s_p_a_c_e__c_h_a_r>>
+             Specifies the charcter for back-space.  If it isn't
+             set, _X_w_n_m_o will get ERASE code of /dev/console.  If
+             _x_w_n_m_o couldn't open /dev/console, the default is
+             0xff.
+
+EEXXAAMMPPLLEE
+     setuumrc        ja_JP           /usr/demos/ja_JP/uumrc
+     setuumrc        zh_CN           /usr/demos/zh_CN/uumrc
+     preloadrkfile   ja_JP
+     preloadrkfile   zh_CN
+     setbackspacechar ^H
+
+SSEEEE AALLSSOO
+     xwnmo(1X)
+
+CCOOPPYYRRIIGGHHTT
+     Copyright 1991 by OMRON Corporation
+     Copyright 1991 by Massachusetts Institute of Technology
+
+
+
+
+Printed 9/3/91              Release 5                           1
+
+
+
+
+
+
+XIMRC(4)            UNIX Programmer's Manual             XIMRC(4)
+
+
+
+AAUUTTHHOORR
+     Seiji Kuwari (OMRON Corporation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Printed 9/3/91              Release 5                           2
+
+
+

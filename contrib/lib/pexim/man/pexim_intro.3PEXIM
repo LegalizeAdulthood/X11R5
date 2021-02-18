@@ -1,0 +1,349 @@
+.\"	"%W% Stardent %E%"
+.\"			Copyright (c) 1989 by
+.\"			Stardent Computer Inc.
+.\"			All Rights Reserved
+.\"	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+.\"
+.\"	This file is under sccs control at Stardent in:
+.\"	%P%
+.\"	
+.\"	ripped off to make PEXIM_INTRO 12-FEB-91 jch
+.\"##
+.\"## @(#)intro_phigs.3 4.1 90/09/26 Copyr 1990 SMI/MIT
+.\"##
+.\"## 
+.\"## Copyright (c) 1990 by Sun Microsystems, Inc. and the X Consortium.
+.\"## 
+.\"##                         All Rights Reserved
+.\"## 
+.\"## Permission to use, copy, modify, and distribute this software and its 
+.\"## documentation for any purpose and without fee is hereby granted, 
+.\"## provided that the above copyright notice appear in all copies and that
+.\"## both that copyright notice and this permission notice appear in 
+.\"## supporting documentation, and that the names of Sun Microsystems,
+.\"## the X Consortium, and MIT not be used in advertising or publicity 
+.\"## pertaining to distribution of the software without specific, written 
+.\"## prior permission.  
+.\"## 
+.\"## SUN MICROSYSTEMS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, 
+.\"## INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+.\"## EVENT SHALL SUN MICROSYSTEMS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+.\"## CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+.\"## USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+.\"## OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+.\"## PERFORMANCE OF THIS SOFTWARE.
+'\" t
+.\" "@(#)intro_phigs.3 4.1 90/09/26 Copyr 1990 Sun Micro"
+.T#
+.TH "INTRO_PEXIM" 3P "13 March 1991"
+.IX "X Window System" "INTRO_PEXIM" "X Window System" "INTRO_PEXIM"
+.IX "Introduction" "INTRO_PEXIM"
+.SH NAME
+intro_pexim \- introduction to PEXIM
+.SH DESCRIPTION
+The \s-2PEXIM\s+2 
+graphics library implements an immediate mode, 
+output only subset of the 
+\fIProgrammer's Hierarchical Interactive Graphics System\fP (\s-2PHIGS\s+2). 
+This document will use \s-2PHIGS\s+2 to refer to both the \s-2PHIGS88\s+2 ANSI
+Standard and the \s-2PHIGS-PLUS\s+2 draft standard.
+\s-2PEXIM\s+2 is designed specifically and exclusively for use with \s-2X\s+2
+servers that implement the \s-2PEX\s+2 extension.  
+.LP
+The extensions that allow immediate mode are 
+.I "pbegin_rendering(), pend_rendering()."
+After
+.I "pbegin_rendering()" 
+has been called, any PHIGS
+element insertion command will queue that element to be rendered.
+.I "pend_rendering()"
+will flush all commands and complete rendering.
+.LP
+There are also extensions for creating and freeing a Renderer:
+.I "popen_renderer()"
+and
+.I "pclose_renderer()".
+Basically, they allow a lightweight workstation - in the
+\s-2PHIGS\s+2 sense - to be created and used.
+.LP
+The rendering state - matrices and attributes - may be pushed and popped with
+.I "pbegin_structure()"
+and
+.I "pend_structure()".
+These should not be confused with the structure editing routines to open and 
+close a structure.  These are also implemented in  \s-2PEXIM\s+2 to allow
+structure caching.
+.LP
+This document is intended to borrow liberally from the \s-2PEX-SI\s+2 \s-2PHIGS\s+2 reference manual
+for all of the man pages except those describing the \s-2PEXIM\s+2
+extension routines.  \s-2PEXIM\s+2 is syntactically identical to
+the \s-2PEX-SI\s+2 \s-2PHIGS\s+2 library for those calls it implements. Most of
+the header files come directly from the \s-2PEX-SI\s+2 software.
+.LP
+\s-2PEXIM\s+2  implements all of the \s-2PEX\s+2 Output Commands, and
+most of the Workstation State setting routines.  A full list is in Appendix A.
+.LP
+.I
+I have not included any of the man pages for the \s-2PEX_SI\s+2 \s-2PHIGS\s+2  routines that are in \s-2PEXIM\s+2.
+.I
+routines that will get supported.  They 
+.I
+need to be changed a little to make more sense as \s-2PEXIM\s+2 man pages.
+.LP
+These manual pages describe the syntax of each function in the
+\s-2PEXIM\s+2 graphics library. There is one entry for each function.
+These manual entries are divided into sections that describe \s-2C\s+2 syntax
+function parameters.
+.SS Include Files
+.IX "Include Files" description "" "" "" ""
+.LP
+\s-2PEXIM\s0 applications should use the constants and enumerated values 
+defined in the proper header files to decrease the possibility of 
+passing bad data and ease future changes in functionality.
+\s-2C\s+2 applications should include the file \fBpexim.h\fP as well as
+any \s-2X11\s+2 include files needed.
+There will be an example program supplied.
+.LP
+.SS C Binding Notes
+.IX "C Binding Notes" description "" "" "" ""
+The \s-2C\s+2 binding used for the \s-2PEXIM\s+2 graphics library matches the \s-2PEX-SI\s+2 C binding. Here is what they say.
+.IP
+The \s-2C\s+2 binding used for the \s-2PEX-SI\s+2 graphics library matches the \s-2PHIGS\s+2
+\s-2C\s+2 Binding ( \s-1ISO\s+1 2nd dp\s-1IS\s+1 9593-4:19??(E)), 
+for the \s-2PHIGS\s+2 standard functions.
+With a few exceptions, a binding that follows the style and form of the \s-2PHIGS\s+2
+\s-2C\s+2 binding is used.  The PHIGS-PLUS routines are based on the current
+working draft of the PHIGS-PLUS C binding.
+.LP
+Those exceptions do not affect \s-2PEXIM\s+2.
+.LP
+.SS Structure Storage
+.IX "Structure Storage" description "" "" "" ""
+\s-2PEXIM\s+2 allows very simple structure storage in the server.  This
+will be used for static object libraries. The ability to create, delete and
+execute structures are proved through the \s-2PHIGS\s+2 functions:
+.I
+popen_struct(), pclose_struct() and pdel_struct().
+After opening a structure the output command functions of  \s-2PHIGS\s+2 will
+be sent to that specified structure on the specified renderer. To render that
+structure it must be "executed" while rendering.
+.LP
+This allows for "mixed mode" rendering where some graphics instructions
+are sent by the application and some are cached in the server.  This is a very
+powerful tool for improving the efficient of network applications while retaining the control of immediate mode.
+.SS Renderer State
+There are four mutually exclusive states that a Renderer may be in: PEXIM_IDLE,
+PEXIM_RENDERING, PEXIM_STRUCTURE and PEXIM_PAUSED.  The function
+.I
+pinq_renderer_state()
+will return what state the Renderer is in.
+.SS PEXIM State Lists
+The descriptions in the man pages contain several references to the
+\fI\s-2PHIGS\s+2 traversal state list\fR and the \fI\s-2PHIGS\s+2 workstation state list.\fR   These will be fixed eventually!
+\s-2PEX\s+2 implements the traversal state list as a \fIpipeline context\fR associated
+with a Renderer in the server.  The workstation state list is for the most part synonymous with the 
+Renderer.  In addition, the server maintains
+separate workstation states associated with different \s-2PHIGS\s+2 workstations in use,
+in terms of references to several server resources, such as LookUp Tables and NameSets.
+The reader is thus cautioned about the semantics of these \s-2PHIGS\s+2 terms when found
+in the descriptions of \s-2PHIGS\s+2 functions in the man pages.
+.SS "PEXIM Primitives"
+\s-2PEXIM\s+2 will expose all \s-2PEX\s+2 primitives and any GDPs supported by the PEX server.
+.LP
+What follows is a table of primitives PHIGS primitives and the corresponding
+\s-2C\s+2 binding function name.
+.LP
+Extension primitives will be specified by the Application using the 
+\s-2GENERALIZED DRAWING PRIMITIVE 3\s+2 or
+.I "gdp3()"
+function.  This is the surest and safest way to specify them while the
+PEX extension mechanisms are still in flux.  \s-2PEXIM\2+2 GDP handling
+prevents unsupported GDPs from being sent to servers that cannot handle it.
+.TS
+center, box, tab(%);
+cb | cb
+l l.
+Function%C Binding
+_
+.sp .3
+TRIANGLE STRIP 3 WITH DATA%ptri_strip3_data
+POLYLINE 3%ppolyline3
+TEXT%ptext
+TEXT3%ptext3
+ANNOTATION TEXT RELATIVE%panno_text_rel
+ANNOTATION TEXT RELATIVE 3%panno_text_rel3
+POLYLINE%ppolyline
+POLYLINE SET 3 WITH DATA%ppolyline_set3_data
+POLYMARKER%polymarker
+POLYMARKER 3%polymarker3
+QUADRILATERAL MESH 3 WITH DATA%pquad_mesh3_data
+FILL AREA%fill_area
+FILL AREA 3%fill_area3
+FILL AREA 3 WITH DATA%pfill_area
+FILL AREA SET%pfill_area_set
+FILL AREA SET 3%pfill_area_set3
+FILL AREA SET 3 WITH DATA%pfill_area_set3_data
+CELL ARRAY%pcell_array
+CELL ARRAY 3%pcell_array3
+NON-UNIFORM B-SPLINE CURVE%pnuni_bsp_curve
+NON-UNIFORM B-SPLINE SURFACE%pnuni_bsp_surf
+Extended Cell Array%pcell_array3_plus
+Set Of Fill Area Sets%pset_of_fill_area_set3_data
+.sp .3
+.TE
+.LP
+\s-2PEXIM\s+2 provides an interface to pack triangle strip vertex data
+as it creates the OC.  This is sort of a test until the DIS PHIGS-PLUS
+"C" binding gets published and resolves this.
+.LP
+.sp .2
+.SS "PEXIM Attributes"
+All attributes will be supported by \s-2PEXIM\s+2.
+Each primitive man page has those attributes which apply to that primitive.
+.LP
+.SS "PEXIM Workstation State Setting Routines"
+There are several \s-2PHIGS\s+2 workstation statelist routines which work on Renderers.
+Here is a list.
+.TN "Currently Implemented Workstation State Rountines" 
+.TS
+center, box, tab(%);
+cb | cb
+l l.
+Function%C Binding
+_
+.sp .3
+SET COLOUR REPRESENTATION%pset_colr_rep
+SET HLHSR MODE%pset_hlhsr_mode
+SET VIEW REPRESENTATION 3%pset_view_rep3
+SET LIGHT SOURCE REPRESENTATION%pset_light_src_rep
+.sp .3
+.TE
+.LP
+.LP
+.SS "PEXIM Inquiries"
+.I "Real applications will need some inquiries, inquiring available GDPs in some fashion, as an example."
+.I "Inquiries can be added on an as needed basis - if the set is small."
+.I "If all of the PHIGS inquiries are needed then the application probably needs to use the PHIGS library."
+.SS "PEXIM Matrix utilities"
+\s-2PEXIM\s+2 provides all of the \s-2PHIGS\s+2 matrix utilities.
+.SS "PEXIM Error Handling"
+Since \s-2X11\s+2 and \s-2PHIGS\s+2 have few similarities with how they
+handle errors, \s-2PEXIM\s+2 tries to acheive a hybrid.  Protocol errors
+coming back for the server will go through the normal X error handler.
+.LP
+\s-2PHIGS\s+2 routines will use the new error handling setting routine
+that came with the R5 Beta version of the \s-2PEX-SI\s+2.  This has
+not been incorporated, yet.
+.LP
+Routines that are new with \s-2PEXIM\s+2 will function return a status
+and if error reporting mode is on it will also call the \s-2PHIGS\s+2
+error handler.
+.LP
+Error reporting will be on by default but may be turned of by calling
+\f(CWpset_err_hand_mode\fP.
+.LP
+.SS "Getting Started with PEXIM"
+To render a set of primitives, the application would need to
+.IP \(bu
+ connect to a \s-2PEX\s+2 server (\s-2X11\s+2 server with \s-2PEX\s+2 extension), XOpenDisplay
+.IP \(bu
+ create a Drawable, for example, XCreateSimpleWindow
+.IP \(bu
+ initialize the graphics system, pinit
+.IP \(bu
+ create a Renderer, popen_renderer
+.IP \(bu
+ make \s-2PHIGS\s+2 viewing and lighting calls if desired (pset_light_src_rep)
+.IP \(bu
+ begin the rendering operation, pbegin_rendering
+.IP \(bu
+ send primitives and attributes to \s-2PEX\s+2 server using \s-2PHIGS\s+2 \s-2API\s+2 calls
+.IP \(bu
+ end rendering, pend_rendering
+.LP
+Here is a code fragment that draws a yellow line on the screen. This should
+be included with code as \f(CWttp.c.\fP
+.LP
+
+\s8\f(CW  display = XOpenDisplay(displayString);\fP\s0
+\s8\f(CW  if (!display) { printf(" cannot open display %s\n",displayString); exit(1);}\fP\s0
+\s8\f(CW  w = XCreateSimpleWindow( display, DefaultRootWindow(display), x, y,\fP\s0
+.sp -.2
+\s8\f(CW                           width, height, 5, \fP\s0
+.sp -.2
+\s8\f(CW                           BlackPixel(display,DefaultScreen(display)),\fP\s0
+.sp -.2
+\s8\f(CW                           WhitePixel(display,DefaultScreen(display)));\fP\s0
+\s8\f(CW  XMapWindow(display,w);\fP\s0
+.sp -.2
+\s8\f(CW  XFlush(display);\fP\s0
+
+\s8\f(CW  err = pinit( );\fP\s0
+\s8\f(CW  err = popen_renderer(wkid, display, w);\fP\s0
+.sp -.2
+\s8\f(CW  if (err != POK) { printf("use xdpyinfo to verify X3D-PEX...\fP\s0
+\s8\f(CW  err = pbegin_rendering(wkid);\fP\s0
+\s8\f(CW  gcolr.type = PRGB;\fP\s0
+.sp -.2
+\s8\f(CW  gcolr.val.general.x = 1; gcolr.val.general.y = 1; gcolr.val.general.z = 0;\fP\s0
+.sp -.2
+\s8\f(CW  pset_line_colr(&gcolr);\fP\s0
+.sp -.2
+\s8\f(CW  p = plist;\fP\s0
+.sp -.2
+\s8\f(CW  p->x = 0.0; p->y = 0.0; p->z = 0.0; p++;\fP\s0
+.sp -.2
+\s8\f(CW  ...\fP\s0
+.sp -.2
+\s8\f(CW  ppolyline3( count, plist );\fP\s0
+\s8\f(CW  err = pend_rendering(wkid, 1);\fP\s0
+.sp -.2
+\s8\f(CW  XSync(display, 1);\fP\s0
+.sp 1
+.SS Reserved Names
+.IX "Reserved Names" description "" "" "" ""
+\s-2PEXIM\s0 applications should avoid using variable and function names 
+that conflict with names that \s-2PEXIM\s0 uses internally.
+Since \s-2PEXIM\s0 programs are linked to the Xlib library, 
+do not use symbols that start with the prefixes reserved by that package, 
+symbols in the Math library, or system calls.
+The public symbol names provided by \s-2PEXIM\s0 all start with \fIp\fP.
+To avoid conflicts with the \s-2PEXIM\s0 name space, do not define any 
+of the following symbols:  
+.sp .5
+.RS
+.br
+\(bu  \s-2PHIGS\s+2 or \s-2PHIGS PLUS C\s+2 function names
+.br
+\(bu  symbols with prefixes \fBpPEXIM\fP
+.br
+\(bu  Names with the prefixes \fBphigs\fP, \fBphg\fP,  \fBP\fP, or \fBp\fP
+.br
+\(bu  System library symbols, such as \fBtime\fP
+.RE
+.LP
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "OPEN RENDERER(3PEXIM)"
+.SM "CLOSE RENDERER(3PEXIM)"
+.SM "BEGIN RENDERING(3PEXIM)"
+.SM "END RENDERING(3PEXIM)"
+.SM "BEGIN STRUCTURE(3PEXIM)"
+.SM "END STRUCTURE(3PEXIM)"
+.SM "PEXIM INTIALIZATION(3PEXIM)"
+.SM "PAUSE RENDERING(3PEXIM)"
+.SM "RESUME RENDERING(3PEXIM)"
+.SM "SET STRUCTURE WORKSTATION(3PEXIM)"
+.SM "INQUIRE RENDER STATE(3PEXIM)"
+.fi

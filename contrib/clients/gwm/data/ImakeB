@@ -1,0 +1,10 @@
+/**/#
+/**/# Imakefile for gwm/data
+/**/#
+
+GWMDIR = $(LIBDIR)/gwm
+
+all::
+
+depend::
+

@@ -1,0 +1,13 @@
+This directory shows how an "interesting" use of the widget layout
+description language makes possible a utility without writing a client,
+but instead just making use of the "xlayout" program in the adjoining
+directory.
+
+A list of X cursors was obtained in "cursor_list".
+A shell script was written that converted "cursor_list" to a fragment
+included in "cursors.wl".
+Then, "cursors.wl" was compiled with wlc.
+
+The command "xlayout cursors" produces a table of cursors as one
+moves the pointer into each widget. ("bwcursors" uses shadows instead
+of facets)

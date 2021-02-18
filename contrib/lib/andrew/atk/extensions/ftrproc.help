@@ -1,0 +1,45 @@
+\begindata{text,269130204}
+\textdsversion{12}
+\template{help}
+\chapter{Proclist for Filter
+
+}
+
+filter-sink-region-thru-command-formatted [for textview] Provides the selected 
+region as standard input to the specified command; the command's output is 
+discarded.  ATK datastream is written.
+
+
+filter-sink-region-formatted [for textview] Prompts for a command and provides 
+the selected region as standard input to it; the command's output is 
+discarded.  ATK datastream is written.
+
+
+filter-sink-region-thru-command [for textview] Provides the selected region as 
+standard input to the specified command; the command's output is discarded.
+
+
+filter-sink-region [for textview]   Prompts for a command and provides the 
+selected region as standard input to it; the command's output is discarded.
+
+
+filter-filter-region-thru-command-formatted [for textview] Executes a command 
+with the selection region as standard input, replacing it with the output of 
+the command.  ATK datastream is read and written.
+
+
+filter-filter-region-formatted [for textview] Prompts for a command and 
+executes it with the selection region as standard input, replacing the region 
+with the output of the command. ATK datastream is read and written.
+
+
+filter-filter-region-thru-command [for textview] Executes a command with the 
+selection region as standard input, replacing it with the output of the 
+command.
+
+
+filter-filter-region [for textview] Prompts for a command and executes it with 
+the selection region as standard input, replacing the region with the output 
+of the command.
+
+\enddata{text,269130204}

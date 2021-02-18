@@ -1,0 +1,82 @@
+ＣＶＴ＿ＫＥＹ＿ＴＢＬ（４＿ＪＴ）
+
+
+名称
+    cvt_key_tbl - かな漢字変換フロントエンドプロセッサ(uum) キーコード変換表ファイル
+
+形式
+    /usr/local/lib/wnn/cvt_key_tbl (デフォルト)
+
+機能説明
+
+    terminfo から、キーボードの発生する文字列のデータを知り、これを、設定された
+    データにしたがって、１バイトの文字に変換する。
+    この時、タイムアウト処理を行い、変換途中の文字列の続きが１秒以上入力されな
+    かったら、無変換で出力される。
+
+
+    書式
+	[ terminfo エントリ ＜空白文字＞ コード ]	( UniOs-U の場合 )
+	[ termcap  エントリ ＜空白文字＞ コード ]	( UniOs-B の場合 )
+	
+    ';' で始まる行は、コメントになる。
+
+    変換の対象となる terminfo のエントリ
+
+        kf0,	kf1,	kf2,	kf3,	kf4,	kf5,	kf6,	kf7,	kf8,
+	kf9,	kf10,	kf11,	kf12,	kf13,	kf14,	kf15,	kf16,	kf17,
+	kf18,	kf19,	kf20,	kf21,	kf22,	kf23,	kf24,	kf25,	kf26,
+	kf27,	kf28,	kf29,	kf30,	kf31,
+	kbs,	ktbc,	kclr,	kctab,	kdch1,	kdl1,	kcud1,	krmir,	kel,
+	ked,	khome,	kich1,	kil1,	kcub1,	kll,	knp,	kpp,	kcuf1,
+	kind,	kri,	khts,	kcuu1,
+
+    変換の対象となる termcap のエントリ
+
+        cs,	rc,	sc,	se,	so,	us,	ue,	cm,	ce,
+        cl,	bl,	li,	co
+
+    コードの表記
+
+	１．空白文字、\, ^ を除く１文字
+		その文字そのものを表す。
+
+	２．^文字
+		文字は、@,A(a),B(b),C(c),D(d),E(e),F(f)........Z(z),[,\,],^,_, 
+		であり、
+		^@ は、コントロール + スペース(0x00)
+		^A は、コントロール + A (0x01)
+			･
+			･
+		^_ は、コントロール + _ (0x1f)
+		を表す。
+
+	３．\8進数, \o8進数, \d10進数, \x16進数
+		文字コードを直接書く場合。
+
+	４．\n, \t, \b, \r, \f, \e, \E のいずれか
+		それぞれ、NEWLINE, TAB, BACKSPACE, CR, FORMFEED, ESC, ESC を表す。
+
+	５．\文字
+		文字は、0 〜 7, o, d, x, n, t, b, r, f, e, E, 以外の文字。
+		\ 自身を表す場合は、"\\" とする。
+
+設定例
+
+    kf1		\x81
+    kf2		\x82
+    kf3		\x83
+    kf4		\x84
+    kcud1	\x92
+    kcub1	\x91
+    kcuf1	\x90
+    kcuu1	\x93
+
+注意事項
+
+    この表によって変換されたコードは、次にローマ字かな変換オートマトンの表である
+    2A_CTRL(デフォルト)によって評価され、更にuumkeyによって評価される。
+
+関連項目
+
+    uum(1_JT), 2A_CTRL(4_JT), uumkey(4_JT)

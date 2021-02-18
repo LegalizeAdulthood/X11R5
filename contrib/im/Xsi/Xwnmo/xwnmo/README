@@ -1,0 +1,101 @@
+/*
+ * $Id: README,v 1.1 1991/09/13 07:40:23 proj Exp $
+ */
+		XWNMO - X Input Manager
+
+This directory contains XWNMO's sources.
+
+XWNMO is a input manager offers multi-language input to XIM library.
+
+XWNMO support the following inputstyle:
+
+	(XIMPreeditArea | XIMStatusArea)		: Off-The-Spot
+	(XIMPreeditPosition | XIMStatusArea)		: Over-The-Spot
+	(XIMPreeditNothing | XIMStatusNothing )		: Root
+	(XIMPreeditCallbacks | XIMStatusArea )		: On-The-Spot
+	(XIMPreeditArea | XIMStatusCallbacks )		: On-The-Spot
+	(XIMPreeditPosition | XIMStatusCallbacks )	: On-The-Spot
+	(XIMPreeditCallbacks | XIMStatusCallbacks )	: On-The-Spot
+
+But On-The-Spot inputstyle can be select by definition at compiling.
+See [How to build XWNMO].
+
+XWNMO uses internationalized Wnn for conversion.
+XWNMO selects conversion server in accordance with language of
+client(library) and is able to change conversion server on the fly.
+XWNMO is able to support multi-client and multi-server.
+
+If you install manauls, the defult is english version.
+If your system is able to display japanese manaul(EUC), please
+change LOCALMAN from "man.en" to "man.ja" in Imakefile.
+
+[How to build XWNMO]
+
+    CAUTION: You couldn't use xmkmf, because Xsi has a private Project.tmpl.
+
+    First you must make X11R5 core part.
+    Next you do the following commands for make XWNMO, XJUTIL and i18n-Wnn:
+
+	% cd contrib/im/Xsi
+	% make World
+
+    For installing XWNMO, XJUTIL and i18n-Wnn:
+
+	% make install
+    
+    XWNMO has some difinitions at compiling. These are writed in Imakefile
+    and all defines are set as default. If you want to delete some one,
+    modify Imakefile suitably before compiling.
+    The followings are defines you can select.
+
+	USING_XJUTIL	: To use XJUTIL (Dictionary utility manager)
+	CALLBACKS	: To support On-The-Spot inputstyle
+	SPOT		: To support SpotLocation Extended Protocol
+	XJPLIB		: To support XJp protocol (Communication Kit part)
+	XJPLIB_DIRECT	: To support XJp protocol (Direct I/F part)
+
+      Each detail:
+	USING_XJUTIL:
+	    If this is defined, XWNMO executes the XJUTIL dictionary utility
+	    manager at run time. You can do various oparations for dictionary
+	    (registry, remove entory, list of dictionaries, etc).
+	    For further infomation about XJUTIL, please see xjutil/README and
+	    man of xjutil.
+	
+	CALLBACKS:
+	    If this is defined, XWNMO supports On-The-Spot inputstyles.
+	    inputstyles are:
+		(XIMPreeditCallbacks | XIMStatusArea )
+		(XIMPreeditArea | XIMStatusCallbacks )
+		(XIMPreeditPosition | XIMStatusCallbacks )
+		(XIMPreeditCallbacks | XIMStatusCallbacks )
+	
+	SPOT:
+	    If this is defined, XWNMO supports SpotLocation Extended Protocol.
+	    You can move spot by using this protocol.
+	    For further infomation about SpotLocation Extended Protocol,
+	    please see SEP_README and SEP part in man of xwnmo.
+	
+	XJPLIB:
+	    If this is defined, XWNMO supports "Communication Kit" part of
+	    XJp protocol. You can use "Communication Kit Library" of XJp.
+	    (XJp_open(), XJp_begin(), etc)
+
+	XJPLIB_DIRECT:
+	    If this is defined, XWNMO supports "Direct Interface" part of
+	    XJp protocol. You can use "Direct Interface" of XJp.
+	    (XLookupKanjiString()) If you define this, you must define
+	    "XJPLIB".
+
+[How to use XWNMO]
+
+    Before you run XWNMO, you must run jserver and cserver that are
+    conversion servers. The jserver is Japanese conversion server and
+    cserver is chinese conversion server.
+
+    For running XWNMO
+
+	% xwnmo
+    
+    If you compiled core part with XML define, your application is able
+    to use multiple language environment. please see XML part in man of xwnmo.

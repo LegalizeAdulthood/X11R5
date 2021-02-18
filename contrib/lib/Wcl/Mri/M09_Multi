@@ -1,0 +1,24 @@
+! This example explores the use of multiple files, and the
+! re-use of interface components.  Note that we get the
+! menu bar, buttons, and so on from other examples.
+
+Mri.wcChildren:		mainWin
+Mri.title:		M09_Multi
+
+*mainWin.wcClassName:	XmMainWindow
+*mainWin.wcPopups:	fsbShell
+*mainWin.wcChildren:	menuBar, table
+
+*fsbShell.wcClassName:	TransientShell
+*fsbShell.title:	Modal Trasient Shell
+*fsbShell.x:		100
+*fsbShell.y:		100
+*fsbShell.wcChildren:	fsb
+
+*fsb.wcResFile:			M11_FSB
+*fsbShell.fsb*okCallback:	WcPopdownCB(~)
+
+*menuBar.wcResFile:		M03_Menubar
+*menuBar*load.activateCallback:	WcPopupGrabCB(*fsbShell)
+
+*table.wcResFile:	M06_ListTable

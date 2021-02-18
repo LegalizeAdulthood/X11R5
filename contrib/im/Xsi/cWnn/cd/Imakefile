@@ -1,0 +1,60 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:29:44 ohm Exp $
+/**/#
+#define IHaveSubdirs
+
+   INSTALLFLAGS = $(INSTINCFLAGS)
+
+SUBDIRS = rk rk_p rk_z
+
+SERVERCDS = cserverrc cixing.data
+
+CLIENTCDS = libwnn.msg \
+	uum.msg \
+	uumkey \
+	uumrc \
+	wnnenvrc \
+	wnnenvrc_Qi \
+	wnnenvrc_QiR \
+	wnnenvrc_R \
+	wnnenvrc_Wu \
+	wnnenvrc_WuR \
+	wnnstat.msg
+
+LINKS = cvt_key_empty cvt_key_tbl cvt_key_tbl.ST cvt_key_tbl.gm \
+	cvt_key_tbl.kt cvt_key_tbl.mv cvt_key_tbl.vt
+
+CLIENTCDS2 = cvt_key_empty \
+	cvt_key_tbl \
+	cvt_key_tbl.ST \
+	cvt_key_tbl.gm \
+	cvt_key_tbl.kt \
+	cvt_key_tbl.mv \
+	cvt_key_tbl.vt
+
+all::
+
+includes:: $(LINKS)
+
+LinkSourceFile(cvt_key_empty,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.ST,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.gm,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.kt,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.mv,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.vt,$(WNNCNVFILEDIR))
+
+install:: instserver instclient
+
+instclient:: instclient1 instclient2
+
+MakeDirectories(instserver,$(WNNWNNDIR)/zh_CN)
+MakeDirectories(instclient,$(WNNWNNDIR)/zh_CN)
+InstallMultipleDest(instserver, $(SERVERCDS),$(CWNNWNNDIR))
+InstallMultipleDest(instclient1, $(CLIENTCDS),$(CWNNWNNDIR))
+InstallMultipleDest(instclient2, $(CLIENTCDS2),$(CWNNWNNDIR))
+
+depend::
+
+clean::
+	$(RM) $(LINKS)

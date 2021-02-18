@@ -1,0 +1,21 @@
+
+        SONYDIR = ../../sony
+        SJ3LIB = sj3lib
+        SJ3DIR = $(SONYDIR)/sj3/sj3lib
+        SJ3INCLUDE = $(SONYDIR)/include
+
+	CCONVDIR = ./cconv
+	CCONVLIB = cc
+	
+        DEPLIBS = XawClientDepLibs ./cconv/libcc.a
+LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) -L$(SJ3DIR) -l$(SJ3LIB) $(IMLIB) -L$(CCONVDIR) -l$(CCONVLIB) $(XLIB) 
+
+ INCLUDES = -I. -I$(TOP)/lib/X -I$(CCONVDIR) -I$(SJ3INCLUDE) -I$(LIBSRC)
+  DEFINES =  -DWCHAR_T
+
+  SRCS =  Client.c Context.c Conversion.c Focus.c Preedit.c XimpServer.c dispatch.c init.c main.c root.c Sj3.c
+  OBJS =  Client.o Context.o Conversion.o Focus.o Preedit.o XimpServer.o dispatch.o init.o main.o root.o Sj3.o
+
+AllTarget(alya)
+
+ComplexProgramTarget(alya)

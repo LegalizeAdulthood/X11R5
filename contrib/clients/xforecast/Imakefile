@@ -1,0 +1,21 @@
+#Imakefile for xweather
+
+#change the following three paths to be whatever is appropriate
+BITMAP     = ./usa.xbm
+WEATHER    = ./weather
+CITYFILE   = ./cities
+
+LOCDEFS    = -DBITMAP=\"$(BITMAP)\" -DWEATHER=\"$(WEATHER)\" -DCITYFILE=\"$(CITYFILE)\"
+#   EXTRA_LOAD_FLAGS = -Bstatic
+#        CDEBUGFLAGS = -g
+#            DEFINES = $(LOCDEFS) -DDEBUG
+            DEFINES = $(LOCDEFS)
+            DEPLIBS = XawClientDepLibs
+    LOCAL_LIBRARIES = XawClientLibs
+      SYS_LIBRARIES = -lm
+               SRCS = city.c interface.c main.c forecast.c 
+               OBJS = city.o interface.o main.o forecast.o
+
+ComplexProgramTarget(xforecast)
+
+

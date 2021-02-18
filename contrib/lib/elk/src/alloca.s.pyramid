@@ -1,0 +1,7 @@
+.globl _alloca
+
+_alloca: addw $3,pr0	# add 3 (dec) to first argument
+	bicw $3,pr0	# then clear its last 2 bits
+	subw pr0,sp	# subtract from SP the val in PR0
+	movw sp,pr0	# ret. current SP
+	ret

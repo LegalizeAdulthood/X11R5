@@ -1,0 +1,36 @@
+;;;
+;;; $Id: eggrc.rev,v 1.2 1991/09/18 05:40:08 proj Exp $
+;;;
+;;;
+;;;	 Standard Start Up File for EGG
+;;;	 Version 1.0
+;;;      Copyright 1988 Satoru.Tomura@etl.jp
+;;;
+;;;      modified for Wnn V4.1 - Use conpatible library of Wnn v3
+
+;;;
+;;; Wnn V4
+;;;
+
+(set-default-sys-dic-directory "/usr/local/lib/wnn/ja_JP/dic/pubdic/")
+(set-default-usr-dic-directory "/usr/local/lib/wnn/ja_JP/dic/usr/$USER/")
+(setq jserver-host-name "unix" )
+;;;			^^^^^^  change for user Jserver mashine name
+
+(setsysdic "kihon.dic"    "kihon.frq" 5  t)
+(setsysdic "koyuu.dic"    "koyuu.frq" 3  t)
+(setsysdic "chimei.dic"   "chimei.frq" 3  t)
+(setsysdic "computer.dic" "computer.frq" 3  t)
+(setsysdic "jinmei.dic"   "jinmei.frq" 3  t)
+(setsysdic "setsuji.dic"  "setsuji.frq" 3  t)
+(setsysdic "special.dic"  "special.frq" 3  t)
+(setsysdic "symbol.dic"   "symbol.frq" 3  t)
+(setsysdic "tankan.dic"   "tankan.frq" 3  t)
+
+;;;
+;;; Private Dictionary
+;;;
+
+(setusrdic "private" 5 t)
+
+;;;

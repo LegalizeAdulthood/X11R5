@@ -1,0 +1,37 @@
+.TH XEPSF 1 "1 October 1991" "Adobe Systems"
+.SH NAME
+xepsf \- display an Encapsulated PostScript file
+.SH SYNOPSIS
+.B xepsf 
+[
+.B \-display \fIname\fR
+][
+.B \-mag n
+] filename
+
+.SH DESCRIPTION
+.B xepsf
+is a Display PostScript program that
+displays an Encapsulated PostScript file.
+
+.SH OPTIONS
+.TP
+.BI \-display " name"
+specifies the display on which to open a connection to the Display
+PostScript System. If no display is specified, the 
+DISPLAY environment variable is used.
+.TP
+.BI \-mag " n"
+scales the image by a factor of n.  The scale factor may be either an
+integer or a floating point number.
+
+.SH DIAGNOSTICS
+Error messages are printed to standard output.
+
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+PostScript and Display PostScript are registered trademarks of Adobe Systems
+Incorporated.
+.PP
+Copyright (c) 1990-1991 Adobe Systems Incorporated.  All rights reserved.

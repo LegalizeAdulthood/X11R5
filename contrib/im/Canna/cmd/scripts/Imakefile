@@ -1,0 +1,19 @@
+#include "../../config.sh"
+      PROGRAMS = dpbindic irohakill mkbindic mkromdic
+
+AllTarget($(PROGRAMS))
+
+CppScriptTarget(dpbindic, dpbindic.cpp, $(SCRIPTS_DEFINES), /**/)
+CppScriptTarget(irohakill, kill.cpp, $(SCRIPTS_DEFINES), /**/)
+CppScriptTarget(mkbindic, mkbindic.cpp, $(SCRIPTS_DEFINES), /**/)
+CppScriptTarget(mkromdic, mkromdic.cpp, $(SCRIPTS_DEFINES), /**/)
+
+InstallProgram(dpbindic,$(BINDIR))
+InstallProgram(irohakill,$(BINDIR))
+InstallProgram(mkbindic,$(BINDIR))
+InstallProgram(mkromdic,$(BINDIR))
+
+clean::
+	$(RM) $(PROGRAMS)
+
+DependDependency()

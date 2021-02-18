@@ -1,0 +1,17 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = rctext.do rctextv.do
+IHFILES = rctext.ih rctextv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+
+DependTarget()
+NormalHelpRule()
+InstallDocs(rctext.help, $(DESTDIR)/help)
+InstallHelpAlias(rctext, rctext)

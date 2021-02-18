@@ -1,0 +1,126 @@
+Ｊ＿ＩＮＴＲＯ（）
+
+
+名称
+    日本語入力ライブラリと、エラー番号の紹介、及び、
+	日本語マルチクライアントサーバ(jserver)が、異常終了した場合の処理指定
+
+形式
+    #include "wnnerrmsg.h"
+
+    extern int wnn_errorno;
+
+機能説明
+      ここでは、すべての、日本語入力ライブラリ関数について述べる。
+    これらの呼出しのほとんどは、エラー発生時に少なくとも、１つまたは、それ以上の
+    種類のエラーを返す。エラー状態は、返される値 (この値は、正常な時にはあり得な
+    い値になっている) によって示される。この値は、ほとんどの場合 -1 または、NULL
+    ポインタになっている。エラー番号は、外部変数 wnn_errorno に示される。
+    ただし、wnn_errorno は、呼び出しが、正常終了した時には、クリアされないので、
+    エラーが示された後でだけ、テストするようにする。
+
+    以下に、"wnnerrmsg.h"で定義されているすべてのエラー番号について述べる。
+
+      番号  エラー名		エラーメッセージ
+
+    ＜ 辞書追加関係のエラー ＞
+	1  WNN_NO_EXIST		ファイルが存在しません。	
+	2  WNN_NOT_USERDICT	正しいユーザー辞書ではありません。
+	3  WNN_MALLOC_ERR	メモリallocで失敗しました。
+	4  WNN_NOT_SYSTEM	正しいシステム辞書ではありません。
+	5  WNN_NOT_A_DICT	正しい辞書ではありません。
+	6  WNN_NOT_A_HINDO_FILE	正しい頻度ファイルではありません。
+	7  WNN_NOT_A_FUZOKUGO_FILE	正しい付属語ファイルではありません。
+	8  WNN_HINDO_FILE_NOT_SPECIFIED	 システム辞書に対して、頻度ファイル
+					 の指定がありません。
+	9  WNN_JISHOTABLE_FULL	辞書テーブルが一杯です。
+	10 WNN_HINDO_NO_MATCH	頻度ファイルが、指定された辞書の頻度ファイル
+				ではありません。
+	11 WNN_PARAMR		ファイルの読み込み権限がありません。
+	12 WNN_HJT_FULL		グローバル頻度テーブルが一杯です。
+	13 WNN_JT_FULL		グローバル辞書テーブルが一杯です。
+	15 WNN_PARAMW		ファイルに対する書き込み権限がありません。
+	16 WNN_OPENF_ERR	ファイルがオープンできません。
+	17 WNN_NOT_HINDO_FILE	頻度ファイルでありません。
+	18 WNN_NOT_FZK_FILE	正しい付属語ファイルでありません。
+	19 WNN_FZK_TOO_DEF	付属語の個数、ベクタ長さなどが多過ぎます。
+
+    ＜ 辞書削除関係のエラー ＞
+	20 WNN_DICT_NOT_USED	その番号の辞書は、使われていません。
+
+    ＜ ユーザー辞書変更関係のエラー ＞
+	20 WNN_DICT_NOT_USED	その番号の辞書は、使われていません。
+	21 WNN_NOT_A_USERDICT	指定されて辞書は、ユーザー辞書ではありません。
+	22 WNN_READONLY		リードオンリーの辞書は、カレントユーザー辞書
+				にはできません。
+
+    ＜ 辞書セーブ関係のエラー ＞
+	15  WNN_PARAMW		ファイルに対する書き込み権限がありません。
+	16  WNN_OPENF_ERR	ファイルがオープンできません。
+
+    ＜ 変換時のエラー ＞
+	30  WNN_JMT_FULL	辞書テーブルがあふれています。
+	31 WNN_LONG_MOJIRETSU	変換しようとする文字列が長過ぎます。
+	32 WNN_WKAREA_FULL	付属語解析領域が不足しています。
+	33 WNN_KAREA_FULL 	解析領域が不足しています。
+	34 WNN_JKTAREA_FULL 	次候補領域が不足しています。
+	35 WNN_NO_KOUHO		候補が 1 つも作れませんでした。
+
+    ＜ 単語登録時のエラー ＞
+	40 WNN_YOMI_LONG	読みが長過ぎます。
+	41 WNN_KANJI_LONG	漢字が長過ぎます。
+	42 WNN_BAD_YOMI		読みに不適当な文字が含まれています。
+	43 WNN_NO_YOMI		読みの長さが0です。
+	44 WNN_NO_CURRENT	カレント辞書が存在しません。
+	45 WNN_RDONLY		リードオンリーの辞書に登録しようとしました。
+	46 WNN_DICT_NOT_IN_ENV	環境に存在しない辞書に登録しようとしました。
+
+    ＜ 頻度更新のエラー ＞
+	49 WNN_RDONLY_HINDO	リードオンリの頻度を変更しようとしました。
+
+    ＜ 単語削除時、品詞削除時のエラー ＞
+	44 WNN_NO_CURRENT	カレント辞書が存在しません。
+	45 WNN_RDONLY		リードオンリーの辞書に登録しようとしました。
+	50 WNN_WORD_NO_EXIST	指定された単語が存在しません。
+
+    ＜ 次候補時のエラー ＞
+	55 WNN_JIKOUHO_TOO_MANY	次候補のエントリーの個数が多過ぎます。
+
+    ＜ 初期化の時のエラー ＞
+	60 WNN_MALLOC_INITIALIZE  メモリallocで失敗しました。
+
+    ＜ 単語検索時のエラー ＞
+	30 WNN_JMT_FULL		辞書テーブルがあふれています。
+	42 WNN_BAD_YOMI		読みに不適当な文字が含まれています。
+	68 WNN_SOME_ERROR	何かのエラーが起こりました。
+	69 WNN_SONOTA		バグが発生している模様です。
+	70 WNN_JSERVER_DEAD	サーバが死んでいます。
+	71 WNN_ALLOC_FAIL	js_openでallocに失敗しました。
+	72 WNN_SOCK_OPEN_FAIL	js_openでsocketのopenに失敗しました。
+	73 WNN_RCV_SPACE_OVER	受信スペースからデータがはみだした。
+	74 WNN_MINUS_MOJIRETSU	文字列の長さの指定が負である。
+	80 WNN_MKDIR_FAIL	ディレクトリを作り損なった。
+	81 WNN_BAD_USER		ユーザ名がない。
+	82 WNN_BAD_HOST		ホスト名がない。
+	100 WNN_TOO_BIG_HINSI_FILE  		品詞ファイルが大き過ぎます。
+	101 WNN_TOO_LONG_HINSI_FILE_LINE 	品詞ファイルが大き過ぎます。
+	102 WNN_NO_HINSI_DATA_FILE 	品詞ファイルが存在しません。
+	103 WNN_BAD_HINSI_FILE 	    	品詞ファイルの内容が間違っています。
+	109 NOT_SUPPORTED_OPERATION	その操作はサポートされていません。
+
+    ＜ file 関係のエラー ＞
+	90 WNN_FILE_READ_ERROR	ファイルを読み込むことができません。
+	91 WNN_FILE_WRITE_ERROR	ファイルを書き出すことができません。
+	92 WNN_FID_ERROR	正しいファイルIDではありません。
+	93 WNN_NO_MORE_FILE	これ以上ファイルを作ることができません。
+	94 WNN_INCORRECT_PASSWD パスワードが間違っています。
+ 
+    ＜ jl （高水準ライブラリ）のエラー ＞
+
+	110 WNN_CANT_OPEN_PASSWD_FILE	パスワードの入っているファイルが
+					オープンできません(jl)。
+    ＜ 初期化時のエラー ＞
+	111 WNN_RC_FILE_NO_EXIST    wnnrcファイルが存在しません(jl)。
+	112 WNN_RC_FILE_BAD_FORMAT  wnnrcファイルの形式が誤っています(jl)。
+	113 WNN_NO_MORE_CONNECTION  これ以上コネクションを確立することは
+					出来ません。

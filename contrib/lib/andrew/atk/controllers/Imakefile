@@ -1,0 +1,27 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = helpcon.do pcontrol.do calccon.do
+IHFILES = helpcon.ih pcontrol.ih calccon.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+MkdirTarget($(DESTDIR)/lib/arbiters $(DESTDIR)/doc/atk/controllers)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallMultiple(vallist helparb piano.txt piano.lst calc.lset calc.tbl, $(INSTINCFLAGS), $(DESTDIR)/lib/arbiters/)
+
+DependTarget()
+
+
+InstallDocs(Readme.doc,${DESTDIR}/doc/atk/controllers)
+
+NormalHelpRule()
+InstallDocs(ctrproc.help, ${DESTDIR}/help)
+InstallHelpAlias(ctrproc, controllersprocs controllersproc)
+
+
+

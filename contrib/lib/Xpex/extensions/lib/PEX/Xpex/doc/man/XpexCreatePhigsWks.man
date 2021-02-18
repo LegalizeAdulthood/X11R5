@@ -1,0 +1,119 @@
+.\" $Header: XpexCreatePhigsWks.man,v 2.5 91/09/11 16:04:55 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\"
+.TH XpexCreatePhigsWks 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexCreatePhigsWks, XpexFreePhigsWks \- 
+Functions that manage the creation and freeing of 
+PHIGS workstation resources.
+.SH "Synopsis"
+.nf
+XpexPhigsWks XpexCreatePhigsWks(dpy, drawable_id, wks_resources, 
+	buffer_mode)
+.br
+	Display \fI*dpy\fP;
+.br
+	Drawable \fIdrawable_id\fP;
+.br
+	XpexWksResources \fIwks_resources\fP;
+.br
+	XpexBufferMode \fIbuffer_mode\fP;
+.sp
+void XpexFreePhigsWks(dpy, wks_id)
+.br
+	Display \fI*dpy\fP;
+.br
+	XpexPhigsWks \fIwks_id\fP;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i        
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIdrawable_id\fP 1i    
+Specifies a drawable.
+.IP \fIbuffer_mode\fP 1i        
+To be added 
+.IP \fIwks_id\fP 1i        
+Specifies the identifier of the workstation to be freed.
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 10.1.
+.SH "Structures"
+typedef struct {
+.br
+	XpexLookupTable marker_bundle;
+.br
+	XpexLookupTable text_bundle;
+.br
+	XpexLookupTable line_bundle;
+.br
+	XpexLookupTable interior_bundle;
+.br
+	XpexLookupTable edge_bundle;
+.br
+	XpexLookupTable color_table;
+.br
+	XpexLookupTable depth_cue_table;
+.br
+	XpexLookupTable light_table;
+.br
+	XpexLookupTable color_approx_table;
+.br
+	XpexLookupTable pattern_table;
+.br
+	XpexLookupTable text_font_table;
+.br
+	XpexNameSet highlight_incl;
+.br
+	XpexNameSet highlight_excl;
+.br
+	XpexNameSet invis_incl;
+.br
+	XpexNameSet invis_excl;
+.br
+} XpexWksResources;
+.SH "Errors"
+.IP \fIBadDrawable\fP 1i
+specified drawable resource ID is invalid
+.IP \fIBadMatch\fP 1i
+specified lookup table resource was not created for drawables
+of the same root and depth as the specified drawable
+.IP \fIBadMatch\fP 1i
+specified drawable is not a window or pixmap
+.IP \fIBadLookupTable\fP 1i
+a specified lookup table resource ID is invalid
+.IP \fIBadNameSet\fP 1i
+a specified name set resource ID is invalid
+.IP \fIBadAlloc\fP 1i
+server failed to allocate the request resource
+.IP \fIBadAlloc\fP 1i
+server cannot allocate resources necessary for double-buffering
+.IP \fIBadValue\fP 1i
+bad value for buffer_mode parameter
+.IP \fIBadPhigsWks\fP 1i
+specified PHIGS workstation resource ID is invalid 
+.SH "Related Commands"
+To be added 

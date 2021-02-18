@@ -1,0 +1,97 @@
+\begindata{text,268730800}
+\textdsversion{12}
+\template{help}
+\chapter{Circle pi:  an ATK inset for estimating pi
+
+}
+\section{What circlepi is
+
+}\leftindent{
+Circle pi is an ATK inset which graphically displays the recursive progress of 
+an algorithm for estimating the value of pi.  It runs in color on color 
+displays.
+
+}
+\section{Starting circlepi
+
+}\leftindent{
+You can start a Circle pi by inserting into an ATK document, like any other 
+inset.  Specifically, in a text document, type \bold{<Esc> <Tab>}, and answer 
+the prompt at the bottom of the screen for the name of the inset with 
+"\typewriter{circlepi}".  A Circle pi inset will appear at the insertion point 
+of your document, and estimate the value of pi.
+
+}
+\section{Warnings
+
+}\leftindent{
+You can set the recursion level of Circle pi through the Depth Limit menu. 
+ Since ATK is not multi-threaded, asking Circle pi to deeply recurse means 
+that you will tie up the process which holds Circle pi until it Circle pi 
+finishes redrawing itself.  Each level requires three times the computation of 
+the previous level, so jumping four levels takes 81 times as long to compute!
+
+}
+\section{Pop-up menu meanings
+
+}\leftindent{
+The Depth Limit menu allows you to choose how deep Circle pi will recurse in 
+its computation.  Levels > 7 can take a long time to compute, but will yield 
+more accurate results.
+
+}
+\section{How circlepi works
+
+}\leftindent{
+Circle pi attempts to measure the area inside and outside of a circle 
+recursively.  It starts with the center point of a unit square, and tests that 
+point:
+
+\center{\
+\begindata{eq,268763152}
+{ lpile d_eqstyle { root { x sup { 2 } + y sup { 2 } } < r sup { 2 } , thick r = 1 } } \enddata{eq,268763152}
+\view{eqview,268763152,0,170,0}
+}to determine whether it lies within or outside of the perimeter of the 
+circle.  If it is inside, the northwest quadrant's area is added to the inside 
+sum, and the algorithm recurses on the southeast quadrant.  If it is outside, 
+the southeast quadrant's area is added to the outside sum, and the algorithm 
+recurses on the northwest quadrant.  Recursion on the northeast and 
+southwestern quadrants are also performed.
+
+
+Since we now have two estimates of the area of the circle (one from the 
+inside, and one from the outside), we can estimate pi as follows:
+
+\center{\
+\begindata{eq,268812852}
+{ lpile d_eqstyle { pi = 4 * { cpile { A } over { r sup { 2 } } } , } } \enddata{eq,268812852}
+\view{eqview,268812852,1,102,0}
+}where \italic{A} is the inside or outside area we've measured, and \italic{r} 
+is the radius of the circle (or one in our case).  We multiply by four since 
+we're only measuring a quarter circle.
+
+
+What this algorithm also gives us is a measurement of how much we don't know, 
+and this value can be used to determine the error in our estimate.
+
+}
+\section{Program Author}
+
+\leftindent{
+}\leftindent{Michael McInerny,
+
+Information Technology Center
+
+}
+\section{Related tools}  
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{insets
+
+eq
+
+}\enddata{text,268730800}

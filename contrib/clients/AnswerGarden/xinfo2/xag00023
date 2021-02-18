@@ -1,0 +1,18 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 06/24/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 08/29/91
+mod_num: 3
+@end(header)
+@b<Programming with Xt>
+
+The Xt toolkit, sometimes called the X Toolkit or Xtk,
+underlies the Athena, Motif, and OpenLook widget sets.
+
+Would you like to know about:
+@button(Xt routines,Prog_Xt_Routines)
+@button(General Xt topics,Prog_Xt_Topics)
+

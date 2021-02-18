@@ -1,0 +1,50 @@
+#
+# Imakefile for props
+#
+# LIBRARY_DEST is the location of the XView libraries
+# HEADER_DEST is the location of the XView header files
+# LIBDIR is the directory containing the X11 library (libX11.a)
+# ../../../../../../mit/config/imake \ 
+#    -I../../../../../../mit/config \
+#    -DTOPDIR=../../../../../../mit \
+#    -DCURDIR=../contrib/lib/i18nXView/clients/xview/props
+#
+XVIEWLIBDIR=../../lib/libxview/
+OLGXLIBDIR=../../lib/libolgx/
+XLIBDIR=$(TOP)/lib/X
+XVIEWINCLUDEDIR=../../include/
+CDEBUGFLAGS= -DOW_I18N
+INCLUDES= -I.. -I$(XVIEWINCLUDEDIR) -I$(HEADER_DEST) -I$(TOP) -DSTANDALONE
+
+
+LDOPTIONS=-L$(XVIEWLIBDIR) -L$(OLGXLIBDIR) -L$(XLIBDIR) -L$(LIBDIR) -lxview -lolgx -lX11 -lc
+
+HEADERS	= 	  color.h \
+                  image.h \
+                  props.h \
+                  l10n_props.h
+
+SRCS = 	\
+       		   props.c \
+                  color_props.c \
+                  color.c \
+                  l10n_props.c \
+                  l10n_read.c
+
+OBJS = 		   props.o \
+                  color_props.o \
+                  color.o \
+                  l10n_props.o \
+                  l10n_read.o
+
+
+MISC 	= README Imakefile Makefile
+
+ComplexProgramTarget(props)
+
+/*
+ * SUBDIRS = japanese C
+ * MakeSubdirs($(SUBDIRS))
+ * DependSubdirs($(SUBDIRS))
+ */
+

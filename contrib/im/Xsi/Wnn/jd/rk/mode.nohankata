@@ -1,0 +1,31 @@
+;
+; $Id: mode.nohankata,v 1.1 1991/09/09 22:39:40 ohm Exp $
+;
+(defmode romkan on)
+(defmode katakana)
+(defmode zenkaku)
+(defmode esc)
+;(defmode tcode)
+(defmode quote)
+
+2A_CTRL
+(if esc "[ESC]")
+;(if tcode 1B_TOUPPER 2_TCODE "[ t ]")
+(if quote
+	(if zenkaku 3B_ZENKAKU "[ Q ]")
+	"[ q ]")
+(if romkan
+	1B_newTOUPPER
+	2B_ROMKANA 2B_JIS
+	(if (not katakana) "[あr]")
+	3B_KATAKANA
+	"[アr]")
+
+2B_DAKUTEN
+(if (not katakana) 1B_ZENHIRA
+	(if zenkaku 3B_ZENKAKU "[あ ]")
+	"[Aあ]")
+
+1B_ZENKATA
+(if zenkaku 3B_ZENKAKU "[ア ]")
+"[Aア]"

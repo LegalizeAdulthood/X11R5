@@ -1,0 +1,197 @@
+#include "Install.rules"
+/**/###########################################################################
+/**/# Makefile defines for Widget Creation Library distribution.
+
+/*
+ * Variables which may need to be tailored on a site by site basis:
+ *
+ *      name				value			default
+ * Revison of X11 used on your system:
+ *      PreR4                           YES or NO               NO
+ *      PreR5                           YES or NO               NO
+ *
+ * Widget sets available for registration with Wcl
+ *	HaveAthenaWidgetSet		YES or NO		YES
+ *	HaveMotifWidgetSet		YES or NO		NO
+ *      HaveMotif10 (Motif 1.0.x)       YES or NO               NO
+ *      HaveOpenLookWidgetSet           YES or NO               NO
+ *      HaveCornellWidgetSet            YES or NO               NO
+ *      WantTableWidget                 YES or NO               YES
+ *      (most tests require Table)
+ *
+ * Pre-requisites location
+ *      X11XtInStandardPlace            YES or NO               YES
+ *      MotifInStandardPlace            YES or NO               YES
+ *      OpenLookInStandardPlace         YES or NO               YES
+ *      CornellInStandardPlace          YES or NO               YES
+ *      UseOpenWindows                  YES or NO               NO
+ *      (OW overrides X11XtInStandard)
+ *
+ * Installation options:
+ *	WclInstallToStandardPlace	YES or NO		YES
+ *	INSTLIB				libraries here		$(LIBDIR)
+ *	INSTLIN				lint libs here		$(LINTLIBDIR)
+ *	INSTINC				includes here 		$(INCDIR)
+ *	INSTBIN				progs installed here	$(BINDIR)
+ *	INSTMAN				man pgs installed here	$(MANDIR)
+ *	INSTAPP				app-defaults here	$(XAPPLOADDIR)
+ */
+
+#define PreR4   NO
+#define PreR5   NO
+
+#define HaveAthenaWidgetSet          YES 
+#define HaveMotifWidgetSet            NO
+#define HaveMotif10                   NO
+#define HaveOpenLookWidgetSet         NO 
+#define HaveCornellWidgetSet          NO 
+#define WantTableWidget              YES 
+
+
+#define WclInstallToStandardPlace    YES
+#define X11XtInStandardPlace         YES 
+#define UseOpenWindows               NO
+#define MotifInStandardPlace         YES
+#define OpenLookInStandardPlace      YES
+#define CornellInStandardPlace       YES
+
+/*
+ * To increase installation flexibility, we allow all our prerequisites
+ * to come from site-specific location(s). Note that even if you answered
+ * YES to any of the ...InStandardLocation, you better double-check below
+ * what that means ...
+ */
+
+/* To be flexible, we allow X11 (Xlib,Xt) to come from non-std location */
+#if X11XtInStandardPlace
+       X11LIBLOC = $(USRLIBDIR)
+       X11INCLOC = IncRoot
+#else
+       X11LIBLOC = /server_1/usr/lib/X11 
+       X11INCLOC = /server_1/usr/include 
+#endif
+
+#if MotifInStandardPlace
+     MOTIFLIBLOC = $(LIBDIR)
+     MOTIFINCLOC = $(INCDIR) 
+#else
+#if HaveMotif10
+     MOTIFLIBLOC = /usr/local/exports/sun4/Xm1.0.3/lib
+     MOTIFINCLOC = /usr/local/exports/sun4/Xm1.0.3/include
+#else
+     MOTIFLIBLOC = /home/marbru/LN_Motif/src/osf/lib/Xm 
+     MOTIFINCLOC = /home/marbru/LN_Motif/src/osf/lib 
+#endif
+#endif
+#if OpenLookInStandardPlace
+     OLITLIBLOC = $(OPENWINHOME)/lib
+     OLITINCLOC = $(OPENWINHOME)/include
+#else
+     OLITLIBLOC = $(OPENWINHOME)/lib
+     OLITINCLOC = $(OPENWINHOME)/include
+#endif
+#if CornellInStandardPlce
+     CORNLIBLOC = $(LIBDIR)
+     CORNINCLOC = $(INCDIR)
+#else
+     CORNLIBLOC = $(LIBDIR)
+     CORNINCLOC = $(INCDIR)
+#endif
+
+#if UseOpenWindows
+X11LIBLOC = $(OLITLIBLOC)
+X11INCLOC = $(OLITINCLOC)
+#endif
+
+/* Standard  installation location is into the MIT X11 destination tree */
+#if WclInstallToStandardPlace
+      INSTLIB = $(LIBDIR)
+      INSTLIN = $(LINTLIBDIR)
+      INSTINC = $(INCDIR)
+      INSTBIN = $(BINDIR)
+      INSTMAN = $(MANDIR)
+      INSTAPP = $(XAPPLOADDIR)
+#else
+/* What I use for pre-release testing */
+#define PreCM   /home/marbru/Wcl2.0/test 
+      INSTLIB = PreCM/lib
+      INSTLIN = PreCM/lib/lint
+      INSTINC = PreCM/include 
+      INSTBIN = PreCM/bin
+      INSTMAN = PreCM/man/man1
+      INSTAPP = PreCM/app-defaults
+    MKDIRHIER = /bin/sh $(BINDIR)/mkdirhier
+#endif
+ 
+/*
+ * You normally should not need to make any edits from here to end of file
+ * Few consistency checks ....
+ */
+#if     PreR4
+#undef  PreR5
+#define PreR5 YES
+#endif
+
+#if HaveMotif10
+#undef  HaveAthenaWidgetSet
+#define HaveAthenaWidgetSet NO
+#endif
+
+/* We compile and link using one cmd, so we need includes but not std.libs */
+  LDOPTIONS = $(CDEBUGFLAGS) $(CCOPTIONS) $(LOCAL_LDFLAGS) $(ALLINCLUDES)
+
+/*
+ * All our Imakefiles try to define includes and libraries using the following
+ * definitions. This allows us to combine various flavors of X, Xt and all
+ * toolkits we depend upon (note the dirty trick for Motif10 below).
+ * For SunOs shareable libraries, executables are linked to .so libraries in
+ * SHRLIBDIR, which during install points to the target INSTLIB. But during
+ * make World or Everything, the top level makefile overrides SHRLIBDIR to "" 
+ * IF you want to invoke sub-makefiles using build tree libraries, you may 
+ * want to specify "make SHRLIBDIR="
+ * To accomodate the pre-R5 environments, I use the old-style define below:
+ */
+#ifdef  HasSharedLibraries
+#undef  HasSunOSSharedLibraries
+#define HasSunOSSharedLibraries YES 
+#endif
+#if HasSunOSSharedLibraries
+   SoWcRev   = 1.06 
+   SHRLIBDIR = -L$(INSTLIB)
+#endif 
+
+TOP_INCLUDES =
+      X11INC = -I$(X11INCLOC)
+   X11LIBDIR = -L$(X11LIBLOC)
+
+/* The following libraries are for build only, install overrides them
+ * using the SHRLIBDIR as the first -L option (rebuilding Sun images)
+ */
+       WCLIB = -L$(TOP)/Wc -lWc
+       XPLIB = -L$(TOP)/Xp -lXp
+      XMPLIB = -L$(TOP)/Xmp -lXmp
+      XOPLIB = -L$(TOP)/Xop -lXop
+      XCPLIB = -L$(TOP)/Xcp -lXcp
+      
+#if HaveMotifWidgetSet
+      XMLIB = -L$(MOTIFLIBLOC) -lXm
+      XMINC = -I$(MOTIFINCLOC)
+#if HaveMotif10   /* we cheat to use Motif 1.0 Xt libraries and includes */
+     X11INC = -I$(MOTIFINCLOC) -I$(X11INCLOC)
+  X11LIBDIR = -L$(MOTIFLIBLOC) -L$(X11LIBLOC)
+#   endif
+#endif
+
+#if HaveOpenLookWidgetSet
+#   if HasSunOSSharedLibraries
+      XOLLIB = -L$(OLITLIBLOC) -Bstatic -lXol -Bdynamic 
+#   else
+      XOLLIB = -L$(OLITLIBLOC) -lXol
+#   endif
+      XOLINC = -I$(OLITINCLOC)
+#endif
+
+#if HaveCornellWidgetSet
+      XCULIB = -L$(CORNLIBLOC) -lXcu
+      XCUINC = -I$(CORNINCLOC)
+#endif

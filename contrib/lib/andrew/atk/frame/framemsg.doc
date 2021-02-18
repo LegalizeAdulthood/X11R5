@@ -1,0 +1,80 @@
+\begindata{text,269986120}
+\textdsversion{12}
+\template{be2guide}
+\define{underline
+menu:[Font~1,Underline~41]
+attr:[Flags Underline Int Set]}
+\define{index
+menu:[Title,Index~91]
+attr:[FontFace Italic Int Set]}
+\define{indexi
+menu:[Title,InvisibleIndex~92]
+attr:[Script PreviousScriptMovement Point -2]
+attr:[FontFace Italic Int Set]}
+\formatnote{\chapter{Frame Message}}\indexi{Frame message class}
+
+
+Frame message is a subclass of message handler, and inherits all the methods 
+from that parent class. 
+
+
+The class framemessage provides a creation procedure and a companion setting 
+method.  Additionally, it overrides the following methods: 
+
+
+\leftindent{DisplayString
+
+AskForString
+
+AskForStringCompleted
+
+MultipleChoiceQuestion
+
+CancelQuestion
+
+GetCurrentString
+
+InsertCharacters
+
+DeleteCharacters
+
+GetCursorPos
+
+SetCursorPos
+
+Asking
+
+Advice}
+
+
+
+\paragraph{Creating a frame message} \indexi{ \italic{framemessage_Create}}
+
+\example{struct framemessage *framemessage_Create(frame)
+
+struct frame *frame;} 
+
+
+\leftindent{\bold{Class procedure description. }\italic{framemessage_Create} 
+creates a frame message for a frame. 
+
+
+\bold{Return value.}  A pointer to the frame message.} 
+
+
+
+\paragraph{Setting a companion frame message} 
+\indexi{ \italic{framemessage_SetCompanion}}
+
+\example{void framemessage_SetCompanion(frmsg,companion)
+
+struct framemessage *frmsg;
+
+struct msghandler *companion;} 
+
+
+\leftindent{\bold{Method description.  }Sets a companion for the frame 
+message.} 
+
+
+\enddata{text,269986120}

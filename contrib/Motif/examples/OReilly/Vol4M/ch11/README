@@ -1,0 +1,7 @@
+Note that xselectbit requires uses the routine 
+XmuConvertStandardSelection from the Xmu library.
+
+BitmapEdit.c	This version of the BitmapEdit widget implements selections.
+xselectbit.c	a simple version of xbitmap.
+xicon.c		Specifying an icon pixmap.
+icon.bit	An icon bitmap file used in xicon.c.

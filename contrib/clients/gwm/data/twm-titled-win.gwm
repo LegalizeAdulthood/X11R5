@@ -1,0 +1,256 @@
+; Twm Style Window Frame (hacked up from simple-ed-win.gwm)
+; ===========================================================================
+
+; This file is derived from the simple-ed-win.gwm distributed with gwm 1.4.1.30
+; The original file was written by Colas Nahaboo, BULL Research, France.
+;
+; Modifications  [Dec 1989] for twm emulation by Arup Mukherjee 
+; (arup@grasp.cis.upenn.edu)
+;
+; Within the restrictions of the GWM copyright, you may do whatever you
+; want with this code. It would be nice, however, if my name were to remain 
+; in it somewhere.
+
+(df twm-titled-win-setup ()
+    
+    (if (= 0 gwm-quiet)
+	(? screen))
+
+    (if (not (boundp 'twm-borderwidth)) (: twm-borderwidth 2))
+
+    (setq icon-pixmap 
+	  (pixmap-make title-background
+		       (+ bitmaps-dir "iconify.xbm")
+		       title-foreground))
+
+    (setq resize-pixmap 
+	  (pixmap-make title-background
+		       (+ bitmaps-dir "resize.xbm")
+		       title-foreground))
+
+    (setq hilite-pixmap
+	  (pixmap-make title-background
+		       (+ bitmaps-dir "hilite.xbm") 
+		       title-foreground))
+    (setq no-hilite-pixmap
+	  (with (foreground title-background)
+		(pixmap-make 20 20))))
+
+
+(: iconify-fsm 
+   (fsm-make 
+    (: original-state (state-make 
+		       (on (buttonpress 2 any)
+			   (with (pos-x (current-event-x)
+					pos-y (current-event-y))
+				 (iconify-window)
+				 (if (not show-icon-mgr)
+				     (progn
+				       (move-window pos-x pos-y)
+				       (move-window)
+				       (raise-window))))
+			   iconify-state)
+		       (on (buttonpress any any) 
+			   (progn (iconify-window)
+				  (raise-window))
+			   original-state)))
+				 
+    (: iconify-state (state-make
+		      (on (buttonpress 2 any) (move-window))
+		      (on (buttonpress any any) 
+			  (iconify-window) original-state)))))
+
+(: icon-plug '(with (borderwidth 0 background white 
+		       borderpixel white fsm  iconify-fsm)
+	(plug-make icon-pixmap)))
+
+(: resize-fsm 
+   (fsm-make
+    (: only-state (state-make 
+		   (on (buttonpress any any) (resize-window))))))
+
+(: resize-plug '(with (borderwidth 0 background title-background
+				   fsm resize-fsm)
+		      (plug-make resize-pixmap)))
+		       
+
+(: edit-fsm  
+    (fsm-make 
+	(: sed.edit-fsm.normal 
+	   (state-make
+	       (on (double-button any any) 
+		   (progn
+			 (set-focus wob)
+			 (wob-background black)
+			 (with (foreground white)
+			       (wob-tile 
+				   (active-label-make
+				       (# 'title wob) name-font))))
+		   sed.edit-fsm.editable)
+	       (on (button any (together with-alt with-control))
+		   (progn
+			 (set-focus wob)
+			 (wob-background black)
+			 (with (foreground white label-vertical-margin 1)
+			       (wob-tile 
+				   (active-label-make
+				       (# 'title wob) name-font))))
+		   sed.edit-fsm.editable)
+	       (on (user-event 'name-change)
+		   (progn
+			 (## 'title wob (: s window-name))
+			 (with (foreground title-foreground
+					   label-vertical-margin 1)
+			       (wob-tile (active-label-make s name-font)))
+			 (send-user-event 'get-s (window-icon))
+                       (if show-icon-mgr
+			     (send-user-event 'icon-mgr-rethink icon-mgr-wob))
+		   ))
+	       standard-title-behavior  
+	   ))
+	(: sed.edit-fsm.editable
+	   (state-make
+	       (on (keypress (key-make "Return") any)
+		   (sed.edit-fsm.de-edit)
+		   sed.edit-fsm.normal)
+	       (on (double-button any any)
+		   (sed.edit-fsm.de-edit)
+		   sed.edit-fsm.normal)
+	       (on (keypress "BackSpace" any)
+		   (progn
+		     (## 'title wob
+				(: s (match "\\(.*\\)."
+					    (# 'title wob) 1)))
+		     (with (foreground title-foreground 
+				       label-vertical-margin 1)
+			   (wob-tile (active-label-make s name-font)))
+		     (send-user-event 'get-s (window-icon))
+		     ))
+	       (on (keypress "Delete" any)
+		   (progn
+			 (## 'title wob (: s ""))
+			 (with (foreground title-foreground
+					   label-vertical-margin 1)
+			       (wob-tile (active-label-make s name-font)))
+			 (send-user-event 'get-s (window-icon))
+		   ))
+	       (on (keypress any any)
+		   (progn
+			 (## 'title wob
+			     (: s (+ (# 'title wob) (last-key))))
+			 (with (foreground title-foreground
+					   label-vertical-margin 1)
+			       (wob-tile (active-label-make s name-font)))
+			 (send-user-event 'get-s (window-icon))
+		   ))
+	       (on (user-event 'name-change) 
+		   (progn
+			 (## 'title wob (: s window-name))
+			 (with (foreground title-foreground
+					   label-vertical-margin 1)
+			       (wob-tile (active-label-make s name-font)))
+			 (if show-icon-mgr
+			     (send-user-event 'icon-mgr-rethink icon-mgr-wob))
+		   ))
+	       (on focus-out
+		   (wob-tile (label-make (# 'title wob) name-font))
+		   sed.edit-fsm.normal)
+	       standard-title-behavior
+	   ))
+    ))))
+    
+(de sed.edit-fsm.de-edit ()
+    (with (foreground title-foreground 
+		      background title-background
+		      font name-font
+		      label-horizontal-margin 6
+		      label-vertical-margin 1
+		      borderwidth 0)
+	  (wob-tile (label-make (# 'title wob) name-font))
+	  (window-name (# 'title wob))
+	  (set-focus)
+	  (process-events)
+	  (if show-icon-mgr
+	      (send-user-event 'icon-mgr-rethink icon-mgr-wob)))
+)
+
+(: titlebar-fsm 
+    (fsm-make
+	(state-make
+	    (on (user-event 'focus-in)
+		  (wob-tile hilite-pixmap))
+	    (on (user-event 'focus-out) 
+		  (wob-tile  no-hilite-pixmap))
+	    standard-title-behavior)))
+    
+(: editable-plug '(with ( borderwidth 1 
+				      background title-background 
+				      foreground title-foreground
+				      font name-font
+				      property (list 'title window-name)
+				      fsm edit-fsm)
+			(with (borderwidth 0 
+					   label-horizontal-margin 6
+					   label-vertical-margin 1)
+			      (plug-make (label-make window-name)))))
+
+(: space '(with (foreground title-background borderwidth 0)
+		(plug-make (pixmap-make 5 16))))
+		
+    
+(: titlebar 
+	       '(with 
+		(borderwidth 2
+			     background title-background
+			     fsm titlebar-fsm 
+			     plug-separator 0
+			     borderpixel title-background
+			     bar-min-width 1 bar-max-width 30)
+		(bar-make 
+		 icon-plug space editable-plug space () space resize-plug))))
+
+(: sed-window-fsm
+    (fsm-make
+	(state-make
+	    (on focus-in
+		(progn
+		      (if autoraise (raise-window))
+		      (send-user-event 'focus-in)
+		      (wob-borderpixel hilite-color)))
+	    (on focus-out
+		(progn (send-user-event 'focus-out)
+		       (wob-borderpixel border-foreground)))
+	    (if (and (boundp 'emacs-mouse-loaded) emacs-mouse-loaded)
+		(state-make 
+		    (on (button 1 with-control) (emacs-click 1))
+		    (on (button 2 with-control) (emacs-click 2))
+		    (on (buttonpress 3 with-control) (pop-menu emacs-pop))))
+	    window-behavior
+	)))
+
+
+(setq twm-titled-win.result 
+      '(with (inner-borderwidth 1 fsm sed-window-fsm 
+		    borderwidth twm-borderwidth
+		    borderpixel border-foreground
+		    grabs (+ grabs 
+			     (if (and (boundp 'emacs-mouse-loaded) 
+				      emacs-mouse-loaded)
+				 (list (button any with-control)))))
+			     (window-make titlebar () () () ())))
+
+; (: twm-titled-win.data result)
+; (df twm-titled-win () twm-titled-win.data)
+
+(if (not (= screen. (namespace-of 'twm-titled-win.data)))
+      (defname 'twm-titled-win.data screen.))
+
+
+;    (defname-in-screen-to () twm-titled-win.data twm-titled-win))
+	
+(df twm-titled-win () (if (boundp 'twm-titled-win.data) twm-titled-win.data
+			  (progn
+			    (twm-titled-win-setup)
+			    (: twm-titled-win.data
+			       (eval twm-titled-win.result)))))
+

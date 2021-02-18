@@ -1,0 +1,13 @@
+# $Header: /users/x11devel/x11r5/mit/extensions/RCS/Imakefile,v 2.1 1991/09/22 22:43:35 toddb Exp $
+     HEADERS =  MVEX.h MVEXlib.h MVEXproto.h
+INSTALLFLAGS = $(INSTINCFLAGS)
+
+all:
+
+BuildIncludes($(HEADERS),MVEX,..)
+MakeDirectories(install,$(INCDIR)/MVEX)
+InstallMultiple($(HEADERS),$(INCDIR)/MVEX)
+
+redepend:: depend
+
+depend:

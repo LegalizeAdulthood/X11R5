@@ -1,0 +1,40 @@
+#!/bin/csh -f
+# For local (UW) use only.
+# This script looks into the 'transcript' sources from Adobe and partially
+# rebuilds the font_map[] table for xfontinfo.c.
+# A table entry looks like this:
+# 	"ag"	/* AvantGarde-Demi */,				HELVETICA, BOLD, ROMAN,
+# This program gets the first two fields from the transcript 'map' files:
+# the first line of ag.map contains the string "AvantGarde-Demi".
+# The remaining three fields are found by looking through the current version
+# of xfoninfo.c for "AvantGarde-Demi".  If it isn't found, the trailing
+# part is left blank.
+# The original xfontinfo.c is renamed xfontinfo.c.bak
+#
+# Warning:  The result will need hand-editing if any new font names are added.
+#
+set echo
+set map=/usr/src/misc/transcript/lib/ditroff.font
+set fontinfo=xfontinfo.c
+set tmp=/tmp/newfonts
+if (! -r $fontinfo) then
+	echo xfontinfo.c not readable
+	exit 1
+endif
+if (! -d $map) then
+	echo $d: no such directory
+	exit 1
+endif
+set here=$cwd
+cd $map
+rm -f $tmp
+foreach x (*.map)
+	set name=`head -1 $x`
+	echo "$x:r	$name" >> $tmp
+end
+cd $here
+rm -f $fontinfo.bak
+mv $fontinfo $fontinfo.bak
+./Make fonttablehack
+./fonttablehack $fontinfo.bak $tmp >$fontinfo
+rm -f $tmp

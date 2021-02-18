@@ -1,0 +1,93 @@
+The following is the format of fig output (fig 1.3).
+
+The first line consists of four number:
+	screen resolution (pixels/inch),
+	screen origin (1 : upper rigth, 2 : upper left, 3 : lower left,
+			4 : lower right),
+	canvas width (pixels),
+	canvas height (pixels)
+
+The first integer of the rest of the lines represents the followings;
+
+	ELLIPSE		1
+	POLYLINE	2
+	SPLINE		3	(quadratic spline)
+	TEXT		4
+	ARC		5
+	BEGIN_COMPOUND	6
+	END_COMPOUND	-BEGIN_COMPOUND
+
+The detail of each object is:
+
+ARC
+	type (3 : circle by radius, 4 : circle by diameter, 5 : circular arc),
+	line_style,
+	thickness (pixels),
+	dash_length (pixels),
+	direction (0 : clockwise, 1 : counterclokwise),
+	forward_arrow (0: off, 1: on),
+	backward_arrow (0: off, 1: on),
+	arrow_ht (pixels), arrow_wid (pixels), 
+	center.x, center.y,
+	point[0].x, point[0].y, (the 1st point the user entered)
+	point[1].x, point[1].y, (the 2nd point or the last for type 3 or 4)
+	point[2].x, point[2].y  (the last point if type is 5)
+
+BEGIN_COMPOUND
+	upperright_corner.x, upperright_corner.y,
+	lowerleft_corner.x, lowerleft_corner.y
+
+ELLIPSE
+	type (1 : defined by radiuses, 2 : defined by diameters),
+	line_style,
+	thickness (pixels),
+	dash_length (pixels),
+	direction (is always 1),
+	center.x, center.y,
+	radius.x, radius.y,
+	start.x, start.y, (the 1st point the user entered)
+	end.x, end.y
+
+LINE
+	type (6 : polyline, 7 : box, 8 : polygon),
+	line_style,
+	thickness (pixels),
+	dash_length (pixels),
+	forward_arrow (0: off, 1: on),
+	backward_arrow (0: off, 1: on),
+	arrow_ht (pixels), arrow_wid (pixels),
+	x1, y1,
+	x2, y2,
+	  .
+	  .
+	xn, yn,	(this will be the same as the 1st point for type 7 or 8)
+	9999, 9999
+
+SPLINE (quadratic spline)
+	type (10: open spline, 11: closed spline),
+	line_style,
+	thickness (pixels),
+	dash_length (pixels),
+	forward_arrow (0: off, 1: on),
+	backward_arrow (0: off, 1: on),
+	arrow_ht (pixels), arrow_wid (pixels),
+	x1, y1,
+	x2, y2,
+	  .
+	  .
+	xn, yn,	(this will be the same as the 1st point for type 11)
+	9999, 9999
+
+TEXT
+	font,  (not used)
+	size,  (not used)
+	style, (not used)
+	height (pixels), length (pixels),
+	lowerleft_corner.x (pixels), lowerleft_corner.y (pixels),
+	string (end at newline, \n)
+
+There are only three line styles defined
+
+	SOLID_LINE	0
+	DASH_LINE	1
+	DOTTED_LINE	2 (not implement)

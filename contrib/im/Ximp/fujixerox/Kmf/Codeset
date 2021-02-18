@@ -1,0 +1,25 @@
+NAME	EUC
+
+CODESET0
+    Length	1
+    GL
+    Encoding
+	ISO8859-1	GL
+    Font
+	ISO8859-1	GL
+
+CODESET1
+    Length	1
+    GR
+    Encoding
+	ISO8859-1	GR
+    Font
+	ISO8859-1	GR
+
+#CODESET2
+#    Length	1
+#    GR
+
+#CODESET3
+#    Length	1
+#    GR

@@ -1,0 +1,40 @@
+#include "../Motif.rules"
+#include "../Motif.tmpl"
+
+INCLUDES = -I. -I$(INCLUDESRC) -I$(MINCLUDESRC)
+        DEPLIBS = MrmClientDepLibs
+LOCAL_LIBRARIES = MrmClientLibs
+
+SRCS=	\
+	xmfonts.c \
+	xmter.c \
+	xmform.c \
+	xmgendi.c \
+	periodic.c \
+	motifanim.c
+
+NormalLibraryObjectRule()
+
+MSimpleProgramTarget(xmfonts)
+
+MSimpleProgramTarget(xmter)
+
+MSimpleProgramTarget(xmform)
+
+MSimpleProgramTarget(xmgendi)
+
+MSimpleUilTarget(motifanim)
+MSimpleUidTarget(dog)
+MSimpleUidTarget(plane)
+MSimpleUidTarget(superman)
+
+MSimpleUilTarget(periodic)
+
+
+InstallProgram(xmfonts,$(BINDIR))
+InstallProgram(xmter,$(BINDIR))
+InstallProgram(xmform,$(BINDIR))
+
+InstallAppDefaults(XMdemos)
+
+DependTarget()

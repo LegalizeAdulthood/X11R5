@@ -1,0 +1,88 @@
+#include "Wc.tmpl"
+
+#define IHaveSubdirs
+
+#if HaveAthenaWidgetSet
+  ATHENA_DIRS = Xp Ari DemosAthena
+#endif
+
+#if HaveMotifWidgetSet
+   MOTIF_DIRS = Xmp Mri DemosMotif
+#endif
+
+#if HaveOpenLookWidgetSet
+    OLIT_DIRS = Xop Ori DemosOlit
+#endif
+
+#if HaveCornellWidgetSet
+    CORNELL_DIRS = Xcp Cri DemosCornell
+#endif
+
+/*
+ * It is absolutely essential that sub-directories with libraries
+ * come before subdirectories which link against the libraries!
+ */
+ SUBDIRS = Wc $(ATHENA_DIRS) $(MOTIF_DIRS) $(OLIT_DIRS) $(CORNELL_DIRS)
+
+
+/**/# "make all" builds the library and the applications without
+/**/# installing anything.  If you are using shared libraries, these
+/**/# applications will not work anywhere else!  
+/**/#
+/**/# To remedy the problem, subordinate makefiles for Sun executables 
+/**/# place the install target SHRLIBDIR as the first -L option. However,
+/**/# for the All: target we override SHRLIBDIR to be . 
+/**/#
+#define PassTestFlags SHRLIBDIR=-L.  CDEBUGFLAGS=$(CDEBUGFLAGS)
+
+NamedTargetSubdirs(all,$(SUBDIRS),"making",PassTestFlags,all)
+
+/**/# "make install" first builds the library, then installs the library
+/**/# and includes, then builds all the applications.  We must do it
+/**/# like this so the applications point to the installed library
+/**/# when shared libs are used.
+
+
+World::
+        @echo ""
+        @echo "Building Release 1.6 of the Widget Creation Library"
+        @echo ""
+        @echo "#######################################################"
+        @echo "# Did you edit the file Wcl.tmpl in this directory?   #"
+        @echo "#######################################################"
+        @echo ""
+        @date
+        @echo ""
+        -$(RM) Makefile.bak; $(MV) Makefile Makefile.bak
+        $(MAKE) $(MFLAGS) -f Makefile.bak Makefile
+        $(MAKE) $(MFLAGS) Makefiles
+        $(MAKE) $(MFLAGS) clean
+        $(MAKE) $(MFLAGS) $(WORLDOPTS)
+        @echo ""
+        @date
+        @echo ""
+        @echo "Full build of the Widget Creation Library complete."
+        @echo ""
+
+Everything::
+        @echo ""
+        @echo "Rebuilding Release 1.6 of the Widget Creation Library"
+        @echo ""
+        @date
+        @echo ""
+        -$(RM) Makefile.bak; $(MV) Makefile Makefile.bak
+        $(MAKE) $(MFLAGS) -f Makefile.bak Makefile
+        $(MAKE) $(MFLAGS) Makefiles
+        $(MAKE) $(MFLAGS) $(WORLDOPTS)
+        @echo ""
+        @date
+        @echo ""
+        @echo "Rebuild of the Widget Creation Library complete."
+        @echo ""
+
+blocking::
+        @echo ""
+MakeDirectories(install,$(INSTLIB))
+MakeDirectories(install,$(INSTBIN))
+MakeDirectories(install,$(INSTAPP))
+MakeDirectories(install.man,$(INSTMAN))

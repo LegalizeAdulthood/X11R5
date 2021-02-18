@@ -1,0 +1,23 @@
+#!/bin/csh
+#
+# usage: test [app-defaults-directory]
+#
+# Execute all of the programs in the Widget Creation Library
+# delivery.
+#
+# To test installed programms, make sure the Wcl bin directory
+# is in your path, and invoke script using your Wcl app-defaults
+# directory as a first argument
+#
+echo This script will execute the programs once at a time.
+
+test_ari      $1
+test_mri      $1
+test_ori      $1
+test_cri      $1
+if ($#argv == 0 ) then
+   test_athena   $1
+   test_motif    $1
+   test_olit     $1
+   test_cornell  $1
+endif

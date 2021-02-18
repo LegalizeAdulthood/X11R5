@@ -1,0 +1,45 @@
+.\"
+.\" $Id: xjutil.man,v 1.1 1991/09/13 09:10:30 proj Exp $
+.\"
+.TH XJUTIL 4 "Release 5" "X Version 11"
+.SH 名称
+xjutil \- 辞書ユーティリティ・マネージャ
+.SH 形式
+.B /usr/bin/xjutil \fIディスプレイ名 アトム名 カウンタ\fP
+.SH 解説
+\fIXjutil\fP は、\fIWnn\fP の辞書を操作するための辞書ユーティリティ
+・マネージャです。これは、\fIxwnmo\fP より自動的に起動されます。
+.SH 操作
+\fIXjutil\fP は、\fIWnn\fP の辞書に対して、以下の操作を行ないます。
+.TP 8
+.B 辞書追加:
+現在の環境に新しい辞書を追加します。
+.TP 8
+.B 辞書一覧:
+現在使用している辞書の一覧を表示します。
+.TP 8
+.B 登録:
+個人辞書に対して登録を行ないます。
+.TP 8
+.B 検索:
+読みによる検索を行ないます。また、表示されたエントリでボタンを押すことにより、
+そのエントリに対して、操作が行なえます。(削除/使用不可/使用可/コメント)
+.TP 8
+.B パラメータ変更:
+現在の変換環境のパラメータを変更します。
+.TP 8
+.B 辞書情報:
+現在使用している辞書の詳しい情報を表示します。また、表示された
+エントリでボタンを押すことにより、そのエントリに対して、
+操作が行なえます。(削除/使用不可/使用可/コメント)
+.TP 8
+.B 附属語変更:
+附属語ファイルを変更します。
+.SH 関連項目
+xwnmo(1X)
+.SH COPYRIGHT
+Copyright 1991 by OMRON Corporation
+.br
+Copyright 1991 by Massachusetts Institute of Technology
+.SH AUTHOR
+Seiji Kuwari (OMRON Corporation)

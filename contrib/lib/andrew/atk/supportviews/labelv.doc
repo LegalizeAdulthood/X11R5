@@ -1,0 +1,88 @@
+\begindata{text,272771820}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Labelview}
+
+
+
+
+\section{Quick reference list for Labelview}
+
+
+
+\fixedtext{enum view_DSattributes \bold{labelview_}DesiredSize 
+}\fixedindent{(struct labelview *\paramname{labelview}, long 
+\paramname{width}, long \paramname{height}, enum view_DSpass \paramname{pass}, 
+long *\paramname{desiredWidth}, long *\paramname{desiredHeight});} 
+
+\fixedtext{void \bold{labelview_}FinalizeObject }\fixedindent{(struct 
+labelview *\paramname{self});} 
+
+\fixedtext{void \bold{labelview_}FullUpdate }\fixedindent{(struct labelview 
+*\paramname{labelview}, enum view_UpdateType \paramname{type}, long 
+\paramname{left}, long \paramname{top}, long \paramname{width}, long 
+\paramname{height});} 
+
+\fixedtext{struct labelview *\bold{labelview_}GetApplicationLayer 
+}\fixedindent{(struct labelview *\paramname{labelview});} 
+
+\fixedtext{\bold{labelview_}GetHitProc }\fixedindent{(struct labelview 
+*\paramname{labelview});} 
+
+\fixedtext{char *\bold{labelview_}GetHitRock }\fixedindent{(struct labelview 
+*\paramname{labelview});} 
+
+\fixedtext{boolean \bold{labelview_}GetInversion }\fixedindent{(struct 
+labelview *\paramname{labelview});} 
+
+\fixedtext{struct view *\bold{labelview_}Hit }\fixedindent{(struct labelview 
+*\paramname{labelview}, enum view_MouseAction \paramname{action}, long 
+\paramname{x}, long \paramname{y}, long \paramname{n});} 
+
+\fixedtext{boolean \bold{labelview_}InitializeObject }\fixedindent{(struct 
+labelview *\paramname{self});} 
+
+\fixedtext{void \bold{labelview_}ObservedChanged }\fixedindent{(struct 
+labelview *\paramname{labelview}, struct label *\paramname{dobj}, long 
+\paramname{status});} 
+
+\fixedtext{void \bold{labelview_}Print }\fixedindent{(struct labelview 
+*\paramname{labelview}, FILE *\paramname{file}, char *\paramname{processor}, 
+char *\paramname{finalFormat}, boolean \paramname{topLevel});} 
+
+\fixedtext{void \bold{labelview_}SetHitProc }\fixedindent{(struct labelview 
+*\paramname{labelview}, void (*proc)(\paramname{)}, char *\paramname{rock});} 
+
+\fixedtext{void \bold{labelview_}SetInversion }\fixedindent{(struct labelview 
+*\paramname{labelview}, boolean \paramname{invert});} 
+
+\fixedtext{void \bold{labelview_}Update }\fixedindent{(struct labelview 
+*\paramname{labelview});} \
+\enddata{text,272771820}

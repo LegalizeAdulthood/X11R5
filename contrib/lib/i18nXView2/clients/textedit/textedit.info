@@ -1,0 +1,44 @@
+##################################################
+#	textedit.info   May 23
+##################################################
+##################################################
+#	Open Windows Version 2  FCS 
+##################################################
+:File
+File
+
+Provides a menu of File options for saving the 
+contents of the text window.
+
+The choices include saving to the file
+currently associated with this window, saving 
+the contents in a new file, and others.
+
+:View
+View
+
+Provides ways to change the position of the
+cursor and the way lines are wrapped.
+
+Defaults to Select Line at Number or the
+most recently selected option on the menu.
+
+:Edit
+Edit
+
+Provides a menu of Edit options including 
+Copy, Cut, Paste, Undo, and others.
+
+Defaults to Again or the most
+recently selected option on the menu.
+
+:Find
+Find
+
+Provides a menu of options for finding and 
+replacing text.  
+
+:Panel
+
+This is the control panel for the 
+Text Editor program.

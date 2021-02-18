@@ -1,0 +1,26 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:42:55 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+       INCLUDES = -I$(WNNINCLUDESRC)
+        DEFINES = $(WNNDEFINES) -DWNNDEFAULT
+       LINTLIBS = 
+
+SRCS= rk_bltinfn.c \
+	rk_main.c \
+	rk_modread.c \
+	rk_read.c \
+	rk_vars.c
+OBJS= rk_bltinfn.o \
+	rk_main.o \
+	rk_modread.o \
+	rk_read.o \
+	rk_vars.o
+
+LibraryObjectRule()
+AllTarget($(OBJS))
+
+DependTarget()

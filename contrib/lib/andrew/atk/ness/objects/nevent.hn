@@ -1,0 +1,78 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+\* ********************************************************************** */
+/* $Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/nevent.hn,v 1.12 1991/09/12 19:44:30 bobg Exp $ */
+/* $ACIS:$ */
+/* $Source: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/nevent.hn,v $ */
+
+/* nevent.hn  -  definitions for support of events: mouse, keys, menu
+
+	THIS FILE IS PROCESSED BY nodeclass.n TO PRODUCE nevent.h
+	DO NOT EDIT nevent.h
+
+	A source file which imports nevent.h should also import nodeclass.h
+*/
+
+#ifndef _ness_nevent_h_
+#define _ness_nevent_h_
+
+#if !defined(lint) && !defined(LOCORE) && defined(RCS_HDRS)
+static char *rcsid = "$Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/nevent.hn,v 1.12 1991/09/12 19:44:30 bobg Exp $";
+#endif
+
+#include "nesssym.ih"
+#include "envt.h"	/* for TSysMarkRef */
+
+
+nodeclass objnode {
+	struct nesssym *attrs;
+	nesssym_scopeType scope;
+	long loc;
+	long len;
+	struct celview* obj;  /* the object extended (or classinfo for view:xyz) */
+	struct proctable_Entry *menupe, *keype;
+	struct keymap *keymap;
+	struct menulist *menulist;
+	boolean MouseEnabled;
+	boolean ExtendAView;
+};
+
+/* KLUDGE: note that first 6 fields are the same order and position
+	as the fields in a struct funcnode */
+nodeclass eventnode {
+	TSysMarkRef SysMarkOffset;
+	nesssym_scopeType outerscope, ownscope;
+	long srcloc, srclen;	
+	struct nesssym *locallist;
+	struct nesssym *varsym;
+	unsigned char *spec;
+	struct ness *parentness;
+	struct observable *TriggerHolder;
+	boolean enabled;
+};
+
+/* one-time initialization */
+void neventInit(/* */);
+
+/* code generation routines - compile time 
+	these do initial and final processing for the EXTEND ... END
+	and ON ... END constructs  */
+struct nesssym *neventStartExtend(/* struct nesssym *currobj, struct nesssym *name */);
+struct nesssym *neventFinishExtend(/* struct nesssym *obj, struct nesssym *attrs */);
+struct nesssym *neventStartEvent(/* struct nesssym *currobj, enum eventvariety e, struct nesssym *name */);
+struct nesssym *neventFinishEvent(/* struct nesssym *event, 
+		struct nesssym *locals, enum eventvariety e */);
+
+/* post-time routines 
+	these remove and post event handling to celviews */
+void neventPost (/* struct ness *ness, boolean debug */);
+void neventUnpost (/* struct ness *ness, boolean debug */);
+
+/* run time routines */
+struct basicobject *ProperPtr(/* struct basicobject *ptr, 
+	struct classinfo *type */);  /* finds "nearby" ptr of desired type */
+void neventInfo(/* char op, union stackelement *NSP, 
+	char *iar*/);  /* dispatches for many event related routines */
+
+#endif
+

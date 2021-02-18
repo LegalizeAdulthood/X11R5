@@ -1,0 +1,18 @@
+INSTALLFLAGS = $(INSTDATFLAGS)
+
+LCFILES = OpenWindows.fs
+
+all::
+
+depend::
+
+install::
+	LibMkdir($(LIBDIR)/lib)
+	LibMkdir($(LIBDIR)/lib/locale)
+	LibMkdir($(LIBDIR)/lib/locale/japanese)
+	LibMkdir($(LIBDIR)/lib/locale/ja_JP.EUC)
+	LibMkdir($(LIBDIR)/lib/locale/japanese/OW_FONT_SETS)
+	LibMkdir($(LIBDIR)/lib/locale/ja_JP.EUC/OW_FONT_SETS)
+
+InstallMultiple($(LCFILES),$(LIBDIR)/lib/locale/japanese/OW_FONT_SETS)
+InstallMultiple($(LCFILES),$(LIBDIR)/lib/locale/ja_JP.EUC/OW_FONT_SETS)

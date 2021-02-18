@@ -1,0 +1,127 @@
+.\"  Copyright 1991 by the University of British Columbia.
+.\"  All rights reserved.
+.\"
+.\"  $Id: xtalk.man,v 1.0 1991/10/03 18:18:11 lindholm Exp $
+.\"
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of the University of
+.\"  British Columbia (U.B.C.) not be used in advertising or publicity
+.\"  pertaining to distribution of the software without specific, written
+.\"  prior permission.
+.\"
+.\"  U.B.C. DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+.\"  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+.\"  U.B.C. BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+.\"  ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+.\"  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+.\"  ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
+.\"  SOFTWARE.
+.\"
+.\" Copyright (c) 1983 The Regents of the University of California.
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms are permitted
+.\" provided that the above copyright notice and this paragraph are
+.\" duplicated in all such forms and that any documentation,
+.\" advertising materials, and other materials related to such
+.\" distribution and use acknowledge that the software was developed
+.\" by the University of California, Berkeley.  The name of the
+.\" University may not be used to endorse or promote products derived
+.\" from this software without specific prior written permission.
+.\" THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+.\" IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+.\" WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+.\"
+.\"	@(#)talk.1	6.5 (Berkeley) 9/20/88
+.\"
+.TH XTALK 1 "September 23, 1991"
+.UC 5
+.SH NAME
+xtalk \- talk to another user
+.SH SYNOPSIS
+.B xtalk
+[ person [ ttyname ] ]
+.SH DESCRIPTION
+\fIXtalk\fP is a X11 implementation of 4.3 BSD talk.
+.PP
+If you don't specify any arguments, a dialogue box will appear where you can
+enter the \fIperson\fP (and \fIttyname\fP) parameters.
+.PP 
+If you wish to talk to someone on your own machine, then \fIperson\fP
+is just the person's login name.  If you wish to talk to a user on
+another host, then \fIperson\fP is of the form \fIuser@host\fP.
+.PP
+If you want to talk to a user who is logged in more than once, the
+\fIttyname\fP argument may be used to indicate the appropriate terminal
+name, where \fIttyname\fP is of the form ``ttyXX''.
+.PP
+When first called, \fIxtalk\fP sends the message
+.PP
+     Message from TalkDaemon@his_machine...
+     talk: connection requested by your_name@your_machine.
+     talk: respond with: talk your_name@your_machine
+.PP
+to the user you wish to talk to. At this point, the recipient
+of the message should reply by typing
+.PP
+     \fIxtalk\fP\ |\ \fItalk\fP \ your_name@your_machine
+.PP
+It doesn't matter from which machine the recipient replies, as
+long as his login-name is the same.  Once communication is established,
+the two parties may type simultaneously, with their output appearing
+on separate lines.  To exit, just use the quit button.
+.PP
+Permission to talk may be denied or granted by use of the \fImesg\fP
+command.  At the outset talking is allowed.  Certain commands, in
+particular \fInroff\fP and \fIpr\fP, disallow messages in order to
+prevent messy output.
+.PP
+.SH WIDGETS
+\fIxtalk\fR uses the following athena widgets (followed by the instance name):
+.sp
+.nf
+.ta .5i 1.0i 1.5i 2.0i 2.5i
+XTalk  xtalk
+	Paned  paned
+		Form  header
+			Command  quit
+			Label  status
+			Command  nameOK
+			Text  nameText
+		AsciiText  text
+			TalkSrc  textSrc
+.PP
+.SH ENVIRONMENT
+.TP 8
+.B DISPLAY
+to get the default host and display number.
+.TP 8
+.B XENVIRONMENT
+to get the name of a resource file that overrides the global resources
+stored in the RESOURCE_MANAGER property.
+.PP
+.SH ORIGIN
+\fIxtalk\fP is derived from the 4.3 BSD talk source.
+.PP
+.SH COPYRIGHT
+Copyright 1991, University of British Columbia
+.PP
+.SH AUTHORS
+Paul Whaley (whaley@ucs.ubc.ca), University Computing Services, University of
+British Columbia, Vancouver, Canada.
+
+George Lindholm (lindholm@ucs.ubc.ca), University Computing Services,
+University of British Columbia, Vancouver, Canada.
+.PP
+.SH FILES
+/etc/hosts	to find the recipient's machine
+.br
+/etc/utmp	to find the recipient's tty
+.SH "SEE ALSO"
+mail(1), mesg(1), talk(1), who(1), write(1)
+.SH BUGS
+The version of \fItalk\fP(1) released with 4.3BSD uses a protocol that
+is incompatible with the protocol used in the version released with 4.2BSD.

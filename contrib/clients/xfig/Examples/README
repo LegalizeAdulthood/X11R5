@@ -1,0 +1,16 @@
+The figure files have been uuencoded so that they may be mailed
+to comp.sources.x without any problem with the ^A (control A)
+in the text objects.
+
+To decode them, do the following (csh):
+
+foreach file (*.uu)
+   uudecode $file
+end
+
+or the following (ksh):
+
+for file in *.uu
+do
+    uudecode $file
+done

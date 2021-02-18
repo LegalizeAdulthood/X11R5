@@ -1,0 +1,12 @@
+#
+# @(#)basic_setting 1.4 91/07/02;SMI
+#
+#  Workspace Properties Localization Panel configuration file - Basic Setting
+#
+#  Basic Setting for the Japanese locale
+#
+#	LC_MESSAGES="japanese"		-> display language is Japanese
+#
+#  Category_name=default_value,value:label[[,value:label]...]
+#
+basic_setting=japanese;C|ÊÆ¹ñ;japanese|ÆüËÜ

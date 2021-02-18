@@ -1,0 +1,307 @@
+Here is an updated version of my cxemacs file, explaining how to use
+GNU Emacs under Cxterm.  The main change is a different version of the
+8-bit patch, for use on the current Emacs version, 18.57.
+
+Please make this available for ftp as cxemacs-18.57.  Thanks.
+
+Steve Simpson
+
+-------------- beginning of cxemacs-18.57 document ---------
+
+CHINESE EMACS !!!!!
+
+Here is a way to make Emacs work under CXterm.  You will then be able
+to use Emacs to edit Chinese files.
+
+(For those who don't know, Emacs is GNU Emacs, the widely used
+customizable text editor.  CXterm is a Chinese-capable X-Window
+terminal program, based on MIT X11R4 XTerm.  CXterm uses the standard
+GuoBiao coding of Chinese characters, where each Chinese character is
+represented by two 8-bit bytes.  CXterm is available for anonymous FTP
+at cs.purdue.edu, directory pub/ygz.)
+
+FIRST, get the source code for Emacs, version 18.57.  This is
+available from many FTP sites, for instance prep.ai.mit.edu, directory
+pub/gnu.  (The 8-bit patch below may also work for some versions later
+than 18.57.  It will become obsolete with version 19.)
+
+SECOND, apply the 8-bit patch (at the end of this document) to the
+Emacs source code.  Then compile and install Emacs, following the
+instructions provided with the source code.
+
+THIRD, put the following lines of Emacs Lisp code into your Emacs
+startup file, normally .emacs.  (Alternatively, you can save this Lisp
+code as cxterm-mode.el and set it up to autoload when you issue the
+cxterm-mode-on command.)
+
+---------- Emacs Lisp code ----------
+
+;; This code for CXterm mode is very primitive.  If you make any
+;; improvements, please send them to Steve Simpson
+;; (simpson@math.psu.edu), Mark Leisher (mleisher@nmsu.edu) and
+;; Yongguang Zhang (ygz@cs.purdue.edu).
+
+;; set up keymap for 8-bit characters
+(setq insert-meta-map (make-keymap))
+(setq num 0)
+(while (< num 128)
+  (define-key insert-meta-map (char-to-string num) 
+    (concat "\C-Q" (char-to-string (+ 128 num))))
+  (setq num (+ num 1)))
+
+;; interactive commands for CXterm mode
+;; -- should be improved to take arguments, etc.
+(defun cxterm-forward-char ()
+    "CXterm version of forward-char."
+     (interactive)
+     (forward-char (if (> (char-after (point)) 128) 2 1)))
+(defun cxterm-backward-char ()
+    "CXterm version of backward-char."
+    (interactive)
+    (backward-char (if (> (char-after (- (point) 1)) 128) 2 1)))
+(defun cxterm-delete-char ()
+    "CXterm version of delete-char."
+    (interactive)
+    (delete-char (if (> (char-after (point)) 128) 2 1)))
+(defun cxterm-backward-delete-char-untabify ()
+    "CXterm version of backward-delete-char-untabify."
+    (interactive)
+    (backward-delete-char-untabify 
+       (if (> (char-after (- (point) 1)) 128) 2 1)))
+
+;; CXterm mode -- should be a minor mode toggle command
+(defun cxterm-mode-on ()
+    "Put the current buffer into CXterm mode.
+For editing Chinese files inside CXterm."
+    (interactive)
+    (setq ctl-arrow 2)
+    (local-set-key (char-to-string 28) insert-meta-map)
+    (local-set-key "\C-f" 'cxterm-forward-char)
+    (local-set-key "\C-b" 'cxterm-backward-char)
+    (local-set-key "\C-d" 'cxterm-delete-char)
+    (local-set-key "\177" 'cxterm-backward-delete-char-untabify)
+    ;; Unfortunately, the next two variables are global,
+    ;; so the Meta key will be disabled in 7-bit buffers.
+    (setq meta-prefix-char 28)     
+    (setq meta-flag t))
+
+------------- end of Emacs Lisp code ----------------------
+
+FOURTH, open a CXterm window and run Emacs inside it.  (If your Emacs
+was compiled with X-Window support, you will need to run Emacs using
+the -nw command line option.  This option tells Emacs to run in the
+current window, rather than opening up its own window.)
+
+FIFTH, get into an Emacs editing buffer, and type "ESC x
+cxterm-mode-on" (without the quotation marks or spaces, and followed
+by a carriage return).  This will put the buffer into Cxterm Chinese
+mode.  You can now use this buffer to display and edit files
+containing a mixture of Chinese and plain ASCII.
+
+Chinese characters are entered as usual using any of the input methods
+provided by CXterm.  You should be able to delete and move text using
+familiar Emacs keys and commands.  The only difference you will notice
+is that your Meta key (if you have one) will not work correctly.
+However, the ESC key will work, so you can still use Meta key
+commands.  (For instance, instead of Meta-v you will type ESC v.)  If
+the screen display becomes confused, type Control-L to refresh it.
+
+Enjoy !!!!
+
+I would like to thank Ken Cline for writing a version of the 8-bit
+patch, Mark Leisher for giving me that version, Matthieu Herb for
+updating the patch to Emacs 18.57, and Yongguang Zhang for writing
+some of the interactive CXterm mode commands.
+
+Stephen G. Simpson               simpson@math.psu.edu 
+Department of Mathematics        +1 814 863-0775
+Pennsylvania State University    
+University Park, PA 16802
+
+----------- beginning of emacs-18.57-8bit-diff ---------
+
+*** buffer.c.orig	Sat Jan  5 01:12:42 1991
+--- buffer.c	Tue Feb 19 10:12:33 1991
+***************
+*** 1256,1264 ****
+  Automatically becomes local when set in any fashion.");
+  
+    DEFVAR_PER_BUFFER ("ctl-arrow", &current_buffer->ctl_arrow,
+!     "*Non-nil means display control chars with uparrow.\n\
+  Nil means use backslash and octal digits.\n\
+! Automatically becomes local when set in any fashion.");
+  
+    DEFVAR_PER_BUFFER ("truncate-lines", &current_buffer->truncate_lines,
+      "*Non-nil means do not display continuation lines;\n\
+--- 1256,1268 ----
+  Automatically becomes local when set in any fashion.");
+  
+    DEFVAR_PER_BUFFER ("ctl-arrow", &current_buffer->ctl_arrow,
+!      "*t means display control chars with uparrow.\n\
+  Nil means use backslash and octal digits.\n\
+! Otherwise assume that control and meta chars are printable.\n\
+! Automatically becomes local when set in any fashion.\n\
+! \n\
+! This is a local feature.");
+! 
+  
+    DEFVAR_PER_BUFFER ("truncate-lines", &current_buffer->truncate_lines,
+      "*Non-nil means do not display continuation lines;\n\
+*** indent.c.orig	Tue Jan  8 18:35:21 1991
+--- indent.c	Tue Feb 19 10:31:04 1991
+***************
+*** 71,77 ****
+    register int tab_seen;
+    register int post_tab;
+    register int tab_width = XINT (current_buffer->tab_width);
+!   int ctl_arrow = !NULL (current_buffer->ctl_arrow);
+  
+    if (point == last_known_column_point
+        && MODIFF == last_known_column_modified)
+--- 71,78 ----
+    register int tab_seen;
+    register int post_tab;
+    register int tab_width = XINT (current_buffer->tab_width);
+!   int ctl_arrow = (!NULL (current_buffer->ctl_arrow))
+!                   + (EQ (current_buffer->ctl_arrow, Qt));
+  
+    if (point == last_known_column_point
+        && MODIFF == last_known_column_modified)
+***************
+*** 126,132 ****
+  	  tab_seen = 1;
+  	}
+        else
+! 	col += (ctl_arrow && c < 0200) ? 2 : 4;
+      }
+  
+    if (tab_seen)
+--- 127,134 ----
+  	  tab_seen = 1;
+  	}
+        else
+!       col += (ctl_arrow == 1 && c >= 0177) ? 1 :
+!                (ctl_arrow && c < 0200) ? 2 : 4;
+      }
+  
+    if (tab_seen)
+***************
+*** 290,296 ****
+    register int goal;
+    register int end = ZV;
+    register int tab_width = XINT (current_buffer->tab_width);
+!   register int ctl_arrow = !NULL (current_buffer->ctl_arrow);
+  
+    Lisp_Object val;
+  
+--- 292,299 ----
+    register int goal;
+    register int end = ZV;
+    register int tab_width = XINT (current_buffer->tab_width);
+!   register int ctl_arrow = (!NULL (current_buffer->ctl_arrow))
+!                          + (EQ (current_buffer->ctl_arrow, Qt));
+  
+    Lisp_Object val;
+  
+***************
+*** 317,322 ****
+--- 320,327 ----
+  	  col += tab_width - 1;
+  	  col = col / tab_width * tab_width;
+  	}
++       else if (ctl_arrow == 1 && c >= 040)
++       continue;
+        else if (ctl_arrow && (c < 040 || c == 0177))
+          col++;
+        else if (c < 040 || c >= 0177)
+***************
+*** 365,371 ****
+    register int pos;
+    register int c;
+    register int tab_width = XFASTINT (current_buffer->tab_width);
+!   register int ctl_arrow = !NULL (current_buffer->ctl_arrow);
+    int selective
+      = XTYPE (current_buffer->selective_display) == Lisp_Int
+        ? XINT (current_buffer->selective_display)
+--- 370,377 ----
+    register int pos;
+    register int c;
+    register int tab_width = XFASTINT (current_buffer->tab_width);
+!   register int ctl_arrow = (!NULL (current_buffer->ctl_arrow))
+!                          + (EQ (current_buffer->ctl_arrow, Qt));
+    int selective
+      = XTYPE (current_buffer->selective_display) == Lisp_Int
+        ? XINT (current_buffer->selective_display)
+***************
+*** 429,435 ****
+  	    }
+  	}
+        else
+! 	cpos += (ctl_arrow && c < 0200) ? 2 : 4;
+  
+        if (HPOS (cpos) >= width
+  	  && (HPOS (cpos) > width
+--- 435,442 ----
+  	    }
+  	}
+        else
+!         cpos += (ctl_arrow == 1 && c >= 040 ) ? 1 : 
+! 	        (ctl_arrow && c < 0200) ? 2: 4;
+  
+        if (HPOS (cpos) >= width
+  	  && (HPOS (cpos) > width
+*** xdisp.c.orig	Tue Jan  8 19:21:59 1991
+--- xdisp.c	Tue Feb 19 10:27:59 1991
+***************
+*** 1231,1237 ****
+    register unsigned char *startp;
+    register unsigned char *p1prev;
+    int tab_width = XINT (current_buffer->tab_width);
+!   int ctl_arrow = !NULL (current_buffer->ctl_arrow);
+    int width = XFASTINT (w->width) - 1
+      - (XFASTINT (w->width) + XFASTINT (w->left) != screen_width);
+    struct position val;
+--- 1231,1238 ----
+    register unsigned char *startp;
+    register unsigned char *p1prev;
+    int tab_width = XINT (current_buffer->tab_width);
+!   int ctl_arrow = (!NULL (current_buffer->ctl_arrow))
+!                   + (EQ (current_buffer->ctl_arrow, Qt));
+    int width = XFASTINT (w->width) - 1
+      - (XFASTINT (w->width) + XFASTINT (w->left) != screen_width);
+    struct position val;
+***************
+*** 1349,1354 ****
+--- 1350,1361 ----
+  	    }
+  	  break;
+  	}
++       else if (ctl_arrow == 1 && c >= 040)
++        {
++           if (p1 >= startp)
++             *p1 = c;
++           p1++;
++         }
+        else if (c < 0200 && ctl_arrow)
+  	{
+  	  if (p1 >= startp)
+***************
+*** 1942,1947 ****
+--- 1949,1960 ----
+  	      p1++;
+  	    }
+  	  while ((p1 - start + hscroll - (hscroll > 0)) % tab_width);
++         }
++       else if (buffer_defaults.ctl_arrow == 1 && c >= 040)
++         {
++           if (p1 >= start)
++             *p1 = c;
++           p1++;
+  	}
+        else if (c < 0200 && buffer_defaults.ctl_arrow)
+  	{
+
+
+----------- end of emacs-18.57-8bit-diff ---------
+
+----------- end of cxemacs-18.57 document --------

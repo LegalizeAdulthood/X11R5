@@ -1,0 +1,62 @@
+.\" $Header: PEXtTransl.man,v 1.0 91/10/04 17:02:11 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtTranslate 3PEXt "January 11th, 1991"
+.SH NAME
+\fBPEXtTranslate\fP \(em
+compose a translation matrix as a local transform structure element
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Structure.h>
+.sp 1
+void PEXtTranslate (\fIdx, dy, composition\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIdx, dy\fP;
+.br
+	Pcomp_type	\fIcomposition\fP;
+.sp 1
+void PEXtTranslate3 (\fIdx, dy, dz, composition\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIdx, dy, dz\fP;
+.br
+	Pcomp_type	\fIcomposition\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+These convenience procedures create a translation matrix of the given amount
+using the PHIGS functions \fBptranslate\fP and  \fBptranslate3\fP.  The
+resulting matrix appears as a \fBSET LOCAL TRANSFORMATION\fP (or \fBSET
+LOCAL TRANSFORMATION 3\fP) structure element with
+the given \fIcomposition\fP in the currently open structure.  If the current
+edit mode is \fIPINSERT\fP, then the transformation structure element is
+inserted at the current element pointer position, otherwise it replaces
+the element at the current element poiter position.
+.SH RETURN VALUE
+None
+.SH SEE ALSO
+\fBPEXtRotate(3)\fP
+.br
+\fBPEXtNonUniformScale(3)\fP
+.br
+\fBPEXtBuildTran(3)\fP
+.br
+\fBptranslate(3)\fP
+.br
+\fBptranslate3(3)\fP
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

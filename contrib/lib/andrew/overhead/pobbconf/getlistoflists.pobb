@@ -1,0 +1,96 @@
+#!/bin/csh -f
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+#
+
+%include pobbconfig.defs
+
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+%ifdef pobb_GetListOfLists
+
+set LOGFILE="/tmp/listlog$$$$"
+set DATE=`?[arpadatepgm]`
+set PUBLISHED=?[NetBBHome]/list-of-lists
+set HOST=nic.ddn.mil
+set nonomatch
+echo "Date: $$DATE" >& $$LOGFILE
+echo "From: List-of-Lists Daemon <?[PostmasterName]+@?[WorkstationCell]>" >>& $$LOGFILE
+echo "To: ?[DaemonBB].listoflists" >>& $$LOGFILE
+echo "Subject: Getting a new local copy of list-of-lists" >>& $$LOGFILE
+echo "" >>& $$LOGFILE
+
+echo "Trying to contact host $$HOST" >>& $$LOGFILE
+
+rm -f i-g*[1-9] I-G*ALL >>& $$LOGFILE
+
+ftp -i -n $$HOST <<!
+user anonymous ?[PostmasterTitle]@?[WorkstationCell]
+get netinfo:interest-groups-1.txt i-g$$$$1
+get netinfo:interest-groups-2.txt i-g$$$$2
+get netinfo:interest-groups-3.txt i-g$$$$3
+get netinfo:interest-groups-4.txt i-g$$$$4
+get netinfo:interest-groups-5.txt i-g$$$$5
+get netinfo:interest-groups-6.txt i-g$$$$6
+get netinfo:interest-groups-7.txt i-g$$$$7
+get netinfo:interest-groups-8.txt i-g$$$$8
+get netinfo:interest-groups-9.txt i-g$$$$9
+quit
+!
+echo "Done with ftp; checking results" >>& $$LOGFILE
+
+if (! -e i-g$$$$1 || ! -e i-g$$$$2 || ! -e i-g$$$$3 || ! -e i-g$$$$4 || ! -e i-g$$$$5 || ! -e i-g$$$$6 || ! -e i-g$$$$7 || ! -e i-g$$$$8 || ! -e i-g$$$$9 || -z i-g$$$$1 || -z i-g$$$$2 || -z i-g$$$$3 || -z i-g$$$$4 || -z i-g$$$$5 || -z i-g$$$$6 || -z i-g$$$$7 || -z i-g$$$$8 || -z i-g$$$$9) then
+    echo "One of the files is missing or zero length: aborting." >>& $$LOGFILE
+else
+    (cat i-g$$$$1 i-g$$$$2 i-g$$$$3 i-g$$$$4 i-g$$$$5 i-g$$$$6 i-g$$$$7 i-g$$$$8 i-g$$$$9 > I-G$$$$ALL) >>& $$LOGFILE
+    if (-z I-G$$$$ALL) then
+      echo "Concatenated result is zero length: aborting" >>& $$LOGFILE
+    else
+      cmp -s I-G$$$$ALL $$PUBLISHED >>& $$LOGFILE
+      if ($$status == 1) then 
+	echo "List of lists has changed; composing bboard post." >>& $$LOGFILE
+	cp I-G$$$$ALL $$PUBLISHED >>& $$LOGFILE
+	if ($$status) then 
+	    echo "cp failed" >>& $$LOGFILE
+	else
+	    set LOGFILE2="/tmp/listlog-two$$$$"
+	    echo "Date: $$DATE" >& $$LOGFILE2
+	    echo "From: List-of-Lists Daemon <?[PostmasterName]+@?[WorkstationCell]>" >>& $$LOGFILE2
+	    echo "To: arpalists+list-of-lists@?[WorkstationCell]" >>& $$LOGFILE2
+	    echo "Subject: New local copy of list-of-lists" >>& $$LOGFILE2
+	    echo "" >>& $$LOGFILE2
+	    echo "The list of all internet mailing lists has been updated." >>& $$LOGFILE2
+	    echo ""  >>& $$LOGFILE2
+	    echo "That file, $$PUBLISHED, is an up-to-date list of the known mailing lists on the Internet." >>& $$LOGFILE2
+	    echo "" >>& $$LOGFILE2
+	    echo "If there are any mailing lists on that list which we do not receive" >>& $$LOGFILE2
+	    echo "as part of the ?[InternetRootName].* folder tree that you think we SHOULD" >>& $$LOGFILE2
+	    echo "be receiving, please notify ?[PostmasterTitle]@?[WorkstationCell]." >>& $$LOGFILE2
+	    echo "" >>& $$LOGFILE2
+	    echo "Thank you." >>& $$LOGFILE2
+	    ?[queuemail] -f $$LOGFILE2 -a arpalists+list-of-lists
+	    rm -rf $$LOGFILE2
+              endif
+      else
+	echo "The list of lists is unchanged." >>& $$LOGFILE
+      endif
+    endif
+endif
+echo "Removing temporary files" >>& $$LOGFILE
+if (-e i-g$$$$1) rm i-g$$$$1 >>& $$LOGFILE
+if (-e i-g$$$$2) rm i-g$$$$2 >>& $$LOGFILE
+if (-e i-g$$$$3) rm i-g$$$$3 >>& $$LOGFILE
+if (-e i-g$$$$4) rm i-g$$$$4 >>& $$LOGFILE
+if (-e i-g$$$$5) rm i-g$$$$5 >>& $$LOGFILE
+if (-e i-g$$$$6) rm i-g$$$$6 >>& $$LOGFILE
+if (-e i-g$$$$7) rm i-g$$$$7 >>& $$LOGFILE
+if (-e i-g$$$$8) rm i-g$$$$8 >>& $$LOGFILE
+if (-e i-g$$$$9) rm i-g$$$$9 >>& $$LOGFILE
+if (-e I-G$$$$ALL) rm I-G$$$$ALL >>& $$LOGFILE
+?[queuemail] -f $$LOGFILE -a bb+andrew.daemons.listoflists
+rm -rf $$LOGFILE
+
+%endif pobb_GetListOfLists

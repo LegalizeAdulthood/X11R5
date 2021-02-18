@@ -1,0 +1,29 @@
+JL_NEXT( )
+
+名称
+
+	jl_next		次候補設定を現在の次のものにする。
+	jl_previous	次候補設定を現在の前のものにする。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_next(buf)
+	struct wnn_buf *buf	/* バッファ */
+
+	int
+	jl_previous(buf)
+	struct wnn_buf *buf;	/* バッファ */
+
+機能
+
+	jl_next は、次候補設定を現在の次のものにする。
+
+	jl_previous は、次候補設定を現在の前のものにする。
+
+リターンバリュー
+
+	次候補のオフセットを返す。
+

@@ -1,0 +1,18 @@
+.TH ISHOST 1
+.SH "NAMES"
+ishost \- Server access control program for canna
+.SH "SYNOPSIS"
+.B "ishost [{\-is|\-irohaserver} \fIirohaserver\fP]"
+.SH "DESCRIPTION"
+.PP
+the \fIishost\fP(1) prints the list of machines that are allowed to make
+connections to \fIirohaserver\fP(1M).
+.PP
+\fIirohaserver\fP(1M) allows network connections only from programs
+running on the same machine or machines listed in the file
+/etc/hosts.iroha.  If /etc/hosts.iroha does not exist or the file
+is empty, access is granted to everyone.
+.SH "OPTIONS"
+.IP "\-is \fIirohaserver\fP (or \-irohaserver \fIirohaserver\fP)" 12
+Specifies the name of the host under which the Kana-Kanji conversion
+server is in operation.

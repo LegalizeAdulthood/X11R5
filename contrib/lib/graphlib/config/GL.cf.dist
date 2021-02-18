@@ -1,0 +1,8 @@
+#ifndef GraphLibCF
+#define GraphLibCF YES
+/* All configuration options are on/off (1/0) */
+
+#define BuildWithDebug @@DEBUG@@
+#define BuildSharedLibraries @@SHLIBS@@
+
+#endif /*GraphLibCF*/

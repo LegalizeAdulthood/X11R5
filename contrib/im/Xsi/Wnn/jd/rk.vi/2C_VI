@@ -1,0 +1,50 @@
+;
+; $Id: 2C_VI,v 1.1 1991/09/09 22:39:55 ohm Exp $
+;
+; vi move-mode
+(defvar char (all))
+(defvar esc (list '\033'))
+(defvar susup (list '^Z'))
+(defvar jumpc (list F f T t))
+(defvar termc (list B b E e W w H h j k L l ' '))
+(defvar inpc (list A a I i O o S s C R))
+(defvar mzrc (list m z r '\'' '\`' @))
+(defvar find (list / ?))
+
+(if vijump)(char)	(off vijump)(char)
+
+(if vic)c		(off vic)(off vimove)c
+(if vic)(jumpc)		(off vic)(off vimove)(on vijump)(jumpc)
+(if vic)(if zenkaku)(termc)	(off vic)(off vimove)(on viquote)(on vithrow)(off zenkaku)(on VIzenkaku)(termc)
+(if vic)(termc)		(off vic)(off vimove)(on viquote)(termc)
+(if vic)(char)		(off vic)(char)
+
+(if vid)d		(off vid)d
+(if vid)(jumpc)		(off vid)(on vijump)(jumpc)
+(if vid)(termc)		(off vid)(termc)
+(if vid)(char)		(off vid)(char)
+
+(if vimzrc)(char)	(off vimzrc)(char)
+
+c			(on vic)c
+d			(on vid)d
+(jumpc)			(on vijump)(jumpc)
+(mzrc)			(on vimzrc)(mzrc)
+(if romkan)(inpc)	(off vimove)(on viquote)(inpc)
+(if zenkaku)(inpc)	(off vimove)(on vithrow)(on viquote)(off zenkaku)(on VIzenkaku)(inpc)
+(unless zenkaku)(inpc)	(off vimove)(on viquote)(inpc)
+;(mzrc)(char)		(mzrc)(char)'^L'
+
+ZZ		ZZ'^L'(on quote)(off romkan)(off zenkaku)(off vimode)(on vimove)
+(susup)		(susup)(on quote)(off romkan)(off zenkaku)(off vimode)(on vimove)
+
+!!			(off vimove)(on vish)!!'^L'
+:			(off vimove)(on viex):
+(if romzen)(find)	(off vimove)(on vithrow)(find)(on vistr)
+(if romkan)(find)	(off vimove)(on vistr)(find)
+(if zenkaku)(find)	(off vimove)(on vithrow)(off zenkaku)(on VIzenkaku)(find)(on vistr)
+(unless zenkaku)(find)	(off vimove)(on vistr)(find)
+
+;'^I'		'^E'
+;'\x9f'		'^Y'
+(char)		(char)

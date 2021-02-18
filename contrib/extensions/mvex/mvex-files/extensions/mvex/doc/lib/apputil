@@ -1,0 +1,448 @@
+.\" $Header: /n/lacey/usr/local/src/video/MVEX/doc/lib/RCS/apputil,v 1.15 1991/09/19 22:21:21 toddb Exp $
+\&
+.sp 1
+.ce 3
+\s+1\fBSection 4\fP\s-1
+
+\s+1\fBApplication Utility Functions\fP\s-1
+.sp 2
+.nr H1 0
+.nr H2 0
+.nr H3 0
+.nr H4 0
+.nr H5 0
+.na
+.LP
+.XS
+Section 4: Application Utility Functions
+.XE
+.NH 1
+Extension Information Utilities
+.XS
+\*(SN Extension Information Utilities
+.XE
+.IN "MVEXMajorVersion" "" "@DEF@"
+.FD 0
+int MVEXMajorVersion(\^\fIdisplay\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.LP
+Returns the major version for the MVEX extension if the MVEX library
+can be initialized; otherwise, -1 is returned.
+.IN "MVEXMinorVersion" "" "@DEF@"
+.FD 0
+int MVEXMinorVersion(\^\fIdisplay\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.LP
+Returns the minor version for the MVEX extension if the MVEX library
+can be initialized; otherwise, -1 is returned.
+.sp 5
+.IN "MVEXBaseOpCode" "" "@DEF@"
+.FD 0
+int MVEXBaseOpCode(\^\fIdisplay\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.LP
+Returns the major opcode for the VEX extension if VEXlib can be initialized;
+otherwise, False is returned.
+.sp 5
+.ne 15
+.IN "MVEXBaseEvent" "" "@DEF@"
+.FD 0
+int MVEXBaseEvent(\^\fIdisplay\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.LP
+Returns the base event type code for the VEX extension if VEXlib can be
+initialized; otherwise, False is returned.
+.sp 5
+.ne 15
+.IN "MVEXBaseError" "" "@DEF@"
+.FD 0
+int MVEXBaseError(\^\fIdisplay\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.LP
+Returns the base error code for the VEX extension if VEXlib can be initialized;
+otherwise, False is returned.
+.sp 5
+.ne 25
+.NH 1
+Screen Information Utilities
+.XS
+\*(SN Screen Information Utilities
+.XE
+.IN "MVEXOverlapsOfScreen" "" "@DEF@"
+.FD 0
+Status MVEXOverlapsOfScreen(\^\fIdisplay\fP, \fIscreen_number\fP, \fIinput_overlap\fP, \fIcapture_overlap\fP, \fIio_overlap\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    int \fIscreen_number\fP\^;
+.br
+    Bool *\fIinput_overlap\fP, *\fIcapture_overlap\fP, *\fIio_overlap\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIscreen_number\fP 1i
+Specifies the screen to be examined.
+.IP \fIinput_overlap\fP 1i
+Returns True if VIRs may overlap, False otherwise.
+.IP \fIcapture_overlap\fP 1i
+Returns True if VORs may overlap, False otherwise.
+.IP \fIio_overlap\fP 1i
+Returns True if a VIR and a VOR may overlap, False otherwise.
+.LP
+Status return is non-zero if VEXlib can be initialized.  Otherwise
+the return is zero and the return arguments are not updated.
+[See VEX Protocol QueryVideo request description]
+.sp 5
+.ne 25
+.IN "MVEXTimestamps" "" "@DEF@"
+.FD 0
+Status MVEXTimestamps(\^\fIdisplay\fP, \fIscreen_number\fP, \fIvideo_change_time\fP, \fIvideo_connectivity_time\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    int \fIscreen_number\fP\^;
+.br
+    unsigned long *\fIvideo_change_time\fP\^;
+.br
+    unsigned long *\fIvideo_connectivity_time\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIscreen_number\fP 1i
+Specifies the screen to be examined.
+.IP \fIvideo_change_time\fP 1i
+Returns the most recent time returned by MVEXQueryVideo (the most recent time the
+list of video devices changed).
+.IP \fIvideo_connectivity_time\fP 1i
+Returns the time of the most recent device network change caused by a 
+ChangeConnectivity request (reported by a VideoConnectivityState event).
+.LP
+Status return is non-zero if VEXlib can be initialized.  Otherwise
+the return is zero and the return arguments are not updated.
+.LP
+During the course of a connection to the X server, the list of devices may
+change and the connectivity of devices may change.  This routine will report
+the most recent times for these changes.  These times are set within
+the VEX library when VideoConnectivity events are received
+(video_connectivity_time)
+and when the MVEXQueryVideo reply is received (video_change_time).
+.sp 5
+.ne 35
+.IN "MVEXGetVisualInfo" "" "@DEF@"
+.FD 0
+XVisualInfo *MVEXGetVisualInfo\^(\^\fIdisplay\fP, \fIvinfo_mask\fP, \fIvinfo_template\fP, \fInitems_return\fP, \fIinclude_core_visuals\fP\^)
+.br
+.br
+      Display *\fIdisplay\fP\^;
+.br
+      long \fIvinfo_mask\fP\^;
+.br
+      XVisualInfo *\fIvinfo_template\fP\^;
+.br
+      int *\fInitems_return\fP\^;
+.br
+      Bool \fIinclude_core_visuals\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIvinfo_mask\fP 1i
+Specifies the visual mask value.
+.IP \fIvinfo_template\fP 1i
+Specifies the visual attributes that are to be used in matching the visual
+structures.
+.IP \fInitems_return\fP 1i
+Returns the number of matching visual structures.
+.IP \fIinclude_core_visuals\fP 1i
+Specifies which visuals lists should be searched.  If the value is True, then
+both the Core and the VEX visuals lists are searched, otherwise, only the
+VEX list is searched.
+.LP
+.LP
+.PN MVEXGetVisualInfo
+function returns a list of visual structures that match the attributes specified
+by vinfo_template.
+If \fIinclude_core_visuals\fP is False,
+it returns only those visuals that are unique to VEX (not
+provided in the Core connection information), otherwise it returns visuals
+from either the Core list or the VEX list.
+Visuals returned by this routine are not guaranteed to have any video
+capability;  association with video is determined by MVEXWindowModel
+structures returned by
+.PN MVEXGetVins
+and
+.PN MVEXGetVouts .
+If no visual structures match the template using the specified vinfo_mask,
+.PN MVEXGetVisualInfo
+returns a NULL.
+To free the data returned by this function, use
+.PN XFree .
+The choices for vinfo_mask and the definition for the XVisualInfo data 
+structure are given in the Core Xlib specification (see
+.PN XGetVisualInfo
+in Chapter 10, Application
+Utility Functions).
+Possible values for the class field of the XVisualInfo structure include
+VEXVideoGray and VEXVideoColor in addition to the Core class types.
+.bp
+.IN "MVEXGetVins" "" "@DEF@"
+.FD 0
+.sp 5
+.ne 20
+MVEXVin *MVEXGetVins(\^\fIdisplay\fP, \fIscreen_number\fP, \fInitems_return\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    int \fIscreen_number\fP\^;
+.br
+    int *\fInitems_return\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIscreen_number\fP 1i
+Specifies the screen to be examined.
+.IP \fInitems_return\fP 1i
+Returns number of MVEXVin structures in the returned MVEXVin array.
+.LP
+Returns an array of MVEXVin structures for the named screen.
+The array remains valid for the life of the
+connection.
+Returns NULL if VEXlib cannot be initialized or
+cannot allocate space or if there are no VideoInputs for this screen.
+To free the data returned by this function, use
+.PN XFree .
+.sp 5
+.ne 20
+.IN "MVEXGetVouts" "" "@DEF@"
+.FD 0
+MVEXVout *MVEXGetVouts(\^\fIdisplay\fP, \fIscreen_number\fP, \fInitems_return\fP\^)
+.br
+    Display *\fIdisplay\fP\^;
+.br
+    int \fIscreen_number\fP\^;
+.br
+    int *\fInitems_return\fP\^;
+.FN
+.IP \fIdisplay\fP 1i
+Specifies the connection to the X server.
+.IP \fIscreen_number\fP 1i
+Specifies the screen to be examined.
+.IP \fInitems_return\fP 1i
+Returns number of MVEXVout structures in the returned MVEXVout array.
+.LP
+Returns an array of MVEXVout structures for the named screen.
+The array remains valid for the life of the
+connection.
+Returns NULL if VEXlib cannot be initialized or
+cannot allocate space or if there are no VideoOutputs for this screen.
+To free the data returned by this function, use
+.PN XFree .
+.sp 5
+.ne 30
+.NH 1
+Range Searching Utilities
+.XS
+\*(SN Range Searching Utilities
+.XE
+.IN "MVEXMatchFraction" "" "@DEF@"
+.FD 0
+Bool MVEXMatchFraction(\^\fIgiven\fP, \fIranges\fP, \fInranges\fP, \fIlower\fP, \fIhigher\fP\^)
+.br
+    MVEXFraction *\fIgiven\fP\^;
+.br
+    MVEXFractionRange *\fIranges\fP\^;
+.br
+    int \fInranges\fP\^;
+.br
+    MVEXFraction *\fIlower\fP\^;
+.br
+    MVEXFraction *\fIhigher\fP\^;
+.FN
+.IP \fIgiven\fP 1i
+Specifies the fraction to be checked.
+.IP \fIranges\fP 1i
+Specifies the fraction range list to be compared against.
+.IP \fInranges\fP 1i
+Specifies the number of fraction ranges in the list.
+.IP \fIlower\fP 1i
+Returns the nearest lower or equivalent fraction in the range.
+.IP \fIhigher\fP 1i
+Returns the nearest higher or equivalent fraction in the range.
+.LP
+Returns True if \fIgiven\fP is numerically equal to a fraction in one of the
+fraction ranges in \fIranges\fP,
+in which case \fIlower\fP and \fIhigher\fP are returned numerically equal to
+\fIgiven\fP, with the smallest values for numerator and denominator within
+\fIrange\fP.  For example, if \fIgiven\fP is 22/33, \fIlower\fP
+and \fIhigher\fP could
+be 2/3 even if 22/33 is also in \fIrange\fP.
+.LP
+Returns False otherwise.  If \fIgiven\fP is between the highest and lowest
+fractions in all the fraction ranges in 
+\fIranges\fP, then \fIlower\fP is the closest fraction in \fIranges\fP
+of less value and
+\fIhigher\fP is the closest fraction in \fIranges\fP of greater value.
+If \fIgiven\fP
+is below the lowest fraction in \fIranges\fP, both \fIlower\fP and \fIhigher\fP
+are that lowest fraction,
+while if above both are the highest.
+.LP
+One use of this function is to make sure a src and dest match according to
+the x_scale and y_scale ranges, so that the 
+.PN MVEXRenderVideo
+or
+.PN MVEXCaptureGraphics
+functions do not get a VideoViolation event.
+.sp 5
+.ne 30
+.IN "MVEXMatchFractionInList" "" "@DEF@"
+.FD 0
+int MVEXMatchFractionInList(\^\fIgiven\fP, \fIlist\fP, \fIcount\fP, \fIlower\fP, \fIhigher\fP, \fIindex_return\fP\^)
+.br
+    MVEXFraction *\fIgiven\fP\^;
+.br
+    MVEXFractionRange *\fIlist\fP\^;
+.br
+    int \fIcount\fP\^;
+.br
+    MVEXFraction *\fIlower\fP\^;
+.br
+    MVEXFraction *\fIhigher\fP\^;
+.br
+    int *\fIindex_return\fP\^;
+.FN
+.IP \fIgiven\fP 1i
+Specifies the fraction to be checked.
+.IP \fIlist\fP 1i
+Specifies the fraction list to be compared against.
+.IP \fIcount\fP 1i
+Specifies the number of fractions in the list.
+.IP \fIlower\fP 1i
+Returns the nearest lower or equivalent fraction in the list.
+.IP \fIhigher\fP 1i
+Returns the nearest higher or equivalent fraction in the list.
+.IP \fIindex_return\fP 1i
+Returns the index of lower.
+.LP
+Returns True if \fIgiven\fP is numerically equal to a fraction in \fIlist\fP,
+in which case \fIlower\fP and \fIhigher\fP are both some fraction that is
+numerically equivalent to \fIgiven\fP.
+.LP
+Returns False otherwise.  If \fIgiven\fP is between the highest and lowest
+fractions in \fIlist\fP, then \fIlower\fP is the closest fraction
+of less value and \fIhigher\fP is the closest fraction of greater value.
+If \fIgiven\fP is below the lowest fraction in \fIlist\fP, both \fIlower\fP
+and \fIhigher\fP are that lowest fraction (\fIindex_return\fP is 0).
+If \fIgiven\fP is above the highest fraction in \fIlist\fP, both \fIlower\fP
+and \fIhigher\fP are that highest fraction (\fIindex_return\fP
+is \fIcount\fP - 1).
+.sp 5
+.ne 30
+.IN "MVEXFractionList" "" "@DEF@"
+.FD 0
+MVEXFraction *MVEXFractionList(\^\fIranges\fP, \fInranges\fP, \fIlength_return\fP\^)
+.br
+    MVEXFractionRange *\fIranges\fP\^;
+.br
+    int \fInranges\fP\^;
+.br
+    int *\fIlength_return\fP\^;
+.FN
+.IP \fIranges\fP 1i
+Specifies the fraction ranges to be expanded.
+.IP \fInranges\fP 1i
+Specifies the number of fraction ranges.
+.IP \fIlength_return\fP 1i
+Returns the number of fractions in the list.
+.LP
+Returns a list of fractions, with 0 occurring at most once.  The list is in
+numerical order, least first, with numerically equivalent fractions
+in no particular order.
+.LP
+This function is intended for use with small fraction ranges, such as may
+be found in the VEX_SPEED control description.  Fraction ranges in the
+placements of MVEXVin or MVEXVout structures can be too large for this
+function, which allocates the memory for the list.  If in doubt, use
+MVEXFractionCount to see how big the list will be before using this function.
+.LP
+To free the data returned by this function, use
+.PN XFree .
+.sp 5
+.ne 30
+.IN "MVEXFractionCount" "" "@DEF@"
+.FD 0
+int MVEXFractionCount(\^\fIranges\fP, \fInranges\fP\^)
+.br
+    MVEXFractionRange *\fIranges\fP\^;
+.br
+    int \fInranges\fP\^;
+.FN
+.IP \fIranges\fP 1i
+Specifies the fraction ranges to be counted.
+.IP \fInranges\fP 1i
+Specifies the number of fraction ranges.
+.LP
+Returns the number of fractions in the list of fraction ranges, which can
+be used to determine whether to use MVEXFractionList, above.
+.sp 5
+.ne 30
+.IN "MVEXMatchRectangle" "" "@DEF@"
+.FD 0
+Bool MVEXMatchRectangle(\^\fIgiven\fP, \fIrange\fP, \fIenclosed\fP, \fIenclosing\fP\^)
+.br
+    XRectangle *\fIgiven\fP\^;
+.br
+    MVEXRectangleRange *\fIrange\fP\^;
+.br
+    XRectangle *\fIenclosed\fP\^;
+.br
+    XRectangle *\fIenclosing\fP\^;
+.FN
+.IP \fIgiven\fP 1i
+Specifies a given rectangle.
+.IP \fIrange\fP 1i
+Specifies a rectangle range.
+.IP \fIenclosed\fP 1i
+Returns the largest rectangle in the range that is
+enclosed by the given rectangle, if possible.
+.IP \fIenclosing\fP 1i
+Returns the smallest rectangle in the range that
+encloses the given rectangle, if possible.
+.LP
+Returns True if \fIgiven\fP exactly matches a rectangle in \fIrange\fP.
+Then both
+\fIenclosed\fP and \fIenclosing\fP are returned equal to \fIgiven\fP.
+.LP
+Returns False otherwise.  If \fIgiven\fP is within the extents of \fIrange\fP,
+then \fIenclosed\fP is the largest rectangle in \fIrange\fP that is completely
+enclosed by \fIgiven\fP and \fIenclosing\fP is the smallest rectangle in 
+\fIrange\fP
+that completely encloses \fIgiven\fP.  But if \fIgiven\fP is partially or
+completely outside the extents of \fIrange\fP, then \fIenclosed\fP
+and \fIenclosing\fP
+are as close as possible to being enclosed/enclosing while still being
+rectangles in \fIrange\fP.
+.LP
+This function can be used to find either the proper enclosing area
+around a desired source area or the largest proper destination area
+within a given boundary, for rendering video or capturing graphics.
+.bp

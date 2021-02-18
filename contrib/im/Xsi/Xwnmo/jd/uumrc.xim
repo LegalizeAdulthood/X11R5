@@ -1,0 +1,18 @@
+;
+; $Id: uumrc.xim,v 1.1 1991/09/11 02:28:16 ohm Exp $
+;
+;;
+;;	default uumrc
+;;	For uum (Wnn V4)
+
+setconvenv	@LIBDIR/@LANG/wnnenvrc
+setkankanaenv	@LIBDIR/@LANG/wnnenvrc_R
+
+setjishopath    @LIBDIR/@LANG/dic/pubdic/
+sethindopath    @LIBDIR/@LANG/dic/usr/@USR/
+
+setuumkey	@LIBDIR/@LANG/uumkey.xim
+setrkfile	@LIBDIR/@LANG/rk
+
+waking_up_no_henkan_mode
+send_ascii_char

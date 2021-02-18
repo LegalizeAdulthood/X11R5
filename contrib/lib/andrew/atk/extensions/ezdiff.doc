@@ -1,0 +1,59 @@
+\begindata{text,268888004}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Ezdiff}
+
+
+
+This document is intended to contain the programmer's guide for ezdiff.  There 
+are no short-term plans for completing this document.  Some information on 
+ezdiff may be found in the help file ezdiff.help.
+
+
+
+\section{Quick reference list for }ezdiff
+
+
+
+\fixedtext{struct ezdiff *\bold{ezdiff_}Create }\fixedindent{(struct buffer 
+*\paramname{buf1}, struct buffer *\paramname{buf2}, boolean 
+\paramname{ignoreblanks});} 
+
+\fixedtext{void \bold{ezdiff_}FinalizeObject }\fixedindent{();} 
+
+\fixedtext{boolean \bold{ezdiff_}InitializeClass }\fixedindent{();} 
+
+\fixedtext{boolean \bold{ezdiff_}InitializeObject }\fixedindent{(struct ezdiff 
+*\paramname{self});} 
+
+\fixedtext{void \bold{ezdiff_}ObservedChanged }\fixedindent{(struct ezdiff 
+*\paramname{ezdiff}, struct thisobject *\paramname{changed}, long 
+\paramname{value});} \
+\enddata{text,268888004}

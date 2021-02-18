@@ -1,0 +1,105 @@
+/*
+ * XMailbox.res
+ *
+ * Mri resource file for xmailbox.
+ *
+ * This interface MUST include a XmText widget.
+ * It must be registered w/ the main application using RegisterText().
+ * See below.
+ *
+ * There are a number of functions that can be bound to various events
+ * within the interface.  Commonly these are attached to something like
+ * an activateCallback on a PushButton:
+ *
+ * WcExitCB	
+ *	Will exit the application.
+ *
+ * ClearText
+ *	This clears the messages in the mailbox window.  The next 
+ *	incoming mail will become the first message in the window.
+ *	This action happens automatically when the mailbox is emptied
+ *	from a mailer like xmh or elm.
+ *
+ * HideMail
+ *	Causes the mailbox window to disappear until the next incoming mail
+ *	arrives.  Keeps the desktop clean.  When the hideNoMail resource
+ *	is set to true, the mailbox window is hidden whenever there are
+ * 	no unread mail messages left.
+ *
+ * ReScan
+ *	Causes the mailbox to be rescanned for all unread messages and
+ *	the mailbox window to be updated.  This action might be performed
+ *	after a ClearText, when you wish to see some past message.
+ *
+ * None, some, or all of these actions may be used freely within this
+ * interface.  There are a number of Mri internal actions as well, 
+ * (WcExitCB is one of them) see Mri documentation for details.
+ *
+ */
+
+
+/*
+ * toplevel declaration.
+ */
+XMailbox*xmailbox.wcChildren:		table
+
+/*
+ * Uncomment this for a trace of the widget hierarchy.  Useful for building
+ * resource files.
+ */
+!*wcTrace:			True
+
+/*
+ * The Text window.  Some kind of XmText construct MUST be declared and
+ * used for displaying mail messages.
+ */
+XMailbox*text.wcConstructor:            XmCreateScrolledText
+XMailbox*text.wcPopups:			menu
+XMailbox*text.wcCallback:               RegisterText ( this )
+XMailbox*text.editable:                 False
+XMailbox*text.editMode:                 MULTI_LINE_EDIT
+XMailbox*text.columns:                  40
+XMailbox*text.rows:                     2
+XMailbox*text.spacing:			0
+/* *text*scrollHorizontal:		False */
+XMailbox*text.translations:	#augment \n <Btn3Down>: MriPopupACT( *menu)
+
+/*
+ * I use a Table widget to hold it all together
+ */
+XMailbox*table.wcClass:			TableWidgetClass
+XMailbox*table.wcChildren:		text, clear, hide, rescan
+
+!                               c r cs rs opts
+XMailbox*table.layout:	textSW	1 0  1  4     ;\
+                hide            0 0  1  1    WH ;\
+                rescan          0 1  1  1    WH ;\
+		clear		0 2  1  1    WH ;
+XMailbox*table.columnSpacing:         	5
+XMailbox*table.rowSpacing:            	0
+XMailbox*table.borderWidth:           	0
+XMailbox*table.internalHeight:        	0
+XMailbox*table.internalWidth:         	0
+
+XMailbox*menu.wcConstructor:	XmCreatePopupMenu
+XMailbox*menu.wcChildren:	clear, hide, rescan, sep, quit
+/*
+ * Buttons attahced to a pulldown menu for invoking built in actions
+ */
+XMailbox*clear.wcConstructor:		XmCreatePushButton
+XMailbox*clear.labelString:		Clear
+XMailbox*clear.activateCallback:	ClearText
+
+XMailbox*hide.wcConstructor:		XmCreatePushButton
+XMailbox*hide.labelString:		Hide
+XMailbox*hide.activateCallback:		HideMail
+
+XMailbox*rescan.wcConstructor:		XmCreatePushButton
+XMailbox*rescan.labelString:		Rescan
+XMailbox*rescan.activateCallback:	ReScan
+
+XMailbox*sep.wcConstructor:		XmCreateSeparator
+
+XMailbox*quit.wcConstructor:		XmCreatePushButton
+XMailbox*quit.labelString:		Quit
+XMailbox*quit.activateCallback:		WcExitCB

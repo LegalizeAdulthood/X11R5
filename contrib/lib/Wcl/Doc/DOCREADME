@@ -1,0 +1,11 @@
+This directory contains the documentation for the Widget Creation
+Library.
+
+The files with .doc suffixes are pure text files, and contain
+updated Wcl and table widget documentation.
+
+The subdirectory Doc.105 contains compressed postscript files which
+contain viewgraphs for a Wcl tutorial and a paper which is close to
+being a reference or programmers manual, as shipped with Wcl 1.05
+by David Smyth. Note David does not work for JPL anymore.
+

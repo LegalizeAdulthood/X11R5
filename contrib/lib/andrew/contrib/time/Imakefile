@@ -1,0 +1,41 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS		=	timeoday.do \
+			timeodayv.do \
+			writestmp.do \
+			writestmpv.do \
+			clock.do \
+			clockv.do
+
+IHFILES		=	timeoday.ih \
+			timeodayv.ih \
+			writestmp.ih \
+			writestmpv.ih \
+			clock.ih \
+			clockv.ih
+
+/* LIBS		=	$(DESTDIR)/lib/libmail.a $(DESTDIR)/lib/libutil.a */
+LIBS		=	$(DESTDIR)/lib/libutil.a
+
+INCDIR = $(DESTDIR)/include/atk
+
+NormalHelpRule()
+NormalObjectRule()
+NormalATKRule()
+DependTarget()
+
+DynamicMultiObject(timeoday.do, timeoday.o, ${LIBS}, -lm)
+DynamicMultiObject(timeodayv.do, timeodayv.o, ${LIBS}, -lm)
+DynamicMultiObject(writestmp.do, writestmp.o, ${LIBS}, -lm)
+DynamicMultiObject(writestmpv.do, writestmpv.o, ${LIBS}, -lm)
+DynamicMultiObject(clock.do, clock.o, ${LIBS}, -lm)
+DynamicMultiObject(clockv.do, clockv.o, ${LIBS}, -lm)
+InstallClassFiles($(DOBJS), $(IHFILES))
+InstallDocs(timeday.help, ${DESTDIR}/help)
+InstallHelpAlias(timeday, timeoday time-of-day time date daytime time-inset date-inset)
+InstallDocs(wrtstmp.help, ${DESTDIR}/help)
+InstallHelpAlias(wrtstmp, writestamp write-stamp time-stamp)
+InstallDocs(clock.help, ${DESTDIR}/help)
+InstallHelpAlias(clock, clock-inset)

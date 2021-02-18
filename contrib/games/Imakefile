@@ -1,0 +1,9 @@
+/* You will have to edit this to suit */
+
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = acm spider xboard xpipeman xtetris
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

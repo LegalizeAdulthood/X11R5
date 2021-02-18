@@ -1,0 +1,142 @@
+/**/#
+/**/# $Id: Imakefile,v 1.5 1991/09/30 23:46:24 proj Exp $
+/**/#
+/**/#
+/**/# Copyright 1989, 1990, 1991 by OMRON Corporation
+/**/# Copyright 1991 by Massachusetts Institute of Technology
+/**/#
+/**/# Permission to use, copy, modify, distribute, and sell this software and its
+/**/# documentation for any purpose is hereby granted without fee, provided that
+/**/# the above copyright notice appear in all copies and that both that
+/**/# copyright notice and this permission notice appear in supporting
+/**/# documentation, and that the names of OMRON and MIT not be used in
+/**/# advertising or publicity pertaining to distribution of the software without
+/**/# specific, written prior permission.  OMRON and MIT make no representations
+/**/# about the suitability of this software for any purpose.  It is provided
+/**/# "as is" without express or implied warranty.
+/**/#
+/**/# Wnn consortium is one of distributors of the official Wnn source code
+/**/# release.  Wnn consortium also makes no representations about the
+/**/# suitability of this software for any purpose.  It is provided "as is"
+/**/# without express or implied warranty.
+/**/#
+/**/# OMRON, MIT AND WNN CONSORTIUM DISCLAIM ALL WARRANTIES WITH REGARD TO
+/**/# THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+/**/# FITNESS, IN NO EVENT SHALL OMRON, MIT OR WNN CONSORTIUM BE LIABLE FOR ANY
+/**/# SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+/**/# RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+/**/# CONTRACT, NEGLIGENCE OR OTHER TORTUOUS ACTION, ARISING OUT OF OR IN
+/**/# CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+/**/#
+
+   INSTPGMFLAGS = $(INSTBINFLAGS) -o $(WNNOWNER)
+       INCLUDES = -I. $(XWNMOINCLUDES) -I$(XWNMOSRC) -I$(TOP)/lib/X
+  LOCAL_DEFINES = -DXJUTIL 
+        DEFINES = $(WNNDEFINE) $(ALLLANGDEF) $(LOCAL_DEFINES)
+/**/#LOCAL_LIBRARIES = $(XWNMOLIBRARIES)
+/**/#        SYSLIBS = -lX11
+LOCAL_LIBRARIES = $(XWNMOJLIB)
+        SYSLIBS = $(XLIB)
+       LOCALMAN = man.en
+
+SRCS1 = display.c \
+	hinsi.c \
+	ichiran.c \
+	init_w.c \
+	jhlp.c \
+	jutil.c \
+	kensaku.c \
+	keyin.c \
+	message.c \
+	prologue.c \
+	select_ele.c \
+	touroku.c \
+	uif.c \
+	xheader.c \
+	xw_touroku.c
+
+OBJS1 = display.o \
+	hinsi.o \
+	ichiran.o \
+	init_w.o \
+	jhlp.o \
+	jutil.o \
+	kensaku.o \
+	keyin.o \
+	message.o \
+	prologue.o \
+	select_ele.o \
+	touroku.o \
+	uif.o \
+	xheader.o \
+	xw_touroku.o
+
+SRCS2 = $(XWNMOSRC)/w_string.c
+SRCS3 = $(XWNMOSRC)/printf.c
+SRCS4 = $(XWNMOSRC)/termio.c
+SRCS5 = $(XWNMOSRC)/screen.c
+SRCS6 = $(XWNMOSRC)/cursor.c
+SRCS7 = $(XWNMOSRC)/localalloc.c
+SRCS8 = $(XWNMOSRC)/xcvtkey.c
+SRCS9 = $(XWNMOSRC)/box.c
+SRCS10 = $(XWNMOSRC)/basic_op.c
+SRCS11 = $(XWNMOSRC)/key_bind.c
+SRCS12 = $(XWNMOSRC)/xlc_util.c
+SRCS13 = $(XWNMOSRC)/functions.c
+ETC_SRCS1 = $(WNNETCSRC)/strings.c
+ETC_SRCS2 = $(WNNETCSRC)/sstrings.c
+ETC_SRCS3 = $(WNNETCSRC)/yincoding.c
+ETC_SRCS4 = $(WNNETCSRC)/py_table.c
+ETC_SRCS5 = $(WNNETCSRC)/zy_table.c
+
+OBJS2 = w_string.o
+OBJS3 = printf.o
+OBJS4 = termio.o
+OBJS5 = screen.o
+OBJS6 = cursor.o
+OBJS7 = localalloc.o
+OBJS8 = xcvtkey.o
+OBJS9 = box.o
+OBJS10 = basic_op.o
+OBJS11 = key_bind.o
+OBJS12 = xlc_util.o
+OBJS13 = functions.o
+ETC_OBJS1 = strings.o
+ETC_OBJS2 = sstrings.o
+ETC_OBJS3 = yincoding.o
+ETC_OBJS4 = py_table.o
+ETC_OBJS5 = zy_table.o
+
+LOCAL_XWNMOSRCS= $(SRCS2) $(SRCS3) $(SRCS4) $(SRCS5) $(SRCS6) $(SRCS7) \
+	$(SRCS8) $(SRCS9) $(SRCS10) $(SRCS11) $(SRCS12) $(SRCS13)
+LOCAL_XWNMOOBJS= $(OBJS2) $(OBJS3) $(OBJS4) $(OBJS5) $(OBJS6) $(OBJS7) \
+	$(OBJS8) $(OBJS9) $(OBJS10) $(OBJS11) $(OBJS12) $(OBJS13)
+LOCAL_ETCSRCS= $(ETC_SRCS1) $(ETC_SRCS2) $(ETC_SRCS3) $(ETC_SRCS4) $(ETC_SRCS5)
+LOCAL_ETCOBJS= $(ETC_OBJS1) $(ETC_OBJS2) $(ETC_OBJS3) $(ETC_OBJS4) $(ETC_OBJS5)
+SRCS= $(SRCS1) $(LOCAL_XWNMOSRCS) $(LOCAL_ETCSRCS)
+OBJS= $(OBJS1) $(LOCAL_XWNMOOBJS) $(LOCAL_ETCOBJS)
+
+AllTarget(xjutil)
+SingleProgramTarget(xjutil,$(OBJS),$(LOCAL_LIBRARIES),$(SYSLIBS))
+InstallProgram(xjutil,$(BINDIR))
+InstallManPage($(LOCALMAN)/xjutil,$(MANDIR))
+
+WnnSpecialObjectRule($(OBJS2),$(SRCS2),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS3),$(SRCS3),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS4),$(SRCS4),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS5),$(SRCS5),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS6),$(SRCS6),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS7),$(SRCS7),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS8),$(SRCS8),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS9),$(SRCS9),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS10),$(SRCS10),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS11),$(SRCS11),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS12),$(SRCS12),$(XWNMOSRC),)
+WnnSpecialObjectRule($(OBJS13),$(SRCS13),$(XWNMOSRC),)
+WnnSpecialObjectRule($(ETC_OBJS1),$(ETC_SRCS1),$(WNNETCSRC),)
+WnnSpecialObjectRule($(ETC_OBJS2),$(ETC_SRCS2),$(WNNETCSRC),)
+WnnSpecialObjectRule($(ETC_OBJS3),$(ETC_SRCS3),$(WNNETCSRC),)
+WnnSpecialObjectRule($(ETC_OBJS4),$(ETC_SRCS4),$(WNNETCSRC),)
+WnnSpecialObjectRule($(ETC_OBJS5),$(ETC_SRCS5),$(WNNETCSRC),)
+
+DependTarget()

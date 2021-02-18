@@ -1,0 +1,396 @@
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+名称
+     xwnmo - Ｘウィンドウ・インプットマネージャー
+
+形式
+     xxwwnnmmoo [-_o_p_t_i_o_n ...]
+
+解説
+     _x_w_n_m_o は、Ｘウィンドウ・インプットメソッド用のインプット・マ
+     ネージャーです。 [_X _W_i_n_d_o_w _S_y_s_t_e_m, _V_e_r_s_i_o_n _1_1 _I_n_p_u_t _M_e_t_h_o_d
+     _S_p_e_c_i_f_i_c_a_t_i_o_n_s] をベースに作成されました。 _x_w_n_m_o は、Ｘウィ
+     ンドウの複数のクライアントに対して、多国語の入力環境を提供し
+     ます。クライアントは、ＸＩＭライブラリを使うことにより、
+     _x_w_n_m_o を使用できます。
+
+     変換のエンジンには、国際化されたＷｎｎを使用します。クライア
+     ントのランゲージに応じて、変換サーバを選択します。
+
+     _X_w_n_m_o は、以下のインプットスタイルをサポートしています。
+             ( XIMPreeditArea | XIMStatusArea )
+             ( XIMPreeditPosition | XIMStatusArea )
+             ( XIMPreeditNothing | XIMStatusNothing )
+             ( XIMPreeditCallbacks | XIMStatusArea )
+             ( XIMPreeditArea | XIMStatusCallbacks )
+             ( XIMPreeditPosition | XIMStatusCallbacks )
+             ( XIMPreeditCallbacks | XIMStatusCallbacks )
+
+     ＸＩＭライブラリを使用し、 _x_w_n_m_o と接続をする場合、
+     _X_O_p_e_n_I_M() をコールする前に、モディファイアを __X_W_N_M_O にセット
+     する必要があります。
+
+     具体的には、
+             XSetLocaleModifiers("@im=_XWNMO");
+             あるいは、
+             環境変数 XXMMOODDIIFFIIEERRSS=@im=_XWNMO セット後に、 XSetLo-
+             caleModifiers(""); です。
+
+
+XXMMLL
+     _I_n_p_u_t _M_e_t_h_o_d _S_p_e_c_i_f_i_c_a_t_i_o_n_s によると、インプットメソッドが使
+     用するロカールは、一つで固定です。従って、 _x_w_n_m_o は
+     _X_O_p_e_n_I_M() が呼ばれた時のロカールによる言語環境を一つだけ作成
+     します。そして、これを変更することはできません。
+     しかし、 libX11.a をコンパイル時に、 XXMMLL をデファインすると、
+     マルチ・ロカールの環境が使用できます。つまり、ロカールを切替
+     えることにより、言語環境をダイナミックに変更することが可能に
+     なります。その使い方は以下の通りです。
+
+     環境の作成
+             XOpenIM() の代わりに、 _X_m_l_O_p_e_n_I_M() をコールします。
+             そして、 XIC のアーギュメント XXNNCCuurrrreennttLLaanngguuaaggee をセ
+             ットし、 _X_C_r_e_a_t_e_I_C() をコールします。そうすると、
+             _x_w_n_m_o は、できる限り多くの言語環境を作成し、
+
+
+
+Printed 9/3/91              Release 5                           1
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+             XNCurrentLanguage で指定されたロカールを現在の言語環
+             境とします。もし、 XNCurrentLanguage をセットしなか
+             った場合は、最初に作成した言語環境が、現在の環境とな
+             ります。 XNCurrentLanguage の書式は、
+             current_language = <language>'_'<territory>
+             例 : ja_JP
+
+     環境の変更
+             現在の言語環境を変更したい場合は、 XXNNCCuurrrreennttLLaanngguuaaggee
+             をセットし、 _X_S_e_t_I_C_V_a_l_u_e_s() を呼びます。
+
+     _X_w_n_m_o は、同時に、 XXMMLL のクライアントと NNOONN__XXMMLL のクライアン
+     トからの接続を許します。
+
+XXJJpp
+     _X_w_n_m_o は、 XXJJpp のプロトコルをサポートすることができます。
+     _X_w_n_m_o をコンパイル時に、 XXJJPP をデファインすると、 _X_J_p のコミ
+     ュニケーションキットのプロトコルをサポートします。また、 XXJJPP
+     と XXJJPP__DDIIRREECCTT をデファインすると、 _X_J_p のダイレクトインタフ
+     ェースのプロトコルをサポートします。
+
+オプション
+     _X_w_n_m_o は、以下のオプションを持っています。
+
+     --DD サーバ名
+             変換サーバのマシン名を指定します。デフォルトはヌルで
+             す。
+
+     --nn ユーザ名
+             Wnn の環境名として使用されるユーザ名を指定します。指
+             定されない場合、まず、環境変数 _W_N_N_U_S_E_R が参照されま
+             す。これがセットされていない場合、プロセスのオーナ名
+             が参照されます。
+
+     --llcc ロカール名
+             _R_o_o_t-_m_o_d_e の言語環境の作成に参照される、ロカール名を
+             指定します。指定されない場合、環境変数 _L_A_N_G が参照さ
+             れます。これがセットされていない場合、デフォルトは、
+             _j_a__J_P です。
+
+     --kk キーバインド定義ファイル名
+             _u_u_m_k_e_y ファイル のパス名を指定します。 _u_u_m_k_e_y ファイ
+             ル の詳しい説明は、 Wnn のマニュアルを参照して下さい。
+
+     --kk オートマトンファイル名
+             オートマトンファイル のパス名を指定します。デフォル
+             トは、 /_u_s_r/_l_o_c_a_l/_l_i_b/_w_n_n/@_L_A_N_G/_r_k/_m_o_d_e です。オート
+             マトンファイルの詳しい説明は、 Wnn のマニュアル
+             (mode) を参照して下さい。
+
+     --FF ファンクションキー変換テーブルファイル名
+             ファンクションキー変換テーブルファイル のパス名を指
+
+
+
+Printed 9/3/91              Release 5                           2
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+             定します。ファンクションキー変換テーブルファイル に
+             は、ＸのファンクションキーとＷｎｎのキーの関係が書か
+             れています。デフォルトは、
+             /_u_s_r/_l_o_c_a_l/_l_i_b/_w_n_n/_c_v_t__f_u_n__t_b_l です。ファンクション
+             キー変換テーブルファイル の詳しいの内容は、マニュア
+             ル (cvtfun) を見て下さい。
+
+     --FF メタキー変換テーブルファイル名
+             メタキー変換テーブルファイル のパス名を指定します。
+             メタキー変換テーブルファイル には、ＸのメタキーとＷ
+             ｎｎのキーの関係が書かれています。デフォルトは、
+             /_u_s_r/_l_o_c_a_l/_l_i_b/_w_n_n/_c_v_t__m_e_t_a__t_b_l です。メタキー変換テ
+             ーブルファイル の詳しいの内容は、マニュアル (cvtmt)
+             を見て下さい。
+
+     --ffss フォント名リスト
+             フォント名のリストを指定します。このリストより、
+             Root-mode のフォントセットが作成されます。デフォルト
+             は、ロカールに依存します。リストの書式は、
+             font-name-list = <fontname>{','fontname}
+
+     --ggeeoommeettrryy ジオメトリ
+             Xwnmo のウィンドウの位置と、サイズを指定します。
+             _X(_1) を参照して下さい。
+
+     --ffgg カラー名
+             Xwnmo のウィンドウに書かれるテキストの色を指定します。
+             デフォルトは、 ``black.'' です。
+
+     --bbgg カラー名
+             Xwnmo のウィンドウのバックグラウンドの色を指定します。
+             デフォルトは、 ``white.'' です。
+
+     --bbdd カラー名
+             Xwnmo のウィンドウのボーダの色を指定します。デフォル
+             トは、 ``black.'' です。
+
+     --bbww ピクセル値
+             Xwnmo のウィンドウの枠の幅を、ピクセル値で指定します。
+
+     --ddiissppllaayy ディスプレイ名
+             接続する X server を指定します。 _X(_1) を参照して下さ
+             い。
+
+     --iiccoonniicc このオプションを指定すると、 _x_w_n_m_o は、アイコンで起
+             動するように、ウィンドウ・マネージャに要求します。
+
+     ## ジオメトリ
+             Xwnmo のアイコンウィンドウの位置と、サイズを指定しま
+             す。通常は、リソース ``*_i_c_o_n_G_e_o_m_e_t_r_y'' で指定します。
+
+     --hheellpp   このオプションを指定すると、 _x_w_n_m_o は、オプションの
+
+
+
+Printed 9/3/91              Release 5                           3
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+             内容を表示します。
+
+     --hh      このオプションを指定すると、 _x_w_n_m_o は、変換オンの状
+             態で起動します。デフォルトは、変換オフの状態です。
+
+     --HH      このオプションを指定すると、 _x_w_n_m_o は、変換オフの状
+             態で起動します。デフォルトは、この状態です。
+
+     --jjuu 辞書ユーティリティマネージャ名
+             辞書ユーティリティマネージャである。 _x_j_u_t_i_l のパス名
+             を指定します。デフォルトは、 /_u_s_r/_b_i_n/_X_1_1/_x_j_u_t_i_l で
+             す。
+
+リソース
+     _X_w_n_m_o は、以下のリソース名、および、リソースクラスを持ってい
+     ます。
+
+     sseerrvveerrNNaammee (( クラス SSeerrvveerrNNaammee))
+             変換サーバのマシン名を指定します。デフォルトはヌルで
+             す。
+
+     uusseerrNNaammee (( クラス UUsseerrNNaammee))
+             Wnn の環境名として使用されるユーザ名を指定します。指
+             定されない場合、まず、環境変数 _W_N_N_U_S_E_R が参照されま
+             す。これがセットされていない場合、プロセスのオーナ名
+             が参照されます。
+
+     xxiimmrrccNNaammee (( クラス XXiimmrrccNNaammee))
+             _X_w_n_m_o のスタートアップファイル _x_i_m_r_c-_f_i_l_e のパス名を
+             指定します。指定されない場合、まず、 $_H_O_M_E/._x_i_m_r_c が
+             参照されます。もし、これがないばあい、デフォルトは
+             "/usr/local/lib/wnn/ximrc" です。 _x_i_m_r_c-_f_i_l_e の詳し
+             い内容は、 _x_i_m_r_c-_f_i_l_e のマニュアルを参照して下さい。
+             (man の名前は、 ximrc です。 )
+
+     ccvvttffuunnNNaammee (( クラス CCvvttffuunnNNaammee))
+             ファンクションキー変換テーブルファイル の名前を指定
+             します。ファンクションキー変換テーブルファイルには、
+             ＸのファンクションキーとＷｎｎのキーの関係が書かれて
+             います。デフォルトは、
+             /_u_s_r/_l_o_c_a_l/_l_i_b/_w_n_n/_c_v_t__f_u_n__t_b_l です。ファンクション
+             キー変換テーブルファイル の詳しいの内容は、マニュア
+             ル (cvtfun) を見て下さい。
+
+     ccvvttmmeettaaNNaammee (( クラス CCvvttmmeettaaNNaammee))
+             メタキー変換テーブルファイル の名前を指定します。メ
+             タキー変換テーブルファイル \_P には、ＸのメタキーとＷ
+             ｎｎのキーの関係が書かれています。デフォルトは、
+             /_u_s_r/_l_o_c_a_l/_l_i_b/_w_n_n/_c_v_t__m_e_t_a__t_b_l です。メタキー変換テ
+             ーブルファイル の詳しいの内容は、マニュアル (_c_v_t_m_t)
+             を見て下さい。
+
+
+
+
+Printed 9/3/91              Release 5                           4
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+     ffoorreeggrroouunndd (( クラス FFoorreeggrroouunndd))
+             Xwnmo のウィンドウに書かれるテキストの色を指定します。
+             デフォルトは、 ``black.'' です。
+
+     bbaacckkggrroouunndd (( クラス BBaacckkggrroouunndd))
+             Xwnmo のウィンドウにバックグラウンドの色を指定します。
+             デフォルトは、 ``white.'' です。
+
+     bboorrddeerrCCoolloorr (( クラス BBoorrddeerrCCoolloorr))
+             Xwnmo のウィンドウにボーダの色を指定します。デフォル
+             トは、 ``black.'' です。
+
+     ddiissppllaayy (( クラス DDiissppllaayy))
+             接続する X server を指定します。
+
+     xxjjuuttiillNNaammee (( クラス XXjjuuttiillNNaammee))
+             辞書ユーティリティマネージャである 。 _x_j_u_t_i_l のパス
+             名を指定します。デフォルトは、 "/usr/bin/X11/xjutil"
+             です。
+
+     iiccooiinniicc (( クラス IIccoonniicc))
+             このオプションを指定すると、 _x_w_n_m_o は、アイコンで起
+             動するように、ウィンドウ・マネージャに要求します。
+
+     ggeeoommeettrryy (( クラス GGeeoommeettrryy))
+             Xwnmo のウィンドウの位置と、サイズを指定します。
+
+     iiccoonnGGeeoommeettrryy (( クラス IIccoonnGGeeoommeettrryy))
+             Xwnmo のアイコンウィンドウの位置と、サイズを指定しま
+             す。
+
+     bboorrddeerrWWiiddtthh (( クラス BBoorrddeerrWWiiddtthh))
+             Xwnmo のウィンドウの枠の幅を、ピクセル値で指定します。
+
+     llaannggNNaammee (( クラス LLaannggNNaammee))
+             _R_o_o_t-_m_o_d_e の言語環境の作成に参照される、ロカール名を
+             指定します。指定されない場合、環境変数 _L_A_N_G が参照さ
+             れます。これがセットされていない場合、デフォルトは、
+             _j_a__J_P です。
+
+     --ffss フォント名のリスト
+             フォント名のリストを指定します。このリストより、
+             Root-mode のフォントセットが作成されます。デフォルト
+             は、ロカールに依存します。リストの書式は、
+             font-name-list = <fontname>{','fontname}
+
+関連項目
+     ximrc(4X), cvtfun(4X), cvtmt(4X)
+
+CCOOPPYYRRIIGGHHTT
+     Copyright 1991 by OMRON Corporation
+     Copyright 1991 by Massachusetts Institute of Technology
+
+
+
+Printed 9/3/91              Release 5                           5
+
+
+
+
+
+
+XWNMO(1)            UNIX Programmer's Manual             XWNMO(1)
+
+
+
+AAUUTTHHOORR
+     Seiji Kuwari (OMRON Corporation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Printed 9/3/91              Release 5                           6
+
+
+

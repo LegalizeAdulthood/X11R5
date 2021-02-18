@@ -1,0 +1,43 @@
+/*
+ * $Id: SEP_README,v 1.1 1991/09/13 07:45:26 proj Exp $
+ */
+	SEP - SpotLocation Extended Protocol
+
+SEP is a protocol realizes quickly movement of spot location.
+
+Normaly, operation of cursor movement in appications follows:
+	nested_list = XVaCreateNestedList(dummy, XNSpotLocation, spot NULL);
+	XSetICValues(ic, XNPreeditAttributes, nested_list, NULL);
+	XFree(dpy, nested_list);
+Applications like terminal emulators must move cursor frequently, thence 
+this operation causes applications a great deal of performance down.
+SEP solves this problem. Applications use SEP or call only the following
+function:
+	_XipChangeSpot(ic, spot_x, spot_y);
+
+For feather infomation about _XipChangeSpot(), please see SEP part of
+man of xwnmo.
+
+.
+
+-------------------------------------------------------------------------
+Communicating data using socket between XIMlibrary and XWNMO.
+
+    Request Encording
+     # of Bytes	Values			Description
+    XIM -> XWNMO (ximChangeSpotReq)
+	    1	XIM_ChangeSpot(20)	Req type
+	    1				unused
+	    2	12			length of this data
+	    4	CARD32			xic
+	    2	INT16			spot location x
+	    2	INT16			spot location y
+
+    Reply Encording
+     # of Bytes	Values			Description
+    XIM <- XWNMO (sz_ximEventReply)
+	    2				Reply
+		0			 success
+					 failed
+	    6				unused
+

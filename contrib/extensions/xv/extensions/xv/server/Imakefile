@@ -1,0 +1,47 @@
+#include <Server.tmpl>
+IMAKE_DEFINES = $(EXT_DEFINES)
+
+/* DEVICE INDEPENDENT STUFF */
+
+     DISRCS = xvmain.c xvdisp.c
+     DIOBJS = xvmain.o xvdisp.o
+     DIINCS = -I../include -I$(EXTENSIONSRC)/include/xv
+
+/* DEFINE DEPENDENT STUFF */
+
+#if BuildXvParallax
+     PLXSRCS = xvplx.c
+     PLXOBJS = xvplx.o
+     PLXINCS = -I$(SERVERSRC)/ddx/plx -I$(SERVERSRC)/ddx/mi -I$(EXTENSIONSRC)/include
+#else
+     PLXSRCS = /* nothing */
+     PLXOBJS = /* nothing */
+     PLXINCS = /* nothing */
+#endif
+
+#if BuildXvRasterOps
+     ROPSRCS = xvrop.c
+     ROPOBJS = xvrop.o
+     ROPINCS = -I$(SERVERSRC)/ddx/dec/ws -I$(SERVERSRC)/ddx/dec/tx -I$(SERVERSRC)/ddx/cfb -I$(SERVERSRC)/ddx/mfb -I$(SERVERSRC)/ddx/mi
+
+#else
+     ROPSRCS = /* nothing */
+     ROPOBJS = /* nothing */
+     ROPINCS = /* nothing */
+#endif
+
+        SRCS = $(DISRCS) $(PLXSRCS) $(ROPSRCS)
+        OBJS = $(DIOBJS) $(PLXOBJS) $(ROPOBJS)
+      XVINCS = $(DIINCS) $(PLXINCS) $(ROPINCS)
+    INCLUDES = -I$(INCLUDESRC) -I$(SERVERSRC)/include -I$(FONTSRC)/include $(XVINCS)
+    LINTLIBS = $(SERVERSRC)/dix/llib-ldix.ln $(SERVERSRC)/os/4.2bsd/llib-los.ln
+
+NormalLibraryTarget(xv,$(OBJS))
+NormalLibraryObjectRule()
+LintLibraryTarget(xv,$(SRCS))
+NormalLintTarget($(SRCS))
+
+saber_src:
+	#load $(CFLAGS) $(SRCS)
+
+DependTarget()

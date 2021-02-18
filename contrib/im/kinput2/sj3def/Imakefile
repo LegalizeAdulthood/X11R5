@@ -1,0 +1,14 @@
+#include "../Kinput2.conf"
+
+      SJ3DEF_FILES =  sjhk sjrc sjrk sjsb sjzh
+
+all::
+depend::
+clean::
+
+#ifdef UseSj3
+MakeDirectories(install,$(SJ3DEF_DIR))
+InstallMultiple($(SJ3DEF_FILES),$(SJ3DEF_DIR))
+#else
+install::
+#endif

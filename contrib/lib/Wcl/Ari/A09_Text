@@ -1,0 +1,16 @@
+Ari.wcChildren:			paned
+Ari.title:			A09_Text
+
+*paned.wcClassName:		Paned
+*paned.wcChildren:		quit, textFile
+
+*quit.wcClassName:		Command
+*quit.callback:			WcExitCB
+
+*textFile.wcClassName:		AsciiText
+*textFile*type:			file
+*textFile*string:		/etc/motd
+*textFile.scrollVertical:	whenNeeded
+*textFile.scrollHorizontal:	whenNeeded
+*textFile.height:		100
+*textFile*font:			*clean-medium-r-*-150-*

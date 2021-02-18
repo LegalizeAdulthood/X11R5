@@ -1,0 +1,3 @@
+*pressme*labelString:	Press Me
+*quit*labelString:	Quit
+!*XmPushButton*background:	green

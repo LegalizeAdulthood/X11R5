@@ -1,0 +1,30 @@
+#include "../config.sh"
+
+         IROHAROOT = ..
+     INSTUGIDFLAGS = -m 5555
+   LOCAL_LIBRARIES = $(IROHAROOT)/lib/RK/libRK.a
+           DEFINES = -DEXTENSION -DDEBUG $(IROHASERVER_DEFINES)
+          INCLUDES = -I$(IROHAROOT)/include \
+		 	-I$(IROHAROOT)/include/iroha \
+			-I.
+
+            IRSRCS = $(SRCS) $(HEADER)
+            HEADER = IR.h IRproto.h
+              SRCS = WaitFor.c connection.c convert.c main.c misc.c table.c
+              OBJS = WaitFor.o connection.o convert.o main.o misc.o table.o
+
+        PROGRAM = irohaserver
+AllTarget(irohaserver)
+irohaserver: $(OBJS) $(DEPLIBS)
+	RemoveTargetProgram($@)
+	$(CC) -o $@ $(OBJS) $(LDOPTIONS) $(LOCAL_LIBRARIES) $(LDLIBS) $(EXTRA_LOAD_FLAGS)
+InstallMultipleFlags($(PROGRAM),$(BINDIR),$(INSTUGIDFLAGS))
+InstallProgram(irohaserver,$(BINDIR))
+InstallManPage(irohaserver,$(MANDIR))
+DependTarget()
+LintTarget()
+
+clean::
+	$(RM) $(PROGRAM)
+
+LinkFileList(includes,$(HEADER),$(IROHAROOT)/include,../server)

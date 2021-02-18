@@ -1,0 +1,282 @@
+/* $Header: pexscope.notes,v 2.2 91/09/11 15:52:56 sinyaw Exp $ */
+Pexscope Supported Requests
+---------------------------
+[+] GetExtensionInfo
+[+] GetEnumeratedTypeInfo
+[+] GetImpDepConstants
+
+[+] CreateLookupTable
+[+] CopyLookupTable
+[+] FreeLookupTable
+[+] GetTableInfo
+[+] GetPredefinedEntries
+[+] GetDefinedIndices
+[+] GetTableEntry
+[+] GetTableEntries
+[+] SetTableEntries
+[+] DeleteTableEntries
+
+[+] CreatePipelineContext
+[+] CopyPipelineContext
+[+] FreePipelineContext
+[+] GetPipelineContext
+[+] ChangePipelineContext
+
+[+] CreateRenderer
+[+] FreeRenderer
+[+] ChangeRenderer
+[+] GetRendererAttributes
+[+] GetRendererDynamics
+[+] BeginRendering
+[+] EndRendering
+[+] BeginStructure
+[+] EndStructure       
+[+] RenderOutputCommands 
+[+] RenderNetwork       
+
+[+] CreateStructure    
+[+] CopyStructure     
+[+] DestroyStructures 
+[+] GetStructureInfo 
+[+] GetElementInfo  
+[+] GetStructuresInNetwork  
+[+] GetAncestors        
+[+] GetDescendants     
+[+] FetchElements     
+[+] SetEditingMode   
+[+] SetElementPointer
+[+] SetElementPointerAtLabel    
+[+] ElementSearch       
+[+] StoreElements      
+[+] DeleteElements    
+[+] DeleteElementsToLabel   
+[+] DeleteBetweenLabels    
+[+] CopyElements        
+[+] ChangeStructureRefs 
+
+[+] CreateNameSet      
+[+] CopyNameSet       
+[+] FreeNameSet      
+[+] GetNameSet      
+[+] ChangeNameSet  
+
+[+] CreateSearchContext     
+[+] CopySearchContext      
+[+] FreeSearchContext     
+[+] GetSearchContext     
+[+] ChangeSearchContext 
+[+] SearchNetwork      
+
+[+] CreatePhigsWks    
+[+] FreePhigsWks     
+[+] GetWksInfo      
+[+] GetDynamics    
+[+] GetViewRep    
+[+] RedrawAllStructures     
+[+] UpdateWorkstation      
+[+] RedrawClipRegion      
+[+] ExecuteDeferredActions  
+[+] SetViewPriority     
+[+] SetDisplayUpdateMode
+[+] MapDCtoWC          
+[+] MapWCtoDC         
+[+] SetViewRep       
+[+] SetWksWindow    
+[+] SetWksViewport 
+[+] SetHlhsrMode  
+[o] SetWksBufferMode        
+[+] PostStructure       
+[+] UnpostStructure    
+[+] UnpostAllStructures     
+[+] GetWksPostings      
+
+[+] GetPickDevice      
+[+] ChangePickDevice  
+[+] CreatePickMeasure 
+[+] FreePickMeasure  
+[+] GetPickMeasure  
+[+] UpdatePickMeasure       
+
+[+] OpenFont            
+[+] CloseFont          
+[+] QueryFont         
+[+] ListFonts        
+[+] ListFontsWithInfo
+[+] QueryTextExtents 
+
+Pexscope Supported Replies
+--------------------------
+[+] GetExtensionInfo
+[+] GetEnumeratedTypeInfo
+[+] GetImpDepConstants
+
+[x] GetTableInfo
+[+] GetPredefinedEntries
+[+] GetDefinedIndices
+[+] GetTableEntry
+[+] GetTableEntries
+
+[+] GetPipelineContext
+
+[+] GetRendererAttributes
+[x] GetRendererDynamics
+
+[x] GetStructureInfo
+[+] GetElementInfo
+[+] GetStructuresInNetwork
+[+] GetAncestors
+[+] GetDescendants
+[+] FetchElements
+[x] ElementSearch
+
+[+] GetNameSet
+
+[+] GetSearchContext
+[+] SearchNetwork
+
+[+] GetWksInfo
+[x] GetDynamics
+[+] GetViewRep
+[+] MapDCtoWC
+[+] MapWCtoDC
+[+] GetWksPostings
+
+[+] GetPickDevice
+[+] GetPickMeasure
+[+] QueryFont
+[+] ListFonts
+[+] ListFontsWithInfo
+[+] QueryTextExtents
+
+Pexscope Supported Errors
+--------------------------
+[+] ColourTypeError
+[+] RendererStateError        
+[+] FloatingPointFormatError  
+[+] LabelError           
+[+] LookupTableError    
+[+] NameSetError       
+[+] PathError         
+[+] FontError        
+[+] PhigsWksError   
+[+] PickMeasureError
+[+] PipelineContextError     
+[+] RendererError        
+[+] SearchContextError  
+[+] StructureError     
+[+] OutputCommandError
+
+Pexscope Supported Output Commands
+----------------------------------
+
+NOTE:
+Pexscope supports all output commands to the
+extent that the elementType and length are printed
+out. The data print support for the variable data in
+certain output commands (especially the advance output primitives)
+will be implemented when its respective output command gets
+implemented in the PEX library.
+
+[+] MarkerType           
+[+] MarkerScale         
+[+] MarkerColourIndex  
+[+] MarkerColour      
+[+] MarkerBundleIndex 
+[+] TextFontIndex    
+[+] TextPrecision   
+[+] CharExpansion  
+[+] CharSpacing   
+[+] TextColourIndex 
+[+] TextColour     
+[+] CharHeight    
+[+] CharUpVector 
+[+] TextPath    
+[+] TextAlignment
+[+] AtextHeight 
+[+] AtextUpVector
+[+] AtextPath   
+[+] AtextAlignment
+[+] AtextStyle   
+[+] TextBundleIndex
+[+] LineType      
+[+] LineWidth    
+[+] LineColourIndex
+[+] LineColour    
+[+] CurveApproximation
+[+] PolylineInterp   
+[+] LineBundleIndex 
+[+] InteriorStyle  
+[+] InteriorStyleIndex 
+[+] SurfaceColourIndex
+[+] SurfaceColour    
+[+] SurfaceReflAttr 
+[+] SurfaceReflModel  
+[+] SurfaceInterp    
+[+] BfInteriorStyle 
+[+] BfInteriorStyleIndex 
+[+] BfSurfaceColourIndex
+[+] BfSurfaceColour    
+[+] BfSurfaceReflAttr 
+[+] BfSurfaceReflModel      
+[+] BfSurfaceInterp        
+[+] SurfaceApproximation  
+[+] CullingMode         
+[+] DistinguishFlag    
+[+] PatternSize       
+[+] PatternRefPt     
+[+] PatternAttr     
+[+] InteriorBundleIndex     
+[+] SurfaceEdgeFlag        
+[+] SurfaceEdgeType       
+[+] SurfaceEdgeWidth     
+[+] SurfaceEdgeColourIndex 
+[+] SurfaceEdgeColour     
+[+] EdgeBundleIndex      
+[+] SetAsfValues        
+[+] LocalTransform     
+[+] LocalTransform2D  
+[+] GlobalTransform  
+[+] GlobalTransform2D
+[+] ModelClip       
+[-] ModelClipVolume 
+[-] ModelClipVolume2D 
+[+] RestoreModelClip 
+[+] ViewIndex       
+[-] LightState     
+[+] DepthCueIndex 
+[+] PickId       
+[+] HlhsrIdentifier
+[+] ColourApproxIndex 
+[+] RenderingColourModel 
+[-] ParaSurfCharacteristics 
+[-] AddToNameSet        
+[+] RemoveFromNameSet  
+[+] ExecuteStructure  
+[+] Label          
+[-] ApplicationData 
+[-] Gse            
+[+] Marker        
+[+] Marker2D     
+[-] Text        
+[-] Text2D     
+[-] AnnotationText  
+[-] AnnotationText2D 
+[+] Polyline        
+[+] Polyline2D     
+[-] PolylineSet   
+[-] NurbCurve    
+[+] FillArea    
+[+] FillArea2D 
+[-] ExtFillArea
+[-] FillAreaSet
+[-] FillAreaSet2D 
+[-] ExtFillAreaSet
+[-] TriangleStrip 
+[-] QuadrilateralMesh 
+[-] SOFAS          
+[-] NurbSurface   
+[-] CellArray    
+[-] CellArray2D 
+[-] ExtCellArray
+[-] Gdp        
+[-] Gdp2D 

@@ -1,0 +1,446 @@
+C *******************************************************************
+C Copyright 1990, 1991, by Fujitsu Limited.
+C
+C                        All Rights Reserved
+C
+C Permission to use, copy, modify, and distribute this software and
+C its documentation for any purpose and without fee is hereby granted, 
+C provided that the above copyright notice appear in all copies and
+C that both that copyright notice and this permission notice appear in 
+C supporting documentation, and that the names of Fujitsu not be used
+C in advertising or publicity pertaining to distribution of the
+C software without specific, written prior permission.  
+C
+C FUJITSU DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+C INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
+C IN NO EVENT SHALL FUJITSU BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+C CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING 
+C FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+C NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+C WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+C********************************************************************
+C
+C/* MASSAGE */
+      SUBROUTINE PMSG( WKID, MESS )
+C     Input Parameters:
+      INTEGER WKID
+      CHARACTER*(*) MESS
+C     
+      CALL FMSG( WKID, MESS, LEN(MESS) )
+      RETURN
+      END
+C
+C
+C/* TEXT 3 */
+      SUBROUTINE PTX3( PX, PY, PZ, TDX, TDY, TDZ, CHARS )
+C     Input Parameters:
+      REAL PX, PY, PZ
+      REAL TDX(2), TDY(2), TDZ(2)
+      CHARACTER*(*) CHARS
+C     
+      CALL FTX3( PX, PY, PZ, TDX, TDY, TDZ, CHARS, LEN(CHARS) )
+      RETURN
+      END
+C
+C
+C/* TEXT */
+      SUBROUTINE PTX( PX, PY, CHARS )
+C     Input Parameters:
+      REAL PX, PY
+      CHARACTER*(*) CHARS
+C     
+      CALL FTX( PX, PY, CHARS, LEN(CHARS) )
+      RETURN
+      END
+C
+C
+C/* ANNOTAION TEXT RELATIVE 3 */
+      SUBROUTINE PATR3( RPX, RPY, RPZ, APX, APY, APZ, CHARS )
+C     Input Parameters:
+      REAL RPX, RPY, RPZ
+      REAL APX, APY, APZ
+      CHARACTER*(*) CHARS
+C     
+      CALL FATR3( RPX, RPY, RPZ, APX, APY, APZ, CHARS, LEN(CHARS) )
+      RETURN
+      END
+C
+C
+C/* ANNOTAION TEXT RELATIVE */
+      SUBROUTINE PATR( RPX, RPY, APX, APY, CHARS )
+C     Input Parameters:
+      REAL RPX, RPY
+      REAL APX, APY
+      CHARACTER*(*) CHARS
+C     
+      CALL FATR( RPX, RPY, APX, APY, CHARS, LEN(CHARS) )
+      RETURN
+      END
+C
+C
+C/* INITIALIZE STRING 3 */
+      SUBROUTINE PINST3( WKID, STDNR, LSTR, ISTR, PET, EVOL, LDR,
+     -    DATREC )
+C     Input Parameters:
+      INTEGER WKID
+      INTEGER STDNR
+      INTEGER LSTR
+      CHARACTER*(*) ISTR
+      INTEGER PET
+      REAL EVOL(6)
+      INTEGER LDR
+      CHARACTER*80 DATREC(LDR)
+C     
+      CALL FINST3( WKID, STDNR, LSTR, ISTR, PET, EVOL, LDR,
+     -    DATREC, LEN(ISTR) )
+      RETURN
+      END
+C
+C
+C/* INITIALIZE STRING */
+      SUBROUTINE PINST( WKID, STDNR, LSTR, ISTR, PET, XMIN, XMAX, YMIN,
+     -    YMAX, LDR, DATREC )
+C     Input Parameters:
+      INTEGER WKID
+      INTEGER STDNR
+      INTEGER LSTR
+      CHARACTER*(*) ISTR
+      INTEGER PET
+      REAL XMIN, XMAX, YMIN, YMAX
+      INTEGER LDR
+      CHARACTER*80 DATREC(LDR)
+C     
+      CALL FINST( WKID, STDNR, LSTR, ISTR, PET, XMIN, XMAX, YMIN, YMAX, 
+     -           LDR, DATREC, LEN(ISTR) )
+      RETURN
+      END
+C
+C
+C/* REQUEST STRING */
+      SUBROUTINE PRQST( WKID, STDNR, STAT, LOSTR, STR )
+C     Input Parameters:
+      INTEGER WKID
+      INTEGER STDNR
+C     Output Parameters:
+      INTEGER STAT
+      INTEGER LOSTR
+      CHARACTER*(*) STR
+C     
+      CALL FRQST( WKID, STDNR, STAT, LOSTR, STR, LEN(STR) )
+      RETURN
+      END
+C
+C
+C/* SAMPLE STRING */
+      SUBROUTINE PSMST( WKID, STDNR, LOSTR, STR )
+C     Input Parameters:
+      INTEGER WKID
+      INTEGER STDNR
+C     Output Parameters:
+      INTEGER LOSTR
+      CHARACTER*(*) STR
+C     
+      CALL FSMST( WKID, STDNR, LOSTR, STR, LEN(STR) )
+      RETURN
+      END
+C
+C
+C/* GET STRING */
+      SUBROUTINE PGTST( LOSTR, STR )
+C     Output Parameters:
+      INTEGER LOSTR
+      CHARACTER*(*) STR
+C     
+      CALL FGTST( LOSTR, STR, LEN(STR) )
+      RETURN
+      END
+C
+C
+C/* INQUIRE STRING DEVICE STATE 3 */
+      SUBROUTINE PQSTS3( WKID, STDNR, MLDR, ERRIND, MODE, ESW, LOSTR,
+     -    ISTR, PET, EVOL, LDR, DATREC )
+C     Input Parameters:
+      INTEGER WKID
+      INTEGER STDNR
+      INTEGER MLDR
+C     Output Parameters:
+      INTEGER ERRIND
+      INTEGER MODE
+      INTEGER ESW
+      INTEGER LOSTR
+      CHARACTER*(*) ISTR
+      INTEGER PET
+      REAL EVOL(6)
+      INTEGER LDR
+      CHARACTER*80 DATREC(MLDR)
+C     
+      CALL FQSTS3( WKID, STDNR, MLDR, ERRIND, MODE, ESW, LOSTR,
+     -    ISTR, PET, EVOL, LDR, DATREC, LEN(ISTR) )
+      RETURN
+      END
+C
+C
+C/* INQUIRE STRING DEVICE STATE */
+      SUBROUTINE PQSTS( WKID, STDNR, MLDR, ERRIND, MODE, ESW, LOSTR,
+     -    ISTR, PET, EAREA, LDR, DATREC )
+C     Input Parameters:
+      INTEGER WKID
+      INTEGER STDNR
+      INTEGER MLDR
+C     Output Parameters:
+      INTEGER ERRIND
+      INTEGER MODE
+      INTEGER ESW
+      INTEGER LOSTR
+      CHARACTER*(*) ISTR
+      INTEGER PET
+      REAL EAREA(4)
+      INTEGER LDR
+      CHARACTER*80 DATREC(MLDR)
+C     
+      CALL FQSTS( WKID, STDNR, MLDR, ERRIND, MODE, ESW, LOSTR,
+     -    ISTR, PET, EAREA, LDR, DATREC, LEN(ISTR) )
+      RETURN
+      END
+C
+C
+C/* INQUIRE TEXT EXTENT */
+      SUBROUTINE PQTXX( WKTYPE, FONT, CHXP, CHSP, CHH, TXP, TXALH,
+     -    TXALV, STR, ERRIND, TXEXRX, TXEXRY, COPX, COPY )
+C     Input Parameters:
+      INTEGER WKTYPE
+      INTEGER FONT
+      REAL CHXP
+      REAL CHSP
+      REAL CHH
+      INTEGER TXALH
+      INTEGER TXALV
+      CHARACTER*(*) STR
+C     Output Parameters:
+      INTEGER ERRIND
+      REAL TXEXRX(2), TXEXRY(2)
+      REAL COPX, COPY
+C     
+      CALL FQTXX( WKTYPE, FONT, CHXP, CHSP, CHH, TXP, TXALH,
+     -    TXALV, STR, ERRIND, TXEXRX, TXEXRY, COPX, COPY, LEN(STR) )
+      RETURN
+      END
+C
+C
+C/* PACK DATA RECORD */
+      SUBROUTINE PPREC( IL, IA, RL, RA, SL, LSTR, STR, MLDR, ERRIND,
+     -    LDR, DATREC )
+C     Input Parameters:
+      INTEGER IL
+      INTEGER IA(*)
+      INTEGER RL
+      REAL RA(*)
+      INTEGER SL
+      INTEGER LSTR(*)
+      CHARACTER*(*) STR(*)
+      INTEGER MLDR
+C     Output Parameters:
+      INTEGER ERRIND
+      INTEGER LDR
+      CHARACTER*80 DATREC(MLDR)
+C     
+      CALL FPREC( IL, IA, RL, RA, SL, LSTR, STR, MLDR, ERRIND,
+     -    LDR, DATREC, LEN(STR(1)) )
+      RETURN
+      END
+C
+C
+C/* UNPACK DATA RECORD */
+      SUBROUTINE PUREC( LDR, DATREC, IIL, IRL, ISL, ERRIND, IL, IA,
+     -    RL, RA, SL, LSTR, STR)
+C     Input Parameters:
+      INTEGER LDR
+      CHARACTER*80 DATREC(LDR)
+      INTEGER IIL
+      INTEGER IRL
+      INTEGER ISL
+C     Output Parameters:
+      INTEGER ERRIND
+      INTEGER IL
+      INTEGER IA(IIL)
+      INTEGER RL
+      REAL RA(IRL)
+      INTEGER SL
+      INTEGER LSTR(ISL)
+      CHARACTER*(*) STR(ISL)
+C     
+      CALL FUREC( LDR, DATREC, IIL, IRL, ISL, ERRIND, IL, IA,
+     -    RL, RA, SL, LSTR, STR, LEN(STR(1)) )
+      RETURN
+      END
+C
+C
+C/* OPEN XPHIGS */
+      SUBROUTINE POPXPH( ERRFIL, BUFA, DIF, DYID, RMBF, RMBFNA, RMDF,
+     -    NRMD, AIRMD, RMSTR, AIF, APNAME, APCLAS, NOMON, CLICSS)
+C     Input Parameters:
+      INTEGER ERRFIL
+      INTEGER BUFA
+      INTEGER DIF
+      INTEGER DYID
+      INTEGER RMBF
+      CHARACTER*(*) RMBFNA
+      INTEGER RMDF
+      INTEGER NRMD
+      INTEGER AIRMD(*)
+      CHARACTER*(*) RMSTR(*)
+      INTEGER AIF
+      CHARACTER*(*) APNAME
+      CHARACTER*(*) APCLAS
+      INTEGER NOMON
+      INTEGER CLICSS
+C     
+      CALL FOPXPH( ERRFIL, BUFA, DIF, DYID, RMBF, RMBFNA, RMDF,
+     -    NRMD, AIRMD, RMSTR, AIF, APNAME, APCLAS, NOMON, CLICSS,
+     -    LEN(RMBFNA), LEN(RMSTR(1)), LEN(APNAME), LEN(APCLAS))
+      RETURN
+      END
+C
+C
+C/* WORKSTATION TYPE SET */
+      SUBROUTINE PWTSET( WTYPE, WCF, WKCAT, BMF, BFMODE, DIF, DYID,
+     -    DNF, DYNAME, DWF, DWID, HEF, HDEXPO, HDF, HDDSTY, DCMF,
+     -    DCMODL, WF, WIDTH, HF, HEIGHT, XF, X, YF, Y, WLF, LABEL,
+     -    WILF, ILABEL, BWF, BWIDTH)
+C     Input Parameters:
+      INTEGER WTYPE
+      INTEGER WCF
+      INTEGER WKCAT
+      INTEGER BMF
+      INTEGER BFMODE
+      INTEGER DIF
+      INTEGER DYID
+      INTEGER DNF
+      CHARACTER*(*) DYNAME
+      INTEGER DWF
+      INTEGER DWID
+      INTEGER HEF
+      INTEGER HDEXPO
+      INTEGER HDF
+      INTEGER HDDSTY
+      INTEGER DCMF
+      INTEGER DCMODL
+      INTEGER WF
+      INTEGER WIDTH
+      INTEGER HF
+      INTEGER HEIGHT
+      INTEGER XF
+      INTEGER X
+      INTEGER YF
+      INTEGER Y
+      INTEGER WLF
+      CHARACTER*(*) LABEL
+      INTEGER WILF
+      CHARACTER*(*) ILABEL
+      INTEGER BWF
+      INTEGER BWIDTH
+C     
+      CALL FWTSET( WTYPE, WCF, WKCAT, BMF, BFMODE, DIF, DYID,
+     -    DNF, DYNAME, DWF, DWID, HEF, HDEXPO, HDF, HDDSTY, DCMF,
+     -    DCMODL, WF, WIDTH, HF, HEIGHT, XF, X, YF, Y, WLF, LABEL,
+     -    WILF, ILABEL, BWF, BWIDTH, LEN(DYNAME), LEN(LABEL), 
+     -    LEN(ILABEL))
+      RETURN
+      END
+C
+C
+C/* WORKSTATION TYPE CREATE */
+      SUBROUTINE PWTCRE( BTYPE, WCF, WKCAT, BMF, BFMODE, DIF, DYID,
+     -    DNF, DYNAME, DWF, DWID, HEF, HDEXPO, HDF, HDDSTY, DCMF,
+     -    DCMODL, WF, WIDTH, HF, HEIGHT, XF, X, YF, Y, WLF, LABEL,
+     -    WILF, ILABEL, BWF, BWIDTH, NWTYPE)
+C     Input Parameters:
+      INTEGER BTYPE
+      INTEGER WCF
+      INTEGER WKCAT
+      INTEGER BMF
+      INTEGER BFMODE
+      INTEGER DIF
+      INTEGER DYID
+      INTEGER DNF
+      CHARACTER*(*) DYNAME
+      INTEGER DWF
+      INTEGER DWID
+      INTEGER HEF
+      INTEGER HDEXPO
+      INTEGER HDF
+      INTEGER HDDSTY
+      INTEGER DCMF
+      INTEGER DCMODL
+      INTEGER WF
+      INTEGER WIDTH
+      INTEGER HF
+      INTEGER HEIGHT
+      INTEGER XF
+      INTEGER X
+      INTEGER YF
+      INTEGER Y
+      INTEGER WLF
+      CHARACTER*(*) LABEL
+      INTEGER WILF
+      CHARACTER*(*) ILABEL
+      INTEGER BWF
+      INTEGER BWIDTH
+C     Output Parameters:
+      INTEGER NWTYPE
+C     
+      CALL FWTCRE( BTYPE, WCF, WKCAT, BMF, BFMODE, DIF, DYID, DNF,
+     -    DYNAME, DWF, DWID, HEF, HDEXPO, HDF, HDDSTY, DCMF, DCMODL,
+     -    WF, WIDTH, HF, HEIGHT, XF, X, YF, Y, WLF, LABEL, WILF,
+     -    ILABEL, BWF, BWIDTH, NWTYPE, LEN(DYNAME), LEN(LABEL), 
+     -    LEN(ILABEL))
+      RETURN
+      END
+C
+C
+C/* WORKSTATION TYPE GET */
+      SUBROUTINE PWTGET( WTYPE, PBF, WCF, BMF, DNF, HEF, HDF, DCMF,
+     -    WF, HF, XF, YF, WLF, WILF, BWF, PBNAME, WKCAT, BFMODE,
+     -    LDYNA, DYNAME, HDEXPO, HDDSTY, DCMODL, WIDTH, HEIGHT, X, Y,
+     -    LLAB, LABEL, LILAB, ILABEL, BWIDTH)
+C     Input Parameters:
+      INTEGER WTYPE
+      INTEGER PBF
+      INTEGER WCF
+      INTEGER BMF
+      INTEGER DNF
+      INTEGER HEF
+      INTEGER HDF
+      INTEGER DCMF
+      INTEGER WF
+      INTEGER HF
+      INTEGER XF
+      INTEGER YF
+      INTEGER WLF
+      INTEGER WILF
+      INTEGER BWF
+C     Output Parameters:
+      INTEGER PBNAME
+      INTEGER WKCAT
+      INTEGER BFMODE
+      INTEGER LDYNA
+      CHARACTER*(*) DYNAME
+      INTEGER HDEXPO
+      INTEGER HDDSTY
+      INTEGER DCMODL
+      INTEGER WIDTH
+      INTEGER HEIGHT
+      INTEGER X
+      INTEGER Y
+      INTEGER LLAB
+      CHARACTER*(*) LABEL
+      INTEGER LILAB
+      CHARACTER*(*) ILABEL
+      INTEGER BWIDTH
+C     
+      CALL FWTGET( WTYPE, PBF, WCF, BMF, DNF, HEF, HDF, DCMF, WF, HF,
+     -    XF, YF, WLF, WILF, BWF, PBNAME, WKCAT, BFMODE, LDYNA, DYNAME,
+     -    HDEXPO, HDDSTY, DCMODL, WIDTH, HEIGHT, X, Y, LLAB, LABEL,
+     -    LILAB, ILABEL, BWIDTH, LEN(DYNAME), LEN(LABEL), LEN(ILABEL))
+      RETURN
+      END

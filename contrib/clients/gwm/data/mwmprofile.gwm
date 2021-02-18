@@ -1,0 +1,89 @@
+
+;;File: .profile.gwm -- user-settable part of standard profile
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+(? screen)
+
+
+(df set-focus-kFL ()
+ (with (index 0 l (length keyFocusList))
+  (while (< index l)
+   (with (window (# index keyFocusList)) 
+    (if window-is-mapped (progn (set-focus) (: index l))
+			 (: index (+ index 1))
+    )
+   )
+  )
+ )
+)
+
+
+(: opening
+    '(progn
+            (apply1 (if (= window-status 'icon)
+                        (resource-get
+                            (+ -screen-name ".GwmIconPlacement."
+                               window-client-class "." screen-type)
+                            "S.GwmIconPlacement.any.any")
+                        (resource-get
+                            (+ -screen-name ".GwmPlacement."
+                               window-client-class "." screen-type)
+                            "S.GwmPlacement.any.any"))
+            t)
+	    (with (while-opening t) (send-user-event 'name-change))
+	    (if (and (= keyboardFocusPolicy 'explicit) startUpKeyFocus) (set-focus))
+        )))
+(: closing
+    '(progn
+            (apply1 (if (= window-status 'icon)
+                 (resource-get
+                     (+ -screen-name ".GwmIconPlacement."
+                         window-client-class "." screen-type)
+                     "S.GwmIconPlacement.any.any")
+                 (resource-get
+                     (+ -screen-name ".GwmPlacement."
+                         window-client-class "." screen-type)
+                     "S.GwmPlacement.any.any"))
+             ())
+	    (if (and (= keyboardFocusPolicy 'explicit) autoKeyFocus)
+		(progn
+			(remove-kFL window)
+			(set-focus-kFL)
+		)
+	    )
+     )
+)
+
+
+
+(: root-fsm (fsm-make (state-make
+                (do-bindings-state '(root))
+                (# 0 (# 'root keyBindings))
+                root-std-behavior
+)))
+
+(: root-grabs (+ (# 1 (# 'root keyBindings)) root-grabs))
+
+
+(load "icon-groups-old")		; iconify groups as a whole
+(load "mwm-zoom-win")		; zoom on window
+
+
+(: resize-flag ())
+
+(load "mwm-buttons")
+
+(set-window any mwm-win)	; Any X Client
+(set-icon-window any mwm-icon)  ; Any icon
+
+
+(set-placement any user-positioning)
+(set-icon-placement any placement)
+
+
+

@@ -1,0 +1,154 @@
+\begindata{text,268815484}
+\textdsversion{12}
+\template{help}
+\chapter{Toez: Convert to Andrew File Format
+
+}
+\section{What Toez is
+
+}\leftindent{
+Toez is a non-interactive ATK application program that converts non-Andrew 
+files to Andrew (EZ) file format.  The program is most useful for converting 
+Scribe and troff/nroff files to EZ readable format.  The program can also be 
+used to convert any ascii text file to EZ format (by putting in line wraps, 
+etc.)
+
+}
+\section{Warnings
+
+}\leftindent{
+Toez is not designed to convert every possible Scribe or troff/nroff command 
+to an EZ format.  Format commands that do not have EZ equivalents will not be 
+translated -- instead the command itself will be reproduced as text wrapped in 
+formatnote style in the resulting EZ file. This may cause some irregularities 
+in printing on occasion.  Also, user-defined formats and styles will also not 
+be converted.  The best way to use toez is to run the conversion, then check 
+the resulting file for any formats that were not converted and change those 
+individually.
+
+
+@indexentry items in the Scribe format are converted only by the placement of 
+a space before the value of the "Entry=" portion of the item.  In other words, 
+any item with @indexentry will appear first in the resulting EZ index in the 
+converted version.
+
+
+Sometimes the EZ definition of a style is different from the Scribe definition 
+of that style, and you may see some differences in the output.
+
+}
+\section{How Toez works
+
+
+}\leftindent{Toez reads the file to be converted and tries to determine if the 
+file is in Scribe, troff, or nroff format, then converts the format commands 
+in the file to their EZ equivalents.  If an extension (such as .mss) is 
+provided, toez will use the extension to determine the filetype.  
+
+
+Formats that cannot be translated are left alone and reproduced as text 
+wrapped in formatnote style.  If the file to be converted is not identified as 
+Scribe or nroff/troff, toez treats the file as an ascii text and runs a 
+conversion of ascii to ATK.  
+
+
+Newlines in the input file are translated to blanks to convert sequential 
+lines into paragraphs (i.e. so the lines will wrap).  Some newlines are left 
+alone -- these include:
+
+
+multiple newlines
+
+newlines around lines that contain tabs
+
+newlines around a sequence of three or more blank spaces
+
+newlines that precede or follow certain known Scribe commands
+
+newlines before a line that begin with a space
+
+newlines inside a style such as Example, Formatnote, or Display
+
+
+Newlines will be converted to two spaces if the preceding line ends with one 
+of the five characters \bold{. : ; ! ? }or one of these characters followed 
+by\bold{ )} or \bold{"}.\section{
+
+}
+Note:  Toez subsumes an old rofftext application (although the application is 
+still needed -- toez uses it).
+
+}
+\section{Quick reference
+
+}\leftindent{
+toez \italic{filename}  -o \italic{EZfilename}
+
+
+where\italic{ filename} is the name of the file to be converted (include 
+extensions) and \italic{EZfilename }is the name of the file that will contain 
+the converted form of the original file.
+
+
+If no input file is given, input is from stdin.
+
+If no output file is given, stdout is assumed.
+
+
+}\section{Options}
+
+
+\leftindent{Main switches:
+
+
+-h, -help	print help message
+
+-scribe 	tells the program explicitly that the input is in Scribe
+
+-nroff	tells the program explicitly that the input is in
+
+-troff	tells the program explicitly that the input is in
+
+-	input from stdin  (analysis is limited)
+
+-o FILE	output to file named FILE
+
+
+
+Switches for nroff/troff:
+
+
+-H	special mode for help system
+
+-m MAC	/usr/lib/tmac/tmac.MAC
+
+
+
+Examples:
+
+
+toez -h
+
+toez -scribe thesis.mss -o thesis.d
+
+}
+\section{Program Author}
+
+\leftindent{
+WJ Hansen}
+
+
+\section{Related tools}  
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{\italic{scribe
+
+troff
+
+nroff
+
+}}\enddata{text,268815484}

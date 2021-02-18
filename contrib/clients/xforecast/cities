@@ -1,0 +1,323 @@
+#/*
+# * Copyright 1991 by Frank Adelstein.  All Rights Reserved.
+# *
+# * Permission to use, copy, modify, and distribute this software and its
+# * documentation for any purpose is hereby granted without fee, provided that
+# * the above copyright notice appear in all copies and that both that
+# * copyright notice and this permission notice appear in supporting
+# * documentation, and that the authors name not be used in advertising or
+# * publicity pertaining to distribution of the software without specific,
+# * written prior permission.  The author makes no representations about the
+# * suitability of this software for any purpose.  It is provided "as is"
+# * without express or implied warranty.
+# *
+# * THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, 
+# * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, 
+# * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT 
+# * OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+# * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+# * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+# * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# */
+#
+# Format:
+# X Y ST CITY NAME
+#
+# where X and Y are the X,Y coordinates on the X bitmap (sorry, not 
+# 		latitude, longitude)
+#       ST is the 2 letter state abreviation
+#       CITY is the 3 letter city code
+#   and NAME is the full name of the city or area (all text until end of line).
+# Lines beginning with a "#" are comments and are ignored.
+# 
+# Note: this is the complete listing of all areas the weather server
+#	knows about.  Unfortunately, Alaska and Hawaii are not on my
+#	usa bitmap, so they are just commented out.  There may be a 
+#	couple other places too (like San Juan).
+#
+#AK      ABW     BARROW
+#AK      ADQ     KODIAK
+#AK      AFA     FAIRBANKS
+#AK      AJN     JUNEAU
+#AK      AMC     MCGRATH
+#AK      ANC     ANCHORAGE
+#AK      ANT     KETCHIKAN
+#AK      AOM     NOME
+#AK      AVD     VALDEZ
+#AK      AYA     YAKUTAT
+#
+583 438 AL      BHM     BIRMINGHAM
+588 416 AL      HSV     HUNTSVILLE
+592 459 AL      MGM     MONTGOMERY
+564 499 AL      MOB     MOBILE
+#
+454 407 AR      FSM     FORT SMITH
+487 423 AR      LIT     LITTLE ROCK
+#
+176 393 AZ      FLG     FLAGSTAFF
+189 399 AZ      INW     WINSLOW
+184 361 AZ      PGA     PAGE
+155 431 AZ      PHX     PHOENIX
+178 456 AZ      TUS     TUCSON
+119 433 AZ      YUM     YUMA
+#
+67 368 CA      BFL     BAKERSFIELD
+14 223 CA      CEC     CRESCENT CITY
+7 243 CA      EKA     EUREKA
+56 333 CA      FAT     CLOVIS/FRESNO
+64 398 CA      LAX     LOS ANGELES
+38 239 CA      MHS     MT SHASTA/EUREKA
+33 251 CA      RDD     REDDING
+35 293 CA      SAC     SACRAMENTO
+75 422 CA      SAN     SAN DIEGO
+33 308 CA      SCK     STOCKTON-MODESTO
+16 311 CA      SFO     SAN FRANCISCO
+20 314 CA      SJC     SAN JOSE
+33 363 CA      SMX     SAN LUIS OBISPO
+#
+280 356 CO      ALS     ALAMOSA
+291 336 CO      COS     COLORADO SPRINGS
+288 316 CO      DEN     DENVER
+236 327 CO      GJT     GRAND JUNCTION
+294 346 CO      PUB     PUEBLO
+#
+769 238 CT      BDL     HARTFORD/SPRINGFIELD
+767 247 CT      BDR     BRIDGEPORT/NEW HAVEN
+#
+718 305 DC      WBC     WASHINGTON DC
+#
+739 290 DE      ILG     WILMINGTON
+#
+619 510 FL      AQQ     APALACHICOLA
+691 514 FL      DAB     DAYTONA BEACH
+702 603 FL      EYW     KEY WEST
+693 578 FL      FMY     FORT MYERS
+676 490 FL      JAX     JACKSONVILLE
+693 528 FL      MCO     ORLANDO
+716 583 FL      MIA     MIAMI/FORT LAUDERDALE
+715 557 FL      PBI     PALM BEACH
+580 502 FL      PNS     PENSACOLA
+671 542 FL      TBW     TAMPA BAY
+634 496 FL      TLH     TALLAHASSEE
+#
+660 431 GA      AGS     AUGUSTA
+630 420 GA      AHN     ATHENS
+618 426 GA      ATL     ATLANTA
+616 455 GA      CSG     COLUMBUS
+642 449 GA      MCN     MACON
+681 456 GA      SAV     SAVANNAH
+#
+#HI      HLI     LIHUE
+#HI      HNL     HONOLULU
+#HI      HOG     KAHULUI
+#HI      HTO     HILO
+#
+482 266 IA      ALO     WATERLOO
+502 266 IA      DBQ     DUBUQUE
+464 285 IA      DSM     DES MOINES
+422 268 IA      SUX     SIOUX CITY
+#
+130 226 ID      BOI     BOISE
+138 160 ID      LWS     LEWISTON
+185 240 ID      PIH     POCATELLO
+155 239 ID      TWF     TWIN FALLS
+#
+549 273 IL      CHI     CHICAGO
+507 288 IL      MLI     QUAD CITIES
+523 299 IL      PIA     PEORIA
+526 271 IL      RFD     ROCKFORD
+525 317 IL      SPI     SPRINGFIELD
+#
+560 352 IN      EVV     EVANSVILLE
+589 284 IN      FWA     FORT WAYNE
+577 310 IN      IND     INDIANAPOLIS
+571 277 IN      SBN     SOUTH BEND
+#
+398 326 KS      CNK     CONCORDIA
+367 359 KS      DDC     DODGE CITY
+350 332 KS      GLD     GOODLAND/COLBY
+406 361 KS      ICT     WICHITA
+429 337 KS      TOP     TOPEKA
+#
+619 359 KY      JKL     JACKSON
+604 348 KY      LEX     LEXINGTON
+544 372 KY      PAH     PADUCAH
+589 344 KY      SDF     LOUISVILLE
+#
+515 505 LA      BTR     BATON ROUGE
+476 512 LA      LCH     LAKE CHARLES
+537 516 LA      NEW     NEW ORLEANS
+465 466 LA      SHV     SHREVEPORT
+#
+792 219 MA      BOS     BOSTON
+780 225 MA      ORH     WORCESTER
+#
+725 296 MD      BWI     BALTIMORE
+#
+805 120 ME      CAR     CARIBOU
+791 192 ME      PWM     PORTLAND
+#
+603 206 MI      APN     ALPENA
+617 256 MI      DTW     DETROIT
+608 244 MI      FNT     FLINT
+579 248 MI      GRR     GRAND RAPIDS
+587 222 MI      HTL     HOUGHTON LAKE
+595 251 MI      LAN     LANSING
+569 240 MI      MKG     MUSKEGON
+546 181 MI      MQT     MARQUETTE
+588 179 MI      SSM     SAULT STE MARIE
+#
+479 178 MN      DLH     DULUTH
+459 146 MN      INL     INTERNATIONAL FALLS
+467 217 MN      MSP     TWIN CITIES
+475 235 MN      RST     ROCHESTER
+448 201 MN      STC     ST CLOUD
+#
+478 339 MO      COU     COLUMBIA
+451 336 MO      MCI     KANSAS CITY
+466 373 MO      SGF     SPRINGFIELD
+445 322 MO      STJ     ST JOSEPH
+516 342 MO      STL     ST LOUIS
+#
+550 467 MS      MEI     MERIDIAN
+547 430 MS      TUP     TUPELO
+#
+254 196 MT      BIL     BILLINGS
+176 126 MT      FCA     KALISPELL
+283 146 MT      GGW     GLASGOW
+221 151 MT      GTF     GREAT FALLS
+205 167 MT      HLN     HELENA
+243 137 MT      HVR     HAVRE
+181 160 MT      MSO     MISSOULA
+#
+641 390 NC      AVL     ASHEVILLE
+676 393 NC      CLT     CHARLOTTE
+687 369 NC      GSO     GREENSBORO
+724 402 NC      ILM     WILMINGTON
+710 377 NC      RDU     RALEIGH/DURHAM
+#
+364 183 ND      BIS     BISMARCK
+414 178 ND      FAR     FARGO
+325 149 ND      ISN     WILLISTON
+#
+314 272 NE      BFF     SCOTTSBLUFF
+383 299 NE      GRI     GRAND ISLAND
+354 291 NE      LBF     NORTH PLATTE
+417 300 NE      LNK     LINCOLN
+410 275 NE      OFK     NORFOLK
+425 292 NE      OMA     OMAHA
+#
+780 205 NH      CON     CONCORD
+#
+754 290 NJ      ACY     ATLANTIC CITY
+754 261 NJ      EWR     NEWARK
+#
+244 402 NM      ABQ     ALBUQUERQUE
+#
+124 271 NV      EKO     ELKO
+136 308 NV      ELY     ELY
+119 359 NV      LAS     LAS VEGAS
+65 284 NV      RNO     RENO/CARSON CITY
+94 262 NV      WMC     WINNEMUCCA
+#
+720 242 NY      BGM     BINGHAMTON
+677 235 NY      BUF     BUFFALO
+760 256 NY      NYC     NEW YORK CITY
+692 226 NY      ROC     ROCHESTER
+715 224 NY      SYR     SYRACUSE
+#
+645 280  OH      CAK     AKRON/CANTON
+641 272 OH      CLE     CLEVELAND
+627 300 OH      CMH     COLUMBUS
+606 323 OH      CVG     CINCINNATI
+609 308 OH      DAY     DAYTON
+634 286 OH      MFD     MANSFIELD
+612 272 OH      TOL     TOLEDO
+657 278  OH      YNG     YOUNGSTOWN-WARREN
+#
+406 410 OK      OKC     OKLAHOMA CITY
+426 396 OK      TUL     TULSA
+#
+43 141 OR      AST     ASTORIA
+39 182 OR      EUG     EUGENE/SPRINGFIELD
+42 218 OR      LMT     KLAMATH FALLS
+26 215 OR      MFR     MEDFORD/ASHLAND
+111 169 OR      PDT     PENDLETON
+54 156 OR      PDX     PORTLAND
+64 192 OR      RDM     REDMOND BEND
+46 162 OR      SLE     SALEM
+#
+735 272 PA      ABE     LEHIGH VALLEY
+727 264 PA      AVP     WILKES-BARRE/SCRANTON
+664 255 PA      ERI     ERIE
+717 279 PA      HAR     HARRISBURG
+706 266 PA      IPT     WILLIAMSPORT
+742 279 PA      PHL     PHILADELPHIA
+669 283 PA      PIT     PITTSBURGH
+#
+#PR      SJU     SAN JUAN
+#
+788 232 RI      PVD     PROVIDENCE
+#
+678 413 SC      CAE     COLUMBIA
+696 437 SC      CHS     CHARLESTON
+647 401 SC      GSP     GREENVILLE
+#
+392 211 SD      ABR     ABERDEEN
+416 246 SD      FSD     SIOUX FALLS
+400 237 SD      HON     HURON
+322 237 SD      RAP     RAPID CITY
+#
+578 390 TN      BNA     NASHVILLE
+601 403 TN      CHA     CHATTANOOGA
+527 410 TN      MEM     MEMPHIS
+632 378 TN      TRI     TRI CITY
+618 390 TN      TYS     KNOXVILLE
+#
+366 470 TX      ABI     ABILENE
+413 487 TX      ACT     WACO
+336 404 TX      AMA     AMARILLO
+396 519 TX      AUS     AUSTIN
+463 516 TX      BPT     BEAUMONT/PORT ARTHUR
+400 599 TX      BRO     BROWNSVILLE
+400 578 TX      CRP     CORPUS CHRISTI
+349 536 TX      DRT     DEL RIO
+251 472 TX      ELP     EL PASO
+421 463 TX      FTW     DALLAS/FORT WORTH
+447 533 TX      GLS     GALVESTON
+440 532 TX      HOU     HOUSTON
+332 438 TX      LBB     LUBBOCK
+317 478 TX      MAF     MIDLAND/ODESSA
+379 539 TX      SAT     SAN ANTONIO
+354 497 TX      SJT     SAN ANGELO
+385 441 TX      SPS     WICHITA FALLS
+410 546 TX      VCT     VICTORIA
+#
+186 281 UT      SLC     SALT LAKE CITY
+#
+691 341 VA      LYH     LYNCHBURG
+736 340 VA      ORF     HAMPTON ROADS
+719 335 VA      RIC     RICHMOND
+683 347 VA      ROA     ROANOKE
+#
+756 184 VT      BTV     BURLINGTON
+#
+68 124 WA      OLM     OLYMPIA
+75 112 WA      SEA     SEATTLE
+83 141 WA      YKM     YAKIMA
+#
+541 213 WI      GRB     GREEN BAY
+497 238 WI      LSE     LA CROSSE
+543 247 WI      MKE     MILWAUKEE
+524 245 WI      MSN     MADISON
+#
+665 343 WV      BKW     BECKLEY
+650 333 WV      CRW     CHARLESTON
+674 315 WV      EKN     ELKINS
+641 334 WV      HTS     HUNTINGTON/ASHLAND
+#
+277 254 WY      CPR     CASPER
+288 286 WY      CYS     CHEYENNE
+240 252 WY      LND     LANDER
+272 215 WY      SHR     SHERIDAN
+#

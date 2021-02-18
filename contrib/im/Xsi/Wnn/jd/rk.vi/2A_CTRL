@@ -1,0 +1,45 @@
+;
+; $Id: 2A_CTRL,v 1.1 1991/09/09 22:39:50 ohm Exp $
+;
+; vi mode comtrol
+
+;'^R'	(restart)
+
+;(defvar esc (list '\033' '^X'))
+(defvar esc (list '\033'))
+(defvar char (all))
+(defvar cont (list '^g'))
+
+'\x81'	(switch katakana)				;PF1
+(if VIzenkaku)'\x82'	(off zenkaku)(off VIzenkaku)	;PF2
+'\x82' (switch zenkaku)					;PF2
+'\x83'	(switch romkan)(off romzen)			;PF3
+;'\x84'
+'\x85'	(switch romzen)(off keisen)(off KEISEN1)	;PF5
+'\x86'	(switch keisen)(off KEISEN1)			;PF6
+'\x87'	(switch KEISEN1)(off keisen)			;PF7
+'\x88'	(switch cSrcMode)(off comment)(off vimode)	;PF8
+;'\x89'							;PF9 RESERVED
+'\x8a'	(switch vimode)(on VIquote)(off cSrcMode)(on vimove)(off viex)(off zenkaku)(off VIzenkaku)		;PF10
+
+(if vimode)(esc)	(on vimove)(off viex)(off VIzenkaku)(esc)	;For vi
+
+(if vimode)(if vistr)(if romkan)Q	(on VIquote)(off romkan)(on zenkaku)
+(if vimode)(if viquote)(if romkan)Q	(on VIquote)(off romkan)(on zenkaku)
+(if vimode)(if vistr)(if romkan)q	(on VIquote)(off romkan)(off zenkaku)(off VIzenkaku)
+(if vimode)(if viquote)(if romkan)q	(on VIquote)(off romkan)(off zenkaku)(off VIzenkaku)
+(if vimode)(if vimove)(cont)		(cont)
+(if vimode)(if VIquote)(cont)		(off VIquote)(on romkan)
+
+(unless vimode)(if romkan)Q	(on quote)(off romkan)(on zenkaku)
+(unless vimode)(if romkan)q	(on quote)(off romkan)(off zenkaku)
+(unless vimode)(if quote)(cont)	(off quote)(on romkan)
+
+; C SOURCE mode
+(if cSrcMode)(unless comment)"/*" (on comment)(off quote)(on romkan)"/* "'^L'
+(if cSrcMode)(if comment)"*/"	(off comment)"*/"'^L'
+(if cSrcMode)(if comment)(esc)	(off comment)(esc)
+
+(if cSrcMode)(if comment)(if romkan)Q	(on quote)(off romkan)(on zenkaku)
+(if cSrcMode)(if comment)(if romkan)q	(on quote)(off romkan)(off zenkaku)
+(if cSrcMode)(if comment)(if quote)(cont)	(off quote)(on romkan)

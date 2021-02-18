@@ -1,0 +1,41 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#else
+RESOLVER_LIB =
+#endif /* RESOLVER_ENV */
+
+LOCALINCLUDES = -I$(BASEDIR)/include/ams
+
+OBJS = gl.o gle.o mc.o mcb.o mcbe.o nns.o st.o stb.o stbe.o
+
+LIBS = $(BASEDIR)/lib/libmssrv.a \
+	$(BASEDIR)/lib/libmsshr.a \
+	$(BASEDIR)/lib/libeli.a \
+	$(BASEDIR)/lib/librxp.a \
+	${MALLOCLIB} \
+	$(BASEDIR)/lib/libmail.a \
+	$(BASEDIR)/lib/liberrors.a \
+	$(UTILLIB) \
+	${PRSLIB} \
+	$(RESOLVER_LIB)
+
+NormalObjectRule()
+
+#if defined(USE_MMDF_ENV) || defined(USE_MLD_ENV)
+ProgramTarget(nns, $(OBJS), $(LIBS), ${NETLIBS} ${SUPLIBS} ${MMDFLIBS}  ${BSDLIB})
+#else
+ProgramTarget(nns, $(OBJS), $(LIBS), ${SUPLIBS} ${NETLIBS} ${BSDLIB})
+#endif
+
+InstallProgram(nns, $(DESTDIR)/etc)
+
+DependTarget()
+

@@ -1,0 +1,28 @@
+JS_VERSION( )
+
+名称
+
+	js_version	サーバ、及び、ライブラリのバージョンを調べる。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_version(server,serv,libv)
+	int *serv;			/* サーバのバージョン */
+	int *libv;			/* ライブラリのバージョン */
+	WNN_JSERVER_ID *server;		/* サーバのID */
+
+機能
+
+	サーバID server のサーバ、及び、ライブラリのバージョンを調べ、
+	それぞれ serv、libv に返す。
+	現在は、サーバのバージョンが 0x4100、ライブラリのバージョンが
+	0x4003 と固定になっている。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

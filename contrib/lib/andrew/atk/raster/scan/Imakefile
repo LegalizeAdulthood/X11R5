@@ -1,0 +1,22 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+
+OBJS = ezscan.o scan3117.o
+
+NormalObjectRule()
+
+ProgramTarget(ezscan, ${OBJS},,)
+
+InstallProgram(ezscan, ${DESTDIR}/bin)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(ezscan.help, ${DESTDIR}/help)
+InstallHelpAlias(ezscan, scan scanner scanners)
+
+MkdirTarget(${DESTDIR}/doc/atk/raster ${DESTDIR}/doc/atk/raster/ezscan)
+InstallDocs(ezscan.doc,${DESTDIR}/doc/atk/raster/ezscan)

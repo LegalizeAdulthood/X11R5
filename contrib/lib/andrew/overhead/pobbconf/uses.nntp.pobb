@@ -1,0 +1,32 @@
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+%include pobbconfig.defs
+
+%ifdef pobb_AutoPost
+%ifdef pobb_NNTPIn
+?[QuotedPercent]ifdef	devel
+FA	?[BigLocalDir]/nntppoll	$${rwmachine}/usr/andy/etc/nntppoll	$${binmode}
+FA	?[BigLocalDir]/nns		$${rwmachine}/usr/andy/etc/nns	$${binmode}
+?[QuotedPercent]else	devel
+FA	?[BigLocalDir]/nntppoll	$${machine}/usr/andrew/etc/nntppoll	$${binmode}
+FA	?[BigLocalDir]/nns		$${machine}/usr/andrew/etc/nns	$${binmode}
+?[QuotedPercent]endif	devel
+
+FA	?[SmallLocalDir]/post-netnews	?[PackageHome]/etc/post-netnews $${binmode}
+
+FIA	?[DuplicateDB]/?[NNTPSuffix].dir	?[PackageHome]/null	?[PostmasterName] wheel 666
+FIA	?[DuplicateDB]/?[NNTPSuffix].pag	?[PackageHome]/null	?[PostmasterName] wheel 666
+
+DR	?[NetDatabaseRoot]				?[PostmasterName] wheel 755
+DX	?[NetDatabaseRoot]/lost+found			root wheel 755
+FA	?[NetDatabaseRoot]/.AMS.flames	?[NNTPPollHome]/.AMS.flames	?[PostmasterName] wheel 755
+D	?[NetDatabaseRoot]/temp			?[PostmasterName] wheel 755
+D	?[NetDatabaseRoot]/ReadyBox		?[PostmasterName] wheel 755
+D	?[NetDatabaseRoot]/Hold			?[PostmasterName] wheel 755
+%endif pobb_NNTPIn
+%endif pobb_AutoPost

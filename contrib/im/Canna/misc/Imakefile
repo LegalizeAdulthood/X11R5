@@ -1,0 +1,25 @@
+#include "../config.sh"
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+SUBDIRS =sampleirohas
+
+AllTarget()
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+MakeLintLibSubdirs($(SUBDIRS))
+MakeLintSubdirs($(SUBDIRS),install.ln,install.ln)
+
+MakeDirectories(install,$(LockDir))
+MakeDirectories(install,$(LIBDIR)/sample/src)
+#if defined(nec_ews_svr4) || defined(pcux_r32)
+InstallNamedNonExec(rMakefile,Makefile,$(LIBDIR)/sample/src)
+#else
+InstallNamedNonExec(cMakefile,Makefile,$(LIBDIR)/sample/src)
+#endif /* nec_ews_svr4 */
+InstallNamedNonExec(default.i,default.iroha,$(LIBDIR))
+InstallNamedNonExec(Readme,Readme,$(LockDir))
+InstallNonExec(is.c,$(LIBDIR)/sample/src)
+
+DependDependency()

@@ -1,0 +1,49 @@
+\begindata{text,270132868}
+\textdsversion{12}
+\template{default}
+\chapter{ATK Documentation Library}
+
+
+
+Documentation on ATK is divided into 1) an overview document and related 
+general documents, 2) modules describing each class, 3) tutorial modules 
+discussing example programs, and 4) help files. 
+
+
+ATK programmers should read the overview.doc and progenv.doc files for general 
+information on working with ATK.  These files are stored in the same directory 
+as this file, and are installed in $DESTDIR/doc/atk/doc (ask your site 
+administrator for the location of $DESTDIR).   The example programs and 
+discussions in $DESTDIR/doc/atk/examples will also be useful.
+
+
+Modules describing each class and help files are stored along with the 
+corresponding code.  Therefore the document view.doc will be found in 
+atk/basics/common along with view.ch and view.c.  All documents are installed 
+in the corresponding directories in $DESTDIR/doc/atk.  All help files are 
+installed in $DESTDIR/help and can be accessed through the help system.
+
+
+A hardcopy version of the library set (which includes figures for the overview 
+and examples) is available from the Information Technology Center.  Refer 
+orders to the distribution center care of:
+
+
+Information Requests
+
+Information Technology Center
+
+Carnegie Mellon University
+
+4910 Forbes Avenue
+
+Pittsburgh, PA  15213
+
+
+(412) 268-6700
+
+Fax: (412) 268-6787
+
+info-andrew-request@andrew.cmu.edu
+
+\enddata{text,270132868}

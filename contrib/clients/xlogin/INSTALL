@@ -1,0 +1,69 @@
+The problem with xdm that became apparent when installing xlogin is
+fixes with Relase 5!
+
+If you still run Release 4, read on!
+
+Typically xlogin should be called from the Xstartup and Xreset scripts
+(most of the time these can be found in the directory /usr/lib/X11/xdm).
+But xdm is broken, because there is no authorization file
+at the time the Xstartup-script is executed!
+
+There are three possibilities:
+1) use X without authorization (not good I think).
+2) use xdm.patch01 to simply move the deletion of initial authorization
+   file until after the execution of Xstartup.
+3) use xdm.patch02 supplied by Tim Theisen to write an authorization
+   record for root to the file /.Xauthority.
+
+in the latter two cases, you should set the environment variable
+XAUTHORITY so that it points to the authorization file.
+Thus your Xstartup script might in the 2nd case look like:
+
+|> #!/bin/sh
+|>
+|> XAUTHORITY=/usr/lib/X11/xdm/auth-server
+|> export XAUTHORITY
+|>
+|> exec /usr/bin/X11/xlogin
+
+or in the 3rd case like:
+
+|> #!/bin/sh
+|>
+|> XAUTHORITY=/.Xauthority
+|> export XAUTHORITY
+|>
+|> exec /usr/bin/X11/xlogin
+
+When executing xlogin in the Xreset script, there is no need for
+an authorization file, cause xlogin doesn't open a connection to
+the X server! Thus it might look like:
+
+|> #!/bin/sh
+|> 
+|> exec /usr/bin/X11/xlogin -logout
+
+
+If there is an entry for the X display in the /etc/ttys file,
+xlogin will also write a record in utmp.  The ttyname is derived
+from the display name.  If the display is local, the ttyname is
+"X" followed by the display number.  If the display is remote (i.e.
+an X terminal), then ttyname is the hostname of the display.
+For example, the display name ":0" maps to "X0", and the display
+name "ncd1.cs.wisc.edu:0" maps to "ncd1".
+
+One must take care when adding entries for the X displays in the
+/etc/ttys file.  The X displays should be placed at the end of
+the file.  Programs such as "talk" attempt to connect to the first
+tty that it finds.  (Ideally, talk should connect to the least
+idle tty for a particular user.)  To create an entry for an X
+display, simply copy the last network tty and set the ttyname
+to the appropriate value.  It is also a good idea to place an
+entry for the X display in /dev.  I think that a link to /dev/null
+is the best solution.  Some programs check every tty listed in
+utmp for activity to judge how idle the system is.
+
+Another solution, (if u only have one display on that workstation)
+and if u run e.g. xconsole in the background, is to link it to
+/dev/console and put the X0 on the first place in /etc/ttys!
+

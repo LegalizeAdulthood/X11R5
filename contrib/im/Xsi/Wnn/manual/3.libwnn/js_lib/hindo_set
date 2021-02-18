@@ -1,0 +1,57 @@
+JS_HINDO_SET( )
+
+名称
+
+	js_hindo_set		辞書ファイルの頻度を設定する。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_hindo_set(env,dic_no,entry,ima,hindo)
+	struct wnn_env *env;	/* 環境 */
+	int	dic_no;		/* 辞書番号 */
+	int	entry;		/* エントリ番号 */
+	int	ima;		/* 今使ったよビット */
+	int	hindo;		/* 頻度 */
+	
+機能
+
+	辞書番号 dic_no で示されるエントリ番号 entry の頻度、今使ったよビットを
+	設定する。
+	ima の値により、今使ったよビットを設定する。
+		WNN_IMA_ON		今使ったよビット ON にする。
+		WNN_IMA_OFF		今使ったよビット OFF にする。
+		WNN_HINDO_NOP		何もしない。
+
+	hindo の値により、頻度を設定する。
+		WNN_HINDO_INC		頻度を 1 上げる。
+		WNN_HINDO_DECL		頻度を 1 下げる。
+		WNN_ENTRY_NO_USE	エントリを変換に使用しない。
+		WNN_HINDO_NOP		何もしない。
+		その他			頻度をその値にする。
+
+	辞書がない場合(dic_no = -1)は、疑似文節の選択する候補を設定する。
+	entry の値により以下の候補を第一候補として選択する。
+        	数字の疑似文節
+        		WNN_NUM_HAN		半角数字	読みのまま
+			WNN_NUM_ZEN		全角数字	１２３など
+			WNN_NUM_KAN		漢数字		一二三など
+			WNN_NUM_KANSUUJI	漢数字		百二十三など
+			WNN_NUM_KANOLD		漢数字		壱百弐拾参など
+			WNN_NUM_HANCAN		半角数字	1,234など
+			WNN_NUM_ZENCAN		全角数字	１，２３４など
+		英数字の疑似文節
+			WNN_ALP_HAN		半角		読みのまま
+			WNN_ALP_ZEN		全角	
+		記号の疑似文節
+			WNN_KIG_HAN		半角		読みのまま
+			WNN_KIG_JIS		全角(JIS)
+			WNN_KIG_ASC		全角(ASC)
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

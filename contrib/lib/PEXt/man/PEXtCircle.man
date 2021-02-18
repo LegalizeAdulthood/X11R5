@@ -1,0 +1,66 @@
+.\" $Header: PEXtCircle.man,v 1.0 91/10/04 17:02:03 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtCircle 3PEXt "January 9th, 1991"
+.SH NAME
+\fBPEXtCircle2, PEXtCircle\fP \(em create a circle using a \fBPOLYLINE\fP structure element
+.sp 1
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Primitive.h>
+.sp 1
+void PEXtCircle2 (\fIx, y, radius, num_segments\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIx, y\fP;
+.br
+	Pfloat	\fIradius\fP;
+.br
+	Pint	\fInum_segments\fP;
+.sp 1
+\fBvoid PEXtCircle (\fIx, y, z, radius, num_segments\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIx, y, z\fP;
+.br
+	Pfloat	\fIradius\fP;
+.br
+	Pint	\fInum_segments\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+\fBPEXtCircle2\fP and \fBPEXtCircle\fP create approximations to a circle of
+the given \fIradius\fP in the XY plane with its center at (\fIx\fP, \fIy\fP)
+or (\fIx\fP, \fIy\fP, \fIz\fP), respectively.  The approximation uses
+\fInum_segments\fP segments in a \fBPOLYLINE\fB or \fBPOLYLINE3\fP structure
+element to approximate the circle.  If the current edit mode is set to
+\fIPINSERT\fP, then the structure element is inserted at the current element
+pointer position; otherwise the structure element replaces the element
+at the current element pointer position.
+.SH RETURN VALUE
+None
+.SH BUGS
+A plane normal should be introduced to specify the plane of the circle.
+.sp 1
+The error tolerance should be specified using a curvature metric instead
+of a subdivision metric.
+.sp 1
+The routine should detect the condition when the subdivision count causes
+the structure element to become too large for the protocol transmission
+packet size and either break the circle into multiple structure elements
+and/or generate a warning message.
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

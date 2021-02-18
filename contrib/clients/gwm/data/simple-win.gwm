@@ -1,0 +1,255 @@
+; SIMPLEST DECORATION
+; ===================
+
+;;File: simple-win.gwm -- simple window decoration
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.6 -- Aug 13 1991
+;;State: Exp
+;;GWM Version: 1.7
+
+;;============================================================================
+;; INITS
+;;============================================================================
+
+;; first we declare as screen-dependent all the screen-dependent values we will
+;; use (i.e. colors, pop-ups, pixmaps and cursors)
+;; this file will normally be loaded once.
+
+(declare-screen-dependent
+  simple-win.active.background
+  simple-win.background
+  simple-win.active.label.background
+  simple-win.label.background
+  simple-win.active.label.foreground
+  simple-win.label.foreground
+  simple-win.active.label.border
+  simple-win.label.border
+)
+
+
+;; We set to their default values all the simple-win.* customizable
+;; values that the user hadn't set
+;; here we say that some values can be nil, to mean: just use the same value
+;; as the inactive value
+
+;; first, the screen-independent ones:
+
+(defaults-to
+    simple-win.active.font ()
+    simple-win.font name-font
+    simple-win.active.label.borderwidth ()
+    simple-win.label.borderwidth 1
+)
+
+;; then the screen-dependent:
+;; (we protect the value of the current wob which will be modified by the loop)
+
+(with (wob wob) (for screen (list-of-screens) (defaults-to
+    simple-win.active.background darkgrey
+    simple-win.background grey
+    simple-win.active.label.background ()
+    simple-win.label.background white
+    simple-win.active.label.foreground ()
+    simple-win.label.foreground black
+    simple-win.active.label.border ()
+    simple-win.label.border black
+)))
+
+;; we declare the the context (pairs of variables/values) that will be inbedded
+;; into the window, accessible in the window wool property of key 'context.
+;; these get initilized from their global defaults.
+
+(setq simple-win.context (list
+    'active-label? ()
+    'active.background  simple-win.active.background 
+    'background simple-win.background
+    'active.font  simple-win.active.font 
+    'font simple-win.font
+    'active.label.background  simple-win.active.label.background 
+    'label.background simple-win.label.background
+    'active.label.foreground  simple-win.active.label.foreground 
+    'label.foreground simple-win.label.foreground
+    'active.label.borderwidth  simple-win.active.label.borderwidth 
+    'label.borderwidth simple-win.label.borderwidth
+    'active.label.border  simple-win.active.label.border 
+    'label.border simple-win.label.border
+))
+
+;;============================================================================
+;; FSMs
+;;============================================================================
+;; here we declare the fsms of the deco. 
+;; the idea is that all window-dependent values should be accessed through the
+;; 'context property-list in the window property-list where they have been
+;; put at built tiome, by the main simple-win function.
+
+;; the title bar: will change background color with focus
+
+(: simple-win.titlebar-fsm
+  (fsm-make
+    (state-make
+      (on (user-event 'focus-in)
+	(wob-background (# 'active.background (# 'context window)))
+      )
+      (on (user-event 'focus-out)
+	(wob-background (# 'background (# 'context window)))
+      )
+      standard-title-behavior
+      standard-behavior))
+)
+    
+;; the window name plug: may change with focus (two different fsms in each 
+;; case to make less X calls), and must update name when window name is changed
+;; which is forwarded to us by the standard-behavior in the form of a 
+;; (user-event 'name-change) event
+
+(: simple-win.label-fsm
+  (fsm-make
+    (state-make
+      (on (user-event 'name-change)
+	(with (context (# 'context window)
+	    font (# 'font context)
+	    background (# 'label.background context)
+	    foreground (# 'label.foreground context)
+	  )
+	  (wob-tile (label-make (window-name)))))
+      standard-title-behavior
+      standard-behavior)))
+
+(: simple-win.active.label-fsm
+  (fsm-make
+    (setq inactive (state-make
+	(on (user-event 'focus-in)
+	  (wob-tile (# 'active.label (# window window)))
+	  active
+	)
+	(on (user-event 'name-change)
+	  (with (context (# 'context window)
+	      font (# 'font context)
+	      background (# 'label.background context)
+	      foreground (# 'label.foreground context)
+	      tile (label-make (window-name))
+	      font (# 'active.font context)
+	      background (# 'active.label.background context)
+	      foreground (# 'active.label.foreground context)
+	      atile (label-make (window-name))
+	    )
+	    (## 'label window tile)
+	    (## 'active-label window atile)
+	    (wob-tile tile)))
+	standard-title-behavior
+	standard-behavior))
+    (setq active (state-make
+	(on (user-event 'focus-out)
+	  (wob-tile (# 'label (# window window)))
+	  inactive
+	)
+	(on (user-event 'name-change)
+	  (with (context (# 'context window)
+	      font (# 'font context)
+	      background (# 'label.background context)
+	      foreground (# 'label.foreground context)
+	      tile (label-make (window-name))
+	      font (# 'active.font context)
+	      background (# 'active.label.background context)
+	      foreground (# 'active.label.foreground context)
+	      atile (label-make (window-name))
+	    )
+	    (## 'label window tile)
+	    (## 'active-label window atile)
+	    (wob-tile atile)))
+	standard-title-behavior
+	standard-behavior))
+))
+  
+;;============================================================================
+;; The actual decoration
+;;============================================================================
+;; for customisation: we build a context as the sum of :
+;; - the global defaults: simple-win.context
+;; - the value stored by customize under the 'simple-win resource
+;; - the arguments passed to simple-win
+;; the we obtain a context, that we snapshot by context-save, that we will put
+;; on the window itself (via property) for later use by the fsms
+
+(defun simple-win args
+  (if (= window root-window)		; trap user errors
+    (trigger-error "Decoration function \"simple-win\" called on root window")
+  )
+  (setq simple-icon.oldfont font)	;hack due to bug, we save this value...
+  (with-eval (+ simple-win.context
+      (get-context (std-resource-get 'SimpleWin 'simple-win))
+      args
+    )					; concatenates the context
+    ;; fix default values which are still ()
+    (default-if-nil
+      active.background background
+      active.font font
+      active.label.background label.background
+      active.label.foreground label.foreground
+      active.label.borderwidth label.borderwidth
+      active.label.border label.border
+    )
+    ;; we compute this value to know if we can have a simple fsm if the
+    ;; the title plug isn't supposed to change.
+    active-label? (not (and
+	(= active.background background)
+	(= active.font font)
+	(= active.label.background label.background)
+	(= active.label.foreground label.foreground)
+	(= active.label.borderwidth label.borderwidth)
+	(= active.label.border label.border)
+    ))
+    (with (
+	fsm window-fsm
+	context (context-save simple-win.context) ; snapshot
+	grabs window-grabs
+	label (with (
+	    background label.background
+	    foreground label.foreground
+	    borderwidth label.borderwidth
+	    borderpixel label.border
+	  )
+	  (label-make window-name)
+	)
+	;; put context in window property list
+	property (+ property (list 'context context)
+	  (list
+	    'label (if active-label? label ())
+	    'active-label (if active-label? (with (
+		  font active.font
+		  background active.label.background
+		  foreground active.label.foreground
+		  borderwidth active.label.borderwidth
+		  borderpixel active.label.border
+		)
+		(label-make window-name)
+	      )
+	      ()
+	    )
+	  )
+	)
+      )
+   
+      ;; then build the window
+      (setq simple-icon.result (window-make
+	(with (
+	    borderwidth 1
+	    fsm simple-win.titlebar-fsm
+	    bar-min-width 4 bar-max-width 22
+	  )
+	  (bar-make
+	    ()
+	    (with (
+		fsm (if active-label? simple-win.active.label-fsm
+		  simple-win.label-fsm
+	      ))
+	      (plug-make label)
+	    )
+	    ())
+	)
+	() () () ()))))
+  (setq font simple-icon.oldfont)	;hack due to bug
+  simple-icon.result
+)
+

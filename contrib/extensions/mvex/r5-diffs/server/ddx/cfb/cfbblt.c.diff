@@ -1,0 +1,46 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/cfb/RCS/cfbblt.c,v 
+*** 1.6	1991/09/24 00:05:14
+--- 1.7	1991/09/24 00:07:46
+***************
+*** 34,39 ****
+--- 34,44 ----
+  #include	"fastblt.h"
+  #include	"mergerop.h"
+  
++ #ifdef sun
++ #include <pixrect/pixrect_hs.h>
++ extern Pixrect *sun_pr_screen;
++ #endif
++ 
+  #ifdef notdef /* XXX fails right now, walks off end of pixmaps */
+  #if defined (FAST_UNALIGNED_READS) && (PPW == 4)
+  #define DO_UNALIGNED_BITBLT
+***************
+*** 200,205 ****
+--- 205,230 ----
+  	/* walk source left to right */
+          xdir = 1;
+      }
++ 
++ #if defined(sun) && (MROP) == Mcopy
++     if ((pSrc->type == DRAWABLE_WINDOW) && (pDst->type == DRAWABLE_WINDOW))
++     {
++ 	pr_putattributes(sun_pr_screen, &planemask);
++ 
++         while(nbox--)
++         {
++             pr_rop(sun_pr_screen,
++ 		   pbox->x1, pbox->y1,
++ 		   pbox->x2 - pbox->x1, pbox->y2 - pbox->y1,
++ 		   PIX_SRC, sun_pr_screen,
++ 		   pptSrc->x, pptSrc->y);
++             pbox++;
++             pptSrc++;
++         }
++         pr_get(sun_pr_screen, 0, 0);
++ 
++     } else
++ #endif
+  
+      while(nbox--)
+      {

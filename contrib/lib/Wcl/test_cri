@@ -1,0 +1,18 @@
+#!/bin/csh
+if ($#argv >= 1) then
+   setenv XAPPLRESDIR ${1}cri
+else
+   setenv XAPPLRESDIR ./
+   cd Cri
+endif
+if (-e Cri) then
+    echo ============= Testing Cri =============
+    foreach example (${XAPPLRESDIR}C[0-9][0-9]_*)
+	echo Cri $example:t
+	Cri $example:t
+    end
+endif
+if ($#argv == 0 ) then
+   cd ..
+endif
+

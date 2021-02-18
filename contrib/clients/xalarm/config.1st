@@ -1,0 +1,84 @@
+#! /bin/sh
+
+# Just try to find out the full path names for ps, fgrep & colrm which are used
+# within fns.c to do the -list option.
+
+echo -n "
+Just a few questions!  The default answer is in brackets.
+
+If you do not have "'"'"ps"'"'", "'"'"fgrep"'"'" or "'"'"colrm"'"'" (or equivalent), do not panic.
+xalarm only uses them when it is attempting to list the process ids of other
+xalarms.  If you do not have these commands, just press RETURN.  xalarm can be
+installed as normal, but you will not be able to use the -list option.
+
+I need to know because xalarm uses these shell commands when obeying the -list
+option, and for security reasons xalarm should use full path names.
+
+If you do not have "'"'"fortune"'"'" or "'"'"yow"'"'", you can't have the X equivalent
+since they are just front ends to them!
+
+To find out where these shell commands are, use the shell command "'"'"which"'"'"
+or ask your System Manager.
+
+Where is your "'"'"ps"'"'"? [/bin/ps] "
+read ps
+if test "$ps" = ""; then
+	ps=/bin/ps
+fi
+if test ! -f $ps; then
+	echo Warning: $ps does not exist.
+fi
+echo -n "Where is your "'"'"fgrep"'"'"? [/bin/fgrep] "
+read fgrep
+if test "$fgrep" = ""; then
+	fgrep=/bin/fgrep
+fi
+if test ! -f $fgrep; then
+	echo Warning: $fgrep does not exist.
+fi
+echo -n "Where is your "'"'"colrm"'"'"? [/usr/ucb/colrm] "
+read colrm
+if test "$colrm" = ""; then
+	colrm=/usr/ucb/colrm
+fi
+if test ! -f $colrm; then
+	echo Warning: $colrm does not exist.
+fi
+echo "#define		PS	"'"'$ps'"'"
+#define		FGREP	"'"'$fgrep'"'"
+#define		COLRM	"'"'$colrm'"' > fns.h
+echo ""
+
+echo -n "Where is your "'"'"fortune"'"'"? [/usr/games/fortune] "
+read fortune
+if test "$fortune" = ""; then
+	fortune=/usr/games/fortune
+fi
+if test -f $fortune; then
+	echo '#! /bin/sh
+exec xmemo -name xfortune ${1+"$@"} "`'$fortune'`"' > xfortune
+else
+	echo '#! /bin/sh
+exec xmemo -name xyow "Sorry, xfortune is unavailable - no fortune"' > xyow
+echo Warning: $fortune does not exist.
+fi
+chmod +x xfortune
+
+echo -n "Where is your "'"'"yow"'"'"? [/usr/local/lib/emacs/etc/yow] "
+read yow
+if test "$yow" = ""; then
+	yow=/usr/local/lib/emacs/etc/yow
+fi
+if test -f $yow; then
+	echo '#! /bin/sh
+exec xmemo -name xyow ${1+"$@"} "`'$yow'`"' > xyow
+else
+	echo '#! /bin/sh
+exec xmemo -name xyow "Sorry, xyow is unavailable - no yow"' > xyow
+echo Warning: $yow does not exist.
+fi
+chmod +x xyow
+
+echo "
+Thank you.
+"

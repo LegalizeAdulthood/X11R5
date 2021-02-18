@@ -1,0 +1,25 @@
+JS_FILE_INFO( )
+
+名称
+
+	js_file_info		ファイルの情報を調べる。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_file_info(env, fid, file)
+	struct wnn_env *env;		/* 環境 */
+	int fid;			/* ファイル id */
+	WNN_FILE_INFO_STRUCT *file;
+
+機能
+
+	環境 env にロードされている file の情報(WNN_FILE_INFO_STRUCT)を取り出す。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

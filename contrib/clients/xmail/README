@@ -1,0 +1,62 @@
+
+  xmail - X Window System interface to the mail program
+
+  Copyright 1990,1991 by National Semiconductor Corporation
+ 
+  Permission to use, copy, modify, and distribute this software and its
+  documentation for any purpose is hereby granted without fee, provided that
+  the above copyright notice appear in all copies and that both that
+  copyright notice and this permission notice appear in supporting
+  documentation, and that the name of National Semiconductor Corporation not
+  be used in advertising or publicity pertaining to distribution of the
+  software without specific, written prior permission.
+ 
+  NATIONAL SEMICONDUCTOR CORPORATION MAKES NO REPRESENTATIONS ABOUT THE
+  SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  IT IS PROVIDED "AS IS"
+  WITHOUT EXPRESS OR IMPLIED WARRANTY.  NATIONAL SEMICONDUCTOR CORPORATION
+  DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  IN NO
+  EVENT SHALL NATIONAL SEMICONDUCTOR CORPORATION BE LIABLE FOR ANY SPECIAL,
+  INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+  LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+  OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+ 
+  Author:  Michael C. Wagnitz - National Semiconductor Corporation
+ 
+  xmail is an X-based interface to the Berkeley mail program.  This is
+  version 1.4 of xmail.  This version of xmail depends heavily upon the
+  installation of the application default resources file for the proper
+  declaration of features and enhancements documented in the man pages.
+  If the defaults file or the resource declarations are not installed or
+  in some manner made accessable to the X11 resource database manager,
+  xmail will operate in only a minimal fashion.  Please see the man page
+  for additional details.
+
+  This version of xmail includes support for decompressing and displaying
+  the content of an X-Face mail header, if such a header exists in the
+  message being read.  This feature is a compile time option, and requires
+  the existence of the compface library routines, which are NOT supplied
+  with the xmail sources.    X-Face headers are compressed bitmap images,
+  typically of the face of the person owning such a header.  The compressed
+  header contains only printable characters, which allows it to be included
+  in a mail message.  The USENIX FaceSaver project is typically the source
+  for these bitmaps, which are compressed into X-Face header format using
+  the compface software tools written and distributed by James Ashton
+  <jaa@cs.su.oz.au>.  The compface library is also provided with the distri-
+  bution of the faces software, written by Rich Burridge, and is available
+  by email from his archive server <rb-archive-server@Aus.Sun.COM>.
+
+  A non-imake version of a make file is provided as make.file.  You may
+  use this file to build xmail, or invoke M.I.T.'s imake facility to
+  generate a Makefile.  If you use the make.file instead, you must ensure
+  that the proper environment is defined for your particular architecture
+  and operating system.
+
+  PLEASE report any bugs or enhancements to me at the address below, so
+  changes can be incorporated in my sources and official patches posted.
+
+  Michael C. Wagnitz    M/S D3-677      Domain: michael@berlioz.nsc.com
+  National Semiconductor Corporation     Phone: 408/721-3266
+  2900 Semiconductor Drive   Santa Clara, CA    95052-8090
+  UUCP: {apple|decwrl|hplabs|sun}!nsc!berlioz.nsc.com!michael

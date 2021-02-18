@@ -1,0 +1,64 @@
+; Dynamic lists
+; ==============
+
+;;File: dlists.gwm -- manage dynamic lists
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 2 -- Dec 20 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+(setq Dlists t)				;package is loaded
+
+; making a new list:
+; (Dlists.make)
+; of name foo: (Dlists.make 'foo)
+; with pre-set size n: (Dlists.make n)
+
+(defunq Dlists.make args
+  (with (list.name ())
+    (if (not args) 
+	(set (setq list.name (Dlists.name.new)) ())
+      (= (type (# 0 args)) 'number)
+      (set (setq list.name (Dlists.name.new)) (list-make (# 0 args)))
+      t
+      (set (setq list.name (# 0 args)) ()))
+    list.name))    
+
+(setq Dlists.name.count 0)		;gensyms for Dlists: Dlist#78
+(defun Dlists.name.new ()
+  (atom (+ "Dlist#" (itoa (setq Dlists.name.count
+				(+ Dlists.name.count 1))))))
+; appending one element
+
+(defun Dlists.append (l obj)
+   (## (length (eval l)) l obj))
+
+; removing an element (returns pos)
+
+(defun Dlists.remove (l obj)
+    (if (setq Dlists.remove.pos (member obj (eval l)))
+	(progn
+	  (delete-nth Dlists.remove.pos (eval l))
+	  Dlists.remove.pos
+	  )
+      0
+      )
+    )
+
+; getting the list of a Dlist
+
+(defun Dlists.list (dlist)
+  (eval dlist))
+
+; getting the length of a Dlist
+
+(defun Dlists.length (dlist)
+  (length (Dlists.list dlist)))
+
+; setting the list of a dlist to some list (which is copied into it)
+
+(defun Dlists.set (dlist l)
+  (set dlist l))
+
+
+

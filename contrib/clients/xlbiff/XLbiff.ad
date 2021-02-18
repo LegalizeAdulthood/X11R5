@@ -1,0 +1,33 @@
+!
+! XLbiff  --  Literate Biff, displays incoming mail, etc
+!
+*font:	-*-clean-bold-r-normal--13-130-75-75-c-80-iso8859-1
+!
+! set these if you have a colour monitor, or put in your .Xdefaults
+!
+!*foreground:		purple
+!*background:		green
+!
+! command to use
+!
+*scanCommand:		scan -file %s -width %d -form xlbiff.form
+!*scanCommand:		echo 'x' | mail | grep '^.[UN]'
+!
+! Dimensions of the display window
+!
+*columns:		80
+*rows:			20
+!
+! miscellaneous
+!
+*bottom:		False
+*resetSaver:		False
+*update:		15
+*volume:		100
+!
+! actions
+!
+*translations:		#override\n\
+			:<Key>space:		popdown()\n\
+			:<Key>q:		exit()\n\
+			:<Btn3Down>,<Btn3Up>:	exit()\n

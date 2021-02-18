@@ -1,0 +1,26 @@
+About Help,help
+cat,cat
+cd,cd
+console,console
+cp,cp
+ez,ez
+ezprint,ezprint
+fs,fs
+help,help
+login,login
+logout,logout
+ls,ls
+messages,messages
+mkdir,mkdir
+mv,mv
+preferences,preferences
+preview,preview
+printsnap,printsnap
+pwd,pwd
+rem,rem
+rm,rm
+rmdir,rmdir
+sendmessage,sendmessage
+snapshot,snapshot
+telnet,telnet
+typescript,typescript

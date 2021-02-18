@@ -1,0 +1,73 @@
+.TH DICAR 1
+.SH "名前"
+dicar \- バイナリ辞書のアーカイブ
+.SH "形式"
+.B "dicar \-t \fIbindic1\fP"
+.br
+.B "dicar \-x \fIbindic1\fP [\fIbindic2...\fP]"
+.br
+.B "dicar \-r \fIbindic1\fP \fIbindic2...\fP"
+.br
+.B "dicar \-d \fIbindic1\fP \fIbindic2...\fP"
+.SH "説明"
+.PP
+バイナリ辞書\fIbindic1\fPのアーカイブを行います。
+.br
+オプションの\-はつけなくても構いません。
+.SH "オプション"
+.PP
+.IP "\-t" 12
+バイナリ辞書ファイル\fIbindic1\fPに含まれる辞書を表示します。表示された辞書名は
+辞書ファイルをバイナリファイルに変換する前の、テキストファイルの名前に、拡張
+子.dをつけた名前です。
+.IP "\-x" 12
+\fIbindic1\fPから\fIbindic2\fPで指定された辞書を取り出します。\fIbindic2\fP
+は辞書ファイルをバイナリファイルに変換する前の、テキストファイ
+ルの名前に、拡張子.dをつけた名前です。取り出されたファイル\fIbindic2\fP
+はバイナリ形式の辞書ファイルになります。
+.br
+\fIbindic2\fPを指定しない場合は\fIbindic1\fPに含まれるすべての辞書が取り出さ
+れます。
+.IP "\-r"
+\fIbindic1\fPに\fIbindic2\fPで指定された辞書ファイルに含まれるすべての辞書を
+追加します。
+\fIbindic2\fPに含まれる辞書で\fIbindic1\fPの中に存在する辞書は上書きされます。
+.IP "-d"
+\fIbindic1\fPから\fIbindic2\fPを削除します。
+.SH "使用例 "
+% ls
+.br
+chimei.d shima.d
+.br
+% dicar -t shima.d
+.br
+(テキスト辞書ファイル名＝ディレクトリサイズ＋ワードサイズ　パック形式)
+.br
+shima.mwd.d ＝ 36276 + 113139 pak a4
+.br
+shima.swd.d ＝  2892 +   5306 pak a4
+.br
+% dicar x shima.d shima.mwd.d
+.br
+% ls
+.br
+chimei.d shima.d shima.mwd.d
+.br
+　　　　：
+.br
+% dicar r shima.d shima.mwd.d　(shima.mwd.dを入れ替えます)
+.br
+% dicar r shima.d chimei.d　(shima.dにchimei.dを追加します)
+.br
+% dicar -t shima.d
+.br
+(テキスト辞書ファイル名＝ディレクトリサイズ＋ワードサイズ　パック形式)
+.br
+shima.mwd.d  ＝ 36276 + 113139 pak a4
+.br
+shima.swd.d  ＝  2892 +   5306 pak a4
+.br
+chimei.mwd.d ＝  5176 +  43867 pak a4
+.SH "関連情報"
+.PP
+dpbindic(1), mkbindic(1)

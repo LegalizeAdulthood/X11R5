@@ -1,0 +1,1757 @@
+#
+# sb_main.c: textdomain(), line number: 53, domain: shinbun.messages
+#
+domain: "shinbun.messages"
+#
+#
+# newsbiff.c: line number: 98
+msgid "Now newsbiff is running..."
+msgstr "ニューズビフが動作中..."
+#
+# newsbiff.c: line number: 108
+msgid "Now newsbiff is running... Done"
+msgstr "ニューズビフが動作中... 終了"
+#
+# newsbiff.c: line number: 123
+#msgid "Shinbun tool"
+#msgstr 
+#
+# sb_canvas_cmd.c: line number: 261
+msgid "This has been canceled"
+msgstr "このアーティクルはキャンセルされています。"
+#
+# sb_canvas_cmd.c: line number: 292
+#msgid "This has been canceled"
+#msgstr 
+#
+# sb_canvas_cmd.c: line number: 745
+msgid "Drag & Drop aborted."
+msgstr "ドラッグ＆ドロップは中止されました。"
+#
+# sb_canvas_cmd.c: line number: 763
+#msgid "Drag & Drop aborted."
+#msgstr 
+#
+# sb_cmd.c: line number: 84
+msgid "Query the next news group from the server..."
+msgstr "次のニュースグループをサーバーに問い合わせ..."
+#
+# sb_cmd.c: line number: 91
+msgid "Query the previous news group from the server..."
+msgstr "前のニュースグループをサーバーに問い合わせ..."
+#
+# sb_cmd.c: line number: 101
+msgid "Can not find the next newsgroup."
+msgstr "次のニュースグループはありません。"
+#
+# sb_cmd.c: line number: 115
+msgid "Can not find the previous newsgroup."
+msgstr "前のニュースグループはありません。"
+#
+# sb_cmd.c: line number: 138
+msgid "Can not get the current newsgroup."
+msgstr "現在のニュースグループを認識できません。"
+#
+# sb_cmd.c: line number: 151
+msgid "Rescan the %s group instead"
+msgstr "替わりに %s を再問い合わせします。"
+#
+# sb_cmd.c: line number: 158
+msgid "Can not find the next/previous newsgroup."
+msgstr "次、または前のニュースグループはありません。"
+#
+# sb_cmd.c: line number: 169
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 182
+msgid "Query the next news group from the server... Done"
+msgstr "次のニュースグループをサーバーに問い合わせ... 終了"
+#
+# sb_cmd.c: line number: 189
+msgid "Query the previous news group from the server... Done"
+msgstr "前のニュースグループをサーバーに問い合わせ... 終了"
+#
+# sb_cmd.c: line number: 217
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 227
+msgid "Can not create the article view."
+msgstr "ビューウインドウを作成できません。"
+#
+# sb_cmd.c: line number: 253
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 276
+msgid "Can not get the article number."
+msgstr "アーティクルナンバーが認識できません。"
+#
+# sb_cmd.c: line number: 287
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd.c: line number: 300
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 311
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd.c: line number: 343
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 372
+#msgid "Can not get the current newsgroup."
+#msgstr 
+# sb_cmd.c: line number: 400
+msgid "Select Message ID."
+msgstr "メッセージＩＤを含むテキストが選択されていません。"
+#
+# sb_cmd.c: line number: 401
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 416
+msgid "Quering the server..."
+msgstr "サーバーに問い合わせ..."
+#
+# sb_cmd.c: line number: 431
+msgid "Quering the server... Done"
+msgstr "サーバーに問い合わせ... 終了"
+#
+# sb_cmd.c: line number: 439
+msgid "Article(s) are not arrived."
+msgstr "アーティクルは届いていません。"
+#
+# sb_cmd.c: line number: 450
+msgid "Quering the server... Failed"
+msgstr "サーバーに問い合わせ... 失敗"
+#
+# sb_cmd.c: line number: 490
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 511
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 524
+msgid "Print %s's %d..."
+msgstr "%s の %d を印刷..."
+#
+# sb_cmd.c: line number: 537
+msgid "Print %s's %d... Done"
+msgstr "%s の %d を印刷... 終了"
+#
+# sb_cmd.c: line number: 550
+msgid "Can not mark the article as read."
+msgstr "アーティクルに読んだマークを付けられません。"
+#
+# sb_cmd.c: line number: 565
+msgid "Not selected any message"
+msgstr "メッセージが選択されていません。"
+#
+# sb_cmd.c: line number: 589
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 617
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 648
+msgid "Not fill into the Newsgroup field."
+msgstr "ニュースグループフィールドが書き込まれていません。"
+#
+# sb_cmd.c: line number: 658
+msgid "Not fill into the Article number field."
+msgstr "アーティクルナンバーフィールドが書き込まれていません。"
+#
+# sb_cmd.c: line number: 668
+msgid "Cancel... %s"
+msgstr "%s をキャンセル..."
+#
+# sb_cmd.c: line number: 678
+msgid "Cancel failed. Sorry."
+msgstr "キャンセルは失敗しました。"
+#
+# sb_cmd.c: line number: 686
+msgid "Cancel... %s Done."
+msgstr "%s をキャンセル... 終了"
+#
+# sb_cmd.c: line number: 714
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 779
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 847
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 858
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd.c: line number: 874
+msgid "Not match"
+msgstr "一致しません。"
+#
+# sb_cmd.c: line number: 923
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 934
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd.c: line number: 950
+#msgid "Not match"
+#msgstr 
+#
+# sb_cmd.c: line number: 1003
+#msgid "Not match"
+#msgstr 
+#
+# sb_cmd.c: line number: 1009
+msgid "%d article(s) found"
+msgstr "%d アーティクルが見つかりました。"
+#
+# sb_cmd.c: line number: 1034
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1054
+#msgid "Not selected any message"
+#msgstr 
+#
+# sb_cmd.c: line number: 1081
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 1092
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd.c: line number: 1123
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1143
+#msgid "Not selected any message"
+#msgstr 
+#
+# sb_cmd.c: line number: 1170
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 1181
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd.c: line number: 1217
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1237
+#msgid "Not selected any message"
+#msgstr 
+#
+# sb_cmd.c: line number: 1271
+#msgid "Not match"
+#msgstr 
+#
+# sb_cmd.c: line number: 1277
+#msgid "%d article(s) found"
+#msgstr 
+#
+# sb_cmd.c: line number: 1299
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1312
+msgid "Quering the server for any new articles..."
+msgstr "新規アーティクルをサーバに問い合わせ..."
+#
+# sb_cmd.c: line number: 1352
+msgid "Quering the server failed."
+msgstr "サーバに問い合わせ... 失敗"
+#
+# sb_cmd.c: line number: 1363
+msgid "Quering the server for any new articles... Done"
+msgstr "新規アーティクルをサーバに問い合わせ... 終了"
+#
+# sb_cmd.c: line number: 1370
+#msgid "Article(s) are not arrived."
+#msgstr "アーティクルは届いていません。"
+#
+# sb_cmd.c: line number: 1406
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1424
+#msgid "Can not mark the article as read"
+#msgstr 
+#
+# sb_cmd.c: line number: 1434
+#msgid "Can not mark the article as read"
+#msgstr 
+#
+# sb_cmd.c: line number: 1445
+msgid "Not select article(s)"
+msgstr "アーティクルを選択していません。"
+#
+# sb_cmd.c: line number: 1465
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1483
+#msgid "Can not mark the article as read"
+#msgstr 
+#
+# sb_cmd.c: line number: 1493
+#msgid "Can not mark the article as read"
+#msgstr 
+#
+# sb_cmd.c: line number: 1504
+#msgid "Not select article(s)"
+#msgstr 
+#
+# sb_cmd.c: line number: 1523
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1532
+msgid "Mark as unread..."
+msgstr "未読としてマーク..."
+#
+# sb_cmd.c: line number: 1539
+msgid "Can not mark to the %s group as unread"
+msgstr "未読としてマークすることができません。"
+#
+# sb_cmd.c: line number: 1550
+msgid "Mark as unread... Done"
+msgstr "未読としてマーク... 終了"
+#
+# sb_cmd.c: line number: 1569
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1578
+msgid "Mark as read... "
+msgstr "読済みとしてマーク..."
+#
+# sb_cmd.c: line number: 1585
+msgid "Can not mark to the %s group as read"
+msgstr "%s ニュースグループを読済みとしてマークできません。"
+#
+# sb_cmd.c: line number: 1596
+msgid "Mark as read... Done"
+msgstr "読済みとしてマーク... 終了"
+#
+# sb_cmd.c: line number: 1615
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1630
+#msgid "Quering the server..."
+#msgstr 
+#
+# sb_cmd.c: line number: 1643
+#msgid "Quering the server... Done"
+#msgstr 
+#
+# sb_cmd.c: line number: 1651
+#msgid "Article(s) are not arrived."
+#msgstr 
+#
+# sb_cmd.c: line number: 1663
+#msgid "Quering the server... Failed"
+#msgstr 
+#
+# sb_cmd.c: line number: 1708
+msgid "Saving changes into the %s file..."
+msgstr "変更を %s ファイルにセーブ..."
+#
+# sb_cmd.c: line number: 1716
+msgid "Can not write %s file."
+msgstr "%s ファイルに書き込みできません。"
+#
+# sb_cmd.c: line number: 1725
+msgid "Saving changes into the %s file... Done"
+msgstr "変更を %s ファイルにセーブ... 終了"
+#
+# sb_cmd.c: line number: 1786
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd.c: line number: 1796
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd.c: line number: 1829
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1913
+#msgid "Can not get the current newsgroup."
+#msgstr 
+#
+# sb_cmd.c: line number: 1941
+msgid "Catch up %s... Done"
+msgstr "%s をキャッチアップ... 終了"
+#
+# sb_cmd.c: line number: 1964
+msgid "Subscribe %s... Done"
+msgstr "%s をサブスクライブ... 終了"
+#
+# sb_cmd.c: line number: 1987
+msgid "Unsubscribe %s... Done"
+msgstr "%s をアンサブスクライブ... 終了"
+#
+# sb_biff_props.c: line number: 62
+msgid "Properties: .newsbiff"
+msgstr "プロパティ：ニューズビフファイル"
+#
+# sb_biff_props.c: line number: 71
+msgid "Unable to create sb_props_frame"
+msgstr "sb_props_frame フレームを作成できません。"
+#
+# sb_biff_props.c: line number: 113
+msgid "Templete"
+msgstr "テンプレート"
+#
+# sb_biff_props.c: line number: 132
+msgid "Apply"
+msgstr "適用"
+#
+# sb_biff_props.c: line number: 142
+msgid "Reset"
+msgstr "リセット"
+#
+# sb_biff_props.c: line number: 198
+#msgid "Apply"
+#msgstr "適用"
+#
+# sb_biff_props.c: line number: 198
+msgid "Quit"
+msgstr "終了"
+#
+# sb_biff_props.c: line number: 199
+msgid "Properties has been changed"
+msgstr "プロパティは変更されています。"
+#
+# sb_biff_props.c: line number: 200
+msgid "Applied or Not ?"
+msgstr "適用しますか？"
+#
+# sb_biff_props.c: line number: 232
+#msgid "Templete"
+#msgstr "テンプレート"
+#
+# sb_biff_props.c: line number: 240
+msgid "Add After"
+msgstr "後に追加"
+#
+# sb_biff_props.c: line number: 253
+msgid "Add Before"
+msgstr "前に追加"
+#
+# sb_biff_props.c: line number: 266
+msgid "Insert first"
+msgstr "最初に挿入"
+#
+# sb_biff_props.c: line number: 279
+msgid "Insert last"
+msgstr "最後に挿入"
+#
+# sb_biff_props.c: line number: 292
+msgid "Find"
+msgstr "検索"
+#
+# sb_biff_props.c: line number: 305
+msgid "Delete"
+msgstr "削除"
+#
+# sb_biff_props.c: line number: 341
+msgid "Not selected the list in your newsrc file"
+msgstr "ニュース設定ファイルのリストが選択されていません。"
+#
+# sb_biff_props.c: line number: 354
+msgid "Can not observe newsgroups any more !"
+msgstr "これ以上のニュースグループを監視することはできません。"
+#
+# sb_biff_props.c: line number: 404
+#msgid "Not selected the list in your newsrc file"
+#msgstr 
+#
+# sb_biff_props.c: line number: 416
+#msgid "Can not observe newsgroups any more !"
+#msgstr 
+#
+# sb_biff_props.c: line number: 478
+#msgid "Can not observe newsgroups any more !"
+#msgstr 
+#
+# sb_biff_props.c: line number: 495
+msgid "%s is already existed."
+msgstr "%s は、すでにリストにあります。"
+#
+# sb_biff_props.c: line number: 532
+#msgid "Can not observe newsgroups any more !"
+#msgstr 
+#
+# sb_biff_props.c: line number: 549
+#msgid "%s is already existed."
+#msgstr 
+#
+# sb_biff_props.c: line number: 691
+msgid "is %d. Newsgroups until now have been saved."
+msgstr "%d 個です。現在までのニュースグループはファイルにセーブしました。"
+#
+# sb_biff_props.c: line number: 699
+msgid "Number of maximum newsgroups observed by news biff"
+msgstr "ニューズビフが監視できるニュースグループの最大は、"
+#
+# sb_biff_props.c: line number: 720
+msgid "Changes has been applied."
+msgstr "変更が適用されました。"
+#
+# sb_cmd_support.c: line number: 58
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_cmd_support.c: line number: 68
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd_support.c: line number: 93
+#msgid "Can not get the article numbgr."
+#msgstr 
+#
+# sb_cmd_support.c: line number: 103
+#msgid "Can not create the article view."
+#msgstr 
+#
+# sb_cmd_support.c: line number: 214
+msgid "Shinbun tool"
+msgstr "新聞ツール"
+#
+# sb_cmd_support.c: line number: 229
+#msgid "Shinbun tool"
+#msgstr 
+#
+# sb_cmd_support.c: line number: 298
+msgid "Save Changes"
+msgstr "変更をセーブ"
+#
+# sb_cmd_support.c: line number: 298
+msgid "Discard Changes"
+msgstr "変更を破棄"
+#
+# sb_cmd_support.c: line number: 299
+msgid "The current .newsrc file has been changed"
+msgstr "現在のニュース設定ファイルは変更されました。"
+#
+# sb_cmd_support.c: line number: 300
+msgid "Do you wish to save the changes?"
+msgstr "変更をセーブしますか？"
+#
+# sb_cmd_support.c: line number: 381
+#msgid "Shinbun tool"
+#msgstr 
+#
+# sb_cmd_support.c: line number: 403
+#msgid "Save Changes"
+#msgstr 
+#
+# sb_cmd_support.c: line number: 403
+#msgid "Discard Changes"
+#msgstr 
+#
+# sb_cmd_support.c: line number: 403
+#msgid "Cancel"
+#msgstr 
+#
+# sb_cmd_support.c: line number: 404
+#msgid "The current .newsrc file has been changed"
+#msgstr 
+#
+# sb_cmd_support.c: line number: 405
+#msgid "Do you wish to save the changes?"
+#msgstr 
+#
+# sb_cmd_support.c: line number: 465
+msgid "Can not get the info of the %d line's selection."
+msgstr "%d 行の選択の情報を取得できません。"
+#
+# sb_newsrc_props.c: line number: 56
+msgid "Properties: .newsrc"
+msgstr  "プロパティ：ニュース設定ファイル"
+#
+# sb_newsrc_props.c: line number: 65
+msgid "Unable to create sb_props_frame"
+msgstr "sb_props_frame フレームを作成できません。"
+#
+# sb_newsrc_props.c: line number: 82
+msgid "Groups"
+msgstr "ニュースグループ"
+#
+# sb_newsrc_props.c: line number: 107
+msgid "Groups in Server"
+msgstr "サーバーのニュースグループ"
+#
+# sb_newsrc_props.c: line number: 122
+#msgid "Templete"
+#msgstr "テンプレート"
+#
+# sb_newsrc_props.c: line number: 141
+#msgid "Apply"
+#msgstr "適用"
+#
+# sb_newsrc_props.c: line number: 151
+#msgid "Reset"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 207
+#msgid "Apply"
+#msgstr "適用"
+#
+# sb_newsrc_props.c: line number: 207
+#msgid "Quit"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 208
+#msgid "Properties has been changed"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 209
+#msgid "Applied or Not ?"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 239
+msgid "Difference"
+msgstr "差分"
+#
+# sb_newsrc_props.c: line number: 252
+msgid "All"
+msgstr "すべて"
+#
+# sb_newsrc_props.c: line number: 283
+#msgid "Templete"
+#msgstr "テンプレート"
+#
+# sb_newsrc_props.c: line number: 291
+#msgid "Add After"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 304
+#msgid "Add Before"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 317
+#msgid "Insert first"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 330
+#msgid "Insert last"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 343
+#msgid "Find"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 356
+#msgid "Delete"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 392
+#msgid "Not selected the list in your newsrc file"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 440
+#msgid "Not selected the list in your newsrc file"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 504
+#msgid "%s is already existed."
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 545
+#msgid "%s is already existed."
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 622
+msgid "Quering newsgroups from server..."
+msgstr "サーバー側のニュースグループを問い合わせ..."
+#
+# sb_newsrc_props.c: line number: 652
+msgid "Quering newsgroups from server... Done"
+msgstr "サーバー側のニュースグループを問い合わせ... 終了"
+#
+# sb_newsrc_props.c: line number: 658
+#msgid "Difference"
+#msgstr 
+#
+# sb_newsrc_props.c: line number: 682
+msgid "Quering all newsgroups from server..."
+msgstr "サーバー側の全ニュースグループを問い合わせ..."
+#
+# sb_newsrc_props.c: line number: 709
+msgid "Quering all newsgroups from server... Done"
+msgstr "サーバー側の全ニュースグループを問い合わせ... 終了"
+#
+# sb_newsrc_props.c: line number: 715
+msgid "All Groups in Server"
+msgstr "サーバー側の全ニュースグループ"
+#
+# sb_newsrc_props.c: line number: 763
+msgid "%s is not changed."
+msgstr "%s は、変更されていません。"
+#
+# sb_newsrc_props.c: line number: 828
+#msgid "Changes has been applied."
+#msgstr 
+#
+# sb_pane.c: line number: 157
+msgid "Shinbun tool"
+msgstr "新聞ツール"
+#
+# sb_pane.c: line number: 190
+msgid "Shinbun tool Ver.1.0"
+msgstr "新聞ツール　Ｖｅｒ．１．０"
+#
+# sb_pane.c: line number: 220
+msgid "Newsgroup"
+msgstr "ニュースグループ"
+#
+# sb_pane.c: line number: 230
+msgid "Open"
+msgstr "オープン"
+#
+# sb_pane.c: line number: 241
+msgid "Group:"
+msgstr "グループ："
+#
+# sb_pane.c: line number: 257
+msgid "Article"
+msgstr "アーティクル"
+#
+# sb_pane.c: line number: 266
+msgid "View"
+msgstr "表示"
+#
+# sb_pane.c: line number: 275
+msgid "Post"
+msgstr "ポスト"
+#
+# sb_pane.c: line number: 284
+msgid "Props"
+msgstr "プロップス"
+#
+# sb_pane.c: line number: 293
+msgid "Read Next"
+msgstr "流し読み"
+#
+# sb_pane.c: line number: 312
+#msgid "Newsgroup"
+#msgstr 
+#
+# sb_pane.c: line number: 323
+msgid "Next"
+msgstr "前方"
+#
+# sb_pane.c: line number: 337
+msgid "Prev"
+msgstr "後方"
+#
+# sb_pane.c: line number: 351
+msgid "Next ng"
+msgstr "次のニュースグループ"
+#
+# sb_pane.c: line number: 409
+msgid "As read"
+msgstr "読んだことに"
+#
+# sb_pane.c: line number: 422
+msgid "As unread"
+msgstr "読んでないことに"
+#
+# sb_pane.c: line number: 435
+msgid "Mark"
+msgstr "印をつける"
+#
+# sb_pane.c: line number: 450
+msgid "Catch up"
+msgstr "キャッチアップ"
+#
+# sb_pane.c: line number: 466
+msgid "Subscribe"
+msgstr "サブスクライブ"
+#
+# sb_pane.c: line number: 479
+msgid "unsubscribe"
+msgstr "アンサブスクライブ"
+#
+# sb_pane.c: line number: 495
+#msgid "Subscribe"
+#msgstr 
+#
+# sb_pane.c: line number: 507
+msgid "Latest..."
+msgstr "新規 ..."
+#
+# sb_pane.c: line number: 536
+msgid "Status..."
+msgstr "グループ情報 ..."
+#
+# sb_pane.c: line number: 550
+msgid "Save changes"
+msgstr "変更をセーブ"
+#
+# sb_pane.c: line number: 575
+#msgid "Open"
+#msgstr 
+#
+# sb_pane.c: line number: 588
+msgid "Rescan"
+msgstr "再問い合わせ"
+#
+# sb_pane.c: line number: 611
+#msgid "Article"
+#msgstr 
+#
+# sb_pane.c: line number: 622
+#msgid "As read"
+#msgstr 
+#
+# sb_pane.c: line number: 635
+#msgid "As unread"
+#msgstr 
+#
+# sb_pane.c: line number: 648
+#msgid "Mark"
+#msgstr 
+#
+# sb_pane.c: line number: 663
+msgid "Unread"
+msgstr "読んでないものだけ"
+#
+# sb_pane.c: line number: 676
+msgid "Read"
+msgstr "読んだものも"
+#
+# sb_pane.c: line number: 689
+#msgid "View"
+#msgstr 
+#
+# sb_pane.c: line number: 701
+msgid "Find..."
+msgstr "検索..."
+#
+# sb_pane.c: line number: 714
+msgid "Cancel..."
+msgstr "キャンセル..."
+#
+# sb_pane.c: line number: 727
+msgid "Print"
+msgstr "印刷"
+#
+# sb_pane.c: line number: 750
+#msgid "View"
+#msgstr 
+#
+# sb_pane.c: line number: 758
+#msgid "Next"
+#msgstr 
+#
+# sb_pane.c: line number: 771
+#msgid "View"
+#msgstr 
+#
+# sb_pane.c: line number: 784
+#msgid "Prev"
+#msgstr 
+# sb_pane.c: line number: 797
+msgid "MsgID"
+msgstr "ＭｓｇＩＤ"
+#
+# sb_pane.c: line number: 810
+msgid "tool properties..."
+msgstr "ツールプロパティ..."
+#
+# sb_pane.c: line number: 823
+msgid "newsrc properties..."
+msgstr "ニュース設定プロパティ..."
+#
+# sb_pane.c: line number: 836
+msgid "signature edit..."
+msgstr "署名編集..."
+#
+# sb_pane.c: line number: 852
+msgid "biff properties..."
+msgstr "ニューズビフプロパティ..."
+#
+# sb_pane.c: line number: 874
+msgid "Compose"
+msgstr "作成"
+#
+# sb_pane.c: line number: 885
+msgid "Post..."
+msgstr "ポスト..."
+#
+# sb_pane.c: line number: 900
+msgid "Bracketed post..."
+msgstr "取り込みポスト..."
+#
+# sb_pane.c: line number: 915
+msgid "Followup..."
+msgstr "フォローアップ..."
+#
+# sb_pane.c: line number: 930
+msgid "Indent followup..."
+msgstr "挿入フォローアップ..."
+#
+# sb_pane.c: line number: 945
+#msgid "Post"
+#msgstr 
+#
+# sb_pane.c: line number: 960
+msgid "Forward..."
+msgstr "フォワード..."
+#
+# sb_pane.c: line number: 975
+msgid "Bracketed forward..."
+msgstr "取り込みフォワード..."
+#
+# sb_pane.c: line number: 990
+msgid "Reply..."
+msgstr "リプライ..."
+#
+# sb_pane.c: line number: 1005
+msgid "Indent reply..."
+msgstr "挿入リプライ..."
+#
+# sb_pane.c: line number: 1020
+msgid "Mail"
+msgstr "メール"
+#
+# sb_pane.c: line number: 1042
+#msgid "Next"
+#msgstr 
+#
+# sb_pane.c: line number: 1050
+#msgid "Next"
+#msgstr 
+#
+# sb_pane.c: line number: 1064
+#msgid "Prev"
+#msgstr 
+#
+# sb_pane.c: line number: 1094
+msgid "File"
+msgstr "ファイル"
+#
+# sb_pane.c: line number: 1110
+msgid "Server"
+msgstr "サーバー"
+#
+# sb_pane.c: line number: 1132
+msgid "Message"
+msgstr "メッセージ"
+#
+# sb_pane.c: line number: 1143
+#msgid "View"
+#msgstr 
+#
+# sb_pane.c: line number: 1156
+#msgid "Next"
+#msgstr 
+#
+# sb_pane.c: line number: 1169
+#msgid "Prev"
+#msgstr 
+#
+# sb_pane.c: line number: 1182
+#msgid "View"
+#msgstr 
+#
+# sb_pane.c: line number: 1197
+#msgid "As read"
+#msgstr 
+#
+# sb_pane.c: line number: 1210
+#msgid "As unread"
+#msgstr 
+#
+# sb_pane.c: line number: 1223
+#msgid "Mark"
+#msgstr 
+#
+# sb_pane.c: line number: 1238
+#msgid "Next"
+#msgstr 
+#
+# sb_pane.c: line number: 1251
+#msgid "Prev"
+#msgstr 
+#
+# sb_pane.c: line number: 1264
+msgid "All"
+msgstr "すべて"
+#
+# sb_pane.c: line number: 1277
+msgid "Subject find"
+msgstr "サブジェクト検索"
+#
+# sb_pane.c: line number: 1292
+#msgid "Next"
+#msgstr 
+#
+# sb_pane.c: line number: 1306
+#msgid "Prev"
+#msgstr 
+#
+# sb_pane.c: line number: 1320
+#msgid "Next ng"
+#msgstr 
+#
+# sb_pane.c: line number: 1332
+#msgid "Print"
+#msgstr 
+#
+# sb_pane.c: line number: 1345
+#msgid "Save changes"
+#msgstr 
+#
+# sb_pane.c: line number: 1381
+msgid "Shinbun : Find"
+msgstr "新聞：検索"
+#
+# sb_pane.c: line number: 1391
+msgid "Unable to create sb_find_frame"
+msgstr "sb_find_frame フレームを作成できません。"
+#
+# sb_pane.c: line number: 1401
+msgid "Sender:"
+msgstr "送信者："
+#
+# sb_pane.c: line number: 1412
+#msgid "Sender:"
+#msgstr 
+#
+# sb_pane.c: line number: 1422
+msgid "Subject:"
+msgstr "サブジェクト："
+#
+# sb_pane.c: line number: 1432
+#msgid "Subject:"
+#msgstr 
+#
+# sb_pane.c: line number: 1451
+msgid "Find Forward"
+msgstr "前方に検索"
+#
+# sb_pane.c: line number: 1462
+msgid "Find Backward"
+msgstr "後方に検索"
+#
+# sb_pane.c: line number: 1473
+msgid "Select All"
+msgstr "すべてを選択"
+#
+# sb_pane.c: line number: 1514
+msgid "Shinbun: Cancel"
+msgstr "新聞：キャンセル"
+#
+# sb_pane.c: line number: 1524
+msgid "Unable to create sb_cancel_frame"
+msgstr "sb_cancel_frame フレームが作成できません。"
+#
+# sb_pane.c: line number: 1534
+msgid "Newsgroup:"
+msgstr "ニュースグループ："
+#
+# sb_pane.c: line number: 1544
+#msgid "Newsgroup:"
+#msgstr 
+#
+# sb_pane.c: line number: 1553
+msgid "Article number:"
+msgstr "アーティクル番号："
+#
+# sb_pane.c: line number: 1563
+#msgid "Article number:"
+#msgstr 
+#
+# sb_pane.c: line number: 1581
+#msgid "Cancel"
+#msgstr 
+#
+# sb_pane.c: line number: 1624
+msgid "Shinbun: News biff"
+msgstr "新聞：ニューズビフ"
+#
+# sb_pane.c: line number: 1635
+msgid "Unable to create sb_newsbiff_frame"
+msgstr "sb_newsbiff_frame フレームを作成することができません。"
+#
+# sb_post.c: line number: 117
+msgid "Can not create the post window"
+msgstr "ポストウインドウを作成できません。"
+#
+# sb_post.c: line number: 130
+msgid "Can not get the header informatons"
+msgstr "ヘッダー情報が取得できません。"
+#
+# sb_post.c: line number: 141
+#msgid "Can not create the post window"
+#msgstr 
+#
+# sb_post.c: line number: 156
+msgid "Not view any aritcle before."
+msgstr "現在アーティクルを表示していません。"
+#
+# sb_post.c: line number: 168
+#msgid "Can not get the header informatons"
+#msgstr 
+#
+# sb_post.c: line number: 180
+#msgid "Can not create the post window"
+#msgstr 
+#
+# sb_post.c: line number: 194
+#msgid "Can not create the post window"
+#msgstr 
+#
+# sb_post.c: line number: 211
+#msgid "Not selected the aritcle in pane,"
+#msgstr "アーティクルが選択されていません。"
+#
+# sb_post.c: line number: 212
+msgid "or not view any aritcle before."
+msgstr "または、現在アーティクルを表示していません。"
+#
+# sb_post.c: line number: 227
+msgid "Can not get the file from server"
+msgstr "サーバーからファイルを取得できません。"
+#
+# sb_post.c: line number: 247
+#msgid "Can not get the header informatons"
+#msgstr 
+#
+# sb_post.c: line number: 259
+#msgid "Can not create the post window"
+#msgstr 
+#
+# sb_post.c: line number: 273
+#msgid "Can not create the post window"
+#msgstr 
+#
+# sb_post.c: line number: 326
+#msgid "Can not get the article number."
+#msgstr 
+#
+# sb_post.c: line number: 352
+#msgid "Can not mark the article as read."
+#msgstr 
+#
+# sb_post.c: line number: 509
+msgid "Shinbun: Post"
+msgstr "新聞：ポスト"
+#
+# sb_post.c: line number: 514
+#msgid "Post"
+#msgstr 
+#
+# sb_post.c: line number: 522
+msgid "Shinbun: Mail"
+msgstr "新聞：メール"
+#
+# sb_post.c: line number: 527
+#msgid "Mail"
+#msgstr 
+#
+# sb_post.c: line number: 637
+msgid "Confirm"
+msgstr "確認"
+#
+# sb_post.c: line number: 637
+#msgid "Cancel"
+#msgstr 
+#
+# sb_post.c: line number: 638
+msgid "Your file has been edited."
+msgstr "ファイルは編集されています。"
+#
+# sb_post.c: line number: 639
+msgid "Do you wish to discard these edits?"
+msgstr "これらの編集を破棄しますか？"
+#
+# sb_post.c: line number: 687
+msgid "Can not load file"
+msgstr "ファイルを読み込みません。"
+#
+# sb_post.c: line number: 718
+#msgid "Confirm"
+#msgstr 
+#
+# sb_post.c: line number: 718
+#msgid "Cancel"
+#msgstr 
+#
+# sb_post.c: line number: 719
+#msgid "Your file has been edited."
+#msgstr 
+#
+# sb_post.c: line number: 720
+msgid "Do you wish to destroy this window?"
+msgstr "このウインドウを破棄しますか？"
+#
+# sb_post.c: line number: 808
+msgid "Include"
+msgstr "インクルード"
+#
+# sb_post.c: line number: 818
+msgid "Send"
+msgstr "送信"
+#
+# sb_post.c: line number: 828
+msgid "Header"
+msgstr "ヘッダー"
+#
+# sb_post.c: line number: 838
+msgid "Clear"
+msgstr "消去"
+#
+# sb_post.c: line number: 848
+msgid "Distribution:"
+msgstr "ディストリビューション"
+#
+# sb_post.c: line number: 864
+msgid "Signiture:"
+msgstr "署名："
+#
+# sb_post.c: line number: 952
+#msgid "Include"
+#msgstr 
+#
+# sb_post.c: line number: 962
+#msgid "Send"
+#msgstr 
+#
+# sb_post.c: line number: 972
+#msgid "Header"
+#msgstr 
+#
+# sb_post.c: line number: 982
+#msgid "Clear"
+#msgstr 
+#
+# sb_post.c: line number: 1025
+msgid "Bracketed"
+msgstr "取り込み"
+#
+# sb_post.c: line number: 1039
+msgid "Indent"
+msgstr "挿入"
+#
+# sb_post.c: line number: 1053
+msgid "Selected"
+msgstr "セレクション"
+#
+# sb_post.c: line number: 1067
+msgid "Reference"
+msgstr "リファレンス"
+#
+# sb_post.c: line number: 1096
+msgid "Quit window"
+msgstr "ウインドウを終了"
+#
+# sb_post.c: line number: 1110
+msgid "Close window"
+msgstr "ウインドウをクローズ"
+#
+# sb_post.c: line number: 1124
+msgid "Clear message"
+msgstr "メッセージをクリア"
+#
+# sb_post.c: line number: 1138
+msgid "Leave message intact"
+msgstr "メッセージ無変更"
+#
+# sb_post.c: line number: 1179
+#msgid "Abbrev"
+#msgstr 
+#
+# sb_post.c: line number: 1192
+#msgid "Full"
+#msgstr 
+#
+# sb_post.c: line number: 1314
+#msgid "Confirm"
+#msgstr 
+#
+# sb_post.c: line number: 1314
+#msgid "Cancel"
+#msgstr 
+#
+# sb_post.c: line number: 1315
+#msgid "Your file has been edited."
+#msgstr 
+#
+# sb_post.c: line number: 1316
+#msgid "Do you wish to discard these edits?"
+#msgstr 
+#
+# sb_post.c: line number: 1533
+#msgid "Not view any aritcle before."
+#msgstr 
+#
+# sb_post.c: line number: 1569
+msgid "Can not find the newsgroup."
+msgstr "ニュースグループを検索できません。"
+#
+# sb_post.c: line number: 1581
+#msgid "Not selected the aritcle in pane,"
+#msgstr 
+#
+# sb_post.c: line number: 1582
+#msgid "or not view any aritcle before."
+#msgstr 
+#
+# sb_post.c: line number: 1597
+#msgid "Can not get the file from server"
+#msgstr 
+#
+# sb_post.c: line number: 1625
+msgid "Can not append file"
+msgstr "ファイルを追加できません。"
+#
+# sb_post.c: line number: 1743
+msgid "Continue"
+msgstr "コンティニュー"
+#
+# sb_post.c: line number: 1744
+msgid "Can not find the signature file"
+msgstr "署名ファイルがありません。"
+#
+# sb_post.c: line number: 1778
+msgid "You should fill the Distribution filed"
+msgstr "ディストリビューションが抜けています。"
+#
+# sb_post.c: line number: 1788
+msgid "You should fill the Subject filed"
+msgstr "サブジェクトが抜けています。"
+#
+# sb_post.c: line number: 1798
+msgid "You should fill the Newsgroup filed"
+msgstr "ニュースグループが抜けています。"
+#
+# sb_post.c: line number: 1818
+msgid "You can not send to Distribution/Newsgroup."
+msgstr "このディストリビューション、またはニュースグループには送信できません。"
+#
+# sb_post.c: line number: 1831
+msgid "You should fill the To filed"
+msgstr "To が抜けています。"
+#
+# sb_post.c: line number: 1896
+msgid "Post successfully"
+msgstr "ポストは成功しました。"
+#
+# sb_post.c: line number: 1904
+msgid "Posted fail, sorry"
+msgstr "ポストは失敗しました。"
+#
+# sb_post.c: line number: 2023
+#msgid "Can not get the header informatons"
+#msgstr 
+#
+# sb_post.c: line number: 2033
+#msgid "Can not create the post window"
+#msgstr 
+#
+# sb_post.c: line number: 2055
+#msgid "Can not load file"
+#msgstr 
+#
+# sb_sign_props.c: line number: 48
+msgid "Properties: Signiture"
+msgstr "プロパティ：署名ファイル"
+#
+# sb_sign_props.c: line number: 58
+msgid "Unable to create sb_sign_props_frame"
+msgstr "sb_sign_props_frame フレームを作成できません。"
+#
+# sb_sign_props.c: line number: 72
+msgid "FIle"
+msgstr "ファイル"
+#
+# sb_sign_props.c: line number: 148
+#msgid "Apply"
+#msgstr 
+#
+# sb_sign_props.c: line number: 148
+#msgid "Quit"
+#msgstr 
+#
+# sb_sign_props.c: line number: 149
+msgid "Text has been changed"
+msgstr "テキストは変更されました。"
+#
+# sb_sign_props.c: line number: 150
+#msgid "Applied or Not ?"
+#msgstr 
+#
+# sb_sign_props.c: line number: 177
+msgid "Load"
+msgstr "ロード"
+#
+# sb_sign_props.c: line number: 190
+msgid "Save"
+msgstr "セーブ"
+#
+# sb_sign_props.c: line number: 218
+msgid "File Not Exists."
+msgstr "ファイルは存在しません。"
+#
+# sb_sign_props.c: line number: 268
+msgid "Yes"
+msgstr "はい"
+#
+# sb_sign_props.c: line number: 268
+msgid "No"
+msgstr "いいえ"
+#
+# sb_sign_props.c: line number: 269
+msgid "File Exists, Overwrite it?"
+msgstr "ファイルはすでに存在します。上書きしますか？"
+#
+# sb_sign_props.c: line number: 305
+msgid "Text has been saved."
+msgstr "テキストはセーブされました。"
+#
+# sb_status.c: line number: 48
+msgid "Shinbun: Status"
+msgstr "新聞：ステイタス"
+#
+# sb_status.c: line number: 58
+msgid "Unable to create sb_status_frame"
+msgstr "sb_status_frame フレームを作成できません。"
+#
+# sb_status.c: line number: 121
+#msgid "Yes"
+#msgstr "はい"
+#
+# sb_status.c: line number: 121
+#msgid "No"
+#msgstr "いいえ"
+#
+# sb_status.c: line number: 122
+msgid "If this window is destroyed,"
+msgstr "このウインドウを終了したら、"
+#
+# sb_status.c: line number: 123
+msgid "you need to create once more."
+msgstr "もう一度作り直さなければいけません。"
+#
+# sb_status.c: line number: 124
+msgid "Because I am TAKO"
+msgstr "たこな仕様なので時間がかかります。"
+#
+# sb_status.c: line number: 125
+msgid "Really quit ?"
+msgstr "本当に終了しますか？"
+#
+# sb_status.c: line number: 154
+msgid "%s file not found"
+msgstr "%s ファイルがありません。"
+#
+# sb_tool.c: line number: 225
+#msgid "Confirm"
+#msgstr 
+#
+# sb_tool.c: line number: 632
+#msgid "%s is already existed."
+#msgstr 
+#
+# sb_tool.c: line number: 653
+#msgid "%s is already existed."
+#msgstr 
+#
+# sb_tool_props.c: line number: 475
+msgid "Default Header Pane Height:"
+msgstr "デフォルトのヘッダーペインの高さ："
+#
+# sb_tool_props.c: line number: 476
+msgid "rows"
+msgstr "行"
+#
+# sb_tool_props.c: line number: 477
+msgid "Default Header Pane Width:"
+msgstr "デフォルトのヘッダーペインの幅："
+#
+# sb_tool_props.c: line number: 478
+msgid "colums"
+msgstr "カラム"
+#
+# sb_tool_props.c: line number: 479
+msgid "Default Header Post Height:"
+msgstr "デフォルトのポストペインの高さ："
+#
+# sb_tool_props.c: line number: 480
+#msgid "rows"
+#msgstr 
+#
+# sb_tool_props.c: line number: 481
+msgid "Default Header VIew Height:"
+msgstr "デフォルトのビューペインの高さ："
+#
+# sb_tool_props.c: line number: 482
+#msgid "rows"
+#msgstr 
+#
+# sb_tool_props.c: line number: 483
+msgid "Max Header Message Number:"
+msgstr "表示メッセージの最大数："
+#
+# sb_tool_props.c: line number: 484
+msgid "articles"
+msgstr "アーティクル"
+#
+# sb_tool_props.c: line number: 485
+msgid "Print Script:"
+msgstr "印刷スクリプト："
+#
+# sb_tool_props.c: line number: 486
+msgid "Dafault Article Display:"
+msgstr "デフォルトのメッセージ表示："
+#
+# sb_tool_props.c: line number: 487
+msgid "Post Window with:"
+msgstr "ポストウインドウ表示："
+#
+# sb_tool_props.c: line number: 488
+msgid "Default Header Message With:"
+msgstr "デフォルトのメッセージ表示形式："
+#
+# sb_tool_props.c: line number: 489
+msgid "Default Indent Prefix:"
+msgstr "挿入時のプリフィックス："
+#
+# sb_tool_props.c: line number: 490
+msgid "Check for News Every:"
+msgstr "チェックの周期："
+#
+# sb_tool_props.c: line number: 491
+msgid "minutes"
+msgstr "分"
+#
+# sb_tool_props.c: line number: 492
+msgid "Signal New News Width:"
+msgstr "新規の通知："
+#
+# sb_tool_props.c: line number: 493
+msgid "beep(s)"
+msgstr "ビープ音"
+#
+# sb_tool_props.c: line number: 495
+msgid "move(s)"
+msgstr "ムーブ"
+#
+# sb_tool_props.c: line number: 496
+msgid "Indent at Include with:"
+msgstr "挿入時のインデント："
+#
+# sb_tool_props.c: line number: 521
+msgid "Properties: tool"
+msgstr "プロパティ：ツール"
+#
+# sb_tool_props.c: line number: 531
+msgid "Unable to create sb_tool_props_frame"
+msgstr "sb_tool_props_frame フレームを作成することができません。"
+#
+# sb_tool_props.c: line number: 547
+msgid "Display:"
+msgstr "ディスプレイ："
+#
+# sb_tool_props.c: line number: 553
+msgid "General"
+msgstr "一般プロパティ"
+#
+# sb_tool_props.c: line number: 554
+msgid "New Arrival"
+msgstr "新規到着プロパティ"
+#
+# sb_tool_props.c: line number: 582
+#msgid "Apply"
+#msgstr "適用"
+#
+# sb_tool_props.c: line number: 592
+#msgid "Reset"
+#msgstr 
+#
+# sb_tool_props.c: line number: 646
+#msgid "Apply"
+#msgstr "適用"
+#
+# sb_tool_props.c: line number: 646
+#msgid "Quit"
+#msgstr 
+#
+# sb_tool_props.c: line number: 647
+#msgid "Properties has been changed"
+#msgstr 
+#
+# sb_tool_props.c: line number: 648
+#msgid "Applied or Not ?"
+#msgstr 
+#
+# sb_tool_props.c: line number: 730
+msgid "Unread"
+msgstr "未読"
+#
+# sb_tool_props.c: line number: 731
+#msgid "All"
+#msgstr 
+#
+# sb_tool_props.c: line number: 742
+msgid "Abbrev"
+msgstr "省略"
+#
+# sb_tool_props.c: line number: 743
+msgid "Full"
+msgstr "すべて"
+#
+# sb_tool_props.c: line number: 754
+#msgid "Full"
+#msgstr 
+#
+# sb_tool_props.c: line number: 755
+msgid "Sender & Subject"
+msgstr "送信者とサブジェクト"
+#
+# sb_tool_props.c: line number: 756
+msgid "Subject"
+msgstr "サブジェクト"
+#
+# sb_tool_props.c: line number: 768
+msgid "None"
+msgstr "なし"
+#
+# sb_tool_props.c: line number: 769
+msgid "Sender"
+msgstr "送信者"
+#
+# sb_tool_props.c: line number: 874
+msgid "Applied Change"
+msgstr "変更を適用しました。"
+#
+# sb_tool_props.c: line number: 874
+msgid "Dismiss Change"
+msgstr "変更を破棄しました。"
+#
+# sb_tool_props.c: line number: 875
+msgid "Properties may be changed."
+msgstr "プロパティシートは、変更されました。"
+#
+# sb_tool_props.c: line number: 942
+#msgid "Save"
+#msgstr 
+#
+# sb_tool_props.c: line number: 942
+msgid "Cancel"
+msgstr "キャンセル"
+#
+# sb_tool_props.c: line number: 943
+msgid "File Exists. Overwrite it?"
+msgstr "ファイルはすでにあります。上書きしてよろしいですか？"
+#
+# sb_tool_props.c: line number: 995
+msgid "Tool properties has bgen applied."
+msgstr "ツールプロパティが適用されました。"
+#
+# sb_tool_props.c: line number: 1141
+msgid "%s is not found."
+msgstr "%s はありません。"
+#
+# sb_tool_props.c: line number: 1147
+msgid " 1 "
+msgstr "１"
+#
+# sb_tool_props.c: line number: 1147
+msgid " 2 "
+msgstr "２"
+#
+# sb_tool_props.c: line number: 1147
+msgid " 3 "
+msgstr "３"
+#
+# sb_tool_props.c: line number: 1149
+msgid "To start shinbun, .newsrc or the equivalent"
+msgstr "新聞ツールを立ち上げるためには、.newsrc のような設定ファイルが"
+#
+# sb_tool_props.c: line number: 1150
+msgid "is needed. You can choice three ways."
+msgstr "必要です。次の３つの選択が可能です。"
+#
+# sb_tool_props.c: line number: 1151
+msgid "1. All newsgrousp are available "
+msgstr "１　全てのニュースグループを選択する。"
+#
+# sb_tool_props.c: line number: 1152
+msgid "2. Edit the newsgroup you want  "
+msgstr "２　読みたいニュースグループを選択する。"
+#
+# sb_tool_props.c: line number: 1153
+msgid "3. Prepare by yourself then quit"
+msgstr "３　勝手に作成する。（終了）"
+#
+# sb_view.c: line number: 68
+#msgid "Can not mark the article as read."
+#msgstr 
+#
+# sb_view.c: line number: 189
+#msgid "Can not get the file from server"
+#msgstr 
+#
+# sb_view.c: line number: 203
+msgid "Group: %s Msg no: %d"
+msgstr "ニュースグループ：%s メッセージ番号：%d"
+#
+# sb_view.c: line number: 251
+#msgid "Can not get the file from server"
+#msgstr 
+#
+# sb_view.c: line number: 294
+#msgid "Group: %s Msg no: %d"
+#msgstr 
+#
+# sb_view.c: line number: 396
+#msgid "Confirm"
+#msgstr 
+#
+# sb_view.c: line number: 396
+#msgid "Cancel"
+#msgstr 
+#
+# sb_view.c: line number: 397
+msgid "This window has been edited."
+msgstr "このウインドウは、編集されました。"
+#
+# sb_view.c: line number: 398
+#msgid "Do you wish to discard these edits?"
+#msgstr 
+# sb_view.c: line number: 332
+msgid "Couldn't list %s msg ID artilce."
+msgstr "ＭｓｇＩＤ %s のアーティクルをリストできません。"
+# sb_view.c: line number: 341
+msgid "It seems to be gone when expired."
+msgstr "エキスパイヤで捨てられでもしたのでしょう。あきらめましょう。"

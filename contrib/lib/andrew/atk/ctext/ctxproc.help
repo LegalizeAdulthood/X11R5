@@ -1,0 +1,28 @@
+\begindata{text,269109028}
+\textdsversion{12}
+\template{help}
+\chapter{Proclist for ctext}
+
+
+
+ctextview-paren:  Insert a paren, with balancing
+
+ctextview-brace:  Insert a brace indented properly with balancing.
+
+ctextview-redo-styles:  Wrap styles around comments and function names in C 
+code; "\\033r"; "C-Text,Redo C styles~10"
+
+ctextview-tab:  "Indents the current line or selection region; "\\t"; 
+"C-Text,Indent line/region~11"
+
+ctextview-newline:  Inserts a newline and indents properly; "\\n"
+
+ctextview-slash:  Insert slash and restyle if end of comment; ","/",'/'
+
+ctextview-colon:  Insert colon and reindent line;  ",":",':',
+
+ctextview-rename-identifier: Rename identifier in selection region; "\\033Q"; 
+"C-Text,Rename Identifier~20"
+
+
+\enddata{text,269109028}

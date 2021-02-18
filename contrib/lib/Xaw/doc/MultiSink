@@ -1,0 +1,69 @@
+.LP
+.NH 2
+Multilingual Sink Object
+.LP
+.XS
+	MultiSink Object
+.XE
+.IN "MultiSink object" "" "@DEF@"
+.LP
+.Ds 0
+.TA 2.0i
+.ta 2.0i
+Application Header file	<X11/Xaw/MultiSink.h>
+.IN "MultiSink.h" ""
+Class Header file	<X11/Xaw/MultiSinkP.h>
+.IN "MultiSinkP.h" ""
+Class		multiSinkObjectClass
+.IN "multiSinkObjectClass" ""
+Class Name	MultiSink
+.IN "MultiSink object" "class name"
+Superclass	TextSink
+.sp 1
+.LP
+The MultiSink object is used by a multilingual text widget to render the
+multilingual text.  It
+will display nomo or multiple languages text.
+.De
+.NH 3
+Resources
+.LP
+When creating a MultiSink object instance, the following resources are
+retrieved from the argument list or from the resource database:
+.LP
+.IN "MultiSink object" "resources"
+.ps 9
+.nr PS 9
+.vs 11
+.nr VS 11
+.TS H
+lw(1i) lw(1i) lw(1i) lw(.5i) lw(2i).
+_
+.sp 3p
+.TB
+Name	Class	Type	Notes	Default Value
+.sp 3p
+_
+.TH
+.R
+.sp 3p
+background	Background	Pixel		XtDefaultBackground
+destroyCallback	Callback	XtCallbackList		NULL
+displayNonprinting	Output	Boolean		True
+echo	Output	Boolean		True
+fontSet	FontSet	XFontSet		XtDefaultFontSet
+foreground	Foreground	Pixel		XtDefaultForeground
+.sp 3p
+_
+.TE
+.ps 11
+.nr PS 11
+.vs 13
+.nr VS 13
+.Bg
+.Dc
+.Sd Bold
+.Sh Bold
+.Ms Bold
+.Sg
+

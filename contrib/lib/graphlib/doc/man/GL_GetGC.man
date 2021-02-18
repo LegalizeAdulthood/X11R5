@@ -1,0 +1,26 @@
+.TH GL_GetGC 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_GetGC \- Automate getting of Graphic Contexts.
+.SH SYNTAX
+void GL_GetGC(win,gc,...)
+.br
+	Window win;
+.br
+	GC *gc;
+.SH ARGUMENTS
+.IP win 1i
+The window that the GC is associated with.  Needed for the call to 
+XCreateGC.
+.IP gc 1i
+Pointer to where the gc should be returned to.
+.IP ... 1i
+Variable arguments modifying the creation of the gc.
+
+.SH DESCRIPTION
+This call will get a standard GC, using the default font, foreground,
+and background.  Currently no variable arguments are supported, however
+GL_Done should still be specified.  In the future, this may move under
+the general rubric of GL_Create.  Comments anyone?
+
+.SH "SEE ALSO"
+GL_Create(3GL), XCreateGC(3X11), GraphLib Programming Manual

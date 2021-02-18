@@ -1,0 +1,104 @@
+.\" $Header: XpexGetSC.man,v 2.4 91/09/11 16:02:20 sinyaw Exp $
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexGetSC 3PEX "$Revision: 2.4 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexGetSC, XpexChangeSC \- 
+Functions that can be used to inquire and
+modify attributes of search context attributes.
+.SH "Synopsis"
+.nf
+Status XpexGetSC(dpy, sc_id, valuemask, values)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexSC \fIsc_id\fP;
+.br
+	XpexBitmask \fIvaluemask\fP; 
+.br
+	XpexSCValues *\fIvalues\fP; /* RETURN */
+.sp
+void XpexChangeSC(dpy, sc_id, valuemask, values)
+.br
+	Display *\fIdpy\fP;
+.br
+	XpexSC \fIsc_id\fP;
+.br
+	XpexBitmask \fIvaluemask\fP; 
+.br
+	XpexSCValues *\fIvalues\fP; /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i	
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIsc_id\fP
+Specifies the search context.
+.IP \fIvaluemask\fP
+To be added
+.IP \fIvalues\fP 1i
+Specifies a pointer to a structure of type XpexSCValues.
+.SH "Description"
+The \fIXpexGetSearchContext\fP function will return components of 
+the search 
+context specified by \fIsc_id\fP. The \fIvaluemask\fP specifies 
+which components are to be inquired and returned. The specified
+attributes of the search context will be returned in \fI*values\fP.
+Floating point values in \fIvalues\fP will be returned in the current
+floating point format.
+.sp
+\fIXpexGetSearchContext\fP can generate \fIBadSearchContext\fP, 
+\fIBadFloatPointFormat\fP, and  \fIBadValue\fP errors.
+.sp
+The \fIXpexChangeSearchContext\fP function changes components of a 
+search context.  The \fIvaluemask\fP and the \fIvalues\fP structure
+specify which components are to be changed.  Each bit in the
+\fIvaluemask\fP indicates whether or not there is a corresponding
+entry in the \fIvalues\fP structure.  It is therefore possible
+to modify one or many search context attributes with a 
+\fIXpexChangeSearchContext\fP function.  Floating point values in the 
+\fIvalues\fP structure will be in the current floating point format.
+.sp
+\fIXpexChangeSearchContext\fP can generate \fIBadSearchContext\fP,
+\fIBadValue\fP, \fIBadFloatingPointFormat\fP, \fIBadPath\fP,
+and \fIBadNameSet\fP errors.
+.SH "Structures"
+See XpexSCValues(3PEX).
+.SH "Errors"
+.IP \fIBadSearchContext\fP 1i
+specified search context resource ID is invalid
+.IP \fIBadFloatingPointFormat\fP 1i
+device does not support the specified fp format
+.IP \fIBadValue\fP 1i
+illegal bit set in \fIvaluemask\fP parameter or
+a value in the \fIvalues\fP structure is out of range
+.IP \fIPath\fP 1i
+illegal or poorly-formed search path (includes invalid structure
+ID's, invalid element offset values)
+.IP \fIBadNameSet\fP 1i
+specified name set resource ID is invalid
+.SH "Related Commands"
+XpexCreateSC, XpexCopySC, XpexFreeSC, XpexSearchNetwork.

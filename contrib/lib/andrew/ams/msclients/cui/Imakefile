@@ -1,0 +1,77 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOCALINCLUDES	=	-I${BASEDIR}/include/ams
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#else
+RESOLVER_LIB =
+#endif /* RESOLVER_ENV */
+
+#ifdef SNAP_ENV
+    PRODUCTS 	=	cuin cuis cuit
+#else /* SNAP_ENV */
+    PRODUCTS 	=	cuin
+#endif /* SNAP_ENV */
+
+ANDVOBJS	=	unixmach.o
+
+PCVOBJS	=	pcmach.o
+
+OBJS		=	cui.o cuifns.o ${ANDVOBJS} morprntf.o
+
+LIBS		=	${BASEDIR}/lib/libmail.a ${BASEDIR}/lib/liberrors.a \
+			${MALLOCLIB} ${UTILLIB} ${RESOLVER_LIB}
+
+NOSNAPLIBS	=	${BASEDIR}/lib/libcui.a ${BASEDIR}/lib/libcuin.a \
+			${BASEDIR}/lib/libmssrv.a ${BASEDIR}/lib/libmsshr.a \
+			${BASEDIR}/lib/libeli.a ${BASEDIR}/lib/librxp.a \
+			${LIBS}	${PRSLIB}
+
+
+#define parameterized_snap_libs(kind_of_snap) \ @@\
+	${BASEDIR}/lib/libcui.a \ @@\
+	${BASEDIR}/lib/libcuis.a \ @@\
+	${BASEDIR}/lib/kind_of_snap.a \ @@\
+	${BASEDIR}/lib/libmsshr.a \ @@\
+	${BASEDIR}/lib/librxp.a \ @@\
+	${LIBS} \
+
+NormalObjectRule()
+
+#ifdef SNAP_ENV
+#if defined(USE_MMDF_ENV) || defined(USE_MLD_ENV)
+ProgramTarget(cuis, ${OBJS}, parameterized_snap_libs(libsnap), ${NETLIBS} ${SUPLIBS} ${MMDFLIBS}  ${BSDLIB})
+ProgramTarget(cuit, ${OBJS}, parameterized_snap_libs(libsnapt), ${NETLIBS} ${SUPLIBS} ${MMDFLIBS}  ${BSDLIB})
+#else
+ProgramTarget(cuis, ${OBJS}, parameterized_snap_libs(libsnap), ${SUPLIBS} ${NETLIBS}  ${BSDLIB})
+ProgramTarget(cuit, ${OBJS}, parameterized_snap_libs(libsnapt), ${SUPLIBS} ${NETLIBS}  ${BSDLIB})
+#endif
+#endif /* SNAP_ENV */
+#if defined(USE_MMDF_ENV) || defined(USE_MLD_ENV)
+ProgramTarget(cuin, ${OBJS}, ${NOSNAPLIBS}, ${NETLIBS} ${SUPLIBS} ${MMDFLIBS}  ${BSDLIB})
+#else
+ProgramTarget(cuin, ${OBJS}, ${NOSNAPLIBS}, ${SUPLIBS} ${NETLIBS} ${BSDLIB})
+#endif
+
+InstallMultiple(${PRODUCTS}, $(INSTPROGFLAGS), ${DESTDIR}/bin)
+InstallLink($(BASEDIR)/bin/cuin, $(DESTDIR)/bin/cui)
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(cuiclss.help cuicust.help cuiedit.help cuixprt.help cuifltr.help cuipref.help cuiqr.help cuiwiz.help cui.help cui.tutr, ${DESTDIR}/help)
+InstallHelpAlias(cuiclss, cui-classification)
+InstallHelpAlias(cuicust, cui-customization)
+InstallHelpAlias(cuiedit, cui-edit)
+InstallHelpAlias(cuixprt, cui-expert)
+InstallHelpAlias(cuifltr, cui-filtering cui-filter)
+InstallHelpAlias(cuipref, cui-preferences)
+InstallHelpAlias(cuiqr, cui-quickref)
+InstallHelpAlias(cuiwiz, cui-wizard)
+InstallHelpAlias(cui, cui-novice)

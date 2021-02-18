@@ -1,0 +1,19 @@
+ＲＯＭＫＡＮ＿ＣＬＥＡＲ（ＪＴ＿ＬＩＢ）
+
+
+名称
+    romkan_clear  ―  ローマ字仮名変換用処理バッファの初期化
+
+形式
+    #include	<wnn/rk_spcl_val.h>
+
+    void	romkan_clear()
+
+機能説明
+    romkan_clear は、ローマ字仮名変換で使用される本処理バッファ、およびプッシ
+    ュバッファを初期化する。変換表の内容、および変換モードの状態は失われない。
+
+関連項目
+    romkan_init(JT_LIB), romkan_getc(JT_LIB), romkan_ungetc(JT_LIB), 
+    romkan_dispmode(JT_LIB), romkan_next(JT_LIB), 2A_CTRL(JT_ENV), 
+    2B_ROMKANA(JT_ENV)

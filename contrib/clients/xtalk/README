@@ -1,0 +1,15 @@
+xtalk is a 4.3 BSD (available at your local ftp site) compatible talk client
+for X11. It was written as an exercise in learning how to program in X11.
+
+xtalk has been tested with X11R5 on the following platforms: SunOS 4.1.1, 
+IRIX 3.3.2, AIX 1.2.1, AIX 3.1.
+
+xtalk does NOT work with the 4.2 BSD talk daemon (NOTE, this is the default 
+with SunOS) (however, if someone can point us to the source, we are willing
+to give it a try).
+
+Paul Whaley (whaley@ucs.ubc.ca)
+George Lindholm (lindholm@ucs.ubc.ca)
+University Computing Services
+University of British Columbia
+Vancouver, B.C., Canada

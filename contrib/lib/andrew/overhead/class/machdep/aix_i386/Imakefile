@@ -1,0 +1,67 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DependTarget(globalrefs._h)
+
+NormalObjectRule()
+NormalAsmPPRule()
+
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = $(RESOLVLIB)
+LIBC_RESOLVER_LIST = gethostnamadr.o gethostent.o res_comp.o res_debug.o res_init.o res_mkquery.o res_send.o sethostent.o res_search.o
+RESOLVER_SPLIT_CMD = /bin/sh -c 'if test $(RESOLVER_LIB); \
+	then ar x $(RESOLVER_LIB); fi; exit 0';
+LIBC_RESOLVER_HACK = /bin/sh -c 'if test $(RESOLVER_LIB); \
+	then ar d libcx.a $(LIBC_RESOLVER_LIST); fi; exit 0';
+#endif /* RESOLVER_ENV */
+
+all::		globals.o entry.o doload.o dofix.o dolist.o
+
+globals.o:  	globals.spp globalrefs._h
+
+globalrefs._h:	libc.eplist
+		$(AWK) '{printf "\tglobalref(%s)\n", $$2}' libc.eplist >,globalrefs._h
+		$(MV) ,globalrefs._h globalrefs._h
+
+libc.eplist:	/lib/libc.a /usr/lib/librts.a /lib/crt0.o $(RESOLVER_LIB) ${GNULIB} getlist.awk
+		$(RM) /tmp/libhack.a
+		$(AR) /tmp/libhack.a /lib/crt0.o
+		$(NM) -e $(RESOLVER_LIB) /usr/lib/librts.a /lib/libc.a ${GNULIB} /tmp/libhack.a | \
+			$(TR) "|" " " | \
+			$(AWK) -f getlist.awk | \
+			grep -v "%_" > ,libc.eplist
+		$(MV) ,libc.eplist libc.eplist
+		$(RM) /tmp/libhack.a
+
+InstallLibrary(libcx.a, $(DESTDIR)/lib)
+InstallCshScript(makedo.csh, $(DESTDIR)/bin/makedo)
+
+#ifdef GNU_ENV
+    ARCHIVE_COM = ar x ${GNULIB} ;
+#endif /* GNU_ENV */
+
+all::		libcx.a
+
+DelList._: 	libc.eplist
+	        	$(AWK) '{print $$1}' libc.eplist | $(SORT) -u > ,DelList._
+	       	 $(MV) ,DelList._ DelList._
+
+libcx.a:        	/usr/lib/librts.a /lib/libc.a /lib/crt0.o $(RESOLVER_LIB) ${GNULIB} DelList._
+	        	rm -rf new
+	        	mkdir new
+	                	cd new ; \
+			$(RESOLVER_SPLIT_CMD) \
+			$(CP)  /lib/crt0.o crt0.o ; \
+	                	ar x /lib/libc.a ; $(ARCHIVE_COM) \
+	                	$(CP) /usr/lib/librts.a ,libcx.a ; \
+	                	$(CHMODW) ,libcx.a ; \
+	                	ar q ,libcx.a *.o
+	        	mv new/,libcx.a libcx.a
+	              -ar d libcx.a `cat DelList._`
+		$(LIBC_RESOLVER_HACK)
+	        	rm -rf new
+
+clean::
+		$(RM) DelList._ libc.eplist globalrefs._h ,* libcx.a
+		rm -fr new /tmp/libhack.a

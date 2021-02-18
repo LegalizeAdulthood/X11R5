@@ -1,0 +1,199 @@
+# @(#)fm.error.po 1.3 90/11/06; SMI
+#
+domain "fm.error"
+#
+# fm.bind.c: line number: 123
+msgid "Unable to open /etc/magic\n"
+msgstr "/etc/magic ファイルをオープンできません。\n"
+#
+# fm.bind.c: line number: 175
+msgid "Unable to open /etc/filetype.\nHave you run install_filemgr?\n"
+msgstr "/etc/filetypeをオープンできません。\ninstall_filemgrを実行しましたか？\n"
+#
+# fm.bind.c: line number: 395
+msgid "No tab after offset"
+msgstr "オフセットの後にタブがありません。"
+#
+# fm.bind.c: line number: 406
+msgid "No tab after type"
+msgstr "タイプの後にタブがありません。"
+#
+# fm.bind.c: line number: 423
+msgid "Illegal type"
+msgstr "タイプが正しくありません。"
+#
+# fm.bind.c: line number: 435
+msgid "No tab after value"
+msgstr "値 (value) の後にタブがありません。"
+#
+# fm.drag.c: line number: 163
+msgid "fm_check_drop(%d, %d) wno =  %d called\n"
+msgstr "fm_check_drop(%d, %d) wno =  %d を呼び出しました。\n"
+#
+# fm.drag.c: line number: 170
+msgid "data = %d window = %d, property = %d\n"
+msgstr "データ = %d, ウィンドウ = %d, プロパティ = %d\n"
+#
+# fm.drag.c: line number: 194
+msgid "  Filename = '%s'\n"
+msgstr "  ファイル名 = '%s'\n"
+#
+# fm.drag.c: line number: 456
+msgid "Cannot write into fullscreen."
+msgstr "フルスクリーンには書き込めません。"
+#
+# fm.file.c: line number: 139
+msgid "Unable to create canvas"
+msgstr "キャンバスをクリエイトできません。"
+#
+# fm.file.c: line number: 151
+msgid "Unable to create scrollbar"
+msgstr "スクロールバーをクリエイトできません。"
+#
+# fm.file.c: line number: 512
+msgid "%d saved repaints this expose, %d total\n"
+msgstr "%d をセーブしてこのエクスポーズを再ペイントします, %d 合計\n"
+#
+# fm.file.c: line number: 2324
+msgid "Unable to find window number from canvas"
+msgstr "キャンバスからウィンドウ番号が見つけられません。"
+#
+# fm.find.c: line number: 412
+msgid "find exec failed\n"
+msgstr "exec 失敗。\n"
+#
+# fm.main.c: line number: 100
+msgid "Need to set $HOME environment variable"
+msgstr "$HOME 環境変数を設定する必要があります。"
+#
+# fm.main.c: line number: 144
+msgid "Unable to create main frame"
+msgstr "主フレームをクリエイトできません。"
+#
+# fm.main.c: line number: 153
+msgid "Unable to create main panel"
+msgstr "主パネルをクリエイトできません。"
+#
+# fm.main.c: line number: 279
+msgid "Usage: %s: [-a] [-c] [-d directory ] "
+msgstr "形式: %s: [-a] [-c] [-d directory ] "
+#
+# fm.main.c: line number: 280
+msgid "[-D] [-i interval] [-r]\n"
+msgstr "[-D] [-i interval] [-r]\n"
+#
+# fm.main.c: line number: 441
+msgid "fm_write_rc_file entered.\n"
+msgstr "fm_write_rc_file が入力されました。\n"
+#
+# fm.main.c: line number: 454
+msgid "colors: %s.\n"
+msgstr "カラー: %s.\n"
+#
+# fm.main.c: line number: 480
+msgid "rects: %s.\n"
+msgstr "矩形: %s.\n"
+#
+# fm.props.c: line number: 115
+msgid "Unable to create property frame"
+msgstr "プロパティ・フレームをクリエイトできません。"
+#
+# fm.props.c: line number: 121
+msgid "Unable to get property panel"
+msgstr "プロパティ・パネルをゲットできません。"
+#
+# fm.seln.c: line number: 312
+msgid "Too many selections.  Select fewer and try again"
+msgstr "選択数が多すぎます。もう一度やりなおしてください。"
+#
+# fm.tree.c: line number: 104
+msgid "Unable to create tree canvas"
+msgstr "ツリー・キャンバスを作成できません。"
+#
+# fm.tree.c: line number: 123
+msgid "Unable to create tree verical scrollbar"
+msgstr "ツリーの垂直スクロールバーを作成できません。"
+#
+# fm.tree.c: line number: 133
+msgid "Unable to create tree horizontal scrollbar"
+msgstr "ツリーの水平スクロールバーを作成できません。"
+#
+# fm.tree.c: line number: 251
+msgid "GC create failed"
+msgstr "GC クリエイト失敗。"
+#
+# fm.tree.c: line number: 578
+msgid "Cannot open folder %s"
+msgstr "フォルダ %s をオープンできません。"
+#
+# fm.util.c: line number: 98
+msgid "filemgr: %s\n"
+msgstr "ファイルマネージャ: %s\n"
+#
+# fm.util.c: line number: 125
+msgid "filemgr: %s\n"
+msgstr "ファイルマネージャ: %s\n"
+#
+# fm.util.c: line number: 145
+msgid "filemgr: %s(%d) %s\n"
+msgstr "ファイルマネージャ: %s(%d) %s\n"
+#
+# fm.util.c: line number: 168
+msgid "filemgr: %s(%d) %s\n"
+msgstr "ファイルマネージャ: %s(%d) %s\n"
+#
+# fm.util.c: line number: 424
+msgid "Can't find or start %s\n"
+msgstr "%s が見つからないか、または開始できません。\n"
+#
+# fm.util.c: line number: 428
+msgid "Can't fork %s\n"
+msgstr "%s をフォークできません。\n"
+#
+# fm.util.c: line number: 450
+msgid "Can't find or start %s\n"
+msgstr "%s が見つからないか、または開始できません。\n"
+#
+# fm.util.c: line number: 463
+msgid "child stopped by signal %d"
+msgstr "%d シグナルで子プロセスが停止しました。"
+#
+# fm.util.c: line number: 469
+msgid "child terminated by signal %d"
+msgstr "%d シグナルで子プロセスが終了しました。"
+#
+# fm.util.c: line number: 475
+msgid "child exited with return value %d"
+msgstr "子プロセスがリターン値 %d で終了しました。"
+#
+# fm.util.c: line number: 762
+msgid "Unable to get background color"
+msgstr "バックグラウンド・カラーをゲットできません。"
+#
+# fm.util.c: line number: 773
+msgid "Unable to get forground color"
+msgstr "フォアグラウンド・カラーをゲットできません。"
+#
+# fm.util.c: line number: 821
+msgid "Unable to create color map segment"
+msgstr "カラー・マップ・セグメントをクリエイトできません。"
+#
+# fm.waste.c: line number: 151
+msgid "Unable to find frame"
+msgstr "フレームが見つかりません。"
+#
+# fm.waste.c: line number: 364
+msgid "Unable to create diskette frame"
+msgstr "ディスケット・フレームをクリエイトできません。"
+#
+# fm.waste.c: line number: 467
+msgid "Unable to create wastebasket"
+msgstr "くずかごをクリエイトできません。"
+#
+# fm.waste.c: line number: 563
+msgid "Window x %d y %d width %d height %d\n"
+msgstr "ウィンドウ x %d y %d 幅 %d 高さ %d\n"
+#
+# fm.waste.c: line number: 567
+msgid "Icon closed x/y position is %d , %d\n"
+msgstr "x/y 位置にクローズされているアイコンは %d , %d です。\n"

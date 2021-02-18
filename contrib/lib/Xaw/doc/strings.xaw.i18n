@@ -1,0 +1,105 @@
+\" These macros are not associated with any widget.
+
+\" LabelLocale Widget Resource Definitions
+
+.de Ls \" Label fontSet
+.ie 'Bold'\\$1' .IP \fBfontSet\fP 1.5i
+.el .IP fontSet 1.5i
+The text font set to use when displaying the multibyte \fBlabel\fP or
+\fBstring\fP.
+..
+.de Lm \" Label multibyte label
+.ie 'Bold'\\$1' .IP \fBlabel\fP 1.5i
+.el .IP label 1.5i
+Specifies the multibyte text string, encoded in
+the locale of \fBfontSet\fP, to be
+displayed in the widget's window if no bitmap
+is specified.  The default is the name of
+this widget.  Newline characters will cause
+line breaks.
+..
+
+\" Text Resources
+
+.de Me \" Text textCode
+.ie 'Bold'\\$1' .IP \fBtextCode\fP 1.5i
+.el .IP textCode 1.5i
+This is the encoding of multilingual text. The legal
+values are: \fBXawTextMB\fP, \fBXawTextCT\fP and \fBXawTextWC\fP.
+which are corresponding to the encoding of source
+text as multibyte, COMPOUNT_TEXT and wchar_t respectively.
+The locale of multibyte encoding is bound to \fBfontSet\fP.
+This resouce is only settable at widget creation
+time.(see \fBText Functions\fPfor the details)
+.Mo \\$1
+..
+.de Ms \" TextSink fontSet
+.ie 'Bold'\\$1' .IP \fBfontSet\fP 1.5i
+.el .IP fontSet 1.5i
+This is font set for rendering all multilingual text and must consists of 
+character cell fonts (see the X Logical Font Description).
+.Mk \\$1
+..
+.de Mk \" This is a MultiSink Resource
+.if 'MultiText'\\$1' This is a MultiSink resource.
+..
+.de Mo \" This is a MultiSource Resource
+.if 'MultiText'\\$1' This is a MultiSource resource.
+..
+.de Mu \" MultiSrc useStringInPlace
+.ie 'Bold'\\$1' .IP \fBuseStringInPlace\fP 1.5i
+.el .IP useStringInPlace 1.5i
+Setting this resource to \fBTrue\fP will disable the memory management
+provided by the Text widget, updating the \fBstring\fP resource in
+place.  Using the string in place can
+be much more efficient for text widgets that display static data, or
+where the programmer wishes to impose strict constraints on the
+contents of the \fBstring\fP.  When using the string in place be sure that:
+the length of the string is specified by setting the \fBlength\fP resource,
+the \fBtype\fP of the Text widget is \fBXawMultiString\fP, 
+the textCode of the Text widget must be XawTextWC,
+and that
+the \fBstring\fP exists for the lifetime of the text widget, or until it has bee
+n reset.
+.Mo \\$1
+..
+.de Mx \" MultiSrc string
+.ie 'Bold'\\$1' .IP \fBstring\fP 1.5i
+.el .IP string 1.5i
+If \fBtype\fP is \fBXawMultiString\fP then this string contains the
+buffer to be displayed in the widget.
+If the \fItextCode\fP is XawTextWC, then the data type of string is
+(wchar_t *), otherwise it is \fBString\fP.
+If \fBtype\fP is
+\fBXawMultiFile\fP then the string contains the name of the file to be
+displayed. The file name is always data type \fBString\fP.
+This string is normally copied by the text widget into
+internal memory, but may be used in place by setting the
+\fBuseStringInPlace\fP resource.
+The encoding of \fIstring\fP is dependent on the value of \fItextCode\fP.
+.Mo \\$1
+When the \fBstring\fP resource is queried, using \fBXtGetValues\fP, and
+\fBuseStringInPlace\fP is false, the value returned is valid until
+the next time the \fBstring\fP resource is queried, or until the application
+writer calls \fBXawMultiSrcFreeString\fP.  If \fBuseStringInPlace\fP is
+true, a pointer to the actual string is returned.  See also section 5.6.
+..
+.de Mp \" MultiSrc pieceSize
+.ie 'Bold'\\$1' .IP \fBpieceSize\fP 1.5i
+.el .IP pieceSize 1.5i
+This is the size of the internal chunks into which the text buffer is
+broken down for memory management.  The larger this value the less segmented
+your memory will be, but the slower your editing will be.  The text
+widgets will always allocate a chunk of memory this size to stuff the
+\fBstring\fP into, so when using small strings, having this buffer
+large can waste memory.  This resource has no effect if
+\fBuseStringInPlace\fP is \fBTrue\fP.
+The value of pieceSize is measured in wchar_t, not bytes like AsciiSrc.
+.Mo \\$1
+..
+.de Md \" MultiSrc dataCompression
+.ie 'Bold'\\$1' .IP \fBdataCompression\fP 1.5i
+.el .IP dataCompression 1.5i
+See the resource \fBdataCompression\fP of AsciiSrc object.
+.So \\$1
+..

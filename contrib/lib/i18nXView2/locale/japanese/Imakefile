@@ -1,0 +1,8 @@
+#define IHaveSubdirs
+#define PassCDebugFlags /* as nothing */
+
+        SUBDIRS = LC_MESSAGES OW_FONT_SETS props app-defaults
+
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

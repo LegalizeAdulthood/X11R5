@@ -1,0 +1,51 @@
+.TH XFORECAST 1 "Release 4" "X Version 11"
+.SH NAME
+xforecast - X window system interface to the weather program
+.SH SYNOPSIS
+.B "xforecast"
+[toolkit options]
+.SH DESCRIPTION
+.PP
+.I Xforecast
+is an X Window System interface to the weather program.
+.I Xforecast
+will bring up a map of the USA (sorry, Alaska and Hawaii not included),
+and allow X users to click on cities (that appear as dots) to get
+the current weather forecast for that area.  The current (closest) city
+will change from a solid dot to a hollow dot, when the cursor is near.
+In addition, the name of the city, state and 3 letter airport code will
+be displayed at the bottom of the screen.
+
+Typing a "q" or clicking on the top "quit" bar will cause 
+.I xforecast 
+to end.
+
+Clicking the left mouse button will popup a window containing
+the current weather for that city.  
+
+Clicking the middle mouse button will popup a window containing
+the current weather for that state.
+
+Essentially, this is a wrapper for the
+.I weather 
+program, a Perl script that queries the weather server at The
+University of Michigan. 
+.SH ENVIRONMENT
+.PP
+.TP 8
+.B DISPLAY
+To get default host and display number.
+.SH FILES
+.PP
+.TP 8
+.B cities
+List of city names and X,Y coordinates.
+.SH BUGS
+Possibly the location of some of the cities.  
+Occasionally a city will not be redrawn as solid,
+but this is usually fixed the next time a refresh happens.
+.SH SEE ALSO
+weather(1)
+.SH COPYRIGHT
+Copyright 1991, Frank Adelstein
+.br

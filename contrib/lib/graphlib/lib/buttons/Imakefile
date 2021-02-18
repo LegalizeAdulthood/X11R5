@@ -1,0 +1,38 @@
+#include <GraphLib.tmpl>
+#include <GLLibrary.tmpl>
+
+INCLUDES = -I$(INCLUDESRC) -I$(TOP)
+HEADERS = \
+	buttons.h 
+
+SRCS = \
+	buttons.c\
+	b_athena.c\
+	b_ckbox.c\
+	b_mac.c\
+	b_next.c\
+	b_open.c\
+	b_opensink.c\
+	b_radio.c
+
+OBJS = \
+	buttons.o \
+	b_athena.o \
+	b_ckbox.o \
+	b_mac.o \
+	b_next.o\
+	b_open.o\
+	b_opensink.o\
+	b_radio.o
+
+all:: $(OBJS)
+NormalLibraryObjectRule()
+#if SharedLibGL
+SharedLibraryObjectRule()
+#endif
+
+BuildIncludes($(HEADERS),gl,..)
+InstallMultiple($(HEADERS),$(INCDIR)/gl)
+
+DependTarget()
+

@@ -1,0 +1,14 @@
+This is the redistribution of two packages: hz2ps-2.0, and hzbdf.
+Send bugs and comments to the author of these two packages.
+See individual files for copyright and permission notices.
+Use at your own risk and I disclaim all kinds of warranty.
+
+Packages "hz2ps-2.0" contains a program "hz2ps".
+Packages "hzbdf" contains programs "bdf2hzfont", "hzfont2bdf".
+
+"hz2ps" can be used to print GB encoding and HKU Big5 encoding
+Chinese text in a Postscript printer.
+
+"hz2ps" needs HZ format fonts.  You can get them from somewhere else,
+or, you can convert them from X11 BDF fonts (located in ../../fonts)
+by program "bdf2hzfont".

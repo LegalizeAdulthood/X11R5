@@ -1,0 +1,18 @@
+
+Included in this directory are:
+
+celvis		-- Chinese vi editor. 
+cless		-- Chinese text file viewer.
+hz2ps		-- Chinese text Postscript printer utility.
+b2g		-- Big5 to GB and GB to Big5 encoding conversion programs.
+et2hkubig5	-- ETen Big5 to HKU Big5 encoding conversion program.
+cxemacs		-- A way to make "Chinese-capable of GNU emacs"
+
+This is simply a redistribution.
+Each software package in this directory may be copyrighted individually.
+Please refer to their own copyright and permisssion notices.
+I make no represenations about the suitability of using these software
+for any purpose.
+
+You'd better go through each subdirectory before you type "make all" here.
+The Makefile won't build cxemacs for you.  Do it yourself. 

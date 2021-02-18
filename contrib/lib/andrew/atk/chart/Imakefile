@@ -1,0 +1,37 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+LOCALINCLUDES	=	-I${BASEDIR}/include/zip
+
+DOBJS		=	chart.do \
+			chartv.do \
+			chartapp.do \
+			chartobj.do charthst.do chartpie.do chartdot.do chartlin.do \
+			chartstk.do chartmap.do chartcsn.do \
+			chartx1a.do
+
+IHFILES		=	chart.ih \
+			chartv.ih \
+			chartapp.ih \
+			chartobj.ih charthst.ih chartpie.ih chartdot.ih chartlin.ih \
+			chartstk.ih chartmap.ih chartcsn.ih \
+			chartx1a.ih
+
+NormalObjectRule()
+NormalATKRule()
+DependTarget()
+
+DynamicObject(chartpie, , -lm)
+DynamicMultiObject(chartv.do, chartv.o chartp.o, ,-lm ${SUPLIBS})
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+InstallLink(runapp, ${DESTDIR}/bin/chart)
+NormalHelpRule()
+InstallDocs(chtproc.help chart.help, ${DESTDIR}/help)
+InstallHelpAlias(chtproc, chartproc chartprocs)
+
+MkdirTarget(${DESTDIR}/doc/atk/chart)
+InstallDocs(ChartPG.doc sample.cht, ${DESTDIR}/doc/atk/chart)
+
+

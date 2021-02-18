@@ -1,0 +1,20 @@
+PROGRAM = xmphone
+XDIR = /usr/local/X11R5
+XLIBDIR = $(XDIR)/lib
+CFLAGS = -O -I$(XDIR)/include -DNOSTDHDRS -D_NO_PROTO
+
+LIBS = $(XLIBDIR)/libXm.a $(XLIBDIR)/libXmu.a $(XLIBDIR)/libXt.a \
+       $(XLIBDIR)/libXext.a $(XLIBDIR)/libX11.a
+INSTALLDIR = $(XDIR)
+SRC = xmphone.c Table.c
+OBJ = xmphone.o Table.o
+
+$(PROGRAM): $(OBJ)
+	$(CC) $(CFLAGS) -o $(PROGRAM) $(OBJ) $(LIBS)
+
+clean: 
+	rm -f $(OBJ) $(PROGRAM) *.s core 
+
+install: $(PROGRAM) 
+	install -c -s -m 0755 $(PROGRAM) $(INSTALLDIR)
+	install -c XMphone.ad $(XLIBDIR)/X11/app-defaults/XMphone

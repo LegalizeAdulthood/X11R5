@@ -1,0 +1,96 @@
+.TH XcuSimple 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuSimple, XcuSimpleComp, XcuSimpleCompConst \- Common Features
+.SH CLASS HIERARCHY
+\ 
+.br
+Core / XcuSimple
+.br
+Core / Composite / XcuSimpleComp
+.br
+Core / Composite / Constraint / XcuSimpleCompConst
+.SH NEW RESOURCES
+\ 
+.br
+.TS
+allbox tab(;);
+c s s s.
+XcuSimple Resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNcursor;Cursor;None;Cursor to display when sensitive
+XtNcursorBackground;Pixel;None;Background color of cursor
+XtNcursorForeground;Pixel;None;Foreground color of cursor
+XtNinsensitiveBorder;Pixmap;None;Border when insensitive
+XtNhighlightWidth;Dimension;2;Width of highlight frame
+XtNhighlightColor;Pixel;"White";Highlight color when sensitive
+XtNfacetWidth;Dimension;5,0,0;Width of a picture frame facet
+XtNdimFacetColor;Pixel;"Black";Shaded facets of picture frame
+XtNbrightFacetColor;Pixel;"White";Bright facets of picture frame
+XtNshadow;Boolean;False;Put shadows behind widgets instead of frames
+XtNsun;XcuSunType;XcuSUN_NW;Location of shadow producer
+.TE
+.SH DESCRIPTION
+\ 
+.br
+Although \fBXcuSimple\fR was originally derived from Xaw \fBSimple\fR, it
+has been significantly restructured.
+The \fBXcuSimple\fR widget implements many features commonly used
+by many widgets.  These features concern cursor sensitivity and
+frames for 3D appearance.
+XcuSimpleComp and XcuSimpleCompConst allow composite and constrained composite
+widgets, respectively, to also be surrounded by 3D features, but the cursor
+sensitive features have no effects.
+.sp
+.ce
+.ne 4
+PICTURE FRAMES
+.sp
+By default, \fBXcuSimple\fR derived widgets are surrounded by a picture frame
+consisting of facets of width 5.  The left and top facets are colored
+differently so that it appears that there is a light source shining down
+from the upper left (if the brightFacetColor is properly chosen to be
+brighter than dimFacetColor).  The effect is quite pleasing when "good"
+colors are available.
+.sp
+.ce
+.ne 5
+SHADOWS
+.sp
+For systems with black and white or primary colors only, shadows provide
+a much better appearance of 3D relief.  Shadows use the dimFacetColor resource
+and the facetWidth resource to determine the color and offset of the shadow.
+The shadow takes on the highlightColor when highlighting is active.
+.sp
+.ce
+.ne 5
+CURSOR SENSITIVITY
+.sp
+Resources are available to set cursor type and colors,
+highlight width and colors, and
+borders in response to sensitivity and presence of a cursor in the widget.
+.in -3
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

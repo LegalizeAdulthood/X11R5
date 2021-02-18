@@ -1,0 +1,9 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+INSTALLFLAGS = $(INSTDATFLAGS)
+
+SUBDIRS = japanese C
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

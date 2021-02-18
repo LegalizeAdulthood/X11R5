@@ -1,0 +1,107 @@
+.TH XCO 1
+.SH NAME
+xco - display X11 color names and colors 
+.SH SYNOPSIS
+.B xco
+[
+.B \-display
+.I display
+] [
+.B \-name
+.I name
+] [
+.B \-title
+.I title
+] [
+.B \-geometry
+.I geometry
+] [
+.B \-help
+] [
+.B \-scroll
+. I number
+] [
+.B \-show
+. I number
+] [
+.B \-fg
+.I foreground
+] [
+.B \-bg
+.I background
+]
+.SH DESCRIPTION
+.I xco
+uses the database of standard X11 named colors to display name-color 
+pairs.  Appearance is based on the X10 xcolors program.  To change the
+foreground color, click the left mouse button in the color window you
+want.  To change the background color, click the right mouse button in the
+color window you want.  Clicking the middle mouse button sets the colors
+back to the original
+foreground and background.  You can switch quickly through colors by 
+holding down the
+left or right button and sliding the cursor through the colored windows.
+More colors can be seen by clicking on the arrows at the bottom of the screen
+.PP
+Typing a ``q'' will cause the program to exit.  Typing a ``r'' will cause the
+foreground and background colors to be swapped (aka reverse video).
+.SH OPTIONS
+.TP 8
+.BI \-display " display"
+This option specifies which display to use.
+.TP 8
+.BI \-name " name"
+This option specifies what name should be used for the program when looking
+up defaults in the resource manager.
+.TP 8
+.BI \-title " title"
+This option specifies what name should be used for the window and icon titles.
+.TP 8
+.BI \-geometry " geometry"
+This option allows for the specification of a geometry string.
+.TP 8
+.BI \-help 
+This option causes a usage string to be printed.
+.TP 8
+.BI \-scroll " number"
+This option specifies the number of colors to scroll by.
+.TP 8
+.BI \-show " number"
+This option specifies how many colors to show at once.
+.TP 8
+.BI \-fg " foreground"
+This option allows for the specification of a default foreground color.
+.TP 8
+.BI \-bg " background"
+This option allows for the specification of a default background color.
+.SH RESOURCES
+.TP 8
+.B title
+The title used for the window and the icon.
+.TP 8
+.B geometry
+Geometry string for the window.
+.TP 8
+.B scroll
+The number of colors to scroll by.
+.TP 8
+.B show
+The number of colors to show at once.
+.TP 8
+.B foreground
+The default foreground color.
+.TP 8
+.B background
+The default background color.
+.SH FILES
+/usr/local/X11R4/lib/X11/rgb.txt
+.BR
+.SH BUGS
+It wasn't written using Xt.
+.br
+It reads the clients copy of the rgb database instead of getting the colors
+from the server.
+.SH AUTHORS
+J. T. Korb (jtk@cs.purdue.edu)
+.br
+R. Bingle (bingle@cs.purdue.edu)

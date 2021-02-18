@@ -1,0 +1,36 @@
+#
+# Imakefile for cmdtool
+#
+# LIBRARY_DEST is the location of the XView libraries
+# HEADER_DEST is the location of the XView header files
+# LIBDIR is the directory containing the X11 library (libX11.a)
+#
+GREP = grep
+LOBJS = xgettext.o
+OBJS = msgfmt.o
+
+#ifndef LexProgramTarget
+#define LexProgramTarget(program)                                       @@\
+	PROGRAM = program                                               @@\
+                                                                        @@\
+AllTarget(program)                                                      @@\
+                                                                        @@\
+program: $(LOBJS) $(DEPLIBS)                                            @@\
+	RemoveTargetProgram($@)                                         @@\
+	$(LEX) -v program.lx.l                                          @@\
+	$(GREP) -v "# line" lex.yy.c > xyz.c                            @@\
+	$(CC) -o $@ xyz.c $(LOBJS) $(LDOPTIONS) $(LOCAL_LIBRARIES) $(LDLIBS) $(EXTRA_LOAD_FLAGS) -ll @@\
+                                                                        @@\
+                                                                        @@\
+InstallProgram(program,$(BINDIR))                                       @@\
+InstallManPage(program,$(MANDIR))                                       @@\
+DependTarget()                                                          @@\
+LintTarget()                                                            @@\
+                                                                        @@\
+clean::                                                                 @@\
+        $(RM) program
+#endif /* LexProgramTarget */
+
+LexProgramTarget(xgettext)
+ComplexProgramTarget(msgfmt)
+

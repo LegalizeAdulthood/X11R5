@@ -1,0 +1,38 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/cfb/RCS/cfbmskbits.c,v 
+*** 1.5	1991/09/24 00:49:39
+--- 1.6	1991/09/24 02:38:50
+***************
+*** 146,159 ****
+  is a screen posiotion.)
+  */
+  
+  #if	(BITMAP_BIT_ORDER == MSBFirst)
+  unsigned int cfbmask[] =
+      {
+! 	0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF
+      }; 
+  unsigned int cfbrmask[] = 
+      {
+! 	0x00FFFFFF, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00
+      };
+  #else	/* (BITMAP_BIT_ORDER == LSBFirst) */
+  unsigned int cfbmask[] =
+--- 146,163 ----
+  is a screen posiotion.)
+  */
+  
++ /*
++  * it looks as if Takahashi's intent here is that only index 0 is used
++  * for a 24-bit display.  This is hardly portable.  Todd B.
++  */
+  #if	(BITMAP_BIT_ORDER == MSBFirst)
+  unsigned int cfbmask[] =
+      {
+! 	0xFFFFFFFF, 0x00FF0000, 0x0000FF00, 0x000000FF
+      }; 
+  unsigned int cfbrmask[] = 
+      {
+! 	0x00000000, 0xFF00FFFF, 0xFFFF00FF, 0xFFFFFF00
+      };
+  #else	/* (BITMAP_BIT_ORDER == LSBFirst) */
+  unsigned int cfbmask[] =

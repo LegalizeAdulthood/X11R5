@@ -1,0 +1,44 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif 
+
+DOBJS = tabrulv.do lookz.do lookzv.do
+IHFILES = tabrulv.ih lookz.ih lookzv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicObject(lookzv, ${UTILLIB}, ${BSDLIB})
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+#ifdef WM_ENV
+WMLIB = $(BASEDIR)/lib/libwm.a
+#endif
+
+TESTLIBS = ${BASEDIR}/lib/atk/libframe.a \
+	${BASEDIR}/lib/atk/libtext.a \
+	${BASEDIR}/lib/atk/libsupviews.a \
+	${BASEDIR}/lib/atk/libsupport.a
+
+BASETESTLIBS = ${BASEDIR}/lib/atk/libbasics.a \
+	${BASEDIR}/lib/libclass.a \
+	$(WMLIB) \
+	${BASEDIR}/lib/liberrors.a \
+	${BASEDIR}/lib/libplumber.a \
+	${UTILLIB}
+
+SYSLIBS = -lm
+
+ClassTestProgramTarget(lookzt,lookzt.o lookz.o, ${BASETESTLIBS},  ${SYSLIBS} ${BSDLIB})
+ClassTestProgramTarget(lookzvt,lookzvt.o lookz.o lookzv.o, ${TESTLIBS} ${BASETESTLIBS}, ${SYSLIBS} ${BSDLIB})
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(lookz.help lkzproc.help, ${DESTDIR}/help)
+InstallHelpAlias(lkzproc, lookzproc lookzprocs)

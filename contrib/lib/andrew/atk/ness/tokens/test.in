@@ -1,0 +1,89 @@
+\begindata{text, 268770844}
+\textdsversion{12}
+\template{default}
+  : "asd" = if function 0.> false := ; ""
+
+asd.123,:+123E12def 123.2234E-6 
+2345000000000000000000000000000000000000000000000.0e-2
+
+0xabdfe 01234567 000.1234e2 
+/cmu/unix/rt_r3/itcobjects/itc/be2/text/simpletext.dog
+
+//
+
+\\\\
+
+badOnes:  0678  123.55.23  06723e10 067.3
+
+//
+
+This is a long string containing \bold{bold} and \italic{italic} and 
+
+\indent{indentation}
+
+and even a small raster: 
+\begindata{raster,268637664}
+2 0 65536 65536 0 0 57 33
+bits 268637664 57 33
+n |
+g20g200ci |
+g70g70fcg40g |
+01f0g7ffcge0g |
+07e0g7ff001e0	g |
+7fc0ge0f001c0	g |
+7f8001c0e00380	g |
+03g0181c007h |
+07g0381fc07h |
+0eg0703Hh |
+0c!0e07cffeh |
+1c1e1c0701fch |
+183c380eg3801	80 |
+3878700cg3007	80 |
+39f9e01cg703f	g |
+3fGc018g70fcg |
+3fbfg38g77f0g |
+0e08g70g7f80g |
+i60g7eh |
+ie0j |
+h01c0j |
+h01c0j |
+h0380j |
+h07k |
+h0ek |
+g301ck |
+g703ck |
+ge0f0k |
+01c1e0k |
+0187c0k |
+01Gl |
+gfel |
+g70l |
+\enddata{raster, 268637664}
+\view{rasterview,268637664,0,0,0} 
+
+The string begins with // and ends with \\\\, but they must each be alone on 
+the line.
+
+\\\\
+
+"asdadasad\\
+
+qqqwq\\'wdqwqwqw\\"\\nnew\\ttabbed\\bXbacked"
+
+//
+
+this has some stuff after the \\\\
+
+\\\\; 'a' '\\0000041'  ''  '
+
+abc 'ab' 'a
+
+"-123456789012345678901234567890123456789012345.+50-123456789012345678901234567\
+890123456789012345.+50-123456789012345678901234567890123456789012345.+50-123456\
+789012345678901234567890123456789012345.+50-12345678901234567890123456789012345\
+6789012345.+50-123456789012345678901234567890123456789012345.+50
+
+this "string crosses line end
+
+line 10 2.000005  a.0 0.a 0.e0 end\
+\enddata{text,268770844}

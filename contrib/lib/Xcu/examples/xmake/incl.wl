@@ -1,0 +1,2 @@
+	XcuLabel { name "Makefile\nExample" }
+

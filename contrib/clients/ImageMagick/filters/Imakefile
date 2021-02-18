@@ -1,0 +1,114 @@
+EXTRA_INCLUDES= -I/usr/local/include -I..
+EXTRA_LIBRARIES=  -lX11 -lm
+PPM_LIBRARIES= /usr/local/lib/libppm.a /usr/local/lib/libpgm.a  \
+  /usr/local/lib/libpbm.a
+TIFF_LIBRARIES= /usr/local/lib/libtiff.a
+
+AVStoMIFFSources= AVStoMIFF.c
+AVStoMIFFObjects= AVStoMIFF.o image.o compress.o
+GIFtoMIFFSources= GIFtoMIFF.c
+GIFtoMIFFObjects= GIFtoMIFF.o image.o compress.o
+GRAYtoMIFFSources= GRAYtoMIFF.c
+GRAYtoMIFFObjects= GRAYtoMIFF.o image.o compress.o
+MIFFtoAVSSources= MIFFtoAVS.c
+MIFFtoAVSObjects= MIFFtoAVS.o image.o compress.o
+MIFFtoGIFSources= MIFFtoGIF.c
+MIFFtoGIFObjects= MIFFtoGIF.o image.o quantize.o compress.o
+MIFFtoGRAYSources= MIFFtoGRAY.c
+MIFFtoGRAYObjects= MIFFtoGRAY.o image.o quantize.o compress.o
+MIFFtoMTVSources= MIFFtoMTV.c
+MIFFtoMTVObjects= MIFFtoMTV.o image.o rotate.o compress.o
+MIFFtoPPMSources= MIFFtoPPM.c
+MIFFtoPPMObjects= MIFFtoPPM.o image.o compress.o
+MIFFtoRGBSources= MIFFtoRGB.c
+MIFFtoRGBObjects= MIFFtoRGB.o image.o compress.o
+MIFFtoSUNSources= MIFFtoSUN.c
+MIFFtoSUNObjects= MIFFtoSUN.o image.o compress.o
+MIFFtoSTEREOSources= MIFFtoSTEREO.c
+MIFFtoSTEREOObjects= MIFFtoSTEREO.o image.o compress.o
+MIFFtoTIFFSources= MIFFtoTIFF.c
+MIFFtoTIFFObjects= MIFFtoTIFF.o image.o compress.o
+MIFFtoXBMSources= MIFFtoXBM.c
+MIFFtoXBMObjects= MIFFtoXBM.o image.o quantize.o compress.o
+MIFFtoXWDSources= MIFFtoXWD.c
+MIFFtoXWDObjects= MIFFtoXWD.o image.o compress.o
+MTVtoMIFFSources= MTVtoMIFF.c
+MTVtoMIFFObjects= MTVtoMIFF.o image.o rotate.o compress.o
+PPMtoMIFFSources= PPMtoMIFF.c
+PPMtoMIFFObjects= PPMtoMIFF.o image.o quantize.o colors.o compress.o
+RGBtoMIFFSources= RGBtoMIFF.c
+RGBtoMIFFObjects= RGBtoMIFF.o image.o compress.o
+SUNtoMIFFSources= SUNtoMIFF.c
+SUNtoMIFFObjects= SUNtoMIFF.o image.o compress.o
+TIFFtoMIFFSources= TIFFtoMIFF.c
+TIFFtoMIFFObjects= TIFFtoMIFF.o image.o quantize.o compress.o
+XBMtoMIFFSources= XBMtoMIFF.c
+XBMtoMIFFObjects= XBMtoMIFF.o image.o compress.o
+XWDtoMIFFSources= XWDtoMIFF.c
+XWDtoMIFFObjects= XWDtoMIFF.o image.o compress.o
+
+PROGRAMS= AVStoMIFF MIFFtoAVS GIFtoMIFF MIFFtoGIF GRAYtoMIFF MIFFtoGRAY  \
+  MTVtoMIFF MIFFtoMTV RGBtoMIFF MIFFtoRGB SUNtoMIFF MIFFtoSUN MIFFtoSTEREO  \
+  XBMtoMIFF MIFFtoXBM XWDtoMIFF MIFFtoXWD TIFFtoMIFF MIFFtoTIFF  \
+  PPMtoMIFF MIFFtoPPM
+
+AllTarget($(PROGRAMS))
+
+NormalProgramTarget(AVStoMIFF,$(AVStoMIFFObjects), , , )
+InstallProgram(AVStoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoAVS,$(MIFFtoAVSObjects), , , )
+InstallProgram(MIFFtoAVS,$(BINDIR))
+NormalProgramTarget(GIFtoMIFF,$(GIFtoMIFFObjects), , , )
+InstallProgram(GIFtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoGIF,$(MIFFtoGIFObjects), , , )
+InstallProgram(MIFFtoGIF,$(BINDIR))
+NormalProgramTarget(GRAYtoMIFF,$(GRAYtoMIFFObjects), , , )
+InstallProgram(GRAYtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoGRAY,$(MIFFtoGRAYObjects), , , )
+InstallProgram(MIFFtoGRAY,$(BINDIR))
+NormalProgramTarget(MTVtoMIFF,$(MTVtoMIFFObjects), , , )
+InstallProgram(MTVtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoMTV,$(MIFFtoMTVObjects), , , )
+InstallProgram(MIFFtoMTV,$(BINDIR))
+NormalProgramTarget(RGBtoMIFF,$(RGBtoMIFFObjects), , , )
+InstallProgram(RGBtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoRGB,$(MIFFtoRGBObjects), , , )
+InstallProgram(MIFFtoRGB,$(BINDIR))
+NormalProgramTarget(SUNtoMIFF,$(SUNtoMIFFObjects), , , )
+InstallProgram(SUNtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoSUN,$(MIFFtoSUNObjects), , , )
+InstallProgram(MIFFtoSUN,$(BINDIR))
+NormalProgramTarget(MIFFtoSTEREO,$(MIFFtoSTEREOObjects), , , )
+InstallProgram(MIFFtoSTEREO,$(BINDIR))
+NormalProgramTarget(XBMtoMIFF,$(XBMtoMIFFObjects), , , )
+InstallProgram(XBMtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoXBM,$(MIFFtoXBMObjects), , , )
+InstallProgram(MIFFtoXBM,$(BINDIR))
+NormalProgramTarget(XWDtoMIFF,$(XWDtoMIFFObjects), , , )
+InstallProgram(XWDtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoXWD,$(MIFFtoXWDObjects), , , )
+InstallProgram(MIFFtoXWD,$(BINDIR))
+NormalProgramTarget(TIFFtoMIFF,$(TIFFtoMIFFObjects), ,$(TIFF_LIBRARIES), )
+InstallProgram(TIFFtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoTIFF,$(MIFFtoTIFFObjects), ,$(TIFF_LIBRARIES), )
+InstallProgram(MIFFtoTIFF,$(BINDIR))
+NormalProgramTarget(PPMtoMIFF,$(PPMtoMIFFObjects), ,$(PPM_LIBRARIES), )
+InstallProgram(PPMtoMIFF,$(BINDIR))
+NormalProgramTarget(MIFFtoPPM,$(MIFFtoPPMObjects), ,$(PPM_LIBRARIES), )
+InstallProgram(MIFFtoPPM,$(BINDIR))
+DependTarget()
+
+image.o:
+	$(CC) $(CFLAGS) -c ../image.c
+
+rotate.o:
+	$(CC) $(CFLAGS) -c ../rotate.c
+
+quantize.o:
+	$(CC) $(CFLAGS) -c ../quantize.c
+
+colors.o:
+	$(CC) $(CFLAGS) -c ../colors.c
+
+compress.o:
+	$(CC) $(CFLAGS) -c ../compress.c

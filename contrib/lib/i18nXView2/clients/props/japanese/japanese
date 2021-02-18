@@ -1,0 +1,14 @@
+# @(#)japanese 1.2 90/12/12;SMI
+#
+# props locale configuration file for
+#	LC_MESSAGES="C"		-> written in English
+#	Basic_Locale="japanese"	-> when basic locale is japanese
+#
+# Category_name=default_value,value:label[[,value:label]...]
+#
+input_language=japanese;C|英語;japanese|日本語
+display_language=japanese;C|英語;japanese|日本語
+#
+# Should use strftime %X format
+time_format=japanese;C|08/31/90 21:30:30;japanese|1990年08月31日 21時 30分 30秒
+numeric_format=japanese;C|10,000.0;japanese|10,000.0

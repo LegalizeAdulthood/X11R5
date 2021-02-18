@@ -1,0 +1,8 @@
+;;; -*-Scheme-*-
+;;;
+;;; GCD function
+
+(define (g x y)
+  (if (zero? y)
+      x
+      (g y (remainder x y))))

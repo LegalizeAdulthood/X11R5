@@ -1,0 +1,78 @@
+OVERVIEW:
+
+Xplot is intended for viewing 2D graphics in an X window, and
+is part of the GNU 2D graphics package.
+
+The input is accepted in the plot(5) format used by "graph" and
+"axis", which interpret 2-column data files as 2D curves, and
+by "dra", which is an interactive 2D plotting program. There is also
+a set of C-callable routines (see plot(3)) that will bring up
+a window and allow simple graphics to be drawn in real time.
+See the man file for details of changes from earlier versions
+of the plot format accepted.
+
+DEFINES:
+
+The WideLabel #define is useful with most versions of "graph". It
+changes the current point to account for the size of a label.
+
+The KeepScale #define means that a circle really is a circle
+on the screen. If this is not defined, the ratio of the x to the
+y coordinate ranges in the space() command is used, so that the
+space requested occupies the full window area available.
+
+The Resize_Yes #define means that input data will be buffered to allow
+for correct resizing of the window. Resizing is certainly nice,
+but if you've sent xplot 60 Meg of plot data, you probably don't
+want it storing all that junk (I'm serious, I have sent such large files).
+Every erase() command causes the data storage to be flushed, however,
+so plotting many files one after the other on the same  window (possible
+with the -n option, or through calling xplot from within a program) does
+not cause problems.
+
+See xplot.man for details on how the options work.
+
+HISTORY:
+
+Xplot (version 1) was created as a result of the frustration of one of
+the authors (Arthur Smith) with the only other X-windows "plot" possibility,
+the Tek window that comes with each xterm. Version 2 fixed some bugs but
+otherwise had no enhancements. This version was then taken by the gnuplot
+people and modified to be used as their X-window plotting surface. It
+was also donated to the FSF and modified by Rich Murphey to be a little
+more portable, and to take some of the GNU plot extensions (this is where
+the ChangeLog begins).
+
+The original xplot couldn't do much more than a Tektronix screen, but
+with the GNU plot extensions, line colors and fonts (and filling) are
+now changeable from within the plot file.  Xplot is now able to accept
+input from several files on the command line, producing a new plot window
+for each.
+
+Xplot originally used Athena widgets, but (1) They changed with R4,
+(2) They are not available on various machines that do use X (IBM
+workstations, Silicon Graphics machines), and (3) they made the
+executable about 5 times larger than it needed to be. Thus, xplot
+now uses only Xlib calls, and has been compiled (using the simple
+Makefile, though you can use the IMakefile if you really want) and
+tested on the following:
+
+	Sun 3/50 running SunOS 3.5 and X11R4
+	NeXTstation running 2.1 and X-mouse (a port of R4)
+	Sun Sparc 1 and 2 running SunOS 4.1.1, both with R4 and R5
+		-also partially tested under OpenWindows 2
+		(it seems to crash the OpenWindows server when asked
+		 to plot too many files at once. Don't know why.)
+	Silicon Graphics IRIX Sys V Release 3.3.2 and R3 libraries etc.
+	IBM RS 6000 running AIX 3.1.5, with vendor libraries, etc.
+
+If you have something different running X and you got xplot to
+compile and run with no problems, or if you had to make some changes, please
+send e-mail to:
+
+	asmith@icose.msd.anl.gov
+
+FUTURE:
+
+The C-callable libraries and a named-pipe form for xplot should be
+available with the next release of GNU Graphics.

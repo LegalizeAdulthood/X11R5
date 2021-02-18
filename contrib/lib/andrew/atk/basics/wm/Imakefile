@@ -1,0 +1,26 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+LOCALINCLUDES = -I../common
+
+WMLIB = ${WMBASEDIR}/lib/libwm.a
+
+COMOBJS = ../common/rect.o ../common/point.o ../common/physical.o
+
+OBJS = wws.o mrl.o wim.o wcursor.o wfontd.o wgraphic.o
+
+IHFILES = mrl.ih wim.ih wcursor.ih wfontd.ih wgraphic.ih wws.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+all:: winit.o
+
+DynamicMultiObject(wws.do, $(OBJS) ${COMOBJS},${WMLIB} , -lm)
+InstallClassFiles(wws.do, $(IHFILES))
+
+DependTarget()
+
+InstallDocs(atkwm.doc,${DESTDIR}/doc/atk/basics)
+

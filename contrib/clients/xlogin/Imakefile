@@ -1,0 +1,15 @@
+#
+# $Id: Imakefile,v 1.4 1991/10/04 17:05:03 stumpf Exp stumpf $
+#
+
+#
+#       DEFINES = -DLASTLOGIN -DHOSTNAME -DQUOTA -DHAS_NO_SETRE
+#
+        DEFINES = -DLASTLOGIN -DHOSTNAME
+           SRCS = login.c resources.c util.c xlogin.c
+           OBJS = login.o resources.o util.o xlogin.o
+	HEADERS = xlogin.h
+  SYS_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+ComplexProgramTarget(xlogin)
+InstallAppDefaults(Xlogin)

@@ -1,0 +1,39 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS		=	suite.do \
+			suiteev.do \
+			suitecv.do \
+			vector.do \
+			suiteta.do
+
+IHFILES		=	suite.ih \
+			suiteev.ih \
+			suitecv.ih \
+			vector.ih \
+			suiteta.ih
+
+OBJS		=	suite.o suiteev.o suitecv.o vector.o suiteta.o
+
+NormalObjectRule()
+NormalATKRule()
+DependTarget()
+
+DynamicObject(suite,${BASEDIR}/lib/atk/libbasics.a,)
+DynamicObject(suiteev,${BASEDIR}/lib/atk/libbasics.a,)
+#ifdef SCOunix
+DynamicObject(suiteta,,-lX11)
+#endif
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+InstallFile(suite.h,${INSTINCFLAGS},${DESTDIR}/include/atk)
+
+MkdirTarget($(DESTDIR)/doc/atk/apt/suite)
+
+NormalHelpRule()
+InstallDocs(steproc.help, ${DESTDIR}/help)
+InstallHelpAlias(steproc, suiteproc suiteprocs suite)
+InstallDocs(SuitePG.doc ,${DESTDIR}/doc/atk/apt/suite)
+
+

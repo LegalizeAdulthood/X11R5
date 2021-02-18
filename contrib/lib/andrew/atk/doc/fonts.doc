@@ -1,0 +1,27 @@
+\begindata{text,268786696}
+\textdsversion{12}
+\template{default}
+\chapter{Fonts in ATK}
+
+
+At this time (after the next wash), the following fonts should be available:
+
+\begindata{table,268806736}
+\cols 52 99 99 99
+ 	^andy	^andysans	^andytype
+	-	-	-
+^8	| ^r, b, i, bi	^r, b, i, bi	^r, b, i, bi	| 
+^10	| ^r, b, i, bi	^r, b, i, bi	^r, b, i, bi	| 
+^12	| ^r, b, i, bi	^r, b, i, bi	^r, b, i, bi	| 
+^14	| ^r, b, i, bi	^r, b, i, bi	^r, b, i, bi	| 
+^16	| ^r, b, i, bi	^r, b, i, bi	^-	| 
+^22	| ^r, b, i, bi	^r, b, i, bi	^-	| 
+	-	-	-
+\enddata{table,268806736}
+\view{spread,268806736,0,0,0}
+
+
+In addition, a very short document about installing fonts and the font 
+modification programs can be found in the andrew/overhead/fonts/fonts/adobe 
+directory.  \
+\enddata{text,268786696}

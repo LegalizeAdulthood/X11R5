@@ -1,0 +1,84 @@
+Template Instancing
+-------------------
+A template is a widget hierarchy defined in the Xrm resource
+database. It may be definied purely as a template, or it may
+be a portion of a normally instantiated widget tree.
+An instance is a widget hierarchy created using template
+definition.
+
+To instantiate a template, use the wcTemplate resource instead
+of WcClass, WcClassName or WcConstructore, for example:
+
+      ...widget.wcPopups:              form1,form2
+      ...form1.wcTemplate:             app.templates.dataForm
+
+      app.templates.dataForm.wcClass:    XmDialogShell
+      app.templates.dataForm.wcChildren: XmBulletinBoard
+
+The template must define widget creation resource, and it may
+define widget hierarchy of any complexity (using other 
+templates as well).
+ 
+The search path must be composed of tight bound names only:
+
+app.templates.box1 (not *templates.box1).
+
+This is to avoid ambiguity in template definition, and to increase
+efficiency of the instantiation process. Within the template, loose
+bindings are allowed as usually.
+
+What Happens During Template Instancing
+---------------------------------------
+
+When the Widget Creation Library encounters the wcTemplate resource,
+it replicates all the resource specified as the branches of the
+template path, using the created widget as their origin. Using the
+example above, instantiation loads the Xrm database with resources:
+
+      ...form1.wcClass:            XmDialogShell
+      ...form1.wcChildren:         XmBulletinBoard
+
+Replication is performed using the XrmEnumerateDatabase to retrieve
+the template tree and load resources with new path into a scratch
+database, which is then merged into the default XtDatabase.
+For sites using older X releases, a back-implementation of the new
+XrmEnumerateDatabase is provided. Plase, refer to the comments in
+the file PreR5Enum.c, there is no guarantee it will work with your 
+vendor's implementation of Xlib.
+ 
+   
+Interpreting Resource Values
+----------------------------
+In some cases, proper template instantiation requires that the right
+side (RHS) of the resource specification (resource value) is adjusted
+to the instance. The Wcl instantiation code will process any resources
+of type "String", and substitute "%n" with instance name, "%p" with
+the parent's full instance name (path).
+This allow to properly adjust instantiated resource values dependent
+upon the instance - widget identifications etc.
+
+Overriding Resources Specified by the Template
+----------------------------------------------
+Any resources applicable to the widget hierarchy created by template
+instantiation, but NOT specified by the template are applied to the
+resulting widget tree as usually.
+Resources specified by the template override identical (or less
+tightly bound) resources from the default database.  
+
+Template definition thus controlls which resources may be overriden.
+It may allow override either not specifying resource at all, or by 
+using less tightly bound specifications, such as class (Background) 
+instead of name (background), or loose binding (*background) instead 
+of tight one (.background).
+Such resources may be overriden on per-instance basis, however,
+a fully qualified, tight bound specification prefix all the way to
+the instantiation point must be used. For example, to verride template 
+
+ specification:
+                   app.templates.box1.btn1.Background:  red
+ instantiated as:
+                   a.main.work_area.menu_box
+ you must specify: 
+                   a.main.work_area.menu_box.btn1.background: blue
+
+

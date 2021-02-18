@@ -1,0 +1,5 @@
+#SYS_LIBRARIES = -lX11
+LOCAL_LIBRARIES = $(XLIBSRC)/libX11.a
+INCLUDE = -I$(XLIBSRC)
+SimpleProgramTarget(ximdemo)
+DependTarget()

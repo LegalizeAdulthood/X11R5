@@ -1,0 +1,17 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+LOCALINCLUDES = -I../../lib
+
+DependTarget()
+NormalObjectRule()
+
+ProgramTarget(getstats, gsmain.o, ../$(SYS_IDENT)/libgs.a,)
+
+#ifdef CMU_ENV
+InstallFile(getstats, $(INSTPROGFLAGS), $(DESTDIR)/bin)
+#else /* CMU_ENV */
+InstallFile(getstats, $(INSTUIDFLAGS), $(DESTDIR)/bin)
+#endif /* CMU_ENV */
+

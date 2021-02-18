@@ -1,0 +1,25 @@
+            TBL = tbl
+          TROFF = troff
+          PRINT = lpr
+      MANMACROS = -man
+       MSMACROS = -ms
+      PROPTIONS = -n
+
+HEAD = intro.ms
+
+SRCS = \
+       atowc.man \
+       wchar.man \
+       wstring.man
+
+all: Xwchar.lpt
+
+Xwchar.lpt:
+	$(TROFF) $(MSMACROS) $(HEAD) > head.lpt
+	$(TBL) $(SRCS) | $(TROFF) $(MANMACROS) - > Xwchar.lpt
+
+print: Xwchar.lpt
+	$(PRINT) $(PROPTIONS) head.lpt Xwchar.lpt
+
+clean::
+	$(RM) head.lpt Xwchar.lpt

@@ -1,0 +1,48 @@
+\begindata{text,268745192}
+\textdsversion{12}
+\template{help}
+\chapter{ATK: The Andrew Toolkit
+
+}\section{
+What ATK is}\chapter{
+
+
+}\leftindent{The Andrew Toolkit (also called  \italic{ATK} ) is a user 
+interface toolkit with two primary goals:  (1) to support the development of 
+stand-alone applications that integrate text, graphics and images in a 
+standard, efficient user interface; and (2) to support the development of 
+multi-media editors, that is, editors that allow users to edit text, 
+equations, graphs, tables, pictures, and so forth, all in a single program. 
+  For a description of the Andrew Toolkit architecture, see the 
+\italic{overview} document installed in $DESTDIR/atk/doc. 
+
+
+Some examples of programs which use ATK are EZ, Console, Messages, Typescript, 
+Table, Raster, Eq, Zip, and Fad. 
+
+}
+\section{Information for Programmers
+
+}\leftindent{
+To write programs which use the programming tools in the Andrew Toolkit, see 
+the  \italic{Programming}  overview.
+
+
+}\section{Related Tools}
+
+
+Select (highlight) one of the italicized names and choose \bold{"Show Help on 
+Selected Word}" from the menu to see the help file for these applications:
+
+\italic{
+\leftindent{ez
+
+insets    
+
+messages
+
+programming
+
+
+}}
+\enddata{text,268745192}

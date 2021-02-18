@@ -1,0 +1,10 @@
+    *Command.internalWidth "10"
+    *Command.internalHeight "10"
+    *Command.background "wheat"
+    *Label.internalWidth "10"
+    *Label.internalHeight "10"
+    *Label.background "wheat"
+    *dimFacetColor "SteelBlue"
+    *brightFacetColor "LightSteelBlue"
+    *shadow "False"
+

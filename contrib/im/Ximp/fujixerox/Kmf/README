@@ -1,0 +1,43 @@
+
+  This program is a sample implementation of XIM Server using XIMP protocol.
+This XIM Server suports
+	PreeditCallback,
+	PreeditPosition,
+	PreeditNothing,
+	StatusCallback,
+	StatusArea,
+	StatusNothing
+XIM input styles.
+
+  When XIM input style is (PreeditNothing | StatusNothing), root-window style,
+User Interface of this XIM Server is different from typical XIM Server.
+By typical XIM Server, context is shared by all IC (Input Context)
+that use root-window style.  But by this server, each IC has independent
+context, and single root preedit/status display area displays the context
+that is belong to an active IC.  And this display area displays the context
+that is belong to IC that has an other XIM input style.
+
+  This XIM Server has two sample implementation of input method.
+
+  One is sample of US compose sequence, refer more details to Template.c.
+This implementation don't use any OS / machine dependent interfase,
+able to compile and run on several machines.
+
+  The other is SUN's JLE (Japanese Language Environment) CM interface.
+This implementation use libmle.a, JLE speciffic interface to input method,
+able to compile and run on SUN's JLE ONLY!!
+
+  If you wish to implement the other input method, rewrite Template.c.
+Refer to Template.c for more details for rewriting.
+
+
+NB:	Original C locale data file for Ximp is not handle iso8859-1 GR
+	if you use iso8859-1 within C locale, you should install
+	Codeset database in this directory.
+
+
+
+  Have fun !!!
+
+						Kazunori Nishihara
+						Fuji Xerox Co,. Ltd.

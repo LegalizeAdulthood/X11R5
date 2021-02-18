@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+#  A sample shell script to conveniently display GIF images.
+#
+GIFtoMIFF $1 - | display -

@@ -1,0 +1,353 @@
+\begindata{text,876632}
+\textdsversion{12}
+\template{default}
+
+
+
+\majorheading{\italic{\majorheading{gtextv}}}
+
+\majorheading{Gesture Based TextView Object}
+
+
+
+\center{Scott W. Hassan
+
+Medical Informatics
+
+St. Louis, Missouri
+
+\typewriter{\smaller{hassan@informatics.wustl.edu}}}
+
+
+
+After seeing the Gesture Package developed by Dean Rubine*, I decided that 
+Andrew needed an interface for gestures.  I put together this simple text 
+object that uses a few hand-made gestures to cut, copy, paste, scroll, and set 
+the dot.
+
+\smaller{\smaller{
+*      Dean Rubine
+
+        CMU Information Technology Center
+
+        4910 Forbes Avenue
+
+        Pittsburgh, PA 15213-3890
+
+        Dean.Rubine@cs.cmu.edu
+
+}}
+
+\section{1.0 Compiling:}
+
+
+1. ftp the gestures package from \typewriter{emsworth.andrew.cmu.edu} 
+(128.2.30.62). 
+
+file: \typewriter{/gestures/gestures.tar.Z}
+
+
+2. \typewriter{uncompress}, un\typewriter{tar}, and \typewriter{make} it.
+
+
+3. In the gtextv's \typewriter{Imakefile}, change the \typewriter{GESTURE} 
+variable to reflect the installation directory.
+
+
+4. \typewriter{genmake} and \typewriter{make} it.
+
+
+5. run the \typewriter{test} program.
+
+
+\section{2.0 The Gestures:}
+
+
+\subsection{Flick Up:
+
+}	-- Scrolls one screen view full of text up.
+
+\center{\
+\begindata{fad,913512}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 38,68 37,55
+$F
+$V 39,69 39,42
+$F
+$V 38,69 38,12
+$$
+\enddata{fad,913512}
+\view{fadview,913512,0,74,80}
+}
+\subsection{Flick Down:
+
+}	-- Scrolls one screen view full of text down.
+
+\center{\
+\begindata{fad,917632}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 36,7 36,20
+$F
+$V 34,11 34,33
+$F
+$V 34,14 34,68
+$$
+\enddata{fad,917632}
+\view{fadview,917632,1,74,80}
+
+}
+\subsection{Flick Top:
+
+}	-- Scrolls to the top of the document.
+
+\center{\
+\begindata{fad,920608}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 37,70 36,56
+$F
+$V 37,69 37,44
+$F
+$V 34,68 34,14
+$F
+$V 35,67 35,9
+$V 35,9 41,15
+$F
+$V 35,65 35,10
+$V 35,10 50,28
+$$
+\enddata{fad,920608}
+\view{fadview,920608,2,74,80}
+
+}
+\subsection{Flick Bottom:}
+
+	-- Scrolls to the bottom of the document.
+
+\center{\
+\begindata{fad,923904}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 35,8 35,21
+$F
+$V 38,10 39,40
+$V 39,40 39,40
+$F
+$V 34,14 34,68
+$F
+$V 35,9 35,67
+$V 35,67 41,58
+$F
+$V 35,10 35,69
+$V 35,69 49,47
+$$
+\enddata{fad,923904}
+\view{fadview,923904,3,74,80}
+}
+\subsection{Region Start:}
+
+	-- Position of the start of a Region.
+
+\center{\
+\begindata{fad,927232}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 50,17 38,17
+$F
+$V 52,19 21,19
+$V 21,19 21,28
+$F
+$V 51,20 22,20
+$V 22,20 22,63
+$V 22,63 30,64
+$F
+$V 49,18 20,18
+$V 20,18 24,62
+$V 24,62 51,62
+$$
+\enddata{fad,927232}
+\view{fadview,927232,4,74,80}
+}
+\subsection{Region End:}
+
+	-- Position of the end of a Region and then highlight.
+
+
+\center{\
+\begindata{fad,930608}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 21,19 30,19
+$F
+$V 20,20 47,20
+$V 47,20 47,30
+$F
+$V 22,21 51,20
+$V 51,20 51,63
+$V 51,63 41,63
+$F
+$V 24,16 53,16
+$V 53,16 54,64
+$V 54,64 28,62
+$$
+\enddata{fad,930608}
+\view{fadview,930608,5,74,80}
+}
+\subsection{Select Region:}
+
+	-- Selects a region of text.  (simply, drag the mouse over text.  The 
+starting and ending points determine the region. )
+
+
+\center{\
+\begindata{fad,933968}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 4,17 19,31
+$F
+$V 9,15 60,63
+$$
+\enddata{fad,933968}
+\view{fadview,933968,6,74,80}
+}
+
+
+
+\subsection{Cut Region:}
+
+	-- Delete the selected Region from the text and place it in the cut buffer. 
+ Using the start of the gesture as the hot-spot.  Here are two common gestures 
+for delete.
+
+
+\center{\
+\begindata{fad,936840}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 15,18 22,28
+$F
+$V 20,20 47,60
+$V 47,60 47,46
+$F
+$V 17,19 51,63
+$V 51,63 49,15
+$V 49,15 38,29
+$F
+$V 24,16 54,64
+$V 54,64 53,16
+$V 53,16 21,63
+$$
+\enddata{fad,936840}
+\view{fadview,936840,7,74,80}}	
+\center{\
+\begindata{fad,940200}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 4,55 15,51
+$F
+$V 6,56 45,36
+$V 45,36 47,30
+$F
+$V 8,56 45,40
+$V 45,40 49,25
+$F
+$V 11,63 45,40
+$V 45,40 46,27
+$V 46,27 35,19
+$V 35,19 27,32
+$F
+$V 11,63 45,42
+$V 45,42 47,30
+$V 47,30 41,20
+$V 36,18 29,25
+$V 29,25 32,38
+$V 32,38 45,42
+$V 45,42 52,39
+$F
+$V 13,60 45,40
+$V 45,40 45,29
+$V 45,29 32,23
+$V 32,23 29,32
+$V 29,32 39,38
+$V 39,38 50,42
+$V 50,42 69,29
+$$
+\enddata{fad,940200}
+\view{fadview,940200,8,74,80}
+
+}
+
+
+\subsection{Paste Region:}
+
+	-- Yanks a Region from the cut buffer to the start of the gesture.
+
+	Note: Try to make it rounder than the figure.  Basically, an upper-case P.
+
+\center{\
+\begindata{fad,944440}
+$C 10
+$T 30
+$L andy12
+$P 0,0,20000,256
+$F
+$V 18,65 20,47
+$F
+$V 21,63 26,17
+$V 26,17 33,18
+$F
+$V 20,63 27,14
+$V 27,14 55,16
+$V 55,16 51,20
+$F
+$V 18,64 29,11
+$V 29,11 60,12
+$V 60,12 51,38
+$V 51,38 43,39
+$F
+$V 20,63 28,12
+$V 28,12 60,12
+$V 60,12 49,39
+$V 49,39 22,39
+$$
+\enddata{fad,944440}
+\view{fadview,944440,9,74,80}
+}
+\section{3.0 Comments:
+
+}
+	I think this is an interesting type of interface, fast and efficient.  If you 
+have any additions to gtextv, please send them to me.  I created this template 
+textview object so that others could build on it, taking a lot of load off me. 
+ Well, have fun.
+
+\enddata{text,876632}

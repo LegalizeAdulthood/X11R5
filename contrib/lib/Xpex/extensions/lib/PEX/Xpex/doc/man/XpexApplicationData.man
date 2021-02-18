@@ -1,0 +1,94 @@
+.\" $Header: XpexApplicationData.man,v 2.3 91/09/11 16:04:03 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\"
+.TH XpexApplicationData 3PEX "$Revision: 2.3 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexApplicationData \-
+.sp
+XpexExecuteStructure \-
+.sp
+XpexGse \-
+.sp
+XpexLabel \-
+.SH "Synopsis"
+.nf
+void XpexApplicationData(dpy, data)
+.br
+	Display  *dpy;
+.br
+	XpexData *data;
+.sp
+void XpexExecuteStructure(dpy, s_id)
+.br
+	Display *dpy;
+.br
+	XpexStructure s_id;
+.sp
+void XpexGse(dpy, gse_id, gse_data)
+.br
+	Display *dpy;
+.br
+	int gse_id;
+.br
+	XpexData *data;
+.sp
+void XpexLabel(dpy, label)
+.br
+	Display *dpy;
+.br
+	long label;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIdata\fP 1i
+[ To be added ]
+.IP \fIs_id\fP 1i
+[ To be added ]
+.IP \fIgse_id\fP 1i
+[ To be added ]
+.IP \fIgse_data\fP 1i
+[ To be added ]
+.IP \fIlabel\fP 1i
+[ To be added ]
+.SH "Description"
+When processed by a renderer, \fIXpexApplicationData\fP is a no-op.
+Its main usefulness is when used as a structure element in order
+to maintain the specified client application data.
+.SH "Structures"
+typedef struct {
+.br
+	int num_bytes;
+.br
+	char *data;
+.br
+} XpexData;
+.SH "Errors"
+Structure, Renderer, FloatingPointFormat, OutputCommand, Value
+.SH "Related Commands" 
+[ To be added ]

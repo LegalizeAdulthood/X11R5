@@ -1,0 +1,5 @@
+
+
+# assumes the existance of gdp.train and gdp.test data
+
+../recognition/tt -t gdp.train -e gdp.test -c gdp.cl

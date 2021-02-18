@@ -1,0 +1,8 @@
+This directory includes miscellaneous files:
+
+ - A sample program to read escape sequence.
+ - Sample customize files.
+ - Etc...
+
+Note: ``Readme'' -- not this file -- is one of these files and
+the contents of it have no meaning.

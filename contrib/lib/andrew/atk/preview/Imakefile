@@ -1,0 +1,20 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = preview.do previewa.do
+IHFILES = preview.ih previewa.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicMultiObject(preview.do, preview.o dvi2disp.o, ,-lm)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+InstallLink(runapp, ${DESTDIR}/bin/preview)
+
+DependTarget()
+NormalHelpRule()
+InstallDocs(preview.help,${DESTDIR}/help)
+InstallDocs(prvproc.help,${DESTDIR}/help)
+InstallHelpAlias(prvproc, previewproc previewprocs)

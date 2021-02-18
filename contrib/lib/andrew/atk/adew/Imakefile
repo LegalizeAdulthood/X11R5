@@ -1,0 +1,97 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+DOBJS = arbcon.do \
+	arbiter.do \
+	arbiterv.do \
+	cel.do \
+	celv.do \
+	lset.do \
+	lsetv.do \
+	wincelv.do \
+	page.do \
+	pagev.do \
+	runadewa.do
+
+OBJS = arbcon.o \
+	arbiter.o \
+	arbiterv.o \
+	cel.o \
+	celv.o \
+	lset.o \
+	lsetv.o \
+	wincelv.o \
+	page.o \
+	pagev.o
+
+IHFILES = arbcon.ih \
+	arbiter.ih \
+	arbiterv.ih \
+	cel.ih \
+	celv.ih \
+	lset.ih \
+	lsetv.ih \
+	wincelv.ih \
+	page.ih \
+	pagev.ih \
+	runadewa.ih
+
+DOCS = Overview.doc \
+	Tutorial.doc \
+	RefMan.doc \
+	Title.doc
+
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = 
+#endif /* LIBDL_ENV */
+#else
+RESOLVER_LIB =
+SYS_LIBS = 
+#endif
+
+NormalObjectRule()
+NormalATKRule()
+
+MkdirTarget(${DESTDIR}/lib/arbiters $(DESTDIR)/doc/adew ${DESTDIR}/doc/atk/adew)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallMultiple(makefile.arb Arb vallist viewlist, $(INSTINCFLAGS), $(DESTDIR)/lib/arbiters)
+InstallProgram(conpros.awk, $(DESTDIR)/lib/arbiters)
+InstallProgram(instpros.awk, $(DESTDIR)/lib/arbiters)
+InstallProgram(arb, $(DESTDIR)/bin)
+InstallFile(adew.h, ${INSTINCFLAGS}, ${DESTDIR}/include/atk)
+InstallLink(runapp, ${DESTDIR}/bin/runadew)
+
+
+NormalHelpRule()
+InstallDocs($(DOCS), $(DESTDIR)/doc/adew)
+InstallDocs(adew.help lstproc.help, $(DESTDIR)/help)
+InstallHelpAlias(adew, ado lset arb arbcon createcon value controllers)
+InstallHelpAlias(lstproc, lsetproc lsetprocs)
+
+install.doc::
+	(cd ${DESTDIR}/doc/atk/adew ; \
+	for i in $(DOCS) ; do \
+		(set -x ; $(RM) $$i ; \
+		$(LN) ../../adew/$$i $$i )  \
+	done)
+
+ClassProgramTarget(createcon, mkcon.o, ${UTILLIB}  ${BASEDIR}/lib/libclass.a $(RESOLVER_LIB),$(SYS_LIBS) ${BSDLIB})
+InstallProgram(createcon, $(DESTDIR)/bin)
+
+LibraryTarget(libadew.a, $(OBJS))
+InstallLibrary(libadew.a, ${DESTDIR}/lib/atk)
+
+DependTarget()

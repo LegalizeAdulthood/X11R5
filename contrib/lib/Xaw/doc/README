@@ -1,0 +1,13 @@
+The Xaw-i18n part is modified from the original Xaw, so the document
+is modified from them also, some are just copied and changed keywords.
+
+If the sontent of section is not contained here, it means to read
+it in the X Consortium's standard document "Athen Widget Set -- C
+Language Interface".
+
+If you want to know the diffiation, please use the command diff which
+is almost the enemy of copying command. :-)
+
+
+						Li Yuhong
+						Sept. 13, 1991

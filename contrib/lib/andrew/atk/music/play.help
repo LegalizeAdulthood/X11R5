@@ -1,0 +1,43 @@
+\begindata{text,270356740}
+\textdsversion{12}
+\template{help}
+
+
+\chapter{Play: Play music on the RT keyboard
+
+}
+\section{What play is
+
+}\leftindent{
+Play is a module that provides an interface for playing notes on the RT 
+keyboard.  The highest level interface  (play_notes) has the same music 
+encoding as is used in Advanced Basic for the IBM PC.
+
+}
+\section{Starting play
+
+}\leftindent{
+You may utilize play either via C code or a Ness script.  For help with C 
+coding, see /usr/andrew/doc/atk/music/play.doc  and for the proctable entries 
+that can be called from Ness, see /usr/andrew/help/playproc.help.  
+
+}\leftindent{
+}
+\section{Program Author}
+
+\leftindent{
+Wilfred J. Hansen.  The design of the codes is taken from Advanced Basic.}
+
+
+\section{Related tools}  
+
+
+Select (highlight) one of the italicized names and choose "Show Help on 
+Selected Word" from the pop-up menu to see the help file for:
+
+
+\leftindent{\italic{ness
+
+playproc}}
+
+\enddata{text,270356740}

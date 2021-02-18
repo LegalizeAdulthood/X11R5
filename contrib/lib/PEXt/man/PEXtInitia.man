@@ -1,0 +1,71 @@
+.\" $Header: PEXtInitia.man,v 1.0 91/10/04 17:02:05 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtInitialize 3PEXt "January 7th, 1991"
+.SH NAME
+\fBPEXtInitialize\fP \(em a function that initializes the PEX toolkit, the X
+toolkit and returns a top-level shell.
+.sp 1
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.sp 1
+Widget PEXtInitialize (\fIapp_context_return, application_class, options,
+num_options, argc_in_out, argv_in_out, fallback_resources, args, num_args\fP)
+.br
+.ta .5i 2.5i
+	XtAppContext	\fI* app_context_return\fP;
+.br
+	String	\fIapplication_class\fP;
+.br
+	XrmOptionDescRec	\fIoptions\fP;
+.br
+	Cardinal	\fInum_options\fP;
+.br
+	Cardinal	\fI* argc_in_out\fP;
+.br
+	String	\fIargv_in_out\fP;
+.br
+	String	\fI* fallback_resources\fP;
+.br
+	ArgList	\fIargs\fP;
+.br
+	Cardinal	\fInum_args\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHCL, *, *, *)
+.fi
+\fP
+.SH DESCRIPTION
+The PEX Toolkit must be initialized before calling any other PEX toolkit
+routines.  \fBPEXtInitialize\fP is a convenience routine that calls
+\fBXtAppIntialize\fP to create an application context and a toplevel
+shell widget.  \fBPEXtRegisterConverters\fP is then called to register
+the resource converters for most PHIGS data types.  Finally, \fBPEXtOpenPEX\fP
+is called on the display of the toplevel widget with an error file of
+\fINULL\fP and a memory size of \fIPDEFAULT_MEM_SIZE\fP.  If PEX was
+successfully opened on the widget's display, then \fBPEXtInitialize\fP
+returns the toplevel widget created by \fBXtAppInitialize\fP.
+
+Should a client program wish to create its own toplevel shell widget, it
+should call the \fBPEXtRegisterConverters\fP and \fBPEXtOpenPEX\fP routines
+itself.
+.SH RETURN VALUE
+Returns the widget ID of the top-level shell.  The class of the shell is
+\fBApplicationShellWidgetClass\fP.
+.SH SEE ALSO
+\fBXtAppInitialize(3)\fP
+.br
+\fBPEXtRegisterConverters(3)\fP
+.br
+\fBPEXtOpenPEX(3)\fP
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

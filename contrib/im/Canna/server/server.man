@@ -1,0 +1,53 @@
+.TH IROHASERVER 1M
+.SH "NAME"
+irohaserver \- Kana-Kanji conversion server
+.SH "SYNOPSIS"
+.B "irohaserver [\-d] [\-l \fIn\fP] [\fIddpath\fP]"
+.SH "DESCRIPTION"
+.PP
+irohaserver provides the Kana-Kanji conversion service.  Usually all
+users on the network can access irohaserver(1M).  The scope of
+accessing sources (hosts, users) can be restricted using the
+/etc/hosts.iroha file.
+.PP
+After starting, irohaserver(1M) immediately forks and enters the
+background process.  Thus, you do not need to use '&' to set the
+background process explicitly.
+.PP
+When starting, irohaserver(1M) creates the lock file
+/tmp/.IROHALOCK to avoid its duplicate starting.  The
+lock file is deleted automatically at the end of irohaserver(1M) if no
+trouble occurs.  The lock file may exist although irohaserver(1M) is
+not in operation (because irohaserver(1M) terminates abnormally, for
+example).  In this case, delete the file manually.
+.PP
+When starting, irohaserver(1M) examines /usr/local/lib/iroha/premountdics
+and mounts the dictionaries described there before processing.  This
+enables a quick response to return after a request to use a premounted
+dictionary is received from a client.
+.PP
+Specification of the dictionary to use is determined by referencing
+the dics.dir file of the dictionary directory according to the
+request from the client.
+.SH "OPTIONS"
+.IP "\fIddpath\fP" 12
+Specifies the directory that contains the dictionary.
+.IP "\-l \fIn\fP" 12
+Outputs the irohaserver(1M) log to /tmp/iroha.log.  n (1 to 5)
+specifies the log level.
+.IP "\-d" 12
+Starts irohaserver(1M) in debug mode.  It is executed as the
+foreground process.  Log data at log level 5 is output to the standard
+output.
+.SH "FILES"
+.IP "/tmp/.IROHALOCK" 36
+Lock file
+.IP "/usr/local/lib/iroha/dic/*/dics.dir" 36
+Dictionary directory
+.IP "/etc/hosts.iroha" 36
+Access control file
+.IP "/usr/local/lib/iroha/premountdics" 36
+Premount dictionary list
+.SH "SEE ALSO"
+.PP
+irohakill(1M), irohastat(1), irohacheck(1)

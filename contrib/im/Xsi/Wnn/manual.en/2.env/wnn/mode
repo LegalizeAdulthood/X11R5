@@ -1,0 +1,22 @@
+MODE(4)
+
+NAME
+    mode - mode difinition table
+
+SYNOPSIS
+    /usr/local/lib/wnn/ja_JP/rk/mode
+
+DESCRIPTION
+    The mode definition table describes the definition of the mode variables, 
+    input modes, as well as the relation among the different input modes.
+
+    This table will be search as follows:
+
+	1. option -r of uum.
+	2. setrkfile entory of uumrc.
+	3. /usr/local/lib/wnn/ja_JP/rk/mode
+
+    For feather information of this table, refer the automaton.
+
+SEE ALSO
+    uum(1), uumrc(4), automaton(3)

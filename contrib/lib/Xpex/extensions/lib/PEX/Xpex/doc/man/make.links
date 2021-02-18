@@ -1,0 +1,170 @@
+# !/bin/sh
+# $Header: make.links,v 2.3 91/09/11 16:02:25 sinyaw Exp $
+
+# Copyright 1991 by Sony Microsystems Company, San Jose, California
+# 
+# 					All Rights Reserved
+# 
+# Permission to use, modify, and distribute this software and its
+# documentation for any purpose and without fee is hereby granted,
+# provided that the above copyright notice appear in all copies and
+# that both that copyright notice and this permission notice appear
+# in supporting documentation, and that the name of Sony not be used
+# in advertising or publicity pertaining to distribution of the
+# software without specific, written prior permission.
+# 
+# SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+# INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+# SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+# LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+# LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+# WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+# ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+# SOFTWARE.
+
+SUFFIX=$1
+LINKS = \
+	XpexQueryExtension.${SUFFIX} \
+	XpexCopyLookupTable.${SUFFIX} \
+	XpexFreeLookupTable.${SUFFIX} \
+	XpexGetDefinedIndices.${SUFFIX} \
+	XpexGetTableEntry.${SUFFIX} \
+	XpexGetTableEntries.${SUFFIX} \
+	XpexDeleteTableEntries.${SUFFIX} \
+	\
+	XpexCopyPC.${SUFFIX} \
+	XpexFreePC.${SUFFIX} \
+	XpexChangePC.${SUFFIX} \
+	\
+	XpexFreeRenderer.${SUFFIX} \
+	XpexGetRendererAttributes.${SUFFIX} \
+	XpexGetRendererDynamics.${SUFFIX} \
+	XpexEndRendering.${SUFFIX} \
+	XpexBeginStructure.${SUFFIX} \
+	XpexEndStructure.${SUFFIX} \
+	XpexRenderNetwork.${SUFFIX} \
+	\
+	XpexCopyStructure.${SUFFIX} \
+	XpexDestroyStructures.${SUFFIX} \
+	XpexGetElementInfo.${SUFFIX} \
+	XpexGetStructuresInNetwork.${SUFFIX} \
+	XpexGetAncestors.${SUFFIX} \
+	XpexGetDescendants.${SUFFIX} \
+	XpexGetFetchElements.${SUFFIX} \
+	\
+	XpexCopyNameSet.${SUFFIX} \
+	XpexFreeNameSet.${SUFFIX} \
+	XpexChangeNameSet.${SUFFIX} \
+	\
+	XpexCopySC.${SUFFIX} \
+	XpexFreeSC.${SUFFIX} \
+	XpexChangeSC.${SUFFIX} \
+	\
+	XpexFreePhigsWks.${SUFFIX} \
+	XpexGetDynamics.${SUFFIX} \
+	XpexGetViewRep.${SUFFIX} \
+	XpexUpdateWorkstation.${SUFFIX} \
+	XpexRedrawClipRegion.${SUFFIX} \
+	XpexExecuteDeferredActions.${SUFFIX} \
+	XpexSetViewPriority.${SUFFIX} \
+	XpexSetDisplayUpdateMode.${SUFFIX} \
+	XpexMapDCtoWC.${SUFFIX} \
+	XpexMapWCtoDC.${SUFFIX} \
+	XpexSetWksWindow.${SUFFIX} \
+	XpexSetWksViewport.${SUFFIX} \
+	XpexSetHlhsrMode.${SUFFIX} \
+	XpexSetWksBufferMode.${SUFFIX} \
+	XpexUnpostStructure.${SUFFIX} \
+	XpexUnpostAllStructures.${SUFFIX} \
+	XpexGetWksPostings.${SUFFIX} \
+	\
+	XpexChangePickDevice.${SUFFIX} \
+	XpexFreePickMeasure.${SUFFIX} \
+	XpexUpdatePickMeasure.${SUFFIX} \
+	\
+	XpexCloseFont.${SUFFIX}
+
+\rm -f ${LINKS}
+##
+##
+##
+ln -s XpexInitialize.${SUFFIX} XpexQueryExtension.${SUFFIX}
+##
+## man pages for Lookup Tables
+##
+ln -s XpexCreateLookupTable.${SUFFIX} XpexCopyLookupTable.${SUFFIX}
+ln -s XpexCreateLookupTable.${SUFFIX} XpexFreeLookupTable.${SUFFIX}
+ln -s XpexGetTableInfo.${SUFFIX} XpexGetDefinedIndices.${SUFFIX}
+ln -s XpexGetPredefinedEntries.${SUFFIX} XpexGetTableEntry.${SUFFIX}
+ln -s XpexGetPredefinedEntries.${SUFFIX} XpexGetTableEntries.${SUFFIX}
+ln -s XpexSetTableEntries.${SUFFIX} XpexDeleteTableEntries.${SUFFIX}
+##
+## man pages for Pipeline Contexts 
+##
+ln -s XpexCreatePC.${SUFFIX} XpexCopyPC.${SUFFIX}
+ln -s XpexCreatePC.${SUFFIX} XpexFreePC.${SUFFIX}
+ln -s XpexGetPC.${SUFFIX} XpexChangePC.${SUFFIX}
+##
+## man pages for Renderers
+##
+ln -s XpexCreateRenderer.${SUFFIX} XpexFreeRenderer.${SUFFIX}
+ln -s XpexChangeRenderer.${SUFFIX} XpexGetRendererAttributes.${SUFFIX}
+ln -s XpexChangeRenderer.${SUFFIX} XpexGetRendererDynamics.${SUFFIX}
+ln -s XpexBeginRendering.${SUFFIX} XpexEndRendering.${SUFFIX}
+ln -s XpexBeginRendering.${SUFFIX} XpexBeginStructure.${SUFFIX}
+ln -s XpexBeginRendering.${SUFFIX} XpexEndStructure.${SUFFIX}
+ln -s XpexRenderOutputCmds.${SUFFIX} XpexRenderNetwork.${SUFFIX}
+##
+## man pages for Structures
+##
+ln -s XpexCreateStructures.${SUFFIX} XpexCopyStructure.${SUFFIX}
+ln -s XpexCreateStructures.${SUFFIX} XpexDestroyStructures.${SUFFIX}
+ln -s XpexGetStructureInfo.${SUFFIX} XpexGetElementInfo.${SUFFIX}
+ln -s XpexGetStructureInfo.${SUFFIX} XpexGetStructuresInNetwork.${SUFFIX}
+ln -s XpexGetStructureInfo.${SUFFIX} XpexGetAncestors.${SUFFIX}
+ln -s XpexGetStructureInfo.${SUFFIX} XpexGetDescendants.${SUFFIX}
+ln -s XpexGetStructureInfo.${SUFFIX} XpexGetFetchElements.${SUFFIX}
+##
+##
+##
+ln -s XpexCreateNameSet.${SUFFIX} XpexCopyNameSet.${SUFFIX}
+ln -s XpexCreateNameSet.${SUFFIX} XpexFreeNameSet.${SUFFIX}
+ln -s XpexGetNameSet.${SUFFIX} XpexChangeNameSet.${SUFFIX}
+##
+##
+##
+ln -s XpexCreateSC.${SUFFIX} XpexCopySC.${SUFFIX}
+ln -s XpexCreateSC.${SUFFIX} XpexFreeSC.${SUFFIX}
+ln -s XpexGetSC.${SUFFIX} XpexChangeSC.${SUFFIX}
+##
+##
+##
+ln -s XpexCreatePhigsWks.${SUFFIX} XpexFreePhigsWks.${SUFFIX}
+ln -s XpexGetWksInfo.${SUFFIX} XpexGetDynamics.${SUFFIX}
+ln -s XpexGetWksInfo.${SUFFIX} XpexGetViewRep.${SUFFIX}
+ln -s XpexRedrawAllStructures.${SUFFIX} XpexUpdateWorkstation.${SUFFIX}
+ln -s XpexRedrawAllStructures.${SUFFIX} XpexRedrawClipRegion.${SUFFIX}
+ln -s XpexRedrawAllStructures.${SUFFIX} XpexExecuteDeferredActions.${SUFFIX}
+ln -s XpexRedrawAllStructures.${SUFFIX} XpexSetViewPriority.${SUFFIX}
+ln -s XpexRedrawAllStructures.${SUFFIX} XpexSetDisplayUpdateMode.${SUFFIX}
+ln -s XpexRedrawAllStructures.${SUFFIX} XpexMapDCtoWC.${SUFFIX}
+ln -s XpexRedrawAllStructures.${SUFFIX} XpexMapWCtoDC.${SUFFIX}
+ln -s XpexSetViewRep.${SUFFIX} XpexSetWksWindow.${SUFFIX}
+ln -s XpexSetViewRep.${SUFFIX} XpexSetWksViewport.${SUFFIX}
+ln -s XpexSetViewRep.${SUFFIX} XpexSetHlhsrMode.${SUFFIX}
+ln -s XpexSetViewRep.${SUFFIX} XpexSetWksBufferMode.${SUFFIX}
+ln -s XpexPostStructure.${SUFFIX} XpexUnpostStructure.${SUFFIX}
+ln -s XpexPostStructure.${SUFFIX} XpexUnpostAllStructures.${SUFFIX}
+ln -s XpexPostStructure.${SUFFIX} XpexGetWksPostings.${SUFFIX}
+##
+##
+##
+ln -s XpexGetPickDevice.${SUFFIX} XpexChangePickDevice.${SUFFIX}
+ln -s XpexCreatePickMeasure.${SUFFIX} XpexFreePickMeasure.${SUFFIX}
+ln -s XpexGetPickMeasure.${SUFFIX} XpexUpdatePickMeasure.${SUFFIX}
+##
+##
+##
+ln -s XpexOpenFont.${SUFFIX} XpexCloseFont.${SUFFIX}
+

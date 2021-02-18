@@ -1,0 +1,61 @@
+; DEFAULT MENUS
+; =============
+
+;;File: def-menus.gwm -- default root/window/icon menus
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.4 -- July 20 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+; create menus with lists of xterms and xloads
+; ============================================
+
+(defname-in-screen-to ()  xterm-pop xload-pop)
+(defaults-to xterm-list ())
+(defaults-to xload-list ())
+
+(for screen (list-of-screens)
+     (with (fsm pop-fsm menu ())
+       (defaults-to root-pop (menu-make-from-list root-pop-items))
+       (defaults-to window-pop (menu-make-from-list window-pop-items))
+       (if (eq window-pop-items icon-pop-items)
+	   (defaults-to icon-pop window-pop)
+	 (defaults-to icon-pop (menu-make-from-list icon-pop-items)))
+       
+       (menu-default-action root-pop '(refresh))
+       (menu-default-item root-pop 3)
+       (menu-default-action window-pop '(std-iconify-window))
+       (menu-default-action icon-pop '(std-iconify-window))
+	  
+       (setq xterm-items 
+	     '(menu-make (pop-label-make "Xterms")
+			 (item-make "Local" (! "xterm" "-n" hostname
+					       "-display" x-screen-name))))
+       (for xterm-item xterm-list
+	    (: xterm-items 
+	       (+ xterm-items 
+		  (list (list 'item-make xterm-item 
+			      (list '! "/bin/sh" "-c" 
+				    (+ "DISPLAY=" x-screen-name
+				       ";export DISPLAY; rxterm "
+				       xterm-item "</dev/null")))))))
+       (: xterm-pop (eval xterm-items))
+	  
+       (setq xload-items 
+	     '(menu-make (pop-label-make "Xloads")
+			 (item-make "Local" (! "xload" "-display" x-screen-name))))
+       (for xload-item xload-list
+	    (: xload-items 
+	       (+ xload-items 
+		  (list (list 'item-make xload-item
+			      (list '! "/bin/sh" "-c"
+				    (+ "DISPLAY=" x-screen-name
+				       ";export DISPLAY; rxload "
+				       xload-item "</dev/null")))))))
+       (: xload-pop (eval xload-items)))
+     )
+ 
+(de pop-root-menu ()
+    (set-colormap-focus ())	; bugged on dpx???
+    (std-pop-menu root-pop))
+

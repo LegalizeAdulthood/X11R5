@@ -1,0 +1,43 @@
+ＲＯＭＫＡＮ＿ＩＮＩＴ（３Ｊ＿Ｔ）
+
+
+名称
+    romkan_init  ―  ローマ字かな変換初期処理
+
+形式
+    #include	 <wnn/rk_spcl_val.h>
+
+    int		 romkan_init(pathname, delete, chmflg, keyin, bytcntfn)
+    char	 *pathname, chmflg;
+    letter	 delete, (*keyin)();
+    int		 (*bytcntfn)();
+
+機能説明
+    romkan_init は、モード定義表(mode(4_JT) を参照) を読み込んで、ローマ字かな
+    変換の初期処理を行う。モード定義表は、pathname によって、そのファイル名、
+    または、ディレクトリ・パス名が示される。ディレクトリ・パス名のときには、
+    そのディレクトリの下の "mode" をそのファイル名とする。
+    この関数を呼んだ後、romkan_getc(3J_T) を呼ぶと、順次、変換結果を得ることが
+    できる。
+
+    delete は、DELETE として使用するキャラクタコード (romkan_getc を参照) を指
+    定する。
+    chmflg は、ローマ字仮名変換モードが変更された際、変換文字入力関数 
+    romkan_getc がモード変換コードを返すようにする場合０以外を指定する。
+    keyin は、文字入力関数の名前である。keyin は unsigned int 型で、引数はなく
+    入力文字をバイトごとに返すようにする。
+    bytcntfn は２バイト文字評価関数の名前で、入力文字を指す char 型ポインタの
+    引数を伴って呼び出す。bytcntfn は、引数が指す１バイトを見て、それが２バイ
+    ト文字を構成するコードであれば ２、そうでなければ １ を返すようにする。
+    bytcntfn にヌルを指定すると、ＵＪＩＳ半角カタカナコードを構成する0x8e,
+    0xa1〜fe を２バイト文字として評価する。
+    romkan_init は、正常終了時０を返す。変換表の読み込み中にエラーを検出すると１
+    を返すと共にエラーメッセージを stderr に出力する。
+    通常、romkan_init(pathname, 0x08 又は0x7f, １又は０, keyin, ０)として呼ぶ。
+    romkan_init は、変換表の読み込み、モード初期設定後 romkan_clear(3_JT) を呼
+    んで変換用処理バッファの初期化を行う。
+
+関連項目
+    romkan_getc(3J_T), romkan_next(3J_T), romkan_clear(3J_T), 
+    romkan_dispmode(3J_T), romkan_ungetc(3J_T), 2A_CTRL(4_JT), 
+    2B_ROMKANA(4_JT)

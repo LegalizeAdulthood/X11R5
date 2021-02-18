@@ -1,0 +1,54 @@
+	INTERNATIONAL xterm
+
+	Consists of 6 files: Imakefile, ictlseqs.ms, ixterm_isopatch
+	                     README, ixterm.man, ixterm_patch.
+
+	The ixterm source files will be created by running the command
+	'patch <ixterm_patch' on the original xterm source files.
+
+
+	The only difference between xterm and ixterm is that ixterm
+	provides several national character replacement sets (NRCs)
+	in the DEC VT102 emulation. These sets may be reached either
+	through the resource database, the command line, scs sequences
+	or by the extended font menu. The following nationalities are
+	supported:
+
+
+		Nationality		NRC Set
+
+		North American		ASCII
+		United Kingdom		United Kingdom
+		Belgian			French
+		Danish			Norwegian/Danish
+		Dutch			ASCII
+		Finnish			Finnish
+		Flemish			French
+		French			French
+		French Canadian		French Canadian
+		German			German
+		Hungarian		Hungarian
+		Italian			Italian
+		Norwegian		Norwegian/Danish
+		Portuguese		Portuguese
+		Spanish			Spanish
+		Swedish			Swedish
+		Swiss			Swiss
+
+
+	For those who use ISO fonts (as opposed to DEC fonts), problems
+	will probably arise when using the characters 'currency' and
+	'diaresis' (french and hungarian only). A patch is provided to
+	fix this problem: Run the command 'patch <ixterm_isopatch' to
+	make the necessary changes in the file data.c.
+
+	See also the documents ixterm.man and ictlseqs.ms
+
+
+	Good Luck!
+
+		23 August 1991
+		Kjetil Narum Bakken
+		Tandberg Data A/S
+		Oslo, Norway
+

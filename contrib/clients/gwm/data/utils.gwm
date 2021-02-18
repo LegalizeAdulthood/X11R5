@@ -1,0 +1,373 @@
+; Various utilities used in standard profile
+; ==========================================
+
+;;File: utils.gwm -- General-purpose WOOL utilities
+;;Author: vincent@mirsa.inria.fr (Vincent BOUTHORS) -- Bull Research FRANCE
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.0 -- Feb 7 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+;;=============================================================================
+;;                    default
+;;=============================================================================
+; returns value of variable if set or evaluated provided value
+
+(df default (variable value)
+    (if (boundp variable)
+	(eval variable)
+	(eval value)))
+
+; defaults-to
+; set variable if was unset
+
+(df defaults-to args
+    (with (i 0 l (length args))
+	  (if (= (% l 2) 1)
+	      (trigger-error "defaults-to must have an even number of args"))
+	  (while (< i l)
+	    (if (not (boundp (# i args)))
+	      (set (# i args) (eval (# (+ 1 i) args))))
+	    (setq i (+ i 2))))))
+
+; declare a list of variable as screen-dependent
+
+(df declare-screen-dependent args
+    (for var args
+	 (defname var screen.)))
+
+;; (default-if-nil v1 a1 v2 a2...)
+;; sets vN to aN value if vN is nil
+
+(df default-if-nil args
+  (with (i 0)
+    (while (# i args)
+      (if (not (eval (# i args)))
+	(set (# i args) (eval (# (+ 1 i) args))))
+      (setq i (+ 2 i))
+)))
+
+;;=============================================================================
+;;                    autoload
+;;=============================================================================
+; specifies that calling this function (with no args!) will load the file
+; and execute the supposedly redefined function
+
+(df autoload (function filename)
+    (set function
+	 (lambda () 
+		 (setq autoload.tmp (eval function)) ; to prevent bug
+		 (load filename)
+		 (eval (list function)))))
+
+;;=============================================================================
+;;                    print-window-info
+;;=============================================================================
+;; prints client info in a pop-up window at the center of the screen
+
+(de print-window-info ()
+  (with (fsm-but (fsm-make (state-make	; kill by clicking in it
+	  (on (button any alone) (delete-window))
+	  window-behavior
+	  standard-behavior
+      ))
+      fsm window-fsm 
+      direction vertical
+      label-horizontal-margin 4 label-vertical-margin 2
+      menu-min-width 30 menu-max-width 1000
+      win
+      (place-menu
+	"Client Info"
+	(menu-make
+	  (bar-make
+	    (with (fsm fsm-but)
+	      (plug-make
+		(label-make (setq print-window-info.string
+		    (create-window-info)))))))
+	-1000 -1000			; place it outside screen
+    ))
+    (with (wob win)			; then center it when we know its size
+      (move-window 
+	(- (- (/ screen-width 2) (/ window-width 2)) wob-borderwidth)
+	(- (- (/ screen-height 2) (/ window-height 2)) wob-borderwidth)
+  )))
+  ;; output on stdout too
+  (print print-window-info.string "\n")
+)
+
+(defun create-window-info ()
+  (+ "Window: " (window-client-class) "."
+    (make-string-usable-for-resource-key
+      (window-client-name))
+    "."
+    (make-string-usable-for-resource-key (window-name))
+    "@" (window-machine-name) ": Geometry="
+    (itoa window-width) "x" (itoa window-height)
+    "+" (itoa window-x) "+" (itoa window-y)
+))
+
+;;=============================================================================
+;;                    WM misc utils
+;;=============================================================================
+; ensure window is contained in screen
+
+(df place-window-in-screen ()
+    (: x (window-x))
+    (: y (window-y))
+    (: xe (+ x (window-width)))
+    (: ye (+ y (window-height)))
+    (if (< x 0) (move-window 0 y))
+    (if (< y 0) (move-window x 0))
+    (if (> xe screen-width) (move-window (- screen-width
+					    (window-width)) y))
+    (if (> ye screen-height) (move-window x (- screen-height
+					       (window-height))))))
+
+;;=============================================================================
+;;                    wool misc utilities:
+;;=============================================================================
+
+;; min/max
+		 
+(de min (n1 n2) (if (< n1 n2) n1 n2))		       
+(de max (n1 n2) (if (> n1 n2) n1 n2))
+
+; not equal: !=
+
+(defun != (obj1 obj2)
+  (not (= obj1 obj2)))
+
+;; insert elt in list at pos pos (creates new list)
+;; used mainly for inserting items in menus
+
+(defunq insert-at (elt listname pos)
+  (with (listval (eval listname)
+		 pos (eval pos))
+    (set listname
+	 (+ (sublist 0 pos listval)
+	    (list (eval elt))
+	    (sublist pos (length listval) listval)))))
+
+;; the require/provide functions
+
+(defun require packages
+  (for package packages
+    (if (not (boundp package)) (load package))
+))
+
+(defun provide packages
+  (for package packages
+    (if (not (boundp package)) (set package ()))
+))
+
+;; string package
+
+(defun make-string-usable-for-resource-key-non-nil (string)
+  (if (setq #tmp# (make-string-usable-for-resource-key string))
+    (if (= #tmp# "") "_" #tmp#)
+    'any
+))
+
+;;=============================================================================
+;;                    rwhitby@adl.austek.oz.au (Rod Whitby)
+;;=============================================================================
+; First a function that returns t if the window is at the top of the stack.
+; (This is needed because windows that are partially off-screen are
+; considered by X to be only partially visible, even if they are at the top 
+; of the stack.)
+
+(defun window-is-topmost (win)
+  (progn
+    (with (window-list (list-of-windows 'stacking-order))
+	  (= win (# (- (length window-list) 1) window-list)))))
+
+(defun window-is-bottommost (win)
+  (progn
+    (with (window-list (list-of-windows 'stacking-order))
+	  (= win (# 0 window-list)))))
+
+;;=============================================================================
+;;                    Jay Berkenbilt's match-windowspec function
+;;=============================================================================
+
+;;
+;; Returns t if the current window matches this windowspec
+;; or nil otherwise
+;; windowspec is a property list with 'client-class 'client-name 
+;; and 'window-name as possible tags
+;; As you see, windowspecs can themselves contain regular
+;; expressions.  I could match all xterms set aside for buils with
+;; the windowspec
+;; (list 'client-class "XTerm" 'window-name ".*build")
+;; for example.
+
+(defun match-windowspec (windowspec)
+  (with (clientclass (# 'client-class windowspec)
+		     clientname (# 'client-name windowspec)
+		     windowname (# 'window-name windowspec))
+	(for a '(clientclass clientname windowname)
+	     (if (= (eval a) nil)
+		 (set a ".*")))
+	(if (and (match clientclass window-client-class)
+		 (match clientname window-client-name)
+		 (match windowname window-name))
+	    t
+	  nil)))
+
+;; qjb's utils
+
+(defun ceildiv (x y)
+  ;; 
+  ;; Returns (ceiling (/ x y))
+  ;;
+  (/ (+ x (- y 1)) y))
+
+(defun le (x y) 
+  (or (< x y) (= x y)))
+
+(defun ge (x y) 
+  (or (> x y) (= x y)))
+
+;;=============================================================================
+;;                    place-button
+;;=============================================================================
+;; places a button on the screen
+;; parameters (evaluated):
+;; 
+;; name: text string
+;; fore: color of text
+;; 4 colors (can be strings or colors) from light to dark:
+;; upper-left color, normal back, pressed back, lower right color
+;; action is the code to be executed
+;; in action, you can look at (current-event-code) and (current-event-modifier)
+;; to know which button and which modifiers triggered you
+
+(defun place-button (name fore lit norm press dark action)
+  (with (fsm-but (fsm-make (state-make	
+	  (on-eval '(buttonrelease any any)
+	    '(wob-tile (# 'normal wob))
+	  )
+	  (on-eval '(buttonpress any any)
+	    (list 'progn
+	      '(wob-tile (# 'pressed wob))
+	      action
+	  ))
+      ))
+      window-behavior standard-behavior
+      fsm window-fsm
+      fore-c (if (= (type fore) 'number) fore (color-make fore))
+      norm-c (if (= (type norm) 'number) norm (color-make norm))
+      press-c (if (= (type press) 'number) press (color-make press))
+      lit-c (if (= (type lit) 'number) lit (color-make lit))
+      dark-c (if (= (type dark) 'number) dark (color-make dark))
+      background norm-c
+      foreground fore-c
+      borderwidth 0
+      direction vertical
+      label-horizontal-margin 8 label-vertical-margin 6
+      menu-min-width 30 menu-max-width 1000
+      class-name "Gwm" client-name "button"
+      pix (if (= (type name) 'pixmap) name (label-make name))
+      background press-c
+      ppix (if (= (type name) 'pixmap) name (label-make name))
+      foreground lit-c
+      w (- (width pix) 1) h (- (height pix) 1)
+      w-1 (- w 1) h-1 (- h 1)
+      property (+ property (list 'normal pix 'pressed ppix
+      ))
+      win (place-menu
+	(if (= (type name) 'pixmap) "button" name)
+	(menu-make
+	  (bar-make
+	    (with (fsm fsm-but)
+	      (draw-line pix 0 0 w 0)
+	      (draw-line pix 1 1 w-1 1)
+	      (draw-line pix 0 0 0 h)
+	      (draw-line pix 1 1 1 h-1)
+	      (draw-line ppix w h w 0)
+	      (draw-line ppix w-1 h-1 w-1 1)
+	      (draw-line ppix w h 0 h)
+	      (draw-line ppix w-1 h-1 1 h-1)
+	      (setq foreground dark-c)
+	      (draw-line pix w h w 0)
+	      (draw-line pix w-1 h-1 w-1 1)
+	      (draw-line pix w h 0 h)
+	      (draw-line pix w-1 h-1 1 h-1)
+	      (draw-line ppix 0 0 w 0)
+	      (draw-line ppix 1 1 w-1 1)
+	      (draw-line ppix 0 0 0 h)
+	      (draw-line ppix 1 1 1 h-1)
+	      
+	      (plug-make pix)
+    )))))
+    ()
+))
+
+;; place-3d-button is a simplified version for use with colors using
+;; the 1,2,3,4 shade system in rgb.txt.
+;; these are:
+
+(setq shaded-colors '(
+snow seashell AntiqueWhite bisque PeachPuff NavajoWhite
+LemonChiffon cornsilk ivory honeydew LavenderBlush MistyRose azure SlateBlue
+RoyalBlue blue DodgerBlue SteelBlue DeepSkyBlue SkyBlue LightSkyBlue SlateGray
+LightSteelBlue LightBlue LightCyan PaleTurquoise CadetBlue turquoise cyan
+DarkSlateGray aquamarine DarkSeaGreen SeaGreen PaleGreen SpringGreen green
+chartreuse OliveDrab DarkOliveGreen khaki LightGoldenrod LightYellow yellow
+gold goldenrod DarkGoldenrod RosyBrown IndianRed sienna burlywood wheat tan
+chocolate firebrick brown salmon LightSalmon orange DarkOrange coral tomato
+OrangeRed red DeepPink HotPink pink LightPink PaleVioletRed maroon VioletRed
+magenta orchid plum MediumOrchid DarkOrchid purple MediumPurple thistle
+))
+
+(defun place-3d-button (name pen color action)
+  (place-button name pen
+    (+ "" color "1")
+    (+ "" color "2")
+    (+ "" color "3")
+    (+ "" color "4")
+    action
+))
+ 
+(setq demo-button:color 0)
+(setq demo-button:startcol ())
+
+(defun place-3d-demo-button (name pen color action)
+  (place-button name pen
+    (setq place-3d-demo-button.c1 (color-make (+ "" color "1")))
+    (setq place-3d-demo-button.c2 (color-make (+ "" color "2")))
+    (setq place-3d-demo-button.c3 (color-make (+ "" color "3")))
+    (setq place-3d-demo-button.c4 (color-make (+ "" color "4")))
+    action
+))
+(defun demo-button ()
+  (setq demo-button:startcol (color-make "#123456789"))
+  (color-free demo-button:startcol)
+  (do-demo-button)    
+)
+
+(defun do-demo-button ()
+  (place-3d-demo-button
+    (# demo-button:color shaded-colors)	;name
+    black				;pen ink
+    (# demo-button:color shaded-colors)	;color
+    '(progn
+      (setq demo-button:curcolor (# demo-button:color shaded-colors))
+      (if (not (< place-3d-demo-button.c1 demo-button:startcol))
+	(color-free place-3d-demo-button.c1)
+      )
+      (if (not (< place-3d-demo-button.c2 demo-button:startcol))
+	(color-free place-3d-demo-button.c2)
+      )
+      (if (not (< place-3d-demo-button.c3 demo-button:startcol))
+	(color-free place-3d-demo-button.c3)
+      )
+      (if (not (< place-3d-demo-button.c4 demo-button:startcol))
+	(color-free place-3d-demo-button.c4      )
+      )
+      (setq demo-button:color (+ 1 demo-button:color))
+      (delete-window)		;action
+      (if (# demo-button:color shaded-colors)
+	(do-demo-button)
+    ))
+))

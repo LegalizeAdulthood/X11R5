@@ -1,0 +1,180 @@
+.\" $Header: XpexGetPickDevice.man,v 2.4 91/09/11 16:04:30 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexGetPickDevice 3PEX "$Revision: 2.4 $" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexGetPickDevice, XpexChangePickDevice \- Functions that allow
+the clients to set and inquire the values of pick device descriptors
+that are stored in a PHIGS workstation resource.
+.SH "Synopsis"
+.nf
+Status XpexGetPickDevice(dpy, wks_id, dev_type, valueMask, values)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexPickDeviceType  dev_type;
+.br
+	XpexBitmask valueMask;
+.br
+	XpexPickDevice  *values; /* RETURN */
+.sp
+void XpexChangePickDevice(dpy, wks_id, dev_type, valueMask, values)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexPickDeviceType  dev_type;
+.br
+	XpexBitmask valueMask;
+.br
+	XpexPickDevice  *values; 
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP  1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIwks_id\fP  1i
+To be added
+.IP \fIdev_type\fP  1i
+To be added
+.IP \fIvalues\fP  1i
+To be added
+.SH "Description"
+The \fIXpexGetPickDevice\fP function will return components of a pick 
+descriptor for the PHIGS workstation resource specified by 
+\fIwks_id\fP.  The descriptor returned will be the currently-defined
+descriptor for the pick device of the type specified by \fIdev_type\fP.
+The \fIvalueMask\fP specified which components are to inquired and 
+returned. The specified attributes of the pick device descriptor will
+be returned in the structure \fIpick_dev\fP. Floating point values
+in \fIvalues\fP will be returned in the current floating point 
+format.
+.sp
+\fIXpexGetPickDevice\fP can generate \fIBadPhigsWks\fP, 
+\fIBadValue\fP, and \fIBadFloatingPointFormat\fP errors.
+.sp
+The \fIXpexChangePickDevice\fP function will modify components 
+of a pick descriptor for the PHIGS workstation resource specified 
+by \fIwks_id\fP.  The descriptor to be modified will be the current-
+defined descriptor for the pick device of the type specified by 
+\fIdev_type\fP. The \fIvalueMask\fP specifies which components are to
+be changed.  The specified attributes of the pick device descriptor
+will be set to the values contained in \fIpick_dev\fP.
+Floating point values in \fIvalues\fP will be in the current
+floating point format.
+.sp
+\fIXpexChangePickDevice\fP can generate \fIBadPhigsWks\fP, 
+\fIBadValue\fP, \fIBadFloatingPointFormat\fP, \fIBadPath\fP,
+and \fIBadNameSet\fP errors.
+.SH "Structures"
+typedef struct {
+.br
+	XpexPickStatus  pick_status;
+.br
+	XpexListOfPickElementRef  pick_path;
+.br
+	XpexPickPathOrder  pick_path_order;
+.br
+	XpexNameSet  pick_incl;
+.br
+	XpexNameSet  pick_excl;
+.br
+	XpexPickDataRecord  pick_data_rec;
+.br
+	XpexPromptEchoType  prompt_echo_type;
+.br
+	XpexViewport  echo_volume;
+.br
+	XpexSwitch  echo_switch;
+.br
+} XpexPickDevice;
+.sp
+typedef struct {
+.br
+	int  num_refs;
+.br
+	XpexPickElementRef  *refs;
+.br
+} XpexListOfPickElementRef;
+.sp
+typedef struct {
+.br
+	XpexStructure  s_id;
+.br
+	int  offset;
+.br
+	int  pick_id;
+.br
+} XpexPickElementRef;
+.sp
+typedef union {
+.br
+	XpexPickDataRec1  data_rec1;
+.br
+	XpexPickDataRec2  data_rec2;
+.br
+} XpexPickDataRecord;
+.sp
+typedef struct {
+.br
+	int  x;
+.br
+	int  y;
+.br
+	XpexFloat  distance;
+.br
+} XpexPickDataRec1;
+.sp
+typedef struct {
+.br
+	XpexCoord3D  v_min;
+.br
+	XpexCoord3D  v_max;
+.br
+} XpexPickDataRec2;
+.sp
+typedef struct {
+.br
+	XpexFloat  x;
+.br
+	XpexFloat  y;
+.br
+	XpexFloat  z;
+.br
+} XpexCoord3D;
+.SH "Errors"
+.IP \fIBadPhigsWks\fP
+.IP \fIBadValue\fP
+.IP \fIBadFloatingPointFormat\fP
+.IP \fIBadPath\fP
+.IP \fIBadNameSet\fP
+.SH "Related Commands"
+XpexCreatePickMeasure, XpexFreePickMeasure,
+XpexGetPickMeasure, XpexUpdatePickMeasure.

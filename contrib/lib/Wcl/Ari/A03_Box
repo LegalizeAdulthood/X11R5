@@ -1,0 +1,31 @@
+!  This provides similar functionality as that shown by the Xaw example
+!  named xbuttonbox.  The Box widget is used to introduce the programmer to
+!  a widget hierarchy.
+!
+!  Unlike the Shell widget a Box widget can accept more than one child.
+!  By using boxes and other composites it is possible to create an
+!  arbitrarily complex application with hundreds or event thousands of
+!  widgets.
+!
+Ari.wcChildren:		box
+Ari.title:		A03_Box
+
+*box.wcClassName:	Box
+*box.wcChildren:	quit, \
+			lab1, lab2, lab3, lab4, lab5, \
+			lab6, lab7, lab8, lab9, lab10
+
+*quit.wcClassName:	Command
+*quit.callback:		WcExitCB
+*Command.Label:    Click the left mouse button here to quit
+
+*lab1.wcClass:		labelWidgetClass
+*lab2.wcClass:          labelWidgetClass
+*lab3.wcClass:          labelWidgetClass
+*lab4.wcClass:          labelWidgetClass
+*lab5.wcClass:          labelWidgetClass
+*lab6.wcClass:          labelWidgetClass
+*lab7.wcClass:          labelWidgetClass
+*lab8.wcClass:          labelWidgetClass
+*lab9.wcClass:          labelWidgetClass
+*lab10.wcClass:         labelWidgetClass

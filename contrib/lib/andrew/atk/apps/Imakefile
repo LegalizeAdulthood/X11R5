@@ -1,0 +1,69 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif 
+
+ATKLIBS = ${BASEDIR}/lib/atk/libtscript.a \
+	${BASEDIR}/lib/atk/libez.a \
+	${BASEDIR}/lib/atk/libframe.a \
+	${BASEDIR}/lib/atk/libtext.a \
+	${BASEDIR}/lib/atk/libsupviews.a \
+	${BASEDIR}/lib/atk/libutilviews.a \
+	${BASEDIR}/lib/atk/libsupport.a \
+	${BASEDIR}/lib/atk/libbasics.a
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+RESLIBS = -L${BASEDIR}/lib -lresolv
+#else /* LIBDL_ENV */
+RESOLVER_LIB = $(RESOLVLIB)
+#endif /* LIBDL_ENV */
+#endif /* RESOLVER_ENV */
+
+#ifdef  WM_ENV
+WMLIB = ${WMBASEDIR}/lib/libwm.a
+#endif /* WM_ENV */
+
+#ifdef _IBMR2
+CLASSLIBS = ${BASEDIR}/lib/libclass.a
+#ifdef X11_ENV
+X11LIBS = ${BASEDIR}/lib/libcmenu.a
+SYSLIBS = -lm -L$(XLIBDIR) -lX11
+#else /* X11_ENV */
+SYSLIBS = -lm
+#endif /* X11_ENV */
+#else /* _IBMR2 */
+CLASSLIB = ${BASEDIR}/lib/libclass.a 
+X11LIBS = ${BASEDIR}/lib/libcmenu.a  \
+	${XLIBDIR}/libX11.a
+SYSLIBS = -lm
+#endif /* _IBMR2 */
+
+OTHERLIBS = ${WMLIB}  \
+	${CLASSLIB}  \
+	${BASEDIR}/lib/liberrors.a  \
+	${UTILLIB}  \
+	$(MALLOCLIB)  \
+	${X11LIBS}
+
+NormalObjectRule()
+
+ClassProgramTarget(runapp, runapp.o statload.o, ${ATKLIBS} ${OTHERLIBS} ${RESOLVER_LIB}, ${RESLIBS} ${CLASSLIBS} ${SYSLIBS} ${NETLIBS} ${BSDLIB})
+
+InstallClassProgram(runapp, ${DESTDIR}/bin)
+
+InstallLink(runapp, ${DESTDIR}/bin/ez)
+InstallLink(runapp, ${DESTDIR}/bin/typescript)
+InstallLink(runapp, ${DESTDIR}/bin/pipescript)
+InstallLink(runapp, ${DESTDIR}/bin/be1be2)
+
+DependTarget()
+
+MkdirTarget($(DESTDIR)/doc/atk/apps)
+
+InstallDocs(runapp.help, ${DESTDIR}/help)
+InstallDocs(runapp.doc statload.doc,${DESTDIR}/doc/atk/apps)
+

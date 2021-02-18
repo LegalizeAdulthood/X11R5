@@ -1,0 +1,100 @@
+ 			*****************************  
+                    	*          PEREFACE         *
+ 			*****************************  
+    
+
+	cWnn is an integrated Chinese input system which is based on Unix workstation.  
+It is  a free  software  package and  all the  source programs  as well as the Chinese 
+dictionaries can be obtained from OMRON CORPORATION and its distributors.
+
+	This manual  gives a  detailed  explanation on how cWnn functions and how cWnn 
+can be used.
+
+	Chapter 1  -- 	INTRODUCTION
+			Brief  summary on  the input  environment of cWnn, some of its 
+			features as well as the hardware/software configurations.
+
+	Chapter 2  --	BASIC OPERATIONS
+			Brief  introduction  on  the  system  operations  such  as the 
+			startup/termination  of  cWnn, and  methods to  input  Chinese 
+			characters. 
+
+	Chapter 3  --	PINYIN INPUT AND PINYIN HANZI CONVERSION
+			Explanation  on the  different conversion  methods such as the 
+			Pinyin Hanzi conversion, Zhuyin  Hanzi  conversion and how the 
+			system can be used effectively.
+
+	Chapter 4  --	COMMANDS
+			Explanation on the cWnn commands and functions.
+
+	Chapter 5  --	ENVIRONMENT SETUP
+			Explanation on the different environment setup and system 
+			definitions.
+
+	Chapter 6  --	INPUT AUTOMATON
+			Introduction on the input automaton.
+
+	Chapter 7  --	CWNN FILE MANAGEMENT
+			Introduction on the various files of cWnn and their management.
+
+
+
+
+
+
+
+
+
+					 
+
+
+	Please take note that in this manual, some Chinese terms are being used. Their
+respective meanings are as follows:
+
+	* Pinyin		--  Phonetic  symbols used  commonly in Mainland China 
+				    and Singapore
+	* Zhuyin		--  Phonetic symbols used before Pinyin was introduced
+	* Hanyu Pinyin		--  A Pinyin phonetic symbol
+	* Hanzi			--  Chinese characters
+	* Quanjiao		--  Wide ASCII characters
+	* Banjiao		--  Standard ASCII characters
+	* Wubi			--  Radical input method used commonly in Mainland China
+	* Cangjie		--  Radical input method used commonly in Taiwan
+	* Guobiao		--  The set for Chinese characters adopted in Mainland
+				    China as the standard
+	* Quwei			--  Area and position numbers in Guobiao Table
+	* Neima			--  Internal code of Chinese characters
+	* Quanpin input		--  Hanyu Pinyin
+	* Erpin input		--  Pinyin represented by 2 keys
+	* Sanpin input		--  Pinyin represented by 3 keys
+	* Qianma		--  A radical symbol
+	* Yitian Zhuyin input	--  A type of Zhuyin input method
+	* Xiyong Zhuyin input	--  A type of Zhuyin input method
+	* Xuni			--  Quasi
+	* Bixing		--  A synonym for radical
+	* Cixing 		--  Grammatical attribute
+	* Shuangpin 		--  Also known as Erpin
+	* Rongcuo 		--  Error tolerance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					

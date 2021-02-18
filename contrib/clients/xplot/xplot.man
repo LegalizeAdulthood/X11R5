@@ -1,0 +1,166 @@
+.TH XPLOT 1 "1 October 1991" "X Version 11"
+.SH NAME
+xplot - plot(5) filter for X
+.SH SYNOPSIS
+.B xplot
+[-many options] [input files]
+.SH DESCRIPTION
+.I xplot 
+reads plot(5) commands from the named files (using standard
+input if there are none) and draws the resulting graphics in an X window.
+The window is updated continually, after any convenient break in
+the data flow. If more than one file is specified on the command line,
+a new window is brought up for each file except with the -n option.
+
+After xplot reaches the end-of-file on the input, it puts itself in
+the bacground (forks).  Control returns to the calling program, while
+xplot continues, remaining on screen.
+
+To exit after end-of-file, click a mouse button in the xplot window.
+Note that xplot ignores SIGHUP signals, so you must use another signal to kill
+xplot if necessary.
+
+This version of xplot is part of the GNU Graphics package. GNU Graphics
+is a set of utilities for plotting 2-dimensional data.
+It includes upward compatible replacements for the standard UNIX
+plotting utilities, Graph and Plot.  Graph creates device independent
+plot files which can be displayed on Tektronix 4010, PostScript and X
+window system devices using the programs plot2tek, plot2ps and xplot,
+respectively.  C language subroutine libraries are provided for
+creating device independent plot files and device specific graphics
+output.
+
+Note in particular that the GNU plot standard is a superset of
+the UNIX one, and xplot accepts the following commands not found
+in the plot(5) manual page of V7 Unix:
+.PP
+.TP 3
+.B T
+Adjusted label: The first character following should be one of 'lcr' and
+the next 'bct', for adjustment along the x and y axes, respectively.
+The following ASCII string is centered accordingly, and terminated
+by a newline, as for the t command in plot(5).
+.TP 3
+.B C
+Color: The next six bytes give the rgb values (on a scale of 0 to 65535).
+.TP 3
+.B F
+Font name: The following string, again terminated by a newline, is
+used to change the current font. The string can be either an Adobe
+PostScript font name (eg. "times-roman\\n") or an X font name.
+.TP 3
+.B r
+Rotate text: The following 6 bytes specify how to rotate. This
+is not currently implemented by
+.I xplot.
+.TP 3
+.B S
+Font size: The following 2 bytes give a font size (14 is the default).
+This only affects the Adobe fonts.
+.TP 3
+.B L
+Fill: The following 2 bytes give a fill level (on a scale of 1
+to 65535, with 0 meaning turn off filling). All closed curves are
+filled using a tile constructed to give that fill level. The foreground
+color in effect when Fill is called is that used for filling thereafter.
+.PP
+In addition, the linemod command (character "f") now tries to interpret
+unknown line modes as colors or fonts - this may be useful if the
+same plot file is to be used with an interpreter that does not
+understand the GNU plot extensions (most will interpret "fscgreen\\n"
+as "fsolid\\n", for example).
+
+.SH OPTIONS
+.I Xplot
+accepts the following standard X command line options: (if an option
+is not given on the command line the X Defaults file is searched
+under the name xplot).
+.PP
+.TP 8
+.B \-bg [-background] \fIcolor\fP
+This option specifies the color to use for the background of the window.  
+The default is \fIwhite\fP.
+.TP 8
+.B \-fg [-foreground] \fIcolor\fP
+This option specifies the color to use for the foreground of the window.  
+The default is \fIblack\fP.
+.TP 8
+.B \-fn [-font] \fIfont\fP
+This option specifies the font to be used for displaying normal text.  The
+default is \fIfixed\fP.
+.TP 8
+.B \-rv
+This option indicates that reverse video should be simulated by swapping
+the foreground and background colors.
+.TP 8
+.B \-geometry \fIgeometry\fP
+This option specifies the prefered size and position of the plot window.
+.TP 8
+.B \-display \fIhost\fP:\fIdisplay\fP
+This option specifies the X server to contact.
+.PP
+In addition,
+.I xplot
+has the following options:
+.PP
+.TP 8
+.B \-H
+Use high byte first ordering in converting char to short.
+.TP 8
+.B \-L
+Use low byte first ordering in converting char to short. This
+is the default.
+.TP 8
+.B \-n
+Kill previous xplot windows on the display, if we're only plotting
+one file (or from stdin); otherwise send all the plots we're making
+to a single window rather than multiple windows.
+.TP 8
+.B \-N
+Disables forking - also forces all plots to a single window. On
+end-of-file, xplot hangs around waiting for a button-press or ^C.
+.TP 8
+.B \-h
+Help the poor user.
+.TP 8
+.B \-c
+Show copying information.
+.TP 8
+.B \-v
+Show version number.
+.TP 8
+.B \-w
+Show Warranty information.
+
+
+.SH X DEFAULTS
+This program uses only Xlib calls (down with toolkits!) and in 
+particular uses XGetDefault to get the geometry, foreground, background,
+font and reverseVideo default values, if they have not been
+specified on the command line as above.
+.PP
+.TP 8
+.B EXAMPLE
+The resources:
+
+xplot*font: 6x9
+
+xplot*geometry: 300x300-0-0
+
+will set the font used in the plot window to `6x9' and the size of the
+window to 300 by 300 pixels, located in the lower right corner.
+.SH "SEE ALSO"
+X(1), plot(5), graph(1), axis(1)
+.SH BUGS
+Note that the byte order in the plot(5) file format is architecture
+dependent in practice.  For some simple and/or standard values of
+plot's space command, the program will automaticly determine the byte
+order.  However, there is no guarantee that plot files are portable
+across architectures.  On some systems, the plottoa and atoplot
+commands are available and can be used to work around this problem by
+traslating plot files to and from a portable ascii format.
+.PP
+.SH AUTHORS
+Arthur Smith (LASSP, Cornell University) <arthur@helios.tn.cornell.edu>
+
+Rich Murphey (ECE, Rice University) <Rich@Rice.edu>

@@ -1,0 +1,37 @@
+\begindata{text,269279836}
+\textdsversion{12}
+\template{default}
+ 
+
+\chapter{BOX}
+
+
+The \italic{box} object and its companion \italic{boxview} provide a way to 
+draw (and print) a box around an arbitrary ATK object.  It is intended for use 
+in a \italic{layout}.
+
+
+
+\section{User Interface}
+
+
+
+Box has no user interface of its own.  It simply passes all input into the 
+contained object and passes all graphics and out back back out.
+
+
+A newly-created box fills itself with a \italic{filler}, which in turn gives 
+the user a choice of what the real contents of the box should be.
+
+
+Last updated: 
+ \
+\begindata{writestamp,269278372}
+Datastream version: 1
+%o %A, %Y at %u:%M
+andysans12
+648157080
+\enddata{writestamp,269278372}
+\view{writestampview,269278372,4,0,0}
+
+\enddata{text,269279836}

@@ -1,0 +1,224 @@
+.TH XHEARTS 6
+.SH NAME
+xhearts \- The card game of "hearts"
+.SH SYNTAX
+.B xhearts [-players player_file] [-goal points] [-jack] [-pass style]
+.br
+         [-drop] [-wlm wlm_file] [-seed seed] [-sleep seconds] [-log file]
+.SH DESCRIPTION
+This program implements the card game "hearts".
+It is a game for four players, with any combination of human
+and computer opponents.
+.sp
+-player player_file
+.sp
+.in +2
+This file informs the program of who the players are.
+It is an ascii file with the following form:
+.sp
+.in +3
+name1
+.br
+display1
+.br
+name2
+.br
+display2
+.br
+name3
+.br
+display3
+.br
+name4
+.br
+display4
+.in -3
+.sp
+The name serves only to label the positions at the table.
+If the name begins with a colon, the computer plays that hand and
+the display is ignored (but still required).  Names must not have any
+white space.  A human name must be first.  The application's resources
+will be read from the .Xdefaults file of the first player.
+.sp
+For example, to play a game against me and two computer opponents:
+.in +3
+YourName
+.br
+YourDisplay
+.br
+:computer
+.br
+ignored
+.br
+Gene_Dykes
+.br
+128.84.247.86:3
+.br
+:computer
+.br
+ignored
+.in -3
+.sp
+-goal \fIpoints\fR
+.sp
+.in +2
+The game ends whenever any player reaches this level.
+The winner is the person with the lowest number of points.
+The default is 100 points.
+.in -2
+.sp
+-jack
+.sp
+.in +2
+With this flag specified, the jack of diamonds is worth -10 points.
+The computer as an opponent has no strategy for dealing with it.
+The default is that the jack of diamonds is not special.
+.in -2
+.sp
+-pass \fIstyle\fR
+.sp
+.in +2
+There are four possibilities for determining where to pass three cards:
+.in +1
+.sp
+"leftright"
+.br
+"leftrightacross"
+.br
+"leftrightacrosskeep"
+.br
+"leftrightkeep"
+.br
+.in -1
+.sp
+The default is Left_Right_Across.
+.sp
+As with other Xcu resources, spaces, underscores, and Capitalization
+may be arbitrarily part of the above strings.
+.in -2
+.sp
+-drop
+.sp
+.in +2
+When this flag is specified, points may be sloughed to the first trick.
+The default is that hearts and the queen of spades may not be played
+on the first trick.
+.in -2
+.sp
+-wlm \fIwlm_file\fR
+.sp
+.in +2
+The compiled layout description file may be specified with this flag.
+The default is to look for a file called "hearts.wc".
+.in -2
+.sp
+-seed \fIinteger\fR
+.sp
+.in +2
+This option seeds the random number generator, thus allowing
+the exact game to be played again.
+.in -2
+.sp
+-sleep \fIseconds\fR
+.sp
+.in +2
+This option specifies how many seconds the computer should wait before
+allowing a player to play to the next trick.  The default is two.
+.in -2
+.sp
+-log \fIfile\fR
+.sp
+.in +2
+This option tells the computer where to save a log file of its
+strategy decisions.  This allows the author to figure out why
+the computer occasionally plays with a bit of brain damage.
+.in -2
+.SH RESOURCES
+\ 
+.br
+You may want to specify something other than your system's default
+font in your .Xdefaults file.  Something along the lines of an
+18 point font works well.
+.sp
+The program may need to be told where to find the bitmaps by
+setting the "bitmapFilePath" resource properly.  You may want to install
+the four files (club.h, diamond.h, heart.h, spade.h) where they will be
+easy to find.
+.sp
+The following are resources introduced by the program.
+.TS
+allbox tab(;);
+c s s s.
+xhearts resources
+.T&
+lB lB lB lB.
+Name;Type;Default;Description
+_
+.T&
+lB l l l.
+XtNgoal;Int;100;Game Limit
+XtNpassingStyle;PassingStyle;LeftRightAcross;3-card passing rotation
+XtNdropOnFirst;Boolean;False;Points on first trick allowed
+XtNjackCounts;Boolean;False;Jack counts as minus ten points
+XtNplayerFile;String;"players";The players file
+XtNlogFile;String;"/dev/null";The strategy log file
+XtNwlm;String;"hearts";The compiled layout file
+XtNseed;String;NULL;The random number generator seed
+XtNsleep;Int;2;The required wait between tricks
+.TE
+.sp
+These four resources allow configuring the game to popular variations:
+.sp
+goal		When any player reaches this score the game is over
+.br
+jackCounts	Whether the jack of diamonds counts minus 10
+.br
+dropOnFirst	Whether or not points are allowed to be dropped on first trick
+.br
+passingStyle	The discard passing direction cycle
+.sp
+These four resources control some of the game mechanics:
+.sp
+playerFile	The name and $DISPLAY for each player
+.br
+wlm		The name of the compiled wlm file
+.br
+seed		The seed for initializing the random number generator
+.br
+sleep		Number of seconds that must be allowed to elapse before
+.br
+		leading to next trick
+.sp
+xhearts*font :
+.sp
+This will be the font used for the cards, and maybe some others.
+The fonts of other things are hardcoded into the .wl files, where
+they can be changed and recompiled if desired.  I can't figure
+out how to change the fonts of a select kind of widgets without
+specifying a path for each and every group of them...
+(Suppose you have label widgets scattered throughout the interface,
+and you want 10 of them to be green  --  there doesn't seem to be
+any way to set the resource for them without specifying a resource
+for each individual widget.)
+
+.SH "HOW TO PLAY"
+.sp
+How to play this version of hearts really needs no explanation --
+just point and click as appropriate.  You can
+change your mind on discards, but "a card laid is a card played!"
+.sp
+I should have a quick summary of hearts rules here.  Sorry!
+.SH BUGS
+.sp
+I know of several dumb plays the computer occasionally makes, and I
+should have fixes for them soon, but in general the computer plays
+well, and so far as I know, always legally.  It never tries to shoot
+the moon, but it does a fair job of moon prevention.
+.SH
+FUTURE WORK
+.sp
+It would be nice to expand this thing so we could hold hearts tournaments!
+If anybody would like to take a stab at writing a strategy to compete
+against mine, I could also make that easier to do.
+.SH AUTHOR
+Gene W. Dykes, gwd@graphics.cornell.edu

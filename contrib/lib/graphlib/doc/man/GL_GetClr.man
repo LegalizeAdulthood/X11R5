@@ -1,0 +1,22 @@
+.TH GL_GetColor 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_GetColor \- get a color cell by color name
+.SH SYNTAX
+void GL_GetColor(colorname,mononame)
+.br
+	char *colorname,*mononame;
+.SH ARGUMENTS
+.IP colorname 1i
+The name to use if the display connected to is color, which is interpreted
+to mean that the depth is >1.
+.IP mononame 1i
+The name to use if the display connected to is monochrome, which is interpreted
+to mean that the depth is 1.
+
+.SH DESCRIPTION
+This call will attempt to allocate a color depending on the depth of the 
+screen.  If it fails it will return the BlackPixel of the display.
+
+.SH "SEE ALSO"
+GL_SetWinColor(3GL), GL_SetGCColor(3GL), XAllocNamedColor(3X11),
+GraphLib Programming Manual

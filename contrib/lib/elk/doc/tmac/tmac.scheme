@@ -1,0 +1,113 @@
+.\" A font suitable for Scheme keywords and program examples
+.\" must be mounted on font position 5.
+.\" For example:  .fp 5 TT  (Typewriter font)
+.\"          or:  .fp 5 HR  (Helvetica Roman)
+.\"          or:  .fp 5 C   (Courier)
+.\"
+.fp 5 C
+.
+.              \" Underline page top
+.am PT
+.if \\n%-1 .tl ?\\v'-.6v'\\l'\\n(LLu\(ru'\\v'.6v'
+..
+.              \" Index entry
+.de Ix
+.tm \\n%:\\$1:\\$2:\\$3
+..
+.             \" Index entry (definition)
+.de Id
+.Ix "\\$1" "\\$2" @DEF@
+..
+.              \" Scheme code start
+.de Ss
+.KS
+.ta 8.5c
+.ft 5
+.ps -1
+.vs -1
+.nf
+.in 1c
+.sp .3c
+..
+.              \" Scheme code end
+.de Se
+.ft
+.ps
+.vs
+.fi
+.in
+.KE
+.sp .5
+..
+.              \" Scheme keyword
+.de S
+.ft 5
+.ps -1
+.if \\n(.$=1 \&\\$1
+.if \\n(.$>1 \&\\$1\c
+.ft
+.ps
+.if \\n(.$>1 \&\\$2
+..
+.              \" Chapter
+.de Ch
+.br
+.ne 2.5c
+.NH
+\\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.XS
+\\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.XE
+..
+.              \" Procedure
+.de Pr
+.SH
+.ds xx "
+.if \\n(.$>=2 .as xx " \f2\\$2\fP
+.if \\n(.$>=3 .as xx " \f2\\$3\fP
+.if \\n(.$>=4 .as xx " \f2\\$4\fP
+.if \\n(.$>=5 .as xx " \f2\\$5\fP
+.if \\n(.$>=6 .as xx " \f2\\$6\fP
+.if \\n(.$>=7 .as xx " \f2\\$7\fP
+.if \\n(.$>=8 .as xx " \f2\\$8\fP
+.if \\n(.$>=9 .as xx " \f2\\$9\fP
+.tl '(\\$1\|\\*(xx)'\&'procedure'
+.LP
+.Id "\\$1"
+..
+.              \" Syntax
+.de Sy
+.SH
+.ds xx "
+.if \\n(.$>=2 .as xx " \f2\\$2\fP
+.if \\n(.$>=3 .as xx " \f2\\$3\fP
+.if \\n(.$>=4 .as xx " \f2\\$4\fP
+.if \\n(.$>=5 .as xx " \f2\\$5\fP
+.if \\n(.$>=6 .as xx " \f2\\$6\fP
+.if \\n(.$>=7 .as xx " \f2\\$7\fP
+.if \\n(.$>=8 .as xx " \f2\\$8\fP
+.if \\n(.$>=9 .as xx " \f2\\$9\fP
+.tl '(\\$1\|\\*(xx)'\&'syntax'
+.LP
+.Id "\\$1"
+..
+.              \" Variable
+.de Va
+.SH
+.tl '\\$1'\&'variable'
+.LP
+.Id "\\$1"
+..
+.              \" Correct spacing between consecutive .Pr, .Sy, or .Va
+.de Up
+.rs
+.sp -1.3
+..
+.              \" Table of contents
+.de Tc
+.de PT
+\\..
+.1C
+.bp
+.PX
+..

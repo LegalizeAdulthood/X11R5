@@ -1,0 +1,33 @@
+JL_HINSI_NUMBER()
+
+名称
+
+	jl_hinsi_number		品詞名を品詞番号に変換する。
+	jl_hinsi_number_e
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_hinsi_number_e(env, name)
+	struct wnn_env *env;
+	w_char *name;
+
+	int
+	jl_hinsi_number(buf, name)
+	struct wnn_buf *buf;
+	w_char *name;
+
+機能
+
+	品詞名 name を品詞番号に変換し、その品詞番号を返す。
+	通常の品詞の品詞番号は、0から始まる。
+	復号品詞の品詞番号は、2 バイトの十分大きい値(FUKUGOU_START)
+	から、逆向きに付けられる。
+
+リターンバリュー
+
+	品詞番号を返す。
+	異常終了時には、-1 を返す。
+

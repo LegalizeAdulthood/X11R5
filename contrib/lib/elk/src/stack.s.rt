@@ -1,0 +1,113 @@
+/* Stack switching support for Elk on the IBM RT
+ *
+ * Written by:
+ *    Zalman Stern
+ *    Information Technology Center
+ *    Carnegie Mellon University
+ *    zs01+@andrew.cmu.edu
+ *
+ * Created: August 1989
+ * Last edit date: Sun Sep 24 17:22:12 EDT 1989
+ */
+
+/* int stksize();
+ * int saveenv(char* envbuf);
+ * dead jmpenv(const char* envbuf, int retcode);
+ */
+    .data
+    .globl    .oVncs
+    .set        .oVncs,0
+
+    .globl    _stksize
+_stksize:
+        .long _.stksize
+
+        .globl _saveenv
+_saveenv:
+        .long   _.saveenv
+
+        .globl _jmpenv
+_jmpenv:
+        .long _.jmpenv
+
+    .globl    _Special
+
+        .text
+
+        .globl _.stksize
+_.stksize:
+        load    r2, _stkbase
+        sub     r2, sp
+/* Is the 120 here hex or decimal. Is it even the correct number? */
+        ai    r2, 120
+        br    r15
+
+/*
+    struct buffer {
+        int stackRelocationOffset;
+        int registers[10];
+        int savedStackPointer;
+        char savedStackContents[numBytes];
+    }
+*/
+
+/* Things done on 68k: */
+    /* Save FP */
+    /* Save PC */
+    /* Save SP */
+    /* Save some more registers, "but shouldn't need too" */
+    /* Save memory from SP to _stkbase */
+    /* Shove stack relocation offset (delata argument to Visit_GC_List
+     * into buffer
+     */
+    /* Restore registers saved above. */
+    /* Jump to *_Special */
+
+        .globl _.saveenv
+_.saveenv:
+        stm     r6, 4(r2)
+        st   sp, 44(r2)
+        ai    r3, r2, 48
+        load    r4, _stkbase
+        mr  r5, r1
+/* Put label in a register so code can use short branch instruction. */
+        get    r7, $L000
+L000:
+        l    r6, 0(r5) /* r6 already saved above. */
+        inc      r3, 4
+        inc      r5, 4
+        c         r5, r4
+        blrx    r7
+            st   r6, -4(r3) /* Put in branch shadow of delayed cond. branch? */
+/* need to check if r6 and r7 are saved... */
+#if 0
+        l       r6, 4(r2)
+        l       r7, 8(r2)
+#endif
+/* These next two lines calculate the stack relocation offset which is
+ * real important as it is used in Visit_GC_List and the garbage collector
+ * core dumps if this value is wrong. See heap.c and look for calls to
+ * Visit_GC_List for details.
+ */
+        s       r3, r5 /* New - Old = delta for stack relocation. */
+        st      r3, 0(r2)
+        load r2, _Special
+        br   r15
+
+        .globl _.jmpenv
+_.jmpenv:
+        l    sp, 44(r2)
+        ai    r7, r2, 48
+        load    r4, _stkbase
+        mr  r5, r1
+L001:
+        l    r6, 0(r7) /* r6 already saved above. */
+        inc      r7, 4
+        inc      r5, 4
+        c         r5, r4
+        st   r6, -4(r5)
+        jl      L001
+        lm      r6, 4(r2)
+        brx    r15
+        mr      r2, r3
+

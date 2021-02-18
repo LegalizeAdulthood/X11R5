@@ -1,0 +1,9 @@
+equal_rows ;
+c s s s s   c s s s s  s s c s s  s s s
+c s s s s   s c s s s  c s s s c  s s s
+c s s s s   s s s s s  s c s s s  s s s
+c s s s s   s s ^ s s  s c s s s  s s s
+c s s s s   s s s s s  s s s s s  s s s
+c s s s s   c s s c s  s c s s s  s s s
+c s s s s   c s s s s  c s s s s  s s s
+c s s s s   c s s s s  c s s s s  s s s.

@@ -1,0 +1,10 @@
+# Imakefile for xdutree
+#
+       INCLUDES =
+LOCAL_LIBRARIES = $(XTOOLLIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+        DEPLIBS = $(DEPXTOOLLIB) $(DEPXLIB)
+           SRCS = xdu.c xwin.c 
+           OBJS = xdu.o xwin.o
+
+ComplexProgramTarget(xdu)

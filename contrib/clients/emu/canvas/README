@@ -1,0 +1,18 @@
+This directory contains the source for the Canvas widget. It is
+
+The Imakefile in this directory will create a simple client to allow
+testing features of the canvas.
+
+The file .term-defaults contains resource declarations necessary for
+the test client. You should call xrdb -merge on it.
+
+To test out a specific function of the canvas, simply put a key binding
+for it in .term-defaults.
+
+Agreed, the procedure looks a bit weird, but it worked quite well
+for me, you don't have to change actual code in the main
+program to test different functions.
+
+me@pcs.com
+
+

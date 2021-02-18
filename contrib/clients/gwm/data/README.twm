@@ -1,0 +1,115 @@
+			 TWM EMULATOR FOR GWM
+                         ====================
+
+	      Arup Mukherjee (arup@grasp.cis.upenn.edu)
+			    December, 1989
+
+
+RESTRICTIONS
+- ------------
+
+	Feel free to do whatever you want with this code, as long as
+you respect the gwm copyright for all code derived from the gwm
+standard profiles. It would be nice, however, if my name were to
+remain in it somewhere.
+
+	If you enhance the code in any useful way, or have suggestions
+for improvement, I would be happy to hear from you. Send mail to 
+arup@grip.cis.upenn.edu or arup@grasp.cis.upenn.edu
+
+
+ I DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL I
+ BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION
+ OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+ Author: Arup Mukherjee, University of Pennsylvania.
+
+
+GETTING STARTED
+- ---------------
+
+	To get get the twm emulator to be loaded and executed, simply
+use the command "gwm -f twm" to load it.  
+	
+	This allows you the additional flexibility, if you decide to
+customize your setup, to copy twmrc.gwm and/or twm.gwm to your
+home (or home/gwm) directory and modify them there.
+
+CUSTOMIZING
+- -----------
+
+
+twmrc.gwm : 
+	Numerous options (mainly colors) can be set from here. The
+file is well commented, and most of the color variables have
+self-explanatory names. You can also specify from here whether or not
+the icon manager code is to be loaded (in particular, if you are on a
+multi-screen system *and do not want to use the icon manager* you MUST
+disable it or the "normal" iconification will not work properly. 
+	.profile.gwm also contains definitions for the three variables
+emacs-list, xterm-list, and xload-list. The specified hostnames are
+used to build menus from which you can have gwm execute the respective
+command on a host via the "rsh" mechanism (note that your .rhosts
+files must be set up correctly for this to work). Note that unlike
+with the standard profile, the rxterm and rxload scripts are *NOT*
+used. 
+
+twm.gwm : 	
+	The only things that one might wish to customize here are the
+behaviors (which specify the action of a given button on a given
+portion of the screen). If the twm menu package is too slow on your
+machine, you might also want to try loading the standard package from
+here.
+
+twm-menus :
+	The contents of all the menus are specified here. To change
+more than the xterm, xload, or emacs lists, you should modify this
+file.
+
+
+MISCELLANEOUS
+- -------------
+
+	Since the twm-titled-win frame type is derived from
+simple-ed-win, you can edit the title bar : press ctrl-alt-left on the
+title (!).
+
+	In future, I plan to add code to produce a drop-down menu of
+windows, much like the "TWM Windows" menu that you can get with twm.
+If anyone has ideas for other useful features, I'd love to hear them. 
+
+	Also, I'd like to thank Paul Keener for providing me with
+access to a machine with multiple screens to test the namespace stuff
+on, Colas Nahaboo for help with debugging at various stages of the
+game, and Tom LaStrange, for coming up with the nice twm interface in
+the first place.
+
+December, 1989 : Thanks to J.K.Wight@newcastle.ac.uk for his redesign
+suggestions, and to  kaplan@cs.uiuc.edu for information that helped
+with debugging.
+
+FILES:
+- ------
+
+data/README.twm
+data/hilite.xbm
+data/iconify.xbm
+data/resize.xbm
+data/twm-icon-mgr.gwm
+data/twm-menus.gwm
+data/twm-popups.gwm
+data/twm-titled-win.gwm
+data/twm.gwm
+data/twmrc.gwm
+
+
+
+
+
+
+
+
+

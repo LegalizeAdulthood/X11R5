@@ -1,0 +1,13 @@
+xhello is a simple hello world program using Label widget.
+
+xgoodbye is xhello with callback on PushButton widget
+
+xsetstring demonstrates how to use XtVaSetValues and how to set
+a compound string in the code.
+
+xgetstring demonstrates how to use XtVaGetValues and how to get a 
+compound string in the code.
+
+xcomstring demonstrates creating compound string segments and
+modifying fonts in the middle of a compound string using character
+sets.

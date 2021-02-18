@@ -1,0 +1,56 @@
+;;; -*-Scheme-*-
+;;;
+;;; The Scheme part of the X11 widget interface
+
+(require 'xt)
+
+(define widget-load-path '(xaw xhp))
+
+(define widgets-loaded '())
+(define load-always '())
+
+(define-macro (load-widgets . w)
+  (let ((s "") (l '()))
+    (if (null? w)
+	(error 'load-widgets "no arguments"))
+    (for-each
+     (lambda (w)
+       (if (not (symbol? w))
+	   (error 'load-widgets "argument not a symbol"))
+       (if (not (memq w widgets-loaded))
+	   (set! l (cons w l))))
+     w)
+    (for-each
+     (lambda (w)
+       (if (not (memq w widgets-loaded))
+	   (set! l (cons w l))))
+     load-always)
+    (if l
+	(begin
+	  (set! widgets-loaded (append widgets-loaded l))
+	  (format #t "[Loading ")
+	  (do ((f (cdr l) (cdr f))) ((null? f))
+	    (format #t "~a " (car f))
+	    (set! s (format #f "~a ~a" s (locate-widget (car f)))))
+	  (format #t "~a]~%" (car l))
+	  `(fluid-let ((load-libraries
+			(format #f
+				(if (feature? 'motif)
+				    "~a -lXm -lXmu -lXt -lX11 -lc"
+				    "~a -lXaw -lXmu -lXext -lXt -lX11 -lc")
+				,s)))
+	     (load (locate-widget ',(car l)))))
+	#f)))
+
+(define (locate-widget w)
+  (let loop ((path widget-load-path))
+    (if (null? path)
+	(error 'locate-widget "no such widget: ~s" w)
+	(let ((name (format #f "~alib/~a/~a.o" top-dir (car path) w)))
+	  (if (file-exists? name)
+	      name
+	      (loop (cdr path)))))))
+
+(define load-widget load-widgets)
+
+(provide 'xwidgets)

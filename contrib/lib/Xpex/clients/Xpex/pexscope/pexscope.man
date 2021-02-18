@@ -1,0 +1,76 @@
+.TH PEXSCOPE 1 "Release 0" "PEX Version 5"
+.SH NAME
+pexscope - a program to monitor X11/PEX Client conversations
+.SH DESCRIPTION
+PEXSCOPE is a program to monitor the connections between the X11/PEX 
+window server and a client program.  pexscope runs as a separate 
+process.  By adjusting the host and/or display number that a X11/PEX 
+client attaches to, the client is attached to pexscope instead of 
+X11/PEX.  pexscope attaches to X11/PEX as if it were the client.  
+All bytes from the client are sent to pexscope which passes them on 
+to X11/PEX; All bytes from X11/PEX are sent to pexscope which sends 
+them on to the client.  pexscope is transparent to the X11/PEX client 
+and X11/PEX.
+.sp
+In addition to passing characters back and forth, pexscope will print
+information about this traffic on stdout, giving performance and
+debugging information for an X11/PEX client and server.
+.sp
+When running with pexscope, three processes are involved, 
+potentially all on different machines:
+.sp
+X11/PEX -- the X11/PEX window server will be running on machine "A" 
+for Display "B".  ("A" is a machine name; "B" is a display number).
+.sp
+pexscope -- pexscope must be told where the X11/PEX window server is
+(what machine and what display).  The options for pexscope are
+-h<X11-host> and -d<display-number>.  In our example, -hA and -dB.
+Typically the display-number is not given. pexscope will not try to
+connect to X11/PEX until the client connects to pexscope.
+.sp
+client -- the client should connect to pexscope rather than X11.  
+To avoid changing the code for the client, pexscope listens on the 
+same port as X11/PEX. If X11/PEX and pexscope are on different 
+machines, this works well.  However, if X11/PEX and pexscope are on 
+the same machine, this creates a port conflict.  To resolve this 
+conflict, pexscope can be given a different input or output port 
+number, as necessary to avoid the port that X11/PEX is listening to.  
+The X11/PEX client must connect to this offset port number.  
+The input port for pexscope is set by -i<port-number>; 
+the output port is set by -o<port-number>. 
+The default input port is 1; the default output port 
+is 0. These ports are offset by the X11/PEX base (6000) and the 
+display number. The PEX client attaches to pexscope by changing its 
+display number by the port offset.
+.sp
+For example, with X11/PEX running on "bagel", display 0 (the default), 
+and pexscope and the client running on "cleo", we would start pexscope 
+as "pexscope -hbagel -i0".  The client program could then connect to 
+"X11/PEX" on "cleo:0", and would be attached to pexscope, which would 
+then attach to X11/PEX on "bagel:0".
+.sp
+If, however, all three processes were running on "cleo", we would
+start pexscope by "pexscope -i1".  This would cause it to listen on
+port 6001 (which is display 1 for X11/PEX).  The X11/PEX client would 
+attach to X11/PEX on "cleo:1", and pexscope would connect through to 
+X11/PEX on "cleo:0".
+.SH LIMITATIONS
+pexscope has been written and used on a Sun3. Additional code 
+may be needed for byteswapping on different architectures.
+.sp
+The command line arguments for specifying the real X server should 
+probably be changed to be more consistent with X11R3 applications.
+.sp
+The Imakefile may be incorrect.
+.sp
+The builtin atoms have been wired in directly; they should probably be
+picked up from a header file.
+.sp
+No provision is included for extensions to the base protocol.
+.sp
+There is no code yet to interpret typed commands from the keyboard.
+It would be possible for a command language at the keyboard to create
+artificial characters to be sent to X11 or the client as if they were
+generated  by the other, or to dynamically alter requests or replies.
+.SH AUTHORS
+James Peterson (MCC)

@@ -1,0 +1,63 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:31:53 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+       INCLUDES = -I$(CWNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(CWNNDEFINES) $(CWNNLANGDEF) $(TWNNLANGDEF)
+
+SRCS= strings.c \
+	sstrings.c \
+	bdic.c \
+	hindo.c \
+	gethinsi.c \
+	revdic.c \
+	pwd.c \
+	bcopy.c \
+	xutoj.c \
+	dic_atojis.c \
+	msg.c \
+	yincoding.c \
+	py_table.c \
+	zy_table.c
+
+OBJS= strings.o \
+	sstrings.o \
+	bdic.o \
+	hindo.o \
+	gethinsi.o \
+	revdic.o \
+	pwd.o \
+	bcopy.o \
+	xutoj.o \
+	dic_atojis.o \
+	msg.o \
+	yincoding.o \
+	py_table.o \
+	zy_table.o
+
+LibraryObjectRule()
+
+AllTarget($(OBJS))
+
+includes:: $(SRCS)
+
+LinkSourceFile(strings.c,$(WNNETCSRC))
+LinkSourceFile(sstrings.c,$(WNNETCSRC))
+LinkSourceFile(bdic.c,$(WNNETCSRC))
+LinkSourceFile(hindo.c,$(WNNETCSRC))
+LinkSourceFile(gethinsi.c,$(WNNETCSRC))
+LinkSourceFile(revdic.c,$(WNNETCSRC))
+LinkSourceFile(pwd.c,$(WNNETCSRC))
+LinkSourceFile(bcopy.c,$(WNNETCSRC))
+LinkSourceFile(xutoj.c,$(WNNETCSRC))
+LinkSourceFile(dic_atojis.c,$(WNNETCSRC))
+LinkSourceFile(msg.c,$(WNNETCSRC))
+LinkSourceFile(yincoding.c,$(WNNETCSRC))
+LinkSourceFile(py_table.c,$(WNNETCSRC))
+LinkSourceFile(zy_table.c,$(WNNETCSRC))
+
+DependTarget()
+
+clean::
+	$(RM) $(SRCS)

@@ -1,0 +1,186 @@
+.TH xtrap 1
+.SH Name
+.sp
+xtrapreset, xtrapinfo, xtrapstats, xtrapout, xtrapin xtrapchar \- 
+.br
+XTrap sample clients
+.SH Syntax
+.sp
+.NXR "XTrap X Server Extension Sample Clients"
+.B xtrapreset
+[
+.B \-d[isplay]
+.I display
+]
+.ll -8
+.sp
+.B xtrapinfo
+[
+.B \-d[isplay]
+.I display
+]
+.ll -8
+.sp
+.B xtrapstats
+[
+.B \-d[isplay]
+.I display
+]
+.ll -8
+.sp
+.B xtrapout
+[
+.B \-f 
+.I script
+] [
+.B \-e
+] [
+.B \-d[isplay]
+.I display
+] [
+.B \-v
+]
+.ll -8
+.sp
+.B xtrapin
+[
+.B \-f 
+.I script
+] [
+.B \-d[isplay]
+.I display
+]
+.ll -8
+.sp
+.B xtrapchar
+[
+.B \-v 
+] [
+.B \-d[isplay]
+.I display
+]
+.SH Description
+.sp
+These commands are sample clients provided with the XTrap X Server Extension
+Sources, Version 3.2.
+XTrap is an X Server 
+extension which facilitates the capturing of server protocol and synthesizing
+core input events.
+Information on how to obtain these sources can be
+found in the SOURCES section below.
+The 
+.PN xtrapreset
+command
+is the simplest XTrap client in that it merely performs an XQueryExtension()
+against XTrap.  The name "reset" is historical.  The 
+.PN display
+argument is parsed by the X Toolkit and specifies the display where XTrap is
+to be loaded; see X(1).
+.PN xtrapinfo
+displays general configuration information as a result of an GetAvailable
+XTrap request to the specified server.  It is simply designed to test the
+request/response mechanism of the XTrap extension and client library as
+well as display the configuration information that it finds.
+.sp
+.PN xtrapstats
+tests the event and request vectoring of the server extension by configuring
+XTrap to collect usage statistics on all core input events and requests.  It
+has a primitive command-line interface for showing the counters, zeroing
+out the counters, and quitting the program.
+.sp
+.PN xtrapout
+tests the output transport from the XTrap extension to the XTrap client
+library.  
+As an aside, since xtrapout has the capability of "recording" events and
+requests it receives, 
+.PN xtrapout
+is ideal for providing input to test 
+.PN xtrapin.
+Since events are the only concern for the input transport, the \-e flag can
+be specified to indicate that all input events (and only events) should be
+recorded by
+.PN xtrapout.
+.PN script
+is specified primarily for non-U*IX machines which don't support I/O 
+re-direction easily.
+The \-v flag is used to force recording of all requests and input events.
+.sp
+.PN xtrapin
+is used to test the input transport to the XTrap server extension.  As stated
+earler, it's input can be provided by 
+.PN xtrapout
+using the \-e qualifer.  While it's primary function is for testing XTrap
+and serving as an example for XTrap functionality, it can reasonably used as
+a primitive "playback" client for X sessions.
+.sp
+.PN xtrapchar
+parses ANSI character sequences including application program sequences to 
+synthesize input events to X Window servers using the XTrap server extension.
+The intent of this program is to serve as a sample implementation for 
+interfacing character-based alternative input sources into X servers (e.g.
+voice recognition systems).  Another application might be "remote keyboards".
+The -v flag causes the program to display XTrap configuration information 
+and echo's characters processed to stdout.  If present, this must be the 
+first argument.
+.sp
+Note:  
+.PN xtrapchar 
+has only been used with Digital Workstations using the 
+LK201 compatible keyboard.  Though reasonable effort was done to maintain 
+portability,  no claims are made as to the current level of portability to 
+non-DEC servers for this program.
+.SH Options
+.PP
+.TP 4
+.B "-d[isplay] \fIdisplay\fP"
+Specifies the server to record from or playback to; see
+.PN X(1).
+.PP
+.TP 4
+.B "-e"
+Record only (and all) events.  Should be used when creating input for
+.PN xtrapin.
+.PP
+.TP 4
+.B "-f \fIscript\fP"
+The pathname of the script to be recorded / played back.
+.PP
+.TP 4
+.B "-v"
+Verbose mode.
+.sp
+.SH Diagnostics
+.sp
+.B "X Toolkit Error: Can't load DEC-XTRAP extension"
+.PP
+The XTrap X server extension has not been linked into the specified X
+server.  VMS DECwindows V3 and UWS V4.2 are shipped with XTrap V3.1.
+.SH SOURCES
+.sp
+.EX
+Sources have been posted on UseNet systems via anonymous ftp.
+They are:
+East Coast (USA):   export@lcs.mit.edu:contrib/XTrap_v32*.tar.Z
+West Coast (USA):   gatekeeper@pa.dec.com:X11/contrib/XTrap_v32*.tar.Z
+
+If you encounter problems, have questions, etc. please contact one of
+the following via mail, phone, etc. at:
+
+        Dan Coutu                       Ken Miller
+	coutu@decvax.dec.com            kmiller@decvax.dec.com
+	603-881-0087                    603-881-1836
+	..!decwrl!decvax!coutu          ..!decwrl!decvax!kmiller
+
+or paper mail at:
+
+	Digital Equipment Corp.         Digital Equipment Corp.
+	Dan Coutu ZKO 3-3/V08           Ken Miller ZKO 2-3/R56
+	110 Spitbrook Rd.               110 Spitbrook Rd.
+	Nashua, NH 03062                Nashua, NH 03062
+
+Naturally email is preferred and will get the fastest response.
+.EE
+.SH See Also
+X(1)
+.NXE "X" 
+

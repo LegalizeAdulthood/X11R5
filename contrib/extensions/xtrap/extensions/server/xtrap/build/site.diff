@@ -1,0 +1,30 @@
+*** /usr/proj/xtrap/xtrapcode/site.def_r5	Sat Jul 20 09:48:05 1991
+--- /usr/proj/xtrap/X11R5/mit/config/site.def	Sat Mar 23 14:11:26 1991
+***************
+*** 32,56 ****
+  #ifndef HasDESLibrary
+  #define HasDESLibrary YES	/* DES code is built into libXdmcp.a */
+  #endif
+- 
+- #define BuildXTrapExt       YES
+- #if BuildXTrapExt
+- #define XTrapExts           $(CONTRIBSRC)/extensions/server/xtrap/libxtrapext.a
+- #define XTrapDefines        -DXTRAP=32 -DVERBOSE
+- #else
+- #define XTrapExts           /*nothing*/
+- #define XTrapDefines        /*nothing*/
+- #endif
+- #define OtherExts PexExts   XInputExts XTrapExts
+- #define ExtensionOSDefines  XTrapDefines
+- #define SharedLibXTrap      HasSharedLibraries
+- #define SharedXTrapRev      1.0
+- #define NormalLibXTrap      (!SharedLibXTrap | ForceNormalLib)
+- #define DebugLibXTrap       NO
+- #define ProfileLibXTrap     NO
+- #define BuildXTrapLib       YES
+- #if BuildXTrapLib
+- #define XTrapLibs           $(CONTRIBSRC)/extensions/lib/xtrap/libXTrap.a
+- #else
+- #define XTrapLibs           /*nothing*/
+- #endif
+--- 32,34 ----

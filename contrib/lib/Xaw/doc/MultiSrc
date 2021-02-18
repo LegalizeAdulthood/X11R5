@@ -1,0 +1,218 @@
+.NH 2
+Multilingual Source Object
+.LP
+.XS
+	MultiSrc Object
+.XE
+.IN "MultiSrc object" "" "@DEF@"
+.LP
+.Ds 0
+.TA 2.0i
+.ta 2.0i
+Application Header file	<X11/Xaw/MultiSrc.h>
+.IN "MultiSrc.h" ""
+Class Header file	<X11/Xaw/MultiSrcP.h>
+.IN "MultiSrcP.h" ""
+Class		multiSrcObjectClass
+.IN "multiSrcObjectClass" ""
+Class Name	MultiSrc
+.IN "MultiSrc object" "class name"
+Superclass	TextSource
+.sp 1
+.LP
+The MultiSrc object is used by a text widget to read the text from a
+file or string in memory.
+It understands the mono-language encoded in locale, or multiple languages
+encoded in canonical form of ISO DIS 10646(UCS).
+If there is any unknown character in text, e.g., the text
+is encoded in Japanese(ja_JP.ujis), the locale is C, the
+MultiSrc object will print out the error messages and exit:
+.IP " "
+Error: Non-character code(s) in buffer.
+.LP
+The MultiSrc can be either of two types: \fBXawMultiFile\fP
+or \fBXawMultiString\fP.
+.LP
+MultiSrc objects of type \fBXawMultiFile\fP read the text from a file and
+store it
+into an internal buffer.  This buffer may then be modified, provided the
+text widget is in the correct edit mode, just as if it were a source of
+type \fBXawMultiString\fP.
+.LP
+MultiSrc objects of type \fBXawMultiString\fP have the text buffer
+implemented as a string.  The string owner is responsible for allocating
+and managing storage for the string.
+.LP
+The encoding of both type XawMultiFile and XawMultiString is 
+decided by the \fItextCode\fP.
+If the \fItextCode\fP is XawTextMB or XawTextCT, the data type of MultiSrc
+text is char; if the \fItextCode\fP is XawTextWC, its data type is 
+wchar_t.
+.LP
+In the default case for MultiSrc objects of type \fBXawMultiString\fP,
+the resource \fBuseStringInPlace\fP is false,
+and the widget owns the string.  The initial value of the 
+string resource, and any update made by the application
+programmer to the string resource with \fBXtSetValues\fP, is copied 
+into memory private to the widget, and managed internally by the widget.
+The application writer
+does not need to worry about running out of buffer space
+(subject to the total memory available to the application).
+The performance does not decay linearly as the buffer grows
+large, as is necessarily the case when the text buffer is used
+in place.   The application writer must use \fBXtGetValues\fP to
+determine the contents of the text buffer, which will return
+a copy of the widget's text buffer as
+it existed at the time of the \fBXtGetValues\fP call.   This copy
+is not affected by subsequent updates to the text buffer, i.e.,
+it is not updated as the user types input into the text buffer.
+This copy is freed upon the next call to XtGetValues to 
+retrieve the string resource; however, to conserve memory,
+there is a convenience routine, \fBXawMultiSrcFreeString\fP, allowing the
+application programmer to direct the widget to free the copy.
+.LP
+When the resource \fBuseStringInPlace\fP is true and the MultiSrc object
+is of type \fBXawMultiString\fP, the application
+is the string owner.  The widget will take the value
+of the string resource as its own text buffer, and the \fBlength\fP
+resource indicates the buffer size.   In this case
+the buffer contents change as the user types at the widget;
+it is not necessary to call \fBXtGetValues\fP on the string 
+resource to determine the contents of the buffer -- it will
+simply return the address of the application's implementation
+of the text buffer.
+.De
+.NH 3
+Resources
+.LP
+When creating an MultiSrc object instance, the following resources are
+retrieved from the argument list or from the resource database:
+.LP
+.IN "MultiSrc object" "resources"
+.ps 9
+.nr PS 9
+.vs 11
+.nr VS 11
+.TS H
+lw(1i) lw(1i) lw(1i) lw(.5i) lw(2i).
+_
+.sp 3p
+.TB
+Name	Class	Type	Notes	Default Value
+.sp 3p
+_
+.TH
+.R
+.sp 3p
+callback	Callback	XtCallbackList		NULL
+dataCompression	DataCompression	Boolean		True
+destroyCallback	Callback	Callback		NULL
+editType	EditType	EditMode		XawtextRead
+length	Length	Int	A	length of \fBstring\fP
+pieceSize	PieceSize	Int		BUFSIZ
+string	String	String		NULL
+textCode	TextCode	XawTextCode	C	XawTextMB
+type	Type	MultiType		XawMultiString
+useStringInPlace	UseStringInPlace	Boolean		False
+.sp 3p
+_
+.TE
+.ps 11
+.nr PS 11
+.vs 13
+.nr VS 13
+.Oc Bold
+.Dc
+.Md Bold
+.Oe
+.Ol Bold
+.Mp Bold
+.Mx Bold
+.Me Bold
+.Ot Bold
+.Mu Bold
+.NH 3
+Convenience Routines
+.LP
+The MultiSrc has a few convenience routines that allow the
+application programmer quicker or easier access to some of the
+commonly used functionality of the MultiSrc.
+.NH 4
+Conserving Memory
+.LP
+When the MultiSrc widget is not in \fBuseStringInPlace\fP mode
+space must be allocated whenever the file is saved, or the string is 
+requested with a call to \fBXtGetValues\fP.  This memory is allocated on the
+fly, and remains valid until the next time a string needs to be allocated.
+You may save memory by freeing this string as soon as you are done
+with it by calling \fBXawMultiSrcFreeString\fP.
+.FD 0
+void XawMultiSourceFreeString(\fIw\fP)
+.IN "XawMultiSourceFreeString" "" @DEF@
+.br
+Widget \fIw\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the MultiSrc object.
+.LP
+This function will free the memory that contains the string pointer returned
+by \fBXtGetValues\fP.  This will normally happen automatically when
+the next call to \fBXtGetValues\fP occurs, or when the widget is destroyed.
+.NH 4
+Saving Files
+.LP
+To save the changes made in the current text source into a file use
+\fBXawMultiSave\fP.
+.FD 0
+Boolean XawMultiSave(\fIw\fP)
+.IN "XawMultiSave" "" @DEF@
+.br
+Widget \fIw\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the MultiSrc object.
+.LP
+\fBXawMultiSave\fP returns \fBTrue\fP if the save was successful.
+It will update the file named in the \fBstring\fP resource.
+If the buffer has not been changed, no action will be taken.  This function
+only works on an MultiSrc of type \fBXawMultiFile\fP.
+.LP
+.sp 1
+To save the contents of the current text buffer into a named file use 
+\fBXawMultiSaveAsFile\fP.
+.FD 0
+Boolean XawMultiSaveAsFile(\fIw\fP, \fIname\fP)
+.IN "XawMultiSaveAsFile" "" @DEF@
+.br
+Widget \fIw\fP;
+.br
+String \fIname\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the MultiSrc object.
+.IP \fIname\fP 1i
+The name of the file to save the current buffer into.
+.LP
+This function returns \fBTrue\fP if the save was successful.
+\fBXawMultiSaveAsFile\fP will work with a buffer of either type
+\fBXawMultiString\fP or type \fBXawMultiFile\fP. 
+.NH 4
+Seeing if the Source has Changed
+.LP
+To find out if the text buffer in an MultiSrc object has changed
+since the last time it was saved with \fBXawMultiSave\fP or queried
+.IN "XawMultiSave" ""
+use \fBXawMultiSourceChanged\fP.
+.FD 0
+Boolean XawMultiSourceChanged(\fIw\fP)
+.IN "XawMultiSourceChanged" "" @DEF@
+.br
+Widget \fIw\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the MultiSrc object.
+.LP
+This function will return \fBTrue\fP if the source has changed since
+the last time it was saved or queried.  The internal change flag is
+reset whenever the string is queried via \fBXtGetValues\fP or the
+buffer is saved via \fBXawMultiSave\fP.

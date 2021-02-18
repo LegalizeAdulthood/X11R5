@@ -1,0 +1,16 @@
+Enclosed in this directory find the specification for an X synchronization
+extension, and a rational for its design and use.
+
+We had hoped to have a sample implementation finished in time for the
+R5 contrib tape, but we did not succeed at completing the implementation, 
+(we felt that FRAMEEND counters support is important to its demonstration,
+along with updating demo programs to the revised design).  When complete,
+(expected by the end of November, 1991) an announcement will be made and the
+source will be made available for an implementation of this specification.
+
+Public discussion of this extension should be directed to the
+appropriate newsgroups/mailing lists.
+
+			Tim Glauert
+			Dave Carver
+			Jim Gettys

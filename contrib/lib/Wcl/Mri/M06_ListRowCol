@@ -1,0 +1,37 @@
+!  Scrolled Lists
+!  --------------
+!
+!  This resource file presents the way one must deal with scrolled lists
+!  inside of XmRowColumn widgets.  Its actually pretty easy now.
+!
+!  Note, however that XmRowColumn does not do such a good job of
+!  resizing the scrolled window widget.
+!
+!  ----------------------------------------------------------------------
+!
+!*wcTrace:	True
+
+Mri.wcChildren:		rc
+Mri.title:		M06_ListRowCol
+
+*rc.wcConstructor:	XmCreateRowColumn
+*rc.wcChildren:		quit, slist
+*rc.entryAlignment:	ALIGNMENT_CENTER
+
+*quit.wcConstructor:	XmCreatePushButton
+*quit.activateCallback:	WcExitCB
+*quit.labelString:	Push To Exit
+
+*slist.wcConstructor:		XmCreateScrolledList
+*slist.items:			This demo uses the XmRowColumn,\
+				widget.  Try resizing the window.,\
+				You will see the list gets wider\\,,\
+				but not longer.,\
+				foo,bar, baz is a nice item,\
+				zorp,the,quick,brown,fox,\
+				jumped,over,the, lazy, dog, and, blew,\
+				the, candle, out. This\\, and that, and,\
+				more,to,come. That's all.
+*slist.itemCount:		26
+*slist.visibleItemCount:	11
+*slist.selectionPolicy:		EXTENDED_SELECT

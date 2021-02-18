@@ -1,0 +1,27 @@
+.TH GL_SetWinColor 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_SetWinColor \- Set the background color of a window
+.SH SYNTAX
+void GL_SetWinColor(win,colorname,monopix)
+.br
+	Window win;
+.br
+	char *colorname;
+.br
+	Pixmap monopix;
+.SH ARGUMENTS
+.IP win 1i
+The window to set the color for
+.IP colorname 1i
+The color to use for the background on a color system
+.IP monopix 1i
+The pixmap to use on a monochrome system.
+
+.SH DESCRIPTION
+This function sets the color of a window to be either the colorname if it
+is on a color system, or the pixmap on a monochrome system.  It will fallback
+to the monochrome color if it fails to allocate the color on the screen.
+
+.SH "SEE ALSO"
+GL_SetGCColor(3GL), XAllocNamedColor(3X11),
+GraphLib Programming Manual

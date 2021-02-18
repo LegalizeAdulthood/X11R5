@@ -1,0 +1,35 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+DOBJS = compat.do vutils.do popts.do headrtv.do header.do 
+
+IHFILES = compat.ih vutils.ih popts.ih headrtv.ih header.ih 
+
+NormalObjectRule()
+NormalATKRule()
+NormalHelpRule()
+
+DynamicObject(vutils, ${UTILLIB}, ${BSDLIB})
+
+ProgramTarget(ez2ascii, ez2ascii.o, ${UTILLIB}, ${BSDLIB})
+
+InstallClassFiles($(DOBJS), ${IHFILES})
+
+InstallFile(ez2ps, $(INSTPROGFLAGS), $(DESTDIR)/bin)
+InstallProgram(ez2ascii, ${DESTDIR}/bin/)
+
+InstallDocs(ez2ascii.help ez2ps.help headertxt.help, $(DESTDIR)/help)
+
+InstallHelpAlias(ez2ps, ez-postscript ez-ps)
+InstallHelpAlias(headertxt, header footer headers footers)
+MkdirTarget(${DESTDIR}/doc/contrib)
+MkdirTarget(${DESTDIR}/doc/contrib/mit)
+InstallDocs(header.doc, $(DESTDIR)/doc/contrib/mit)
+
+DependTarget()

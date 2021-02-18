@@ -1,0 +1,92 @@
+#!/bin/sh
+#
+# Copyright 1991 Cornell University
+#
+# Permission to use, copy, modify, and distribute this software and its
+# documentation for any purpose and without fee is hereby granted, provided
+# that the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Cornell U. not be used in advertising
+# or publicity pertaining to distribution of the software without specific,
+# written prior permission.  Cornell U. makes no representations about the
+# suitability of this software for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+# CORNELL UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+# INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+# EVENT SHALL CORNELL UNIVERSITY BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+# CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+# Author:  Gene W. Dykes, Program of Computer Graphics
+#          580 Theory Center, Cornell University, Ithaca, NY 14853
+#          (607) 255-6713   gwd@graphics.cornell.edu
+#
+
+
+client=$1
+shift
+
+#
+# get the widget classes from each WLDL and merge them
+# (The top level WLDLs are the arguments to this script;
+#  WLDLs embedded within these are found by wlm_compile 
+#  and processed in subsequent trips through the while loop)
+#
+
+a="$*"
+echo > /tmp/wlm$$
+echo > /tmp/class$$
+
+while [ "$a" ] ; do				# while there are WLDLs to do
+    for i in $a ; do				# for each WLDL
+	b=`basename $i .wl`
+	if [ ! -r $i ] ; then
+	    echo "WLDL \($i\) not found!"
+	    exit 1
+	fi
+	wlc $i 				# find:
+	/bin/cat $b.cl >> /tmp/class$$		#  widget classes and
+	/bin/cat $b.lw >> /tmp/wlm$$		#  embedded WLDLs
+    done
+
+    a=`/bin/cat /tmp/wlm$$`			# pick up list of embedded WLDLs
+    echo > /tmp/wlm$$
+done
+
+if [ ! -r $client.wb ] ; then			# create null file if necessary
+    touch $client.wb
+fi
+
+#
+# compact to one and only one entry per widget class
+#
+
+sort /tmp/class$$ | uniq > /tmp/class$$x
+
+#
+# find only those classes that appear once in old and new lists
+#
+
+/bin/cat $client.wb      /tmp/class$$x | sort | uniq -u > /tmp/class$$y
+
+#
+# see if it is in one of the new lists
+#
+
+a=`/bin/cat /tmp/class$$y /tmp/class$$x | sort | uniq -d`
+
+if [ "$a" ] ; then	
+    #
+    # it is, so append the new ones to the end of the target
+    #
+    echo $a > $client.nc
+    touch $client.wf
+else
+    touch $client.nc
+    if [ ! -r $client.wf ] ; then touch $client.wf ; fi
+fi
+
+rm /tmp/class$$ /tmp/class$$x /tmp/class$$y /tmp/wlm$$

@@ -1,0 +1,31 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef RESOLVER_ENV
+RESOLVER_LIB = ${RESOLVLIB}
+#endif /* RESOLVER_ENV */
+
+CLASS=../pp/class
+MAKEDO=$(BASEDIR)/bin/makedo
+LOCALINCLUDES= -I../lib -I../machdep/machine -I.
+#ifdef _IBMR2
+MAKEDOFLAGS= -g -b ../cmd -d $(BASEDIR)/lib ${LDFLAGS}
+#else
+MAKEDOFLAGS= -g -b ../cmd -d $(BASEDIR)/lib
+#endif /* _IBMR2 */
+IHFILES = testobj.ih testobj2.ih
+
+NormalObjectRule()
+NormalATKRule()
+DependTarget()
+
+DynamicObject(testobj,,)
+DynamicObject(testobj2,,)
+
+test:: testobj.do
+test:: testobj2.do
+
+ClassTestProgramTarget(testmain,testmain.o,$(BASEDIR)/lib/libclass.a ${RESOLVER_LIB},)
+
+

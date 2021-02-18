@@ -1,0 +1,4 @@
+.TH wlmUpdate 1 ""
+.UC 4
+.SH NAME
+wlmUpdate \- script required by makefiles for XcuWlm clients.

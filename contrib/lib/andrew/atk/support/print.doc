@@ -1,0 +1,42 @@
+\begindata{text,271763056}
+\textdsversion{12}
+\template{be2guide}
+\define{underline
+menu:[Font~1,Underline~41]
+attr:[Flags Underline Int Set]}
+\define{index
+menu:[Title,Index~91]
+attr:[FontFace Italic Int Set]}
+\define{indexi
+menu:[Title,InvisibleIndex~92]
+attr:[Script PreviousScriptMovement Point -2]
+attr:[Flags Hidden Int Set]
+attr:[FontFace Italic Int Set]}
+\formatnote{\chapter{Print}}\indexi{Print class}
+
+
+The class print will provide procedures necessary to print documents.  It is 
+still under development. 
+
+
+
+\paragraph{Printing a process view} \indexi{ \italic{print_ProcessOverview}}
+
+\example{int print_ProcessView(v, print, dofork,DocumentName,prarg) struct 
+view *v;  
+
+int print;  
+
+int dofork;  
+
+char *DocumentName,*prarg;} 
+
+
+\leftindent{\bold{Class procedure description. }Prints a process view from a 
+document. 
+
+
+}
+
+
+\enddata{text,271763056}

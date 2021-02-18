@@ -1,0 +1,26 @@
+JL_SET_ENV_WNNRC( )
+
+名称
+
+	jl_set_env_wnnrc	wnnrc を見てのパラメータの設定。
+
+形式
+
+	#include "jllib.h"
+
+	jl_set_env_wnnrc(env, wnnrc_n, error_handler, message_handler)
+	struct wnn_env *env;		/* 環境 */
+	char *wnnrc_n;			/* wnnrcファイル名 */
+	int  (*error_handler)();	/* エラー・ハンドラ */
+	int  (*message_handler)();	/* メッセージ・ハンドラ */
+
+機能
+
+	wnnrc_n ファイルの設定を環境 env に対して行なう。
+	jl_open 参照。
+
+リターンバリュー
+
+	正常終了時には 0 を返す。
+	異常終了時には -1 を返す。
+

@@ -1,0 +1,15 @@
+#ifndef WcTopDir
+#define WcTopDir ..
+#endif
+
+#include "../Wc.tmpl"
+
+       PROGRAMS = MDopenlook
+          SRCS1 = MDopenlook.c
+          OBJS1 = MDopenlook.o
+
+       INCLUDES = -I. -I$(TOP) $(XOLINC) $(X11INC)
+LOCAL_LIBRARIES = $(SHRLIBDIR) $(XOPLIB) $(WCLIB) $(XOLLIB) \
+                  $(X11LIBDIR) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+UninstalledComplexProgramTarget_1(MDopenlook,$(LOCAL_LIBRARIES),$(SYSTEM_LIBRARIES))

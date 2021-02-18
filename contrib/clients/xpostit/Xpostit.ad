@@ -1,0 +1,54 @@
+!
+! Copyright 1991 by David A. Curry
+!
+! Permission to use, copy, modify, distribute, and sell this software and its
+! documentation for any purpose is hereby granted without fee, provided that
+! the above copyright notice appear in all copies and that both that copyright
+! notice and this permission notice appear in supporting documentation.  The
+! author makes no representations about the suitability of this software for
+! any purpose.  It is provided "as is" without express or implied warranty.
+!
+!
+! $Header: /home/orchestra/davy/progs/xpostit/RCS/Xpostit.ad,v 1.4 91/09/06 18:29:15 davy Exp $
+!
+! XPostit application defaults
+!
+! David A. Curry
+! Purdue University
+! Engineering Computer Network
+! West Lafayette, IN 47907
+! davy@ecn.purdue.edu
+!
+
+!
+! Fonts
+!
+XPostit*Command*font:	-adobe-helvetica-bold-r-normal--11-*-*-*-*-*-*-*
+XPostit*Menu*font:	-adobe-helvetica-medium-r-normal--12-*-*-*-*-*-*-*
+XPostit*Text*font:	-b&h-lucidatypewriter-medium-r-normal-*-12-*-*-*-*-*-*-*
+
+!
+! Colors
+!
+!XPostit*Background:		PeachPuff
+!XPostit*Foreground:		NavyBlue
+!XPostit*Text*Background:	Yellow
+!XPostit*Text*Foreground:	Black
+!XPostit*Plaid*Background:	Red
+!XPostit*Plaid*Foreground:	Black
+
+!
+! Automatically wrap long lines at word boundaries.
+!
+XPostit*Text*wrap:		word
+
+!
+! Make the command buttons oval-shaped.
+!
+XPostit*Command*shapeStyle:	oval
+
+!
+! For some window managers like pswm under OpenWindows,
+! which don't pass the input focus.
+!
+XPostit*input:			true

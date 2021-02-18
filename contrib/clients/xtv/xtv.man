@@ -1,0 +1,61 @@
+
+/*
+ * Copyright (c) 1991 Old Dominion University.
+ * Copyright (c) 1991 University of North Carolina at Chapel Hill.
+ * All rights reserved.
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted, provided
+ * that the above copyright notice appear in all copies and that both that
+ * copyright notice and this permission notice appear in supporting
+ * documentation.  Old Dominion University and the University of North
+ * Carolina at Chapel Hill make no representations about the
+ * suitability of this software for any purpose.  It is provided "as is"
+ * without express or implied warranty.
+ */
+
+NAME
+	xtv - stands for X Teleconferencing Vehicle
+
+SYNOPSIS
+
+	chairman:
+		xtv [-c] [-h] [-j] [-p] [-r n] [-j]
+	participant:
+		xtv [-c] [-h] HostName SessionNumber 
+
+DESCRIPTION
+
+Command Line Options:
+	-c Disables the color translations.
+	   Use to improve performance if you do't care about colors.
+	-h Displays a help message without invoking xtv.
+	-j Disables the "dynamic joining" feature.  
+           Participants joining the session will not receive tools already 
+           active. Use to improve performance if you do't care about latecomers.
+	-p Disables the correct positioning of pop-up menus from tools.
+	   Use to improve performance if you do't care about popups positions.
+        -r n    Causes the message which reminds a floor holder that
+                the floor is needed elsewhere to be repeated every
+                n seconds.  The default is 30 seconds.
+
+How To Start xtv:
+Before starting xtv, your environment should be set up properly.
+For example: use setenv DISPLAY seth.cs.odu.edu:0.0
+if you need the windows to appear at seth.cs.odu.edu
+
+To become a chairman of a session type: xtv 
+with or without any option. When the control panel appears, you will get the 
+session number that need to be communicated to other participants.
+
+To join a session that is already in progress, type: xtv HostName SessionNumber
+with or without any option.
+For example: use xtv seth.cs.odu.edu 1
+to join session number 1 on machine seth.cs.odu.edu.
+
+XTV User's Guide:
+See the file xtv.guide in this directory.
+
+		
+
+
+

@@ -1,0 +1,25 @@
+#!/bin/csh -f
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+#
+#   Post mail logs to bboard
+#
+
+set tmp = /usr/tmp/postlog
+
+# Write headers to tmp file
+echo "From: Restart daemon <?[PostmasterName]+@?[WorkstationCell]>" > $tmp
+echo "To: Log bboard <?[PostmasterName]+@?[WorkstationCell]>" >> $tmp
+echo "Date: `?[arpadatepgm]`" >> $tmp
+echo "Subject: Mail log from host" `hostname` >> $tmp
+echo "" >> $tmp
+# End of headers
+
+cat ?[TempLog]/log.old >> $tmp
+
+?[queuemail] -f $tmp -a ?[PostmasterName]+

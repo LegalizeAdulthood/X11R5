@@ -1,0 +1,43 @@
+SERVERDEFS(4)
+
+
+NAME
+    serverdefs - server environment setting file of wnn library
+
+SYNOPSIS
+    /usr/local/lib/wnn/serverdefs (static)
+
+DESCRIPTION
+
+    The serverdefs file sets up the server environment for wnn library.
+    The wnn library refers to this file and attempts to coonect server.
+
+    Lines that start with a semicolon (;) are comments.
+    The format of it is as follows:
+
+    <lang_name> <machine_name> <unix_domain_socket_name> <service_name>
+
+    lang_name : Specifies the language. The line matching the langauge of
+		wnn_library is referred. If the language of wnn_library is
+		null, the default language is "ja_JP".
+
+    machine_name :
+		Specifies the host name of server. If the host name of
+		wnn_library is null, wnn_library attempts to connect with
+		server of machine_name. If it's connection failes or 
+		machine_name is NULL, wnn_library attempts to connect
+		by unix_domain.
+
+    unix_domain_socket_name :
+		Sepcifies the socket name for unix domain.
+
+    service_name :
+		Sepcifies the service name of tcp for inet domain.
+
+EXAMPLE
+    ja_JP       jserver         /tmp/jd_sockV4          wnn4
+    zh_CN       cserver         /tmp/cd_sockV4          wnn4_Cn
+
+SEE ALSO
+    uum(1), jserver(1)
+

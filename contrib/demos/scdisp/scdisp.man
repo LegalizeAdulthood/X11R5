@@ -1,0 +1,32 @@
+.\" @(#)scdisp.man	1.1	91/05/08
+.TH scdisp 1 "8 May 1991"
+.SH NAME
+scdisp \- display scaled text
+
+.SH SYNOPSIS
+.B scdisp
+[
+.BI \-display " displayname"
+]
+[
+.BI \-string " display string"
+]
+[
+.BI \-fn " font pattern"
+]
+.SH DESCRIPTION
+.I scdisp
+demonstrates scalable fonts.  By default, it displays the given
+.I string
+in a window, with with a font in as many point sizes as will fit.
+The font pattern can be specified with the 
+.I -fn
+option.
+.I scdisp
+will attempt to use the set of fonts that match this pattern.
+.SH SEE ALSO
+    xfade(1), sctext(1)
+.SH COPYRIGHT
+Copyright (c) 1990 by David Lemke & Network Computing Devices, Inc.
+.br
+(lemke@ncd.com)

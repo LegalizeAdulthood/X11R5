@@ -1,0 +1,92 @@
+! We can't surround this by "#ifdef COLOR ... #endif" and have it in
+! .../lib/X11/app-defaults/XAlarm because stuff in there is not pre-processed
+! with cpp like wot xrdb does.  Now why is that...?
+! If you want colour, you have to stick this in your ~/.xresources file (where
+! you can surround it with #ifdefs).
+! #ifdef COLOR
+! XAlarm*background:			LightYellow
+! XAlarm*foreground:			IndianRed
+! XAlarm*Command.background:		IndianRed
+! XAlarm*Command.foreground:		LightYellow
+! #endif
+
+XAlarm.bell:				True
+XAlarm.confirm:				True
+XAlarm.warnings:			5,15
+XAlarm.snooze:				0
+
+XAlarm*background:			White
+XAlarm*foreground:			Black
+XAlarm*font:				-adobe-new century schoolbook-bold-r-*-*-12-*
+XAlarm*resizable:			True
+
+XAlarm*top:				ChainTop
+XAlarm*bottom:				ChainTop
+XAlarm*left:				ChainLeft
+XAlarm*right:				ChainLeft
+
+XAlarm*Command.background:		Black
+XAlarm*Command.foreground:		White
+XAlarm*Command.ShapeStyle:		rectangle
+
+XAlarm.alarm.background:		Black
+XAlarm.alarm.message.label:		Alarm Call !!!
+XAlarm.alarm.message.font:		-adobe-new century schoolbook-bold-i-*-*-24-*
+XAlarm.alarm.message.internalWidth:	10
+XAlarm.alarm.message.internalHeight:	5
+XAlarm.alarm.message.bottom:		ChainBottom
+
+XAlarm.alarm.buttonbox.snooze.label:	Snooze
+XAlarm.alarm.buttonbox.snooze1.label:	+1 min
+XAlarm.alarm.buttonbox.snooze5.label:	+5 mins
+XAlarm.alarm.buttonbox.snooze15.label:	+15 mins
+XAlarm.alarm.buttonbox.snoozetime.label:	Zero time
+XAlarm.alarm.buttonbox.snooze.fromHoriz:	quit
+XAlarm.alarm.buttonbox.snooze1.fromHoriz:	snooze
+XAlarm.alarm.buttonbox.snooze5.fromHoriz:	snooze1
+XAlarm.alarm.buttonbox.snooze15.fromHoriz:	snooze5
+XAlarm.alarm.buttonbox.snoozetime.fromHoriz:	snooze15
+XAlarm.alarm.message.fromVert:		buttonbox
+
+XAlarm.alarm*quit.label:		Quit
+
+XAlarm.When?.width:			300
+
+XAlarm.When?.when.background:		Black
+XAlarm.When?.when.ok.label:		Enter time
+XAlarm.When?.when.toggle.label:		Edit warnings
+XAlarm.When?.when.value.translations:	#override <Key>Return: EnteredTime()
+
+XAlarm.When?.warnings.background:	Black
+XAlarm.When?.warnings.ok.label:		Enter warnings
+XAlarm.When?.warnings.toggle.label:	Edit time
+XAlarm.When?.warnings.value.translations:#override <Key>Return: EnteredWarnings()
+
+XAlarm.When?.confirm.background:	Black
+XAlarm.When?.confirm.value*font:	-adobe-new century schoolbook-bold-i-*-*-12-*
+XAlarm.When?.confirm.ok.label:		Confirm time
+XAlarm.When?.confirm.cancel.label:	Edit time
+XAlarm.When?.confirm.value.translations:#override <Key>Return: Confirmed()
+XAlarm.When?.confirm.value.width:	250
+
+XAlarm.When?*quit.label:		Quit
+XAlarm.When?*value*font:		9x15bold
+XAlarm.When?*label:		
+XAlarm.When?*value:		
+XAlarm.When?*value.bottom:		ChainBottom
+XAlarm.When?*value.right:		ChainRight
+XAlarm.When?*ok.top:			ChainBottom
+XAlarm.When?*ok.bottom:			ChainBottom
+XAlarm.When?*toggle.top:		ChainBottom
+XAlarm.When?*toggle.bottom:		ChainBottom
+XAlarm.When?*cancel.top:		ChainBottom
+XAlarm.When?*cancel.bottom:		ChainBottom
+XAlarm.When?*quit.top:			ChainBottom
+XAlarm.When?*quit.bottom:		ChainBottom
+
+XAlarm.Warning!.warning.background:		Black
+XAlarm.Warning!.warning.dismiss.label:		Dismiss
+XAlarm.Warning!.warning.message.fromHoriz:	dismiss
+XAlarm.Warning!.warning.quit.fromHoriz:		message
+
+XAlarm*quit.label:		Quit

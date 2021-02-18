@@ -1,0 +1,81 @@
+#include <GraphLib.tmpl>
+#define IHaveSubdirs
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+HEADERS = patchlevel.h
+DIRSEP = /
+SUBDIRS = lib clients examples doc/man
+SRCDIR = /afs/andrew/usr3/ea08/graphlib/graphlib
+TARFILE = /afs/andrew/usr3/ea08/graphlib/graphlib.tar.Z
+
+all::
+	@if [ ! -d X11 ]; then \
+		echo "You don't have the include directories.";\
+		echo "You probably didn't do a make World, or you did a make clean";\
+		echo "Without a make includes.";\
+		exit 2;\
+	else\
+		exit 0;\
+	fi
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+BuildIncludes($(HEADERS),gl,..)
+clean::
+	$(RM) -r X11
+	$(RM) config$(DIRSEP)*~
+
+World:: 
+	@echo ""
+	@echo "Building Graphlib..."
+	@echo "Hope this works..."
+	@echo "If you get the message :"
+	@echo "cpp: error ./Imakefile:2: Can't find include file GraphLib.tmpl"
+	@echo "Then you need to either run build.sh"
+	@echo "or setenv IMAKEINCLUDE -I`pwd`/config"
+	@echo "before remaking."
+	@echo ""
+	@date
+	@echo ""
+	-$(MV) Makefile Makefile.bak
+	$(MAKE) -f Makefile.bak Makefile
+	$(MAKE) Makefiles
+	$(MAKE) clean
+	$(MAKE) includes
+	$(MAKE) depend
+	$(MAKE) all
+	@echo ""
+	@date
+	@echo ""
+	@echo "Whew, done."
+	@echo
+
+quickshar:: 
+	mv doc/manual/ProgrammingManual ..
+	cd ..;shar -o graphlib -l 50 graphlib
+	mv ../ProgrammingManual doc/manual  
+
+shar:: Makefile Makefiles clean quickshar
+
+quicktar::
+	@if [ -f $(TARFILE) ]; then \
+		echo "  $(RM) $(TARFILE)~; $(MV) $(TARFILE) $(TARFILE)~"; \
+		$(RM) $(TARFILE)~; $(MV) $(TARFILE) $(TARFILE)~; \
+		exit 0; \
+	else\
+		exit 0;\
+	fi
+	cd ..;tar cvf - graphlib | compress >$(TARFILE)
+
+tar:: Makefile Makefiles clean quicktar
+
+remirror::
+	@if [ ! `pwd` = $(SRCDIR) ]; then \
+		echo "Mirroring....";\
+		cd ..;rm -rf graphlib$(DIRSEP)*;\
+		mirror $(SRCDIR) graphlib;\
+	else \
+		echo "Tried to remirror in $(SRCDIR).";\
+	fi
+

@@ -1,0 +1,142 @@
+HTT(1)              USER COMMANDS                    HTT(1)
+
+
+NAME
+    Htt - multilingual input server for X11R5
+
+SYNOPSIS
+    Htt [-display displayname] [-geometry geom] 
+    [-fg color] [-bg color] [-bd color] [-bw number]
+    [-bp bitmapfile] [-fn fontname] [-fk kanjifontname] [-verbose]
+
+DESCRIPTION
+
+    Htt is using the XIMP version 3.5 protocol as a method for the 
+    communication between the Input Method library.
+    This protocol is clean enough in terms of X Window because
+    it only uses the client message and the property defined by
+    the X Window system, it will not require any other communication
+    primitive such as own socket connection.
+
+    The feature of Htt is as follows:
+     o having good interoperability with other IM server.
+       which is compliment with the XIMP protocol.
+     o Supports multiple language engine.
+     o Supports multiple style
+	As a input style:
+		Preedit Nothing (root window by Htt)
+		Preedit Position(over the spot by Htt)
+		Preedit Callback(rendering by client)
+	As a status style:
+		Status Nothing  (drawn in the Htt's status window by Htt)
+		Status Area     (drawn in the client's area by Htt )
+		Status Callback (rendering by client)
+	As a lookup choices style:
+		Display in the Htt's status window
+		Display in the Htt's popup window
+		Lookup Choice Callback (rendering by client)
+      
+OPTION
+
+    -display display
+	Specify the display to be used.
+
+    -geometry geometry
+	Specify the size and position of the window.
+
+    -none
+	Specify to use general X server
+	This is the default value if -jis and -oyayubi option are ommited.
+
+    -jis
+	Specify to use JIS KeyBoard (it is valid only the case of Fujitsu's 
+	X server.)
+
+    -oya[yubi]
+	Specify to use OYAYUBI KeyBoard (it is valid only the case of 
+	Fujitsu's X server.)
+
+    -fg color
+	Specify the foreground color. The default is white.
+
+    -bg color
+	Specify the background color. The default is black.
+
+    -bd color
+	Specify the border color. The default is white.
+
+    -bw number
+	Specify the width of border in pixel.
+
+    -bp bitmap file name
+	Specify the pixmap for the window's background.
+
+    -fn font
+	Specify the font for eisuu-kana. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-*".
+
+    -fk font
+	Specify the font for kanji. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0208.1983-*".
+
+    -nobeep
+	Specify not to beep. The default is "beep".
+
+    -v[erbose]
+	Specify to display the error messages of XLIB. The default is
+	"don't display".
+
+RESOURCE
+
+    backgroundPixmap (BackgroundPixmap class)
+	Specify the background pixmap of the window.
+
+    font (Font class)
+	Specify the font for eisuu-kana. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-*".
+
+    kanjiFont (KanjiFont class)
+	Specify the font for kanji. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0208.1983-*".
+
+    maxClient (MaxClient class)
+	Specify the number of the alient that can connect.
+	The default is 32.
+
+    workSize (WorkSize class)
+	Specify the size of working area that is secured when Htt is 
+	initialized. The default is 4096.
+
+    beep (Beep class)
+	Specify whether the bell ring with on/off. The default is on(ring).
+
+ENVIRONMENT
+
+    DISPLAY  : Get the host name and the number of the default X server.
+
+OPERATION
+
+  1) The general operation
+
+      The operation Htt the general X server is the same as the 
+    operation to use it with JIS KeyBoard.
+    The physical mode switch between kana key and eiji key takes priority 
+    over the logical mode switch.
+
+    The basic operation is as follows:
+       1. Starting
+             $ Htt &
+             The window is displayed below the display.
+       2. Starting for Japanese input
+            Press Control + space key to start.
+            The indication below the display is changed to
+            "NIHONGO     R KANA".
+       3. The sample of input
+	    Type roma-ji to get kana string.
+            Press Control + n , to convert preedit string.
+            Press Control + w , to bring up lookup choice mode.
+            Press Control + k , to commit the composed string.
+       4. Ending for Japanese input
+            Press Control + space key to end.
+
+

@@ -1,0 +1,26 @@
+#include <GLLibrary.tmpl>
+#include <GraphLib.tmpl>
+
+INCLUDES = -I$(INCLUDESRC) -I$(TOP)
+HEADERS = \
+	label.h\
+	stripchart.h
+
+SRCS = \
+	label.c\
+	stripchart.c
+
+OBJS = \
+	label.o\
+	stripchart.o
+
+all:: $(OBJS)
+NormalLibraryObjectRule()
+#if SharedLibGL
+SharedLibraryObjectRule()
+#endif
+
+BuildIncludes($(HEADERS),gl,..)
+InstallMultiple($(HEADERS),$(INCDIR)/gl)
+
+DependTarget()

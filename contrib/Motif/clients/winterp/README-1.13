@@ -1,0 +1,170 @@
+# 
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard, David Betz and
+# Niels Mayer not be used in advertising or publicity pertaining to distribution
+# of the software without specific, written prior permission.  Hewlett-Packard,
+# David Betz and Niels Mayer makes no representations about the suitability of
+# this software and documentation for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+
+WINTERP Version 1.13 -- X11r5 tape release
+
+==============================================================================
+
+WINTERP 1.13 is just a patch release over WINTERP 1.12 (see below):
+
+	* Fixed SYSTEM // xlisp/unixstuff.c:Prim_SYSTEM
+	  so that return value is a low-valued integer, same as returned
+	  to shell.
+
+	* Added TIMEOUT_ACTIVE_P // w_timeouts.c:Wto_Prim_TIMEOUT_ACTIVE_P
+	  (Added to docs too)
+
+	* Added GET_MOUSE_LOCATION // w_utils.c:Wut_Prim_GET_MOUSE_LOCATION
+	  used by uunet!cimshop!rhess's menu server package.
+	  (Added to docs too)
+
+	* Fixed w_XmString.c:Get_String_or_XmString_Arg_Returning_XmString()
+	  to print out correct error message if wrong type argument supplied
+	  to function/method needing xmstring/string argument.
+
+	* Fixed incorrect message name typo for XM_TEXT_FIELD_WIDGET_CLASS
+	  method :SET_HIGHLIGHT, which was preventing :SET_CALLBACK
+	  from working correctly on XM_TEXT_FIELD_WIDGET_CLASS.
+
+	* Various other random fixes.
+
+	* Added new demo programs, fixed and cleaned up existing ones, e.g:
+
+		* grep-br.lsp: grep-based file search browser
+			-- for Motif 1.1, new and improved search
+			   browser functionality.
+
+		* w_ctrlpnl.lsp: control panel, program editor for WINTERP.
+			-- fixed problem with problems arising from
+			   Motif1.1/X11r4 recursive event loop bug.
+			   Unfortunately the fix requires that your
+			   WINTERP be running an eval-server, and that
+			   'wl' is on your path... See doc/BUGS for the
+			   full story.
+
+		* man-br.lsp: simple manual page browser.
+			-- Browse 'cat' manual pages in a particular
+			   directory. (I use this to browse Motif 'cat' 
+			   manpages while programming Motif in WINTERP).
+
+	* new entries in contrib directory:
+
+		* WINTERP-based menu server package:
+		  "The menu server allows the user to create menu's in a
+		  "menu cache" and then pop them up when needed by calling
+		  the  WINTERP menu server with the menu's "key".  This
+		  allows for the creation of a collection of re-usable menus
+		  for such things as command menus in GNU emacs or menu
+		  driven shell scripts. Any menu in the server can be
+		  accessed thru either the GNU or Perl interface (you just
+		  need to know the menu's "key")."
+		  (Courtesy of Richard Hess, cimshop!rhess@uunet.uu.net)
+
+		* GNU Emacs extension providing automatic name completion
+		  on WINTERP/Motif names, automatic lookup in WINTERP
+		  documentation. Better handling of winterp.doc using
+		  Emacs' "Thinktank-like" outline and rolodex mode.
+		  (Courtesy of Bob Weiner, rsw@cs.brown.edu)
+
+		* Patches for compiling on Sun 3/60, SunOS 3.5,
+		  OSF/Motif 1.1. Didn't integrate this patch because 
+		  I don't expect anybody to be using SunOS 3.5.
+		  (Courtesy of Richard Hess, cimshop!rhess@uunet.uu.net)
+
+		* Patches to replace BSD Inet/Unix domain server with
+		  SysVish TLI -- for Sequent's DYNIX/ptx 1.2.0.
+		  (Courtesy of Dave Wolfe, wolfe@sybase.com).
+
+		* Patches to GNU Emacs interface to WINTERP:
+		  added winterp-send-area, winterp-send-region;
+	          modified  winterp-send-buffer, and winterp-send-defun.
+		  (Courtesy of Dave Wolfe, wolfe@sybase.com).
+
+		  winterp-eval-last-sexp, winterp-eval.
+		  (Courtesy of Bob Weiner, rsw@cs.brown.edu)
+
+		  winterp-send-region
+		  (Courtesy of Stephen Gildea, gildea@alexander.bbn.com)
+
+
+==============================================================================
+Subject: Announcing WINTERP release 1.12 (for Motif 1.1 and 1.1.1)
+==============================================================================
+
+WINTERP 1.12 is a minor patch release over WINTERP 1.11 -- it corrects a
+few simple source bugs that appeared when porting to non-HP platforms. This
+release should work on most hardware and software platforms. WINTERP 1.12
+has been tested on the following platforms:
+        * HP9000s3xx (68030/68040) running HPUX 7.0, HPUX 6.5.
+        * HP9000s8xx (HP's PA-RISC) running HPUX 7.0, HPUX 3.1.
+        * HP9000s7xx (HP's PA-RISC 1.1) running HPUX 8.0
+        * Sun Sparc 2 running SunOS Release 4.1.1
+        * Data General AViiON (m88k, DG/UX 4.30, GNU C 1.37.23)
+        * DECStation 3100 running Ultrix.
+	* SGI 4D ("MIPS, SGI Unix, latest release (Cypress)")
+
+I've received reports that previous versions of WINTERP have run on the
+following:
+        * IBM RS6000 AIX 3.1
+        * Sun 3 running SunOS 4.0.3
+        * MIPS (Mips RS2030)
+        * Intel System Vr3.2 v2.2 (using Intel X11R3 with Intel Motif v1.0.A and TWG/TCP v3.1)
+        * Apollo's 680xx machines.
+
+Release 1.11 and 1.12 feature (briefly):
+        * Support for most of the new functionality of Motif 1.1 and 1.1.1
+        * Support for some of the new functionality of X11r4
+        * Source is #ifdef'd to automatically compile with Motif 1.1/1.1.1
+          or 1.0.
+        * Lots of new & nifty example and test programs.
+        * Various bug fixes and code cleanup.
+        * Added a number of missing Motif resources, methods, etc.
+        * Better portability -- I've tried to accomodate all the
+                patches and changes people have suggested in order to
+                allow WINTERP to compile on a variety of machines.
+        * Imakefiles corrected and updated to X11r4.
+        * Makefile.generic, Makefile.hpux, Makefile.sparc -- a generic
+          makefile system for those that don't want to bother with Imake.
+        * The TCP/IP eval server is now a compilation option, a Unix Domain
+          socket is used by default. This means that running WINTERP is 
+          no longer a security hole. The TCP/IP server seemed to be a 
+          big portability problem -- hopefully the Unix Domain socket
+          version will be more portable.
+        * TCP/IP and Unix Domain Socket servers can be enabled/disabled
+          via X resources. Verbosity of evaluation messages output can also
+          be reduced via X resource options. These options are useful for
+          people building stand-alone applications on top of WINTERP. 
+        * Entering XLISP break-loop on Xlib errors, XtWarnings, and
+          XtErrors is optional. This allows applications delivered in 
+          WINTERP to behave more like normal Xtoolkit programs. 
+        * More and Better documentation.
+        * Various emacs-lisp functionality added in "contrib" directory,
+          courtesy of Bob Weiner of Brown University. (I Haven't had time
+          to integrate or test this software yet).
+        * etc, etc, etc.
+
+Note that I've mainly tested WINTERP 1.12 on HPUX 7.0 running on HP9000s3xx
+(Motif 1.0, Motif 1.1, Motif 1.1.1, and HP UEDK Motif 1.1); I've done a
+little bit of testing on an HP9000s8xx machine, but only with Motif 1.0.
+I've also briefly tested on an HP9000s7xx (Snakes series) machine running
+HPUX 8.0 and HP UEDK Motif 1.1. I've also tested it on a Sun Sparc 2
+running SunOS Release 4.1.1 and Motif 1.1.1. 
+
+I've received reports from Victor Kan (Data General Corporation) that this
+version of WINTERP compiles and seems to run ok on a Data General AViiON
+(m88k, DG/UX 4.30, GNU C 1.37.23).
+
+==============================================================================

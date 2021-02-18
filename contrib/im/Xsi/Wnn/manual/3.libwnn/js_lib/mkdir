@@ -1,0 +1,23 @@
+JS_MKDIR( )
+
+名称
+
+	js_mkdir	サーバの管理下にディレクトリを作成する。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_mkdir(env,path)	
+	struct wnn_env *env;		/* 環境 */
+	char *path;			/* 作成するディレクトリ名 */
+
+機能
+
+	サーバマシン上にパス名 path で示されるディレクトリを作成する。
+
+リターンバリュー
+
+	正常終了時には、0 を返す。 異常終了時には、-1 を返す。
+

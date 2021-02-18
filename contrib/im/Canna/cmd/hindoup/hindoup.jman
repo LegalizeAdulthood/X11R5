@@ -1,0 +1,59 @@
+.\" $Header: /imports/wink/work/nk.R3.1/cmd/hindoup/RCS/hindoup.man,v 1.6 91/09/02 22:02:20 kubota Exp $ NEC;
+.if t .pn 1
+.TH HINDOUP 1
+.SH "名前"
+hindoup \- システム辞書どうしの頻度情報のマージ
+.SH "形式"
+.B "hindoup \-n \fInewdic\fP \-o \fIolddic\fP [\-w [\fIdic_file\fP]]"
+.SH "説明"
+.PP
+システム辞書どうしの頻度情報のマージを行います。新しい辞書
+.I newdic
+の単語に対して，今まで使用していた辞書
+.I olddic
+の単語の頻度情報を追加して行きます。
+.PP
+マージ後の辞書は /tmp の下に新しい辞書名
+.I newdic
+で出力しますので，辞書作成後， /tmp/newdic を適切なディレクトリに，
+コピーしてください。
+.IP 注 6
+.IR hindoup(1)
+は
+.I newdic
+，
+.I olddic
+に複数の辞書が含まれている場合は，
+それぞれのファイルで辞書が同じ順番になっていなければなりません。
+もし順番が違う時や数が違う時は
+.IR dicar(1)
+を使用して各辞書に分離してから行ってください。辞書の順番は
+.I dicar(1)
+か
+.IR dpbindic(1)
+で調べることができます。
+.SH "オプション"
+.IP "\-w [\fIdic-file\fP]" 12
+頻度情報を新しい辞書の方にそのまま上書きします。
+.I dic_file
+を指定すると指定されたファイルに出力します。
+.SH "使用例"
+.nf
+  % hindoup \-n iroha.d \-o iroha.d.old
+  % cp /tmp/iroha.d /usr/lib/iroha/dic/iroha.d
+.fi
+.sp
+iroha.d.old という辞書ファイルの頻度情報を /tmp/iroha.d というファイルに
+マージして辞書を作成します。できたファイルを /usr/lib/iroha/dic の下に
+コピーして，システム辞書に加えます。
+.sp
+.nf
+  % hindoup \-n iroha.d \-o iroha.d.old \-w
+.fi
+.sp
+iroha.d.old という辞書ファイルの頻度情報を iroha.d という辞書ファイルに
+マージします。この場合は辞書に上書きする形になりますのでマシンの事故等で
+トラブルが発生した場合は新しい辞書自体が失われてしまうおそれがありますので，
+お気を付けください。
+.SH "関連情報"
+dicar(1), dpbindic(1)

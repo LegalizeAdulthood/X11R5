@@ -1,0 +1,24 @@
+.TH MKBINDIC 1
+.SH NAME
+mkbindic - Convert a text-form dictionary into the binary-form dictionary
+.SHSYNOPSYS
+.B mkbindic
+[
+.I ontions ...
+]
+.I "file"
+.SH DESCRIPTION
+.BI Mkbindic
+creates a binary-form dictionary from a text file dictionary that contains definitions of
+readings and word transformation.  Any option specifiable in 
+.I cpp(1)
+may be specified in
+.I options.
+.SH EXAMPLE
+.nf
+.B
+% mkbindic -DKIGOU yamada.t
+yamada.t is sorted and rewritten into an arranged file.
+Binary-form dictionary yamada.d is created.
+.SH SEE ALSO
+cpp(1), dicar(1)

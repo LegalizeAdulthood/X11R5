@@ -1,0 +1,5 @@
+You'd better install b2g.table and g2b.table somewhere
+and make changes to the Makefile before compiling.
+
+The b2g.table and g2b.table provided are for HKU Big5 encoding.
+Please use ../et2hkubig5 for coversion between ETen and HKU Big5.

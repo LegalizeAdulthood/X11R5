@@ -1,0 +1,851 @@
+\begindata{text,269175340}
+\textdsversion{12}
+\template{default}
+\define{Bold
+}
+\begindata{lset,269344096}
+\V 1
+\begindata{lset,269319104}
+\V 1
+\begindata{lset,269377452}
+\V 1
+\begindata{lset,269321520}
+\V 1
+\begindata{value,269219308}
+>0
+\enddata{value,269219308}
+0 0 10 269219308 0 0 1
+>OBJ< value
+>VIEW< thumbstrV
+>REF< ArbObjectWheel
+\begindata{text,269321428}
+\textdsversion{12}
+[long] <increment> (1)
+
+[long] <bodyfont-size> (12)
+
+[string] <bodyfont> (andy)
+
+[string] <label> (Objects)
+
+\enddata{text,269321428}
+\enddata{lset,269321520}
+\begindata{lset,269198324}
+\V 1
+\begindata{lset,269222800}
+\V 1
+\begindata{value,269340972}
+>0
+\enddata{value,269340972}
+0 0 10 269340972 0 0 1
+>OBJ< value
+>VIEW< onoffV
+>REF< ArbObjectChoice
+\begindata{text,269201360}
+\textdsversion{12}
+[long] <bodyfont-size> (12)
+
+[string] <bodyfont> (andy)
+
+[string] <top label> (New Object)
+
+[string] <bottom label> (Existing)
+
+\enddata{text,269201360}
+\enddata{lset,269222800}
+\begindata{lset,269319924}
+\V 1
+\begindata{value,269388560}
+>0
+\enddata{value,269388560}
+0 0 10 269388560 0 0 1
+>OBJ< value
+>VIEW< onoffV
+>REF< ArbApplicationChoice
+\begindata{text,269173136}
+\textdsversion{12}
+[long] <bodyfont-size> (12)
+
+[string] <bodyfont> (andy)
+
+[string] <top label> (Application)
+
+[string] <bottom label> (Normal)
+
+\enddata{text,269173136}
+\enddata{lset,269319924}
+1 47 0 0 269222800 269319924 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269198324}
+1 54 0 0 269321520 269198324 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269377452}
+\begindata{lset,269377228}
+\V 1
+\begindata{lset,269314208}
+\V 1
+\begindata{value,269157752}
+>0
+\enddata{value,269157752}
+0 0 10 269157752 0 0 1
+>OBJ< value
+>VIEW< onoffV
+>REF< ArbNameChoice
+\begindata{text,269328844}
+\textdsversion{12}
+[long] <bodyfont-size> (12)
+
+[string] <bodyfont> (andy)
+
+[string] <top label> (Unnamed)
+
+[string] <bottom label> (Named)
+
+\enddata{text,269328844}
+\enddata{lset,269314208}
+\begindata{lset,269220420}
+\V 1
+\begindata{lset,269222388}
+\V 1
+\begindata{value,269140876}
+>0
+\enddata{value,269140876}
+0 0 10 269140876 0 0 1
+>OBJ< value
+>VIEW< onoffV
+>REF< ArbViewChoice
+\begindata{text,269377136}
+\textdsversion{12}
+[long] <bodyfont-size> (12)
+
+[string] <bodyfont> (andy)
+
+[string] <top label> (Default View)
+
+[string] <bottom label> (Specific)
+
+\enddata{text,269377136}
+\enddata{lset,269222388}
+\begindata{lset,269222188}
+\V 1
+\begindata{value,269140808}
+>0
+\enddata{value,269140808}
+0 0 10 269140808 0 0 1
+>OBJ< value
+>VIEW< thumbstrV
+>REF< ArbViewWheel
+\begindata{text,269377044}
+\textdsversion{12}
+[long] <increment> (1)
+
+[long] <max_value> (10)
+
+[long] <bodyfont-size> (12)
+
+[string] <bodyfont> (andy)
+
+[string] <label> (Views)
+
+\enddata{text,269377044}
+\enddata{lset,269222188}
+1 66 0 0 269222388 269222188 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269220420}
+1 77 0 0 269314208 269220420 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269377228}
+1 53 0 0 269377452 269377228 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269319104}
+\begindata{lset,269221988}
+\V 1
+\begindata{cel,269172692}
+\V 2
+\begindata{lset,269221788}
+\V 1
+\begindata{lset,269140608}
+\V 1
+\begindata{lset,269376844}
+\V 1
+\begindata{lset,269312580}
+\V 1
+\begindata{cel,269071652}
+\V 2
+\begindata{value,269353232}
+>0
+\enddata{value,269353232}
+10 269353232 1 0 0 0 
+>OBJ< value
+>VIEW< pianoV
+>REF< kb-0
+\begindata{text,269479156}
+\textdsversion{12}
+[long] <bodyfont-size> ()
+
+[string] <bodyfont> ()
+
+[string] <':' separated labels> ()
+
+\enddata{text,269479156}
+\enddata{cel,269071652}
+0 0 5 269071652 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269312580}
+\begindata{lset,269172492}
+\V 1
+\begindata{cel,269147204}
+\V 2
+\begindata{value,269140540}
+>0
+\enddata{value,269140540}
+10 269140540 1 0 0 0 
+>OBJ< value
+>VIEW< pianoV
+>REF< kb-1
+\begindata{text,269557356}
+\textdsversion{12}
+[long] <bodyfont-size> ()
+
+[string] <bodyfont> ()
+
+[string] <':' separated labels> ()
+
+\enddata{text,269557356}
+\enddata{cel,269147204}
+0 0 5 269147204 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269172492}
+1 51 0 0 269312580 269172492 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269376844}
+\begindata{lset,269376644}
+\V 1
+\begindata{lset,269202100}
+\V 1
+\begindata{cel,269364916}
+\V 2
+\begindata{value,269340580}
+>0
+\enddata{value,269340580}
+10 269340580 1 0 0 0 
+>OBJ< value
+>VIEW< pianoV
+>REF< kb-2
+\begindata{text,269552624}
+\textdsversion{12}
+[long] <bodyfont-size> ()
+
+[string] <bodyfont> ()
+
+[string] <':' separated labels> ()
+
+\enddata{text,269552624}
+\enddata{cel,269364916}
+0 0 5 269364916 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269202100}
+\begindata{lset,269376444}
+\V 1
+\begindata{cel,269201988}
+\V 2
+\begindata{value,269364848}
+>0
+\enddata{value,269364848}
+10 269364848 1 0 0 0 
+>OBJ< value
+>VIEW< pianoV
+>REF< kb-3
+\begindata{text,269549004}
+\textdsversion{12}
+[long] <bodyfont-size> ()
+
+[string] <bodyfont> ()
+
+[string] <':' separated labels> ()
+
+\enddata{text,269549004}
+\enddata{cel,269201988}
+0 0 5 269201988 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269376444}
+1 53 0 0 269202100 269376444 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269376644}
+1 54 0 0 269376844 269376644 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269140608}
+\begindata{lset,269376244}
+\V 1
+\begindata{lset,269201788}
+\V 1
+\begindata{lset,269364648}
+\V 1
+\begindata{cel,269140344}
+\V 2
+\begindata{value,269176124}
+>0
+\enddata{value,269176124}
+10 269176124 1 0 0 0 
+>OBJ< value
+>VIEW< buttonV
+>REF< Read
+\begindata{text,269376152}
+\textdsversion{12}
+[string] <label> (Read)
+
+\enddata{text,269376152}
+\enddata{cel,269140344}
+0 0 5 269140344 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269364648}
+\begindata{lset,269340260}
+\V 1
+\begindata{lset,269375952}
+\V 1
+\begindata{lset,269172000}
+\V 1
+\begindata{lset,269140120}
+\V 1
+\begindata{cel,269375840}
+\V 2
+\begindata{value,269364508}
+>0
+\enddata{value,269364508}
+10 269364508 1 0 0 0 
+>OBJ< value
+>VIEW< buttonV
+>REF< rest
+\begindata{text,269140028}
+\textdsversion{12}
+[string] <label> (Rest)
+
+\enddata{text,269140028}
+\enddata{cel,269375840}
+0 0 5 269375840 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269140120}
+\begindata{lset,269171740}
+\V 1
+0 0 0 0 0 0 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269171740}
+1 67 0 0 269140120 269171740 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269172000}
+\begindata{lset,269401592}
+\V 1
+\begindata{cel,269375616}
+\V 2
+\begindata{value,269364416}
+>0
+\enddata{value,269364416}
+10 269364416 1 0 0 0 
+>OBJ< value
+>VIEW< buttonV
+>REF< undo
+\begindata{text,269401500}
+\textdsversion{12}
+[string] <label> (Undo)
+
+\enddata{text,269401500}
+\enddata{cel,269375616}
+0 0 5 269375616 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269401592}
+1 26 0 0 269172000 269401592 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269375952}
+\begindata{lset,269171480}
+\V 1
+\begindata{cel,269401388}
+\V 2
+\begindata{value,269313692}
+>0
+\enddata{value,269313692}
+10 269313692 1 0 0 0 
+>OBJ< value
+>VIEW< buttonV
+>REF< Save
+\begindata{text,269364300}
+\textdsversion{12}
+[string] <label> (Save)
+
+\enddata{text,269364300}
+\enddata{cel,269401388}
+0 0 5 269401388 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269171480}
+1 28 0 0 269375952 269171480 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269340260}
+1 82 0 0 269364648 269340260 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269201788}
+\begindata{lset,269171220}
+\V 1
+\begindata{lset,269401076}
+\V 1
+\begindata{lset,269313468}
+\V 1
+\begindata{lset,269364076}
+\V 1
+\begindata{cel,269375276}
+\V 2
+\begindata{value,269339784}
+>0
+\enddata{value,269339784}
+10 269339784 1 0 0 0 
+>OBJ< value
+>VIEW< onoffV
+>REF< mode
+>LINK< 
+\begindata{text,269313352}
+\textdsversion{12}
+[string] <top label> (record)
+
+[string] <bottom label> (play)
+
+\enddata{text,269313352}
+\enddata{cel,269375276}
+0 0 5 269375276 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269364076}
+\begindata{lset,269339472}
+\V 1
+\begindata{lset,269339272}
+\V 1
+\begindata{cel,269339160}
+\V 2
+\begindata{value,269363888}
+>0
+\enddata{value,269363888}
+10 269363888 1 0 0 0 
+>OBJ< value
+>VIEW< sliderV
+>REF< speed
+\begindata{text,269374920}
+\textdsversion{12}
+[long] <min_value> (-25)
+
+[long] <max_value> (25)
+
+[string] <label> (Speed)
+
+\enddata{text,269374920}
+\enddata{cel,269339160}
+0 0 5 269339160 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269339272}
+\begindata{lset,269338876}
+\V 1
+0 0 0 0 0 0 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269338876}
+2 18 0 0 269339272 269338876 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269339472}
+1 56 0 0 269364076 269339472 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269313468}
+\begindata{lset,269338676}
+\V 1
+\begindata{cel,269338564}
+\V 2
+\begindata{value,269338496}
+>3
+\enddata{value,269338496}
+10 269338496 1 0 0 0 
+>OBJ< value
+>VIEW< fourwayV
+>REF< volume
+\begindata{text,269338404}
+\textdsversion{12}
+[string] <':' separated labels> (off:low:medium:high)
+
+\enddata{text,269338404}
+\enddata{cel,269338564}
+0 0 5 269338564 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269338676}
+1 40 0 0 269313468 269338676 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269401076}
+\begindata{lset,269338092}
+\V 1
+\begindata{lset,269337892}
+\V 1
+\begindata{lset,269337692}
+\V 1
+\begindata{lset,269337492}
+\V 1
+\begindata{cel,269337380}
+\V 2
+\begindata{value,269337312}
+>2
+\enddata{value,269337312}
+10 269337312 1 0 0 0 
+>OBJ< value
+>VIEW< buttonV
+>REF< replay
+\begindata{text,269337220}
+\textdsversion{12}
+[string] <label> (Replay)
+
+\enddata{text,269337220}
+\enddata{cel,269337380}
+0 0 5 269337380 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269337492}
+\begindata{lset,269336908}
+\V 1
+\begindata{lset,269336708}
+\V 1
+\begindata{cel,269336596}
+\V 2
+\begindata{value,269336528}
+>0
+\enddata{value,269336528}
+10 269336528 1 0 0 0 
+>OBJ< value
+>VIEW< buttonV
+>REF< clear
+\begindata{text,269400128}
+\textdsversion{12}
+[string] <label> (Clear)
+
+\enddata{text,269400128}
+\enddata{cel,269336596}
+0 0 5 269336596 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269336708}
+\begindata{lset,269399792}
+\V 1
+\begindata{cel,269336200}
+\V 2
+\begindata{value,269399640}
+>1
+\enddata{value,269399640}
+10 269399640 1 0 0 0 
+>OBJ< value
+>VIEW< controlV
+>REF< go
+>LINK< r
+\begindata{text,269336024}
+\textdsversion{12}
+[string] <function> (start)
+
+[string] <class> (pcontrol)
+
+[string] <label> (Go)
+
+\enddata{text,269336024}
+\enddata{cel,269336200}
+0 0 5 269336200 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269399792}
+2 49 0 0 269336708 269399792 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269336908}
+2 64 0 0 269337492 269336908 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269337692}
+\begindata{lset,269335620}
+\V 1
+\begindata{cel,269399188}
+\V 2
+\begindata{text,269335444}
+\textdsversion{12}
+1,16,659.241394 E
+
+1,16,523.239136 C
+
+1,16,587.316711 D
+
+1,16,659.241394 E
+
+1,16,783.975769 G
+
+1,16,698.442261 F
+
+1,16,698.442261 F
+
+1,16,879.983948 A
+
+1,16,783.975769 G
+
+1,16,783.975769 G
+
+1,16,1046.484741 C
+
+1,16,987.749573 B
+
+1,16,1046.484741 C
+
+1,16,783.975769 G
+
+1,16,659.241394 E
+
+1,16,523.239136 C
+
+1,16,587.316711 D
+
+1,16,659.241394 E
+
+1,16,698.442261 F
+
+1,16,783.975769 G
+
+1,16,879.983948 A
+
+1,16,783.975769 G
+
+1,16,698.442261 F
+
+1,16,659.241394 E
+
+1,16,587.316711 D
+
+1,16,659.241394 E
+
+1,16,523.239136 C
+
+1,16,493.871735 B
+
+1,16,523.239136 C
+
+1,16,587.316711 D
+
+1,16,391.985474 G
+
+1,16,493.871735 B
+
+1,16,587.316711 D
+
+1,16,698.442261 F
+
+1,16,659.241394 E
+
+1,16,587.316711 D
+
+1,16,659.241394 E
+
+1,16,523.239136 C
+
+1,16,587.316711 D
+
+1,16,659.241394 E
+
+1,16,783.975769 G
+
+1,16,698.442261 F
+
+1,16,698.442261 F
+
+1,16,879.983948 A
+
+1,16,783.975769 G
+
+1,16,783.975769 G
+
+1,16,1046.484741 C
+
+1,16,987.749573 B
+
+1,16,1046.484741 C
+
+1,16,783.975769 G
+
+1,16,659.241394 E
+
+1,16,523.239136 C
+
+1,16,587.316711 D
+
+1,16,659.241394 E
+
+1,16,698.442261 F
+
+1,16,783.975769 G
+
+1,16,698.442261 F
+
+1,16,659.241394 E
+
+1,16,587.316711 D
+
+1,16,523.239136 C
+
+1,16,391.985474 G
+
+1,16,493.871735 B
+
+1,16,587.316711 D
+
+1,16,523.239136 C
+
+1,16,659.241394 E
+
+1,16,783.975769 G
+
+1,16,1046.484741 C
+
+\enddata{text,269335444}
+1 269335444 0 0 0 0 
+>OBJ< text
+>VIEW< textview
+>REF< score
+\enddata{cel,269399188}
+0 0 5 269399188 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269335620}
+1 78 0 0 269337692 269335620 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269337892}
+\begindata{lset,269398832}
+\V 1
+\begindata{cel,269333516}
+\V 2
+\begindata{value,269398680}
+>0
+\enddata{value,269398680}
+10 269398680 1 0 0 0 
+>OBJ< value
+>VIEW< fourwayV
+>REF< duration
+\begindata{text,269333340}
+\textdsversion{12}
+[string] <':' separated labels> (whole:half :quarter :eighth)
+
+\enddata{text,269333340}
+\enddata{cel,269333516}
+0 0 5 269333516 0 0 0
+>OBJ< cel
+>VIEW< celview
+>REF< 
+\enddata{lset,269398832}
+1 29 0 0 269337892 269398832 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269338092}
+1 64 0 0 269401076 269338092 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269171220}
+2 82 0 0 269201788 269171220 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269376244}
+2 51 0 0 269140608 269376244 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269221788}
+1 269221788 0 0 0 0 
+>OBJ< lset
+>VIEW< lsetview
+>REF< ab2
+\enddata{cel,269172692}
+0 0 0 269172692 0 0 0
+>OBJ< arbiter
+>VIEW< arbiterview
+>REF< ab1
+\enddata{lset,269221988}
+2 100 0 0 269319104 269221988 0
+>OBJ< 
+>VIEW< 
+>REF< 
+\enddata{lset,269344096}
+\view{lsetview,269344096,8,0,0}
+
+
+\bold{To play the piano}:  click the \bold{Go} button, set the volume to 
+\bold{low}, and click the \bold{Replay }button\bold{.}
+
+
+\smaller{\bold{Warning}:  The above piano will look right only with Messages 
+6.18 or greater, and will only make music on an IBM RT PC running a 
+sufficiently recent version of BSD Unix.  Note also that if you run it on 
+another machine with the display set to your own machine, the sounds will come 
+out of the \italic{other} machine, not yours.
+
+
+\bold{Acknowledgement}:  The piano above is copied from the historic "first 
+piano ever to be posted to an electronic BBoard."  It was placed on an Andrew 
+bulletin board by Tom Neuendorffer, the author of fad, the piano, and many 
+other important parts of the ATK.
+
+}\enddata{text,269175340}

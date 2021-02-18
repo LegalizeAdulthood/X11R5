@@ -1,0 +1,214 @@
+.TH XTIFF 1 "December 20, 1990" "X Version 11"
+.SH NAME
+xtiff \- view a TIFF file in an X window
+.SH SYNOPSIS
+.B xtiff
+[
+.IR "standard Xt options"
+]
+[
+.IR "\-gamma gamma"
+]
+[
+.IR "\-usePixmap (False | True)"
+]
+[
+.IR "\-viewportWidth pixels"
+]
+[
+.IR "\-viewportHeight pixels"
+]
+[
+.IR "\-translate pixels"
+]
+[
+.IR "\-verbose (False | True)"
+]
+.IR file
+.SH DESCRIPTION
+.IR xtiff
+is a TIFF viewer for X based on the
+.IR libtiff (3)
+package.
+It displays a TIFF file in an X window
+that can be resized and panned.
+On appropriate display hardware
+it can handle 24-bit RGB color TIFF files,
+8, 4 and 2-bit palette color TIFF files
+and 8, 4, 2 and 1-bit grayscale TIFF files.
+The
+.IR Next
+and
+.IR Previous
+buttons allow the user to view different pages
+in a multi-page TIFF file.
+.PP
+If the image is larger than the window,
+you can pan around the image with the mouse or arrow keys.
+Grab the image by pressing down
+and holding the left mouse button
+and then drag the mouse
+to expose a different region of the image.
+The arrow keys provide another method for moving
+a large image inside a smaller window.
+.PP
+.IR xtiff
+manages the negotiation between the needs of an image
+and the visual capabilities made available by an X server.
+If necessary,
+it will promote an image to a deeper visual,
+but it will not demote an image by quantizing and/or dithering.
+In that case it will fail to display the image.
+.PP
+.IR xtiff
+reads the
+.IR "Gray Response Curve" ,
+.IR "Gray Response Unit"
+and
+.IR "Color Response Curve"
+tags in a TIFF file.
+The data in these tags describe gamma compensation or image companding.
+Together with the
+.IR \-gamma
+option or the NTSC default gamma value of 2.2,
+the image will be gamma corrected and displayed.
+.PP
+For example, if a TIFF file has been prepared for a typical display,
+it has a gamma compensation of 2.2 built into either the image
+or preferably the
+.IR "Color Response Curve"
+tag.
+This is a device-dependent image and,
+in this case, the value for the
+.IR \-gamma
+command line option should be 1.0.
+If the
+.IR "Color Response Curve"
+tag describes a companded but otherwise device-independent image
+then the command line gamma should be set according to the monitor.
+.PP
+Unfortunately there is no way of knowing a priori whether or not
+an image is device-independent without knowing its ancestry.
+If the image conforms to the TIFF 5.0 specification
+it should be device-independent;
+but many scanner and image processing programs
+do not adhere rigorously to the standard.
+.SH BUTTONS AND KEYS
+By default,
+.IR xtiff
+has certain buttons and keys bound to certain functions.
+.TP 8
+.B Left Mouse Button
+Drags the image around the window.
+.TP 8
+.B N \fRor\fP n
+Identical to the
+.IR Next
+function.
+.TP 8
+.B N \fRor\fP n
+Identical to the
+.IR Previous
+function.
+.TP 8
+.B Q \fRor\fP q
+Identical to the
+.IR Quit
+function.
+.TP 8
+.B arrow keys
+Pressing one of the arrow keys translates the image
+by an amount specified by the
+.IR translate
+option.
+.SH OPTIONS
+All options are resources and can be set
+by either the command line or the
+.IR \&.Xdefaults
+file.
+.TP 8
+.B -gamma gamma
+Specifies the value used
+to build compensation tables
+for simple gamma correction.
+.TP 8
+.B -usePixmap (False | True)
+Indicates that
+.IR xtiff
+should not use a pixmap to store the image on a server.
+This option is necessary
+because some servers impose size limitations on pixmaps.
+Not using a pixmap is slower because the image must be stored
+on the client side and transferred for each exposure or refresh.
+Default: True.
+.TP 8
+.B -viewportWidth pixels
+Indicates the width of the image viewport.
+Default: 700 or image width, whichever is less.
+.TP 8
+.B -viewportHeight pixels
+Indicates the height of the image viewport.
+Default: 500 or image height, whichever is less.
+.TP 8
+.B -translate pixels
+Indicates the step size that the arrow keys use for translating an image.
+Default: 20 pixels.
+.TP 8
+.B -verbose (False | True)
+Indicates whether
+.IR xtiff
+displays
+.IR libtiff
+error messages.
+Default: False.
+.SH SEE ALSO
+.IR libtiff (3),
+.br
+.IR "Tag Image File Format Specification \(em Revision 5.0" ,
+Aldus Corporation,
+August 8, 1988.
+.br
+.IR "The Spirit of TIFF Class F" ,
+Cygnet Technologies,
+revised March 29, 1990.
+.SH LIMITATIONS
+.IR xtiff
+does not support the complete repertoire of all possible TIFF files
+on all possible visual/depth combinations.
+.PP
+.IR xtiff
+supports TIFF class B (bilevel),
+class G (grayscale),
+class P (palette color),
+class R (RGB color) and class F (FAX).
+.PP
+Only the top-left orientation is supported.
+This is both the X orientation and the TIFF default.
+.PP
+Gamma correction is simple and there is no colorimetry support.
+.PP
+.IR xtiff
+assumes that servers with 24-bit visuals also have 8-bit visuals.
+An 8-bit image is not promoted to 24-bit on the client side.
+.PP
+There is no support for
+.IR StaticGray ,
+.IR StaticColor
+or
+.IR TrueColor
+visuals except for 1-bit images.
+There is no support for 3/3/2
+.IR DirectColor
+visuals.
+.PP
+When displaying 8-bit images,
+.IR xtiff
+creates and populates a private colormap
+with the TIFF colormap or response curve.
+.IR Xt
+will complain about failing to allocate colors
+for the foreground and background colors.
+.IR xtiff
+can't allow this because the colormap is already full.
+.IR Xt
+should find the nearest substitutes and use them but it doesn't.

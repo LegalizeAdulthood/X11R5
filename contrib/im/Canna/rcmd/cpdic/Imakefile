@@ -1,0 +1,16 @@
+#include "../../config.sh"
+
+        IROHAROOT = ../..
+        IROHASRC = $(IROHAROOT)/lib/iroha
+        IROHALIB = -L$(IROHASRC) -liroha
+
+         INCLUDES = -I$(IROHAROOT)/include
+          DEFINES = 
+    LOCAL_LDFLAGS = $(IROHALIB)
+#  LOCAL_LIBRARIES = $(DEPIROHALIB)
+
+             SRCS = cpdic.c ../rutil/rutil.c
+             OBJS = cpdic.o ../rutil/rutil.o
+           TARGET = cpdic
+
+ComplexProgramTarget($(TARGET))

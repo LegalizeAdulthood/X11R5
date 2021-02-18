@@ -1,0 +1,44 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:32:08 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+       INCLUDES = -I$(CWNNINCLUDESRC)
+        DEFINES = $(CWNNDEFINES) -DWNNDEFAULT $(CWNNLANGDEF) $(TWNNLANGDEF)
+       LINTLIBS = 
+
+HDRS = rk_extvars.h rk_fundecl.h rk_header.h rk_macros.h rk_spclval.h
+
+SRCS= rk_bltinfn.c \
+	rk_main.c \
+	rk_modread.c \
+	rk_read.c \
+	rk_vars.c
+OBJS= rk_bltinfn.o \
+	rk_main.o \
+	rk_modread.o \
+	rk_read.o \
+	rk_vars.o
+
+LibraryObjectRule()
+AllTarget($(OBJS))
+
+includes:: $(HDRS) $(SRCS)
+
+LinkSourceFile(rk_extvars.h,$(WNNROMKANSRC))
+LinkSourceFile(rk_fundecl.h,$(WNNROMKANSRC))
+LinkSourceFile(rk_header.h,$(WNNROMKANSRC))
+LinkSourceFile(rk_macros.h,$(WNNROMKANSRC))
+LinkSourceFile(rk_spclval.h,$(WNNROMKANSRC))
+LinkSourceFile(rk_bltinfn.c,$(WNNROMKANSRC))
+LinkSourceFile(rk_main.c,$(WNNROMKANSRC))
+LinkSourceFile(rk_modread.c,$(WNNROMKANSRC))
+LinkSourceFile(rk_read.c,$(WNNROMKANSRC))
+LinkSourceFile(rk_vars.c,$(WNNROMKANSRC))
+
+depend::
+
+clean::
+	$(RM) $(HDRS) $(SRCS)

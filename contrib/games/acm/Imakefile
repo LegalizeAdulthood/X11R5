@@ -1,0 +1,25 @@
+/*
+ *  To build acm:
+ *
+ *	If you have imake:
+ *
+ *		% imake Makefile
+ *		% make Makefiles
+ *		% make all
+ *
+ *	If you don't, first tailor the Makefiles to your system, then:
+ *
+ *		% make all
+ */
+
+#if defined(MipsArchitecture) && !defined(UltrixArchitecture)
+CDEBUGFLAGS = -systype bsd43 -O -float
+#endif
+
+#define IHaveSubdirs
+#define PassCDebugFlags CDEBUGFLAGS='$(CDEBUGFLAGS)'
+
+SUBDIRS=	V fsim
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

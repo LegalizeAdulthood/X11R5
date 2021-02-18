@@ -1,0 +1,49 @@
+\begindata{text,269481468}
+\textdsversion{12}
+\template{help}
+\chapter{Proclist for Org
+
+}
+
+orgv-Save  	"Save Org~10"		"Save Database" 
+
+orgv-Add		"Add Node~20"		"Add Node"
+
+orgv-Delete	"Delete Node~21"		"Delete Node
+
+orgv-Rename	"Rename Node~22"		"Rename Node"
+
+orgv-Plode	"Explode Nodes~30"	"Plode Tree"
+
+orgv-Plode	"Implode Nodes~30"	"Plode Tree
+
+orgv-Description	"Expose Description~31"	"Description"
+
+orgv-Description	"Hide Description~31	"Description"
+
+orgv-Palette	"Expose Palette~40"	"Palette-toggle"
+
+orgv-Palette	"Hide Palette~40"		"Palette-toggle"
+
+orgv-Print	"Print Org~50"		"Print Database"
+
+orgv-DEBUG	"DEBUG~98"		"Debug-toggle"
+
+orgv-Quit		"Quit~99"			"Quit"
+
+org-Arrangement	"Styling~10,Vertical Layout~10"	"Arrangement" 
+
+org-Arrangement	"Styling~10,Horizontal Layout~10"	"Arrangement"
+
+org-Fold		"Styling~10,Fold Nodes~73"		"Fold"
+
+org-Fold		"Styling~10,UnFold Nodes~73"	"Fold"
+
+orgv-Border	"Styling~10,Node Border~20"		"Change Node Border" 
+
+orgv-Connector	"Styling~10,Node Connector~21"	"Change Node Connector"
+
+
+
+
+\enddata{text,269481468}

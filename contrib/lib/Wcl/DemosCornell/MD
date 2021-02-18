@@ -1,0 +1,141 @@
+!
+! Motif Widgets for Multi-Display Demo
+!
+
+!*wcTrace:			TRUE
+MDmotif.wcChildren:		rc
+
+*rc.wcClassName:		XmRowColumn
+*rc.wcChildren:			exit, close, bugs, snap, crackle, pop
+
+*exit.wcConstructor:		XmCreatePushButton
+*exit.activateCallback:		WcExitCB
+
+*close.wcConstructor:		XmCreatePushButton
+*close.activateCallback:	KillWidgetTreeOnDisplay
+
+*bugs.wcConstructor:		XmCreatePushButton
+*bugs.labelString:              bugs:0.0
+*bugs.activateCallback:		NewWidgetTreeOnDisplay( bugs:0.0 )
+
+*snap.wcConstructor:		XmCreatePushButton
+*snap.labelString:              snap:0.0
+*snap.activateCallback:		NewWidgetTreeOnDisplay( snap:0.0 )
+
+*crackle.wcConstructor:		XmCreatePushButton
+*crackle.labelString:           crackle:0.0
+*crackle.activateCallback:	NewWidgetTreeOnDisplay( crackle:0.0 )
+
+*pop.wcConstructor:		XmCreatePushButton
+*pop.labelString:               :0.0
+*pop.activateCallback:		NewWidgetTreeOnDisplay( )
+
+!
+! Athena Widgets for Multi-Display Demo
+!
+
+MDathena.wcChildren:		table
+
+*table.wcClassName:		Table
+*table.wcChildren:		aexit, aclose, abugs, asnap, acrackle, apop
+!		child   	c r cs rs opts
+*table.layout:	aexit		0 0  1  1	;\
+		aclose		0 1  1  1	;\
+		abugs		0 2  1  1	;\
+		asnap		0 3  1  1	;\
+		acrackle	0 4  1  1	;\
+		apop		0 5  1  1
+
+*aexit.wcClass:		commandWidgetClass
+*aexit.label:		exit
+*aexit.callback:	WcExitCB
+
+*aclose.wcClass:	commandWidgetClass
+*aclose.label:		close
+*aclose.callback:	KillWidgetTreeOnDisplay
+
+*abugs.wcClass:		commandWidgetClass
+*abugs.label:		bugs:0.0
+*abugs.callback:	NewWidgetTreeOnDisplay( bugs:0.0 )
+
+*asnap.wcClass:		commandWidgetClass
+*asnap.label:		snap:0.0
+*asnap.callback:	NewWidgetTreeOnDisplay( snap:0.0 )
+
+*acrackle.wcClass:	commandWidgetClass
+*acrackle.label:	crackle:0.0
+*acrackle.callback:	NewWidgetTreeOnDisplay( crackle:0.0 )
+
+*apop.wcClass:		commandWidgetClass
+*apop.label:		:0.0
+*apop.callback:		NewWidgetTreeOnDisplay( )
+
+!
+! OpenLook Widgets for Multi-Display Demo
+!
+
+MDopenlook.wcChildren:		orc
+
+*orc.wcClass:			controlAreaWidgetClass
+*orc.layoutType:		fixedcols
+*orc.measure:			6
+*orc.wcChildren:		oexit, oclose, radish, osnap, ocrackle, opop
+
+*oexit.wcClass:			oblongButtonGadgetClass
+*oexit.label:			exit
+*oexit.select:			WcExitCB
+
+*oclose.wcClass:		oblongButtonGadgetClass
+*oclose.label:			close
+*oclose.select:			KillWidgetTreeOnDisplay
+
+*radish.wcClass:		oblongButtonGadgetClass
+*radish.label:			radish:0.0
+*radish.select:			NewWidgetTreeOnDisplay( radish:0.0 )
+
+*osnap.wcClass:			oblongButtonGadgetClass
+*osnap.label:			snap:0.0
+*osnap.select:			NewWidgetTreeOnDisplay( snap:0.0 )
+
+*ocrackle.wcClass:		oblongButtonGadgetClass
+*ocrackle.label:		crackle:0.0
+*ocrackle.select:		NewWidgetTreeOnDisplay( crackle:0.0 )
+
+*opop.wcClass:			oblongButtonGadgetClass
+*opop.label:		        :0.0	
+*opop.select:			NewWidgetTreeOnDisplay( )
+
+!
+! Cornell Widgets for Multi-Display Demo
+!
+
+MDcornell.wcChildren:		ctable
+
+*ctable.wcClass:	xcuTblWidgetClass
+*ctable.formatString:	c.
+*ctable.wcChildren:	cexit,cclose,cbugs,csnap,ccrackle,cpop
+
+*cexit.wcClass:		xcuCommandWidgetClass
+*cexit.label:		exit
+*cexit.callback:	WcExitCB()
+
+*cclose.wcClass:	xcuCommandWidgetClass
+*cclose.label:		close:0.0
+*cclose.callback:	KillWidgetTreeOnDisplay
+
+*cbugs.wcClass:		xcuCommandWidgetClass
+*cbugs.label:		bugs:0.0
+*cbugs.callback:	NewWidgetTreeOnDisplay( bugs:0.0 )
+
+*csnap.wcClass:		xcuCommandWidgetClass
+*csnap.label:		snap:0.0
+*csnap.callback:	NewWidgetTreeOnDisplay( snap:0.0 )
+
+*ccrackle.wcClass:	xcuCommandWidgetClass
+*ccrackle.label:	crackle:0.0
+*ccrackle.callback:	NewWidgetTreeOnDisplay( crackle:0.0 )
+
+*cpop.wcClass:		xcuCommandWidgetClass
+*cpop.label:	        :0.0	
+*cpop.callback:		NewWidgetTreeOnDisplay(  )
+

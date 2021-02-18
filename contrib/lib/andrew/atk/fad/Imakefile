@@ -1,0 +1,29 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = fad.do fadv.do
+IHFILES = fad.ih fadv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+#ifdef SCOunix
+DynamicObject(fadv,,${SUPLIBS} -lX11)
+#else
+DynamicObject(fadv,,${SUPLIBS})
+#endif
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallLink(runapp, ${DESTDIR}/bin/fad)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(fad.help fadproc.help, ${DESTDIR}/help)
+InstallHelpAlias(fad, animation animations animate)
+InstallHelpAlias(fadproc, fadprocs)
+
+MkdirTarget(${DESTDIR}/doc/atk/fad)
+InstallDocs(fad.doc,${DESTDIR}/doc/atk/fad)

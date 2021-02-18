@@ -1,0 +1,225 @@
+#WLDL
+5
+
+6 XcuWlm
+13
+18 Button.borderColor 5 (White) 6 Global
+16 Label.facetWidth 1 (0) 6 Global
+17 Label.borderColor 5 (White) 6 Global
+12 Label.shadow 5 (False) 6 Global
+18 Label.preserveText 4 (True) 6 Global
+21 Button.internalHeight 2 (10) 6 Global
+20 Button.internalWidth 2 (10) 6 Global
+13 Button.shadow 4 (True) 6 Global
+15 Tbl.interHeight 2 (10) 6 Global
+14 Tbl.interWidth 2 (10) 6 Global
+18 Tbl.internalHeight 2 (20) 6 Global
+17 Tbl.internalWidth 2 (20) 6 Global
+14 Command.cursor 3 (dot) 6 Global
+0
+0
+3
+
+  7 XcuBmgr
+  1
+  8 bmgrType 9 (AnyOfMany) 5 Local
+  0
+  3
+  3 (BLU) 6 String 3 (BLU)
+  3 (GRN) 6 String 3 (GRN)
+  3 (RED) 6 String 3 (RED)
+  0
+
+  7 XcuBmgr
+  1
+  8 bmgrType 9 (OneOfMany) 5 Local
+  0
+  3
+  2 (ZX) 6 String 2 (ZX)
+  2 (YZ) 6 String 2 (YZ)
+  2 (XY) 6 String 2 (XY)
+  0
+
+  6 XcuTbl
+  6
+  11 interHeight 2 (10) 5 Local
+  10 interWidth 2 (10) 5 Local
+  14 internalHeight 2 (20) 5 Local
+  13 internalWidth 2 (20) 5 Local
+  10 background 5 (White) 5 Local
+  12 formatString 2 (c.) 5 Local
+  0
+  0
+  5
+
+    6 XcuTbl
+    1
+    12 formatString 8 (c
+c c c.) 5 Local
+    0
+    0
+    4
+
+      9 XcuButton
+      2
+      3 set 4 (True) 5 Local
+      4 name 3 (BLU) 5 Local
+      0
+      0
+      0
+
+      9 XcuButton
+      2
+      3 set 4 (True) 5 Local
+      4 name 3 (GRN) 5 Local
+      0
+      0
+      0
+
+      9 XcuButton
+      1
+      4 name 3 (RED) 5 Local
+      0
+      0
+      0
+
+      8 XcuLabel
+      1
+      4 name 11 (Any of Many) 5 Local
+      0
+      0
+      0
+
+    6 XcuTbl
+    1
+    12 formatString 8 (c
+c c c.) 5 Local
+    0
+    0
+    4
+
+      9 XcuButton
+      2
+      3 set 4 (True) 5 Local
+      4 name 2 (ZX) 5 Local
+      0
+      0
+      0
+
+      9 XcuButton
+      1
+      4 name 2 (YZ) 5 Local
+      0
+      0
+      0
+
+      9 XcuButton
+      1
+      4 name 2 (XY) 5 Local
+      0
+      0
+      0
+
+      8 XcuLabel
+      1
+      4 name 11 (One of Many) 5 Local
+      0
+      0
+      0
+
+    6 XcuTbl
+    1
+    12 formatString 6 (c
+c c.) 5 Local
+    0
+    0
+    2
+
+      7 XcuBmgr
+      1
+      8 bmgrType 12 (DoubleToggle) 5 Local
+      0
+      2
+      3 (OFF) 6 String 3 (OFF)
+      2 (ON) 6 String 2 (ON)
+      2
+
+        9 XcuButton
+        1
+        4 name 3 (OFF) 5 Local
+        0
+        0
+        0
+
+        9 XcuButton
+        2
+        3 set 4 (True) 5 Local
+        4 name 2 (ON) 5 Local
+        0
+        0
+        0
+
+      8 XcuLabel
+      1
+      4 name 13 (Double Toggle) 5 Local
+      0
+      0
+      0
+
+    6 XcuTbl
+    1
+    12 formatString 2 (c.) 5 Local
+    0
+    0
+    2
+
+      7 XcuBmgr
+      1
+      8 bmgrType 12 (SingleToggle) 5 Local
+      0
+      1
+      9 (HIGHLIGHT) 6 String 9 (HIGHLIGHT)
+      1
+
+        9 XcuButton
+        1
+        4 name 9 (HIGHLIGHT) 5 Local
+        0
+        0
+        0
+
+      8 XcuLabel
+      1
+      4 name 13 (Single Toggle) 5 Local
+      0
+      0
+      0
+
+    6 XcuTbl
+    1
+    12 formatString 2 (c.) 5 Local
+    0
+    0
+    2
+
+      7 XcuBmgr
+      1
+      8 bmgrType 9 (Transient) 5 Local
+      0
+      1
+      4 (STEP) 6 String 4 (STEP)
+      1
+
+        9 XcuButton
+        1
+        4 name 4 (STEP) 5 Local
+        0
+        0
+        0
+
+      8 XcuLabel
+      1
+      4 name 9 (Transient) 5 Local
+      0
+      0
+      0

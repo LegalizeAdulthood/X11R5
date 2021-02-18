@@ -1,0 +1,119 @@
+
+
+;;File: mwmrc.gwm
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Author: Frederic CHARTON
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+
+
+
+; RESOURCE DESCRIPTION :
+; --------------------
+
+; THE MENUS :
+
+(: myS1Menu
+ (mwm-menu.make
+  ("MyMenu1" () () (f.title))
+  ("Refresh" "f" ("f" with-alt) (f.refresh))
+  ("Exec-Cut" "E" ("F1" with-alt) (f.exec-cut))
+  ("@arrowhole-f" () () (f.nop))
+ )
+)
+
+
+(: mySMenu
+ (mwm-menu.make
+  ("MySMenu" () () (f.title))
+  ("Refresh" "f" ("h" with-alt) (f.refresh))
+  ("@arrowhole-f" () () (f.nop))
+  ("menu1" () () (f.menu myS1Menu))
+ )
+)
+
+
+(: myMenu
+ (mwm-menu.make
+  ("MyMenu" () () (f.title))
+  ("Exec-Cut" "E" ("F1" with-alt) (f.exec-cut))
+  ("Refresh" "f" ("f" with-alt) (f.refresh))
+   ("SubMenu" () () (f.menu mySMenu))
+ )
+)
+
+
+(: RootMenu
+ (mwm-menu.make
+   ("Root Menu"  () () (f.title))
+   ("Refresh" () ("r" with-alt) (f.refresh))
+   ("Restart"  () () (f.restart))
+   ("" () () (f.separator))
+   ("PackIcons" "I" ("p" with-alt) (f.pack_icons))
+   ("" () () (f.separator))
+   ("SubMenu" () () (f.menu myMenu))
+   ("" () () (f.separator))
+   ("End" () () (f.quit_mwm))
+ )
+)
+
+
+(: clockMenu
+ (mwm-menu.make
+  ("Restore" "R" ("F5" with-alt) (f.normalize))
+  ("Move" "M" ("F7" with-alt) (f.move))
+  ("Size" "S" ("F8" (together with-shift with-alt)) (f.resize))
+  ("Minimize" () ("F9" with-alt) (f.minimize))
+  ("" () () (f.separator))
+  ("Close" () ("F4" with-alt) (f.kill))
+ )
+)
+
+(: defaultWindowMenu
+ (mwm-menu.make
+  ("Restore" "R" ("F5" with-alt) (f.normalize))
+  ("Move" "M" ("F7" with-alt) (f.move))
+  ("Size" "S" ("F8" (together with-shift with-alt)) (f.resize))
+  ("Minimize" () ("F9" with-alt) (f.minimize))
+  ("Maximize" "x" ("F10" with-alt) (f.maximize))
+  ("" () () (f.separator))
+  ("Exec-Cut" "E" ("F1" with-alt) (f.exec-cut))
+  ("" () () (f.separator))
+  ("@mini" () () (f.minimize))
+  ("" () () (f.separator))
+  ("Close" () ("F4" with-alt) (f.kill))
+  ("SubMenu" () () (f.menu myMenu))
+ )
+)
+
+; THE KEYBINDINGS :
+
+(: DefaultKeyBindings
+ (key-bindings-make
+  ( ("Escape" with-shift) (icon window) (f.post_wmenu 1) )
+  ( ("Space" with-alt) (icon window) (f.post_wmenu 1) )
+ )
+)
+
+
+; THE BUTTONBINDINGS :
+
+(: DefaultButtonBindings
+ (button-bindings-make
+  ( (buttonpress 1 alone) (frame icon) (f.raise) )
+  ( (buttonpress 2 alone) (frame icon) (f.post_wmenu 2) )
+  ( (buttonpress 2 alone) (root) (f.menu RootMenu 2) )
+  ( (buttonpress 1 with-alt) (icon window) (f.move) )
+  ( (buttonpress 3 with-alt) (window) (f.minimize) )
+ )
+)
+
+
+
+
+(: buttonBindings (eval buttonBindings))
+(: keyBindings (eval keyBindings))
+
+

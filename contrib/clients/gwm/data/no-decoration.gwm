@@ -1,0 +1,25 @@
+; NO BARS
+; =======
+
+;;File: no-decoration.gwm -- no bars deco
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.4 -- July 27 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+(defname 'no-decoration.data screen.)
+(defname 'simple-window-decoration screen.)
+(defname 'simple-icon-decoration screen.)
+
+(for screen (list-of-screens)
+    (: simple-window-decoration 
+       (: no-decoration.data
+	  (with (fsm window-fsm
+		     borderwidth 0
+		     inner-borderwidth any
+		     menu window-pop)
+		(window-make () () () () ()))))
+    (: simple-icon-decoration (simple-icon))))
+
+(defun no-decoration () no-decoration.data)
+

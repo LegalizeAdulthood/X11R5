@@ -1,0 +1,62 @@
+Elk Release Notes
+-----------------
+
+
+This is release 1.4 of Elk (The Extension Language Kit).
+This is a production release.
+
+Elk is a Scheme interpreter intended to be used as a general extension
+language; it is also useful as a stand-alone implementation of Scheme.
+
+One purpose of the Elk project is to end the recent proliferation of
+mutually incompatible Lisp-like extension languages.  Instead of
+inventing and implementing yet another extension language, application
+programmers can link the Scheme interpreter into their application
+in order to make it extensible and highly customizable.
+
+The Elk project was started in 1987 to support ISOTEXT, an ODA-based
+document system (a WYSIWYG editor) that is being developed at the
+Technical University of Berlin.  Elk has been successfully demonstrated
+as the extension language kernel of ISOTEXT, e.g. at the Hanover Fair 1989.
+
+We feel that Scheme is better suited as a general extension language
+than other Lisp dialects:  it is sufficiently small to not dwarf the
+application it serves and to be fully understood with acceptable
+effort; it is orthogonal and well-defined.  In addition, Scheme has
+been recognized to be mature enough for national and international
+standardization (IEEE P1178, ISO/IEC JTC1/SC22/WG16).
+
+The Elk Scheme implementation is R^3RS compatible (with some minor
+exceptions that are listed in the documentation); future releases will
+conform to the R^4RS and/or P1178 as soon as the respective standards
+become available.
+
+Non-standard features of the Scheme implementation include:
+
+      o  dynamic loading of object files
+      o  creation of an executable image from the running
+         interpreter (``dump'')
+      o  a macro facility
+      o  environments as first-class objects
+      o  dynamic-wind, fluid-let
+      o  autoloading, provide/require
+
+The Scheme interpreter can easily be extended by application-specific
+new types and primitive procedures.  Such extensions are typically
+written in C or C++ and dynamically loaded into the running interpreter.
+
+The current release of Elk includes several such extensions, e.g.
+interfaces to the X11 Xlib and to the application programmer interface
+of the Xt intrinsics, and interfaces to the Athena and OSF/Motif widget
+sets.
+
+The software has been tested on Sun-3s and Sun-4s with SunOS, ISI 680x0
+with 4.2BSD and 4.3BSD, Vax with 4.3BSD and Ultrix, IBM RT with AOS,
+Intel 80386 with System V Release 3, Sequent Symmetry, Sony News,
+DECStation 3100, NeXT, and HP9000 with HP-UX.  Porting instructions are
+included.  Dynamic loading of object modules is not supported on some
+systems.
+
+--
+Oliver Laumann, Technical University of Berlin, Germany
+net@tub.cs.tu-berlin.de   net@tub.UUCP   net@tub.BITNET

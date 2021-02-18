@@ -1,0 +1,109 @@
+*** 1.1	1991/10/01 22:52:29
+--- extensions/include/Imakefile	1991/10/01 22:52:50
+***************
+*** 6,12 ****
+  #endif
+  
+  HEADERS = Xext.h multibuf.h shape.h XShm.h MITMisc.h XI.h XInput.h XIproto.h \
+! 	xtestext1.h
+  INSTALLFLAGS = $(INSTINCFLAGS)
+  
+  all::
+--- 6,12 ----
+  #endif
+  
+  HEADERS = Xext.h multibuf.h shape.h XShm.h MITMisc.h XI.h XInput.h XIproto.h \
+! 	xtestext1.h xidle.h
+  INSTALLFLAGS = $(INSTINCFLAGS)
+  
+  all::
+*** 1.1	1991/10/01 22:53:47
+--- extensions/lib/Imakefile	1991/10/01 22:54:28
+***************
+*** 31,39 ****
+        DEFINES = ExtensionDefines $(ALLOC_DEFINES)
+       INCLUDES = -I$(XLIBSRC) -I../include
+           SRCS = globals.c extutil.c XMultibuf.c XShape.c $(SHMSRCS)  \
+! 		MITMisc.c XTestExt1.c
+           OBJS = globals.o extutil.o XMultibuf.o XShape.o $(SHMOBJS) \
+! 		MITMisc.o XTestExt1.o 
+       LINTLIBS = $(LINTXLIB)
+  
+  LibraryObjectRule()
+--- 31,39 ----
+        DEFINES = ExtensionDefines $(ALLOC_DEFINES)
+       INCLUDES = -I$(XLIBSRC) -I../include
+           SRCS = globals.c extutil.c XMultibuf.c XShape.c $(SHMSRCS)  \
+! 		MITMisc.c XTestExt1.c XIdle.c
+           OBJS = globals.o extutil.o XMultibuf.o XShape.o $(SHMOBJS) \
+! 		MITMisc.o XTestExt1.o XIdle.o
+       LINTLIBS = $(LINTXLIB)
+  
+  LibraryObjectRule()
+*** 1.1	1991/10/01 22:54:39
+--- extensions/server/Imakefile	1991/10/01 22:56:08
+***************
+*** 19,26 ****
+    SHMSRCS = shm.c
+    SHMOBJS = shm.o
+  #endif
+!        SRCS = shape.c $(SHMSRCS) multibuf.c mitmisc.c xtest1di.c xtest1dd.c
+!        OBJS = shape.o $(SHMOBJS) multibuf.o mitmisc.o xtest1di.o xtest1dd.o
+     INCLUDES = -I../include -I$(INCLUDESRC) -I$(SERVERSRC)/include
+     LINTLIBS = ../../server/dix/llib-ldix.ln ../../server/os/4.2bsd/llib-los.ln
+          SUBDIRS = $(XINPUTDIRS) $(PEXDIRS)
+--- 19,28 ----
+    SHMSRCS = shm.c
+    SHMOBJS = shm.o
+  #endif
+!        SRCS = shape.c $(SHMSRCS) multibuf.c mitmisc.c \
+!               xtest1di.c xtest1dd.c xidle.c
+!        OBJS = shape.o $(SHMOBJS) multibuf.o mitmisc.o \
+!               xtest1di.o xtest1dd.o xidle.o
+     INCLUDES = -I../include -I$(INCLUDESRC) -I$(SERVERSRC)/include
+     LINTLIBS = ../../server/dix/llib-ldix.ln ../../server/os/4.2bsd/llib-los.ln
+          SUBDIRS = $(XINPUTDIRS) $(PEXDIRS)
+*** 1.1	1991/10/01 22:56:22
+--- extensions/test/Imakefile	1991/10/01 22:58:30
+***************
+*** 16,33 ****
+  #endif
+     MBUFSRCS = xmbufinfo.c
+     MBUFOBJS = xmbufinfo.o
+     INCLUDES = -I../include
+!        SRCS = $(SHAPESRCS) $(SHMSRCS) $(MBUFSRCS)
+!        OBJS = $(SHAPEOBJS) $(SHMOBJS) $(MBUFOBJS)
+  
+  #if HasShm
+! all:: shapetest shmtest xmbufinfo
+  #else
+! all:: shapetest xmbufinfo
+  #endif
+  
+  NormalProgramTarget(xmbufinfo,$(MBUFOBJS),$(DEPXLIB),$(XLIB),NullParameter)
+  NormalProgramTarget(shapetest,$(SHAPEOBJS),$(DEPXLIB),$(XLIB),NullParameter)
+  #if HasShm
+  NormalProgramTarget(shmtest,$(SHMOBJS),$(DEPXLIB),$(XLIB),NullParameter)
+  #endif
+--- 16,36 ----
+  #endif
+     MBUFSRCS = xmbufinfo.c
+     MBUFOBJS = xmbufinfo.o
++   XIDLESRCS = xidletest.c
++   XIDLEOBJS = xidletest.o
+     INCLUDES = -I../include
+!        SRCS = $(SHAPESRCS) $(SHMSRCS) $(MBUFSRCS) $(XIDLESRCS)
+!        OBJS = $(SHAPEOBJS) $(SHMOBJS) $(MBUFOBJS) $(XIDLEOBJS)
+  
+  #if HasShm
+! all:: shapetest shmtest xmbufinfo xidletest
+  #else
+! all:: shapetest xmbufinfo xidletest
+  #endif
+  
+  NormalProgramTarget(xmbufinfo,$(MBUFOBJS),$(DEPXLIB),$(XLIB),NullParameter)
+  NormalProgramTarget(shapetest,$(SHAPEOBJS),$(DEPXLIB),$(XLIB),NullParameter)
++ NormalProgramTarget(xidletest,$(XIDLEOBJS),$(DEPXLIB),$(XLIB),NullParameter)
+  #if HasShm
+  NormalProgramTarget(shmtest,$(SHMOBJS),$(DEPXLIB),$(XLIB),NullParameter)
+  #endif

@@ -1,0 +1,330 @@
+Widget Creation Library Release 1.06 (Patch Level 6)
+====================================================
+
+o  The latest publicly available version of Wcl. For a summary
+   of changes, please, refer to RELEASE.NOTES
+
+
+Widget Creation Library Release 1.05 (Patch Level 5)
+====================================================
+
+o  Major re-organization of the distribution, with a total
+   re-write of the Imakefiles.
+
+o  Major re-write of some of the library source files, especially
+   WcCreate.c.
+
+o  Wc resources now fetched after widget is created, so resource
+   values, including Wc resources, can apply to a class of widget.
+   Obviously, WcClass, WcClannName, and WcConstructor resources must
+   still apply to a specific instance.
+
+o  WcPopups resource for specifying static pop-up children.
+
+o  WcCreatePopupsCB and WcCreatePopupsACT for creating
+   dynamic pop-up children.
+
+o  Leading and trailing whitespace is now stribbed from the strings
+   passed to callback functions.  Embedded whitespace is not modified
+   in any way.
+
+o  All widget set specific stuff migrated out of the Wcl library
+   and into widget set specific libraries Xp and Xmp.  These two new
+   libraries also contain the Table widget.  I plan to provide additional
+   free-to-the-public widgets and handy functions in these libraries.
+   For example, libXp (for Athena and probably most any widget set)
+   contains AriRegisterAthena (also called XpRegisterAll()), and a useful
+   function for appending text to an Athena text widget (AriTextAppend()).
+   Similarly, libXmp (for Motif widgets) contains MriRegisterMotif() (now
+   also called XmpRegisterAll()), the CvtStringToMenuWidget converter,
+   and a new action called MriPopupACT.
+
+o  New widget set specific code: XawCreateSimpleMenu constructor,
+   AriTextAppend, (in libXp) and MriPopupACT (in libXmp).
+
+o  The Table widget is still provided in pure Xt and Motif versions,
+   but now the binaries go into libraries libXp and libXmp 
+   respectively.  The Motif version has a bug fix which makes it
+   re-size properly.
+
+o  WcLoadResourceFileCB enhanced to remember which resource files have
+   been loaded (by resource file name, not complete path name).  It now
+   handles absolute pathnames starting at root or tilda, or uses the
+   same search path algorithm used bu GetAppDefaults in X11R4 Xt.  
+   I.e., it uses XUSERFILESEARCHPATH, the user's home directory, and 
+   XAPPLRESDIR in the same way that XtR4 does when it gets user's 
+   application defaults.  This code basically mimics 
+   GetAppUserDefaults() in mit/lib/Xt/Initialize.c
+
+
+Widget Creation Library Release 1.04 (Patch Level 4)
+====================================================
+
+This release still has NOT been extensively tested with Motif 1.1.1
+I did not want to wait any longer...  There are a few bugs:  If you
+run the Periodic example, and resize the window using your window
+manager, you will see one bug.  If you run the multi-display demo
+using Motif widgets, you'll see another (SEGV deep in Xt after
+a display connection has been closed and another is being opened).
+
+Since these bugs are seemingly completely unrelated to the Widget
+Creation Library itself, I figured this release could go out.  There
+are many things which are fixed and made alot better.
+
+Enhancements:
+-------------
+
+o  Imakefile and makefile seem to be alot better now. There will be 
+   some edits required to support Motif 1.1, these are indicated in 
+   comments.  It is quite easy now.
+
+o  Added WcMapACT, WcMapCB, WcUnmapACT, and WcUnmapCB.
+
+o  CvtStringToCallback() now uses the default client data which can
+   be registered with WcRegisterCallback().  In previous versions, this
+   data was registered, but thereafter always ignored.  
+
+   In this version, the client data is returned when no argument is 
+   specified and client data is not NULL.  If client data is NULL (by 
+   far the most common case) then a NULL string ("") is returned when 
+   no arguments are given in the resource file.  
+
+   NOTE that this means the client data is exactly the same as earlier 
+   versions if the callback was registered with NULL client data.  The 
+   behavior is different (correct) when default client data has been 
+   registered with the callback - now the callback gets the client data 
+   if the resource database DOES NOT specify any client data.  If the
+   resource database DOES specify client data, then that client data
+   gets passed to the callback as a null terminated string.
+
+o  Richard Hesketh (rlh2@ukc.ac.uk) found something missing in 
+   WcFullNameToWidget:  The function will now resolve the following
+   as expected:  w = WcFullNameToWidget(ref_w, ".aChild");
+
+o  Andrew Peebles (peebles@mips.com) also found something missing
+   in WcFullNameToWidget:  The function will now resolve widget
+   names when the name starts in a completely different widget tree.
+   While providing this capability, the function was also optimized
+   for speed at the expense of a few additional lines of code.
+
+o  Also, Peeb noticed that WcPopupCB did not do what was intended,
+   (non-modal popups) so the grab kind has been changed from
+   XtGrabNonexclusive to XtGrabNone.
+
+o  A minor optimization was made in the recursive creation loop:
+   The parent's name is now only determined when a warning
+   message is to be generated, rather than every time.  A typical
+   space-time tradeoff, changed to improve performance at a minor
+   increase in line count.
+
+o  The conditional compilation flags for old versions of Xt
+   used by Motif 1.0 has been changed from `#ifdef MOTIF' to 
+   a more precise scheme where both major and minor version of
+   Motif is used. 
+
+o  The conditional compilation flag MOTIF is still used in
+   special cases: 
+   - the example program MD.c uses it to determine which widget 
+     set gets registered, 
+   - WcConvert.c provides a Motif specific converter 
+     `CvtStringToMenuWidget'
+   - and WcCreateP.h uses it in concert with the DEBUG compilation
+     flag to include all Motif include files so that a debugger can 
+     print the members of the Motif widgets.  Not necessary, just a 
+     programmer convenience.
+
+Fixes:
+------
+
+o  Carl Witty (cwitty@cs.stanford.edu) discovered an obscure
+   bug in the XtIsShell macro definition which was causing grief.
+
+o  Some memory leaks were found and corrected: XtTblParseLayout(),
+   WcSetValuesCB() which was also made faster.
+
+o  A non-initialized return value in MatchWildChildren was fixed
+   (this fixes a bug which was in code borrowed from Xt).
+
+o  An implementation of strstr is provided for systems which do not
+   have ANSI C libraries.
+
+o  Gadgets are now detected using standard Xt functions rather
+   than Motif specific functions.
+
+
+Widget Creation Library Release 1.03 (Patch Level 3)
+====================================================
+
+Fixes:
+------
+
+o  Some memory leaks were found and corrected.
+
+o  Some unnessesary variables were removed.
+
+o  Root widgets are now deleted properly.
+
+o  Documented WcSystemCB() in the *README files.
+
+o  Trailing whitespace is now stripped in WcSetValueCB.
+
+o  WcSetValueCB now correctly checks to see the required type
+   of the resource being set, and performs conversions accordingly.
+   In previous versions, any time the value was `this' it would
+   be converted to the widget getting the callback.
+
+o  CvtStringToCallback was fixed so it handles multiple callback
+   functions correctly.  Callback specifications which ended with two
+   consecutive closed parenthesis were mishandled.
+
+o  CvtStringToMenuWidget could cause core dumps in previous versions.
+   It now gives warning messages in such situations, and provides
+   a message for other misuses.
+
+o  WcCreateDatabaseChild now does a more accurate job of tracing names.
+
+@  Now, children created by Motif Constructors are handled MUCH better.
+   You will no longer get those stupid warnings from Xt saying:
+	"Not all widgets in XtManageChildren have the same parent"
+
+o  The message "No children defined in Xrm database" now provides
+   a useful suggestion as to what is probably wrong.
+
+o  Both constraint and widget resources can now be set via
+   WcSetValueFromString.
+
+o  An obscure bug in Table was fixed which caused divide-by-zero
+   errors with incorrect resource specifications.
+
+Enhancements:
+-------------
+
+o  More and better examples.
+
+o  An additional Wc resource which allows the description of a widget and
+   its children to be in another resource file.  My resource files were
+   getting too darn big.  This allows separate resource files to describe
+   parts of the widget heirarchy.  Of course, since everything is loaded
+   into the same Xrm database, you can reference widgets in other resource
+   files.  In a sense, all widgets are "global."
+
+o  WcLoadResourceFileCB no longer messes with its incoming arguments,
+   and it keeps track of the resource files which have been loaded
+   so they are not loaded multiple times.
+
+o  Widget names passed to callback functions now support relative naming.
+   The special name `this' meaning the widget getting the callback is
+   still supported.  Additional special characters `^' which means
+   the parent, and `~' which means the shell ancestor are now also
+   provided.
+
+o  A new registration routine has been added: WcRegisterAction.  This 
+   is basically a wrapper around XtAppAddActions(), which should still 
+   be used if you are registering several actions.
+
+o  WcRegisterWcActions now uses the XtAppContext argument which is 
+   passed to all the WcRegister* routines.  In all others, the 
+   XtAppContext argument continues to be ignored.
+
+o  All Xt widgets are now registered: Object, RectObject, Core, Composite,
+   Constraint, ApplicationShell, OverrideShell, Shell, TopLevelShell,
+   TransientShell, VendorShell, and WmShell.
+
+o  In order to facilitate using the Widget Creation Library within an
+   interactive and possibly interpretive user interface builder, it is now
+   possible to override the registrations of class pointers, class names,
+   constructors, and (probably most importantly) callbacks.  By default,
+   the registration routines WcRegisterClassPtr, WcRegisterCallback, etc.,
+   ignore attempts at re-registration.  If WcAllowDuplicateRegistration
+   is called, then all the routines will allow re-registration.
+
+   Re-registration over-writes existing registrations of the same name.
+   For completeness, the following new routines are provided:
+   WcAllowDuplicateRegistration(), WcAllowDuplicateClassPtrReg(),
+   WcAllowDuplicateClassNameReg(), WcAllowDuplicateConstructorReg(),
+   WcAllowDuplicateCallbackReg(), so the client may choose which
+   registration routines honor duplicate registration requests.
+
+What was NOT Done
+-----------------
+
+o  The version of Table provided with this distribution is NOT
+   the same as that provided by Nazgul@alphalpha.com (Kee Hinckley).
+   Why?  His is fully Motif-ized, including changing it so it is
+   a subclass of a Motif manager widget, has specific behaviors
+   to make up for obscure Motif widget mis-behaviors, and it uses
+   Motif specific functions.
+   
+   Kee has done good work: if you want a more Motif-ized version of 
+   Table, send him mail, he will send it to you.  The version of 
+   Table provided herein refuses to work with Gadgets, and does not 
+   work properly with XmText widgets due to an apparent bug in 
+   XmText geometry handshaking.
+
+o  The libraries built do NOT include the MriRegAll.o nor AriRegAll.o
+   object files.  I am considering including them next time.  SEND
+   ME YOUR VOTES on if you think this is a good idea.  
+
+   The problem is that including them into the library would mean the 
+   library could not be built _consistently_ unless BOTH widget sets are
+   available.  This sometimes is not the case.  I would rather keep
+   Wc strictly Xt Intrinsics dependent, and not widget set dependent.
+
+   Also, I think that over time more and more widgets will be available
+   over the net, and so a given user, team, or site may want to register
+   more or different widgets.
+
+o  The resource file loading due to wcResFile resources and due to
+   invocations of the WcLoadResourceFileCB standard callback still
+   do not perform file name searches which conform to the X11R4 Xt
+   manual.  This will be fixed in a release of Wc which follows the
+   wide availability of Motif 1.1, probably in about October 1990.
+
+
+Widget Creation Library Release 1.02 (Patch Level 2)
+====================================================
+
+Fixes:
+------
+
+o  A missing argument in a missing argument error message 8-}
+
+o  Extra tokens after #endif's are removed.
+
+o  File names shortened, and fixed in comments to match perfectly the file
+   names.
+
+Enhancements:
+-------------
+
+Widget Creation Library Release 1.01 (Patch Level 1)
+====================================================
+
+Fixes:
+------
+
+o  This version is reported to work with Motif 1.1
+
+o  The Table widget has been fixed so it does not grow when column spacing
+   is non-zero and the table or the table's children are resized.
+
+o  A couple of bugs were discovered and fixed.
+
+Enhancements:
+-------------
+
+o  There is an Imakefile.  The makefile builds a Makefile using this
+   Imakefile.
+
+o  There are action functions provided for all the Wc standard callbacks.
+   Actions are more powerful than callbacks in the ways they can be
+   attached to widgets.  
+
+o  There is another example program with resource file which demonstrates
+   the use of actions.
+
+o  The example resource files were changed so all have mechanisms to quit,
+   usually a quit button.
+
+o  There is a test program which executes all the programs within the
+   standard distribution, using all of the resource files.

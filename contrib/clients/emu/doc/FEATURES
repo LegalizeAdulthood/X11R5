@@ -1,0 +1,204 @@
+	List of Supported and not Supported Features in Emu
+	-----------------------------------------------------
+
+Codes 0x80 through 0x9f can also be expressed as two byte sequences:
+'ESC <Code - 0x40>'
+
+e.g. CSI (ASCII 0x09B) can be expressed as 'ESC ['
+
+Supported Features:
+
+- Designating "Hard" Character Sets
+	ESC ( B		- ASCII -> G0
+	ESC ) B		- ASCII -> G1
+	ESC * B		- ASCII -> G2
+	ESC + B		- ASCII -> G3
+
+	ESC ( <		- DEC Suppl. -> G0
+	ESC ) <		- DEC Suppl. -> G1
+	ESC * <		- DEC Suppl. -> G2
+	ESC + <		- DEC Suppl. -> G3
+
+	ESC ( A		- U.K. Ntl. -> G0
+	ESC ) A		- U.K. Ntl. -> G1
+
+	ESC ( 0		- DEC spec. graphics -> G0
+	ESC ) 0		- DEC spec. graphics -> G1
+	ESC * 0		- DEC spec. graphics -> G2
+	ESC + 0		- DEC spec. graphics -> G3
+
+- Invoking Character Sets Using Locking Shifts
+	SI		- Invoke G0 into GL (default)
+	SO		- Invoke G1 into GL
+	ESC ~		- Invoke G1 into GR
+	ESC n		- Invoke G2 into GL
+	ESC }		- Invoke G2 into GR (default)
+	ESC o		- Invoke G3 into GL
+	ESC |		- Invoke G3 into GR
+  it looks like you cannot invoke G0 into GR.
+
+- Invoking G2 or G3 into GL For a Single Character Using Single Shifts
+	SS2 (0x8e) (or ESC N) 	- Single Shift G2
+	SS3 (0x8f) (or ESC O)	- Single Shift G3
+
+- Terminal Modes 
+	ANSI modes:
+	CSI Ps ; Ps ; ... l	- Reset mode
+	CSI Ps ; Ps ; ... h	- Set mode
+		Ps = 4	  - replace mode / insert mode
+	
+	DEC private modes:
+	CSI ? Ps ; Ps ; ... h
+		Ps = 2 5  - cursor visible / invisible
+		Ps = 1	  - cursor keys generate "application control" /
+			    ANSI cursor control sequences
+		Ps = 3	  - 132 / 80 columns per line
+		Ps = 5	  - black chars on white / white chars on black
+		Ps = 6	  - cursor positioning relative to scroll area / global
+		Ps = 7	  - wrap / don't wrap at the end of the line
+
+	ESC =		- select application keypad mode
+	ESC >		- select numeric keypad mode
+
+- Cursor Positioning
+	CSI Pn A		- move cursor up Pn lines
+	CSI Pn B		- move cursor down Pn lines
+	CSI Pn C		- move cursor right Pn columns
+	CSI Pn D		- move cursor left Pn columns
+	CSI Pl ; Pc H		- move cursor to line Pl, columns Pc
+	CSI Pl ; Pc f		- move cursor to line Pl, columns Pc
+	IND (0x84) (ESC D)	- move cursor down one line, scrolled
+	RI  (0x8c) (ESC M)	- move cursor up one line, scrolled
+	NEL (0x85) (ESC E)	- move cursor down one line and to the
+				  first column, scrolled
+	ESC 7			- save states:
+					cursor postion
+					graphic rendition
+					character set shift state
+					wrap flag
+					origin mode (not supported)
+					selective erase (not supported)
+	ESC 8			- restore saved states
+
+- TAB Stops
+	HTS (0x88) (ESC H)	- Set tab stop at the current column
+	CSI g			- Clear tab at current column
+	CSI 0 g			- Clear tab at current column
+	CSI 3 g			- Clear all tab stops
+
+- Character Rendition and Attributes
+	CSI Ps ; Ps ; ... m	- Select character rendition with
+		Ps = 0	  - everything off
+		Ps = 1    - display bold
+		Ps = 4    - display underlined
+		Ps = 5    - display blinking
+		Ps = 7    - display reverse image
+		Ps = 2 2  - display normal intensity
+		Ps = 2 4  - display not underlined
+		Ps = 2 5  - display not blinking
+		Ps = 2 7  - display positive image
+
+- Editing
+	CSI Pn L	- insert Pn lines
+	CSI Pn M	- delete Pn lines
+	CSI Pn @	- insert Pn blank characters with attributes
+			  set to normal
+	CSI Pn P	- delete Pn characters
+	CSI Pn X	- erase Pn characters
+	CSI K		- erase to the end of the line including cursor
+	CSI 0 K		- erase to the end of the line including cursor
+	CSI 1 K		- erase form the beginning of the line
+			  including cursor
+	CSI 2 K		- erase the complete line
+	CSI J		- erase from cursor to end of screen
+	CSI 0 J		- erase from cursor to end of screen
+	CSI 1 J		- erase from beginning of screen to cursor
+	CSI 2 J		- erase the complete display
+
+- Scrolling Margins
+	CSI Pt ; Pb r	- Sets top and bottom margins of the scrolling
+			  region to Pt and Pb
+
+- Screen Aligment pattern
+	ESC # 8		- displays a full screen of E's
+
+
+
+***************************************************************************
+not supported (at least in the first version) :
+
+- Down-line loadable character set.
+	ESC ( Dscs	- Designate as G0
+	ESC ) Dscs	- Designate as G1
+	ESC * Dscs	- Designate as G2
+	ESC + Dscs	- Designate as G3
+
+- Select 7/8-Bit C1 control transmission. Emu will always generate 7 bit 
+  C1 control codes.
+	ESC sp F	- Causes all C1 codes returned to the application to be
+			  converted to their equivalent 7-bit extensions.
+	ESC sp G	- Causes emu to return C1 codes to the application
+			  without converting them to their equivalent 7-bit
+			  extensions.
+
+- Terminal Modes 
+	ANSI modes:
+		Ps = 2	  - lock keyboard
+		Ps = 1 2  - disable / enable local echo
+		Ps = 2 0  - LF, FF, VT move to the first column / same column
+	
+	DEC private modes:
+		Ps = 2    - Puts terminal in VT52 mode
+		Ps = 4	  - smooth / jump scroll
+		Ps = 8	  - auto repeat on / off
+		Ps = 1 8  - terminate / dont terminate a screen print with FF
+		Ps = 1 9  - print full screen / scrolling region
+
+- Character Attribute: selective erasing
+	CSI 0 q		- all attributes off
+	CSI 1 q		- character non-erasable
+	CSI 2 q		- character erasable
+
+- Doing the selective erasing
+	CSI ? K		- erase to the end of the line including cursor
+	CSI ? 0 K	- erase to the end of the line including cursor
+	CSI ? 1 K	- erase form the beginning of the line
+			  including cursor
+	CSI ? 2 K	- erase the complete line
+	CSI ? J		- erase from cursor to end of screen
+	CSI ? 0 J	- erase from cursor to end of screen
+	CSI ? 1 J	- erase from beginning of screen to cursor
+	CSI ? 2 J	- erase the complete display
+
+- Double width/height text.
+	ESC # 3		- double height line top half
+	ESC # 4		- double height line bottom half
+	ESC # 5		- single width single height line
+	ESC # 6		- double width single height line
+
+- 132 column display in a window of the same width (so a different font would
+  be used). Instead resizing the window is allowed.
+
+- Display Controls mode.
+
+- Compatibility levels. (Lower compatibility levels would restrict the
+  terminal's capabilities)
+	CSI 6 1 " p	- level 1 compatibility (vt100)
+	CSI 6 2 " p	- level 2 (vt200, 8-bit)
+	CSI 6 2 ; 0 " p	- level 2 (vt200, 8-bit)
+	CSI 6 2 ; 1 " p	- level 2 (vt200, 7-bit)
+	CSI 6 2 ; 2 " p	- level 2 (vt200, 8-bit)
+	
+- Printing
+	CSI ? 5 i	- auto print on
+	CSI ? 4 i	- auto print off
+	CSI 5 i		- printer controller mode on
+	CSI 4 i		- printer controller mode off
+	CSI ? 1 i	- print current line
+	CSI i		- print screen
+	CSI 0 i		- print screen
+
+- User defined keys using control sequences - this can be done easier
+  using the resource file
+
+

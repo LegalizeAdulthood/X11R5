@@ -1,0 +1,40 @@
+\begindata{text,270031756}
+\textdsversion{12}
+\template{help}
+\chapter{Proclist for Dired
+
+}
+
+dired-zoom-in", "z",  "Directory Edit,Zoom In~10",  "Edit selected file or 
+switch to selected directory." 
+
+dired-delete", "d",  "Directory Edit,Delete~20",  "Delete selected file(s)."
+
+dired-rename", "r",  "Directory Edit,Rename~30",  "Rename selected file(s).",
+
+dired-refresh", "\\r", "Directory Edit,Refresh~40", "Reread current 
+directory."
+
+dired-toggle-select", " ", "Toggle file at cursor." 
+
+dired-down-line", "n",  "Move cursor down (equiv ^N)." 
+
+dired-up-line", "p",  "Move cursor up (equiv ^P)."
+
+dired-regexp-select", "=",  "Directory Edit,Regexp Select~60", "Select files 
+by regular expression."
+
+dired-long-mode-on", "l",  "Directory Edit,Long Format~50", "List files in 
+long format." 
+
+dired-long-mode-off", "s", "Directory Edit,Short Format~50", "List files in 
+normal format (names only)."
+
+dired-dot-files-on", "i", "Directory Edit,Show Invisible~55",  "Display 
+invisible files."
+
+dired-dot-files-off", "h",  "Directory Edit,Hide Invisible~55",  "Do not 
+display invisible files."
+
+
+\enddata{text,270031756}

@@ -1,0 +1,292 @@
+;;File: preferences.gwm
+;;Author: Frederic CHARTON -- Bull Research FRANCE
+;;Revision: 1.0 -- Sep 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+;;Modified by LCE 02/90
+
+; ============================================
+; |     PREFERENCES for the MWM Emulation    |
+; ============================================
+
+
+(: move-grid-style 5)
+(: resize-grid-style 5)
+(: resize-style 1)
+(: move-opaque.cutoff-area 350000)
+
+(load 'cursor-names)
+(: cursor-NW (cursor-make XC_top_left_corner))
+(: cursor-NE (cursor-make XC_top_right_corner))
+(: cursor-SW (cursor-make XC_bottom_left_corner))
+(: cursor-SE (cursor-make XC_bottom_right_corner))
+(: cursor-N  (cursor-make XC_top_side))
+(: cursor-S  (cursor-make XC_bottom_side))
+(: cursor-W  (cursor-make XC_left_side))
+(: cursor-E  (cursor-make XC_right_side))
+
+(: menu-cursor  (cursor-make XC_arrow))
+(: frame-cursor (cursor-make XC_left_ptr))
+(: cross-cursor (cursor-make XC_fleur))
+(: place-cursor (cursor-make XC_ul_angle))
+
+(: root-cursor (cursor-make "arrow3d"))
+
+; COMPONENT APPEARENCE RESOURCES :
+; ------------------------------
+
+(: feedbackFontList (font-make "*helvetica-medium*-r-*--12*"))
+(: menuFontList (font-make "*helvetica-medium*-r-*--12*"))
+(: iconFontList (font-make "*helvetica-medium*-r-*--10*"))
+(: clientFontList (font-make "*helvetica-medium*-r-*--12*"))
+
+(: menuFontHeight (with (font menuFontList) (height "A")))
+(: iconFontHeight (with (font iconFontList) (height "A")))
+(: clientFontHeight (with (font clientFontList) (height "A")))
+(: title-bar.height (+ 4 clientFontHeight))
+
+; Color & bw look
+(if (= screen-type 'mono)
+(progn
+(: screen-tile (with (foreground black background white)
+		     (pixmap-make "grainy") ) )
+
+(: shadeDisabled ())
+
+(: menuBackground white)
+(: iconBackground white)
+(: clientBackground white)
+(: feedbackBackground white)
+
+(: menuBottomShadowColor black)
+(: iconBottomShadowColor black)
+(: clientBottomShadowColor black)
+
+(: menuForeground black)
+(: iconForeground black)
+(: clientForeground black)
+(: feedbackForeground black)
+
+(: menuTopShadowColor black)
+(: iconTopShadowColor black) 
+(: clientTopShadowColor black)
+
+(: iconActiveBackground black)
+(: clientActiveBackground black)
+
+
+(: iconActiveBottomShadowColor white)
+(: clientActiveBottomShadowColor white)
+
+(: iconActiveForeground white)
+(: clientActiveForeground white)
+
+(: iconActiveTopShadowColor white)
+(: clientActiveTopShadowColor white)
+)
+
+(if (= screen-type 'gray)
+(progn
+(: screen-tile (with (foreground black background white)
+		     (pixmap-make "grainy") ) )
+
+(: shadeDisabled t)
+
+(: menuBackground darkgrey)
+(: iconBackground grey)
+(: clientBackground grey)
+(: feedbackBackground grey)
+
+(: menuBottomShadowColor black)
+(: iconBottomShadowColor black)
+(: clientBottomShadowColor black)
+
+(: menuForeground white)
+(: iconForeground black)
+(: clientForeground black)
+(: feedbackForeground black)
+
+(: menuShadeColor grey)
+
+(: menuTopShadowColor grey)
+(: iconTopShadowColor white) 
+(: clientTopShadowColor white)
+
+(: iconActiveBackground darkgrey)
+(: clientActiveBackground darkgrey)
+
+
+(: iconActiveBottomShadowColor black)
+(: clientActiveBottomShadowColor black)
+
+(: iconActiveForeground white)
+(: clientActiveForeground white)
+
+(: iconActiveTopShadowColor grey)
+(: clientActiveTopShadowColor grey)
+)
+(progn ; color
+(: screen-tile (with (foreground (color-make "#888050") background (color-make "#fed"))
+		     (pixmap-make "grainy") ) )
+
+(: shadeDisabled t)
+
+(: iconBackground (color-make "#387"))
+(: clientBackground iconBackground)
+(: feedbackBackground iconBackground)
+
+(: iconBottomShadowColor (color-make "#243"))
+(: clientBottomShadowColor iconBottomShadowColor)
+
+(: iconActiveBottomShadowColor (color-make "#235"))
+(: clientActiveBottomShadowColor iconActiveBottomShadowColor)
+(: menuBottomShadowColor clientActiveBottomShadowColor)
+
+(: iconForeground black)
+(: clientForeground black)
+(: feedbackForeground black)
+
+(: iconTopShadowColor (color-make "#3ca"))
+(: clientTopShadowColor iconTopShadowColor)
+
+(: iconActiveTopShadowColor (color-make "#3bc"))
+(: clientActiveTopShadowColor iconActiveTopShadowColor)
+(: menuTopShadowColor clientActiveTopShadowColor)
+
+(: iconActiveBackground (color-make "#379"))
+(: clientActiveBackground iconActiveBackground)
+(: menuBackground clientActiveBackground)
+
+
+(: iconActiveForeground white)
+(: clientActiveForeground white)
+(: menuForeground white)
+
+(: menuShadeColor (color-make "#9BC"))
+)
+))
+
+
+; SPECIFIC APPEARENCE AND BEHAVIOR RESOURCES :
+; ------------------------------------------
+
+; Focus management :
+(: keyboardFocusPolicy 'pointer)	; real estate policy
+;(: keyboardFocusPolicy 'explicit)	; click-to-type policy
+(: focusAutoRaise ())
+(: autoKeyFocus t)
+(: deiconifyKeyFocus t)
+(: startUpKeyFocus ())
+(: enforceKeyFocus t)
+
+(: completeIconNameOnFocusIn t)
+
+(: buttonBindings 'DefaultButtonBindings)
+(: clientAutoPlace t)
+(: doubleClickTime 500)
+(: frameBorderwidth 5)
+(: iconAutoPlace t)
+(: iconClick ())
+(: iconImageMaximum '(64 64))
+(: iconPlacement '(top right))
+(: iconPlacementMargin 5)
+(: interactivePlacement t)
+(: keyBindings 'DefaultKeyBindings)
+(: lowerOnIconify t)
+(: moveThreshold 5)
+(: passSelectButton t)
+(: resizeBorderWidth 8)
+(: resizeCursors t)
+(: showFeedback 'all)
+(: wMenuButtonClick t)
+(: wMenuButtonClick2 t)
+(: transientDecoration '(title border))
+;(: transientFunctions '(-minimize -maximize))
+;(: limitResize ())  ; a implementer avec un "hook" sur la fonction resize
+
+
+(: mwm-resize-style-corner-size (+ title-bar.height resizeBorderWidth))
+
+
+
+
+; CLIENT SPECIFIC RESOURCES :
+; -------------------------
+
+(: clientDecorationNames
+ '(all border maximize minimize none resizeh menu title)
+)
+
+
+(: clientFunctionsNames
+ '(all none resize move minimize maximize close)
+)
+
+
+; Default Client Specific Resources :
+(: defaultClientSpecificResources
+ '(
+   *clientFunctions 'all
+   *transientDecoration '(title border)
+   *focusAutoRaise t
+   *iconImage ()
+   *iconImageBackground grey
+   *iconImageForeground darkgrey
+   *iconImageBottomShadowColor iconBottomShadowColor
+   *iconImageTopShadowColor iconTopShadowColor
+   *windowMenu 'defaultWindowMenu
+  )
+)
+
+
+
+(: clientSpecificResources
+ '(
+   XClock*clientDecoration '(border)
+   Xcontrol*clientDecoration '(border)
+   LetX*clientDecoration '(border)
+   Xedit*iconImage "xedit.xbm"
+   XTerm*iconImage "xterm.xbm"
+   Idraw*iconImage "/usr/local/X11R4/include/X11/bitmaps/iconedit.xbm"
+  )
+)
+
+
+(de client-specific-resources-put (theResources)
+ (with (
+	i 0 l (length theResources)
+       )
+  (while (< i l)
+   (resource-put (# i theResources) (eval (# (+ i 1) theResources)))
+   (: i (+ i 2))
+  )
+ )
+)
+
+(client-specific-resources-put defaultClientSpecificResources)
+(client-specific-resources-put clientSpecificResources)
+
+(de get-res-value (theValue)
+ (resource-get (+ window-client-name "." theValue)
+               (+ window-client-class "." theValue)
+ )
+)
+
+
+(: double-click-delay doubleClickTime)
+(if enforceKeyFocus (: check-input-focus-flag 1) (: check-input-focus-flag 0))
+(if (= showFeedback 'all) (: showFeedback '(move placement resize)) ; + restart
+    (= 'atom (type showFeedback)) (: showFeedback (list showFeedback))
+)
+
+(if (member 'move showFeedback) (: move-meter 1) (: move-meter 0))
+(if (member 'resize showFeedback) (: resize-meter 1) (: resize-meter 0))
+
+;(meter 'font feedbackFontList 'foreground feedbackForeground 'background feedbackBackground)
+
+(: clientFontList.height (with (font clientFontList) (height "A")))
+(: menuFontList.height (with (font menuFontList) (height "A")))
+(: iconFontList.height (with (font iconFontList) (height "A")))
+(: feedbackFontList.height (with (font feedbackFontList) (height "A")))
+
+

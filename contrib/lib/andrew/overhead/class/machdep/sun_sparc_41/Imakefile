@@ -1,0 +1,34 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DependTarget()
+
+NormalObjectRule()
+
+.spp.o:
+	-$(RM) $@ ,$*.s ,$*.c
+	$(CP) $*.spp ,$*.c
+	$(CC) -E -I. $(LOCALINCLUDES) $(CFLAGS) ,$*.c > ,$*.s
+	$(AS) -k -o $*.o ,$*.s
+	$(RM) ,$*.c ,$*.s
+
+#ifdef RESOLVER_ENV
+libresolv.so.1.1:
+	if [ ! -d resolv ]; then mkdir resolv; fi
+	(cd resolv; \
+	 ar x /usr/lib/libresolv.a; \
+	 ld -assert pure-text -o ../libresolv.so.1.1 *.o)
+
+InstallFile(libresolv.so.1.1,$(INSTLIBFLAGS),$(DESTDIR)/lib)
+
+clean::
+	$(RM) -rf resolv
+#endif /* RESOLVER_LIB */
+
+all:: globals.o entry.o doload.o
+
+globals.c:
+	touch globals.c
+
+InstallCshScript(makedo.csh, $(DESTDIR)/bin/makedo)

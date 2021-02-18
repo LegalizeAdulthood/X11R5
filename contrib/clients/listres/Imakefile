@@ -1,0 +1,26 @@
+      DEPXAWLIB = $(CONTRIBSRC)/lib/Xaw/libXaw.a
+         XAWLIB = $(DEPXAWLIB)
+   DEPXWCHARLIB = $(CONTRIBSRC)/lib/Xwchar/libXwchar.a
+      XWCHARLIB = $(DEPXWCHARLIB)
+
+LINKS = listres.c \
+        listres.man
+
+DEFINES = -DXI18N
+DEPLIBS = $(DEPXAWLIB) $(DEPXWCHARLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XWCHARLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+  SYS_LIBRARIES = -lm
+           SRCS = listres.c 
+           OBJS = listres.o 
+
+ComplexProgramTarget(listres)
+
+includes::
+	$(RM) $(LINKS)
+	for i in $(LINKS); do (set -x; $(LN) $(CLIENTSRC)/listres/$$i .); done
+
+clean::
+	$(RM) $(LINKS)
+
+

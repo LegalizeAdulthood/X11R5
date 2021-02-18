@@ -1,0 +1,258 @@
+.\" @(#)gettext.3 1.24 91/07/22 SMI;
+.TH gettext 3 "27 Sep 1991"
+.SH NAME
+gettext, dgettext, textdomain, bindtextdomain \- message handling functions
+.SH SYNOPSIS
+.LP
+.BI "char *gettext(const char *" "msgid" );
+.LP
+.BI "char *dgettext(const char *" "domainname" ,
+.BI "const char *" "msgid" );
+.LP
+.BI "char *textdomain(const char *" "domainname" );
+.LP
+.BI "char *bindtextdomain(const char *" "domainname" ,
+.if n .ti +5n
+.BI "const char *" "dirname" );
+.IX "messages" "message handling functions"
+.IX "gettext" "" "\fLgettext\fP \(em message handling function"
+.IX "dgettext" "" "\fLdgettext\fP \(em message handling function"
+.IX "textdomain" "" "\fLtextdomain\fP \(em select domain of messages"
+.IX "bindtextdomain" "" "\fLbindtextdomain\fP \(em select location of domain"
+.SH DESCRIPTION
+.LP
+.SS \f3gettext(\|)\f1 and \f3dgetttext(\|)\f1
+.LP
+The
+.B gettext(\|)
+and
+.B dgettext(\|)
+functions attempt to retrieve a target string based
+on the specified
+.I msgid
+argument within the context of a specific domain and
+the current locale.
+The length of strings returned by
+.B gettext(\|)
+and
+.B dgettext(\|)
+is undetermined until the function is called.
+The
+.I msgid
+argument is a null-terminated string.
+.LP
+The setting of the
+.SM LC_MESSAGES
+category of the current locale determines
+the locale used by 
+.B gettext(\|)
+and
+.B dgettext(\|)
+for string retrieval.
+.LP
+For 
+.BR gettext(\|) ,
+the domain used is set by the last valid call to
+.BR textdomain(\|) .
+If a valid call to
+.B textdomain(\|)
+has not been made, the default domain 
+(called
+.IR messages )
+is used.
+.LP
+For
+.BR dgettext(\|) ,
+the domain used is specified by the
+.I domainname
+argument.
+The
+.I domainname
+argument is equivalent in syntax and meaning to the
+.I domainname 
+argument to
+.BR textdomain(\|) ,
+except that the selection of the domain is
+valid only for the duration of the
+.B dgettext(\|)
+call.
+.SS \f3textdomain(\|)\f1
+.LP
+The 
+.B textdomain(\|)
+function sets or queries the name of the current domain
+of the active 
+.SM LC_MESSAGES
+locale category.
+The
+.I domainname
+argument is a null-terminated string that can contain only
+the characters allowed in legal filenames.
+.LP
+The
+.I domainname
+argument is the unique name of a domain on the system.
+If there are multiple versions of the same domain on one system,
+namespace collisions can be avoided by using 
+.BR bindtextdomain(\|) .
+If
+.B textdomain(\|)
+is not called, a default domain is selected.
+The setting of domain made by the last valid call to
+.B textdomain(\|)
+remains valid across subsequent calls to 
+.BR setlocale(\|) ,
+and
+.BR gettext(\|) .
+.LP
+The 
+.I domainname 
+argument is applied to the currently active
+.SM LC_MESSAGES
+locale.
+.LP
+The current setting of the domain can be queried without
+affecting the current state of the domain by calling
+.B textdomain(\|)
+with
+.I domainname
+set to the
+.SM NULL
+pointer.
+Calling
+.B textdomain(\|)
+with a 
+.I domainname
+argument of a null string sets the domain to
+the default domain (
+.I messages).
+.SS \f3bindtextdomain(\|)\f1
+The 
+.B bindtextdomain() 
+function binds the path predicate for a message
+domain 
+.I domainname 
+to the value contained in 
+.I dirname.
+If 
+.I domainname 
+is a non-empty string and has not been bounded previously,
+.B bindtextdomain() 
+will bind 
+.I domainname 
+with 
+.I dirname.
+.LP
+If 
+.I domainname 
+is a non-empty string and has been bounded previously,
+.B bindtextdomain() 
+will replace the old binding with 
+.I dirname.
+.I dirname 
+can be an absolute or relative pathname being resolved
+when 
+.B gettext() 
+or 
+.B dgettext() 
+are called.
+If 
+.I domainname 
+is a NULL pointer or an empty string, 
+.B bindtextdomain() 
+returns NULL.
+.SH "RETURN VALUES"
+.LP
+.SS \f3gettext(\|)\f1 and \f3dgetttext(\|)\f1
+The individual bytes of the string returned by 
+.B gettext(\|)
+or
+.B dgettext(\|)
+can contain any value other than null.
+If
+.I msgid
+is a
+.SM NULL
+pointer, the return value is undefined.
+The string returned must not be modified by the program, and
+can be invalidated by a subsequent call to 
+.BR gettext(\|) ,
+.BR dgettext(\|) ,
+or
+.BR setlocale(\|) .
+If the 
+.I domainname
+argument to 
+.B dgettext(\|)
+is a
+.SM NULL
+pointer, the results are undefined.
+.LP
+If the target string cannot be found in the current locale
+and selected domain, the
+.B gettext(\|)
+or 
+.B dgettext(\|)
+returns
+.IR msgid .
+.SS \f3textdomain(\|)\f1
+.LP
+The normal return value from
+.B textdomain(\|)
+is a pointer to a string containing the current
+setting of the domain.
+If
+.I domainname
+is a null string,
+.B textdomain(\|)
+returns a pointer to the string containing the current domain.
+If
+.B textdomain(\|)
+was not previously called and
+.I domainname
+is a
+.SM NULL
+pointer, the name of the default domain is returned.
+The name of the default domain is
+.BR messages .
+.SS \f3bindtextdomain(\|)\f1
+The return value is a NULL terminated string containing
+.I dirname
+or the directory binding associated with
+.I domainname
+if 
+.I dirname 
+is NULL.  The default return value is 
+.B /usr/lib/locale. 
+if no binding is found.
+If 
+.I domainname 
+is a NULL pointer or an empty string, 
+.B bindtextdomain()
+takes no action and returns a NULL pointer.
+The string returned must not be modified by the caller.
+.SH FILES
+.PD 0
+.TP
+\f4/usr/lib/locale\fP
+The default path predicate for message domain files.
+.TP 
+.BI "/usr/lib/locale/" "locale" "/\s-1LC_MESSAGES\s+1/" "domainname" ".mo"
+system default location for file containing messages for 
+language 
+.I locale 
+and 
+.I domainname
+.TP
+.BI "dirname/" "locale" /\s-1LC_MESSAGES\s+1/ "domainname" ".mo"
+location for file containing messages for domain
+.I domainname
+and path predicate
+.I dirname
+after a successful call to
+.B bindtextdomain(\|)
+.PD
+.SH "SEE ALSO"
+.BR msgfmt (1),
+.BR xgettext (1),
+.BR setlocale (3C)

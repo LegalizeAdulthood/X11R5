@@ -1,0 +1,34 @@
+.TH TONEWDIC 1
+.SH NAME
+tonewdic \- Output the user-registered words in an old dictionary, in the form of the new dictionary (text form)
+.SH SYNOPSYS
+.B mkbindic
+.SH DESCRIPTION
+.I Tonewdic
+outputs the user-registered words within an EWS-UX/V R6.2 or earlier system dictionary,
+in the new dictionary form.
+.SH EXAMPLE
+.nf
+.PP
+(1) Using the output result as the user text dictionary
+.SP
+.B
+% tonewdic > yamada.t
+.B
+% mv yamada.t /usr/lib/iroha/dic/yamada/
+.B
+Adds the yamada.t entry to /usr/lib/iroha/dic/yamada/dics.dir.
+.PP
+(2) Using the output result as the user binary dictionary
+.SP
+.B
+% tonewdic > yamada.mwd
+.B
+% mkbindic yamada.mwd (Creates binary dictionary yamada.d.)
+.B
+% mv yamada.d /usr/lib/iroha/dic/yamada/
+.B
+Adds the yamada.t entry to /usr/lib/iroha/dic/yamada/dics.dir.
+
+.SH "SEE ALSO"
+dumpolddic(1)

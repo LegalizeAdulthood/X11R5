@@ -1,0 +1,9 @@
+.hello_xcms.primary.label.background:#a500a600c700
+.hello_xcms.primary.label.foreground:#090014000e00
+.hello_xcms.primary.label.font:charb24
+.hello_xcms.primary.label1.background:TekHVC:344.32255/52.22472/28.55464
+.hello_xcms.primary.label1.foreground:TekHVC:344.32255/0.0/0.0
+.hello_xcms.primary.label1.font:charbi24
+.hello_xcms.primary.label2.background:CIEuvY:0.19097/0.49505/0.76384
+.hello_xcms.primary.label2.foreground:CIEuvY:0.18835/0.44626/0.00000
+.hello_xcms.primary.label2.font:charbi24

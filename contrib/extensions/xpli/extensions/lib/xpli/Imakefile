@@ -1,0 +1,61 @@
+XCOMM $XConsortium: Imakefile,v 1.11 91/10/04 15:38:57 dcc Exp $
+#define DoNormalLib NormalLibXpli
+#define DoSharedLib SharedLibXpli
+#define DoDebugLib DebugLibXpli
+#define DoProfileLib ProfileLibXpli
+#include <Library.tmpl>
+
+#ifndef NeedXpliAlias
+#define NeedXpliAlias NO
+#endif
+
+#ifdef RsArchitecture
+REQUIREDLIBS = $(XLIBSRC)/libX11.a
+#endif
+
+#if Malloc0ReturnsNull
+ DEFINES = -DMALLOC_0_RETURNS_NULL
+#endif
+INCLUDES = -I$(TOP) -I$(INCLUDESRC) -I$(XLIBSRC) -I../../include/xpli
+
+SRCS = XPLIlib.c
+
+OBJS = XPLIlib.o
+
+LINTLIBS = $(LINTXLIB) $(LINTXEXT)
+
+LibraryObjectRule()
+
+#if DoSharedLib
+#if DoNormalLib
+SharedLibraryTarget(Xpli,,$(OBJS),shared,..)
+#else
+SharedLibraryTarget(Xpli,,$(OBJS),.,.)
+#endif
+InstallSharedLibrary(Xpli,,$(USRLIBDIR))
+#endif
+#if DoNormalLib
+NormalLibraryTarget(Xpli,$(OBJS))
+InstallLibrary(Xpli,$(USRLIBDIR))
+#if NeedXpliAlias
+InstallLibraryAlias(Xpli,Xpli,$(USRLIBDIR))
+#endif
+#endif
+#if DoProfileLib
+ProfiledLibraryTarget(Xpli,$(OBJS))
+InstallLibrary(Xpli_p,$(USRLIBDIR))
+#endif
+#if DoDebugLib
+DebuggedLibraryTarget(Xpli_d,$(OBJS))
+#endif
+
+NormalLibraryTarget(Xpli,$(OBJS))
+InstallLibrary(Xpli,$(USRLIBDIR))
+
+LintLibraryTarget(Xpli,$(SRCS))
+NormalLintTarget($(SRCS))
+
+DependTarget()
+
+
+

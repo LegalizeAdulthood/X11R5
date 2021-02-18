@@ -1,0 +1,29 @@
+To report bugs, complete this form and mail it to gwm-bugs@mirsa.inria.fr
+
+SYNOPSIS:
+    [brief description of the problem and where it is located]
+
+AUTHOR:
+    [name + email from internet]
+
+VERSION:
+    [Xlib version + gwm version + Xserver version]
+
+CLIENT MACHINE and OPERATING SYSTEM:
+    [e.g. Sun 3/280 running SunOS 4.0.3, Microvax II running Ultrix 3.1, ...]
+
+DISPLAY TYPE:
+    [number of screens (color/mono/grayscale), on which hardware]
+
+AREA:
+    [standard profile, mwm, twm, dvrooms, iconifications]
+
+DESCRIPTION:
+    [detailed description]
+
+REPEAT BY:
+    [what you did to get the error; include test program if at all possible]
+
+SAMPLE FIX:
+    [preferred, but not necessary.]
+    [Please send context diffs (diff -c -b orig-file fixed-file)]

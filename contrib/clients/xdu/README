@@ -1,0 +1,52 @@
+XDU - display the output of "du" in an X window
+
+XDU is a program for displaying a graphical tree of disk space
+utilization as reported by the UNIX utility "du".  The window
+is divided up into several columns, each of which is one level
+deeper in the directory hierarchy (from left to right).  Boxes
+are drawn for each directory.  The amount of vertical space
+occupied by each box is directly proportional to the amount of
+disk space consumed by it and all of its children.  The name of
+each directory will be displayed provided that there is enough
+space within its box.
+
+The user can move up or down the tree by clicking the left mouse on
+a directory box.  If the left most box is selected, the display will
+move up one level (assuming you are not already at the root).  If any
+other box is selected, it will be placed on the left of the window
+and the display will be rescaled appropriately.  At any time the middle
+mouse will bring you back to the root.  Clicking the right mouse, or
+typing "q" within the window, will exit the program.
+
+Phil Dykstra
+<phil@BRL.MIL>
+
+================================================================
+Compilation:
+
+Use xmkmf to build a Makefile from the Imakefile.
+But if for some reason you can't do that, try:
+
+	cc -o xdu xdu.c xwin.c -lXt -lXext -lX11 -lm
+
+================================================================
+Resources (and defaults):
+
+xdu.foreground:Black
+xdu.background:White
+xdu*window.width:600
+xdu*window.height:480
+xdu.ncol:5
+xdu.font:Fixed
+xdu.showsize:True
+
+================================================================
+Revision History:
+
+Version 1.0	4 Sep 91
+	First public release
+
+Version 1.1	5 Oct 91
+	Added resource control
+	Display of size information
+	More accurate label positioning

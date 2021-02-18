@@ -1,0 +1,52 @@
+\input texinfo  @c -*-texinfo-*-
+@comment %**start of header (This is for running Texinfo on a region.)
+@settitle Xterm+ Reference Manual
+@setfilename comblock-info
+
+@node The Comblock Interface, , ,Top   
+@comment  node-name,  next,  previous,  up
+
+The various parts of @code{xterm+} use the @code{comblock interface} to exchange
+information.
+
+A comblock is a structure which is defined as:
+@samp{
+typedef struct _comblock @{
+     int opcode;			/* operation code */
+     unsigned char buffer[BUF_SZ];	/* data buffer (1024 bytes) */
+     int nbytes;			/* data buffer size */
+     Register regs[CB_NREGS];		/* register array (256 regs) */
+@} ComBlock, *ComBlockPtr;
+}
+
+Registers are defined as:
+@samp{
+typedef struct _reg @{
+     int type;				/* data type */
+     Generic data;			/* data ptr */
+@} Register;
+}
+
+@samp{Generic} is a generic Pointer to the data.
+
+@samp{comblock.opcode} tells a called part which supports different functions,
+which one is called.
+
+@samp{comblock.buffer} is used to transmit general strings.
+
+@samp{comblock.nbytes} tells how long the @samp{buffer} is.
+
+@samp{comblock.regs} forms a set of (currently) 128 registers. Registers should
+be adressed via character constands e.g. @samp{comblock.regs['a'].data}.
+
+Each register can hold several types of data:
+@samp{CB_INT_TYPE}, @samp{CB_STR_TYPE}, @samp{CB_CHAR_TYPE} and  @samp{CB_ANY_TYPE}.
+
+The comblock is allocated in the @code{xterm+ widget}, registers and buffer
+are used to transfer data between parser, reverse parser and canvas and
+for private storage of the parser and reverse parser.
+Policy is to use registers 'a' to 'd' and 'x' to 'z' to pass arguments and
+return values.
+Registers in lower case letters and numbers should only be used for private
+data of the parser.
+Upper case letters should only be used by the reverse parser.

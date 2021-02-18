@@ -1,0 +1,87 @@
+#
+# $Id: xi.msg.zh_CN,v 1.2 1991/09/16 21:37:37 ohm Exp $
+#
+#
+# Copyright 1989, 1990, 1991 by OMRON Corporation Corporation
+# Copyright 1991 by Massachusetts Institute of Technology
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the names of OMRON and MIT not be used in
+# advertising or publicity pertaining to distribution of the software without
+# specific, written prior permission.  OMRON and MIT make no representations
+# about the suitability of this software for any purpose.  It is provided
+# "as is" without express or implied warranty.
+#
+# Wnn consortium is one of distributors of the official Wnn source code
+# release.  Wnn consortium also makes no representations about the
+# suitability of this software for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+# OMRON, MIT AND WNN CONSORTIUM DISCLAIM ALL WARRANTIES WITH REGARD TO
+# THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+# FITNESS, IN NO EVENT SHALL OMRON, MIT OR WNN CONSORTIUM BE LIABLE FOR ANY
+# SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+# RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+# CONTRACT, NEGLIGENCE OR OTHER TORTUOUS ACTION, ARISING OUT OF OR IN
+# CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+###
+###	zh_CN message file for xim
+###
+0	字典的频度和用户字典的保存结束了。
+1	次侯补选择(小文节)
+2	次侯补选择(大文节)
+3	侯补太多　次侯补不能取出。
+4	 频度
+5	评价值
+6	前端向量
+7	大文节评价值
+8	读取
+9	消除吗
+10	固定形式的字典的条目不能消除。
+11	只读的字典的条目不能消除。
+12	「
+13	」消除了。
+14	只读的频度不能变更。
+15	」的使用中止。
+16	 主显示器 
+17	JIS代码输入
+18	JIS请输入代码
+19	实行
+20	字典操作
+21	缺省的uumkey异常。
+22	不能展开。
+23	的键二重定义。
+24	区点输入
+25	请输入区点
+26	区
+27	jserver的连接断开了。
+28	缺省的uumrc没有。
+29	 连 接 
+30	 请输入连接的ｈｏｓｔ名
+31	 连接不通顺。
+32	 连接失败。
+33	 连接结束。
+34	   检  查   
+35	消除
+36	使用/不使用
+37	 次 
+38	 前 
+39	鼠标器选择
+40	  键选择  
+41	  次页  
+42	  前页  
+43	字典追加
+44	字典一览
+45	登录
+46	检索
+47	参数变更
+48	频度保存
+49	字典情报
+50	附属语变更
+51	 是的 
+52	不是的
+53	ＯＫ？"

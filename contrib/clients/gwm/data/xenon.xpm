@@ -1,0 +1,31 @@
+/* XPM */
+static char * xenon.xpm [] = {
+/* hilit, lit, normal, & dark are same colors with decreasing luminosity*/
+"22 22 4 2",
+"   s hilit c #FFFFFF",
+".  s lit c #9BCD9B",
+"X  s normal c #2E8B57",
+"o  s dark c #000",
+/* pixels*/
+"  . . . . . . . . . . . . . . . . . . . . X ",
+".   . . . . . . . . . . . . . . . . . . X o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X . . X X X X X X X X X X . . X X X o o ",
+". . X . . o o X X X X X X X X . . o o X o o ",
+". . X X o o o X X X X X X X X X o o o X o o ",
+". . X X o o o X X X X X X X X X o o o X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". . X . . X X X X X X X X X X . . X X X o o ",
+". . X . . o o X X X X X X X X . . o o X o o ",
+". . X X o o o X X X X X X X X X o o o X o o ",
+". . X X o o o X X X X X X X X X o o o X o o ",
+". . X X X X X X X X X X X X X X X X X X o o ",
+". X o o o o o o o o o o o o o o o o o o o o ",
+"X o o o o o o o o o o o o o o o o o o o o o "};

@@ -1,0 +1,7 @@
+!
+! $Id: Xwnmo.ad,v 1.1 1991/09/13 07:49:49 proj Exp $
+!
+*iconicStart:		False
+*langName:		ja_JP
+*borderWidth:		2
+*fontSet:		a14,k14,kana14

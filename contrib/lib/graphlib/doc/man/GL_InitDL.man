@@ -1,0 +1,20 @@
+.TH GL_Init_DataList 3GL "5Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Init_DataList \- Create a DataList for use
+.SH SYNTAX
+GL_DataList GL_Init_DataList(void);
+
+.SH DESCRIPTION
+
+Returns a valid datalist for use by programs.  A DataList is currently
+implemented as a linked list with a head node.  Items are inserted in
+reverse order of when they are added.
+
+.SH FEATURES?
+
+Assuming that the implementation will stay the way it does is really really
+bad, as noted on a number of other manpages.
+
+.SH "SEE ALSO"
+GL_Add_To_DataList(3GL), GL_Key_In_DataList(3GL), GL_Search_DataList(3GL),
+GraphLib Programming Manual

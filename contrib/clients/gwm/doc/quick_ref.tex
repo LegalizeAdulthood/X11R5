@@ -1,0 +1,919 @@
+\chapter{Quick Reference}
+
+This chapter lists all {\WOOL} objects (functions, variables, and
+active values) grouped by topics.
+
+%%
+\section{{\WOOL} constructs}
+\bigdesc{execute-string}{
+\smalldesc{;}{\pageref{;}}
+    {{\WOOL} comment}
+\smalldesc{(), nil}{\pageref{()}}
+    {the nil value}
+\smalldesc{t}{\pageref{t}}
+    {the logical ``true'' value}
+\smalldesc{', quote}{\pageref{'}}
+    {prevents evaluation of argument}
+\smalldesc{eval}{\pageref{eval}}
+    {evaluates a {\WOOL} expression}
+\smalldesc{load}{\pageref{load}}
+    {loads and executes a {\WOOL} file}
+\smalldesc{set}{\pageref{set}}
+    {variable assignment}
+\smalldesc{:, setq}{\pageref{setq}}
+    {variable assignment}
+\smalldesc{=, equal}{\pageref{=}}
+    {tests equality of any two objects}
+\smalldesc{eq}{\pageref{eq}}
+    {tests strict equality of any two objects}
+\smalldesc{execute-string}{\pageref{execute-string}}
+    {executes (parses and evaluates) a {\WOOL} string}
+\smalldesc{hack}{\pageref{hack}}
+    {raw access to {\GWM} internal structures}
+\smalldesc{type}{\pageref{type}}
+    {type of a {\WOOL} object}
+\smalldesc{with}{\pageref{with}}
+    {local variable declaration}
+\smalldesc{with-eval}{\pageref{with-eval}}
+    {local variable declaration (with evaluation)}
+}%%WWOOL
+\vfill
+
+%%
+\section{Flow control}
+\bigdesc{process-events}{
+\smalldesc{progn, \{\}}{\pageref{progn}}
+    {sequence of instructions}
+\smalldesc{if}{\pageref{if}}
+    {conditional test}
+\smalldesc{cond}{\pageref{cond}}
+    {conditional test}
+\smalldesc{for}{\pageref{for}}
+    {iterates through a list of values}
+\smalldesc{mapfor}{\pageref{mapfor}}
+    {constructs a list by iterating through a list of values}
+\smalldesc{while}{\pageref{while}}
+    {while loop}
+\smalldesc{tag}{\pageref{tag}}
+    {non-local goto: label}
+\smalldesc{exit}{\pageref{exit}}
+    {non-local goto: branching}
+\smalldesc{end}{\pageref{end}}
+    {terminates {\GWM}}
+\smalldesc{error-occurred}{\pageref{error-occurred}}
+    {traps errors occuring in expressions}
+\smalldesc{trigger-error}{\pageref{trigger-error}}
+    {triggers a wool error}
+\smalldesc{process-events}{\pageref{process-events}}
+    {recursively process all pending events}
+}%%WFLOW
+\vfill
+
+%%
+\section{I/O}
+\bigdesc{?, print}{
+\smalldesc{?, print}{\pageref{?}}
+    {prints {\WOOL} objects}
+\smalldesc{bell}{\pageref{bell}}
+    {rings the keyboard bell}
+}%%WIO
+\vfill
+
+%%
+\section{Atoms}
+\bigdesc{unbind}{
+\smalldesc{atom}{\pageref{atom}}
+    {makes an atom from a string}
+\smalldesc{boundp}{\pageref{boundp}}
+    {tests if an atom has already been defined}
+\smalldesc{unbind}{\pageref{unbind}}
+    {Un-defines an atom}
+}%%WATOM
+\vfill
+
+%%
+\section{Namespaces}
+\bigdesc{namespace-make}{
+\smalldesc{namespace-make}{\pageref{namespace-make}}
+    {creates a namespace}
+\smalldesc{namespace-add}{\pageref{namespace-add}}
+    {adds a state to a namespace}
+\smalldesc{namespace-remove}{\pageref{namespace-remove}}
+    {removes a state from a namespace}
+\smalldesc{defname}{\pageref{defname}}
+    {declares a name in a namespace}
+\smalldesc{namespace}{\pageref{namespace}}
+    {sets current state of a namespace}
+\smalldesc{namespace-of}{\pageref{namespace-of}}
+    {returns namespace of a symbol}
+\smalldesc{namespace-size}{\pageref{namespace-size}}
+    {number of states in the namespace}
+}%%WNAMESPACES
+\vfill
+
+%%
+\section{Functions}
+\bigdesc{defunq, df}{
+\smalldesc{defun, de}{\pageref{defun}}
+    {defines a {\WOOL} function evaluating its arguments}
+\smalldesc{defunq, df}{\pageref{defunq}}
+    {defines a {\WOOL} function quoting its arguments}
+\smalldesc{lambda}{\pageref{lambda}}
+    {defines an unnamed {\WOOL} function evaluating its arguments}
+\smalldesc{lambdaq}{\pageref{lambdaq}}
+    {defines an unnamed {\WOOL} function quoting its arguments}
+}%%WFUNCTIONS
+\vfill
+
+%%
+\section{Lists}
+\bigdesc{\#, replace-nth}{
+\smalldesc{\#, nth}{\pageref{nth}}
+    {accesses or modifies an element of a list or a property list}
+\smalldesc{\#\#, replace-nth}{\pageref{replace-nth}}
+    {physically modifies an element of a list or a property list}
+\smalldesc{( ... )}{\pageref{(}}
+    {list notation}
+\smalldesc{+}{\pageref{+}}
+    {appends lists}
+\smalldesc{length}{\pageref{length}}
+    {length (number of elements) of a list}
+\smalldesc{list}{\pageref{list}}
+    {creates a list}
+\smalldesc{member}{\pageref{member}}
+    {position of element in a list}
+\smalldesc{sublist}{\pageref{sublist}}
+    {extracts a sub-list out of a list}
+\smalldesc{delete-nth}{\pageref{delete-nth}}
+    {physically removes an element of a list}
+\smalldesc{copy}{\pageref{copy}}
+    {copies a list}
+\smalldesc{list-make}{\pageref{list-make}}
+    {makes a list of a given size}
+\smalldesc{sort}{\pageref{sort}}
+    {sorts a list in place}
+}%%WLIST
+\vfill
+
+%%
+\section{Strings}
+\bigdesc{" ... "}{
+\smalldesc{" ... "}{\pageref{""}}
+    {string notation}
+\smalldesc{+}{\pageref{+}}
+    {concatenates strings}
+\smalldesc{<}{\pageref{<}}
+    {tests for strict lexicographic inferiority}
+\smalldesc{>}{\pageref{>}}
+    {tests for strict lexicographic superiority}
+\smalldesc{compare}{\pageref{compare}}
+    {compare two strings for lexicographic order}
+\smalldesc{member}{\pageref{member}}
+    {position of substring in string}
+\smalldesc{atoi}{\pageref{atoi}}
+    {ASCII string to Integer conversion}
+\smalldesc{itoa}{\pageref{itoa}}
+    {Integer to ASCII string conversion}
+\smalldesc{atom}{\pageref{atom}}
+    {makes an atom from a string}
+\smalldesc{length}{\pageref{length}}
+    {length (number of characters) of a string}
+\smalldesc{match}{\pageref{match}}
+    {general regular expression matching and extracting package}
+}%%WSTRING
+\vfill
+
+%%
+\section{Logical functions}
+\bigdesc{andxx}{
+\smalldesc{()}{\pageref{()}}
+    {the nil value}
+\smalldesc{t}{\pageref{t}}
+    {the logical ``true'' value}
+\smalldesc{and}{\pageref{and}}
+    {logical AND of expressions}
+\smalldesc{not}{\pageref{not}}
+    {logical negation}
+\smalldesc{or}{\pageref{or}}
+    {logical OR of expressions}
+}%%WLOGIC
+\vfill
+
+%%
+\section{Numbers}
+\bigdesc{bitwise-and}{
+\smalldesc{+}{\pageref{+}}
+    {adds numbers}
+\smalldesc{*, \%, /}{\pageref{*}}
+    {arithmetic binary operators}
+\smalldesc{-}{\pageref{-}}
+    {arithmetic difference or sign inversion}
+\smalldesc{<}{\pageref{<}}
+    {tests for strict numerical inferiority}
+\smalldesc{>}{\pageref{>}}
+    {tests for strict numerical superiority}
+\smalldesc{compare}{\pageref{compare}}
+    {compare two numbers}
+\smalldesc{bitwise-and}{\pageref{bitwise-and}}
+    {bitwise and operator}
+\smalldesc{bitwise-or}{\pageref{bitwise-or}}
+    {bitwise or operator}
+\smalldesc{bitwise-xor}{\pageref{bitwise-xor}}
+    {bitwise exclusive-or operator}
+\smalldesc{atoi}{\pageref{atoi}}
+    {ASCII string to Integer conversion}
+\smalldesc{itoa}{\pageref{itoa}}
+    {Integer to ASCII string conversion}
+}%%WNUMBER
+\vfill
+
+%%
+\section{Graphical primitives}
+\bigdesc{label-horizontal-margin}{
+\smalldesc{active-label-make}{\pageref{active-label-make}}
+    {makes a label (text in a given font)}
+\smalldesc{bordertile}{\pageref{bordertile}}
+    {pixmap to tile the border of a wob}
+\smalldesc{foreground}{\pageref{foreground}}
+    {color of the foreground}
+\smalldesc{dimensions}{\pageref{dimensions}}
+    {position and dimensions of a {\WOOL} object}
+\smalldesc{height}{\pageref{height}}
+    {height of a {\WOOL} object}
+\smalldesc{width}{\pageref{width}}
+    {width of a {\WOOL} object}
+\smalldesc{label-horizontal-margin}{\pageref{label-horizontal-margin}}
+    {margins around labels}
+\smalldesc{label-vertical-margin}{\pageref{label-vertical-margin}}
+    {margins around labels}
+\smalldesc{active-label-make}{\pageref{active-label-make}}
+    {makes a graphic string object refreshing itself on exposures}
+\smalldesc{label-make}{\pageref{label-make}}
+    {makes a pixmap by drawing a string}
+\smalldesc{pixmap-make}{\pageref{pixmap-make}}
+    {builds a pixmap (color image)}
+\smalldesc{pixmap-load}{\pageref{pixmap-load}}
+    {builds a pixmap from an XPM file description}
+\smalldesc{tile}{\pageref{tile}}
+    {background pixmap for creating a wob}
+\smalldesc{wob-tile, wob-pixmap}{\pageref{wob-tile}}
+    {gets/sets the graphic displayed in a wob}
+\smalldesc{draw-line}{\pageref{draw-line}}
+    {draws a line in a pixmap}
+\smalldesc{draw-rectangle}{\pageref{draw-rectangle}}
+    {draws a (filled) rectangle in a pixmap}
+\smalldesc{draw-text}{\pageref{draw-text}}
+    {draws a string of characters in a pixmap}
+}%%WGRAPHIC
+\vfill
+
+%%
+\section{System interface}
+\bigdesc{elapsed-time}{
+\smalldesc{!}{\pageref{!}}
+    {executes a shell command}
+\smalldesc{getenv}{\pageref{getenv}}
+    {gets the value of a shell variable}
+\smalldesc{restart}{\pageref{restart}}
+    {restarts {\GWM}}
+\smalldesc{elapsed-time}{\pageref{elapsed-time}}
+    {gets time used by {\GWM} in milliseconds}
+\smalldesc{hostname}{\pageref{hostname}}
+    {name of the machine on which {\GWM} is running}
+}%%WSYSTEM
+\vfill
+
+%%
+\section{Events}
+\bigdesc{current-event-window-coords}{
+\smalldesc{any}{\pageref{any}}
+    {matches any modifier or button}
+\smalldesc{button}{\pageref{button}}
+    {makes a button event}
+\smalldesc{buttonpress}{\pageref{buttonpress}}
+    {makes a buttonpress event}
+\smalldesc{buttonrelease}{\pageref{buttonrelease}}
+    {makes a buttonrelease event}
+\smalldesc{current-event-code}{\pageref{current-event-code}}
+    {code of the last event}
+\smalldesc{current-event-modifier}{\pageref{current-event-modifier}}
+    {modifier of the last event}
+\smalldesc{current-event-from-grab}{\pageref{current-event-from-grab}}
+    {tests if last event was generated by a grab}
+\smalldesc{current-event-window-coords}{\pageref{current-event-window-coords}}
+    {relative position of the last event}
+\smalldesc{current-event-x}{\pageref{current-event-x}}
+    {absolute position of the last event}
+\smalldesc{current-event-y}{\pageref{current-event-y}}
+    {absolute position of the last event}
+\smalldesc{current-event-relative-x}{\pageref{current-event-relative-x}}
+    {relative position of the last event}
+\smalldesc{current-event-relative-y}{\pageref{current-event-relative-y}}
+    {relative position of the last event}
+\smalldesc{current-event-time}{\pageref{current-event-time}}
+    {time in milliseconds of the last event}
+\smalldesc{current-user-event}{\pageref{current-user-event}}
+    {name of the last user event}
+\smalldesc{double-button}{\pageref{double-button}}
+    {makes a double-click button event}
+\smalldesc{double-buttonpress}{\pageref{double-buttonpress}}
+    {makes a double-click buttonpress event}
+\smalldesc{double-click-delay}{\pageref{double-click-delay}}
+    {maximum time between double clicks}
+\smalldesc{enter-window}{\pageref{enter-window}}
+    {event generated when the pointer crosses the border of a wob}
+\smalldesc{leave-window}{\pageref{leave-window}}
+    {event generated when the pointer crosses the border of a wob}
+\smalldesc{enter-window-not-from-grab}{\pageref{enter-window-not-from-grab}}
+    {event generated when the pointer actually crosses the border of a wob}
+\smalldesc{leave-window-not-from-grab}{\pageref{leave-window-not-from-grab}}
+    {event generated when the pointer actually crosses the border of a wob}
+\smalldesc{focus-in}{\pageref{focus-in}}
+    {event received when input focus changes on the client window}
+\smalldesc{focus-out}{\pageref{focus-out}}
+    {event received when input focus changes on the client window}
+\smalldesc{geometry-change}{\pageref{geometry-change}}
+    {event generated when window changes size}
+\smalldesc{key}{\pageref{key}}
+    {makes a key event}
+\smalldesc{keypress}{\pageref{keypress}}
+    {makes a keypress event}
+\smalldesc{keyrelease}{\pageref{keyrelease}}
+    {makes a keyrelease event}
+\smalldesc{key-make}{\pageref{key-make}}
+    {makes a key symbol out of a descriptive name}
+\smalldesc{last-key}{\pageref{last-key}}
+    {last key pressed}
+\smalldesc{name-change}{\pageref{name-change}}
+    {event generated when window changes its name}
+\smalldesc{property-change}{\pageref{property-change}}
+    {event generated when a client window changes a property}
+\smalldesc{window-icon-pixmap-change}{\pageref{window-icon-pixmap-change}}
+    {pixmap to be used in icon has changed}
+\smalldesc{send-user-event}{\pageref{send-user-event}}
+    {sends a {\GWM} ``user'' event to another wob}
+\smalldesc{user-event}{\pageref{user-event}}
+    {event internal to {\GWM}}
+\smalldesc{set-grabs}{\pageref{set-grabs}}
+    {grabs events occurring in the window}
+\smalldesc{unset-grabs}{\pageref{unset-grabs}}
+    {removes grabs set by set-grabs}
+\smalldesc{map-notify}{\pageref{map-notify}}
+    {event sent when window is mapped}
+\smalldesc{visibilty...}{\pageref{visibility-fully-obscured}}
+    {events sent when window visibility changes}
+}%%WEVENT
+\vfill
+
+%%
+\section{Keyboard modifiers}
+\bigdesc{with-modifier-N}{
+\smalldesc{alone}{\pageref{alone}}
+    {specifies that no modifier key is used}
+\smalldesc{any}{\pageref{any}}
+    {matches any modifier or button}
+\smalldesc{together}{\pageref{together}}
+    {combines keyboard modifiers}
+\smalldesc{with-shift}{\pageref{with-shift}}
+    {shift key was depressed for the event}
+\smalldesc{with-control}{\pageref{with-control}}
+    {control key was depressed for the event}
+\smalldesc{with-alt}{\pageref{with-alt}}
+    {alt key was depressed for the event}
+\smalldesc{with-lock}{\pageref{with-lock}}
+    {lock key was depressed for the event}
+\smalldesc{with-modifier-N}{\pageref{with-modifier-N}}
+    {modifier N key was depressed for the event}
+\smalldesc{with-button-N}{\pageref{with-button-N}}
+    {button N was depressed for the event}
+}%%WMODIFIERS
+\vfill
+
+%%
+\section{Access to X11 primitives}
+\bigdesc{set-subwindow-colormap-focus}{
+\smalldesc{screen-type}{\pageref{screen-type}}
+    {returns visual type of screen}
+\smalldesc{current-mouse-position}{\pageref{current-mouse-position}}
+    {queries server for current mouse position}
+\smalldesc{wob-at-coords}{\pageref{wob-at-coords}}
+    {wob containing coordinates}
+\smalldesc{display-name}{\pageref{display-name}}
+    {name of the X server}
+\smalldesc{get-x-property}{\pageref{get-x-property}}
+    {gets an X property on the client window}
+\smalldesc{set-x-property}{\pageref{set-x-property}}
+    {sets an X property on a client window}
+\smalldesc{grab-server}{\pageref{grab-server}}
+    {grabs the server}
+\smalldesc{ungrab-server}{\pageref{ungrab-server}}
+    {releases grab on the X server}
+\smalldesc{replayable-event}{\pageref{replayable-event}}
+    {makes a replayable event from a normal event}
+\smalldesc{allow-event-processing}{\pageref{allow-event-processing}}
+    {un-freezes the server after catching a replayable event}
+\smalldesc{ungrab-server-and-replay-event}{\pageref{ungrab-server-and-replay-event}}
+    {releases grab on the X server and replay grabbing event}
+\smalldesc{refresh}{\pageref{refresh}}
+    {refreshes the screen}
+\smalldesc{resource-get}{\pageref{resource-get}}
+    {searches {\GWM} database for a resource}
+\smalldesc{resource-put}{\pageref{resource-put}}
+    {puts a resource in {\GWM} database}
+\smalldesc{set-focus}{\pageref{set-focus}}
+    {sets input focus on a window}
+\smalldesc{set-colormap-focus}{\pageref{set-colormap-focus}}
+    {sets the window whose colormap is installed}
+\smalldesc{set-subwindow-colormap-focus}{\pageref{set-subwindow-colormap-focus}}
+    {installs the colormap of a subwindow}
+\smalldesc{set-key-binding}{\pageref{set-key-binding}}
+    {redefines keyboard for all applications}
+\smalldesc{keycode-to-keysym}{\pageref{keycode-to-keysym}}
+    {converts a key code to its symbolic code}
+\smalldesc{keysym-to-keycode}{\pageref{keysym-to-keycode}}
+    {converts a symbolic code to a key code}
+\smalldesc{set-screen-saver}{\pageref{set-screen-saver}}
+    {sets screen-saver parameters}
+\smalldesc{set-acceleration}{\pageref{set-acceleration}}
+    {sets mouse speed}
+\smalldesc{set-threshold}{\pageref{set-threshold}}
+    {sets mouse acceleration threshold}
+\smalldesc{process-exposes}{\pageref{process-exposes}}
+    {treats all pending expose events}
+\smalldesc{warp-pointer}{\pageref{warp-pointer}}
+    {warps the mouse pointer to a location}
+\smalldesc{xid-to-wob}{\pageref{xid-to-wob}}
+    {translates X ID to wob object}
+}%%WX
+\vfill
+
+%%
+\section{Global variables controlling {\GWM} behavior}
+\bigdesc{check-input-focus-flag}{
+\smalldesc{describe-screen}{\pageref{describe-screen}}
+    {user function called to describe a screen}
+\smalldesc{describe-window}{\pageref{describe-window}}
+    {user function called to decorate a new window}
+\smalldesc{freeze-server}{\pageref{freeze-server}}
+    {stops processing other clients during grabs}
+\smalldesc{grab-keyboard-also}{\pageref{grab-keyboard-also}}
+    {grab-server grabs also keyboard events}
+\smalldesc{confine-grabs}{\pageref{confine-grabs}}
+    {cursor stays confined in grabbing wobs}
+\smalldesc{confine-windows}{\pageref{confine-windows}}
+    {forces windows to stay on-screen}
+\smalldesc{reenter-on-opening}{\pageref{reenter-on-opening}}
+    {process events on the queue just before mapping a new window}
+\smalldesc{invert-cursors}{\pageref{invert-cursors}}
+    {inverts the bitmaps used for making cursors}
+\smalldesc{move-grid-style}{\pageref{move-grid-style}}
+    {style of grid for move}
+\smalldesc{resize-grid-style}{\pageref{resize-grid-style}}
+    {style of grid for resize}
+\smalldesc{resize-style}{\pageref{resize-style}}
+    {style of interactive resize}
+\smalldesc{check-input-focus-flag}{\pageref{check-input-focus-flag}}
+    {follows input hint for setting focus}
+\smalldesc{print-errors-flag}{\pageref{print-errors-flag}}
+    {controls printing of error messages}
+\smalldesc{print-level}{\bf\pageref{print-level}}
+    {controls printing depth of lists}
+\smalldesc{gwm-quiet}{\pageref{gwm-quiet}}
+    {silent startup}
+}%%WGLOBAL
+\vfill
+
+%%
+\section{Colors}
+\bigdesc{color-components}{
+\smalldesc{color-make}{\pageref{color-make}}
+    {allocates a pixel color by name}
+\smalldesc{color-make-rgb}{\pageref{color-make-rgb}}
+    {creates a color from RGB values}
+\smalldesc{color-free}{\pageref{color-free}}
+    {de-allocates a pixel}
+\smalldesc{color-components}{\pageref{color-components}}
+    {gives RGB color decomposition of a pixel}
+\smalldesc{background}{\pageref{background}}
+    {color of the background}
+\smalldesc{borderpixel}{\pageref{borderpixel}}
+    {color of the border of a wob}
+\smalldesc{foreground}{\pageref{foreground}}
+    {color of the foreground}
+\smalldesc{grid-color}{\pageref{grid-color}}
+    {color to draw (xor) the grids with}
+\smalldesc{invert-color}{\pageref{invert-color}}
+    {color to invert (xor) the wobs with}
+}%%WCOLOR
+\vfill
+
+%%
+\section{Wobs}
+\bigdesc{wob-borderpixel}{
+\smalldesc{borderpixel}{\pageref{borderpixel}}
+    {color of the border of a wob}
+\smalldesc{bordertile}{\pageref{bordertile}}
+    {pixmap to tile the border of a wob}
+\smalldesc{borderwidth}{\pageref{borderwidth}}
+    {width in pixels of the border of a wob}
+\smalldesc{dimensions}{\pageref{dimensions}}
+    {position and size of a {\WOOL} object}
+\smalldesc{height}{\pageref{height}}
+    {height of a {\WOOL} object}
+\smalldesc{width}{\pageref{width}}
+    {width of a {\WOOL} object}
+\smalldesc{menu}{\pageref{menu}}
+    {menu associated with wob}
+\smalldesc{root-window}{\pageref{root-window}}
+    {the root window}
+\smalldesc{wob-property}{\pageref{wob-property}}
+    {{\WOOL} property associated to a wob}
+\smalldesc{wob-status}{\pageref{wob-status}}
+    {state of the window}
+\smalldesc{wob-x}{\pageref{wob-x}}
+    {x position in pixels}
+\smalldesc{wob-y}{\pageref{wob-y}}
+    {y position in pixels}
+\smalldesc{wob-height}{\pageref{wob-height}}
+    {wob height in pixels}
+\smalldesc{wob-width}{\pageref{wob-width}}
+    {wob width in pixels}
+\smalldesc{wob}{\pageref{wob}}
+    {current wob}
+\smalldesc{wob-at-coords}{\pageref{wob-at-coords}}
+    {wob containing screen coordinates}
+\smalldesc{wob-borderpixel}{\pageref{wob-borderpixel}}
+    {color of border}
+\smalldesc{wob-borderwidth}{\pageref{wob-borderwidth}}
+    {width of the border of a wob}
+\smalldesc{wob-fsm}{\pageref{wob-fsm}}
+    {gets or sets the fsm associated with current wob}
+\smalldesc{wob-invert}{\pageref{wob-invert}}
+    {quick and dirty inversion of a wob}
+\smalldesc{wob-menu}{\pageref{wob-menu}}
+    {gets or sets the menu associated with current wob}
+\smalldesc{menu-wob}{\pageref{menu-wob}}
+    {returns wob associated with menu}
+\smalldesc{wob-parent}{\pageref{wob-parent}}
+    {finds the parent of a wob}
+\smalldesc{wob-tile}{\pageref{wob-tile}}
+    {graphic displayed in a wob}
+\smalldesc{wob-pixmap}{\pageref{wob-pixmap}}
+    {graphic displayed in a wob}
+\smalldesc{wob-cursor}{\pageref{wob-cursor}}
+    {cursor displayed when pointer is in a wob}
+}%%WWOB
+\vfill
+
+%%
+\section{Plugs}
+\bigdesc{wob-pixmap}{
+\smalldesc{plug-make}{\pageref{plug-make}}
+    {makes a plug}
+\smalldesc{wob-tile}{\pageref{wob-tile}}
+    {graphic displayed in a wob}
+\smalldesc{wob-pixmap}{\pageref{wob-pixmap}}
+    {graphic displayed in a wob}
+}%%WPLUG
+\vfill
+
+%%
+\section{Bars}
+\bigdesc{plug-separator}{
+\smalldesc{bar-make}{\pageref{bar-make}}
+    {makes a bar descriptor}
+\smalldesc{bar-min-width}{\pageref{bar-min-width}}
+    {minimum transversal width of a bar}
+\smalldesc{bar-max-width}{\pageref{bar-max-width}}
+    {maximum transversal width of a bar}
+\smalldesc{background}{\pageref{background}}
+    {color of the background}
+\smalldesc{plug-separator}{\pageref{plug-separator}}
+    {inter-plug space within bars}
+\smalldesc{wob-background}{\pageref{wob-background}}
+    {(solid) background color of wob}
+\smalldesc{wob-tile}{\pageref{wob-tile}}
+    {graphic displayed in a wob}
+\smalldesc{wob-pixmap}{\pageref{wob-pixmap}}
+    {graphic displayed in a wob}
+}%%WBAR
+\vfill
+
+%%
+\section{Menus}
+\bigdesc{bar-separator}{
+\smalldesc{direction}{\pageref{direction}}
+    {direction of menus}
+\smalldesc{bar-separator}{\pageref{bar-separator}}
+    {number of pixels between consecutive bars in menus}
+\smalldesc{horizontal}{\pageref{horizontal}}
+    {direction of menus}
+\smalldesc{vertical}{\pageref{vertical}}
+    {direction of menus}
+\smalldesc{menu}{\pageref{menu}}
+    {menu associated with wob}
+\smalldesc{menu-make}{\pageref{menu-make}}
+    {makes a menu}
+\smalldesc{place-menu}{\pageref{place-menu}}
+    {maps a menu as a normal client window}
+\smalldesc{pop-menu}{\pageref{pop-menu}}
+    {pops a menu}
+\smalldesc{unpop-menu}{\pageref{unpop-menu}}
+    {makes a popped menu disappear}
+\smalldesc{wob-menu}{\pageref{wob-menu}}
+    {gets or sets the menu associated with current wob}
+}%%WMENU
+\vfill
+
+%%
+\section{Windows}
+\bigdesc{circulate-windows-down}{
+\smalldesc{describe-window}{\pageref{describe-window}}
+    {user function called to decorate a new window}
+\smalldesc{circulate-windows-down}{\pageref{circulate-windows-down}}
+    {circulates mapped windows}
+\smalldesc{circulate-windows-up}{\pageref{circulate-windows-up}}
+    {circulates mapped windows}
+\smalldesc{grid-color}{\pageref{grid-color}}
+    {color to draw (xor) the grids with}
+\smalldesc{iconify-window}{\pageref{iconify-window}}
+    {iconifies or de-iconifies a window}
+\smalldesc{inner-borderwidth}{\pageref{inner-borderwidth}}
+    {borderwidth of the client window}
+\smalldesc{kill-window}{\pageref{kill-window}}
+    {destroys a client}
+\smalldesc{list-of-windows}{\pageref{list-of-windows}}
+    {returns the list of all windows}
+\smalldesc{lower-window}{\pageref{lower-window}}
+    {lowers a window below another window}
+\smalldesc{map-window}{\pageref{map-window}}
+    {maps window}
+\smalldesc{move-window}{\pageref{move-window}}
+    {moves window}
+\smalldesc{raise-window}{\pageref{raise-window}}
+    {raises a window on top of other windows}
+\smalldesc{re-decorate-window}{\pageref{re-decorate-window}}
+    {re-decorates the client window by {\GWM}}
+\smalldesc{resize-window}{\pageref{resize-window}}
+    {resizes the window}
+\smalldesc{root-window}{\pageref{root-window}}
+    {the root window}
+\smalldesc{unmap-window}{\pageref{unmap-window}}
+    {unmaps (make invisible) a window}
+\smalldesc{window}{\pageref{window}}
+    {current window id}
+\smalldesc{window-make}{\pageref{window-make}}
+    {makes a template to decorate a window with}
+\smalldesc{window-property}{\pageref{window-property}}
+    {{\WOOL} property associated to a wob}
+\smalldesc{window-size}{\pageref{window-size}}
+    {client window size specified in resize increments}
+}%%WWINDOW
+\vfill
+
+%%
+\section{Window characteristics}
+\bigdesc{window-user-set-position}{
+\smalldesc{window-client-class}{\pageref{window-client-class}}
+    {client application class}
+\smalldesc{window-client-name}{\pageref{window-client-name}}
+    {client application name}
+\smalldesc{window-client-height}{\pageref{window-client-height}}
+    {inner window height in pixels}
+\smalldesc{window-client-width}{\pageref{window-client-width}}
+    {inner window width in pixels}
+\smalldesc{window-client-x}{\pageref{window-client-x}}
+    {inner window x in pixels}
+\smalldesc{window-client-y}{\pageref{window-client-y}}
+    {inner window x in pixels}
+\smalldesc{window-group}{\pageref{window-group}}
+    {manages groups of windows}
+\smalldesc{window-icon}{\pageref{window-icon}}
+    {icon associated to window}
+\smalldesc{window-window}{\pageref{window-window}}
+    {window associated to icon}
+\smalldesc{window-icon-name}{\pageref{window-icon-name}}
+    {name of the icon}
+\smalldesc{window-icon-pixmap}{\pageref{window-icon-pixmap}}
+    {pixmap to be used in an icon}
+\smalldesc{window-icon-window}{\pageref{window-icon-window}}
+    {window to be used as icon}
+\smalldesc{window-is-mapped}{\pageref{window-is-mapped}}
+    {tells if window is visible}
+\smalldesc{window-is-shaped}{\pageref{window-is-shaped}}
+    {tells if window has non-rectangular shape}
+\smalldesc{window-is-transient-for}{\pageref{window-is-transient-for}}
+    {tells if window is transient}
+\smalldesc{window-machine-name}{\pageref{window-machine-name}}
+    {name of host on which the client is running}
+\smalldesc{window-name}{\pageref{window-name}}
+    {name of the window}
+\smalldesc{window-size}{\pageref{window-size}}
+    {client window size specified in resize increments}
+\smalldesc{window-starts-iconic}{\pageref{window-starts-iconic}}
+    {state in which window must first appear}
+\smalldesc{window-status}{\pageref{window-status}}
+    {state of the window}
+\smalldesc{window-user-set-position}{\pageref{window-user-set-position}}
+    {tells if user explicitly specifed the position}
+\smalldesc{window-user-set-size}{\pageref{window-user-set-size}}
+    {tells if user explicitly specifed the size}
+\smalldesc{window-program-set-position}{\pageref{window-program-set-position}}
+    {tells if program explicitly specifed the position}
+\smalldesc{window-program-set-size}{\pageref{window-program-set-size}}
+    {tells if program explicitly specifed the size}
+\smalldesc{window-was-on-screen}{\pageref{window-was-on-screen}}
+    {tells if window was already on screen}
+\smalldesc{window-width}{\pageref{window-width}}
+    {window width in pixels}
+\smalldesc{window-height}{\pageref{window-height}}
+    {window height in pixels}
+\smalldesc{window-x}{\pageref{window-x}}
+    {x position of upper-left corner of window in root}
+\smalldesc{window-y}{\pageref{window-y}}
+    {y position of upper-left corner of window in root}
+\smalldesc{grabs}{\pageref{grabs}}
+    {events grabbed on the whole window}
+}%%WWINDOWCHAR
+\vfill
+
+%%
+\section{Screen}
+\bigdesc{describe-screen}{
+\smalldesc{screen}{\pageref{screen}}
+    {current screen}
+\smalldesc{describe-screen}{\pageref{describe-screen}}
+    {user function called to describe a screen}
+\smalldesc{root-window}{\pageref{root-window}}
+    {the root window}
+\smalldesc{screen-depth}{\pageref{screen-depth}}
+    {screen depth}
+\smalldesc{screen-height}{\pageref{screen-height}}
+    {screen height}
+\smalldesc{screen-width}{\pageref{screen-width}}
+    {screen width}
+\smalldesc{list-of-screens}{\pageref{list-of-screens}}
+    {list of managed screens}
+\smalldesc{screen-count}{\pageref{screen-count}}
+    {number of screens attached to the display}
+\smalldesc{tile}{\pageref{tile}}
+    {background pixmap}
+\smalldesc{wob-background}{\pageref{wob-background}}
+    {(solid) background color of wob}
+}%%WSCREEN
+\vfill
+
+%%
+\section{Context}
+\bigdesc{context-restore}{
+\smalldesc{context-save}{\pageref{context-save}}
+    {context management}
+\smalldesc{context-restore}{\pageref{context-restore}}
+    {context management}
+\smalldesc{with}{\pageref{with}}
+    {local variable declarations}
+\smalldesc{with-eval}{\pageref{with-eval}}
+    {local variable declarations}
+}%%WCONTEXT
+\vfill
+
+%%
+\section{Cursors}
+\bigdesc{invert-cursors}{
+\smalldesc{cursor}{\pageref{cursor}}
+    {shape of the cursor in a wob}
+\smalldesc{cursor-make}{\pageref{cursor-make}}
+    {makes a cursor with a bitmap and a mask}
+\smalldesc{invert-cursors}{\pageref{invert-cursors}}
+    {inverts the bitmaps used for making a cursor}
+}%%WCURSOR
+\vfill
+
+%%
+\section{Communication with other X11 clients}
+\bigdesc{send-keycode-to-window}{
+\smalldesc{GWM\_EXECUTE}{\pageref{GWM_EXECUTE}}
+    {Sending commands to GWM}
+\smalldesc{cut-buffer}{\pageref{cut-buffer}}
+    {contents of cut buffer 0}
+\smalldesc{rotate-cut-buffers}{\pageref{rotate-cut-buffers}}
+    {rotate server cut buffers}
+\smalldesc{get-x-property}{\pageref{get-x-property}}
+    {gets an X property on the client}
+\smalldesc{set-x-property}{\pageref{set-x-property}}
+    {sets an X property on a client window}
+\smalldesc{delete-read-properties}{\pageref{delete-read-properties}}
+    {flags to delete X properties after reading them}
+\smalldesc{resource-get}{\pageref{resource-get}}
+    {searches {\GWM} database for a resource}
+\smalldesc{resource-put}{\pageref{resource-put}}
+    {puts a resource in {\GWM} database}
+\smalldesc{get-x-default}{\pageref{get-x-default}}
+    {gets a server default}
+\smalldesc{get-wm-command}{\pageref{get-wm-command}}
+    {gets the WM\_COMMAND property}
+\smalldesc{send-key-to-window}{\pageref{send-key-to-window}}
+    {sends key event to a client}
+\smalldesc{send-keycode-to-window}{\pageref{send-keycode-to-window}}
+    {sends key event to a client}
+\smalldesc{send-current-event}{\pageref{send-current-event}}
+    {re-sends X event to the client of a window}
+\smalldesc{window-wm-state-icon}{\pageref{window-wm-state-icon}}
+    {declares user icon for WM\_STATE}
+\smalldesc{window-wm-state-update}{\pageref{window-wm-state-update}}
+    {updates WM\_STATE property for windows with user icon}
+\smalldesc{set-icon-sizes}{\pageref{set-icon-sizes}}
+    {sets desired icon sizes}
+\smalldesc{delete-window}{\pageref{delete-window}}
+    {asks client to delete one of its windows}
+\smalldesc{window-to-client}{\pageref{window-to-client}}
+    {client window Xid to Gwm wob conversions}
+\smalldesc{client-to-window}{\pageref{client-to-window}}
+    {client window Xid to Gwm wob conversions}
+}%%WCOMMUNICATE
+\vfill
+
+%%
+\section{Session manager functions}
+\bigdesc{save-yourself}{
+\smalldesc{save-yourself}{\pageref{save-yourself}}
+    {asks client to update its WM\_COMMAND property}
+}%%WSESSION
+
+%%
+\section{Fonts}
+\bigdesc{font-make}{
+\smalldesc{font}{\pageref{font}}
+    {default font}
+\smalldesc{font-make}{\pageref{font-make}}
+    {loads a font}
+}%%WFONT
+\vfill
+
+%%
+\section{Fsms}
+\bigdesc{state-make}{
+\smalldesc{fsm}{\pageref{fsm}}
+    {Finite State Machine of the wob}
+\smalldesc{fsm-make}{\pageref{fsm-make}}
+    {compiles an automaton}
+\smalldesc{on}{\pageref{on}}
+    {triggers a transition on an event in a state of a fsm}
+\smalldesc{on-eval}{\pageref{on-eval}}
+    {triggers a transition on an event in a state of a fsm}
+\smalldesc{state-make}{\pageref{state-make}}
+    {makes a state of a fsm}
+\smalldesc{wob-fsm}{\pageref{wob-fsm}}
+    {gets or sets the fsm associated with current wob}
+}%%WFSM
+\vfill
+
+%%
+\section{Meter}
+\bigdesc{meter-update}{
+\smalldesc{meter-close}{\pageref{meter-close}}
+    {unmaps the meter}
+\smalldesc{meter-open}{\pageref{meter-open}}
+    {displays the meter}
+\smalldesc{meter-update}{\pageref{meter-update}}
+    {writes a string in the meter}
+\smalldesc{meter}{\pageref{meter}}
+    {sets meter attributes}
+\smalldesc{move-meter}{\pageref{move-meter}}
+    {shows meter during moves}
+\smalldesc{resize-meter}{\pageref{resize-meter}}
+    {shows meter during resizes}
+}%%WMETER
+\vfill
+
+%%
+\section{Hooks}
+\bigdesc{opening}{
+\smalldesc{opening}{\pageref{opening}}
+    {{\WOOL} expression evaluated at the creation of a window or icon}
+\smalldesc{closing}{\pageref{closing}}
+    {{\WOOL} expression evaluated at the destruction of a window or icon}
+}%%WHOOKS
+\vfill
+
+%%
+\section{Debugging tools}
+\bigdesc{window-is-valid}{
+\smalldesc{trace}{\pageref{trace}}
+    {traces {\WOOL} function calls}
+\smalldesc{trace-level}{\pageref{trace-level}}
+    {traces {\WOOL} function calls}
+\smalldesc{stack-print-level}{\pageref{stack-print-level}}
+    {number of stack frames printed on error}
+\smalldesc{hashinfo}{\pageref{hashinfo}}
+    {statistics on atom storage}
+\smalldesc{meminfo}{\pageref{meminfo}}
+    {prints memory used}
+\smalldesc{oblist}{\pageref{oblist}}
+    {prints all defined objects}
+\smalldesc{window-is-valid}{\pageref{window-is-valid}}
+    {tests if window is still valid}
+\smalldesc{wob-is-valid}{\pageref{wob-is-valid}}
+    {tests if wob is still valid}
+}%%WDEBUG
+\vfill

@@ -1,0 +1,50 @@
+#
+# Imakefile for olwm
+#
+# LIBRARY_DEST is the location of the XView libraries
+# HEADER_DEST is the location of the XView header files
+# LIBDIR is the directory containing the X11 library (libX11.a)
+#
+OLGXINCDIR=$(TOP)/../contrib/lib/i18nXView2/include
+OLGXLIBDIR=$(TOP)/../contrib/lib/i18nXView2/lib/libolgx
+XLIBDIR=$(TOP)/lib/X
+CDEBUGFLAGS= -DOW_I18N -DOW_I18N_FIX
+INCLUDES= -I.. -I$(HEADER_DEST) -I$(TOP) -I$(OLGXINCDIR)
+
+LDOPTIONS=-L$(OLGXLIBDIR) -L$(XLIBDIR) -L$(LIBDIR) -lolgx -lX11 -lc
+
+HEADERS	= defaults.h events.h globals.h group.h list.h mem.h menu.h notice.h \
+        olcursor.h olwm.h resources.h slots.h st.h win.h \
+        charset.h gettext.h i18n.h ollocale.h
+
+SRCS = 	\
+        Debug.c Notice.c Error.c \
+        InitGraphics.c RubberWin.c Select.c WinInfo.c \
+        atom.c client.c defaults.c events.c group.c list.c \
+        mem.c menu.c olwm.c resources.c services.c slots.c st.c states.c \
+        usermenu.c usleep.c win.c winbusy.c winbutton.c wincolor.c \
+        winframe.c wingframe.c winicon.c winipane.c winmenu.c \
+        winnofoc.c winpane.c winpush.c winresize.c winroot.c \
+        ctstowcs.c fontset.c gettext.c i18n.c wcstocts.c       
+# New to OW_I18N version
+
+
+OBJS = 	Debug.o Notice.o Error.o \
+        InitGraphics.o RubberWin.o Select.o WinInfo.o \
+        atom.o client.o defaults.o events.o group.o list.o \
+        mem.o menu.o olwm.o resources.o services.o slots.o st.o states.o \
+        usermenu.o usleep.o win.o winbusy.o winbutton.o wincolor.o \
+        winframe.o wingframe.o winicon.o winipane.o winmenu.o \
+        winnofoc.o winpane.o winpush.o winresize.o winroot.o \
+        ctstowcs.o fontset.o gettext.o i18n.o wcstocts.o 
+
+BITMAPS = \ 
+	bitmaps/iconbitmap.h
+
+MISC 	= README Imakefile Makefile
+
+ComplexProgramTarget(olwm)
+
+clean::
+
+install::

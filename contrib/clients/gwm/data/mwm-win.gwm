@@ -1,0 +1,976 @@
+;;File: mwm-win.gwm -- mwm-like frame
+;;Author: Frederic CHARTON
+;;Revision: 1.1 -- Marc 2 1990
+
+(: mwm-ed-borderwidth 0)
+
+; STANDARD BEHAVIOR OF WINDOWS :
+; ============================
+(: window-std-behavior
+   (state-make
+        (on focus-out (maintain-focus-out))
+        (on focus-in (maintain-focus-in))
+        (on (user-event 'resize-by-menu)
+                (progn
+                (set-focus)
+                (warp-pointer (/ window-width 2) (/ window-height 2) window)
+                (with  (cursor cross-cursor) (grab-server window 'only))
+                (: resize-flag window)))
+        (if (= keyboardFocusPolicy 'explicit)
+        (on leave-window
+         (if (not (current-event-from-grab))
+          (progn
+                (if (= resize-flag window)
+                (progn  (: resize-flag ())
+                        (ungrab-server)
+                        (with (mwm-resize-style-catch-corners 1 
+			       old mwm-resize-style-corner-size)
+			      (: mwm-resize-style-corner-size 
+				(# 'resize-corner-size window))
+			      (resize-window)
+			      (: mwm-resize-style-corner-size old)
+			)
+                )
+                             (send-user-event 'leave-window))
+          )
+	 )
+	)
+        (on leave-window
+         (if (not (current-event-from-grab))
+          (progn
+                (if (= resize-flag window)
+                 (progn  (: resize-flag ())
+                         (ungrab-server)
+                         (with (mwm-resize-style-catch-corners 1
+				old mwm-resize-style-corner-size) 
+			       (: mwm-resize-style-corner-size 
+					(# 'resize-corner-size window))
+				(resize-window)
+			      (: mwm-resize-style-corner-size old)
+			)
+
+                 )
+                )
+                (set-focus ())
+          )
+	  (with (cmp (current-mouse-position)
+		 cmpx (- (# 0 cmp) window-x) cmpy (- (# 1 cmp) window-y)
+		)
+	   (if (not (and (> cmpx 0) (> cmpy 0) 
+			 (< cmpx window-width) 
+			 (< cmpy window-height)))
+		(set-focus ())
+	   )
+	  )
+         )
+        )
+        )
+
+        (if (= keyboardFocusPolicy 'explicit)
+         (on enter-window
+          (if (not (# 'got-focus window-property))
+			(set-grabs (replayable-event (buttonpress 1 alone)))
+	  )
+	 )
+         (on enter-window (set-focus)) 
+	)
+
+        (if (= keyboardFocusPolicy 'explicit)
+         (on (buttonpress 1 alone)
+               (if (not (# 'got-focus window-property))
+                (progn
+                 (set-focus)
+                 (if (not (= resize-flag window)) (: resize-flag ()))
+                 (if passSelectButton (ungrab-server-and-replay-event ()))
+                 (unset-grabs (buttonpress 1 alone) )
+                )
+	       )
+	 )
+        )
+        (on name-change (send-user-event 'name-change))
+	(on (property-change "WM_ICON_NAME")
+	    (if (window-icon?)
+		(send-user-event 'name-change window-icon)))
+        (on window-icon-pixmap-change
+                (send-user-event 'icon-pixmap-change window-icon))
+       )
+)
+
+;-------------------------------------------------------------------------
+
+
+; THE TILES :
+; =========
+
+(: shadowed-vbar-tile 
+	(with (foreground clientBackground theTile (pixmap-make resizeBorderWidth 1))
+		(with (foreground clientTopShadowColor) 
+		 (draw-line theTile 0 0 1 0))
+		(with (foreground clientBottomShadowColor) 
+		 (draw-line theTile (- resizeBorderWidth 1) 0  (- resizeBorderWidth 2) 0))
+	 theTile
+	)
+)
+
+(: active-shadowed-vbar-tile 
+	(with (foreground clientActiveBackground theTile (pixmap-make resizeBorderWidth 1))
+		(with (foreground clientActiveTopShadowColor) 
+		 (draw-line theTile 0 0 1 0))
+		(with (foreground clientActiveBottomShadowColor) 
+		 (draw-line theTile (- resizeBorderWidth 1) 0  (- resizeBorderWidth 2) 0))
+	 theTile
+	)
+)
+
+(: shadowed-hbar-tile 
+	(with (foreground clientBackground theTile (pixmap-make 1 resizeBorderWidth))
+		(with (foreground clientTopShadowColor) 
+		 (draw-line theTile 0 0 0 1))
+		(with (foreground clientBottomShadowColor) 
+		 (draw-line theTile 0 (- resizeBorderWidth 1) 0  (- resizeBorderWidth 2)))
+	 theTile
+	)
+)
+
+(: active-shadowed-hbar-tile 
+	(with (foreground clientActiveBackground theTile (pixmap-make 1 resizeBorderWidth))
+		(with (foreground clientActiveTopShadowColor) 
+		 (draw-line theTile 0 0 0 1))
+		(with (foreground clientActiveBottomShadowColor) 
+		 (draw-line theTile 0 (- resizeBorderWidth 1) 0  (- resizeBorderWidth 2)))
+	 theTile
+	)
+)
+
+(: border-vbar-tile
+	(with (foreground clientBackground theTile (pixmap-make frameBorderwidth 1)
+	       foreground clientTopShadowColor)
+	 (draw-line theTile 0 0 1 0)
+	 (with (foreground clientBottomShadowColor)
+	  (draw-line theTile (- frameBorderwidth 1) 0 (- frameBorderwidth 2) 0)
+	 )
+	theTile
+	)
+)
+
+(: active-border-vbar-tile
+	(with (foreground clientActiveBackground theTile (pixmap-make frameBorderwidth 1)
+	       foreground clientActiveTopShadowColor)
+	 (draw-line theTile 0 0 1 0)
+	 (with (foreground clientActiveBottomShadowColor)
+	  (draw-line theTile (- frameBorderwidth 1) 0 (- frameBorderwidth 2) 0)
+	 )
+	theTile
+	)
+)
+
+(: border-hbar-tile
+        (with (foreground clientBackground theTile (pixmap-make 1 frameBorderwidth)
+               foreground clientTopShadowColor)
+         (draw-line theTile 0 0 0 1)
+         (with (foreground clientBottomShadowColor)
+          (draw-line theTile  0 (- frameBorderwidth 1) 0 (- frameBorderwidth 2))
+         )
+        theTile
+        )
+)
+
+(: active-border-hbar-tile
+        (with (foreground clientActiveBackground theTile (pixmap-make 1 frameBorderwidth)
+               foreground clientActiveTopShadowColor)
+         (draw-line theTile 0 0 0 1)
+         (with (foreground clientActiveBottomShadowColor)
+          (draw-line theTile 0 (- frameBorderwidth 1) 0 (- frameBorderwidth 2))
+         )
+        theTile
+        )
+)
+
+
+(de border-tl-pixmap-make (active)
+        (with (
+                foreground (if active clientActiveBackground  clientBackground )
+                tSC        (if active clientActiveTopShadowColor    clientTopShadowColor   )
+                bSC        (if active clientActiveBottomShadowColor clientBottomShadowColor)
+                w          frameBorderwidth
+                h          frameBorderwidth
+                theTile    (pixmap-make w h)
+              )
+         (with (foreground bSC) 
+		(draw-line theTile (- w 2) (- h 2) (- w 1) (- h 2))
+		(draw-line theTile (- w 2) (- h 1) (- w 1) (- h 1))
+	 )
+	 (with (foreground tSC)
+		(draw-line theTile 0 0 (- w 1) 0)
+		(draw-line theTile 0 1 (- w 1) 1)
+		(draw-line theTile 0 0 0 (- h 1))
+		(draw-line theTile 1 0 1 (- h 1))
+	 )
+	theTile
+	)
+)
+
+(de border-tr-pixmap-make (active)
+        (with (
+                foreground (if active clientActiveBackground  clientBackground )
+                tSC        (if active clientActiveTopShadowColor    clientTopShadowColor   )
+                bSC        (if active clientActiveBottomShadowColor clientBottomShadowColor)
+                w          frameBorderwidth
+                h          frameBorderwidth
+                theTile    (pixmap-make w h)
+              )
+         (with (foreground tSC)
+		(draw-line theTile 0 (- h 1) 1 (- h 1))
+	 )
+         (with (foreground bSC)
+                (draw-line theTile (- w 2) 0 (- w 2) (- h 1))
+                (draw-line theTile (- w 1) 0 (- w 1) (- h 1))
+		(draw-line theTile 0 (- h 2) 1 (- h 2))
+		(draw-line theTile 0 (- h 2) 0 (- h 1))
+         )
+         (with (foreground tSC)
+                (draw-line theTile 0 0 (- w 1) 0)
+                (draw-line theTile 0 1 (- w 2) 1)
+         )
+        theTile
+        )
+)
+
+
+(de border-bl-pixmap-make (active)
+        (with (
+                foreground (if active clientActiveBackground  clientBackground )
+                tSC        (if active clientActiveTopShadowColor    clientTopShadowColor   )
+                bSC        (if active clientActiveBottomShadowColor clientBottomShadowColor)
+                w          frameBorderwidth
+                h          frameBorderwidth
+                theTile    (pixmap-make w h)
+              )
+         (with (foreground tSC)
+                (draw-line theTile (- w 2) 1 (- w 1) 1)
+         )
+         (with (foreground bSC)
+                (draw-line theTile (- w 2) 0 (- w 2) 1)
+                (draw-line theTile (- w 1) 0 (- w 2) 0)
+                (draw-line theTile 0 (- h 2) (- w 1) (- h 2))
+                (draw-line theTile 0 (- h 1) (- w 1) (- h 1))
+         )
+         (with (foreground tSC)
+                (draw-line theTile 0 0 0 (- h 1))
+                (draw-line theTile 1 0 1 (- h 2))
+         )
+        theTile
+        )
+)
+
+(de border-br-pixmap-make (active)
+        (with (
+                foreground (if active clientActiveBackground  clientBackground )
+                tSC        (if active clientActiveTopShadowColor    clientTopShadowColor   )
+                bSC        (if active clientActiveBottomShadowColor clientBottomShadowColor)
+                w          frameBorderwidth
+                h          frameBorderwidth
+                theTile    (pixmap-make w h)
+              )
+         (with (foreground bSC)
+                (draw-line theTile 0 (- h 2) (- w 1) (- h 2))
+                (draw-line theTile 0 (- h 1) (- w 1) (- h 1))
+		(draw-line theTile (- w 2) 0 (- w 2) (- h 1))
+		(draw-line theTile (- w 1) 0 (- w 1) (- h 1))
+         )
+         (with (foreground tSC)
+                (draw-line theTile 0 0 1 0)
+                (draw-line theTile 0 1 1 1)
+         )
+        theTile
+        )
+)
+
+; RESIZE HANDLE'S FSM :
+; ===================
+
+(: resize-plug.fsm
+ (fsm-make 
+  (state-make
+	(on (user-event 'focus-in) (: wob-tile (# 'activepixmap wob-property)) )
+        (on (user-event 'focus-out) (: wob-tile (# 'pixmap wob-property)) )
+	(on (buttonpress 1 any) (progn
+				 (do-binding-button 1 (current-event-modifier)
+							'press '(frame border))
+				 (resize-window)) )
+	(do-bindings-state '(frame border))
+  )
+ )
+)
+
+
+; BORDER'S FSM :
+; ============
+
+(: border.fsm
+ (fsm-make
+  (state-make
+        (on (user-event 'focus-in) (: wob-tile (# 'activepixmap wob-property)) )
+        (on (user-event 'focus-out) (: wob-tile (# 'pixmap wob-property)) )
+        (do-bindings-state '(frame border))
+  )
+ )
+)
+
+
+
+(: border-v-bar
+  (with (
+        fsm border.fsm
+        borderwidth 0
+        cursor frame-cursor
+        tile border-vbar-tile
+        property (list 'pixmap border-vbar-tile
+                       'activepixmap active-border-vbar-tile)
+	bar-min-width frameBorderwidth
+       )
+   (bar-make ())
+  )
+)
+
+(: border-plug-tl
+        (with (
+               borderwidth 0
+               fsm border.fsm
+               pixmap (border-tl-pixmap-make ())
+               activepixmap (border-tl-pixmap-make t)
+               property (list 'pixmap pixmap 'activepixmap activepixmap)
+              )
+         (plug-make pixmap)
+        )
+)
+
+(: border-plug-tr
+        (with (
+               borderwidth 0
+               fsm border.fsm
+               pixmap (border-tr-pixmap-make ())
+               activepixmap (border-tr-pixmap-make t)
+               property (list 'pixmap pixmap 'activepixmap activepixmap)
+              )
+         (plug-make pixmap)
+        )
+)
+
+(: border-plug-bl
+        (with (
+               borderwidth 0
+               fsm border.fsm
+               pixmap (border-bl-pixmap-make ())
+               activepixmap (border-bl-pixmap-make t)
+               property (list 'pixmap pixmap 'activepixmap activepixmap)
+              )
+         (plug-make pixmap)
+        )
+)
+
+(: border-plug-br
+        (with (
+               borderwidth 0
+               fsm border.fsm
+               pixmap (border-br-pixmap-make ())
+               activepixmap (border-br-pixmap-make t)
+               property (list 'pixmap pixmap 'activepixmap activepixmap)
+              )
+         (plug-make pixmap)
+        )
+)
+
+
+
+(: border-top-bar
+  (with (
+        fsm border.fsm
+        borderwidth 0
+        cursor frame-cursor
+        tile border-hbar-tile
+        property (list 'pixmap border-hbar-tile
+                       'activepixmap active-border-hbar-tile)
+	bar-min-width frameBorderwidth
+       )
+   (bar-make border-plug-tl () border-plug-tr)
+  )
+
+)
+
+(: border-bottom-bar
+  (with (
+        fsm border.fsm
+        borderwidth 0
+        cursor frame-cursor
+        tile border-hbar-tile
+        property (list 'pixmap border-hbar-tile
+                       'activepixmap active-border-hbar-tile)
+	bar-min-width frameBorderwidth
+       )
+   (bar-make border-plug-bl () border-plug-br)
+  )
+
+)
+	 
+
+(de bottom-pixmap-make (active)
+	(with (
+		foreground (if active clientActiveBackground  clientBackground )
+		tSC 	   (if active clientActiveTopShadowColor    clientTopShadowColor   )
+		bSC	   (if active clientActiveBottomShadowColor clientBottomShadowColor)
+		w	   resizeBorderWidth
+		h	   (- mwm-resize-style-corner-size w)
+		theTile	   (pixmap-make w h)
+	      )
+	 (with (foreground bSC) (draw-line theTile 0 0 (- w 1) 0))
+	 (with (foreground tSC) 
+			(draw-line theTile 0 1 (- w 1) 1)
+			(draw-line theTile 0 0 0 (- h 1))
+			(draw-line theTile 1 0 1 (- h 1))
+	 )
+	 (with (foreground bSC) 
+			(draw-line theTile (- w 1) 0 (- w 1) (- h 1))
+			(draw-line theTile (- w 2) 2 (- w 2) (- h 1))
+	 )
+	 theTile
+	)
+)
+
+(de top-pixmap-make (active)
+	(with (
+		foreground (if active clientActiveBackground clientBackground)
+		tSC        (if active  clientActiveTopShadowColor    clientTopShadowColor   )
+                bSC        (if active clientActiveBottomShadowColor clientBottomShadowColor)
+		w	   resizeBorderWidth
+		h	   (- mwm-resize-style-corner-size w)
+		theTile	   (pixmap-make w h)
+	      )
+         (with (foreground tSC)
+                        (draw-line theTile 0 0 0 (- h 1))
+                        (draw-line theTile 1 0 1 (- h 1))
+			(draw-line theTile 0 (- h 1) (- w 2) (- h 1))
+         )
+         (with (foreground bSC)
+                        (draw-line theTile (- w 2) 0 (- w 2) (- h 2))
+                        (draw-line theTile (- w 1) 0 (- w 1) (- h 1))
+			(draw-line theTile 1 (- h 2) (- w 1) (- h 2))
+         )
+	 theTile
+	)
+)
+
+(de top-right-h-pixmap-make (active)
+        (with (
+                foreground (if active clientActiveBackground  clientBackground )
+                tSC        (if active clientActiveTopShadowColor    clientTopShadowColor   )
+                bSC        (if active clientActiveBottomShadowColor clientBottomShadowColor)
+                h          resizeBorderWidth
+                w          mwm-resize-style-corner-size
+                theTile    (pixmap-make w h)
+              )
+         (with (foreground tSC)
+                (draw-line theTile 0 0 (- w 1) 0)
+                (draw-line theTile 1 1 (- w 2) 1)
+		(draw-line theTile 1 0 1 (- h 2))
+		(draw-line theTile (+ (- w h) 1) (- h 2) (+ (- w h) 1) (- h 1))
+         )
+         (with (foreground bSC)
+                (draw-line theTile 0 1 0 (- h 1))
+		(draw-line theTile 0 (- h 1) (- w h) (- h 1))
+		(draw-line theTile 2 (- h 2) (+ (- w h) 1) (- h 2))
+		(draw-line theTile (- w 1) 1 (- w 1) (- h 1))
+		(draw-line theTile (- w 2) 2 (- w 2) (- h 1))
+         )
+         theTile
+        )
+)
+
+(de top-left-h-pixmap-make (active)
+        (with (
+                foreground (if active clientActiveBackground  clientBackground )
+                tSC        (if active clientActiveTopShadowColor    clientTopShadowColor   )
+                bSC        (if active clientActiveBottomShadowColor clientBottomShadowColor)
+                h          resizeBorderWidth
+                w          mwm-resize-style-corner-size
+                theTile    (pixmap-make w h)
+              )
+         (with (foreground tSC)
+                (draw-line theTile 0 0 (- w 1) 0)
+		(draw-line theTile 0 1 (- w 3) 1)
+		(draw-line theTile (- w 1) 0 (- w 1) (- h 2))
+		(draw-line theTile 0 0 0 (- h 1))
+		(draw-line theTile 1 0 1 (- h 1))
+         )
+         (with (foreground bSC)
+                (draw-line theTile (- h 2) (- h 2) (- w 2) (- h 2))
+                (draw-line theTile (- h 2) (- h 1) (- w 1) (- h 1))
+		(draw-line theTile (- w 2) 1 (- w 2) (- h 1))
+         )
+         theTile
+        )
+)
+
+
+
+
+(de bottom-right-h-pixmap-make (active)
+	(with (
+		foreground (if active clientActiveBackground  clientBackground )
+		tSC 	   (if active clientActiveTopShadowColor    clientTopShadowColor   )
+		bSC	   (if active clientActiveBottomShadowColor clientBottomShadowColor)
+		h	   resizeBorderWidth
+		w	   mwm-resize-style-corner-size
+		theTile	   (pixmap-make w h)
+	      )
+	 (with (foreground tSC)
+		(draw-line theTile 0 0 (+ (- mwm-resize-style-corner-size resizeBorderWidth) 1) 0)
+		(draw-line theTile 0 1 (+ (- mwm-resize-style-corner-size resizeBorderWidth) 1) 1)
+		(draw-line theTile 1 0 1 (- h 2))
+	 )
+	 (with (foreground bSC) 
+		(draw-line theTile 0 2 0 (- h 1))
+		(draw-line theTile 0 (- h 1) (- w 1) (- h 1))
+		(draw-line theTile 2 (- h 2) (- w 1) (- h 2))
+		(draw-line theTile (- w 1)  0 (- w 1) (- h 1))
+		(draw-line theTile (- w 2)  0 (- w 2) (- h 2))
+	 )
+	 theTile
+	)
+)
+
+(de bottom-left-h-pixmap-make (active)
+	(with (
+		foreground (if active clientActiveBackground  clientBackground )
+		tSC 	   (if active clientActiveTopShadowColor    clientTopShadowColor   )
+		bSC	   (if active clientActiveBottomShadowColor clientBottomShadowColor)
+		h	   resizeBorderWidth
+		w	   mwm-resize-style-corner-size
+		theTile	   (pixmap-make w h)
+	      )
+	 (with (foreground tSC)
+		(draw-line theTile 0 0 0 (- h 1))
+		(draw-line theTile 1 0 1 (- h 2))
+		(draw-line theTile resizeBorderWidth 0 (- w 1) 0)
+		(draw-line theTile (- resizeBorderWidth 1) 1 (- w 1) 1)
+		(draw-line theTile (- w 1) 0 (- w 1) (- h 1))
+	 )
+	 (with (foreground bSC) 
+		(draw-line theTile 1 (- h 1) (- w 1) (- h 1))
+		(draw-line theTile 2 (- h 2) (- w 2) (- h 2))
+		(draw-line theTile (- w 2) 2 (- w 2) (- h 2))
+		(draw-line theTile (- resizeBorderWidth 2) 0 (- resizeBorderWidth 1) 0)
+		(draw-line theTile (- resizeBorderWidth 2) 0 (- resizeBorderWidth 2) 1)
+	 )
+	 theTile
+	)
+)
+
+
+; THE PLUGS :
+; =========
+
+(: top-resize-vplug-left
+	(with (cursor (if resizeCursors cursor-NW frame-cursor)
+	       borderwidth 0
+	       fsm resize-plug.fsm
+	       pixmap (top-pixmap-make ())
+	       activepixmap (top-pixmap-make t)
+	       property (list 'pixmap pixmap 'activepixmap activepixmap)
+	      )
+	 (plug-make pixmap)
+	)
+)
+
+(: top-resize-vplug-right
+        (with (cursor (if resizeCursors cursor-NE frame-cursor)
+               borderwidth 0
+               fsm resize-plug.fsm
+               pixmap (top-pixmap-make ())
+               activepixmap (top-pixmap-make t)
+               property (list 'pixmap pixmap 'activepixmap activepixmap)
+              )
+         (plug-make pixmap)
+        )
+)
+
+
+(: bottom-resize-vplug-left
+	(with (cursor (if resizeCursors cursor-SW frame-cursor)
+	       borderwidth 0
+	       fsm resize-plug.fsm
+	       pixmap (bottom-pixmap-make ())
+	       activepixmap (bottom-pixmap-make t)
+	       property (list 'pixmap pixmap 'activepixmap activepixmap)
+	      )
+	 (plug-make pixmap)
+	)
+)
+
+
+(: bottom-resize-vplug-right
+	(with (cursor (if resizeCursors cursor-SE frame-cursor)
+	       borderwidth 0
+	       fsm resize-plug.fsm
+	       pixmap (bottom-pixmap-make ())
+	       activepixmap (bottom-pixmap-make t)
+	       property (list 'pixmap pixmap 'activepixmap activepixmap)
+	      )
+	 (plug-make pixmap)
+	)
+)
+
+
+
+(: bottom-resize-hplug-right
+	(with (cursor (if resizeCursors cursor-SE frame-cursor)
+	       borderwidth 0
+	       fsm resize-plug.fsm
+	       pixmap (bottom-right-h-pixmap-make ())
+	       activepixmap (bottom-right-h-pixmap-make t)
+	       property (list 'pixmap pixmap 'activepixmap activepixmap)
+	      )
+	 (plug-make pixmap)
+	)
+)
+
+
+(: bottom-resize-hplug-left
+	(with (cursor (if resizeCursors cursor-SW frame-cursor)
+	       borderwidth 0
+	       fsm resize-plug.fsm
+	       pixmap (bottom-left-h-pixmap-make ())
+	       activepixmap (bottom-left-h-pixmap-make t)
+	       property (list 'pixmap pixmap 'activepixmap activepixmap)
+	      )
+	 (plug-make pixmap)
+	)
+)
+
+(: top-resize-hplug-right
+        (with (cursor (if resizeCursors cursor-NE frame-cursor)
+               borderwidth 0
+               fsm resize-plug.fsm
+               pixmap (top-right-h-pixmap-make ())
+               activepixmap (top-right-h-pixmap-make t)
+               property (list 'pixmap pixmap 'activepixmap activepixmap)
+              )
+         (plug-make pixmap)
+        )
+)
+
+
+(: top-resize-hplug-left
+        (with (cursor (if resizeCursors cursor-NW frame-cursor)
+               borderwidth 0
+               fsm resize-plug.fsm
+               pixmap (top-left-h-pixmap-make ())
+               activepixmap (top-left-h-pixmap-make t)
+               property (list 'pixmap pixmap 'activepixmap activepixmap)
+              )
+         (plug-make pixmap)
+        )
+)
+
+
+; THE BARS :
+; ========
+
+(df left-bar ()
+ (if deco.border
+ (if deco.resizeh
+ (with (
+	fsm resize-plug.fsm
+	borderwidth 0
+	cursor (if resizeCursors cursor-W frame-cursor)
+	tile shadowed-vbar-tile
+	property (list 'pixmap shadowed-vbar-tile 
+		       'activepixmap active-shadowed-vbar-tile)
+       )
+ (bar-make (if (not deco.title) top-resize-vplug-left) () bottom-resize-vplug-left )
+ )
+ border-v-bar
+ )
+ )
+)
+
+(df right-bar ()
+ (if deco.border
+ (if deco.resizeh
+ (with (
+	fsm resize-plug.fsm
+	borderwidth 0
+	cursor (if resizeCursors cursor-E frame-cursor)
+	tile shadowed-vbar-tile
+	property (list 'pixmap shadowed-vbar-tile 
+		       'activepixmap active-shadowed-vbar-tile)
+       )
+ (bar-make (if (not deco.title) top-resize-vplug-right) () bottom-resize-vplug-right)
+ )
+ border-v-bar
+ )
+ )
+)
+
+
+
+(df bottom-bar ()
+ (if deco.border
+ (if deco.resizeh
+ (with (
+	fsm resize-plug.fsm
+	borderwidth 0
+	cursor (if resizeCursors cursor-S frame-cursor)
+	tile shadowed-hbar-tile
+	plug-separator 0
+	property (list 'pixmap shadowed-hbar-tile 
+		       'activepixmap active-shadowed-hbar-tile)
+       )
+ (bar-make bottom-resize-hplug-left 
+	   () 
+	   bottom-resize-hplug-right
+ )
+ )
+ border-bottom-bar
+ )
+ )
+)
+
+(df top-bar ()
+ (if deco.border
+ (if deco.resizeh
+ (with (
+        fsm resize-plug.fsm
+        borderwidth 0
+        cursor (if resizeCursors cursor-N frame-cursor)
+        tile shadowed-hbar-tile
+        plug-separator 0
+        property (list 'pixmap shadowed-hbar-tile
+                       'activepixmap active-shadowed-hbar-tile)
+       )
+ (bar-make top-resize-hplug-left
+           ()
+           top-resize-hplug-right
+ )
+ )
+ border-top-bar
+ )
+ )
+)
+
+
+;==============================================================================
+
+
+; FSM of the text field :
+; =====================
+(: edit-fsm  
+    (fsm-make 
+	(: sed.edit-fsm.normal 
+	   (state-make
+	       (on (user-event 'focus-in) 
+		   (progn
+			 (: wob-background clientActiveBackground)
+			 (wob-tile (with (foreground clientActiveForeground)
+				     (active-label-make window-name clientFontList)))
+		   ) )
+	       (on (user-event 'focus-out)
+		   (progn
+			 (: wob-background clientBackground)
+			 (wob-tile (with (foreground clientForeground)
+				     (active-label-make window-name clientFontList)))
+		   ) )
+	       (on (user-event 'name-change)
+		   (progn
+			 (wob-tile 
+			   (with (foreground ;(if (# 'got-focus (property-of-wob window))
+				  (if (= wob-background clientActiveBackground)
+						clientActiveForeground clientForeground))
+				(active-label-make window-name clientFontList)))
+		   ))
+	    (on (buttonpress 1 alone) (progn (do-binding-button 1 alone 'press '(title frame))
+					     (with (cursor cross-cursor) (move-window))))
+	       (do-bindings-state '(title frame))
+	       )
+))))))
+    
+
+(with (font clientFontList)
+	(: title-bar.width (+ 6 (height "A"))) )
+
+; THE TITLE-BAR :
+; =============
+
+(: shadowed-title-bar-tile 
+	(with (foreground clientBackground theTile (pixmap-make 1 title-bar.width))
+		(with (foreground clientTopShadowColor) 
+		 (draw-line theTile 0 0 0 1))
+		(with (foreground clientBottomShadowColor) 
+		 (draw-line theTile 0 (- title-bar.width 1) 0  (- title-bar.width 2)))
+	 theTile
+	)
+)
+
+(: active-shadowed-title-bar-tile 
+	(with (foreground clientActiveBackground theTile (pixmap-make 1 title-bar.width))
+		(with (foreground clientActiveTopShadowColor) 
+		 (draw-line theTile 0 0 0 1))
+		(with (foreground clientActiveBottomShadowColor) 
+		 (draw-line theTile 0 (- title-bar.width 1) 0  (- title-bar.width 2)))
+	 theTile
+	)
+)
+
+(: titlebar-fsm 
+    (fsm-make
+	(state-make
+	    (on (user-event 'focus-in) (: wob-tile (# 'activepixmap wob-property)) )
+            (on (user-event 'focus-out) (: wob-tile (# 'pixmap wob-property)) )
+	    (on (buttonpress 1 alone) (progn (do-binding-button 1 alone 'press '(title frame))
+					     (with (cursor cross-cursor) (move-window))))
+	    (do-bindings-state '(title frame))
+)))
+    
+
+(: editable-plug '(with (borderwidth 0
+			 background clientBackground 
+			 foreground clientForeground
+			 font clientFontList
+			 menu ()
+			 property (list 'name window-name) fsm edit-fsm)
+			(plug-make (label-make window-name)))))
+
+(df titlebar ()
+ (if deco.title
+	       (with (
+		      menu ()
+		      cursor frame-cursor
+		      borderwidth 0 background clientBackground fsm titlebar-fsm
+		      plug-separator 0
+	       	      pixmap shadowed-title-bar-tile
+	              activepixmap  active-shadowed-title-bar-tile
+		      property (list 'pixmap pixmap 'activepixmap activepixmap)
+		      tile pixmap
+		      borderpixel black
+		      bar-min-width title-bar.width
+		      params 
+			(list
+		 	 (if deco.menu button-of-menu)
+			 () 
+			 editable-plug 
+			 () 
+			 (if deco.minimize button-iconify)
+			)
+		      params (if deco.maximize (+ params '(button-zoom)) params)
+		     )
+		     (eval (+ '(bar-make) params))
+		)
+ (if deco.border (top-bar))
+ )
+)
+
+(df mwm-window-fsm ()
+		  (fsm-make 
+		    (state-make 
+			(# 0 (# 'window keyBindings))
+			(# 'wfsm (menu-wob menu))
+			window-std-behavior
+			(do-bindings-state '(window))
+		    )
+		  )
+)
+
+
+; THE MWM-LIKE WINDOW :
+; ===================
+
+
+(df mwm-win-deco-make ()
+ 	     (with (inner-borderwidth 1 
+		    menu (eval (atom (get-res-value 'windowMenu)))
+		    fsm (mwm-window-fsm)
+		    cursor frame-cursor
+		    borderwidth mwm-ed-borderwidth
+		    borderpixel white
+		    property (list 'resize-corner-size
+				(if deco.resizeh mwm-resize-style-corner-size 1) )
+		    grabs  
+			(+      (# 1 (# 'window keyBindings))
+				(# 'app-grabs buttonBindings)
+				(# 'wgrabs (menu-wob menu))
+				window-std-grabs
+			)
+ 		   )
+		     (window-make (titlebar) (left-bar) (right-bar) (bottom-bar) ())
+	     )
+)
+
+(defname 'mwm-win.data screen. ())
+
+(: default-deco ())
+
+(df mwm-win ()
+    '(with (Deco-name (if window-is-transient-for ".transientDecoration"
+                          ".clientDecoration")
+            client-name-resource
+	    (+ window-client-name Deco-name)
+	    client-class-resource (+ window-client-class Deco-name)
+	    client-name-deco (resource-get client-name-resource
+					   client-class-resource)
+	    client-name-deco-atom (atom client-name-resource)
+	    client-class-deco-atom (atom client-class-resource)
+	    )
+
+       (if (and client-name-deco (boundp client-name-deco-atom))
+	   (eval client-name-deco-atom)
+	 (with (theResource (+ window-client-name Deco-name)
+			    theDeco (resource-get theResource theResource))
+
+	   (if theDeco (progn 
+			 (get-deco-ctxt theDeco) 
+			 (resource-put client-name-resource t)
+			 (set (atom client-name-resource)
+			      (mwm-win-deco-make)))
+
+	     (with (client-class-deco (resource-get client-class-resource 
+						    client-class-resource))
+
+	       (if (and client-class-deco (boundp client-class-deco-atom))
+		   (eval client-class-deco-atom)
+		 (with (theResource
+			(+ window-client-class Deco-name)
+			theDeco (resource-get theResource theResource))
+
+		   (if theDeco (progn
+				 (get-deco-ctxt theDeco)
+				 (resource-put client-class-resource t)
+				 (set (atom client-class-resource)
+				      (mwm-win-deco-make)))
+
+		     (if default-deco default-deco
+		       (progn
+			 (get-deco-ctxt 'all)
+			 (: default-deco (mwm-win-deco-make)))))))))))))
+
+
+(: all '(maximize minimize menu resizeh border title))
+
+(de get-deco-ctxt (theDeco)
+ (: deco.title ())
+ (: deco.border ())
+ (: deco.maximize ())
+ (: deco.minimize ())
+ (: deco.menu ())
+ (: deco.resizeh ())
+
+ (if (= theDeco 'none) ()
+     (= theDeco 'all) (get-deco-ctxt (eval theDeco))
+     (while theDeco
+      (set (atom (+ "deco." (# 0 theDeco))) t)
+      (: theDeco (sublist 1 (length theDeco) theDeco))
+     )
+ )
+)
+
+
+

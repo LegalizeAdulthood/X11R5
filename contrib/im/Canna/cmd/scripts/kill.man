@@ -1,0 +1,20 @@
+.TH IROHAKILL 1M
+.SH "NAME"
+irohakill \- Terminate operation of the Kana-Kanji conversion server
+irohaserver
+.SH "SYNOPSIS"
+.B "irohakill"
+.SH "DESCRIPTION"
+.PP
+irohakill terminates operation of Kana-Kanji conversion server
+irohaserver(1M).  This causes the server to delete the lock file and
+close all open dictionaries before terminating its processing.
+.PP
+The user who has started irohaserver(1M) or the super user can only
+use irohakill(1M) to terminate operation of irohaserver.
+.SH "FILES"
+.IP "/tmp/.IROHALOCK" 36
+Lock file
+.SH "SEE ALSO"
+.PP
+irohaserver(1M), irohastat(1), irohacheck(1)

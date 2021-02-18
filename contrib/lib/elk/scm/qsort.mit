@@ -1,0 +1,56 @@
+;;; -*-Scheme-*-
+;;;
+;;; Another quicksort (stolen from C-Scheme)
+
+(define (sort obj pred)
+  (if (vector? obj)
+      (sort! (vector-copy obj) pred)
+      (vector->list (sort! (list->vector obj) pred))))
+
+(define sort!
+  (let ()
+    
+    (define (exchange! vec i j)
+      ;; Speedup hack uses value of vector-set!.
+      (vector-set! vec j (vector-set! vec i (vector-ref vec j))))
+    
+    (lambda (obj pred)
+      (define (sort-internal! vec l r)
+	(cond
+	 ((<= r l)
+	  vec)
+	 ((= r (1+ l)) 
+	  (if (pred (vector-ref vec r)
+		    (vector-ref vec l))
+	      (exchange! vec l r)
+	      vec))
+	 (else
+	  (quick-merge vec l r))))
+      
+      (define (quick-merge vec l r)
+	(let ((first (vector-ref vec l)))
+	  (define (increase-i i)
+	    (if (or (> i r)
+		    (pred first (vector-ref vec i)))
+		i
+		(increase-i (1+ i))))
+	  (define (decrease-j j)
+	    (if (or (<= j l)
+		    (not (pred first (vector-ref vec j))))
+		j
+		(decrease-j (1- j))))
+	  (define (loop i j)
+	    (if (< i j)
+		(begin (exchange! vec i j)
+		       (loop (increase-i (1+ i)) (decrease-j (1- j))))
+		(begin
+		  (cond ((> j l)
+			 (exchange! vec j l)))
+		  (sort-internal! vec (1+ j) r)
+		  (sort-internal! vec l (1- j)))))
+	  (loop (increase-i (1+ l))
+		(decrease-j r))))
+      
+      (if (vector? obj)
+	  (begin (sort-internal! obj 0 (1- (vector-length obj))) obj)
+	  (error 'sort! "works on vectors only")))))

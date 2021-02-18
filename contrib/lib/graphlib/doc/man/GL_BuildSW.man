@@ -1,0 +1,22 @@
+.TH GL_BuildSurroundWindow 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_BuildSurroundWindow \- Create a window around a number of other ones
+.SH SYNTAX
+Window GL_BuildSurroundWindow(win_name, ...)
+.br
+	char *win_name;
+.SH ARGUMENTS
+.IP win_name 1i
+The name of the window.
+.IP ... 1i
+The list of windows to be surrounded, terminated but GL_Done.
+
+.SH DESCRIPTION
+This is the beginning of an attempt at geometry handling, the function
+will create a window which is large enough to surround all of its sub 
+windows, and will reparent them to itself.  I personnally don't think it
+is sufficiently useful to be desired, but the code was written.
+It will perform slowly if the round trip time to the X server is long.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GraphLib Programming Manual

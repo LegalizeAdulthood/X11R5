@@ -1,0 +1,697 @@
+\input texinfo  @c -*-texinfo-*-
+@comment %**start of header (This is for running Texinfo on a region.)
+@settitle Xterm+ Reference Manual
+@setfilename TermCanvas-info
+
+
+@node The Canvas, , , Top
+ 
+The @code{TermCanvas widget} (later just called @code{canvas}) is the actual 
+screen output / keyboard input section of xterm+. 
+
+It manages a @code{virtual screen} (later just called @code{screen}) of 
+configurable size plus an area where text which scrolls off the top of the 
+screen is stored (the @code{save area}).
+
+The canvas supplies a text cursor (the @code{cursor}) of configurable size and
+blink rate.
+
+Text can be exchanged with other clients via the Toolkit's @code{Selection
+Mechanism}.
+
+@menu
+* Resource Variables::		The resource variables of the @code{canvas}
+* Actions::			Xt actions the @code{canvas} supports
+* Character Attributes::	Which character attributes may be used
+* Supported Functions::		List of supported Functions
+@end menu
+
+@node Resource Variables, Actions, ,The Canvas    
+@comment  node-name,  next,  previous,  up
+
+The following Resource Variables are known by the @code{canvas}
+
+@table @code
+@item lines
+The height of the canvas in terminal lines. The default is 24.
+
+@item columns
+The width of the canvas in terminal lines. The default is 80.
+
+@item font
+The font to use for normal text. The default is @code{XtDefaultFont}
+(@code{fixed}).
+
+@item boldFont
+The font to use for bold text. The default is @code{XtDefaultFont}
+(@code{fixed}).
+
+@item underlineWidth
+The thickness of the understrike line. The default is 1 pixel.
+
+@item foreground
+The text color. The default is @code{XtDefaultForeground} (@code{black}).
+
+@item background
+The window's background color. The default is @code{XtDefaultBackground}
+(@code{white}).
+
+@item cursorFg
+The cursor foreground color. The default is @code{XtDefaultForeground}.
+
+@item cursorBg
+The cursor background color. The default is @code{XtDefaultBackground}.
+
+@item cursorHeight
+The cursor height in pixels. The maximum is the height of the font. 
+To make the cursor as high as the cursor, specify 0. The default is 0.
+
+@item cursorWidth
+The cursor width in pixels. The maximum is the width of the font. 
+To make the cursor as wide as the cursor, specify 0. The default is 0.
+
+@item cursorBlinking
+A boolean flag to determine whether the cursor should blink. 
+The default is @code{True}.
+
+@item blinkInterval
+To specify how fast the cursor blinks, in milliseconds. 
+The default is 500 msec.
+
+@item blinkWOFocus
+A boolean flag to determine whether the cursor should continue blinking 
+when the canvas looses the input focus. The default is @code{False}.
+
+@item textBlinkInterval
+To specify how fast the blinking text blinks, in milliseconds. 
+The default is 500 msec.
+
+@item wrapAround
+A boolean flag to determine whether text should wrap around the end of 
+the line. The default is @code{True}.
+
+@item insertMode
+A boolean flag to determine whether inserted Text should be inserted 
+or overwrite the existing characters. The default is @code{False}.
+
+@item bellVolume
+The volume of the bell in %. The default is 100.
+
+@item defTabWidth
+The default tabulator width to be used. The default is 8.
+
+@item termType
+The terminal type under which the canvas looks up its resources.
+There is no default.
+
+@item pointerShape
+The font glyph of the cursor font to use for the mouse cursor
+inside the canvas window. The default is @code{xterm}
+
+@item saveLines
+The size of the @code{save area} in lines. The default is 64 or @code{lines},
+whichever is larger.
+
+@end table
+
+@node Actions, Character Attributes, Resource Variables, The Canvas
+@comment  node-name,  next,  previous,  up
+
+The @code{canvas} supports the following actions:
+
+@table @code
+@item focus-in()
+Should be called when the widget gets the input focus. 
+The cursor shape changes to solid and optionally starts blinking.
+
+@item focus-out()
+Should be called when the widget loses the input focus. 
+The cursor shape changes to outline and optionally stops blinking.
+
+@item key-input([<string>])
+Called without an argument it translates the @kbd{KeySym} that caused the
+action to a Latin-1 string. If @kbd{Mod1} is pressed with the Key, the highest
+Bit of each character of the resulting string gets set to allow 
+traditional recognition of the @kbd{Meta} key. The resulting string is 
+sent to the @code{reverse parser}. With an argument @code{key-input} uses 
+the given string instead.
+
+@item select-start()
+Starts the selection at the position of the mouse cursor.
+
+@item select-extend()
+Extends the selection to the current mouse cursor position.
+
+@item select-end()
+Ends the selection and transforms the selection into a string for 
+later retrieval.
+
+@item insert-selection()
+Retrieve the selection and send it to the @code{reverse parser}
+
+@item call-parser(<opcode>, <buffer>, [<register>, <value>], ...)
+Calls the @code{reverse parser} with the specified opcode and buffer 
+(use @code{""} if the buffer is not needed). 
+If register/value pairs are provided it sets the registers accordingly.
+
+@item call-canvas(<opcode>, <buffer>, [<register>, <value>], ...)
+Executes the specified @code{opcode} in the canvas. The buffer and any
+supplied registers are set accordingly.
+@end table
+
+@node Character Attributes, Supported Functions, Actions, The Canvas
+@comment  node-name,  next,  previous,  up
+
+The following character attributes are defined in 'emu/include/xt_ops.h'.
+They can be @code{or}ed together:
+
+@table @code
+@item ATT_NONE
+normal text - using @code{screen.font}
+
+@item ATT_BOLD
+bold text - using @code{screen.boldFont}
+
+@item ATT_UNDERL
+underlined - the underline width can be set via 
+@code{screen.underlineWidth}
+
+@item ATT_BLINK
+blinking - the blink rate can be set via @code{textBlinkInterval}
+
+@item ATT_REVERSE
+reverse text - the background and text colors are exchanged.
+
+@end table
+
+@node Supported Functions, , Character Attributes, The Canvas
+@comment  node-name,  next,  previous,  up
+
+The following functions are recognized by the canvas. The constants are
+defined in 'emu/include/xt_ops.h'.
+Data is exchanged via the given com-block.
+
+@menu
+
+Basic character insertion:
+* OP_INSERT::			buffer = string to insert
+
+Cursor movement:
+* OP_MOVE_ABS::			x = column, y = line
+* OP_MOVE_REL::			x = delta column, y = delta line
+* OP_MOVE_ABS_COLUMN::		x = column
+* OP_MOVE_ABS_ROW::		y = line
+* OP_MOVE_REL_COLUMN::		x = delta column
+* OP_MOVE_REL_ROW::		y = delta line
+* OP_MOVE_REL_ROW_SCROLLED::	y = delta line
+
+Write modes:
+* OP_INSERT_MODE::		no args
+* OP_OVERWRITE_MODE::		no args
+
+Deleting and erasing:
+* OP_DELETE_CHARS::		a = number of characters to delete
+* OP_DELETE_TO_EOL::		no args
+* OP_DELETE_LINES::		a = number of lines to delete
+* OP_DELETE_TO_EOSCR::		no args
+* OP_ERASE_CHARS::		a = number of characters to erase
+* OP_ERASE_LINE_LEFT::		no args
+* OP_ERASE_LINES::		a = number of lines to erase
+* OP_ERASE_FROM_TOSCR::		no args
+* OP_CLEAR_SCREEN::		no args
+
+Inserting:
+* OP_INSERT_LINESS::		a = number of lines to insert
+
+Define the scrolling region:
+* OP_SET_SCROLL_REGION::	a = start line, b = end line
+
+Ring the bell:
+* OP_RING_BELL::		no args
+
+Tab handling:
+* OP_HOR_TAB::			no args
+* OP_SET_TAB_CUR_COL::		no args
+* OP_SET_TAB_COL::		x = column
+* OP_SET_TABS_EQ_WIDTH::	a = distance
+* OP_CLEAR_TAB_CUR_COL::	no args
+* OP_CLEAR_TAB_COL::		x = column
+* OP_CLEAR_ALL_TABS::		no args
+
+Character Attributes:
+* OP_SET_ATTRIBUTE::		a = attribute(s)
+* OP_CLEAR_ATTRIBUTE::		b = attribute(s)
+
+Changing the Keyboard Translations e.g. for different Codes on the
+Cursor Keys and Number Keys depending on the Keyboard mode:
+* OP_OVERRIDE_TRANSLATIONS::	a = number
+
+Change the FLUT e.g. for different character set:
+* OP_CHANGE_FLUT::		a = number
+
+Reports from the canvas to the parser for further use in the parser.
+They all have no arguments, the canvas however fills the comblock with data:
+* OP_CANVAS_SIZE::		return x = columns, y = lines
+* OP_CANVAS_CURSOR_POS::	return x = column, y = line
+* OP_CANVAS_ATTRIBS::		return a = attributes
+* OP_CANVAS_SCROLL_REGION::	return a = start line, b = end line
+* OP_CANVAS_WRAP_MODE::		return a = boolean flag
+* OP_CANVAS_REVERSE_MODE::	return a = boolean flag
+* OP_CANVAS_CURSOR_ON::		return a = boolean flag
+* OP_CANVAS_CURSOR_BLINKING::	return a = boolean flag
+* OP_CANVAS_CURSOR_SIZE::	return x = width, y = height in pixels
+
+Redraw the screen:
+* OP_REDRAW_SCREEN::		no args
+
+Change the current fonts:
+* OP_CHANGE_FONTS::		a = normal font, b = bold font
+
+Scrolling the screen and the saved area:
+* OP_SCROLL_SCREEN_ABSOLUTE::	a = save line to scroll to
+* OP_SCROLL_SCREEN_RELATIVE::	a = number of lines to scroll
+
+General mode settings:
+* OP_CURSOR_OFF::		no args
+* OP_CURSOR_ON::		no args
+* OP_SET_SCREEN_SIZE::		no args
+* OP_WRAP_AROUND		no args
+* OP_DONT_WRAP::		no args
+* OP_CURSOR_POS_REL_TO_SCR_REG:: no args
+* OP_CURSOR_POS_ABSOLUTE::	no args
+* OP_REVERSE_VIDEO::		no args
+* OP_NORMAL_VIDEO::		no args
+* OP_SAVE_FLUT::		no args
+* OP_RESTORE_FLUT::		no args
+* OP_SET_CURSOR_BLINK::		a = flag
+* OP_SET_CURSOR_SIZE::		x = width, y = height in pixels
+
+@end menu
+
+@node OP_INSERT, OP_MOVE_ABS, ,The Canvas   
+@comment  node-name,  next,  previous,  up
+OP_INSERT		buffer = String to insert
+
+The text in the @code{comblock}'s buffer is inserted at the current
+cursor position with the current attributes.
+If @code{insert mode} is on, characters to the right, including the cursor 
+position are shifted to the right.
+If @code{line-wrap} mode is on, characters beyond the right border of the
+screen are wrapped to the next line.
+
+@node OP_MOVE_ABS, OP_MOVE_REL, OP_INSERT, The Canvas    
+@comment  node-name,  next,  previous,  up
+OP_MOVE_ABS		x = column, y = line
+
+Move the cursor to the absolute row and column position given in register
+@kbd{x} and @kbd{y}. If the @code{relative-positioning} flag is set, the
+start line of the scroll-region is added to y and the cursor is restricted
+to the scroll region.  With the flag off the cursor is able to leave the
+scroll region.
+
+@node OP_MOVE_REL, OP_MOVE_ABS, OP_ABS_COLUMN, The Canvas    
+@comment  node-name,  next,  previous,  up
+OP_MOVE_REL		x = delta column, y = delta line
+
+Move the cursor relative to the current position by the amount of rows and 
+columns given in register @kbd{x} and @kbd{y}. The cursor is restricted to
+the scroll region.
+
+@node OP_ABS_COLUMN, OP_MOVE_REL, OP_MOVE_ABS_ROW, The Canvas    
+@comment  node-name,  next,  previous,  up
+OP_MOVE_ABS_COLUMN	x = column
+
+Move the cursor to the absolute column given in register @kbd{x} on the
+current line.
+		
+@node OP_MOVE_ABS_ROW, OP_ABS_COLUMN, OP_MOVE_REL_COLUMN, The Canvas    
+@comment  node-name,  next,  previous,  up
+OP_MOVE_ABS_ROW		y = line
+
+Move the cursor to the absolute row given in register @kbd{y} in the current
+column. Rules for positioning relative to the scroll region and leaving the
+region apply as in @code{OP_MOVE_ABS}.
+
+@node OP_MOVE_REL_COLUMN, OP_MOVE_ABS_ROW, OP_REL_ROW, The Canvas    
+@comment  node-name,  next,  previous,  up
+OP_MOVE_REL_COLUMN	x = delta column
+
+Move the cursor relative to the current position in the current row. 
+The delta is given in register @kbd{x}.
+
+@node OP_REL_ROW, OP_MOVE_REL_COLUMN, OP_MOVE_REL_ROW_SCROLLED, The Canvas    
+@comment  node-name,  next,  previous,  up
+OP_MOVE_REL_ROW		y = delta line
+
+Move the cursor relative to the current position in the current column. 
+The delta is given in register @kbd{y}. The cursor is restricted to the
+scroll region.
+
+@node OP_MOVE_REL_ROW_SCROLLED, OP_REL_ROW, OP_INSERT_MODE, The Canvas    
+@comment  node-name,  next,  previous,  up
+OP_MOVE_REL_ROW_SCROLLED y = delta line
+
+Move the cursor relative to the current postion in the current column.
+The delta is given in register @kbd{y}. If the cursor leaves the scroll
+region, the text inside the region is scrolled accordingly.
+
+@node OP_INSERT_MODE, OP_MOVE_REL_ROW_SCROLLED, OP_OVERWRITE_MODE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_INSERT_MODE		(no args)
+
+Turn insert mode on.
+
+@node OP_OVERWRITE_MODE, OP_INSERT_MODE, OP_DELETE_CHARS, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_OVERWRITE_MODE	(no args)
+
+Turn overwrite mode on - insert mode off.
+
+@node OP_DELETE_CHARS, OP_OVERWRITE_MODE, OP_DELETE_TO_EOL, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_DELETE_CHARS		a = number of characters to delete
+
+Delete characters in the current line starting at the cursor position. 
+The number of characters to be deleted is specified in register @kbd{a}. 
+Characters to the right of the deleted ones are shifted to the left.
+
+@node OP_DELETE_TO_EOL, OP_DELETE_CHARS, OP_DELETE_LINES, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_DELETE_TO_EOL	(no args)
+
+Delete characters in the current line from the cursor position up to the 
+end of the line.
+
+@node OP_DELETE_LINES, OP_DELETE_TO_EOL, OP_DELETE_TO_EOSCR, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_DELETE_LINES		a = number of lines to delete
+
+Deletes the number of lines specified in register @kbd{a}, and scrolls the
+lines under the deleted area up. The cursor is set to the left border of
+the screen. The deleted area starts at the current line. This action is
+restricted to the scrolling region.
+
+@node OP_DELETE_TO_EOSCR, OP_DELETE_LINES, OP_ERASE_CHARS, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_DELETE_TO_EOSCR	(no args)
+
+Deletes all characters after the cursor till the end of the screen.
+
+@node OP_ERASE_CHARS, OP_DELETE_TO_EOSCR, OP_ERASE_LINE_LEFT, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_ERASE_CHARS		a = number of characters to erase
+
+Erase characters in the current line starting at the cursor position. 
+The number of characters to be erased is specified in register @kbd{a}.
+
+@node OP_ERASE_LINE_LEFT, OP_ERASE_CHARS, OP_ERASE_LINES, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_ERASE_LINE_LEFT	(no args)
+
+Erases characters from the beginning of the current line to and including 
+the cursor position.
+		
+@node OP_ERASE_LINES, OP_ERASE_LINE_LEFT, OP_ERASE_FROM_TOSCR, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_ERASE_LINES		a = number of lines to erase
+
+Erases the number of lines specified in register @kbd{a}.
+
+@node OP_ERASE_FROM_TOSCR, OP_ERASE_LINES, OP_CLEAR_SCREEN, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_ERASE_FROM_TOSCR	(no args)
+
+Erases characters from the top of the screen up to and including the 
+cursor position.
+
+@node OP_CLEAR_SCREEN, OP_ERASE_FROM_TOSCR, OP_INSERT_LINES, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CLEAR_SCREEN		(no args)
+
+Clears the whole screen.
+
+@node OP_INSERT_LINES, OP_CLEAR_SCREEN, OP_SET_SCROLL_REGION, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_INSERT_LINES		a = number of lines to insert
+
+Inserts the number of lines specified in register @kbd{a} at the current
+line. The cursor is set to the left border of the screen. This operation
+is restricted to the scroll region.
+
+@node OP_SET_SCROLL_REGION, OP_INSERT_LINES, OP_RING_BELL, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_SCROLL_REGION	a = start line, b = end line
+
+Sets the scoll region to start at the line specified in register @kbd{a},
+and end at the line specified in register @kbd{b}.
+
+@node OP_RING_BELL, OP_SET_SCROLL_REGION, OP_HOR_TAB, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_RING_BELL		(no args)
+
+Calls 'XBell' with the volume specified in the resource bellVolume 
+(default is 100%).
+
+@node OP_HOR_TAB, OP_RING_BELL, OP_SET_SET_TAB_CUR_COL, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_HOR_TAB		(no args)
+
+Move the cursor to the next right tab in the current line. If there is
+no tab to the right of the cursor, the cursor is set to the right border
+of the screen.
+
+@node OP_SET_SET_TAB_CUR_COL, OP_HOR_TAB, OP_SET_TAB_COL, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_TAB_CUR_COL	(no args)
+
+Sets a tab stop at the current column.
+
+@node OP_SET_TAB_COL, OP_SET_SET_TAB_CUR_COL, OP_SET_TABS_EQ_WIDTH, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_TAB_COL		x = column
+
+Sets a tab stop at the column specified in register @kbd{x}.
+
+@node OP_SET_TABS_EQ_WIDTH, OP_SET_TAB_COL, OP_CLEAR_TAB_CUR_COL, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_TABS_EQ_WIDTH	a = distance
+
+Sets up tabs with a distance specified in register @kbd{a}.
+
+@node OP_CLEAR_TAB_CUR_COL, OP_SET_TABS_EQ_WIDTH, OP_CLEAR_TAB_COL, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CLEAR_TAB_CUR_COL	(no args)
+
+Clears a tab stop at the current column.
+
+@node OP_CLEAR_TAB_COL, OP_CLEAR_TAB_CUR_COL, OP_CLEAR_ALL_TABS, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CLEAR_TAB_COL	x = column
+
+Clears a tab stop at the column specified in register @kbd{x}.
+
+@node OP_CLEAR_ALL_TABS, OP_CLEAR_TAB_COL, OP_SET_ATTRIBUTE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CLEAR_ALL_TABS	(no args)
+
+Clears all tabs.
+
+@node OP_SET_ATTRIBUTE, OP_CLEAR_ALL_TABS, OP_CLEAR_ATTRIBUTE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_ATTRIBUTE	a = attribute(s)
+
+Sets the attributes given in register @kbd{a} (more than one can be
+@code{or}ed together).
+
+@node OP_CLEAR_ATTRIBUTE, OP_SET_ATTRIBUTE, OP_OVERRIDE_TRANSLATIONS, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CLEAR_ATTRIBUTE	b = attribute(s)
+
+Clears the attributes given in register @kbd{b} (more than one can be
+@code{or}ed together).
+
+@node OP_OVERRIDE_TRANSLATIONS, OP_CLEAR_ATTRIBUTE, OP_CHANGE_FLUT, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_OVERRIDE_TRANSLATIONS a = number
+
+Retrieves the resource @code{<term-type>-auxTrans-<number>} and overrides the 
+current translations with the resource. <number> is given in register @kbd{a}.
+
+@node OP_CHANGE_FLUT, OP_OVERRIDE_TRANSLATIONS, OP_CANVAS_SIZE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CHANGE_FLUT		a = string, b = offset
+
+Retrieves the resource @code{<term-type>-flut-<number>} and changes the flut 
+according to the info found there. <string> is given in register @kbd{a},
+and register @kbd{b} specifies the integer offset in the flut to use.	
+
+@node OP_CANVAS_SIZE, OP_CHANGE_FLUT, OP_CANVAS_CURSOR_POS, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_SIZE		(return) x = columns, (return) y = lines
+
+The canvas returns its size in registers @kbd{x} and @kbd{y}.
+
+@node OP_CANVAS_CURSOR_POS, OP_CANVAS_SIZE, OP_CANVAS_ATTRIBS, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_CURSOR_POS	(return) x = column, (return) y = line
+
+The canvas returns the current cursor position in registers @kbd{x}
+and @kbd{y}.
+
+@node OP_CANVAS_ATTRIBS, OP_CANVAS_CURSOR_POS, OP_CANVAS_SCROLL_REGION, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_ATTRIBS	(return) a = attributes
+
+The canvas returns the current attribues in register @kbd{a} (all @code{or}ed
+together).
+
+@node OP_CANVAS_SCROLL_REGION, OP_CANVAS_ATTRIBS, OP_CANVAS_WRAP_MODE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_SCROLL_REGION	return a = start line, b = end line
+
+Return start and end line of the scroll region in registers @kbd{a}
+and @kbd{b}.
+
+@node OP_CANVAS_WRAP_MODE, OP_CANVAS_SCROLL_REGION, OP_CANVAS_REVERSE_MODE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_WRAP_MODE	return a = boolean flag
+
+Report in register @kbd{a} whether line wrap mode is on.
+
+@node OP_CANVAS_REVERSE_MODE, OP_CANVAS_WRAP_MODE, OP_CANVAS_CURSOR_ON, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_REVERSE_MODE	return a = boolean flag
+
+Report in register @kbd{a} whether the canvas screen is in reverse video.
+
+@node OP_CANVAS_CURSOR_ON, OP_CANVAS_REVERSE_MODE, OP_CANVAS_CURSOR_BLINKING, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_CURSOR_ON	return a = boolean flag
+
+Report in register @kbd{a} whether the cursor is visible.
+
+@node OP_CANVAS_CURSOR_BLINKING, OP_CANVAS_CURSOR_ON, OP_CANVAS_CURSOR_SIZE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_CURSOR_BLINKING return a = boolean flag
+
+Report in register @kbd{a} whether the cursor is blinking.
+
+@node OP_CANVAS_CURSOR_SIZE, OP_CANVAS_CURSOR_BLINKING, OP_REDRAW_SCREEN, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CANVAS_CURSOR_SIZE	return x = width, y = height in pixels
+
+Return the current cursor size in registers @kbd{x} and @kbd{y}.
+
+@node OP_REDRAW_SCREEN, OP_CANVAS_CURSOR_SIZE, OP_CHANGE_FONTS, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_REDRAW_SCREEN	no args
+
+Clears and redraws the entire screen.
+
+@node OP_CHANGE_FONTS, OP_REDRAW_SCREEN, OP_SCROLL_SCREEN_ABSOLUTE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CHANGE_FONTS		a = normal font, b = bold font
+
+Changes the current fonts to the names given in registers @kbd{a} (normal
+font), and @kbd{b} (bold font). The fonts only get installed when they are
+both of the same size.
+
+If an empty string is passed for either font, the canvas uses the initial one
+(e.g. specified in the resource database).
+
+@node OP_SCROLL_SCREEN_ABSOLUTE, OP_CHANGE_FONTS, OP_SCROLL_SCREEN_RELATIVE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SCROLL_SCREEN_ABSOLUTE a = save line to scroll to
+
+Viewing the save area and the actual screen as continuous lines with line 0
+being the beginning of the actual screen, numbering the save area negative
+upwards, this function places line -a at the top of the screen (0 thus re-
+presenting the normal case with only the actual screen showing).
+
+@node OP_SCROLL_SCREEN_RELATIVE, OP_SCROLL_SCREEN_ABSOLUTE, OP_CURSOR_OFF, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SCROLL_SCREEN_RELATIVE a = number of lines to scroll
+
+Scrolls save area and actual screen a lines down (negative a results in
+scrolling upwards).
+
+@node OP_CURSOR_OFF, OP_SCROLL_SCREEN_RELATIVE, OP_CURSOR_ON, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CURSOR_OFF		(no args)
+
+Switches cursor off.
+
+@node OP_CURSOR_ON, OP_CURSOR_OFF, OP_SET_SCREEN_SIZE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CURSOR_ON		(no args)
+
+Switches cursor on.
+
+@node OP_SET_SCREEN_SIZE, OP_CURSOR_ON, OP_WRAP_AROUND, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_SCREEN_SIZE	(no args)
+
+Sets the screen size to the values given in registers @kbd{x} and @kbd{y}.
+
+@node OP_WRAP_AROUND, OP_SET_SCREEN_SIZE, OP_DONT_WRAP, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_WRAP_AROUND		(no args)
+
+Turns line wrap around on.
+
+@node OP_DONT_WRAP, OP_WRAP_AROUND, OP_CURSOR_POS_REL_TO_SCR_REG, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_DONT_WRAP		(no args)
+
+Turns line wrap around off.
+
+@node OP_CURSOR_POS_REL_TO_SCR_REG, OP_DONT_WRAP, OP_CURSOR_POS_ABSOLUTE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CURSOR_POS_REL_TO_SCR_REG (no args)
+
+Makes cursor positioning relative to the scroll region.
+
+@node OP_CURSOR_POS_ABSOLUTE, OP_CURSOR_POS_REL_TO_SCR_REG, OP_REVERSE_VIDEO_WRAP, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_CURSOR_POS_ABSOLUTE	(no args)
+
+Makes cursor positioning absolute.
+
+@node OP_REVERSE_VIDEO_WRAP, OP_CURSOR_POS_ABSOLUTE, OP_NORMAL_VIDEO, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_REVERSE_VIDEO	(no args)
+
+Puts canvas in reverse video.
+
+@node OP_NORMAL_VIDEO, OP_REVERSE_VIDEO_WRAP, OP_SAVE_FLUT, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_NORMAL_VIDEO	(no args)
+
+Puts canvas in normal video.
+
+@node OP_SAVE_FLUT, OP_NORMAL_VIDEO, OP_RESTORE_FLUT, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SAVE_FLUT		(no args)
+
+Saves the current flut. Only one flut can be saved at a time, subsequent 
+calls will overwrite the previous saved flut.
+
+@node OP_RESTORE_FLUT, OP_SAVE_FLUT, OP_SET_CURSOR_BLINK, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_RESTORE_FLUT		(no args)
+
+Restores flut to the last saved value.
+
+@node OP_SET_CURSOR_BLINK, OP_RESTORE_FLUT, OP_SET_CURSOR_SIZE, The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_CURSOR_BLINK	a = boolean flag
+
+Depending on the value in register @kbd{a}, cursor blinking gets turned on
+or off.
+
+@node OP_SET_CURSOR_SIZE, OP_SET_CURSOR_BLINK, , The Canvas
+@comment  node-name,  next,  previous,  up
+OP_SET_CURSOR_SIZE	x = width, y = height in pixels
+
+Sets the cursor size to the values in registers @kbd{x} and @kbd{y}.
+@bye

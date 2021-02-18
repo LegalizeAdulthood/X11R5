@@ -1,0 +1,10 @@
+FsbGQS.c defines a function that automatically get the
+selection text out of a FileSelectionBox and qualify it.
+ 
+By default, when you get the text value in the selection area,
+it is not qualified, and as a result, typing ~daniel/something
+will not result in /u1/daniel/something, so you can just pass
+the value to the file system as is.  
+
+This should have been in 1.2 but somehow didn't make it, 
+so here is it free.

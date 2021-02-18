@@ -1,0 +1,74 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+YFLAGS = -d -v
+CYFLAGS = -DYYDEBUG
+
+LOCALINCLUDES = -I../tokens
+
+DOBJS = type.do
+IHFILES = type.ih
+OBJS = type.o parse.o
+DOCFILES = type.doc
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv -lm
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = -lm
+#endif /* LIBDL_ENV */
+#else
+RESOLVER_LIB =
+SYS_LIBS = -lm
+#endif
+
+ATKLIBS=	${BASEDIR}/lib/atk/libframe.a  \
+		${BASEDIR}/lib/atk/libtext.a  \
+		${BASEDIR}/lib/atk/libsupport.a  \
+		${BASEDIR}/lib/atk/libsupviews.a \
+		${BASEDIR}/lib/atk/libbasics.a
+LIBS =		${ATKLIBS}  \
+		${BASEDIR}/lib/libclass.a  \
+		${RESOLVER_LIB} \
+		${MALLOCLIB}  \
+		${BASEDIR}/lib/liberrors.a  \
+		${UTILLIB} 
+
+NormalObjectRule()
+NormalYaccRule()
+NormalATKRule()
+
+parse.y: ../tokens/buildy parse.gra
+	../tokens/buildy parse.gra parse.y
+
+parse.c: parse.y
+	$(YACC) ${YFLAGS} $*.y
+	-$(RM) $*.c
+	$(MV) y.tab.c $*.c	
+
+InstallClassFiles($(DOBJS), $(IHFILES))
+DynamicMultiObject(type.do, type.o parse.o err.o, ${BASEDIR}/lib/atk/libbasics.a, -lm)
+ClassProgramTarget(chtest, chtest.o, ${LIBS}, $(SYS_LIBS) ${BSDLIB})
+InstallProgram(chtest, $(DESTDIR)/bin)
+ClassTestProgramTarget(typetest, typetest.o, ${LIBS}, $(SYS_LIBS) ${BSDLIB})
+
+LibraryTarget(libtype.a, $(OBJS))
+InstallLibrary(libtype.a, ${DESTDIR}/lib/atk)
+
+InstallDocs($(DOCFILES), $(DESTDIR)/doc/atk)
+
+atktest::
+	./chtest ${DESTDIR}/include/atk/*.ch
+/*
+install.time::
+	$(DESTDIR)/bin/chtest ${DESTDIR}/include/atk/*.ch
+*/
+DependTarget()
+

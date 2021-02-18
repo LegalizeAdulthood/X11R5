@@ -1,0 +1,296 @@
+/************************************************************************
+# Open Software Foundation, Inc.
+#
+# Permission is hereby granted to use, copy, modify and freely distribute
+# the software in this file and its documentation for any purpose without
+# fee, provided that the above copyright notice appears in all copies and
+# that both the copyright notice and this permission notice appear in
+# supporting documentation.  Further, provided that the name of Open
+# Software Foundation, Inc. ("OSF") not be used in advertising or
+# publicity pertaining to distribution of the software without prior
+# written permission from OSF.  OSF makes no representations about the
+# suitability of this software for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+************************************************************************/
+
+#ifndef MSimpleProgramTarget
+#define MSimpleProgramTarget(program)                                   @@\
+	                                                                @@\
+all:: program                                                           @@\
+	                                                                @@\
+program: program.o $(DEPS) $(DEPLIBS)                           @@\
+	$(RM) $@                                                        @@\
+	$(CC) -o $@ program.o $(DEPS) $(LOCAL_LIBRARIES) $(LDFLAGS) $(EXTRA_LIBRARIES)  @@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program                                                   @@\
+	$(RM) program.o
+#endif
+
+#ifndef MSimpleUilTarget
+#define MSimpleUilTarget(program)                                   @@\
+	                                                                @@\
+all:: program                                                           @@\
+	                                                                @@\
+program: program.o program.uid $(DEPS) $(DEPLIBS)                           @@\
+	$(RM) $@                                                        @@\
+	$(CC) -o $@ program.o $(DEPS) $(LOCAL_LIBRARIES) $(LDFLAGS) $(EXTRA_LIBRARIES) @@\
+	                                                                @@\
+program.uid: program.uil                                                @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallProgram(program,$(BINDIR))					@@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program                                                   @@\
+	$(RM) program.uid                                               @@\
+	$(RM) program.o 
+#endif
+
+#ifndef MSimpleUidTarget
+#define MSimpleUidTarget(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid: program.uil                                                @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_1
+#define MComplexUidTarget_1(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS1)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_2
+#define MComplexUidTarget_2(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS2)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_3
+#define MComplexUidTarget_3(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS3)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_4
+#define MComplexUidTarget_4(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS4)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_5
+#define MComplexUidTarget_5(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS5)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_6
+#define MComplexUidTarget_6(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS6)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_7
+#define MComplexUidTarget_7(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS7)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_8
+#define MComplexUidTarget_8(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS8)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_9
+#define MComplexUidTarget_9(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS9)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef MComplexUidTarget_10
+#define MComplexUidTarget_10(program)                                   @@\
+	                                                                @@\
+all:: program.uid                                                           @@\
+	                                                                @@\
+program.uid:  $(UILS10)                                                  @@\
+	$(RM) $@                                                        @@\
+	$(UIL) -o $@ program.uil  -I$(UILSRC)                           @@\
+	                                                                @@\
+InstallNonExec(program.uid,$(BINDIR))					@@\
+	                                                                @@\
+clean::                                                                 @@\
+	$(RM) program.uid
+#endif
+
+#ifndef ComplexProgramTarget_4
+#define	ComplexProgramTarget_4(program,locallib,syslib)			@@\
+program: $(OBJS4) locallib						@@\
+	$(RM) $@							@@\
+	$(CC) -o $@ $(OBJS4) locallib $(LDFLAGS) syslib $(EXTRA_LIBRARIES)			@@\
+									@@\
+InstallProgram(program,$(BINDIR))					@@\
+InstallManPage(program,$(MANDIR))
+#endif
+
+#ifndef ComplexProgramTarget_5
+#define	ComplexProgramTarget_5(program,locallib,syslib)			@@\
+program: $(OBJS5) locallib						@@\
+	$(RM) $@							@@\
+	$(CC) -o $@ $(OBJS5) locallib $(LDFLAGS) syslib $(EXTRA_LIBRARIES)			@@\
+									@@\
+InstallProgram(program,$(BINDIR))					@@\
+InstallManPage(program,$(MANDIR))
+#endif
+
+#ifndef ComplexProgramTarget_6
+#define	ComplexProgramTarget_6(program,locallib,syslib)			@@\
+program: $(OBJS6) locallib						@@\
+	$(RM) $@							@@\
+	$(CC) -o $@ $(OBJS6) locallib $(LDFLAGS) syslib $(EXTRA_LIBRARIES)			@@\
+									@@\
+InstallProgram(program,$(BINDIR))					@@\
+InstallManPage(program,$(MANDIR))
+#endif
+
+#ifndef ComplexProgramTarget_7
+#define	ComplexProgramTarget_7(program,locallib,syslib)			@@\
+program: $(OBJS7) locallib						@@\
+	$(RM) $@							@@\
+	$(CC) -o $@ $(OBJS7) locallib $(LDFLAGS) syslib $(EXTRA_LIBRARIES)			@@\
+									@@\
+InstallProgram(program,$(BINDIR))					@@\
+InstallManPage(program,$(MANDIR))
+#endif
+
+#ifndef ComplexProgramTarget_8
+#define	ComplexProgramTarget_8(program,locallib,syslib)			@@\
+program: $(OBJS8) locallib						@@\
+	$(RM) $@							@@\
+	$(CC) -o $@ $(OBJS8) locallib $(LDFLAGS) syslib $(EXTRA_LIBRARIES)			@@\
+									@@\
+InstallProgram(program,$(BINDIR))					@@\
+InstallManPage(program,$(MANDIR))
+#endif
+
+#ifndef ComplexProgramTarget_9
+#define	ComplexProgramTarget_9(program,locallib,syslib)			@@\
+program: $(OBJS9) locallib						@@\
+	$(RM) $@							@@\
+	$(CC) -o $@ $(OBJS9) locallib $(LDFLAGS) syslib $(EXTRA_LIBRARIES)			@@\
+									@@\
+InstallProgram(program,$(BINDIR))					@@\
+InstallManPage(program,$(MANDIR))
+#endif
+
+#ifndef ComplexProgramTarget_10
+#define	ComplexProgramTarget_10(program,locallib,syslib)			@@\
+program: $(OBJS10) locallib						@@\
+	$(RM) $@							@@\
+	$(CC) -o $@ $(OBJS10) locallib $(LDFLAGS) syslib $(EXTRA_LIBRARIES)			@@\
+									@@\
+InstallProgram(program,$(BINDIR))					@@\
+InstallManPage(program,$(MANDIR))
+#endif
+
+#ifndef TestPPTarget
+#define TestPPTarget(root)						@@\
+all:: root.pp								@@\
+									@@\
+root.pp: root.dat							@@\
+	rm -f root.pp							@@\
+	$(COMMONPP) $(DEFINES) root.dat
+#endif 

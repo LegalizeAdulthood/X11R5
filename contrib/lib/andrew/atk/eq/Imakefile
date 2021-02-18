@@ -1,0 +1,40 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#if defined(sys_ps_aix12) || defined(sys_ps_aix11)
+CDEBUGFLAGS =
+#endif
+
+DOBJS = eq.do eqv.do
+IHFILES = eq.ih eqv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+YaccWithHeader(parse)
+
+DynamicMultiObject(eq.do, eq.o symbols.o parse.o,,)
+DynamicMultiObject(eqv.do, eqv.o draweqv.o eqvcmds.o,,)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallLink(runapp, ${DESTDIR}/bin/eq)
+
+FontRule()
+
+DeclareFont(ex12)
+DeclareFont(sym10)
+DeclareFont(sym12)
+DeclareFont(sym12b)
+DeclareFont(sym8)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(eq.help, ${DESTDIR}/help)
+InstallHelpAlias(eq, equation equations)
+
+MkdirTarget(${DESTDIR}/doc/atk/eq)
+
+InstallDocs(eq.doc eqv.doc,${DESTDIR}/doc/atk/eq)

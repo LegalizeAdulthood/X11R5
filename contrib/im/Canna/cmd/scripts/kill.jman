@@ -1,0 +1,19 @@
+.TH IROHAKILL 1M
+.SH "名前"
+irohakill \- かな漢字変換サーバ irohaserver を終了させる
+.SH "形式"
+.B "irohakill"
+.SH "説明"
+.PP
+かな漢字変換サーバ irohaserver(1M) を終了させます。これにより 
+irohaserver(1M) はロックファイルを削除し，オープンしていた辞書をすべて
+クローズし処理を終了します。
+.PP
+irohakill(1M) で irohaserver(1M) を終了させることができるのは，
+irohaserver(1M) を起動したユーザかあるいはスーパユーザに限られます。
+.SH "関連ファイル"
+.IP "/tmp/.IROHALOCK" 36
+ロックファイル
+.SH "関連コマンド"
+.PP
+irohaserver(1M), irohastat(1), irohacheck(1)

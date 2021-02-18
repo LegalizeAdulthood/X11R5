@@ -1,0 +1,9 @@
+!  This resource file represents a very basic application: a single
+!  button which, when pressed, causes the application to exit.
+!  
+Mri.wcChildren:		push
+Mri.title:		M01_Hello
+!  
+*push.wcClass:		xmPushButtonWidgetClass
+*push.labelString:	Hello World
+*push.activateCallback:	WcExitCB

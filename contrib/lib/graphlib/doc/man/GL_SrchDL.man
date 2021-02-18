@@ -1,0 +1,24 @@
+.TH GL_Search_DataList 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Search_DataList \- find values stored in a datalist.
+.SH SYNTAX
+GLPointer GL_Search_DataList(List,Key)
+.br
+	GL_DataList List;
+.br
+	VPTF Key;
+.SH ARGUMENTS
+.IP List 1i
+The list to search in.
+.IP Key 1i
+The key to use to find the data.
+
+.SH DESCRIPTION
+GL_Search_DataList will search though the given datalist for information
+associated with the key specified.  If the key does not exist, the program
+will exit with an error message.  Otherwise it will return the data which
+it tagged with the key.
+
+.SH "SEE ALSO"
+GL_Add_To_DataList(3GL), GL_Init_DataList(3GL), GL_Key_In_DataList(3GL),
+GraphLib Programming Manual

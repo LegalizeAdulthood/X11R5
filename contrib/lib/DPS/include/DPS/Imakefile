@@ -1,0 +1,25 @@
+HEADERS = \
+	XDPS.h\
+	XDPSproto.h\
+	dpsclient.h\
+	dpsexcept.h\
+	dpsops.h\
+	XDPSlib.h\
+	dpsXclient.h\
+	dpsconfig.h\
+	dpsfriends.h\
+	psops.h\
+	dpsXshare.h\
+	dpsXuserpath.h\
+	dpsXpreview.h\
+	FontSB.h\
+	FontSBP.h\
+	FontSample.h\
+	FontSamplP.h\
+	PSres.h
+
+all ::
+
+MakeDirectories(install,$(INCDIR)/DPS)
+
+InstallMultiple($(HEADERS),$(INCDIR)/DPS)

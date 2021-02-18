@@ -1,0 +1,24 @@
+Mri.WcChildren:			rc
+Mri.title:			M12_Modal
+
+*rc.wcClassName:		XmRowColumn
+*rc.wcChildren:			cleanup, quit
+
+*quit.wcClassName:		XmPushButton
+*quit.activateCallback:		WcExitCB
+
+*cleanup.wcClassName:		XmPushButton
+*cleanup.wcPopups:		cuDialogShell
+*cleanup.activateCallback:	WcPopupGrabCB( *cuDialogShell)
+
+*cuDialogShell.wcClass:		transientShellWidgetClass
+*cuDialogShell.x:		100
+*cuDialogShell.y:		100
+*cuDialogShell.wcChildren:	cuDialog
+
+*cuDialog.wcClassName:		XmMessageBox
+*cuDialog.dialogType:		DIALOG_WARNING
+*cuDialog.messageString:	This will remove all backup files!
+*cuDialog.okCallback:		WcSystemCB(cleanup all) \
+				WcPopdownCB( ~ )
+*cuDialog.cancelCallback:	WcPopdownCB( ~ )

@@ -1,0 +1,14 @@
+This directory includes a patch file and additional files which make
+Nemacs-3.3.2 possible to input Japanese with Canna system.  Nemacs is
+a Japanese version of Emacs and Nemacs-3.3.2 is based on Emacs-18.55.
+
+Please add src/iroha.c and apply the patch file src/iroha.patch at
+your compiling environment of Nemacs-3.3.2, then enter `make' to
+recompile Nemacs-3.3.2.
+
+A lisp file lisp/iroha.el is required to make Nemacs-3.3.2 possible to
+use Canna.  See the document below to get detailed information.
+
+This directory includes also a document file man/canna.texinf, which
+has a texinfo format and written in Japanese.  Please consult the info
+of `texinfo' to utilize and/or to make a hardcopy of this document.

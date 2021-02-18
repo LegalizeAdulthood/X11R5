@@ -1,0 +1,102 @@
+$Id: README,v 1.4 1991/09/19 13:58:03 proj Exp $
+
+			Abandon All Hope, Ye Who Enter Here
+
+
+This is undoubtedly the most ugly program in the distribution.  It was one of
+the first "serious" programs ported, and still has a lot of historical baggage.
+Ideally, there would be a general tty widget and then vt102 and tek4014 
+subwidgets so that they could be used in other programs.  We are trying to 
+clean things up as we go, but there is still a lot of work to do.
+
+If you are porting this to a machine that has problems with overlapping
+bcopy's, watch out!
+
+---------------------------------------------------------------------------
+The statements above is copied from README of xterm, we put here to 
+remind you the exterm also inherits ugly features of xterm since it
+is produced from xterm.
+
+The exterm simulates a terminal to process multibyte characters, which
+is encoded in the locale.  All of locale definitions are put in the 
+default system directory /usr/lib/X11/nls.  The command options of exterm
+is same as xterm besides the following different options:
+
+1). -fn & -fb
+
+    The option -fn accepts the font set whose name consists of base font
+    names defined in X11R5. All fonts of font set shoud be the type of
+    CharCell fonts with same heigh and wide width.  The default is only
+    one font "fixed".
+    The option -fb is not recommented to use, instead the facility of
+    bolding is to overstrike the normal font set.
+
+    The resource for this option is fontSet (class FontSet).
+
+2). -imstyle
+
+    This is new option to xterm.  This option specifies which style of
+    Input Method to be connected with the input manager xwnmo. Specifying
+    this option, user can input multibyte characters from keyboard under
+    the control of input manager, of course.  The default is none, no
+    connection with the input manager.
+
+    The resource for this option is preeditType (class PreeditType).
+
+    To connect with xwnmo, you need to set envoronment variable $XMODIFIERS
+    before running exterm, just like following.
+
+	% setenv XMODIFIERS @im=_XWNMO
+
+3). -plist
+
+    This option specifes the some fonts of fontset to be pre-loaded into.
+    The option is only valid when the exterm and Xlib is compiled by -DXML.
+    The default is no fonts to be pre-loaded.
+
+    The resource for this option is ploadFontList (class PloadFontList).
+
+4). -xnllanguage
+
+    This option specifis the locale name as form lang_terr.codeset, and
+    decides the encoding of the exterm at run-time.  If the option is
+    omitted, exterm will look at the environment variable $LANG; if
+    still failed, the default is locale "C".
+
+    The resource for this option is xnlLanguage (class XnlLanguage).
+
+The locale of exterm can be changed on-the-fly by selecting menu with the
+Button3 of mouse at run-time(of course you can change the button convention
+with respect to Xt translation table).  There is also a new escape control
+sequence to change the locale as inputting the sequence:
+
+	<ESC>]3;<Pt><BEL>
+
+where the <ESC> is escape character, the <BEL> is belling character and
+the <Pt> is locale name of ASCII printable string.
+
+The communication codeset of exterm with other clients is Compound Text
+Encoding defined in X11R5.
+
+To run the exterm, please make sure where the locale database is. The
+default path is /usr/lib/X11/nls, or specified with the environment
+variable $XNLSPATH.
+
+To build exterm you should use the following commands:
+
+	% cd exterm
+	% xmkmf <Topdir> <Curdir> (you may set Topdir and Curdir)
+	% make includes
+	% make depend
+	% make all
+
+After building, It can be installed in your local bin using:
+
+	% make install
+
+
+	Enjoy!
+
+						    26 Aug 1991
+						    Hiroshi Kuribayashi
+						    Omron Corporation

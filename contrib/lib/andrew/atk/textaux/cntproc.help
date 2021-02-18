@@ -1,0 +1,60 @@
+\begindata{text,269869576}
+\textdsversion{12}
+\template{help}
+\chapter{Proclist for Contentview}
+
+
+contentv-make-window [for textview] Make a table of contents window
+
+contentv-preview                    Previews document.
+
+contentv-destroy                    destroy the table of content	"Quit~99"
+
+contentv-reinit                     reinitialize the headings	
+	"Contents,Update Contents~20"
+
+contentv-denumerate                 Denumerate the heading	
+"Contents,Denumerate~2"
+
+contentv-print                      Prints document.
+
+contentv-destroy2                   destroy the table of content	"Close 
+Contents~99"
+
+contentv-enumerate                  Enumerate the heading
+
+contentv-setobject		Set the source text		"Contents,Set source text~21",
+
+contentv-enumerate	Enumerate heading		 Contents,Enumerate~1"  	locate the 
+heading	"contents,locate"
+
+contentv-preview  "File~10,Preview~21",  "Previews document."
+
+contentv-print  "File~10,Print~22", "Prints document."
+
+
+
+
+tindex-print	"Index,Print Index~21",	"print index"
+
+tindex-preview	"Index,Preview Index~20",	"preview index"
+
+tindex-index-term	"Index,Index term~1",0,0,NULL,"index all instances of a 
+term","tindex"\}, 
+
+tindex-read-index-file	"Index,Read list~10"  "read a list of index terms"
+
+tindex-write-index-file	"Index,Write list~11",  "write a list of index terms"
+
+index-index-italic	"Index,Italic Index~30",   "make the index entries italic"
+
+tindex-index-plain	"Index,Plain Index~31",  "make the index entries plain"
+
+ tindex-expose-inv-index	"Index,Expose Inv. Index~32",  "Expose the invisible 
+index entries"
+
+tindex-hide-inv-index	"Index,Hide Inv. Index~33"   "Hide the invisible index 
+entries"
+
+
+\enddata{text,269869576}

@@ -1,0 +1,8 @@
+The statistics get written to whatever file you specify in the AnswerGarden
+resource file.  
+
+If you want to eliminate statistics, you can compile with the 
+-DNO_STATS flag.
+
+Questions or errors to:  ackerman@xv.mit.edu
+

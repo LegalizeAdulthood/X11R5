@@ -1,0 +1,48 @@
+! Some interesting colors for the different parts of xfig
+! if you are using a COLOR workstation.
+
+#include "Fig"
+
+#ifdef COLOR
+	Fig*ind_panel.button.background: yellow
+	Fig*ind_panel.button.foreground: blue
+	Fig*mode_panel.button.background: cyan
+	Fig*mode_panel.button.foreground: red
+	Fig*mouse_panel.background: green
+	Fig*mouse_panel.foreground: black
+! File popup
+	Fig*file_panel*Background: orchid
+	Fig*file_panel*Text*background: white
+	Fig*file_panel.cancel.foreground: black
+	Fig*file_panel.cancel.background: red
+	Fig*file_panel.save.foreground: black
+	Fig*file_panel.save.background: yellow
+	Fig*file_panel.load.foreground: black
+	Fig*file_panel.load.background: green
+	Fig*file_panel.merge.foreground: black
+	Fig*file_panel.merge.background: lightskyblue
+! Export popup
+	Fig*export_panel*Background: orchid
+	Fig*export_panel*Text*background: white
+	Fig*export_panel*MenuButton*background: white
+	Fig*export_panel*landscape.menu.background: yellow
+	Fig*export_panel.cancel.foreground: black
+	Fig*export_panel.cancel.background: red
+	Fig*export_panel.export.foreground: black
+	Fig*export_panel.export.background: green
+! Print popup
+	Fig*print_panel*Background: orchid
+	Fig*print_panel*Text*background: white
+	Fig*print_panel*MenuButton*background: white
+	Fig*print_panel*printer image*foreground: white
+	Fig*print_panel*landscape.menu.background: yellow
+	Fig*print_panel*flush left.menu.background: orange
+	Fig*print_panel.cancel.foreground: black
+	Fig*print_panel.cancel.background: red
+	Fig*print_panel.print.foreground: black
+	Fig*print_panel.print.background: green
+	Fig*print_panel.output_printer.foreground: black
+	Fig*print_panel.output_printer.background: yellow
+	Fig*print_panel.output_file.foreground: black
+	Fig*print_panel.output_file.background: yellow
+#endif

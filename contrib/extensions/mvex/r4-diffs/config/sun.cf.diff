@@ -1,0 +1,40 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 config/RCS/sun.cf,v 
+*** 1.1	1991/07/17 20:30:55
+--- 2.1.1.1	1991/09/23 00:17:00
+***************
+*** 70,76 ****
+  #define AllocateLocalDefines /**/
+  #endif
+  
+! #define ExtensionDefines -DSHAPE -DMITSHM -DMULTIBUFFER -DMITMISC
+  
+  #define ServerDefines -DXDMCP SunWindowsDefines ExtensionDefines AllocateLocalDefines
+  
+--- 70,88 ----
+  #define AllocateLocalDefines /**/
+  #endif
+  
+! #define ExtensionDefines -DSHAPE \
+! 			 -DMITSHM \
+! 			 -DMULTIBUFFER \
+! 			 -DMITMISC \
+! 			 -DVIDEOX \
+! 			 -DRASTEROPS \
+! 			 -DMVEX_RASTEROPS_TCP
+! /*
+!  * These guide the building  of the Makefiles.
+!  */
+! #define BuildRasterOps		YES
+! #define BuildMvex		YES
+! #define BuildMvexRasterOps	YES
+  
+  #define ServerDefines -DXDMCP SunWindowsDefines ExtensionDefines AllocateLocalDefines
+  
+***************
+*** 77,79 ****
+--- 89,93 ----
+  #if OSMajorVersion >= 4 && OSMinorVersion >= 0
+  #define SetTtyGroup YES
+  #endif
++ 
++ #define DebugLibXaw YES

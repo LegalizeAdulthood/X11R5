@@ -1,0 +1,13 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 08/29/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 08/29/91
+mod_num: 1
+@end(header)
+@b(Xt Routines)
+
+Are you having a problem with
+@button(XtAppInitialize vs XtInitialize,Prog_Xt_Init)

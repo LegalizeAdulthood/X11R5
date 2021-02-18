@@ -1,0 +1,20 @@
+.TH MVDIC 1
+.SH "名前"
+mvdic \- ユーザ辞書名前変更ツール
+.SH "形式"
+.B "mvdic [{\-is|\-irohaserver} \fIiroha-server\fP] \fIfrom-dic\fP \fIto-dic\fP
+.SH "説明"
+.PP
+指定されたユーザ辞書の名前を\fIfrom-dic\fPから\fIto-dic\fPへ変更します。
+辞書目録ファイル dics.dir はこれに対応して書換えられます。
+.PP
+変更後は、カスタマイズファイルの変更前の辞書名を変更後の辞書名に書換えれば、
+辞書を使用することができます。
+.PP
+使用中(マウント中)の辞書は削除できません。
+.SH "オプション"
+.IP "\-is \fIiroha-server\fP (または \-irohaserver \fIiroha-server\fP)" 12
+名前を変更したい辞書のあるサーバマシンを指定します。
+.SH "関連情報"
+.PP
+cpdic(1), lsdic(1), mkdic(1), rmdic(1)

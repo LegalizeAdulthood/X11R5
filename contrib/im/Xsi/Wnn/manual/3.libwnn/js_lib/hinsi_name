@@ -1,0 +1,25 @@
+JS_HINSI_NAME（）
+
+名称
+
+	js_hinsi_name	品詞番号から名前を取る。
+
+形式
+
+	#include "jslib.h"
+
+	js_hinsi_name(server, no, rb)
+	WNN_JSERVER_ID *server;
+	int no;	
+	struct wnn_ret_buf *rb;
+
+機能
+
+	品詞番号 no を品詞名に変換し、その品詞名を rb の先に返す。
+	品詞名は、(w_char *) である。
+	server で、どのサーバの品詞情報を用いるか指定する。
+
+リターンバリュー
+
+	正常終了時には 0 を返す。
+	異常終了の場合には、-1 を返す。

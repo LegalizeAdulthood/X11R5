@@ -1,0 +1,21 @@
+#include "../../config.sh"
+        IROHAROOT = ../..
+        IROHASRC = $(IROHAROOT)/lib/iroha
+
+         INCLUDES = -I$(IROHAROOT)/include/iroha \
+			-I$(IROHAROOT)/include
+          DEFINES = 
+    LOCAL_LDFLAGS =
+  LOCAL_LIBRARIES =
+
+             SRCS = rutil.c
+             OBJS = rutil.o
+           TARGET = $(OBJS)
+
+AllTarget($(TARGET))
+NormalLibraryObjectRule()
+DependTarget()
+LintTarget()
+
+clean::
+	$(RM) $(TARGET)

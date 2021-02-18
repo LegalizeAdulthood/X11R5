@@ -1,0 +1,16 @@
+.TH GL_GetDataList 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_GetDataList \- Get the DataList for a window.
+.SH SYNTAX
+GL_DataList GL_GetDataList(target)
+.br
+	Window target;
+.SH ARGUMENTS
+.IP target 1i
+The window that you want the callback functions for.
+
+.SH DESCRIPTION
+This function returns the DataList associated with the window given.
+
+.SH "SEE ALSO"
+GL_AddWindowAssocInfo(3GL), GraphLib Programming Manual

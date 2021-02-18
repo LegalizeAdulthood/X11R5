@@ -1,0 +1,35 @@
+#!/bin/sh
+## ###################################################################### ##
+##         Copyright IBM Corporation 1988,1991 - All Rights Reserved      ##
+##        For full copyright information see:'andrew/config/COPYRITE'     ##
+## ###################################################################### ##
+
+BF=`basename $2 .n`
+TBASE=/tmp/$BF.TMP
+OUTF=/tmp/$BF.OUT
+COMF=/tmp/$BF.EX
+mv $2 $OUTF
+cat $1 $OUTF > $2
+echo $3 2\> $TBASE > $COMF
+. $COMF
+cat $TBASE $OUTF | awk '
+{
+if($1 == ".iy:" && $2 == "TEXTTAG" && NF == 4){ 
+	page[$3] = $(NF)
+	section[$3] = lastsection
+}
+else if($1 == ".iw:"){ lastsection = $2 }
+else if($1== "XXX" &&  $2 == "\\\"TEXTREF"){
+	if(NF == 3) {
+		if(section[$3] == "") print "???"
+		else print section[$3]
+		}
+	else if (NF == 4)  {
+		if(page[$4] == "") print "???"
+		else print page[$4]
+		}
+}
+else print $0
+}
+' >  $2
+rm $COMF $TBASE $OUTF

@@ -1,0 +1,2715 @@
+\begindata{text,269640812}
+\textdsversion{12}
+\define{formatnote
+menu:[Region~4,FormatNote~60]
+attr:[Flags PassThru Int Set]
+attr:[Flags NoFill Int Set]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]}
+\define{chapter
+menu:[Title~3,Chapter~20]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 16]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{italic
+menu:[Font~1,Italic~11]
+attr:[FontFace Italic Int Set]}
+\define{paragraph
+menu:[Title~3,Paragraph~23]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 12]}
+\define{majorheading
+menu:[Title~3,MajorHeading~10]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Italic Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 12]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\define{fieldheading
+menu:[Region~4,Fieldheading]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fieldtext
+menu:[Region~4,Fieldtext]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\formatnote{\chapter{lex,  lexdef,  buildy}}
+
+
+The lex class, together with lexdef and buildy, provide a token scanning 
+facility suitable for yacc.  They utilize the symbol tables implemented in the 
+sym object to store reserved words and identifiers.
+
+
+Lex itself is the token scanner.  As shown below a macro definition allows 
+yacc to access lex_NextToken instead of yylex().  Each instance of a lex 
+object is attached to a single text data object;  to parse more than one 
+object at a time, multiple instances of the lex class can be used.  It may 
+also be desirable to tokenize different string according to different 
+grammars;  the grammar definition is encapsulated in a lexdef object.  Thus 
+each lex object refers to a lexdef as the definition of its tokens and to a 
+text as the source from which it will read.  The may be many lex objects for 
+each lexdef.
+
+
+As part of defining a lexical analyzer, there must be lists of reserved words 
+and diph- or trithongs (multi-character symbols like != -> and :=).  With 
+buildy the information for these tables can be incorporated directly in the 
+source file for yacc, so maintenance of the language definition requires 
+building only one file.  The input to buildy is a grammar definition file with 
+the extension .gra;  the output is a yacc input file with the extension .y. 
+ The .y file has added to it some tables and a C function to provide those 
+tables to lexdef.
+
+
+
+\section{Using buildy, lexdef, and lex}
+
+
+Lex is utilized in writing a compiler for a language, call it 'lang'.  The key 
+part of this is a yacc grammar, prepared in a file called lang.gra and 
+preprocessed by buildy to produce lang.y;  see the Imakefile for 
+andrew/atk/ness/objects.  The lang.gra file is a normal yacc file with a few 
+embellishements as described in the section on buildy.  This file must include 
+lex.ih, which includes a macro definition of yylex(); the definition causes 
+calls on yylex() to actually call lex_NextToken(&yylval),
+
+
+
+
+\section{Sub-classing lex}
+
+
+It is probably not useful to subclass lex or lexdef.
+
+
+
+
+\section{\italic{buildy} Description}
+
+
+Buildy essentially copies its input file to an output, removing a few items 
+destined for buildy and appending a function.  The only action of this 
+function is to return a pointer to a table of information suitable to be 
+passed as the last argument to lexdef_Create().  The name of this function is 
+derived from the name of the input file prior to the extension and ends with 
+"_lexdef".  For lang.gra, the function will be called lang_lexdesc().
+
+
+
+\section{\italic{buildy} usage}
+
+
+Buildy is called from the shell with one or two file names as arguments.  With 
+two arguments, the first is the name of the input file and the second the name 
+of the output file.  With one argument the name of the output file is 
+generated from the name of the input file by stripping any existing suffix and 
+replacing it with '.y'.
+
+
+There are no switches.
+
+
+
+\section{\italic{buildy} input}
+
+
+	Process %token lines to extract token names.
+
+	The reserved word for token WORD is "word".
+
+	The prefix "tok" is stripped from the string versions
+
+	so the token names tokNULL tokFALSE and tokTRUE do
+
+	not conflict with C defined symbols.
+
+	The prefix "set" means to ignore the token: it is
+
+	handled otherwise.
+
+
+	A new line, %thong, is defined.  It has a token name
+
+	followed by a string of characters making up a
+
+	multi-character token.  The line is converted to a %token
+
+	line and information is generated to build the thonglist.
+
+
+	Four "standard" token classes are looked for:
+
+		setID  setINTCON   setREALCON   setSTRINGCON
+
+	the toknum values for these classes are stored in the struct lexdescription.
+
+
+
+
+
+\section{\italic{lexdef} functions}
+
+
+macromethods:
+
+
+	GetGrammarScope(/* struct lexdef *self */) 
+
+	GetPrototype(/* struct lexdef *self */)
+
+
+classprocedures:
+
+
+	InitializeClass(/* struct classhdr *ClassID*/) returns boolean;
+
+	InitializeObject(/* struct classhdr *ClassID, */ struct lexdef *self) returns 
+boolean;
+
+	FinalizeObject(/* struct classhdr *ClassID, */ struct lexdef *self);
+
+
+	Create(/* struct classhdr *ClassID, */ void (*yyerror)(), 
+
+			struct toksym *proto, 
+
+			enum commentKind com, boolean foldCase,
+
+			struct lexdescription *lexdesc) 
+
+					returns struct lexdef *;
+
+
+\section{\italic{lex} functions}
+
+
+
+methods:
+
+
+	SetSource(/* struct lex *self, */ struct text *text, long loc, long len, 
+
+				toksym_scopeType scope, 
+
+				toksym_scopeType constscope);
+
+	SetCurrent(/* struct lex *self */);
+
+	SetPragmatParser(/* struct lex *self, */  char flag,  void (* parser)(), long 
+*rock);
+
+
+macromethods:
+
+
+	SetScope(/* struct lex *self, */ long scope)
+
+	GetScope(/* struct lex *self */)
+
+	SetConstScope(/* struct lex *self, */ long scope) 
+
+	GetConstScope(/* struct lex *self */) 
+
+	GetGrammarScope(/* struct lex *self */) 
+
+	GetPrototype(/* struct lex *self */) 
+
+	GetSource(/* struct lex *self */) 
+
+
+classprocedures:
+
+
+	InitializeClass(/* struct classhdr *ClassID*/) returns boolean;
+
+	InitializeObject(/* struct classhdr *ClassID, */ struct lex *self) returns 
+boolean;
+
+	FinalizeObject(/* struct classhdr *ClassID, */ struct lex *self);
+
+
+	Create(/* struct classhdr *ClassID, */ struct lexdef *def) returns struct lex 
+*;
+
+	RecentPosition(/* struct classhdr *ClassID, */ long index, long *len) returns 
+long;
+
+	Repeat(/* struct classhdr *ClassID, */   long index);
+
+	RecentIndent(/* struct classhdr *ClassID, */   long index) returns long;
+
+	NextToken(/* struct classhdr *ClassID, */ struct toksym **Pyylval) returns 
+int;
+
+	GetCurrent(/* struct classhdr *ClassID */) returns struct lex *;
+
+	TokenUpTo(/* struct classhdr *ClassID, */ struct toksym **Pyylval, unsigned 
+char cend)
+
+				returns int;
+
+	ParseNumber(/* struct classhdr *ClassID, */ struct text *text,
+
+			unsigned long pos, unsigned long *len, 
+
+			unsigned long *intval, double *dblval) 
+
+				returns unsigned long;
+
+
+
+\section{lex key bindings and proctable functions}
+
+
+Neither lex nor lexdef defines any keystrokes or menu entries.  Neither makes 
+any entries in the proctable.
+
+
+\begindata{bp,269646228}
+\enddata{bp,269646228}
+\view{bpv,269646228,64,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_SetSource}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{lex_SetSource }(}\fixedindent{
+
+struct lex *\paramname{lex},
+
+struct text *\paramname{text},
+
+long \paramname{loc},
+
+long \paramname{len},
+
+toksym_scopeType \paramname{scope},
+
+toksym_scopeType \paramname{constscope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Method}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{ lex_SetSource specifies a source text to be processed by this 
+instance of a lex.  The source is the contents of \paramname{text} extending 
+from \paramname{loc} for \paramname{len} characters.  
+
+
+If \paramname{scope} is toksym_GLOBAL, then a new source is assumed and a new 
+constant pool is created;  otherwise it is assumed the lex will be used for a 
+recompilation utilizing the scope given.  (As would be the case in recompiling 
+to determine the location of an error.)  Similarly, \paramname{constscope} may 
+be toksym_GLOBAL to generate a new constant scope or it may be a specific 
+scope.  The caller is responsible for Destroying scopes created by passing 
+ toksym_GLOBAL.
+
+
+lex_SetSource automatically does a lex_SetCurrent() to make this the current 
+lexical analyzer for compilations.
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,65,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_SetCurrent}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{lex_SetCurrent }(}\fixedindent{
+
+struct lex *\paramname{lex});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Method}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ establish self as the lex for compiles (this function 
+
+		usually need not be called because SetSource calls it)
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,66,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_SetPragmatParser}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{lex_SetPragmatParser }(}\fixedindent{
+
+struct lex *\paramname{lex},
+
+char \paramname{flag},
+
+void (*parser)(\paramname{)},
+
+long *\paramname{rock});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Method}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ when an open comment delimiter is followed by the 'flag' character,
+
+		it is deemed to be a pragmat.  The remainder of the comment is passed
+
+		to the 'parser' function as follows:
+
+			parser(rock, comment-contents)
+
+		the comment-contents are the first 100 characters of the
+
+		comment following the flag character.
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,67,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_SetScope}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lex_SetScope }(}\fixedindent{
+
+struct lex *\paramname{lex},
+
+long \paramname{scope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ set the scope.  Could be used to do a partial source 
+
+		compilation within a scope created earlier
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,68,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_GetScope}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lex_GetScope }(}\fixedindent{
+
+struct lex *\paramname{lex});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ return current scope
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,69,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_SetConstScope}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lex_SetConstScope }(}\fixedindent{
+
+struct lex *\paramname{lex},
+
+long \paramname{scope});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ set the constant scope (normally a distinct constant scope is
+
+		generated for each call to SetSource)
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,70,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_GetConstScope}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lex_GetConstScope }(}\fixedindent{
+
+struct lex *\paramname{lex});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ return the constant scope
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,71,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_GetGrammarScope}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lex_GetGrammarScope }(}\fixedindent{
+
+struct lex *\paramname{lex});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ the scope to be used as parent scope for the
+
+			scope of any given compile
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,72,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_GetPrototype}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lex_GetPrototype }(}\fixedindent{
+
+struct lex *\paramname{lex});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ the prototypical struct to be used in sym_Locate
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,73,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_GetSource}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lex_GetSource }(}\fixedindent{
+
+struct lex *\paramname{lex});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ the source text being parsed
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,74,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_InitializeClass}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{boolean \bold{lex_InitializeClass }(}\fixedindent{);}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+<no comment was found>
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,75,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_InitializeObject}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{boolean \bold{lex_InitializeObject }(}\fixedindent{struct lex 
+*\paramname{self});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ use Create instead
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,76,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_FinalizeObject}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{lex_FinalizeObject }(}\fixedindent{struct lex 
+*\paramname{self});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+<no comment was found>
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,77,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_Create}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{struct lex *\bold{lex_Create }(}\fixedindent{struct lexdef 
+*\paramname{def});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ create an instance of a lexical analyzer definition
+
+			one is needed for each source compilation
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,78,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_RecentPosition}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{long \bold{lex_RecentPosition }(}\fixedindent{long 
+\paramname{index},
+
+long *\paramname{len});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ for token 'index', set len to length and return position.
+
+		index = 0 is the most recent token,
+
+		its predecessors are indexed with negative numbers: 
+
+			-1 -2 ... -lex_RECENTSIZE+1
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,79,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_Repeat}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{lex_Repeat }(}\fixedindent{long \paramname{index});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ backup and repeat tokens starting with the index'th 
+
+		    most recent token, where index is as for RecentPosition
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,80,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_RecentIndent}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{long \bold{lex_RecentIndent }(}\fixedindent{long 
+\paramname{index});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ report the indentation of the 'index'th most recent token
+
+		    a token preceded by anything other than white space 
+
+		    is reported as having indentation 999
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,81,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_NextToken}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{int \bold{lex_NextToken }(}\fixedindent{struct toksym 
+**\paramname{Pyylval});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ scans the Current source text for the next token;
+
+		   stores a pointer to a toksym for it into yylval
+
+		   and returns the token number from the toksym
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,82,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_GetCurrent}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{struct lex *\bold{lex_GetCurrent }(}\fixedindent{);}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ return the current lex
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,83,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_TokenUpTo}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{int \bold{lex_TokenUpTo }(}\fixedindent{struct toksym 
+**\paramname{Pyylval},
+
+unsigned char \paramname{cend});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ Constructs a token of type long string from the text
+
+		   starting at the current position and extending to the first
+
+		   subsequent occurrence of 'cend'.  Stores a pointer to this
+
+		   token into *Pyylval and returns the token number.
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269646228,84,0,0}
+______________________________________________________				
+
+
+\paragraph{lex_ParseNumber}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{unsigned long \bold{lex_ParseNumber }(}\fixedindent{struct text 
+*\paramname{text},
+
+unsigned long \paramname{pos},
+
+unsigned long *\paramname{len},
+
+unsigned long *\paramname{intval},
+
+double *\paramname{dblval});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ Parses a number from text, starting at pos, which must 
+
+		select a character valid at the beginning of a number. 
+
+		Sets len to length, intval to integer value, and dblval 
+
+		to real value if the number was real.  
+
+		Returns success status:
+
+			0-error,  1-integer,   2- real.
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+\begindata{bp,269841252}
+\enddata{bp,269841252}
+\view{bpv,269841252,113,0,0}
+
+
+\formatnote{\chapter{lexdef}}
+
+
+For the relationship of lex and lexdef, see the introduction to the lex 
+document.
+
+
+
+\section{Using lexdef}
+
+
+
+
+
+\section{Sub-classing lexdef}
+
+
+It is probably not useful to subclass lexdef.
+
+
+
+\section{\italic{lexdef} functions}
+
+
+The principle operation in lexdef is lexdef_Create which creates a new 
+definition which can then be referenced by a lex object.  The two macros 
+lexdef_GetGrammarScope and lexdef_GetPrototype provide access to useful fields 
+of the lexdef.  Other class procedures are lexdef_InitializeClass, 
+lexdef_InitializeObject, and lexdef_FinalizeObject.
+
+
+
+\section{lexdef key bindings and proctable functions}
+
+
+This class has no proctable entries, key bindings, or menu bindings.
+
+\begindata{bp,269841148}
+\enddata{bp,269841148}
+\view{bpv,269841148,114,0,0}
+______________________________________________________				
+
+
+\paragraph{lexdef_GetGrammarScope}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lexdef_GetGrammarScope }(}\fixedindent{
+
+struct lexdef *\paramname{lexdef});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ the scope to be used as parent scope for the
+
+			scope of any given compile
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269841148,115,0,0}
+______________________________________________________				
+
+
+\paragraph{lexdef_GetPrototype}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{\bold{lexdef_GetPrototype }(}\fixedindent{
+
+struct lexdef *\paramname{lexdef});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Macromethod}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ the prototypical struct to be used in sym_Locate
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269841148,116,0,0}
+______________________________________________________				
+
+
+\paragraph{lexdef_InitializeClass}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{boolean \bold{lexdef_InitializeClass }(}\fixedindent{);}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+<no comment was found>
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269841148,117,0,0}
+______________________________________________________				
+
+
+\paragraph{lexdef_InitializeObject}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{boolean \bold{lexdef_InitializeObject }(}\fixedindent{struct lexdef 
+*\paramname{self});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ use Create instead
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269841148,118,0,0}
+______________________________________________________				
+
+
+\paragraph{lexdef_FinalizeObject}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{void \bold{lexdef_FinalizeObject }(}\fixedindent{struct lexdef 
+*\paramname{self});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+<no comment was found>
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\view{bpv,269841148,119,0,0}
+______________________________________________________				
+
+
+\paragraph{lexdef_Create}
+
+				
+
+\majorheading{Function description}
+
+______________________________________________________
+
+
+\fixedtext{struct lexdef *\bold{lexdef_Create }(}\fixedindent{void 
+(*yyerror)(\paramname{)},
+
+struct toksym *\paramname{proto},
+
+enum commentKind \paramname{com},
+
+boolean \paramname{foldCase},
+
+struct lexdescription *\paramname{lexdesc});}
+
+
+\fieldheading{Category}
+
+\fieldtext{Classprocedure}
+
+
+
+\fieldheading{Description}   
+
+\fieldtext{What does it do?  What are the arguments?  Can arguments be NULL? 
+Assumptions about paths or environment? etc. }
+
+
+\fieldtext{The following comment was in the .ch file:
+
+ create an instance of a lexical analyzer for a new grammar
+
+			proto is an object of whatever type is to be 
+
+			   stored in yylval, it should be a subclass of toksym
+
+			com determines what comment convention is used
+
+			if foldCase is TRUE, upper case in identifiers 
+
+			   is folded to lower
+
+			lexdesc is the value returned by <grammar>_lesdesc()
+
+			   as constructed in the .y file by buildy
+
+}
+
+\fieldheading{Return Value}
+
+\fieldtext{What does it return?}
+
+
+
+\fieldheading{Usage}
+
+\fieldtext{When would you use this?  When would you not use this?  When would 
+you use something else instead of this?
+
+}
+
+\fieldheading{Error Conditions}
+
+\fieldtext{What will cause errors?  What are the errors?}
+
+
+
+\fieldheading{Side Effects}
+
+\fieldtext{What are the side effects, if any?}
+
+
+
+\fieldheading{Known Bugs}
+
+\fieldtext{What are the known bugs?  What is the status of the known bugs?}
+
+
+
+\fieldheading{See Also}
+
+\fieldtext{List of related commands?  Other sections of relevant interest? 
+ Refer by class/procedure,view name,  by document, by source file.  (Example: 
+message_AskForStringCompleted, Msghndler.doc, txtvcmds.c)}
+
+
+
+\fieldheading{Example}
+
+\fieldtext{Concrete example.
+
+}
+
+
+
+
+\enddata{text,269640812}

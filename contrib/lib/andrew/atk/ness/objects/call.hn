@@ -1,0 +1,83 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+\* ********************************************************************** */
+/* $Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/call.hn,v 1.12 1991/09/12 19:43:35 bobg Exp $ */
+/* $ACIS:$ */
+/* $Source: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/call.hn,v $ */
+
+/* call.hn -  definitions for nesscomp function call routines
+
+	THIS FILE IS PROCESSED BY nodeclass.n TO PRODUCE call.h
+	DO NOT EDIT call.h
+
+A source file which imports call.h should also import nodeclass.h
+*/
+
+#ifndef _ness_call_h_
+#define _ness_call_h_
+
+#if !defined(lint) && !defined(LOCORE) && defined(RCS_HDRS)
+static char *call_hn_rcsid = "$Header: /afs/andrew.cmu.edu/itc/sm/releases/X.V11R5/ftp/src/atk/ness/objects/RCS/call.hn,v 1.12 1991/09/12 19:43:35 bobg Exp $";
+#endif
+
+#include "nesssym.ih"
+#include "ness.ih"
+#include "envt.h"	/* for TSysMarkRef */
+
+enum callvariety {callC, callPE, callSym, callNess, 
+		callMethod, callClProc, callGet, callSet, };
+extern char *callvarietyname[];
+
+#define MAXARGS  12
+struct callnode {
+	enum callvariety variety;
+	union {
+		int  (*Cproc)();		/* callC */
+		TSysMarkRef Nproc;	/* callNess */
+		struct nesssym *Sym;	/* callSym */
+		struct proctable_Entry *pe;	/* callPE */
+		long offset;		/* callMethod, callClProc, callGet, callSet,  */
+	} where;
+	struct classinfo *requiredclass;  /* if first arg must be object */
+	Texpr rettype;		/* callMethod, callClProc, callGet, callSet,  */
+	long nargs;		/* number of arguments supplied */
+	Texpr argtype[MAXARGS];	/* array with type of each argument (*right* to *left*) */
+};
+
+enum libstate {NotRead, ReadFailed, Compiling, CompiledWithError, OK};
+
+nodeclass libnode {
+	unsigned char *path;	/* dir name, slashes at both ends */
+	unsigned char *filename;	/* name of file (ends in '.n') */
+	struct ness *ness;		/* a ness for this file (initially NULL) */
+	enum libstate status;
+	long useid;		/* note that it is used by current ness
+				(avoid searches of libuseList) */
+	struct libnode *next;
+};
+
+nodeclass libusenode {
+	struct libnode *used;
+	struct libusenode *next;
+};
+
+
+void   callInit(/* struct nesssym *proto, struct lex *lex */);  /* initialize for generating calls */
+struct exprnode *  callFunc(/* struct varnode *varnode, struct exprnode *argtypes */);
+void   callUnknown(/* struct nesssym *sym */);	/* make undefined function */
+void   callPredefId(/* struct nesssym *var */);	/* generate code for predefined id */
+struct errornode *callInitAll(/* struct ness *ness */);  /* call init() for ness and libraries */
+void   callCheck(/* struct callnode *call, unsigned char *iar */);
+			/* resolve reference and do a call at run-time */
+void callCfunc(/* struct callnode *call, unsigned char *iar,
+			struct textview *textview */); 
+void callCheat(/* unsigned char op, unsigned char *iar, struct ness *ness */);
+
+void   callDirLibs(/* */);	/* find out what files are in directories in NessPath */
+enum libstate   callCheckLib(/* char *fun, struct funcnode **fnode */);
+				/* load library and find function 'fun` */
+
+long ReadTypedFileStream(/* dataobject, filestream */);	/* checks filetype and whatnot */
+
+#endif
+

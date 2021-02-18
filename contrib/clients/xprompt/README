@@ -1,0 +1,76 @@
+Copyright 1989, 1990, 1991 by
+Barry Brachman and the University of British Columbia
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of U.B.C. not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  U.B.C. makes no representations about the
+suitability of this software for any purpose.  It is provided "as is"
+without express or implied warranty.
+
+=====
+
+Xprompt provides a means by which programs can ask the user
+for one or more responses.  I have found it especially useful for
+reducing the size of my (tv)twm menus.
+Instead of hardwiring alternatives into a menu, a single script is used
+to call xprompt and then invoke the appropriate thing.
+
+For example, I have a twm menu item:
+
+	"RLOGIN"	!"xprompt.rlogin &"
+
+that invokes a shell script called xprompt.rlogin:
+
+#! /bin/sh
+
+defaulthost=${HOME}/.xprompt.rlogin
+reply=
+
+if [ -r $defaulthost ]
+then
+	reply=`cat $defaulthost`
+fi
+
+reply=`xprompt -p "Hostname" -r "$reply"`
+if [ $? = 1 ]
+then
+	exit 0
+fi
+echo "$reply" > $defaulthost
+
+xhost "$reply" > /dev/null 2>&1
+xterm -T "rlogin $reply" -e rlogin "$reply" &
+
+exit 0
+
+I set the following resources in my .xresources:
+	XPrompt*cursor: left_ptr
+	XPrompt*Geometry: 800x30+300+2
+	XPrompt*Rlen: 70
+	XPrompt*borderWidth: 2
+	XPrompt*Grab: off
+	XPrompt*Warp: on
+	XPrompt*returnExit: on
+	XPrompt*textTranslations: #override \n\
+                         Ctrl<Key>W:  erase-word() \n\
+                         <Btn1Up>: select-start() \n\
+                         <Btn2Up>: insert-selection(PRIMARY,CUT_BUFFER0) \n\
+                         <Btn3Up>: next-prompt-or-finish()
+
+Xprompt has been written for both X11R4 and X11R5.
+
+I have a man page for trcomp() should anyone think it's a useful library
+function.  Ask and I'll mail it.
+
+Please report bugs, enhancements, suggestions, etc. to me rather than
+posting to the net.
+
+-----
+Barry Brachman           | {alberta,uw-beaver,uunet}!ubc-cs!brachman
+Dept. of Computer Science| brachman@cs.ubc.ca (cs.ubc.ca=137.82.8.5)
+Univ. of British Columbia| brachman@ubc.csnet
+Vancouver, B.C. V6T 1Z2  | Office: (604) 822-3123, FAX: (604) 822-5485

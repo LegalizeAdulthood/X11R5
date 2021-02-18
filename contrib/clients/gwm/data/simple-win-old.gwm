@@ -1,0 +1,70 @@
+; SIMPLEST DECORATION
+; ===================
+
+;;File: simple-win.gwm -- simple window decoration
+;;Author: colas@mirsa.inria.fr (Colas NAHABOO) -- Bull Research FRANCE
+;;Revision: 1.4 -- June 12 1989
+;;State: Exp
+;;GWM Version: 1.4
+
+(defaults-to
+  simple-win.font name-font
+  simple-win.inactive grey
+  simple-win.active darkgrey
+  simple-win.label.background white
+  simple-win.label.foreground black
+)
+
+(if (not (boundp 'simple-win.titlebar-fsm))
+  (progn
+    (if no-set-focus
+	(: simple-win.titlebar-fsm
+	   (fsm-make
+	       (state-make
+		   (on (user-event 'focus-in)
+		       (wob-background simple-win.active))
+		   (on (user-event 'focus-out)
+		       (wob-background simple-win.inactive))
+		   standard-title-behavior)))
+	(: simple-win.titlebar-fsm 
+	   (fsm-make
+	       (state-make
+		   (on enter-window (set-focus window))
+		   (on leave-window  (set-focus ()))
+		   (on (user-event 'focus-in)
+		       (wob-background simple-win.active))
+		   (on (user-event 'focus-out)
+		       (wob-background simple-win.inactive))
+		   standard-title-behavior))))
+    
+    (: simple-win.label-fsm
+       (fsm-make
+	   (state-make
+	       (on (user-event 'name-change)
+		   (with (font simple-win.font
+			       background simple-win.label.background
+			       foreground simple-win.label.foreground)
+			 (wob-tile (label-make (window-name)))))
+	       standard-title-behavior)))
+  )
+)
+
+(: simple-win.data
+   (with (fsm window-fsm grabs window-grabs)
+	 (window-make     
+	  '(with (borderwidth 1 background simple-win.inactive 
+			      fsm simple-win.titlebar-fsm
+			      bar-min-width 4 bar-max-width 22)
+		 (bar-make () 
+			   '(with (fsm simple-win.label-fsm 
+				       background simple-win.label.background
+				       foreground simple-win.label.foreground)
+				  (plug-make 
+				   (label-make  window-name
+						simple-win.font)))
+			   ()))
+	  () () () ()))))))
+
+(defname 'simple-win.data screen. simple-win.data)
+
+(df simple-win () simple-win.data)

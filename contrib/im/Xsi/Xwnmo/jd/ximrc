@@ -1,0 +1,10 @@
+;
+; $Id: ximrc,v 1.1 1991/09/11 02:28:17 ohm Exp $
+;
+setuumrc ja_JP /usr/local/lib/wnn/ja_JP/uumrc.xim
+setuumrc zh_CN /usr/local/lib/wnn/zh_CN/uumrc.xim
+setuumrc lt_LN /usr/local/lib/wnn/lt_LN/uumrc.xim
+setuumrc ko_KR /usr/local/lib/wnn/ko_KR/uumrc.xim
+preloadrkfile ja_JP
+;preloadrkfile zh_CN
+;preloadrkfile de_DE

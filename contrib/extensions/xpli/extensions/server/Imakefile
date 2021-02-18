@@ -1,0 +1,46 @@
+XCOMM $XConsortium: Imakefile,v 5.15 91/07/16 23:09:51 gildea Exp $
+#include <Server.tmpl>
+
+#if BuildXInputExt || BuildPexExt || BuildPliExt
+#define IHaveSubdirs
+#endif
+
+#if BuildXInputExt
+  XINPUTDIRS = xinput
+#endif
+#if BuildPexExt
+  PEXDIRS = PEX
+#else
+#if BuildPexClients
+  PEXDIRS = PEX/dipex/swap
+#endif
+#endif
+#ifdef BuildPliExt
+  XPLIDIRS = xpli
+#endif /* BuildPliExt */
+#if HasShm
+  SHMSRCS = shm.c
+  SHMOBJS = shm.o
+#endif
+       SRCS = shape.c $(SHMSRCS) multibuf.c mitmisc.c xtest1di.c xtest1dd.c
+       OBJS = shape.o $(SHMOBJS) multibuf.o mitmisc.o xtest1di.o xtest1dd.o
+   INCLUDES = -I../include -I$(INCLUDESRC) -I$(SERVERSRC)/include
+   LINTLIBS = ../../server/dix/llib-ldix.ln ../../server/os/4.2bsd/llib-los.ln
+        SUBDIRS = $(XINPUTDIRS) $(PEXDIRS) $(XPLIDIRS)
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(ext,$(OBJS))
+LintLibraryTarget(ext,$(SRCS))
+NormalLintTarget($(SRCS))
+
+DependTarget()
+
+#ifdef IHaveSubdirs
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+#endif
+
+#if HasSaberC
+saber_src:
+	/**/#load $(CFLAGS) $(SRCS)
+#endif

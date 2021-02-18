@@ -1,0 +1,84 @@
+.\" $Header: PEXtNUScal.man,v 1.0 91/10/04 17:02:06 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtNonUniformScale 3PEXt "January 10th, 1991"
+.SH NAME
+\fBPEXtNonUniformScale, PEXtUniformScale,
+PEXtNonUniformScale3, PEXtUniformScale3\fP
+\(em compose a scale matrix as a local transform structure element
+.sp 1
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Structure.h>
+.sp 1
+void PEXtNonUniformScale (\fIsfx, sfy, composition\fP)
+.br
+.ta .5i 2i
+	\fBPfloat\fP	\fIsfx, sfy\fP;
+.br
+	\fBPcompose_type\fP	\fIcomposition\fP;
+.fi
+.sp 1
+.br
+void PEXtUniformScale (\fIsf, composition\fP)
+.br
+	\fBPfloat\fP	\fIsf\fP;
+.br
+	\fBPcompose_type\fP	\fIcomposition\fP;
+.sp 1
+void  PEXtNonUniformScale3 (\fIsfx, sfy, sfz, composition\fP)
+.br
+.ta .5i 2i
+	\fBPfloat\fP	\fIsfx, sfy, sfz\fP;
+.br
+	\fBPcompose_type\fP	\fIcomposition\fP;
+.fi
+.sp 1
+.br
+void PEXtUniformScale3 (\fIsf, composition\fP)
+.br
+	\fBPfloat\fP	\fIsf\fP;
+.br
+	\fBPcompose_type\fP	\fIcomposition\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.br
+\fP
+.SH DESCRIPTION
+These convenience procedures create a scale matrix of the given amount
+using the PHIGS functions \fBpscale\fP and \fBpscale3\fP.  The resulting
+matrix appears in the current structure as a \fBSET LOCAL TRANSFORMATION 3\fP
+(or \fBSET LOCAL TRANSFORMATION\fP) structure element with
+the given \fIcomposition\fP into the currently open structure.  If the
+current edit mode is set to \fIPREPLACE\fP, then the matrix replaces the
+current structure element.  If the current edit mode is set to \fIPINSERT\fP,
+then the matrix is inserted after the current structure element.
+.SH RETURN VALUE
+None
+.SH BUGS
+Because
+\fBPEXtUniformScale\fP and \fBPEXtUniformScale3\fP are implemented as macros,
+the scale factor argument \fIsf\fP should be side-effect free.
+.SH SEE ALSO
+\fBPEXtRotate(3)\fP
+.br
+\fBPEXtTranslate(3)\fP
+.br
+\fBPEXtBuildTran(3)\fP
+.br
+\fBpscale(3)\fP
+.br
+\fBpscale3(3)\fP
+.SH AUTHOR
+Rich Thomson
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

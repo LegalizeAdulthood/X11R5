@@ -1,0 +1,66 @@
+  (3) Word Registration (Limited to registration in user dictionaries)
+
+  Technical terms and frequently used characters can be register just before
+  or just after confirmation of a conversion.
+
+     1) At Dictionary Addition 1), Either input "2" or move the reverse video
+        indication to "Register" and press the Return key. Or press the Meta+F11
+        key at Dictionary Addition 1).
+        --> The text just prior to or just following confirmation is displayed.
+     < Figure 2.3.6 >
+
+
+        ( Registration Start:  <Japanese Text>   )
+
+     2) At this point, move the cursor to the beginning of the word to be
+        registered and press the Return key.
+        --> The word will be automatically determined and the cursor moved.
+            The phrase "Registration Start" will be replaced with
+            "Registration End".
+     < Figure 2.3.7 >
+
+
+        ( Registration End:   <Japanese Text>    )      
+
+     3) Next, move the cursor to the end of the word to be registered and
+        press the Return key.
+        --> The display will change to a prompt requesting the reading.
+     < Figure 2.3.8 >
+
+
+        ( Reading:                                 ) 
+
+     4) Input the reading in hiragana and press the Return key. 
+        --> The display will change to a selection of parts of speech.
+            Select the part of speech appropriate for the word being entered.
+     < Figure 2.3.9 >
+
+
+        ( 0. Regular noun/  1. Proper noun/  2. Verb/  3. Special verb/  .. )
+
+     5) Either input the number of the part of speech or move the reverse
+        video display to the part of speech and press the Return key.
+        (When there are multiple dictionaries the word could be registered in,
+         the dictionary must also be selected.)
+
+
+
+
+
+
+     Keysym  (Command)| Function
+     -----------------+------------------------------------------------
+     Up            ^P | Display the previous parts of speech group
+     Down          ^N | Display the next parts of speech group
+     Left          ^B | Move the reverse video portion to the left
+     Right         ^F | Move the reverse video portion to the right
+                   ^A | Move the reverse video portion to the left end
+                      | of the line
+                   ^E | Move the reverse video portion to the right end
+                      | of the line
+                   NL | Exit the register
+     -----------------+------------------------------------------------
+
+     (NOTE): Press the Meta+Down key to quit dictionary operation mode.
+             This returns to the conditions prior to dictionary operation.
+

@@ -1,0 +1,131 @@
+Sun-3 with SunOS
+Sun-4 with SunOS
+
+   Works.
+   Since Sun has broken their linker again in SunOS 4.1, you must
+   specify the full pathnames of the relevant X11 libraries in the top
+   level Makefile.
+
+VAX with 4.3BSD or Ultrix
+
+   Works.
+   The C compiler can't handle void* correctly, therefore GENERIC must be
+   defined as char* in the top level Makefile.
+
+NeXT
+
+   Works.  "dump" is currently not supported on the NeXT.
+   A dynamically loaded object file cannot reference symbols that
+   have been defined by a previously loaded file (this is a mis-feature
+   of the rld(3)-functions).
+
+Integrated Solutions 680x0 with 4.2BSD or 4.3BSD
+
+   Works, but I haven't tested the X11 interface.
+   You may have to define GENERIC as char* in the top level Makefile.
+   You may have to add -X23 to the CFLAGS (for the Greenhills cc).
+
+Intel 80386 with System V Release 3 or System V/386 (Interactive)
+
+   Works, but I haven't tested the X11 interface.
+   Under Interactive Unix you must not compile with -O.
+   Dynamic loading of object files is not supported under System V,
+   since the linker doesn't support incremental linking.
+
+IBM RT with AOS
+
+   Zalman Stern <zs01+@andrew.cmu.edu> reported that it works on
+   the IBM RT.
+
+Sequent Symmetry
+
+   Richard Kuhns <newton.physics.purdue.edu!sawmill!rjk> and
+   On G. Paradise <oparadis@erseq.oracle.com> reported that Elk works
+   on the Sequent.
+
+   Several people reported that the GNU linker has to be used for
+   dynamic loading.  Check the pathname of the GNU linker in the
+   file src/load.c (the default is /usr/local/lib/gcc-ld).
+
+HP 9000 Series 300
+ 
+   Works.
+   The X11 extension works with MIT's X11 Release 4.
+   Before calling "make", set your SHELL environment variable to /bin/sh.
+   The "ALIGN redefined" warnings of the C compiler can be ignored.
+
+HP 9000 Series 800
+
+   Works (but only the `portable' version).
+   The X11 extension works with MIT's X11 Release 4.
+   Before calling "make", set your SHELL environment variable to /bin/sh.
+   Dynamic loading of object files doesn't work due to a bug in HP's
+   linker.  The bug will probably be fixed in the next release of HP-UX.
+   C compiler messages like "Subspace characteristics may not be changed
+   after first definition" can be ignored.
+
+Sony NEWS 1750/1850 (68k)
+
+   Works.
+
+DECStation 3100
+Sony NEWS 3860
+(and probably other MIPS-based machines)
+
+   MIPS-based machines don't seem to have an alloca() that can be used
+   with Elk.  Therefore you must either install the portable version or
+   use the GNU C-compiler (gcc).
+
+   In addition, you must link the executable in a way that the data
+   segment starts at 0x800000 (this number must correspond to the value
+   of POINTER_CONSTANT_HIGH_BITS in src/config.h).  This can be achieved
+   by the cc-option -Wl,-D,800000.
+
+   There are a couple of problems with gcc on MIPS-based machines:  
+   
+      o it doesn't recognize -Wl,-D,80000.  Thus, Elk must be linked with
+	cc.  You can do the following:
+
+	   make TARGETS=src CC=gcc
+	   rm src/scheme
+	   make TARGETS=src
+	   make CC=gcc
+
+      o older versions of gcc may not correctly compile files that use
+	varargs.  In this case src/error.c and src/print.c must be compiled
+	with cc
+
+      o on the DECStation 3100, gcc may barfs over src/bignum.c (this is a
+	bug in gcc).  In this case you must gcc -S bignum.c, edit bignum.s
+	and replace the symbol Infinity by 1e308, and then gcc -c bignum.s
+
+
+   Incremental linking currently doesn't work on MIPS-based machines.
+   /bin/ld complains about "gp relocation out-of-range errors"; so far
+   nobody could tell me what exactly this means.
+
+   Therefore I recommend to remove CAN_LOAD_OBJ from src/config.h and
+   add #define INIT_OBJECTS.  You can then create a statically linked
+   interpreter with your extensions by means of the shell script
+   src/link-scheme.  For instance, to create an interpreter with the
+   X11 extensions, call
+
+      cd src
+      link-scheme xscheme ../lib/unix.o ../lib/{xlib,xt,xaw}/*.o
+	-lXaw -lXext -lXmu -lXt -lX11
+
+
+X Window System
+
+   X11 Release 3 is no longer supported.  You need either X11R4 or
+   X11R5 to use the Elk/X11 interface.  If you want to use Elk with
+   X11R4 do the following:
+
+       cd lib/xaw; cp Makefile.x11r4 Makefile
+
+
+OSF/Motif widgets
+
+   Motif 1.0 is no longer supported.  You need Motif 1.1 to use the
+   Elk/Motif interface.  If you are running X11R5 make sure that it
+   has been compiled with the symbol MotifBC set to YES in site.def.

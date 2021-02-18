@@ -1,0 +1,379 @@
+/*
+ * Copyright (C) 1990-1991 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */
+
+defineps PSWsetWH(float width, height, trans_x, trans_y)
+	gsave
+	/wi width 2 add def
+	/he height def
+	trans_x trans_y translate
+	/defmat	matrix currentmatrix def
+	/imagemat matrix currentmatrix def
+	grestore
+endps
+
+defineps PSWsetgcdrawable(long int gc, x, y, i_draw)
+
+	image_back setgstate
+	gc i_draw x y setXgcdrawable
+	image_back currentgstate pop
+	image_fore setgstate
+	matrix currentmatrix
+	gc i_draw x y setXgcdrawable
+	setmatrix
+	image_fore currentgstate pop
+endps
+
+
+defineps PSWsetSquare(float fore_red, fore_green, fore_blue,
+			    back_gray,
+			    scale_factor, rotate_factor;
+			    long int gc, win, x, y)
+	gsave
+	back_gray setgray
+	gc win x y setXgcdrawable
+	/square_back gstate def
+
+	fore_red fore_green fore_blue setrgbcolor
+	defmat setmatrix
+	scale_factor scale_factor scale
+	rotate_factor rotate
+	/square_fore gstate def
+	grestore
+endps	
+
+defineps PSWsetCircle(float fore_red, fore_green, fore_blue,
+			    back_gray,
+			    scale_factor, rotate_factor, cir_x1, cir_x2;
+			    long int gc, win, x, y)
+	gsave
+
+	/x1 cir_x1 def
+	/x2 cir_x2 def
+
+	/drawcurve {
+	gsave
+	newpath
+	-36 -36 moveto
+	x1 50 x2 36 36 -36 curveto
+	closepath
+	gsave fill grestore
+	0 setgray stroke grestore} bind def
+
+	back_gray setgray
+	gc win x y setXgcdrawable
+	/circle_back gstate def
+
+	fore_red fore_green fore_blue setrgbcolor
+	defmat setmatrix
+	scale_factor scale_factor scale
+	rotate_factor rotate
+	false setstrokeadjust
+	/circle_fore gstate def
+	grestore
+endps	
+
+defineps PSWsetText(float fore_red, fore_green, fore_blue,
+		    back_gray,
+		    scale_factor, rotate_factor;
+		    long int gc, win, x, y)
+
+	gsave
+
+	/showtext {
+		-40 8 moveto
+		(Hello) show
+		-48 -27 moveto
+		(World) show
+	} bind def	
+
+	back_gray setgray
+	gc win x y setXgcdrawable
+	/text_back gstate def
+
+	/Times-Roman 36 selectfont
+	fore_red fore_green fore_blue setrgbcolor
+	defmat setmatrix
+	scale_factor scale_factor scale
+	rotate_factor rotate
+	/text_fore gstate def
+	grestore
+endps	
+
+defineps PSWsetImage(float fore_red, fore_green, fore_blue,
+			    back_gray,
+			    scale_factor, rotate_factor;
+			    long int gc, win, x, y)
+	gsave
+
+	/rectpath {
+	4 2 roll moveto
+	dup 0 exch rlineto
+	exch dup 0 rlineto
+	exch dup -1 mul 0 exch rlineto
+	pop -1 mul 0 rlineto
+	closepath
+	} bind def
+
+	back_gray setgray
+	gc win x y setXgcdrawable
+	/image_back gstate def
+
+	/fr fore_red def
+	/fg fore_green def
+	/fb fore_blue def
+	{fr mul} {fg mul} {fb mul} {} setcolortransfer
+	imagemat setmatrix
+	scale_factor scale_factor scale
+	rotate_factor rotate
+	/image_fore gstate def
+	grestore
+endps	
+
+defineps PSWDrawSquare()
+	square_back setgstate
+	0 0 wi he rectfill
+
+	square_fore setgstate
+	-36 -36 72 72 rectfill
+endps
+
+defineps PSWDrawCircle()
+	circle_back setgstate
+	0 0 wi he rectfill
+
+	circle_fore setgstate
+	drawcurve
+endps
+
+defineps PSWDrawText()
+	text_back setgstate
+	0 0 wi he rectfill
+
+	text_fore setgstate
+	showtext
+endps
+
+defineps PSWDrawImage()
+	image_back setgstate
+	0 0 wi he rectfill
+
+	image_fore setgstate
+	doimage
+endps
+
+
+
+defineps PSWsquare_fore_red(float new_red)
+	square_fore setgstate
+	currentrgbcolor 3 -1 roll pop
+	new_red 3 1 roll setrgbcolor
+	-36 -36 72 72 rectfill
+	square_fore currentgstate pop
+endps
+
+defineps PSWsquare_fore_green(float new_green)
+	square_fore setgstate
+	currentrgbcolor 3 1 roll pop
+	new_green 3 -1 roll setrgbcolor
+	-36 -36 72 72 rectfill
+	square_fore currentgstate pop
+endps
+
+defineps PSWsquare_fore_blue(float new_blue)
+	square_fore setgstate
+	currentrgbcolor pop
+	new_blue setrgbcolor
+	-36 -36 72 72 rectfill
+	square_fore currentgstate pop
+endps
+
+defineps PSWsquare_back(float new_gray)
+	square_back setgstate
+	new_gray setgray
+	0 0 wi he rectfill
+	square_back currentgstate pop
+	square_fore setgstate
+	-36 -36 72 72 rectfill
+endps
+
+defineps PSWsquare_distort(float new_scale, new_rotate)
+	square_back setgstate
+	0 0 wi he rectfill
+	square_fore setgstate
+	defmat setmatrix
+	new_scale new_scale scale
+	new_rotate rotate
+	square_fore currentgstate pop
+	-36 -36 72 72 rectfill
+endps
+
+
+defineps PSWcircle_fore_red(float new_red)
+	circle_fore setgstate
+	currentrgbcolor 3 -1 roll pop
+	new_red 3 1 roll setrgbcolor
+	drawcurve
+	circle_fore currentgstate pop
+endps
+
+defineps PSWcircle_fore_green(float new_green)
+	circle_fore setgstate
+	currentrgbcolor 3 1 roll pop
+	new_green 3 -1 roll setrgbcolor
+	drawcurve
+	circle_fore currentgstate pop
+endps
+
+defineps PSWcircle_fore_blue(float new_blue)
+	circle_fore setgstate
+	currentrgbcolor pop
+	new_blue setrgbcolor
+	drawcurve
+	circle_fore currentgstate pop
+endps
+
+defineps PSWcircle_back(float new_gray)
+	circle_back setgstate
+	new_gray setgray
+	0 0 wi he rectfill
+	circle_back currentgstate pop
+	circle_fore setgstate
+	drawcurve
+endps
+
+defineps PSWcircle_distort(float new_scale, new_rotate, cir_x1, cir_x2)
+	circle_back setgstate
+	0 0 wi he rectfill
+	circle_fore setgstate
+	defmat setmatrix
+	new_scale new_scale scale
+	new_rotate rotate
+	circle_fore currentgstate pop
+	/x1 cir_x1 def
+	/x2 cir_x2 def
+	drawcurve
+endps
+
+
+defineps PSWtext_fore_red(float new_red)
+	text_fore setgstate
+	currentrgbcolor 3 -1 roll pop
+	new_red 3 1 roll setrgbcolor
+	text_fore currentgstate pop
+	showtext
+endps
+
+defineps PSWtext_fore_green(float new_green)
+	text_fore setgstate
+	currentrgbcolor 3 1 roll pop
+	new_green 3 -1 roll setrgbcolor
+	text_fore currentgstate pop
+	showtext
+endps
+
+defineps PSWtext_fore_blue(float new_blue)
+	text_fore setgstate
+	currentrgbcolor pop
+	new_blue setrgbcolor
+	text_fore currentgstate pop
+	showtext
+endps
+
+defineps PSWtext_back(float new_gray)
+	text_back setgstate
+	new_gray setgray
+	0 0 wi he rectfill
+	text_back currentgstate pop
+	text_fore setgstate
+	showtext
+endps
+
+defineps PSWtext_distort(float new_scale, new_rotate)
+	text_back setgstate
+	0 0 wi he rectfill
+	text_fore setgstate
+	defmat setmatrix
+	new_scale new_scale scale
+	new_rotate rotate
+	text_fore currentgstate pop
+	showtext
+endps
+
+
+defineps PSWimage_fore_red(float new_red)
+	image_fore setgstate
+	/fr new_red def
+	{fr mul} {fg mul} {fb mul} {} setcolortransfer
+	doimage
+	image_fore currentgstate pop
+endps
+
+defineps PSWimage_fore_green(float new_green)
+	image_fore setgstate
+	/fg new_green def
+	{fr mul} {fg mul} {fb mul} {} setcolortransfer
+	doimage
+	image_fore currentgstate pop
+endps
+
+defineps PSWimage_fore_blue(float new_blue)
+	image_fore setgstate
+	/fb new_blue def
+	{fr mul} {fg mul} {fb mul} {} setcolortransfer
+	doimage
+	image_fore currentgstate pop
+endps
+
+defineps PSWimage_back(float new_gray)
+	image_fore setgstate
+	matrix currentmatrix
+
+	image_back setgstate
+	new_gray setgray
+	image_back currentgstate pop
+	matrix currentmatrix exch
+	setmatrix
+	-49 -32.5 98 65 rectpath
+	setmatrix
+	0 0 wi he rectpath
+	eoclip
+	0 0 wi he rectfill
+endps
+
+defineps PSWimage_distort(float new_scale, new_rotate)
+	image_back setgstate
+	0 0 wi he rectfill
+	image_fore setgstate
+	imagemat setmatrix
+	new_scale new_scale scale
+	new_rotate rotate
+	image_fore currentgstate pop
+	doimage
+endps

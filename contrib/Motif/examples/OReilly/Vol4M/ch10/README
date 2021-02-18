@@ -1,0 +1,7 @@
+xpixmap.c  This hardcodes a pixmap (displayed in a label)
+	by invoking a converter from the application.  Since the Motif
+	CvtStringToPixmap is not application accessible, the technique
+    is demonstrated using the Athena widgets and the Xmu StringToBitmap
+	converter.
+
+xfallback.c	Defines a set of fallback resources.

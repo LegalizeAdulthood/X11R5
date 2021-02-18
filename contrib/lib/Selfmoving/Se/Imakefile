@@ -1,0 +1,56 @@
+   PROTO_DEFINES = 
+     CDEBUGFLAGS = 
+          CFLAGS = $(CCOPTIONS) $(ALLDEFINES)
+
+    INSTALLFLAGS = $(INSTINCFLAGS)
+        LINTLIBS = $(LINTXLIB) $(LINTXTOOL)
+        SEINCDIR = $(INCDIR)/Se
+
+
+         HEADERS = \
+	           SelfM.h \
+	           SelfMP.h 
+
+            SRCS = \
+	           SelfM.c
+
+            OBJS = \
+	           SelfM.o
+
+#if DebugLibSe && ProfileLibSe
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibSe
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibSe
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+NormalLibraryTarget(Se,$(OBJS))
+LintLibraryTarget(Se,$(SRCS))
+InstallLibrary(Se,$(USRLIBDIR))
+InstallLintLibrary(Se,$(LINTLIBDIR))
+
+#if ProfileLibSe
+ProfiledLibraryTarget(Se,$(OBJS))
+InstallLibrary(Se_p,$(USRLIBDIR))
+#endif
+
+#if DebugLibSe
+DebuggedLibraryTarget(Se,$(OBJS))
+#endif
+
+BuildIncludes($(HEADERS),Se,..)
+
+
+MakeDirectories(install,$(SEINCDIR))
+InstallMultiple($(HEADERS),$(SEINCDIR))
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

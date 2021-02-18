@@ -1,0 +1,50 @@
+.TH XcuFloatR 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuFloatR \- Float resource for XcuWidgets
+.sp
+.TS
+tab(;);
+|c s s s s|.
+_
+XcuFloat Resource
+.T&
+|lB |lB |lB |lB s|.
+_
+Name;Type;Converter Registration;Converts
+.T&
+|lB |lB |lB |lB cB|.
+ ; ; ;From;To
+=
+.T&
+|lB l l l l|.
+XtNlineFactor;float;XcuAddStringToFloatConverter();Any string; 
+ ; ; ;acceptable;float
+ ; ; ;to \fBsscanf()\fR; 
+_
+.TE
+.ne 4
+.SH NOTE
+\ 
+.br
+XcuAddStringToFloatConverter() is
+automatically called by the class_initialize procedure of \fBXcuLabel\fR.
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

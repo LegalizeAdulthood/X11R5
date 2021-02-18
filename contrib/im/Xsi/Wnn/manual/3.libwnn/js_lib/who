@@ -1,0 +1,25 @@
+JS_WHO( )
+
+名称
+
+	js_who		サーバの使用者を得る。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_who(server,ret)
+	WNN_JSERVER_ID *server;	
+	struct wnn_ret_buf *ret;
+
+機能
+
+	サーバ server にコネクトしているクライアントの情報を返す。
+	ret->buf から、WNN_JWHO の配列がクライアントの数だけ返される。
+
+リターンバリュー
+
+	正常終了時には、クライアントの数を返す。
+	異常終了時には、-1 を返す。
+

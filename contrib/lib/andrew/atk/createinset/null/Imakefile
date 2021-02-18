@@ -1,0 +1,57 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+# null
+#	prototypical Andrew inset
+
+
+#########################################################
+#	$$$ change the following comments to fit your application
+#
+#  null Makefile
+#
+#	The directory for an inset has these files
+#		Imakefile
+#		null.hlp	explain usage of the inset
+#		null.ch	class headers for data object
+#		null.c	program for data object
+#		nullv.ch	class headers for the view
+#		nullv.c	program for view
+#		nullvt.c	test driver for view
+
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+DOBJS = null.do nullv.do
+IHFILES = null.ih nullv.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS), $(IHFILES))
+
+
+TESTLIBS = ${BASEDIR}/lib/atk/libframe.a \
+	${BASEDIR}/lib/atk/libtext.a \
+	${BASEDIR}/lib/atk/libsupviews.a \
+	${BASEDIR}/lib/atk/libsupport.a
+
+BASETESTLIBS = ${BASEDIR}/lib/atk/libbasics.a \
+	${BASEDIR}/lib/libclass.a \
+	${BASEDIR}/lib/liberrors.a \
+	${MALLOCLIB}  \
+	${UTILLIB}
+
+SYSLIBS = -lm
+
+ClassTestProgramTarget(nullvt, nullvt.o, ${TESTLIBS} ${BASETESTLIBS}, ${SYSLIBS} ${BSDLIB})
+
+NormalHelpRule()
+InstallDocs(null.help, $(DESTDIR)/help)
+
+/* $$$ the second argument is a space-separated list of aliases */
+InstallHelpAlias(null, null prototype generic)
+
+DependTarget()

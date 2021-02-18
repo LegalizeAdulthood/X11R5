@@ -1,0 +1,29 @@
+;
+; $Id: 2A_CTRL,v 1.1 1991/09/11 02:30:49 ohm Exp $
+;
+(defvar pf1 (list '\x81')) 
+(defvar pf2 (list '\x82'))
+(defvar pf3 (list '\x83'))
+(defvar pf4 (list '\x84'))
+(defvar pf5 (list '\x85'))
+
+(unless PIN_YIN)(pf1)	(on PIN_YIN)(off ASCII)(off BI_XING)(off QI_TA)(off GONG_NENG)
+(if PIN_YIN)(if quan_pin)(pf1) 	(off quan_pin)(off two_pin_3key)(on two_pin)
+(if PIN_YIN)(if two_pin)(pf1) 	(off two_pin)(off quan_pin)(on two_pin_3key)
+(if PIN_YIN)(if two_pin_3key)(pf1)  (off two_pin)(off two_pin_3key)(on quan_pin)
+
+(unless BI_XING)(pf2)	(on BI_XING)(off PIN_YIN)(off ASCII)(off QI_TA)(off GONG_NENG)	'T'
+(if BI_XING)(if wu_bi)(pf2) 		(off wu_bi)(on qian_ma)		'T'
+(if BI_XING)(if qian_ma)(pf2) 		(off qian_ma)(on wu_bi)		'T'
+
+(unless ASCII)(pf3)	(on ASCII)(off PIN_YIN)(off BI_XING)(off QI_TA)(off GONG_NENG)
+(if ASCII)(if ban_jiao)(pf3)	(off ban_jiao)(on  quan_jiao)
+(if ASCII)(if quan_jiao)(pf3) 	(off quan_jiao)(on  ban_jiao)
+
+(unless QI_TA)(pf4)	(on QI_TA)(off PIN_YIN)(off BI_XING)(off ASCII)(off GONG_NENG)
+(if QI_TA)(if chang_yong_zi)(pf4)	(off chang_yong_zi)(on  guo_biao_ma)
+(if QI_TA)(if guo_biao_ma)(pf4)		(off guo_biao_ma)(on  qu_wei_ma)
+(if QI_TA)(if qu_wei_ma)(pf4)		(off qu_wei_ma)(on  nei_ma)
+(if QI_TA)(if nei_ma)(pf4)		(off nei_ma)(on chang_yong_zi)
+
+(pf5) 	(switch GONG_NENG)	H

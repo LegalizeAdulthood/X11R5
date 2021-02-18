@@ -1,0 +1,4 @@
+#define icon_top_bar_tile_bSC_width 1
+#define icon_top_bar_tile_bSC_height 5
+static char icon_top_bar_tile_bSC_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x01};

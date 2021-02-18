@@ -1,0 +1,175 @@
+.TH XLBIFF 1 "4 October 1991"
+.SH NAME
+xlbiff \- mailbox message previewer for X
+.SH SYNOPSIS
+.B xlbiff
+[ \fI\-option\fP ... ]
+.SH DESCRIPTION
+The
+.I xlbiff
+program lurks in the background, watching your mailbox file, waiting for
+new mail.  When mail arrives, it invokes the MH \fIscan\fP(1)
+command and pops up a window with the results.  Clicking the left mouse
+button anywhere in this window makes it go away.  The window will also
+disappear if iconified or if the mailbox size drops to zero.
+.PP
+.SH OPTIONS
+.I Xlbiff
+accepts all of the standard X Toolkit command line options along with the
+additional options listed below:
+.TP 8
+.B \-help
+This option indicates that a brief summary of the allowed options should be
+printed on standard output.
+.TP 8
+.B \-bottom
+This option tells 
+.I xlbiff 
+to realize/unrealize() the output window instead of using XtPopup/down().
+This has the effect of causing the window manager to reposition the window
+each time it pops up, and is useful for when you specify negative Y
+coordinates, ie, at the bottom of the screen.  Running 
+.I xlbiff
+in this situation without \-bottom would cause new lines to run off the
+bottom edge of the screen.
+.TP 8
+.B \+bottom
+Opposite of \-bottom.
+.TP 8
+.B \-file \fIfilename\fP
+This option specifies the name of the file which should be monitored.  By
+default, it watches /usr/spool/mail/\fIusername\fP, where \fIusername\fP
+is your login name.
+.TP 8
+.B \-rows \fIheight\fP
+This option specifies the maximum height, in lines of text, of the
+.I xlbiff
+window.  The default is 20.
+.TP 8
+.B \-columns \fIwidth\fP
+This option specifies the maximum width, in characters, of the
+.I xlbiff
+window.  The default is 80.
+.TP 8
+.B \-resetSaver
+If this option is set, 
+.I xlbiff
+will reset the screen saver when new mail comes in.  This is useful if 
+you're doing something near your workstation but not on it.
+.TP 8
+.B \+resetSaver
+Opposite of \-resetSaver.
+.TP 8
+.B \-update \fIseconds\fP
+This option specifies the frequency in seconds at which
+.I xlbiff
+should update its display.  The default is 15 seconds.
+.TP 8
+.B \-volume \fIpercentage\fP
+This option specifies how loud the bell should be rung when new mail comes in.
+.PP
+The following standard X Toolkit command line arguments are commonly used with 
+.I xlbiff:
+.TP 8
+.B \-display \fIdisplay\fP
+This option specifies the X server to contact.
+.TP 8
+.B \-geometry \fI+x+y\fP
+This option specifies the preferred position of the scan window.
+.TP 8
+.B \-bg \fIcolor\fP
+This option specifies the color to use for the background of the window.  
+.TP 8
+.B \-fg \fIcolor\fP
+This option specifies the color to use for the foreground of the window.
+.TP 8
+.B \-xrm \fIresourcestring\fP
+This option specifies a resource string to be used.  This is especially
+useful for setting resources that do not have separate command line options.
+.SH RESOURCES 
+The application class name is XLbiff.
+It understands all of the core resource names and classes as well as:
+.TP 8
+.B bottom (\fPclass\fB Bottom)
+Same as the \fB\-bottom\fP option.  
+.TP 8
+.B file (\fPclass\fB File)
+Same as the \fB\-file\fP option.
+.TP 8
+.B scanCommand (\fPclass\fB ScanCommand)
+Specifies a shell command to be executed to list the contents of mailbox
+\fBfile\fP.  The specified string value is used as the
+argument to a \fIsystem\fP(3) call and may therefore contain i/o redirection.
+The command's stdout is used to generate the window.  
+Internally, the command is generated as
+.sp
+.nf
+              sprintf(buf, scanCommand, file, columns)
+.fi
+.sp
+so a %s and %d respectively in \fBscanCommand\fP will generate the values
+of \fBfile\fP and \fBcolumns\fP.
+.TP 8
+.B resetSaver (\fPclass\fB ResetSaver)
+Same as the \fB\-resetSaver\fP option.
+.TP 8
+.B update (\fPclass\fB Interval)
+Same as the \fB\-update\fP option.
+.TP 8
+.B columns (\fPclass\fB Columns)
+Same as the \fB\-columns\fP option.
+.TP 8
+.B rows (\fPclass\fB Rows)
+Specifies the maximum height, in lines, of the 
+.I xlbiff
+window.  The default is 20.
+.TP 8
+.B volume (\fPclass\fB Volume)
+Same as the \fB\-volume\fP option.
+.SH ACTIONS
+.I Xlbiff
+provides the following actions for use in event translations:
+.TP 8
+.B popdown()
+This action causes the window to vanish.
+.TP 8
+.B exit()
+This action causes 
+.I xlbiff
+to exit.
+.PP
+The default translations are 
+.sp
+.nf
+        <Button1Press>:  popdown()
+        <Button3Press>:  exit()
+.fi
+.sp
+.SH ENVIRONMENT
+.PP
+.TP 8
+.B DISPLAY
+is used to get the default host and display number.
+.SH FILES
+.TP 8
+/usr/spool/mail/\fIusername\fP
+default mail file to check.
+.SH "SEE ALSO"
+.IR X (1),
+.IR scan (1)
+.SH BUGS
+specifying dimensions in \-geometry causes badness.
+.SH COPYRIGHT
+Copyright 1991, Digital Equipment Corporation.
+See the source code for a full statement of rights and permissions.
+.SH AUTHOR
+Ed Santiago, santiago@pa.dec.com
+.SH ACKNOWLEDGEMENTS
+.I Xlbiff
+took shape around the \fBxgoodbye\fP sample program
+in the O'Reilly \fIX Toolkit Intrinsics Programming Manual\fP.  A lot of
+code was stolen from \fBxbiff\fP, including this man page.  Thanks also
+to Stephen Gildea (gildea@expo.lcs.mit.edu) for the many, many 
+contributions that made
+.I xlbiff 
+grow from a midnight hack to a more mature product.

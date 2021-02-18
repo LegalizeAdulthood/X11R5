@@ -1,0 +1,49 @@
+.\" $Header: PEXtSphere.man,v 1.0 91/10/04 17:02:10 rthomson Exp $
+.\" **
+.\" **
+.\" **  (c) Copyright 1991 by Evans and Sutherland Computer Corporation
+.\" **      All Rights Reserved.
+.\" **
+.TH PEXtSphere 3PEXt "January 11th, 1991"
+.SH NAME
+\fBPEXtSphere\fP \(em
+create a sphere using 400 predefined \fBFILL AREA 3 WITH DATA\fP
+structure elements
+.SH SYNOPSIS
+\fB
+#include <PEXt/PEXt.h>
+.br
+#include <PEXt/Primitive.h>
+.sp 1
+void PEXtSphere (\fIradius\fP)
+.br
+.ta .5i 2i
+	Pfloat	\fIradius\fP;
+.SS
+Required PHIGS Operating States
+.br
+(PHOP, *, STOP, *)
+.fi
+\fP
+.SH DESCRIPTION
+This convenience procedure creates an approximation to a sphere, centered
+about the origin, by using 400 precomputed polygonal patches with vertex
+normals.  The structure elements making the sphere are inserted into the
+currently open structure.  A uniform scaling is applied to the sphere to
+scale it accordingly.
+.SH RETURN VALUE
+None
+.SH BUGS
+There should be a way to specify the sphere's center.
+.sp 1
+The approximation is expensive for spheres that are small in screen area.
+.sp 1
+A sphere should be a special case of an ellipsoid.
+.sp 1
+The routine depends on the edit mode being set to \fBPINSERT\fP.
+.SH AUTHOR
+Rich Thomson <rthomson@dsd.es.com>
+.br
+Design Systems Division
+.br
+Evans & Sutherland Computer Corporation

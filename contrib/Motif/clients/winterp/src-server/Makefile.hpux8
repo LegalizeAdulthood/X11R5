@@ -1,0 +1,339 @@
+################################################################################
+#
+# File:         Makefile.hpux8
+# RCS:          $Header: Makefile.hpux8,v 1.1 91/04/22 01:25:51 mayer Exp $
+# Description:  Makefile for WINTERP on s300/s700/s800 HPUX 8.0
+# Author:       Niels Mayer, HPLabs
+# Created:      Mon Oct 23 20:47:37 1989
+# Modified:     Sat Oct  5 22:22:03 1991 (Niels Mayer) mayer@hplnpm
+# Language:     N/A
+# Package:      N/A
+# Status:       X11r5 contrib tape release
+#
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard and David Betz not be
+# used in advertising or publicity pertaining to distribution of the software
+# without specific, written prior permission.  Hewlett-Packard and David Betz
+# make no representations about the suitability of this software for any
+# purpose. It is provided "as is" without express or implied warranty.
+#
+# HEWLETT-PACKARD AND DAVID BETZ DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+# SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
+# IN NO EVENT SHALL HEWLETT-PACKARD NOR DAVID BETZ BE LIABLE FOR ANY SPECIAL,
+# INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+# OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+# See ./winterp/COPYRIGHT for information on contacting the authors.
+#
+# Please send modifications, improvements and bugfixes to mayer@hplabs.hp.com
+# Post XLISP-specific questions/information to the newsgroup comp.lang.lisp.x
+#
+################################################################################
+
+#
+# Note on INCLUDES for Motif 1.0:
+# ==============================
+# Motif 1.0 does not use the standard X11r4 toolkit, therefore you must
+# make sure that you are compiling Motif 1.0 programs with the headers
+# associated with Motif 1.0, not the X11r4 headers.
+#
+# Standard locations for Motif includes are /usr/include/X11 and
+# /usr/include/Xm. Note that Motif 1.0 uses a variant of the X11r3 toolkit
+# intrinsics headers which are installed in /usr/include/X11. Don't
+# confuse these	with the incompatible Xtoolkit intrinsics from X11r4.
+#
+# IF YOUR INSTALLATION OF MOTIF PLACES THE INCLUDE FILES FOR MOTIF's Xt/Xm
+# DIRECTORIES SOMEWHERE OTHER THAN cc's USUAL INCLUDE SEARCH PATH
+# (normally -I/usr/include -I.), THEN YOU WILL HAVE TO SET 'INCLUDES' BELOW
+# TO THE APPROPRIATE LOCATION.
+#
+#
+# Note on INCLUDES for Motif 1.1:
+# ==============================
+# Motif 1.1 uses the X11r4 Xlib, libXt, etc, however, Motif 1.1 is not
+# included as part of the X11r4 distribution.  Make sure that you either
+# have the X11r4 and Motif headers installed, or that you are setting
+# INCLUDES so that the appropriate include directories are used.
+# 
+# IF YOUR INSTALLATION OF MOTIF PLACES THE INCLUDE FILES FOR MOTIF's Xm
+# DIRECTORIES SOMEWHERE OTHER THAN cc's USUAL INCLUDE SEARCH PATH
+# (e.g. /usr/include/Xm), THEN YOU WILL HAVE TO SET 'INCLUDES' BELOW
+# TO THE APPROPRIATE LOCATION.
+#			--------------------
+# NOTE: if you modify INCLUDES below, you must also do the same 
+# modification in xlisp/Makefile.hpux8
+#
+
+# INCLUDES = -I. -I/mnt0/src/OSFMotif1.1.1 -I/mnt0/src/OSFMotif1.1.1/X11 -I/mnt0/src/X11r4/mit -I/mnt0/src/X11r4/mit/X11
+# INCLUDES = -I. -I/usr/include
+INCLUDES = -I. -I/usr/include/X11R4 -I/usr/include/Motif1.1
+
+
+
+#
+# Note on LIBS:
+#       "-lm" == libm.a:
+#		This is required by XLISP since it includes math routines.
+#
+#	"-lXm" == libXm.a:
+#		This library is part of OSF/Motif, it is not included with
+#		X11r4. Many systems vendors sell Motif as part of their OS,
+#		e.g. HP, IBM, DEC, MIPS, SCO, etc. If you haven't installed
+#		Motif on your system, then replace -lXm below with
+#		<path>/libXm.a
+#
+#	"-lXt" == libXt.a:
+#		If you are using Motif 1.1, this should be the standard
+#		X11r4 Xt Instrinsics library, with MIT patches 1-18, and any
+#		additional patches distributed by OSF.
+#		If you are using Motif 1.0, make sure that -lXt points to
+#		Motif 1.0's libXt.a, perhaps by specifying <path>/libXt.a.
+#		DO NOT USE libXt.a from X11r4 with Motif 1.0 -- they are
+#		incompatible.
+#
+#	"-lX11" == libX11.a:
+#		If you are using Motif 1.1, this is the standard X11r4
+#		X11 library, or the X11 library supplied by your vendor.
+#		For Motif 1.0, you should probably use the X11 library
+#		supplied by your vendor (e.g. -lX), although the X11r4
+#		libX11.a should work too.
+#
+#	"-lPW" == libPW.a:
+#		This library is required by Motif's file selection box widget
+#		on some brands of Unix, such as HPUX, MIPS, and other systems
+#		that I am not familiar with. Note that this library may or
+#		may not be required for other OS's. See	the Motif documentation
+#		for your particular installation of Motif for details.
+#
+#	"-lmalloc" == libmalloc.a:
+#		I've been using this fast malloc library on HPUX. When
+#		used in conjuction with Motif, -lmalloc causes a tremendous
+#		improvement in the overall application performance. Supposedly
+#		for HPUX 8.0, the standard malloc will be faster, though...
+#
+
+# LIBS = /mnt0/src/OSFMotif1.1.1/lib/Xm/libXm.a /mnt0/src/X11r4/mit/lib/Xt/libXt.a /mnt0/src/X11r4/mit/lib/X/libX11.a -lPW -lm -lmalloc
+# LIBS = -lXm -lXt -lX11 -lPW -lm -lmalloc
+LIBS = -L/usr/lib/Motif1.1 -L/usr/lib/X11R4 -lXm -lXt -lX11 -lPW -lm
+
+#
+# Note on DEFINES:
+# (1) -DWINTERP: xlisp/xlisp.h and xlisp/xldmem.h (which are included by all
+# WINTERP files) have '#ifdef WINTERP' surrounding changes made to XLISP
+# for use by WINTERP: you MUST compile with -DWINTERP or nothing will work.
+#
+# (2) -DSYSV and -Dhpux are used to make X11 software more portable, in
+# conjuction with macros in X11/Xos.h.
+#
+# (3) -DMALLOC_0_RETURNS_NULL is needed on HPUX 7.0 when linking with
+# the fast malloc library "-lmalloc".
+#
+# (4) -D_NO_PROTO: this is required by Motif 1.1 if you are using a
+# non-ANSI-C compiler. Eventually everybody will have an ANSI C compiler
+# and at that point this flag should be removed.
+#			--------------------
+# NOTE: if you modify DEFINES below, you must also do the same 
+# modification in xlisp/Makefile.hpux8
+#
+
+DEFINES = -DWINTERP -DSYSV -Dhpux -DMALLOC_0_RETURNS_NULL -D_NO_PROTO $(USER_DEFINES)
+
+
+CFLAGS = $(INCLUDES) $(DEFINES)
+
+
+OPTIMIZER = -O
+
+
+##############################################################################
+LINT = /usr/bin/lint
+.SUFFIXES: .ln .c
+.c.ln:
+	$(LINT) -c $*.c $(DEFINES)
+
+
+##############################################################################
+.c.o:
+	$(CC) -c $(OPTIMIZER) $*.c $(CFLAGS)
+
+
+##############################################################################
+HDRS	      = app_fundecl.h \
+		app_funextn.h \
+		app_funidx.h \
+		config.h \
+		user_prefs.h \
+		w_XmString.h \
+		w_funtab.h \
+		winterp.h
+
+SRCS	      = utils.c \
+		w_XmString.c \
+		w_callbacks.c \
+		w_classes.c \
+		w_evnthndlr.c \
+		w_funtab.c \
+		w_libXm.c \
+		w_libXt.c \
+		w_pixmap.c \
+		w_resources.c \
+		w_savedobjs.c \
+		w_timeouts.c \
+		w_txlations.c \
+		w_utils.c \
+		wc_ArrowB.c \
+		wc_BulletinB.c \
+		wc_CascadeB.c \
+		wc_Command.c \
+		wc_DrawingA.c \
+		wc_DrawnB.c \
+		wc_FileSB.c \
+		wc_Form.c \
+		wc_Frame.c \
+		wc_Label.c \
+		wc_List.c \
+		wc_MainW.c \
+		wc_MessageB.c \
+		wc_PanedW.c \
+		wc_PushB.c \
+		wc_RowColumn.c \
+		wc_SHELL.c \
+		wc_Scale.c \
+		wc_ScrollBar.c \
+		wc_ScrolledW.c \
+		wc_SelectioB.c \
+		wc_Separator.c \
+		wc_Text.c \
+		wc_ToggleB.c \
+		wc_WIDGET.c \
+		winterp.c
+
+OBJS	      = $(SRCS:.c=.o)
+
+LINTS	      =	$(SRCS:.c=.ln)
+
+##############################################################################
+DEST	      = .
+
+INSTALL	      = install
+
+LD	      = $(CC)
+
+LDFLAGS	      = 
+
+MAKEFILE      = Makefile.hpux8
+
+PRINT	      = pr
+
+PROGRAM       = winterp
+
+SHELL	      = /bin/sh
+
+all::		$(PROGRAM)
+
+$(PROGRAM):     $(OBJS) xlisp/libXlisp.a
+		@echo "Linking $(PROGRAM) ..."
+		$(LD) $(LDFLAGS) $(OBJS) xlisp/libXlisp.a $(LIBS) -o $(PROGRAM)
+		@echo "done"
+
+XmGraph::
+		@echo "Making winterp+XmGraph ..."
+		@echo "Be sure to delete all .o files if you previously compiled w/o -DHP_GRAPH_WIDGET!"
+		(make -f Makefile.hpux8 "USER_DEFINES=-DHP_GRAPH_WIDGET $(USER_DEFINES)" "OPTIMIZER=$(OPTIMIZER)" winterp+XmGraph)
+
+winterp+XmGraph:	$(OBJS) wc_XmGraph.o xlisp/libXlisp.a
+			@echo "Linking winterp+XmGraph ..."
+			$(LD) $(LDFLAGS) $(OBJS) wc_XmGraph.o xlisp/libXlisp.a -lXm -lgraph -lXt -lX11 -lPW -lm -lmalloc -o winterp+XmGraph
+			@echo "done"
+			
+xlisp/libXlisp.a::
+	(cd $(@D) ; make -f Makefile.hpux8 "USER_DEFINES=$(USER_DEFINES)" "OPTIMIZER=$(OPTIMIZER)" $(@F) ; cd ..)
+
+lint:	$(LINTS) xlisp/llib-Xlisp.ln
+	$(LINT) $(LINTS) xlisp/llib-Xlisp.ln -lXm -lXt -lX11 -lm -lmalloc > lint 2>&1
+
+xlisp/llib-Xlisp.ln::
+	(cd $(@D) ; make -f Makefile.hpux8 "USER_DEFINES=$(USER_DEFINES)" $(@F) ; cd ..)
+
+TAGS: $(HDRS) $(SRCS) xlisp/libXlisp.a
+	etags -et $(HDRS) $(SRCS) xlisp/*.h xlisp/*.c
+
+cscope::
+	cscope-x -I. -Ixlisp/. -S. -S xlisp/. -name Winterp -iconic & 
+
+run:;		winterp
+
+clean:;		rm -f $(OBJS) $(LINTS) core
+
+clobber:;	rm -f $(OBJS) $(PROGRAM)  $(LINTS) lint TAGS core tags
+
+depend:;	mkmf -f $(MAKEFILE) ROOT=$(ROOT)
+
+echo:;		@echo $(HDRS) $(SRCS)
+
+index:;		ctags -wx $(HDRS) $(SRCS)
+
+install:	$(PROGRAM)
+		@echo Installing $(PROGRAM) in $(DEST)
+		-strip $(PROGRAM)
+		if [ $(DEST) != . ]; then \
+		(rm -f $(DEST)/$(PROGRAM); $(INSTALL) -f $(DEST) $(PROGRAM)); fi
+
+print:;		$(PRINT) $(HDRS) $(SRCS)
+
+tags:           $(HDRS) $(SRCS); @ctags $(HDRS) $(SRCS)
+
+update:		$(DEST)/$(PROGRAM)
+
+$(DEST)/$(PROGRAM): $(SRCS) $(LIBS) $(HDRS)
+		$(MAKE) -f $(MAKEFILE) ROOT=$(ROOT) DEST=$(DEST) install
+###
+utils.o:
+w_XmString.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_XmString.h
+w_callbacks.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_classes.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_evnthndlr.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_funtab.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h app_funextn.h app_fundecl.h
+w_libXm.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h 
+w_libXt.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_pixmap.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_resources.o:  winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_XmString.h 
+w_savedobjs.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_timeouts.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_txlations.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+w_utils.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h
+wc_ArrowB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_BulletinB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_CascadeB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_Command.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h w_XmString.h
+wc_DrawingA.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_DrawnB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_FileSB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h w_XmString.h
+wc_Form.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_Frame.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_Label.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_List.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h w_XmString.h
+wc_MainW.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_MessageB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_PanedW.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_PushB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_RowColumn.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_SHELL.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_Scale.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_ScrollBar.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_ScrolledW.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_SelectioB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h w_XmString.h
+wc_Separator.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_Text.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_ToggleB.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_WIDGET.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+wc_XmGraph.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h w_funtab.h app_funidx.h
+winterp.o:	winterp.h user_prefs.h ../src-server/config.h xlisp/xlisp.h xlisp/xldmem.h

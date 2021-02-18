@@ -1,0 +1,16 @@
+@begin(header)
+author: Mark S. Ackerman
+show_author: ShowNone
+author_organization: MIT Center for Coordination Science
+expiration_date: 12/31/93
+last_modifier: ackerman@athena.mit.edu
+last_mod_date: 08/16/91
+mod_num: 23
+@end(header)
+@b<Finding Information about X>
+
+Are you looking for 
+@button(X definitions,Info_X_Definitions)
+@button(What organizations are,Info_Who)
+@button(Who does what,Info_Who_Does)
+@button<Info about Answer Garden,Info_AnswerGarden>

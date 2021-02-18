@@ -1,0 +1,93 @@
+."		"@(#)popen_renderer.3PEXIM	1.3 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.popen_renderer.3PEXIM
+."	
+.TH "OPEN RENDERER" 3PEXIM "12-JUNE-91"
+.SH NAME
+OPEN RENDERER \- create and open a \s-1PEX\s+1 Renderer for immediate mode display
+.IX "Renderer" "OPEN RENDERER"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+popen_renderer ( wkid, display, window )
+Pint	wkid;		\fIRenderer ID given by the application\fP
+Display	*display;	\fIDisplay pointer returned by XOpenDisplay\fP
+Drawable winddow;	\fIWindow ID returned by XCreateWindow\fP
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+This routine creates a \s-1PEX\s+1 renderer.  A renderer is a \s-1PEX\s+1 resource that
+contains tables and global attributes needed for
+rendering.  See Chapter One for more information on renderers and other \s-1PEX\s+1 resources.
+.LP
+Renderers implement immediate mode rendering by executing output commands received from
+\s-1PEX\s+1 clients as soon as the command is received by the server.  They are simlar to
+\s-1PHIGS\s+1 workstation, but posses only a subset of the capabilities found in workstations.  
+.LP
+The \s-1OPEN RENDERER\s+1 routine takes a
+workstation \s-1ID\s+1 just as the \s-1OPEN WORKSTATION\s+1 routine.  The
+\s-1PHIGS\s+1 workstation statelist routines operate on renderers as well
+as workstations.
+.\" when the \s-1PHIGS\s+1 implementation supports Renderers.
+.LP
+While the application must create an "example Drawable" for the renderer,
+the renderer can be attached to any matching Drawable.  When PEX begins rendering, the
+Drawable specified with \s-1OPEN RENDERER\s+1 is associated with the \s-1PEX\s+1 Renderer
+resource and all graphics output is displayed in this window.
+.LP
+Upon creation, the renderer's state is set to \s-1PEXIM_IDLE\s+1.
+.sp
+\f6[reference to example elsewhere in the soon to exist text]\f1
+.sp
+.SS C Input Parameters
+.IP \fIwkid\fP
+This is the \s-1ID\s+1 by which the application identifies the
+Renderer.  The application specifies the \s-1ID\s+1 when it opens the Renderer
+(using \s-1OPEN RENDERER\s+1).  A Renderer \s-1ID\s+1 is synonymous with
+a workstation identifier and is passed to other \s-1PHIGS\s+1 workstation
+routines to set views or lights.
+.IP \fIdisplay\fP
+The pointer to the display structure of the \s-1X\s+1 server.  This is returned
+by \fBXOpenDisplay\fP.
+.IP \fIwindow\fP
+The ID of the window used by \s-1PEXIM\s+1 as the display surface.  This is returned
+by \f3XCreateWindow\f1 or \f3XCreateSimpleWindow\f1.  
+.SS Function Return
+\f3popen_renderer\f1 returns an integer status.  A value of \s-1POK\s+1 indicates
+successful execution.
+.SH ERRORS
+.IP \s-1PEXIMERRB\s+1ad\s-1WKID\s+1
+Display is not open
+.IP \s-1PEXIMERRA\s+1lready\s-1A\s+1llocced
+The specified Renderer \s-1ID\s+1 is already in use.
+.IP \s-1PEXIMERRN\s+1ot\s-1PEXS\s+1erver
+Not a \s-1PEX\s+1 server
+.IP \s-1PEXIMERRB\s+1ad\s-1PEXS\s+1erver
+\s-1PEX\s+1 extension is a \s-1PHIGS\s+1 Workstation only.
+.IP \s-1PEXIMERRAll\s+1oc
+Cannot create Renderer
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "CLOSE RENDERER"
+.SM "BEGIN RENDERING"
+.fi

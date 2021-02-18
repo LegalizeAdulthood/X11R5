@@ -1,0 +1,45 @@
+  The X utilites read and write MIFF images.  You can find filters to
+  convert to and from the MIFF format in this directory.  
+
+  To compile, type
+
+    xmkmf
+    make
+
+  Two examples of using a filter follow:
+
+    GIFtoMIFF image.gif - | display -
+
+      or
+
+    TIFFtoMIFF image.tiff image.miff
+    display image.miff
+
+  The TIFFtoMIFF and MIFFtoTIFF filters require Sam Leffler's TIFF
+  software available via FTP as sgi.com:graphics/tiff/v2.4.tar.Z.
+
+  The PPMtoMIFF and MIFFtoPPM filters require Jef Poskanzer's PBMPLUS
+  software available via FTP as export.lcs.mit.edu:contrib/pbmplus.tar.Z.
+
+  To succesfully compile the PPMtoMIFF and MIFFtoPPM filters, first compile
+  the pbmplus routines.  Next copy pbmplus.h, pbm/pbm.h, pgm/pgm.h, 
+  ppm/ppm.h, and pnm/pnm.h to /usr/local/include.  Change
+
+    #include "../pbmplus.h"
+
+  to
+
+    #include "pbmplus.h"
+
+  in /usr/local/include/pbm.h.
+
+  Next copy pbm/libpbm.a, pgm/libpgm.a, ppm/libppm.a, and pnm/libpnm.a
+  to /usr/local/lib.
+
+  Finally, type 
+
+    make PPMtoMIFF
+    make MIFFtoPPM
+
+ Use MTVtoMIFF to convert Rayshade images to MIFF.  The filter can accept
+ multiple Rayshade animation frames from a single MTV image file.

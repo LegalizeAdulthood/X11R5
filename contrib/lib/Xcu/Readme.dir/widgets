@@ -1,0 +1,82 @@
+The Xcu widget set contains the following widgets:
+
+Two Geometry Manager Widgets :
+
+  Tbl
+
+    Layout according to "tbl" formats (the troff preprocessor).
+    It is very effective for laying out a fixed number of widgets
+    in a rectangular area.  Simple row/column matrices
+    are a small subset of its capabilities.
+    Handles resizes (from above and below) very elegantly.
+
+  Deck
+
+    Maintain widgets one on top of the other, so that they are all the
+    same size and only one is visible at a time.  Useful for "pages"
+    of a menu.
+
+A rework of the Xaw Simple/Label/Command widgets :
+
+  Simple, SimpleComp, SimpleCompConst
+    
+    Puts very nice looking picture frames around subclassed widgets.
+    Alternately, puts a shadow behind derived widgets.  The three versions
+    are for non-composite, composite, and constrained composite widgets,
+    respectively.
+
+    In addition to cursor sensitive responses in non-composite widgets,
+    this class permits cursor color control.
+
+  Label
+    
+    Permits multiple lines of text with left, center, or right justification.
+    Has a "biggestLabel" resource that lets it be initially sized large
+    enough to encompass any reasonable text changes without annoying resizes.
+    Has a gravity resource.
+
+  Command
+    
+    No new features -- just rederived from the above.
+
+A text entry widget :
+
+  Entry
+
+    This widget changes its label to reflect input from the keyboard when the
+    cursor is in the widget.  It can make callbacks when the text is completed,
+    so it is useful for keyboard entry of single or multi-line text.
+    As an added frill, if the widget is expecting its label to be the name
+    of a color, it changes its background to the color that was input.
+
+A button manager widget :
+
+  Bmgr
+    
+    This button manager divorces layout semantics from the button
+    semantics.  It is not a geometry manager.  Button widgets are
+    registered with it via public routines.  This is a big win when
+    semantically associated buttons must be spread out among a variety
+    of geometry managers, or, conversely, there must be a number of
+    different kinds of buttons under the layout control of a single
+    geometry manager.  It understands single and double button toggles, 
+    one of many, any of many, etc.
+
+  Button
+    
+    Similar to the Command widget, but it is tailored for use with
+    the Bmgr widget.  The primary difference is that it relies on
+    the Bmgr widget to inform it of its state.
+
+
+And last, but definitely not least:
+
+  Wlm
+
+    This is a widget that builds a widget tree from a layout description
+    language and mediates many of the widget/client communications.
+    Menus can be designed, tested, and modified without writing a
+    single line of client code.  The description language has
+    notations for inter-widget communications that permit complex
+    menu semantics to be implemented completely ouside of the client.
+

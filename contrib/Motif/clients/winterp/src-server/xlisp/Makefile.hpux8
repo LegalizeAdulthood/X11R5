@@ -1,0 +1,251 @@
+################################################################################
+#
+# File:         Makefile.hpux8
+# RCS:          $Header: Makefile.hpux8,v 1.1 91/04/22 01:26:06 mayer Exp $
+# Description:  Makefile for WINTERP on s300/s700/s800 HPUX 8.0
+# Author:       Niels Mayer, HPLabs
+# Created:      Mon Oct 23 21:00:37 1989
+# Modified:     Sat Oct  5 22:24:21 1991 (Niels Mayer) mayer@hplnpm
+# Language:     N/A
+# Package:      N/A
+# Status:       X11r5 contrib tape release
+#
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard and David Betz not be
+# used in advertising or publicity pertaining to distribution of the software
+# without specific, written prior permission.  Hewlett-Packard and David Betz
+# make no representations about the suitability of this software for any
+# purpose. It is provided "as is" without express or implied warranty.
+#
+# HEWLETT-PACKARD AND DAVID BETZ DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+# SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
+# IN NO EVENT SHALL HEWLETT-PACKARD NOR DAVID BETZ BE LIABLE FOR ANY SPECIAL,
+# INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+# OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+# See ./winterp/COPYRIGHT for information on contacting the authors.
+#
+# Please send modifications, improvements and bugfixes to mayer@hplabs.hp.com
+# Post XLISP-specific questions/information to the newsgroup comp.lang.lisp.x
+#
+################################################################################
+
+#
+# Note on INCLUDES for Motif 1.0:
+# ==============================
+# Motif 1.0 does not use the standard X11r4 toolkit, therefore you must
+# make sure that you are compiling Motif 1.0 programs with the headers
+# associated with Motif 1.0, not the X11r4 headers.
+#
+# Standard locations for Motif includes are /usr/include/X11 and
+# /usr/include/Xm. Note that Motif 1.0 uses a variant of the X11r3 toolkit
+# intrinsics headers which are installed in /usr/include/X11. Don't
+# confuse these	with the incompatible Xtoolkit intrinsics from X11r4.
+#
+# IF YOUR INSTALLATION OF MOTIF PLACES THE INCLUDE FILES FOR MOTIF's Xt/Xm
+# DIRECTORIES SOMEWHERE OTHER THAN cc's USUAL INCLUDE SEARCH PATH
+# (normally -I/usr/include -I.), THEN YOU WILL HAVE TO SET 'INCLUDES' BELOW
+# TO THE APPROPRIATE LOCATION.
+#
+#
+# Note on INCLUDES for Motif 1.1:
+# ==============================
+# Motif 1.1 uses the X11r4 Xlib, libXt, etc, however, Motif 1.1 is not
+# included as part of the X11r4 distribution.  Make sure that you either
+# have the X11r4 and Motif headers installed, or that you are setting
+# INCLUDES so that the appropriate include directories are used.
+# 
+# IF YOUR INSTALLATION OF MOTIF PLACES THE INCLUDE FILES FOR MOTIF's Xm
+# DIRECTORIES SOMEWHERE OTHER THAN cc's USUAL INCLUDE SEARCH PATH
+# (e.g. /usr/include/Xm), THEN YOU WILL HAVE TO SET 'INCLUDES' BELOW
+# TO THE APPROPRIATE LOCATION.
+#			--------------------
+# NOTE: if you modify INCLUDES below, you must also do the same 
+# modification in ../Makefile.hpux8
+#
+
+# INCLUDES = -I. -I/mnt0/src/OSFMotif1.1.1 -I/mnt0/src/OSFMotif1.1.1/X11 -I/mnt0/src/X11r4/mit -I/mnt0/src/X11r4/mit/X11
+# INCLUDES = -I. -I/usr/include
+INCLUDES = -I. -I/usr/include/X11R4 -I/usr/include/Motif1.1
+
+
+#
+# Note on DEFINES:
+# (1) -DWINTERP: xlisp/xlisp.h and xlisp/xldmem.h (which are included by all
+# WINTERP files) have '#ifdef WINTERP' surrounding changes made to XLISP
+# for use by WINTERP: you MUST compile with -DWINTERP or nothing will work.
+#
+# (2) -DSYSV and -Dhpux are used to make X11 software more portable, in
+# conjuction with macros in X11/Xos.h.
+#
+# (3) -DMALLOC_0_RETURNS_NULL is needed on HPUX 7.0 when linking with
+# the fast malloc library "-lmalloc".
+#
+# (4) -D_NO_PROTO: this is required by Motif 1.1 if you are using a
+# non-ANSI-C compiler. Eventually everybody will have an ANSI C compiler
+# and at that point this flag should be removed.
+#			--------------------
+# NOTE: if you modify DEFINES below, you must also do the same 
+# modification in ../Makefile.hpux8
+#
+
+DEFINES = -DWINTERP -DSYSV -Dhpux -DMALLOC_0_RETURNS_NULL -D_NO_PROTO $(USER_DEFINES)
+
+
+CFLAGS = $(INCLUDES) $(DEFINES)
+
+
+OPTIMIZER = -O
+
+
+##############################################################################
+LINT = /usr/bin/lint
+.SUFFIXES: .ln .c
+.c.ln:
+	$(LINT) -c $*.c $(DEFINES)
+
+
+##############################################################################
+.c.o:
+	$(CC) -c $(OPTIMIZER) $*.c $(CFLAGS)
+
+
+##############################################################################
+HDRS	      = osdefs.h \
+		osptrs.h \
+		xldmem.h \
+		xlisp.h
+
+SRCS	      = unixstuff.c \
+		xlbfun.c \
+		xlcont.c \
+		xldbug.c \
+		xldmem.c \
+		xleval.c \
+		xlfio.c \
+		xlglob.c \
+		xlimage.c \
+		xlinit.c \
+		xlio.c \
+		xljump.c \
+		xllist.c \
+		xlmath.c \
+		xlobj.c \
+		xlpp.c \
+		xlprin.c \
+		xlread.c \
+		xlstr.c \
+		xlstruct.c \
+		xlsubr.c \
+		xlsym.c \
+		xlsys.c
+
+OBJS	      = $(SRCS:.c=.o)
+
+LINTS	      = $(SRCS:.c=.ln)
+
+##############################################################################
+DEST	      = .
+
+INSTALL	      = install
+
+LIBRARY	      = libXlisp.a
+
+LINT_LIB      = llib-Xlisp.ln
+
+MAKEFILE      = Makefile.hpux8
+
+PRINT	      = pr
+
+SHELL	      = /bin/sh
+
+all::		$(LIBRARY)
+
+$(LIBRARY):	$(OBJS)
+		@echo "Loading $(LIBRARY) ..."
+		ar cruv $(LIBRARY) $(OBJS)
+		@echo "$(LIBRARY) done"
+
+$(LINT_LIB):	$(LINTS)
+		@echo "Loading $(LINT_LIB) ..."
+		$(LINT) -o Xlisp -x $(LINTS)
+		@echo "$(LINT_LIB) done"
+
+lisp::
+		@echo "Making XLISP ..."
+		@echo "	Deleteing WINTERP *.o files for recompiling xlisp sources without -DWINTERP."
+		rm -f $(OBJS) xlisp.o xlftab.o
+		make -f Makefile.hpux8 "CFLAGS=-DUNIX" "OPTIMIZER=-O" xlisp
+		@echo "	Deleteing XLISP *.o files to ensure future WINTERP compilations uses XLISP sources compiled with -DWINTERP."
+		rm -f $(OBJS)
+		@echo "Done Making XLISP."
+
+#
+# Note that if you've compiled winterp previously, you should delete the *.o
+# files in this directory, since those were compiled with -DWINTERP which will
+# require that extra X11/Motif/Winterp code be linked in with the exectable.
+#		
+xlisp:		xlisp.o xlftab.o $(OBJS)
+		@echo "	Loading XLISP ..."
+		$(CC) -O -s -o xlisp xlisp.o xlftab.o $(OBJS) -lm -lmalloc
+		@echo "	done"
+
+clean:;		rm -f $(OBJS) $(LINTS) core xlisp.o xlftab.o
+
+clobber:;	rm -f $(OBJS) $(LIBRARY) $(LINTS) $(LINT_LIB) core tags xlisp xlisp.o xlftab.o
+
+depend:;	mkmf -f $(MAKEFILE) ROOT=$(ROOT)
+
+echo:;		@echo $(HDRS) $(SRCS)
+
+extract:;	ar x $(DEST)/$(LIBRARY)
+
+index:;		ctags -wx $(HDRS) $(SRCS)
+
+install:	$(LIBRARY)
+		@echo Installing $(LIBRARY) in $(DEST)
+		if [ $(DEST) != . ]; then \
+		(rm -f $(DEST)/$(LIBRARY); $(INSTALL) -f $(DEST) $(LIBRARY)); fi
+
+print:;		$(PRINT) $(HDRS) $(SRCS)
+
+tags:           $(HDRS) $(SRCS); @ctags $(HDRS) $(SRCS)
+
+update:         $(DEST)/$(LIBRARY)
+
+$(DEST)/$(LIBRARY): $(SRCS) $(HDRS)
+		$(MAKE) -f $(MAKEFILE) ROOT=$(ROOT) DEST=$(DEST) install
+###
+unixstuff.o:	xlisp.h xldmem.h
+xlbfun.o:	xlisp.h xldmem.h
+xlcont.o:	xlisp.h xldmem.h
+xldbug.o:	xlisp.h xldmem.h
+xldmem.o:	xlisp.h xldmem.h
+xleval.o:	xlisp.h xldmem.h
+xlfio.o:	xlisp.h xldmem.h
+xlftab.o:	xlisp.h xldmem.h
+xlglob.o:	xlisp.h xldmem.h
+xlimage.o:	xlisp.h xldmem.h
+xlinit.o:	xlisp.h xldmem.h
+xlio.o:		xlisp.h xldmem.h
+xlisp.o:	xlisp.h xldmem.h
+xljump.o:	xlisp.h xldmem.h
+xllist.o:	xlisp.h xldmem.h
+xlmath.o:	xlisp.h xldmem.h
+xlobj.o:	xlisp.h xldmem.h
+xlpp.o:		xlisp.h xldmem.h
+xlprin.o:	xlisp.h xldmem.h
+xlread.o:	xlisp.h xldmem.h
+xlstr.o:	xlisp.h xldmem.h
+xlstruct.o:	xlisp.h xldmem.h
+xlsubr.o:	xlisp.h xldmem.h
+xlsym.o:	xlisp.h xldmem.h
+xlsys.o:	xlisp.h xldmem.h

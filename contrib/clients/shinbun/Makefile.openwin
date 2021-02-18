@@ -1,0 +1,71 @@
+#
+# Makefile for OpenWindows or Generic XView users.
+#
+
+#
+# FILES
+#
+
+ICONS=news.arrive.icon news.arrive.mask.icon \
+        news.non.arrive.icon news.non.arrive.mask.icon \
+        post.edit.icon post.edit.mask.icon \
+        article.cursor articles.cursor news.icon \
+        news.mask.icon
+
+HDRS=   clientlib.h conf.h nntp.h shinbun.h config.h \
+        sb_tool.h sb_ui.h sb_item.h sb_shinbun.h \
+        sb_canvas.h sb_def.h
+
+SRCS=   clientlib.c shinbun.c shinbun_cmd.c shinbun_post.c \
+        shinbun_newsrc.c version.c newsbiff.c shinbun_bracket.c \
+        sb_cmd.c sb_cmd_support.c sb_main.c sb_menu.c \
+        sb_pane.c sb_post.c sb_tool.c sb_view.c \
+        sb_canvas_pane.c sb_canvas_cmd.c sb_tool_props.c \
+        sb_sign_props.c sb_newsrc_props.c sb_biff_props.c
+
+OBJS=clientlib.o shinbun.o shinbun_cmd.o shinbun_post.o \
+        shinbun_newsrc.o version.o newsbiff.o shinbun_bracket.o \
+        sb_cmd.o sb_cmd_support.o sb_main.o sb_menu.o \
+        sb_pane.o sb_post.o sb_tool.o sb_view.o \
+        sb_canvas_pane.o sb_canvas_cmd.o sb_tool_props.o \
+        sb_sign_props.o sb_newsrc_props.o sb_biff_props.o
+
+PO_FILE=shinbun.messages.po
+MO_FILE=shinbun.messages.mo
+
+
+#
+# FLAGS FOR BUILD
+#
+
+CFLAGS=	-I${OPENWINHOME}/include
+
+LDFLAGS=-L${OPENWINHOME}/lib \
+	-lxview -lolgx -lX11
+
+DBX=	-O
+
+TARGET=	shinbun
+
+.c.o:
+	${CC} ${CFLAGS} ${DBX} -c $<
+
+all:: shinbun
+
+${TARGET}: ${ICONS} ${HDRS} ${OBJS}
+	${CC} ${OBJS} ${LDFLAGS} ${DBX} -o $@ 
+
+#
+# For Saber-C
+#
+
+saber_src: ${SRCS}
+	#load ${CFLAGS} ${SRCS}
+
+saber_obj: ${OBJS}
+	#load ${CFLAGS} ${OBJS} ${LDFLAGS}
+	#link
+
+clean :
+	/bin/rm -rf core *.o ${TARGET} ${MO_FILE} ${LANG}
+

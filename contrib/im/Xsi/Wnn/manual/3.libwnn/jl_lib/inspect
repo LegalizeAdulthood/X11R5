@@ -1,0 +1,29 @@
+JL_INSPECT( )
+
+名称
+
+	jl_inspect		文節の情報を取り出し。
+
+形式
+
+	#include "jllib.h"
+
+	struct wnn_jdata *
+	jl_inspect(buf, bun_no)
+	struct wnn_buf *buf;		/* バッファ */
+	int bun_no;			/* 文節番号 */
+
+機能
+
+	文節番号 bun_no で指定された文節の情報を取り出す。
+
+	当面の所は、幹語部分についてのみ行なっている。
+
+リターンバリュー
+
+	wnn_jdata構造体に辞書引きした結果を入れて返す。
+	異常終了時には、 NULL を返す。
+
+使用上の注意事項
+
+	返値として返される領域は、次に jl 関数を呼んだ時に破壊される。

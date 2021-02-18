@@ -1,0 +1,45 @@
+@begin(header)
+author: ack@amt.media.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 09/02/93
+last_modifier: ack@amt.media.mit.edu
+last_mod_date: 09/02/91
+mod_num: 1
+@end(header)
+@begin(Q)
+I've got a couple labels in a form. The labels don't resize
+whenever the label string resource is changed. As a result, the
+operator has to resize the window the see the new label contents. I
+am using Motif 1.1.
+@end(Q)
+
+@begin(A)
+This problem may happen to any widget inside a Form widget. The
+problem was reported as PIR 2389. The problem was that the Form
+will try to resize itself when it gets geometry requests from its
+children. If its preferred size is not allowed, the Form will
+disallow all geometry requests from its children.  The workaround
+is that you should set any ancestor of the Form to be resizable. 
+For the shell which contains the Form, you should set the shell
+resource XmNallowShellResize to be True. (By default, it is set to
+FALSE).
+@end(A)
+
+@begin(Q)
+I know that I should set allowShellResize to true in order to get
+the form to resize accordingly. My problem is if I have a form big
+enough, with a small label. When the label changes its string, the
+form changes size too, although the form has enough space for the
+label to grow.
+@end(Q)
+
+@begin(A)
+This is because by default, the resizePolicy for a form is
+XmRESIZE_ANY, it will grow or shrink as needed. Since its child
+changes size, it will try to match that size, that is why you see
+the form changes its size. To make the form stay with its initial
+size, set the resizePolicy for the form to XmRESIZE_NONE.  You may
+even want to set it to XmRESIZE_GROW, so that whenthe child grows
+beyond the form size, the form will grow too.  
+@end(A)

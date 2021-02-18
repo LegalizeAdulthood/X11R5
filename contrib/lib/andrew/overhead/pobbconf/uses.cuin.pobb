@@ -1,0 +1,37 @@
+#**********************************************************************
+#         Copyright IBM Corporation 1988,1991 - All Rights Reserved
+#         For full copyright information see: 'andrew/config/COPYRITE'
+#**********************************************************************
+# ?[POBBRunWarning]
+# ?[POBBRunNotice]
+
+%include pobbconfig.defs
+
+%ifdef pobb_RunMachines
+
+DRA	?[BigLocalDir]/scripts	?[PackageHome]/scripts	?[PostmasterName] wheel 755
+
+%ifdef pobb_DowJonesIn
+D	?[DJLocalDir]					?[DJUserName] wheel 777
+D	?[DJLocalDir]/bad					?[DJUserName] wheel 777
+D	?[DJLocalDir]/control				?[DJUserName] wheel 777
+D	?[DJLocalDir]/unknown				?[DJUserName] wheel 777
+LA	?[DJLocalDir]/problems	?[DJHomeDir]/problems	?[DJUserName] wheel 777
+FI	?[DJPassword]					?[PostmasterName] wheel 600
+FA	?[SmallLocalDir]/dj	?[DJPgmPackageSource]	$${binmode}
+FA	?[SmallLocalDir]/dj-startup	?[PackageHome]/etc/dj-startup	$${binmode}
+%endif pobb_DowJonesIn
+
+?[QuotedPercent]ifdef	devel
+FA	?[BigLocalDir]/cuin	$${rwmachine}/usr/andy/bin/cuin	$${binmode}
+%ifdef	pobb_UnDigest
+FA	?[BigLocalDir]/undigest	$${rwmachine}/usr/andy/etc/undigest	$${binmode}
+%endif	pobb_UnDigest
+?[QuotedPercent]else	devel
+FA	?[BigLocalDir]/cuin	$${machine}/usr/andrew/bin/cuin	$${binmode}
+%ifdef	pobb_UnDigest
+FA	?[BigLocalDir]/undigest	$${machine}/usr/andrew/etc/undigest	$${binmode}
+%endif	pobb_UnDigest
+?[QuotedPercent]endif	devel
+
+%endif pobb_RunMachines

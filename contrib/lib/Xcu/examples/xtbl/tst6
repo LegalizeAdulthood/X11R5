@@ -1,0 +1,12 @@
+equal_rows tab(;);
+c
+c c
+c c
+c.
+Widget with VeryLongText.  How Long You Ask?  Well,\n\
+long enough to let the effects of\n\
+Gravity and Justification\n\
+show clearly in the widgets below...
+___Left Justify___\nWest Gravity;___Left Justify___\nEast Gravity
+___Right Justify___\nWest Gravity;___Right Justify___\nEast Gravity
+___Center Justify___\nSouth Gravity

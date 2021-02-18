@@ -1,0 +1,11 @@
+Copyright 1991 Sony Corporation
+Apr 29, 1991
+
+o This program supports only 'root window' input style.
+
+o This program runs with EUC environment.
+For example,
+
+	setenv LANG ja_JP.EUC
+
+(NEWS-OS 4.0)

@@ -1,0 +1,86 @@
+/* goodfile.h generated from goodfile.psw
+   by unix pswrap V1.009  Wed Apr 19 17:50:24 PDT 1989
+ */
+
+#ifndef GOODFILE_H
+#define GOODFILE_H
+
+extern void PSWCleanup();
+
+extern void PSWBooleanRoundTrip( /* int in; int *result; */ );
+
+extern void PSWBooleanExpression( /* int a, b; int *result; */ );
+
+extern void PSWBooleanOverwrite( /* int in; int *result; */ );
+
+extern void PSWUserobjectDefineInt( /* long int id; */ );
+
+extern void PSWUserobjectEvalInt( /* int id; int *result; */ );
+
+extern void PSWUserobjectDefineProc( /* long int id; */ );
+
+extern void PSWUserobjectEvalProc( /* int id; int val; int *result; */ );
+
+extern void PSWShortIntRoundTrip( /* short int in; short int *out; */ );
+
+extern void PSWIntRoundTrip( /* int in; int *out; */ );
+
+extern void PSWLongIntRoundTrip( /* long int in; long int *out; */ );
+
+extern void PSWUshortIntRoundTrip( /* unsigned short int in; short int *out; */ );
+
+extern void PSWUintRoundTrip( /* unsigned int in; int *out; */ );
+
+extern void PSWUlongIntRoundTrip( /* unsigned long int in; long int *out; */ );
+
+extern void PSWTruncateToShort( /* int in; short int *out; */ );
+
+extern void PSWLongToFloat( /* long int in; float *out; */ );
+
+extern void PSWLongToDouble( /* long int in; double *out; */ );
+
+extern void PSWIntOverwrite( /* int in; int *out; */ );
+
+extern void PSWFloatRoundTrip( /* float in; float *out; */ );
+
+extern void PSWDoubleRoundTrip( /* double in; double *out; */ );
+
+extern void PSWFloatToInt( /* float in; int *out; */ );
+
+extern void PSWDoubleToFloat( /* double in; float *out; */ );
+
+extern void PSWFloatOverwrite( /* float in; float *out; */ );
+
+extern void PSWDoubleOverwrite( /* double in; double *out; */ );
+
+extern void PSWCharStringRoundTrip( /* char *in; char *out; */ );
+
+extern void PSWCharStaticArrayRoundTrip( /* char in[]; char out[]; */ );
+
+extern void PSWCharVarArrayRoundTrip( /* char in[]; int l; char out[]; */ );
+
+extern void PSWCharStrAsName( /* char *name; int value; int *result; */ );
+
+extern void PSWCharReturnStr( /* int len; char *retStr; */ );
+
+extern void PSWCharReturnSeries( /* int len; char *retStr; */ );
+
+extern void PSWCharReturnAry( /* char *in; int len, chunk; char retStr[]; */ );
+
+extern void PSWStaticArrayRoundTrip( /* int in[]; int out[]; */ );
+
+extern void PSWVarArrayRoundTrip( /* int in[]; int l; int out[]; */ );
+
+extern void PSWArrayRet2Elements( /* int in[]; int *a, *b; */ );
+
+extern void PSWArrayRetElements( /* int in[]; int elements, len; int retAry[]; */ );
+
+extern void PSWArrayRetSeries( /* int in[]; int len, chunk; int retAry[]; */ );
+
+extern void PSWSetGray( /* DPSContext c; float gray; */ );
+
+extern void PSWGetGray( /* DPSContext c; float *gray; */ );
+
+extern void PSWEchoAll( /* short int s; int i; long int l; unsigned short int us; unsigned int ui; unsigned long int ul; float f; double d; int b; char *str; char chrStAry[]; char chrVarAry[]; float stAry[]; double varAry[]; short int *sR; int *iR; long int *lR; unsigned short int *usR; unsigned int *uiR; unsigned long int *ulR; float *fR; double *dR; int *bR; char *strR; char chrStAryR[]; char chrVarAryR[]; float stAryR[]; double varAryR[]; */ );
+
+#endif /* GOODFILE_H */

@@ -1,0 +1,84 @@
+\begindata{text,270286496}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Namespace}
+
+
+
+
+\section{Quick reference list for Namespace}
+
+
+
+\fixedtext{short \bold{namespace_}BoundpAt }\fixedindent{(struct namespace 
+*\paramname{namespace}, int \paramname{index});} 
+
+\fixedtext{short \bold{namespace_}Boundp }\fixedindent{(struct namespace 
+*\paramname{namespace}, struct atom *\paramname{name}, long 
+*\paramname{data});} 
+
+\fixedtext{void \bold{namespace_}Clear }\fixedindent{(struct namespace 
+*\paramname{namespace});} 
+
+\fixedtext{int \bold{namespace_}Enumerate }\fixedindent{(struct namespace 
+*\paramname{namespace}, procedure \paramname{proc}, long \paramname{data});} 
+
+\fixedtext{long \bold{namespace_}GetValue }\fixedindent{(struct namespace 
+*\paramname{namespace}, struct atom *\paramname{name});} 
+
+\fixedtext{int \bold{namespace_}LookupCreate }\fixedindent{(struct namespace 
+*\paramname{namespace}, struct atom *\paramname{name});} 
+
+\fixedtext{int \bold{namespace_}Lookup }\fixedindent{(struct namespace 
+*\paramname{namespace}, struct atom *\paramname{name});} 
+
+\fixedtext{struct atom *\bold{namespace_}NameAt }\fixedindent{(struct 
+namespace *\paramname{namespace}, int \paramname{index});} 
+
+\fixedtext{void \bold{namespace_}SetValueAt }\fixedindent{(struct namespace 
+*\paramname{namespace}, int \paramname{index}, long \paramname{value});} 
+
+\fixedtext{void \bold{namespace_}SetValue }\fixedindent{(struct namespace 
+*\paramname{namespace}, struct atom *\paramname{name}, long 
+\paramname{value});} 
+
+\fixedtext{void \bold{namespace_}UnbindAt }\fixedindent{(struct namespace 
+*\paramname{namespace}, int \paramname{index});} 
+
+\fixedtext{void \bold{namespace_}Unbind }\fixedindent{(struct namespace 
+*\paramname{namespace}, struct atom *\paramname{name});} 
+
+\fixedtext{long \bold{namespace_}ValueAt }\fixedindent{(struct namespace 
+*\paramname{namespace}, int \paramname{index});} 
+
+\fixedtext{struct atom *\bold{namespace_}WhereIsValue }\fixedindent{(struct 
+namespace *\paramname{namespace}, long \paramname{value});} 
+
+\enddata{text,270286496}

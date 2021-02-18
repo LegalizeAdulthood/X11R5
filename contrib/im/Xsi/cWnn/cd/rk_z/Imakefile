@@ -1,0 +1,22 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:31:42 ohm Exp $
+/**/#
+   INSTALLFLAGS = $(INSTINCFLAGS)
+
+all::
+
+RKS = 1B_TOUPPER \
+	1F_select \
+	1Z_ZhuYin \
+	1Z_ZhuYin_X \
+	2A_CTRL \
+	2F_select \
+	2Z_ZhuYin \
+	2Z_ZhuYin_X \
+	2Z_tail \
+	2Z_tail_X \
+	3B_quanjiao \
+	mode
+
+MakeDirectories(install,$(WNNWNNDIR)/zh_CN/rk_z)
+InstallMultiple($(RKS),$(WNNWNNDIR)/zh_CN/rk_z)

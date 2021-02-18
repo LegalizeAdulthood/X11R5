@@ -1,0 +1,31 @@
+*** /usr/proj/xtrap/xtrapcode/clients.imake_r5	Mon Jul 15 07:50:30 1991
+--- /usr/proj/xtrap/X11R5/mit/clients/Imakefile	Tue May  7 08:36:18 1991
+***************
+*** 4,12 ****
+  #ifndef CrayArchitecture
+  RUNDIRS = xdm xhost xinit
+  #endif
+- #if BuildXTrapExt
+-   XTRAPDIRS = xtrap
+- #endif
+  
+  SUBDIRS = \
+  	appres bitmap editres listres oclock twm viewres \
+--- 4,9 ----
+***************
+*** 14,20 ****
+  	xditview xdpyinfo xedit xfd xkill xload xlogo \
+  	xlsatoms xlsclients xlsfonts xmag xman xmh \
+  	xmodmap xpr xprop xrdb xrefresh xfontsel $(RUNDIRS) \
+!  	xset xsetroot xstdcmap xterm xwd xwininfo xwud $(XTRAPDIRS)
+  
+  MakeSubdirs($(SUBDIRS))
+  DependSubdirs($(SUBDIRS))
+--- 11,17 ----
+  	xditview xdpyinfo xedit xfd xkill xload xlogo \
+  	xlsatoms xlsclients xlsfonts xmag xman xmh \
+  	xmodmap xpr xprop xrdb xrefresh xfontsel $(RUNDIRS) \
+!  	xset xsetroot xstdcmap xterm xwd xwininfo xwud
+  
+  MakeSubdirs($(SUBDIRS))
+  DependSubdirs($(SUBDIRS))

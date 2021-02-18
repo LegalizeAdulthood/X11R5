@@ -1,0 +1,318 @@
+		CXTERM -- Chinese xterm for X11R5
+
+This is rev 1 for X11R5 (referred to as version 11.5.1).	(patch-level 0)
+
+/***********************************************************************
+* Copyright 1991 by Yongguang Zhang and Man-Chi Pong.
+* All rights reserved.  Many individual files are derived from X11R5 xterm,
+* which is copyrighted by MIT.  Check individual files for copyright notices.
+*
+* Redistribution and use in source and binary forms are permitted
+* provided that this entire copyright notice is duplicated in all such
+* copies.  No charge, other than an "at-cost" distribution fee, may be
+* charged for copies, derivations, or distributions of this material
+* without the express written consent of the copyright holders.  The
+* name of the authors may not be used to endorse or promote products
+* derived from this material without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
+* WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+* MERCHANTIBILITY AND FITNESS FOR ANY PARTICULAR PURPOSE.
+************************************************************************/
+
+--------------
+
+%% PLATFORM:
+
+cxterm has been tested on the following platform:
+
+	Sun3, Sun4, Sun SparcStation 
+	DECstation3100
+
+
+--------------
+
+%% CHINESE ENCODING:
+
+cxterm 11.5.1 is encoding independent.  Currently, it supports
+both GB (GuoBiao) and BIG5 encoding.  The default encoding is GB.
+Options "-BIG5" or "-hz BIG5" will start cxterm in BIG5 encoding.
+
+GB is an *example* of such encodings that in which one Chinese
+character is represented by two bytes, and the highest-bits (MSB,
+or the 8th-bit) are set (i.e. == 1) in both bytes.
+
+BIG5 is an *example* of such encodings that in which one Chinese
+character is represented by two bytes, the highest-bit is set
+in the first byte but it may be either set (i.e. == 1) or unset
+(i.e. == 0) in the second byte.
+
+--------------
+
+%% FONTS:
+
+cxterm needs one Chinese font, one ASCII (Latin-1) font, and an
+optional Chinese bold font and an optional ASCII (Latin-1) bold
+font.  The Chinese font should be exactly 2 times as width as the
+ASCII font.  To get nice-looking screen, all these fonts should
+have the same height, ascent and descent.  We sugguest the
+following matching:
+
+	encoding	Chinese font		ASCII font
+	--------	------------		----------
+	GB		cclib16fs		 8x16
+	GB		cclib16st		 8x16
+	GB		cclib24st		12x24
+	BIG5		hku-ch16		 8x16
+
+If you feel that lines are too close together, you can set the
+spacing between lines using the option -hls numberOfPixel.
+
+The Chinese font must match the encoding adopted, otherwise all
+Chinese characters will become meaningless garbage on the screen.
+
+The default encoding is GB.  The Chinese fonts used with GB encoding
+should have encoding name "GB2312.1980-1", which means the GB2312-80
+character set in GR encoding space.
+
+To use BIG5, use the command
+
+        cxterm -fh hku-ch16 -fn 8x16 -BIG5
+
+--------------
+
+%% INPUT METHODS:
+
+Input methods are stored as external files and are loaded by cxterm
+in run-time on demand.  Input methods are distributed in textual
+format as "Textual Input Table" files (with filename suffix .tit).
+They must be converted to compiled format as "Compiled Input Table"
+files (with filename suffix .cit) before used in cxterm.
+Utilities tit2cit are provided in ../dict/tit2cit/ for this purpose.
+
+The environment variable HZINPUTDIR defines the search path for the
+directory containing the .cit files.  Alternative directory names
+are separated by a colon (:).  For example, given an input method
+name FOO, if HZINPUTDIR is set to
+
+	/usr/local/cxterm/Dict:/home/abc/Dict:.
+
+cxterm will search the following files, until one is found:
+
+	1) /usr/local/lib/cxterm/dict/FOO.cit
+	2) /home/abc/Dict/FOO.cit
+	3) ./FOO.cit
+
+In case of HZINPUTDIR is undefined, cxterm will search FOO.cit
+in the current directory.
+
+Another way to change the search path in run-time is through
+cxterm escape sequence, or through command "hzimpath -d".
+
+Input method also has to match the encoding used by cxterm.
+
+For GB encoding, 3 input methods are built-in:
+        ASCII   (Normal English),
+        IC      (Internal coding represented in 4 hexa-decimals),
+        QW      (GB Qui Wei: row number and the position in the row),
+
+For BIG5 encoding, 2 input methods are built-in:
+        ASCII
+        IC
+
+Actually, ASCII and IC are good for any encoding.
+
+Special keys to switch between different input methods are in the form
+of cxterm resources and can be defined by user.  Normal place to put
+these definitions is the file ".Xdefaults" at your home directory,
+or sometimes, ".Xresources".  For advanced users, X11R5 manual page
+X(1) contains more ways to put user- or machine-specific resources.
+
+Those who don't know the details of X can also use predefined input
+methods by appending the file "CXterm.ad" (you can find it in this
+directory) to ~/.Xdefaults; or simply use the built-in key binding:
+
+        <KeyPress> F1:  switch-HZ-mode(ASCII)   \n\
+        <KeyPress> F2:  switch-HZ-mode(IC)      \n\
+
+Here is the resources given in "CXterm.ad" for input method switching:
+
+cxterm*VT100.Translations: #override\
+        <KeyPress> F1:  switch-HZ-mode(ASCII)   \n\
+        <KeyPress> F2:  switch-HZ-mode(IC)      \n\
+ ~Shift <KeyPress> F3:  switch-HZ-mode(TONEPY)  \n\
+  Shift <KeyPress> F3:  switch-HZ-mode(PY-b5)   \n\
+ ~Shift <KeyPress> F4:  switch-HZ-mode(PY)      \n\
+  Shift <KeyPress> F4:  switch-HZ-mode(ETZY)    \n\
+ ~Shift <KeyPress> F5:  switch-HZ-mode(QJ)      \n\
+  Shift <KeyPress> F5:  switch-HZ-mode(QJ-b5)   \n\
+ ~Shift <KeyPress> F6:  switch-HZ-mode(Punct)   \n\
+  Shift <KeyPress> F6:  switch-HZ-mode(Punct-b5)\n\
+        <KeyPress> F7:  switch-HZ-mode(QW)      \n\
+  ~Meta <KeyPress> Escape:  insert() switch-HZ-mode(ASCII)
+
+In this example, pressing <F2> will switch the current input method
+to IC; <F4> will switch again to PY method (an external input method,
+requires PY.cit to be in the search path(s) of .cit files);
+<shift>+<F4> will switch again to ETZY method, and so on.
+
+Note that the last line above is a good setting for those who use the
+editor "celvis".  Pressing <ESC> will pass ESC to "celvis" to end
+insertion mode, and cause cxterm to switch back to ASCII (so that you
+can continue to enter celvis command in ASCII mode).
+
+Each keypress definition in cxterm resources takes the following form:
+
+    [optional_mod_keys] <KeyPress> key_name: switch-HZ-mode(input-method-name)
+
+"\n\" should be appended to the line except when it is the last one.
+
+Examples:
+
+-- <F2> switch to input method named MYNEW:
+
+        <KeyPress> F2: switch-HZ-mode(MYNEW)
+
+-- <Shift-F3> switch to input method IC:
+
+        Shift <KeyPress> F3: switch-HZ-mode(IC)
+
+-- <Ctrl-Meta-F6> switch to input method called CANTONESE:
+
+        Ctrl Meta <KeyPress> F6: switch-HZ-mode(CANTONESE)
+
+Another way to switch current input method is through cxterm
+escape sequence, or command "hzimpath".
+
+--------------
+
+%% IMPORTANT NOTES:
+
+Cxterm requires an 8-bit clean Unix kernel and 8-bit clean SHELL
+(SHELL means any shell program) to run successfully.
+
+Cxterm has made the effect of "stty -strip" when it is started,
+thus 8-bit/byte data will pass through kernel and SHELL to cxterm.
+However, manually setting the tty to pass all 8 bits is required
+in some systems.  The command options are system-dependent.
+
+8-bit Hanzi data is often mistakenly input as command to SHELL;
+and some SHELL (e.g. C shell) regards the data as end-of-file to
+SHELL causing cxterm to exit and the window to vanish.  To
+overcome this problem in C shell, the user should use the csh
+(or equivalent) command "set ignoreeof".
+You won't have this problem in sh or ksh.
+
+The BIG5 font and all BIG5 input methods are of HKU BIG5 encoding. 
+"HKU BIG5" is a variant of the so-called "Big-5".  It is slightly
+different with the probably most widely used variant of "Big-5" --
+ETen Big5 encoding.  There is a program in ../utils/et2hkubig5,
+which converts text files between these two encoding schemes.
+
+You may also use the ETen Big5 encoding directly in cxterm. 
+You need to have a ETen Big5 font.  (You may simply convert
+hku-ch16 to ETen Big5 coding.  See the document et2hkubig5.1
+in ../utils/et2hkubig5 for the difference between these two schemes.)
+Moreover, you need to convert all the BIG5 encoding input methods
+into ETen encoding, using the conversion program mentioned above.
+
+--------------
+
+%% WHAT HAS BEEN CHANGED
+
+If you have been using X11R4 cxterm, X11R5 cxterm doesn't change
+much from cxterm 11.4.2.  All cxterm 11.4.2 .cit files can be used
+in 11.5.1 without recompile.  However, some .tit files provided
+with this distribution may be uncompilerable using the old
+cxterm 11.4.2 tit2cit.
+
+Note that X11R4 cxterm uses 8x18 as the default ASCII font, and the
+matching ASCII font for cclib16st.  In this version, the default
+font is 8x16, which is part of X11R5 MIT core distribution and can
+be found in mit/fonts/bdf/misc.  If you feel that lines are too
+close together using the "cclib16??"--"8x16" matching, you can set
+the spacing between lines using the option "-hls numberOfPixel".
+
+X11R5 font hku-ch16 is slightly different from X11R4 HKU-Ch16.
+The matching ASCII font for both hku-ch16 is also 8x16.
+
+Cxresize program used in X11R4 cxterm is no longer needed in X11R5.
+
+You can also switch input methods or define input method searching
+path in run-time by a program.  A new command hzimpath does this.
+
+--------------
+
+%% BACKGROUND HISTORY:
+
+In 1988, when the authors are with the ISAS (Institute of Software,
+Academia Sinica, Beijing, China), ccxterm for X11R2 was first developed
+jointly by ISAS and the Institute of System Engineering, the Ministry
+of Electronic Industries, Beijing, China.
+
+X11R3 ccxterm was later modified from X11R2 ccxterm to run under X11R3.
+There is no known continue work on ccxterm after this version.
+
+In 1990, Man-Chi Pong started from X11R4 xterm and developed a new
+Chinese xterm.  Is was a much better new design but adopted part of
+the input handling and input methods code from ccxterm.  To distinguish
+itself from ccxterm, it is called cxterm, version 11.4.1.
+
+Then Yongguang Zhang developed a new revision (namely 11.4.2) based
+on cxterm 11.4.1.  In this revision, Hanzi input method handling
+mechanism is totally changed.  Input methods are loaded at run-time
+and user-defined input method is supported.
+
+After X11R5 core distribution is available, Yongguang Zhang rewrites
+cxterm based on X11R5 xterm.  The Hanzi input area is redesigned as
+if it were a widget separated from the screen (in fact it isn't).
+This makes future changes of cxterm easier when xterm is rewritten in
+X toolkits and widgets.  Compared with X11R4 cxterm, the Hanzi handling
+mechanism is also new.  All the ccxterm codes remained in X11R4 cxterm
+are obsoleted and taken out in X11R5 version.
+
+--------------
+
+%% IMPLEMENTATION NOTES:
+
+cxterm is modified from X11R5/mit/clients/xterm.  You don't need
+the international extension of X11R5 to install and run cxterm. 
+
+Extra compilation flags CFLAGS are -DHANZI.  If -DHANZI is not given
+in the compilation, cxterm will be exactly the same as xterm.
+
+Two new .c files are added.   HZinArea.c contains the code to handle
+the Hanzi input area (such as creation, resize, and display).
+HZinMthd.c contains the code to process Hanzi input through input
+method, including loading input table, translating key sequences
+to Hanzi, etc.   A new HZinput.h files is also added.
+
+The implementation of Hanzi input area in X11R5 cxterm is separated
+from the VT screen.  Application running on cxterm will not be
+aware of the existence of the input area.  (Note that in X11R4
+cxterm, Hanzi input area was indeed part of the VT screen.  So
+cxresize was used to correct the wrong line number returned by
+screen size inquiry.)
+
+The Hanzi input area is designed in the fashion of a widget,
+although it isn't a widget yet.  The data structure of input area
+is encapsulated in the field "screen.hzIwin".  Only the height of
+the input area is used in "screen" as "screen.hzIwin_height".
+
+The overall height of the cxterm window is defined as
+"(max_rows+1) * FontHeight(screen) + 2 * border + hzIwin_height";
+hzIwin_height is in turn defined as hzIwin.rows * FontHeight(screen)
+plus 1, the width of the rule line.
+
+The Hanzi input methods are separated from the cxterm program
+itself.  Dictionaries are organized in TRIE data structures.
+
+--------------
+
+%% BUGS
+
+There must be some bugs, somewhere.
+
+------------
+END OF Notes
+------------

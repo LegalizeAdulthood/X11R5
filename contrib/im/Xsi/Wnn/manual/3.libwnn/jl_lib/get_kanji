@@ -1,0 +1,41 @@
+JL_GET_KANJI( )
+
+名称
+
+	jl_get_kanji		変換結果文字列を得る。
+	jl_get_yomi		読み文字列を得る。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_get_kanji(buf, bun_no, bun_no2, area)
+	struct wnn_buf *buf;		/* バッファ */
+	int bun_no;			/* 文節番号1 */
+	int bun_no2;			/* 文節番号2 */
+	w_char *area;			/* かな漢字混じり列を入れる領域 */
+
+	int
+	jl_get_yomi(buf, bun_no, bun_no2, area)
+	struct wnn_buf *buf;		/* バッファ */
+	int bun_no;			/* 文節番号1 */
+	int bun_no2;			/* 文節番号2 */
+	w_char *area;			/* 読みを入れる領域 */
+
+機能
+
+	jl_get_kanji は、文節番号 bun_no から文節番号 bun_no2 の前までの変換結果
+	文字列を得る。
+
+	jl_get_yomi は、文節番号 bun_no から文節番号 bun_no2 の前までの読み文字
+	列を得る。
+
+	文節番号は、0 から始まる。
+	文節の最後を指定する時は、bun_no2 に -1 を指定する。
+
+
+リターンバリュー
+
+	得られた文字列の長さを返す。
+

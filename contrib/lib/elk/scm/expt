@@ -1,0 +1,11 @@
+;;; -*-Scheme-*-
+;;;
+;;; expt
+
+(define (square x) (* x x))
+
+(define (expt b n)
+  (cond ((= n 0) 1)
+	((negative? n) (/ 1 (expt b (abs n))))
+        ((even? n) (square (expt b (/ n 2))))
+        (else (* b (expt b (- n 1))))))

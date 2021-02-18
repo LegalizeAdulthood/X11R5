@@ -1,0 +1,6 @@
+xcell   : 1-D cellular automata programs
+xhearts : The hearts card game
+xlayout : widget layout generator
+	  (with description language (WLDL) examples)
+          (also examples of Label, Command, Bmgr, Button, Deck)
+

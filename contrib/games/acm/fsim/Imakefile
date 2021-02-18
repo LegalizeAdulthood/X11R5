@@ -1,0 +1,80 @@
+/*
+ * mips RISC/os should add "-systype bsd43" to CDEBUGFLAGS.
+ *
+ * dec 5000 series systems should add -Ddec to CDEBUGFLAGS.  Once
+ * again, I don't know the symbol, so I can't do it right here.
+ *
+ * HP/UX systems should add -Dhpux to CDEBUGFLAGS.
+ *
+ * System V systems needs -DSYSV, but I think that's done
+ * automatically by the Imake configuration files for System V-like
+ * systems, so you probably shouldn't have to worry about it.
+ */
+
+/*
+ *  For Mips RISC/OS:
+ */
+#if defined(MipsArchitecture) && !defined(UltrixArchitecture)
+CDEBUGFLAGS = -systype bsd43 -O -float
+EXTRA_LIBRARIES =
+#endif
+
+#if HasVoidSignalReturn == YES
+DEFINES=	-DSIGVOID
+#endif
+
+SRCS1= 		server.c pm.c flaps.c droneCalc.c init.c aim9m.c\
+		m61a1.c weapon.c newPlayer.c newPlane.c missile.c\
+		missileCalc.c update.c doEvents.c getStick.c\
+		damage.c panel.c doViews.c windows.c effects.c\
+		doRadar.c placeCraft.c transpose.c doScale.c \
+		interpolate.c resupply.c air.c
+OBJS1=		server.o pm.o flaps.o droneCalc.o init.o aim9m.o\
+		m61a1.o weapon.o newPlayer.o newPlane.o missile.o\
+		missileCalc.o update.o doEvents.o getStick.o\
+		damage.o panel.o doViews.o windows.o effects.o\
+		doRadar.o placeCraft.o transpose.o doScale.o \
+		interpolate.o resupply.o air.o
+DEPLIBS1=	../V/lib/libV.a
+
+SRCS2=		acm.c
+OBJS2=		acm.o
+DEPLIBS2=
+
+SRCS3=		V2tgif.c
+OBJS3=		V2tgif.o
+DEPLIBS3=	../V/lib/libV.a
+
+ACM_LIBRARY=	/usr/games/lib/acm
+
+PROGRAMS=		acm acms v2tgif
+STD_INCLUDES=		-I../V/lib -I.
+LOCAL_LIBRARIES=	-L../V/lib -lV
+SYS_LIBRARIES=		-lm $(XLIB)
+
+OBJS= $(OBJS1) $(OBJS2) $(OBJS3)
+SRCS= $(SRCS1) $(SRCS2) $(SRCS3)
+
+AllTarget($(PROGRAMS))
+
+NormalProgramTarget(acms,$(OBJS1),$(DEPLIBS1),$(LOCAL_LIBRARIES),)
+SaberProgramTarget(acms,$(SRCS1),$(OBJS1),$(LOCAL_LIBRARIES),)
+
+InstallProgram(acms,$(BINDIR))
+
+NormalProgramTarget(acm,$(OBJS2),$(DEPLIBS2),$(LOCAL_LIBRARIES),)
+SaberProgramTarget(acm,$(SRCS2),$(OBJS2),$(LOCAL_LIBRARIES),)
+
+InstallProgram(acm,$(BINDIR))
+InstallManPage(acm,$(MANDIR))
+
+NormalProgramTarget(v2tgif,$(OBJS3),$(DEPLIBS3),$(LOCAL_LIBRARIES),)
+SaberProgramTarget(v2tgif,$(SRCS3),$(OBJS3),$(LOCAL_LIBRARIES),)
+
+DependTarget()
+LintTarget()
+
+install:: install.man
+	-mkdir $(ACM_LIBRARY)
+	chmod 444 f16 mig23 aim-9 bullet mtn rwy rwy2 tower
+	cp f16 mig23 aim-9 bullet mtn rwy rwy2 tower $(ACM_LIBRARY)

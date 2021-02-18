@@ -1,0 +1,92 @@
+;; package to be able to still move windows (partly) out of the screen, even
+;; with confine-windows set to true
+;; to use, just include (load 'unconf-move) in your .profile.gwm
+;;
+;; parameter to be set before load: unconf-move.modifier (defaults to control)
+;;    will move unconfined on select button (with or without alternate)
+;;    grabs button only with alternate
+;;
+;; rwhitby@adl.austek.oz.au (Rod Whitby)
+;; Rod Whitby
+;; Austek Microsystems Pty. Ltd.
+;; Technology Park 
+;; Adelaide, SA 5095 Australia
+;; 
+;; ACSnet:	rwhitby@austek.oz	ARPA:	rwhitby@austek.oz.au
+;; UUCP:	uunet.uu.net!munnari!austek.oz.au!rwhitby
+;; 
+
+; Add support for releasing confine-windows on moves and resizes
+; by hitting control as well
+
+(setq confine-windows t)
+(defaults-to unconf-move.modifier with-control)
+
+(setq unconfined-move-behavior
+      (state-make
+       (on (buttonpress select-button unconf-move.modifier)
+	   (if (deltabutton) (progn
+			       (raise-window)
+			       (with
+				(confine-windows ())
+			     (move-window)))
+	     (raise-window)))
+       (on (buttonpress select-button (together with-alt unconf-move.modifier))
+	   (if (deltabutton) (progn
+			       (raise-window)
+			       (with
+				(confine-windows ())
+				(move-window)))
+	     (raise-window)))
+       ))
+
+(setq unconfined-resize-behavior
+      (state-make
+       (on (buttonpress action-button unconf-move.modifier)
+	   (progn (raise-window)
+		  (with (confine-wondows ())
+			(resize-window))))
+       (on (buttonpress action-button (together with-alt unconf-move.modifier))
+	   (progn (raise-window)
+		  (with (confine-windows ())
+			(resize-window))))
+       ))       
+
+(setq unconfined-grabs
+      (list
+       (button select-button (together with-alt unconf-move.modifier))
+       (button action-button (together with-alt unconf-move.modifier))
+       ))
+
+(: standard-title-behavior
+   (state-make
+    unconfined-move-behavior
+    unconfined-resize-behavior
+    standard-title-behavior
+    standard-behavior
+    ))
+
+(setq window-behavior
+      (state-make
+       unconfined-move-behavior
+       unconfined-resize-behavior
+       window-behavior
+       ))
+
+(setq icon-behavior
+      (state-make
+       unconfined-move-behavior
+       icon-behavior
+       ))
+
+(reparse-standard-behaviors)
+
+(: grabs
+   (: root-grabs
+      (: window-grabs
+	 (: icon-grabs
+	    (+ 
+	     unconfined-grabs
+	     grabs
+	     )))))
+

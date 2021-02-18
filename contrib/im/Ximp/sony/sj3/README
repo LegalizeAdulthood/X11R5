@@ -1,0 +1,19 @@
+Copyright 1991 Sony Corporation
+Apr 29, 1991
+
+This directory contains sj3serv (Japanese conversion server).
+
+	dict	- main dictionary
+	sj3serv	- Japanese conversion server
+
+Install Procedure:
+	o Refer dict/README
+	o Refer sj3serv/README
+
+Supplement:
+	This program needs the following directories,
+		- /usr/sony/dict/sj3/
+		- /usr/sony/lib/sj3
+
+	These defines in ./include/Const.h
+

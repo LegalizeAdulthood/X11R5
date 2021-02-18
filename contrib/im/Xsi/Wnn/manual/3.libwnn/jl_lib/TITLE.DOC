@@ -1,0 +1,99 @@
+関 数 名				機	能
+
+
+●環境関係のプリミティブ
+
+jl_open			サーバとコネクションを張り環境をサーバ内に作る。
+jl_close		バッファ領域を解放する。
+jl_connect		環境を作る。
+jl_disconnect		サーバとの間のコネクションを切る。
+jl_disconnect_if_server_dead
+			サーバとの間の全てのコネクションを切る。
+jl_env			バッファの環境を取り出す。
+jl_env_set		バッファに対して環境をセットする。
+
+jl_set_env_wnnrc	wnnrc を見てのパラメータの設定。	
+jl_set_env_wnnrc1	wnnrc を見てのパラメータの設定。	
+
+
+●辞書関係のプリミティブ
+
+jl_dic_add		バッファに辞書を追加する。
+jl_dic_add_e		環境に辞書を追加する。
+jl_dic_delete		辞書をバッファから削除する。
+jl_dic_delete_e		辞書を環境から削除する。
+jl_dic_list		バッファの辞書情報を得る。
+jl_dic_list_e		環境の辞書情報を得る。
+jl_dic_save		指定された辞書をセーブする。
+jl_dic_save_e		指定された辞書をセーブする。
+jl_dic_save_all		全ての辞書をセーブする。
+jl_dic_save_all_e	全ての辞書をセーブする。
+jl_dic_use		辞書の使用/不使用の状態を設定する。
+jl_dic_use_e		辞書の使用/不使用の状態を設定する。
+
+
+●環境に対する辞書以外の設定のプリミティブ
+
+jl_fuzokugo_get		補助語ファイルの設定を取り出す。
+jl_fuzokugo_get_e	補助語ファイルの設定を取り出す。
+jl_fuzokugo_set		補助語ファイルの設定を行なう。
+jl_fuzokugo_set_e	補助語ファイルの設定を行なう。
+
+jl_param_get		変換パラメータの設定を取り出す。
+jl_param_get_e		変換パラメータの設定を取り出す。
+jl_param_set		変換パラメータを設定する。
+jl_param_set_e		変換パラメータを設定する。
+
+
+●辞書内の単語を操作するプリミティブ
+
+jl_word_add		単語を登録する。
+jl_word_add_e		単語を登録する。
+jl_word_delete		辞書から単語を削除する。
+jl_word_delete_e	辞書から単語を削除する。
+jl_word_search		指定された辞書から単語検索を行なう。
+jl_word_search_e	指定された辞書から単語検索を行なう。
+jl_word_search_by_env	バッファ内の全ての辞書から単語検索を行なう。
+jl_word_search_by_env_e	環境内の全ての辞書から単語検索を行なう。
+jl_word_use		単語の無効/有効をトグルさせる。
+jl_word_use_e		単語の無効/有効をトグルさせる。
+
+jl_update_hindo		頻度更新する。
+
+
+●変換関係のプリミティブ
+
+jl_ren_conv		連文節変換する。
+jl_tan_conv		単文節変換する。
+jl_nobi_conv		文節の長さを変えて変換する。
+jl_nobi_conv_e2		文節の長さを変えて変換する。
+
+jl_get_kanji		変換結果文字列を得る。
+jl_get_yomi		読み文字列を得る。
+jl_jiri_len		読みの長さを得る。
+jl_kanji_len		変換結果文字列の長さを得る。
+jl_yomi_len		読みの長さを得る。
+jl_kill			文節を削除する。
+jl_bun_suu		文節数を得る。
+jl_dai_top		大文節の先頭であるかどうかを判定する。
+jl_inspect		文節の情報を取り出し。
+
+
+●次候補関係のプリミティブ
+
+jl_zenkouho		全候補取りだし。
+
+jl_set_jikouho		全候補の内の次候補設定。
+jl_set_jikouho_dai	全候補(大文節)の内の次候補設定。
+
+jl_next			次候補設定を現在の次のものにする。
+jl_next_dai		次候補設定(大文節)を現在の次のものにする。
+jl_previous		次候補設定を現在の前のものにする。
+jl_previous_dai		次候補設定(大文節)を現在の前のものにする。
+
+jl_get_zenkouho_kanji	全候補の変換結果文字列を得る。
+jl_c_zenkouho		全候補中、注目している候補番号の取りだし。
+jl_zenkouho_bun		全候補を表示している文節番号を得る。
+jl_zenkouho_dai		大文節全候補取りだし。
+jl_zenkouho_daip	全候補が大文節かどうかの判定。
+jl_zenkouho_suu		全候補数を得る。

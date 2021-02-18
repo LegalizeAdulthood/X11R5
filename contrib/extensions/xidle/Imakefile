@@ -1,0 +1,11 @@
+# Makefile for the Xidle manpage.
+
+MANPAGE =  XGetIdle.3X11
+
+INSTALLFLAGS = $(INSTMANFLAGS)
+
+all: $(MANPAGE)
+
+InstallMultipleMan($(MANPAGE),$(LIBMANDIR))
+
+depend:

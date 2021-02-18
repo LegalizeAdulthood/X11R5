@@ -1,0 +1,153 @@
+#
+# $Header: /usr3/emu/RCS/Imakefile,v 1.19 91/03/07 17:49:17 me Exp Locker: jkh $
+#
+# Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+#
+#                        All Rights Reserved
+#
+# Permission to use, copy, modify, and distribute this software and its 
+# documentation for any purpose and without fee is hereby granted, 
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in 
+# supporting documentation, and that the names of PCS or the authors not
+# be used in advertising or publicity pertaining to distribution of the
+# software without specific, written prior permission.  
+# 
+# PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+# ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+# PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+# OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+# OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+#
+# Use this Imakefile to create the main emu client.
+#
+
+#SPECIAL_DEFINES = -DTRACK_MALLOC -DDEBUG
+#SPECIAL_LIBRARIES = -lmtrace
+
+CDEBUGFLAGS = -g
+
+/* #define MOTIF	/* If you're using MOTIF, define this */
+
+#ifdef MOTIF
+
+#  Motif 1.1 specific
+INCLUDES = -I./include -I./canvas -I./menus -I./term -I./term/parser \
+	   -I/../alex/usr2/Motif.1.1_obj
+INCLUDES = -I./include -I./canvas -I./menus -I./term -I./term/parser
+SPEC_DEFINES = -DMOTIF
+LOCAL_LIBRARIES = -lXm $(XMULIB) $(XTOOLLIB) $(XLIB) $(SPECIAL_LIBRARIES)
+DEPLIBS = $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+
+#else	/* ATHENA */
+
+# Athena specific
+INCLUDES = -I./include -I./canvas -I./menus -I./term -I./term/parser
+LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB) $(SPECIAL_LIBRARIES)
+DEPLIBS = $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+
+SPEC_DEFINES = 
+#endif	/* MOTIF || ATHENA */
+
+#CCOPTIONS = $(SPEC_DEFINES) $(SPECIAL_DEFINES)
+
+/* All the TermCanvas sources */
+C_SRCS=	./canvas/TermCanvas.c ./canvas/functions.c ./canvas/char_array.c \
+	./canvas/screen.c ./canvas/selection.c ./canvas/motion.c
+C_OBJS=	./canvas/TermCanvas.o ./canvas/functions.o ./canvas/char_array.o \
+	./canvas/screen.o ./canvas/selection.o ./canvas/motion.o
+
+/* All the miscellaneous stuff */
+U_SRCS= ./misc/msgs.c ./misc/strutils.c ./misc/rdb.c ./misc/gmalloc.c
+U_OBJS= ./misc/msgs.o ./misc/strutils.o ./misc/rdb.o ./misc/gmalloc.o
+
+/* All the tty section sources */
+T_SRCS=	./term/tty.c ./term/process.c
+T_OBJS= ./term/tty.o ./term/process.o
+
+/* All the parser section sources */
+P_SRCS= ./term/parser/destroy.c ./term/parser/new.c \
+	./term/parser/trie.c ./term/parser/iops.c \
+	./term/parser/parser.c ./term/parser/parse_dumb.c \
+	./term/parser/parse_hemu.c 
+P_OBJS= ./term/parser/destroy.o ./term/parser/new.o \
+	./term/parser/trie.o ./term/parser/iops.o \
+	./term/parser/parser.o ./term/parser/parse_dumb.o \
+	./term/parser/parse_hemu.o 
+
+/* All the term widget sources */
+W_SRCS= ./term/Term.c ./term/handlers.c $(T_SRCS) $(P_SRCS)
+W_OBJS= ./term/Term.o ./term/handlers.o $(T_OBJS) $(P_OBJS)
+
+/* menu sources */
+M_SRCS= ./menus/menus.c
+M_OBJS= ./menus/menus.o
+
+/* Source for the client */
+X_SRCS= ./client/main.c ./client/aux_widgets.c
+X_OBJS= ./client/main.o ./client/aux_widgets.o
+
+/* Resources */
+RES=	./tdesc/Emu.ad
+
+SRCS=	$(C_SRCS) $(U_SRCS) $(W_SRCS) $(M_SRCS) $(X_SRCS)
+OBJS=	$(C_OBJS) $(U_OBJS) $(W_OBJS) $(M_OBJS) $(X_OBJS)
+
+
+.c.o:
+        $(CC) $(CFLAGS) $(CPPFLAGS) -c $*.c -o $*.o
+
+ComplexProgramTarget(emu)
+
+AllTarget(emu $(RES))
+
+InstallAppDefaults(./tdesc/Emu)
+
+$(RES):	./tdesc/Xdefaults.emu emu
+	@echo
+	@(echo "making resources in ./tdesc" ; \
+	  cd ./tdesc ; $(MAKE) $(MFLAGS) 'STD_DEFINES=$(STD_DEFINES)' Emu.ad);
+	@echo
+	@echo "Emu defaults now need to be installed."
+	@echo
+	@echo "Please cd to ./tdesc and type 'make install'
+	@echo "(you may need to be root) to install the"
+	@echo "application defaults and add the"
+#ifdef BSD
+	@echo "termcap entry"
+#else
+	@echo "terminfo entry"
+#endif
+	@echo
+
+clean::
+	@(cd ./client; make clean)
+	@(cd ./tdesc; make clean)
+	@(cd ./canvas; make clean)
+	@(cd ./misc; make clean)
+	@(cd ./term; make clean)
+	@(cd ./menus; make clean)
+	@(cd ./include; make clean)
+
+Makefiles::
+	@(cd ./client; make clean)
+	@(cd ./tdesc; make forceMakefile)
+	@(cd ./canvas; make forceMakefile)
+	@(cd ./misc; make forceMakefile)
+	@(cd ./term; make Makefiles)
+	@(cd ./menus; make forceMakefile)
+	@(cd ./include; make forceMakefile)
+
+/*
+ * The "forceMakefile" rule was in R3. For some reason, we couldn't
+ * find it again in R4, so we put it back. This is a useful rule so
+ * I don't know why it was nuked in the first place.
+ */
+forceMakefile::
+	-@if [ -f Makefile ]; then \
+		echo "$(RM) Makefile.bak; $(MV) Makefile Makefile.bak"; \
+		$(RM) Makefile.bak; $(MV) Makefile Makefile.bak; \
+	else exit 0; fi
+	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) imakeflags

@@ -1,0 +1,139 @@
+/*
+ * XDPSswraps.psw
+ *
+ * Copyright (C) 1990, 1991 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.  If any portion of this software is changed, it cannot be
+ * marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+ * its sole discretion, approves by a prior writing the quality of the
+ * resulting implementation.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */
+
+defineps _DPSSSetContextParameters(DPSContext ctxt;
+				   int gc, drawable, drawableHeight,
+				   map, rgbBase, redMax, redMult,
+				   greenMax, greenMult, blueMax, blueMult,
+				   grayBase, grayMax, grayMult;
+				   boolean doGC, doDrawable, doRGB, doGray)
+    1 dict begin
+	currentXgcdrawablecolor
+	/colorinfo exch def
+
+	doGC {
+	    4 -1 roll pop gc 4 1 roll
+	} if
+
+	doDrawable {
+	    pop drawableHeight
+	    3 -1 roll pop drawable 3 1 roll
+	} if
+
+	doRGB {
+	    colorinfo 3 redMax put
+	    colorinfo 4 redMult put
+	    colorinfo 5 greenMax put
+	    colorinfo 6 greenMult put
+	    colorinfo 7 blueMax put
+	    colorinfo 8 blueMult put
+	    colorinfo 9 rgbBase put
+	    colorinfo 10 map put
+	} if
+
+	doGray {
+	    colorinfo 0 grayMax put
+	    colorinfo 1 grayMult put
+	    colorinfo 2 grayBase put
+	    colorinfo 10 map put
+	} if
+
+	colorinfo flush setXgcdrawablecolor
+    end
+endps
+
+defineps _DPSSInstallDPSlibDict(DPSContext c)
+    userdict /$Adobe$DPS$Lib$Dict 20 dict put
+    $Adobe$DPS$Lib$Dict begin
+	/userObjectIndex 0 def
+	% number-needed-minus-1 NewUserObjectIndex first-index
+	/NewUserObjectIndex {
+	    $Adobe$DPS$Lib$Dict /userObjectIndex get 1 add
+	    dup 3 -1 roll add 
+	    $Adobe$DPS$Lib$Dict /userObjectIndex 3 -1 roll put
+	} def
+	% first-index number-in-block-minus-1 MaybeRollbackUserObjectIndex -
+	/MaybeRollbackUserObjectIndex {
+	    2 copy add
+	    $Adobe$DPS$Lib$Dict /userObjectIndex get eq {
+		pop 1 sub 
+		$Adobe$DPS$Lib$Dict /userObjectIndex 3 -1 roll put
+	    } {
+		pop pop
+	    } ifelse
+	} def
+    end
+endps
+
+defineps _DPSSCaptureGState(DPSContext c | int *gs)
+    0 $Adobe$DPS$Lib$Dict /NewUserObjectIndex get exec
+    dup
+    gstate defineuserobject
+    gs
+endps
+
+defineps _DPSSUpdateGState(DPSContext c; userobject gs)
+    gs currentgstate pop
+endps
+
+defineps _DPSSRestoreGState(DPSContext c; userobject gs)
+    gs setgstate
+endps
+
+defineps _DPSSDefineUserObject(DPSContext c; int uoIn | int *uoOut)
+    uoIn dup 0 eq {
+	pop
+	0 $Adobe$DPS$Lib$Dict /NewUserObjectIndex get exec
+	dup uoOut exch defineuserobject
+    } {
+	dup uoOut exch defineuserobject
+    } ifelse
+endps
+
+defineps _DPSSUndefineUserObject(DPSContext c; int uo)
+    uo dup undefineuserobject
+    0 $Adobe$DPS$Lib$Dict /MaybeRollbackUserObjectIndex get exec
+endps
+
+defineps _DPSSReserveUserObjectIndices(DPSContext c; int number | int *start)
+    number 1 sub $Adobe$DPS$Lib$Dict /NewUserObjectIndex get exec
+    start
+endps
+
+defineps _DPSSReturnUserObjectIndices(DPSContext c; int start, number)
+    start number 1 sub
+    $Adobe$DPS$Lib$Dict /MaybeRollbackUserObjectIndex get exec
+endps
+

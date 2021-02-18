@@ -1,0 +1,52 @@
+\begindata{text,270310232}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Profile}
+
+
+
+
+\section{Quick reference list for Profile}
+
+
+
+\fixedtext{int \bold{profile_}Active }\fixedindent{();} 
+
+\fixedtext{\bold{profile_}GetStaticBase }\fixedindent{();} 
+
+\fixedtext{int \bold{profile_}StartClass }\fixedindent{(char 
+*\paramname{classname}, *\paramname{filename});} 
+
+\fixedtext{int \bold{profile_}Start }\fixedindent{(char *\paramname{textbase}, 
+long \paramname{textlength}, char *\paramname{filename});} 
+
+\fixedtext{int \bold{profile_}Stop }\fixedindent{();} 
+
+\enddata{text,270310232}

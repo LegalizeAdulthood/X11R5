@@ -1,0 +1,429 @@
+% Copyright 1991 by Olivetti Research Limited, Cambridge, England and
+% Digital Equipment Corporation, Maynard, Massachusetts.
+%
+%                        All Rights Reserved
+%
+% Permission to use, copy, modify, and distribute this software and its 
+% documentation for any purpose and without fee is hereby granted, 
+% provided that the above copyright notice appear in all copies and that
+% both that copyright notice and this permission notice appear in 
+% supporting documentation, and that the names of Digital or Olivetti
+% not be used in advertising or publicity pertaining to distribution of the
+% software without specific, written prior permission.  
+%
+% DIGITAL AND OLIVETTI DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+% INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT
+% SHALL THEY BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+% ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+% IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+% OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+\documentstyle{article}
+
+\setlength{\parindent}{0 pt}
+\setlength{\parskip}{6pt}
+
+\newcommand{\system}[1]{{\sc #1}}
+\newcommand{\request}[1]{{\bf #1}}
+\newcommand{\event}[1]{{\bf #1}}
+
+\newcommand{\param}[1]{{\it #1}}
+\newcommand{\error}[1]{{\bf #1}}
+\newcommand{\enum}[1]{{\bf #1}}
+
+\newcommand{\eventdef}[1]{\item \event{#1}}
+\newcommand{\requestdef}[1]{\item \request{#1}}
+\newcommand{\errordef}[1]{\item \error{#1}}
+\newcommand{\systemdef}[1]{\item \system{#1}}
+
+\newcommand{\defn}[1]{{\bf #1}}
+
+\begin{document}
+
+\begin{center}
+
+{\large X SYNCHRONIZATION EXTENSION}\\[10pt]
+{\large Protocol Version 2.0}\\[15pt]
+{\it Tim Glauert}\\[0pt]
+{\tt thg@cam-orl.co.uk}\\[0pt]
+{\bf Olivetti Research/MultiWorks}\\[5pt]
+{\it Dave Carver}\\[0pt]
+{\tt dcc@athena.mit.edu}\\[0pt]
+{\bf Digital Equipment Corporation,}\\[0pt]
+{\bf MIT / Project Athena}\\[5pt]
+{\it Jim Gettys}\\[0pt]
+{\tt jg@crl.dec.com}\\[0pt]
+{\bf Digital Equipment Corporation,}\\[0pt]
+{\bf Cambridge Research Laboratory}\\[5pt]
+
+\end {center}
+
+\subsection*{Synchronization}
+
+The core X protocol makes no guarantees about the relative order of execution
+of requests for different clients. This means that any synchronization between
+clients must be done at the client level in an operating-system dependent and
+network dependent manner. Even if there was an accepted standard for such
+synchronization, the use of a network introduces unpredictable delays between
+the synchronization of the clients and the delivery of the resulting requests
+to the X server.
+
+The core X protocol also makes no guarantees about the time at which requests
+are executed, which means that all clients with real-time constraints must
+implement their timing on the host computer. Any such timings are subject to
+error introduced by delays within the operating system and network, and are
+inefficient due to the need for round-trip requests which keep the client and
+server synchronized.
+
+The synchronization extension provides primitives which allow synchronization
+between clients to take place entirely within the X server. This removes any
+error introduced by the network and makes it possible to synchronize clients
+on different hosts running different operating systems. This is important for
+multi-media applications where audio, video and graphics data streams are
+being synchronized. The extension also provides internal timers within the X
+server to which client requests can be synchronized. This allows simple
+animation applications to be implemented without any round-trip requests and
+to make best use of buffering within the client, network and server.
+
+\subsection*{Description}
+
+The mechanism used by this extension for synchronization within the X server
+is to block the processing of requests from a client until a specific
+synchronization condition occurs. When the condition occurs the client is
+released and processing of requests continues. Multiple clients may block on
+the same condition to give inter-client synchronization.  Alternatively, a
+single client may block on a condition such as an animation frame-marker.
+
+The extension adds a \defn{Counter} to the set of resources managed by the
+server. A counter has a single integer value which may be increased but may
+not be reduced. A client can block by sending an \request{Await} request which
+waits for a counter to reach a specific value.  The client is released when
+the counter is advanced to that value.  A counter may be advanced by an
+explicit \request{AdvanceCounter} request, which allows inter-client
+synchronization.
+
+There is a set of counters, called \defn{System Counters}, which are advanced
+by the server itself rather than by an external client. The extension provides
+a system counter which advances with the server time as defined by the core
+protocol, and it may also provide counters which advance with the real-world
+time or which advance each time the CRT screen is refreshed.  Other extensions
+may provide their own extension-specific system counters.
+
+The extension provides an \defn{Alarm} mechanism which allows clients to
+receive an event whenever a particular counter is advanced.
+
+\subsection*{Types}
+
+The following new types are used by the extension.
+
+\begin{tabular}{l}
+	CARD64: 64-bit unsigned integer\\
+	COUNTER: XID\\
+	SYSTEMCOUNTER:\\
+\begin{tabular}{@{\hspace*{1cm}}l}
+	[\param{name}:STRING8,\\
+	 \param{counter}:COUNTER,\\
+	 \param{resolution}:CARD64]
+\end{tabular}\\
+        VALUETYPE: \{\enum{Absolute},\enum{Relative}\}\\
+	WAITCONDITION:\\
+\begin{tabular}{@{\hspace*{1cm}}l}
+	[\param{counter}:COUNTER,\\
+	 \param{wait-type}:VALUETYPE,\\
+	 \param{wait-value}:CARD64,\\
+	 \param{event-threshold}:CARD64]
+\end{tabular}\\
+	ALARM: XID\\
+	ALARMSTATE: \{\enum{Active},\enum{Exhausted},\enum{Destroyed}\}\\
+\end{tabular}
+
+COUNTER is the client-side handle on a server \defn{Counter}. The value of a
+counter is represented as a CARD64.
+
+The SYSTEMCOUNTER type provides the client with information about a
+\defn{System Counter}. The \param{name} is the textual name of the counter.
+The \param{counter} is the client-side handle which should be used in
+\request{Await} requests. The \param{resolution} field is a indication
+of how much a system counter advances when it is updated. The
+extension will not reliably resolve two \request{Await} requests that
+differ by less than \param{resolution}.
+
+The following system counters are defined by this extension and
+should be implemented where possible.
+
+\begin{description}
+
+\item{\system{SERVERTIME}}
+
+This counter is guaranteed to be present in every implementation. The
+least-significant 32-bits of the counter track the value of time used
+by the server in Events and Requests.
+
+\item{\system{FRAMEEND0}}
+
+If present, the \system{FRAMEEND0} counter is advanced when the
+display hardware for screen 0 has finished displaying a new frame.
+This can be used by an application to reduce the flicker on a piece of
+animation by attempting to process the graphics requests when the
+display is not being updated by the hardware. This counter will only
+be present if the display hardware for the screen is of the
+appropriate type and if the appropriate interrupts are available to
+the X server. On multi-screen displays the counters \system{FRAMEEND1}
+etc. may be available.
+
+\end{description}
+
+Other system counters may be provided by different implementations of the
+extension.  For example, a system with a good real-time clock may provide
+\system{REALTIME} which contains the number of micro-seconds since midnight on
+January 1, 1970. A system with flexible framestore hardware might provide a
+\system{SCANLINE} counter which tracks the position of the CRT beam more
+accurately than the \system{FRAMEEND} counter. This can be used to animate
+more of the screen in a flicker-free manner. A video extension may wish to
+define a frame counter link to an incoming analogue signal.
+
+An ALARM is the client-side handle on an \defn{Alarm} resource.
+
+\subsection*{Errors}
+
+\begin{description}
+
+\errordef{Counter}
+
+This error is generated if the value for a COUNTER argument in a
+request does not name a defined COUNTER.
+
+\errordef{Alarm}
+
+This error is generated if the value for an ALARM argument in a
+request does not name a defined ALARM.
+
+\end{description}
+
+\subsection*{Requests}
+
+\begin{description}
+
+\requestdef{Info}
+
+$\Rightarrow$\\
+\begin{tabular}{l}
+	\param{version-major},\param{version-minor}: CARD8\\
+	\param{system-counters}: LISTofSYSTEMCOUNTER\\[5pt]
+\end{tabular}
+
+This request returns the version number of the extension and a list of the
+system counters. No guarantees are made about the interoperability of
+different versions, although versions with the same \param{version-major}
+should be backwards compatible with versions with the same
+\param{version-major} but a lower \param{version-minor}.
+
+\requestdef{CreateCounter}
+
+\begin{tabular}{l}
+	\param{id}: COUNTER\\
+ 	\param{initial-value}: CARD64\\[5pt]
+Errors: \error{IDChoice}, \error{Alloc}
+\end{tabular}
+
+This request creates a counter and assigns the identifier \param{id} to it.
+The counter value is initialized to \param{initial-value} and there are no
+clients waiting on the counter.
+
+\requestdef{DestroyCounter}
+
+\begin{tabular}{l}
+	\param{counter}: COUNTER\\[5pt]
+	Errors: \error{Counter}
+\end{tabular}
+
+This request destroys the given counter. All clients waiting on the
+counter are released.  A counter is destroyed automatically when the
+connection to the creating client is closed down if the close-down
+mode is {\bf Destroy}. A \error{Match} error is generated if
+\param{counter} is a system counter.
+
+\requestdef{QueryCounter}
+
+\begin{tabular}{l}
+	\param{counter}: COUNTER\\
+\end{tabular}\\
+$\Rightarrow$\\
+\begin{tabular}{l}
+	\param{value}: CARD64\\[5pt]
+	Errors: \error{Counter}
+\end{tabular}
+
+This request returns the current value of the given counter.
+
+\requestdef{Await}
+
+\begin{tabular}{l}
+	\param{wait-list}: LISTofWAITCONDITION\\[5pt]
+	Errors: \error{Counter}, \error{Alloc}, \error{Value}
+\end{tabular}
+
+This request blocks until one or more of the wait conditions in the
+list is TRUE.
+
+For each condition in the list, the current value of the counter
+specified by \param{counter} is compared to \param{wait-value}. If
+\param{wait-type} is \enum{Relative}, \param{wait-value} is first
+incremented by the current value of the counter. The condition is TRUE
+if the value of \param{counter} is greater than or equal to
+\param{wait-value}.  If the value of \param{counter} is at least
+\param{event-threshold} greater than \param{wait-value}, an
+\event{AdvanceNotify} event is generated.
+
+\requestdef{Advance}
+
+\begin{tabular}{l}
+	\param{counter}: COUNTER\\
+	\param{amount}: CARD64\\[5pt]
+	Errors: \error{Counter},\error{Value}
+\end{tabular}
+
+This request advances the given counter by \param{amount}. If the
+counter reaches or passes a value for which a client is waiting, that
+client is released. If the counter reaches or passes a value for which
+an alarm is waiting, an \event{AlarmNotify} event is generated. A
+\error{Value} error is generated if the amount is 0. A \error{Match}
+error is generated if \param{counter} is a system counter. A
+\error{Counter} error is generated if \param{counter} is not a valid
+counter. The effect of advancing a counter to $2^{64}$ or beyond is
+undefined.
+
+\requestdef{CreateAlarm}
+
+\begin{tabular}{l}
+	\param{id}: ALARM\\
+	\param{values-mask}: CARD32\\
+	\param{values-list}: LISTofVALUE\\[5pt]
+	Errors: \error{IDChoice},\error{Counter},\error{Value}
+\end{tabular}
+
+This request creates an alarm and assigns the identifier \param{id} to
+it. The \param{values-mask} and \param{values-list} specify the
+attributes which are to be explicitly initialized. The possible values
+and their defaults are:
+
+\begin{center}
+\begin{tabular}{l|l|l}
+Value		& Type		& Default \\
+\hline
+counter		& COUNTER	& \enum{None}\\
+value-type	& VALUETYPE	& \enum{Absolute}\\
+value		& CARD64	& 0\\
+increment	& CARD64	& 1\\
+limit-type	& VALUETYPE	& \enum{Absolute}\\
+limit		& CARD64	& 0\\
+events		& BOOL		& TRUE\\
+\end{tabular}
+\end{center}
+
+If \param{value-type} is \enum{Relative}, \param{value} is incremented
+by the current value of \param{counter}. If \param{limit-type} is
+\enum{Relative}, \param{limit} is increment by the current value of
+\param{counter}. If \param{counter} is \enum{None} and \param{value-type} or
+\param{limit-type} is \enum{Relative}, a \error{Match} error is
+generated.
+
+If the \param{value} is greater than \param{limit}, or
+\param{increment} is zero, or \param{counter} is \enum{None},  the
+alarm state is \enum{Exhausted} and an \event{AlarmNotify} event will
+be generated.  Otherwise, the alarm is \enum{Active}.
+
+If the alarm is \enum{Active}, an \event{AlarmNotify} event will be
+generated when the \param{counter} value becomes equal to or greater
+than \param{value}. The \param{value} will then be incremented by
+\param{increment} until it is greater than the value of
+\param{counter}. If the \param{value} becomes greater than \param{limit}, the
+\param{state} field of the event is set to \enum{Exhausted} and no
+more events are generated.  Otherwise, \param{state} is set to
+\enum{Active}.
+
+The effect of an \param{increment} which causes \param{value} to
+become $2^{64}$ or greater is undefined.
+
+The \param{events} value enables or disables event delivery to the
+client sending the request.
+
+\requestdef{DestroyAlarm}
+
+\begin{tabular}{l}
+	\param{alarm}: ALARM\\[5pt]
+ 	Errors: \error{Alarm}
+\end{tabular}
+
+This request destroys an alarm. An alarm is automatically destroyed
+when the creating client is closed down if the close-down mode is {\bf
+Destroy}. When an alarm is destroyed, an \event{AlarmNotify} event is
+generated with a \param{state} value of \enum{Destroyed}.
+
+\requestdef{QueryAlarm}
+
+\begin{tabular}{l}
+	\param{alarm}: ALARM\\
+\end{tabular}\\
+$\Rightarrow$\\
+\begin{tabular}{l}
+	\param{counter}: COUNTER\\
+	\param{value}: CARD64\\
+	\param{increment}: CARD64\\
+	\param{limit}: CARD64\\
+	\param{events}: BOOL\\
+	\param{state}: ALARMSTATE\\[5pt]
+	Errors: \error{Alarm}
+\end{tabular}
+
+This request retrieves the current parameters for an Alarm.
+
+\requestdef{ChangeAlarm}
+
+\begin{tabular}{l}
+	\param{id}: ALARM\\
+	\param{values-mask}: CARD32\\
+	\param{values-list}: LISTofVALUE\\[5pt]
+	Errors: \error{Alarm},\error{Counter},\error{Value}
+\end{tabular}
+
+This request changes the parameters of an Alarm. All of the parameters
+specified for the \request{CreateAlarm} request may be changed using
+this request.
+
+\end{description}
+
+\subsection*{Events}
+
+\begin{description}
+
+\eventdef{AdvanceNotify}
+
+\begin{tabular}{l}
+	\param{counter}: COUNTER \\
+	\param{wait-value}: CARD64 \\
+	\param{counter-value}: CARD64 \\
+	\param{time}: TIME
+\end{tabular}
+
+This event is generated when an \request{Await} request is processed.
+\param{time} is the server time at which the event was generated.
+
+\eventdef{AlarmNotify}
+
+\begin{tabular}{l}
+	\param{alarm}: ALARM \\
+	\param{counter-value}: CARD64 \\
+	\param{alarm-value}: CARD64 \\
+	\param{state}: ALARMSTATE \\
+	\param{time}: TIME
+\end{tabular}
+
+An \event{AlarmNotify} event is generated when an alarm is triggered.
+\param{alarm-value} is the value of the alarm when it was triggered.
+\param{counter-value} is the value of the counter when it triggered the
+alarm. \param{time} is the server time at which the event was generated.
+
+\end{description}
+
+\end{document}

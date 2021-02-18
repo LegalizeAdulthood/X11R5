@@ -1,0 +1,1596 @@
+#WLDL
+8
+
+6 XcuWlm
+21
+20 Label.internalHeight 1 (0) 6 Global
+19 Label.internalWidth 1 (0) 6 Global
+16 Label.facetWidth 1 (0) 6 Global
+16 Label.foreground 4 (Blue) 6 Global
+16 Label.background 6 (gray90) 6 Global
+17 Label.borderColor 6 (gray90) 6 Global
+22 Command.internalHeight 1 (0) 6 Global
+21 Command.internalWidth 1 (0) 6 Global
+19 Command.borderWidth 1 (0) 6 Global
+18 Command.facetWidth 1 (0) 6 Global
+18 Command.lineFactor 3 (1.2) 6 Global
+22 Command.internalHeight 2 (10) 6 Global
+21 Command.internalWidth 2 (10) 6 Global
+18 Command.foreground 5 (black) 6 Global
+18 Command.background 5 (white) 6 Global
+15 Tbl.borderColor 6 (gray90) 6 Global
+15 Tbl.borderWidth 1 (0) 6 Global
+14 Tbl.background 6 (gray90) 6 Global
+16 brightFacetColor 14 (LightSteelBlue) 6 Global
+13 dimFacetColor 9 (SteelBlue) 6 Global
+10 facetWidth 2 (10) 6 Global
+0
+0
+1
+
+  6 XcuTbl
+  2
+  10 facetWidth 1 (0) 5 Local
+  12 formatString 2 (c.) 5 Local
+  0
+  0
+  2
+
+    6 XcuTbl
+    9
+    18 resizeParticipants 18 (internals+children) 5 Local
+    12 formatString 6 (c c c.) 5 Local
+    14 internalHeight 2 (20) 5 Local
+    13 internalWidth 2 (20) 5 Local
+    10 background 4 (Gray) 5 Local
+    16 brightFacetColor 9 (SteelBlue) 5 Local
+    13 dimFacetColor 9 (SteelBlue) 5 Local
+    15 Tbl.borderColor 4 (Gray) 6 Global
+    14 Tbl.facetWidth 1 (5) 6 Global
+    0
+    0
+    3
+
+      8 XcuLabel
+      2
+      17 mappedWhenManaged 5 (False) 5 Local
+      4 name 5 (dummy) 5 Local
+      0
+      0
+      0
+
+      6 XcuTbl
+      6
+      20 Command.biggestLabel 1 (W) 6 Global
+      10 background 4 (Gray) 5 Local
+      11 borderColor 4 (Gray) 5 Local
+      10 facetWidth 1 (0) 5 Local
+      11 interHeight 1 (5) 5 Local
+      12 formatString 2 (c.) 5 Local
+      0
+      0
+      2
+
+        6 XcuTbl
+        5
+        18 Label.biggestLabel 44 (No point dumping on first trick! Try again. ) 6 Global
+        14 highlightColor 5 (Black) 6 Global
+        10 background 5 (White) 6 Global
+        11 borderColor 5 (White) 6 Global
+        12 formatString 2 (c.) 5 Local
+        0
+        0
+        2
+
+          8 XcuLabel
+          3
+          5 label 4 (    ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 7 (err_msg) 5 Local
+          0
+          0
+          0
+
+          8 XcuLabel
+          3
+          5 label 4 (    ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 8 (proc_msg) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        4
+        12 formatString 28 (c c c c c c c c c c c c c c.) 5 Local
+        14 highlightColor 5 (Black) 6 Global
+        10 background 5 (White) 6 Global
+        11 borderColor 5 (White) 6 Global
+        0
+        0
+        56
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 3 (C12) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 3 (C11) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 3 (C10) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C9) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C8) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C7) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C6) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C5) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C4) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C3) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C2) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C1) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (C0) 5 Local
+          0
+          0
+          0
+
+          5 Label
+          2
+          6 bitmap 8 (club.xbm) 5 Local
+          10 foreground 5 (black) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 3 (D12) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 3 (D11) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 3 (D10) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D9) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D8) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D7) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D6) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D5) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D4) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D3) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D2) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D1) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (D0) 5 Local
+          0
+          0
+          0
+
+          5 Label
+          2
+          6 bitmap 11 (diamond.xbm) 5 Local
+          10 foreground 3 (red) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 3 (H12) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 3 (H11) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 3 (H10) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H9) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H8) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H7) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H6) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H5) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H4) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H3) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H2) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H1) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 3 (red) 5 Local
+          4 name 2 (H0) 5 Local
+          0
+          0
+          0
+
+          5 Label
+          2
+          6 bitmap 9 (heart.xbm) 5 Local
+          10 foreground 3 (red) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 3 (S12) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 3 (S11) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 3 (S10) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S9) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S8) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S7) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S6) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S5) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S4) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S3) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S2) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S1) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          3
+          5 label 1 ( ) 5 Local
+          10 foreground 5 (black) 5 Local
+          4 name 2 (S0) 5 Local
+          0
+          0
+          0
+
+          5 Label
+          2
+          6 bitmap 9 (spade.xbm) 5 Local
+          10 foreground 5 (black) 5 Local
+          0
+          0
+          0
+
+      8 XcuLabel
+      2
+      17 mappedWhenManaged 5 (False) 5 Local
+      4 name 5 (dummy) 5 Local
+      0
+      0
+      0
+
+    6 XcuTbl
+    10
+    18 resizeParticipants 18 (internals+children) 5 Local
+    12 formatString 6 (c c c.) 5 Local
+    12 equalColumns 4 (True) 5 Local
+    14 internalHeight 2 (20) 5 Local
+    13 internalWidth 2 (20) 5 Local
+    10 background 4 (Gray) 5 Local
+    16 brightFacetColor 9 (SteelBlue) 5 Local
+    13 dimFacetColor 9 (SteelBlue) 5 Local
+    15 Tbl.borderColor 4 (Gray) 6 Global
+    14 Tbl.facetWidth 1 (5) 6 Global
+    0
+    0
+    9
+
+      8 XcuLabel
+      2
+      17 mappedWhenManaged 5 (False) 5 Local
+      4 name 5 (dummy) 5 Local
+      0
+      0
+      0
+
+      6 XcuTbl
+      10
+      13 Label.gravity 1 (w) 6 Global
+      16 Label.background 9 (Goldenrod) 6 Global
+      17 Label.borderColor 9 (Goldenrod) 6 Global
+      13 internalWidth 2 (20) 5 Local
+      14 internalHeight 2 (20) 5 Local
+      15 Tbl.borderColor 9 (Goldenrod) 6 Global
+      10 background 9 (Goldenrod) 5 Local
+      14 Tbl.background 9 (Goldenrod) 6 Global
+      18 resizeParticipants 8 (children) 5 Local
+      12 formatString 2 (c.) 5 Local
+      0
+      0
+      4
+
+        8 XcuLabel
+        3
+        5 label 10 (Points:  0) 5 Local
+        4 name 12 (south_points) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Tricks:  0) 5 Local
+        4 name 12 (south_tricks) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Score:   0) 5 Local
+        4 name 11 (south_score) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 11 (           ) 5 Local
+        7 gravity 1 (c) 5 Local
+        4 name 7 (Splayer) 5 Local
+        0
+        0
+        0
+
+      8 XcuLabel
+      2
+      17 mappedWhenManaged 5 (False) 5 Local
+      4 name 5 (dummy) 5 Local
+      0
+      0
+      0
+
+      6 XcuTbl
+      10
+      13 Label.gravity 1 (w) 6 Global
+      16 Label.background 9 (Goldenrod) 6 Global
+      17 Label.borderColor 9 (Goldenrod) 6 Global
+      13 internalWidth 2 (20) 5 Local
+      14 internalHeight 2 (20) 5 Local
+      15 Tbl.borderColor 9 (Goldenrod) 6 Global
+      10 background 9 (Goldenrod) 5 Local
+      14 Tbl.background 9 (Goldenrod) 6 Global
+      18 resizeParticipants 8 (children) 5 Local
+      12 formatString 2 (c.) 5 Local
+      0
+      0
+      4
+
+        8 XcuLabel
+        3
+        5 label 10 (Points:  0) 5 Local
+        4 name 11 (east_points) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Tricks:  0) 5 Local
+        4 name 11 (east_tricks) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Score:   0) 5 Local
+        4 name 10 (east_score) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 11 (           ) 5 Local
+        7 gravity 1 (c) 5 Local
+        4 name 7 (Eplayer) 5 Local
+        0
+        0
+        0
+
+      7 XcuDeck
+      2
+      10 facetWidth 1 (0) 5 Local
+      4 name 5 (table) 5 Local
+      0
+      0
+      4
+
+        6 XcuTbl
+        3
+        10 facetWidth 1 (5) 6 Global
+        12 formatString 2 (c.) 5 Local
+        4 name 13 (hand_decision) 5 Local
+        0
+        0
+        2
+
+          10 XcuCommand
+          2
+          5 label 6 (I Quit) 5 Local
+          4 name 7 (no_more) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          2
+          5 label 12 (Another Hand) 5 Local
+          4 name 12 (another_hand) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        3
+        10 facetWidth 1 (5) 6 Global
+        12 formatString 2 (c.) 5 Local
+        4 name 13 (moon_decision) 5 Local
+        0
+        0
+        2
+
+          10 XcuCommand
+          2
+          5 label 15 (Increase others) 5 Local
+          4 name 12 (raise_others) 5 Local
+          0
+          0
+          0
+
+          10 XcuCommand
+          2
+          5 label 15 (Reduce my score) 5 Local
+          4 name 8 (lower_me) 5 Local
+          0
+          0
+          0
+
+        6 XcuTbl
+        14
+        13 Label.gravity 1 (w) 6 Global
+        10 background 9 (PaleGreen) 6 Global
+        11 borderColor 9 (PaleGreen) 6 Global
+        10 facetWidth 1 (5) 5 Local
+        10 facetWidth 1 (0) 6 Global
+        13 internalWidth 2 (20) 5 Local
+        14 internalHeight 2 (20) 5 Local
+        12 equalColumns 4 (True) 5 Local
+        16 Tbl.equalColumns 4 (True) 6 Global
+        15 Tbl.borderColor 9 (PaleGreen) 6 Global
+        10 background 9 (PaleGreen) 5 Local
+        18 resizeParticipants 8 (children) 5 Local
+        12 formatString 10 (c
+c c c
+c.) 5 Local
+        4 name 4 (play) 5 Local
+        0
+        0
+        5
+
+          6 XcuTbl
+          0
+          0
+          0
+          6
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            7 XcuDeck
+            1
+            4 name 5 (south) 5 Local
+            0
+            0
+            5
+
+              5 Label
+              4
+              6 bitmap 8 (club.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 11 (south_Clubs) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 11 (diamond.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 14 (south_Diamonds) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (heart.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 12 (south_Hearts) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (spade.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 12 (south_Spades) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              8 XcuLabel
+              3
+              5 label 1 ( ) 5 Local
+              4 name 11 (south_Blank) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+            8 XcuLabel
+            3
+            5 label 1 ( ) 5 Local
+            4 name 10 (south_card) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+          6 XcuTbl
+          0
+          0
+          0
+          2
+
+            7 XcuDeck
+            1
+            4 name 4 (east) 5 Local
+            0
+            0
+            5
+
+              5 Label
+              4
+              6 bitmap 8 (club.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 10 (east_Clubs) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 11 (diamond.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 13 (east_Diamonds) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (heart.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 11 (east_Hearts) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (spade.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 11 (east_Spades) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              8 XcuLabel
+              3
+              5 label 1 ( ) 5 Local
+              4 name 10 (east_Blank) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+            8 XcuLabel
+            3
+            5 label 1 ( ) 5 Local
+            4 name 9 (east_card) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+          8 XcuLabel
+          2
+          5 label 2 (  ) 5 Local
+          4 name 6 (middle) 5 Local
+          0
+          0
+          0
+
+          6 XcuTbl
+          0
+          0
+          0
+          2
+
+            7 XcuDeck
+            1
+            4 name 4 (west) 5 Local
+            0
+            0
+            5
+
+              5 Label
+              4
+              6 bitmap 8 (club.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 10 (west_Clubs) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 11 (diamond.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 13 (west_Diamonds) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (heart.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 11 (west_Hearts) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (spade.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 11 (west_Spades) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              8 XcuLabel
+              3
+              5 label 1 ( ) 5 Local
+              4 name 10 (west_Blank) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+            8 XcuLabel
+            3
+            5 label 2 (  ) 5 Local
+            4 name 9 (west_card) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+          6 XcuTbl
+          0
+          0
+          0
+          6
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            7 XcuDeck
+            1
+            4 name 5 (north) 5 Local
+            0
+            0
+            5
+
+              5 Label
+              4
+              6 bitmap 8 (club.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 11 (north_Clubs) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 11 (diamond.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 14 (north_Diamonds) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (heart.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 12 (north_Hearts) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (spade.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 12 (north_Spades) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              8 XcuLabel
+              3
+              5 label 2 (  ) 5 Local
+              4 name 11 (north_Blank) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+            8 XcuLabel
+            3
+            5 label 1 ( ) 5 Local
+            4 name 10 (north_card) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            0
+            0
+            0
+
+        6 XcuTbl
+        16
+        10 facetWidth 1 (0) 6 Global
+        12 biggestLabel 1 (W) 6 Global
+        18 Command.background 6 (gray90) 6 Global
+        19 Command.borderColor 5 (Black) 6 Global
+        10 facetWidth 1 (5) 5 Local
+        12 equalColumns 4 (True) 5 Local
+        11 interHeight 1 (5) 5 Local
+        10 interWidth 2 (10) 5 Local
+        13 internalWidth 2 (20) 5 Local
+        14 internalHeight 2 (20) 5 Local
+        15 Tbl.borderColor 6 (gray90) 6 Global
+        10 background 6 (gray90) 5 Local
+        14 Tbl.background 6 (gray90) 6 Global
+        18 resizeParticipants 8 (children) 5 Local
+        12 formatString 8 (c
+c c c.) 5 Local
+        4 name 8 (exchange) 5 Local
+        0
+        0
+        4
+
+          6 XcuTbl
+          0
+          0
+          0
+          2
+
+            7 XcuDeck
+            1
+            4 name 8 (discard2) 5 Local
+            0
+            0
+            5
+
+              8 XcuLabel
+              3
+              5 label 1 ( ) 5 Local
+              4 name 6 (Blank2) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 8 (club.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 6 (Clubs2) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 11 (diamond.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 9 (Diamonds2) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (heart.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 7 (Hearts2) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (spade.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 7 (Spades2) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+            10 XcuCommand
+            3
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            4 name 8 (discard2) 5 Local
+            0
+            0
+            0
+
+          6 XcuTbl
+          0
+          0
+          0
+          2
+
+            7 XcuDeck
+            1
+            4 name 8 (discard1) 5 Local
+            0
+            0
+            5
+
+              8 XcuLabel
+              3
+              5 label 1 ( ) 5 Local
+              4 name 6 (Blank1) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 8 (club.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 6 (Clubs1) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 11 (diamond.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 9 (Diamonds1) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (heart.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 7 (Hearts1) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (spade.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 7 (Spades1) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+            10 XcuCommand
+            3
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            4 name 8 (discard1) 5 Local
+            0
+            0
+            0
+
+          6 XcuTbl
+          0
+          0
+          0
+          2
+
+            7 XcuDeck
+            1
+            4 name 8 (discard0) 5 Local
+            0
+            0
+            5
+
+              8 XcuLabel
+              3
+              5 label 1 ( ) 5 Local
+              4 name 6 (Blank0) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 8 (club.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 6 (Clubs0) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 11 (diamond.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 9 (Diamonds0) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (heart.xbm) 5 Local
+              10 foreground 3 (Red) 5 Local
+              4 name 7 (Hearts0) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+              5 Label
+              4
+              6 bitmap 9 (spade.xbm) 5 Local
+              10 foreground 5 (Black) 5 Local
+              4 name 7 (Spades0) 5 Local
+              7 gravity 1 (w) 5 Local
+              0
+              0
+              0
+
+            10 XcuCommand
+            3
+            5 label 1 ( ) 5 Local
+            7 gravity 1 (e) 5 Local
+            4 name 8 (discard0) 5 Local
+            0
+            0
+            0
+
+          7 XcuDeck
+          3
+          12 biggestLabel 18 ((Click to get)
+x
+x) 6 Global
+          10 facetWidth 1 (3) 6 Global
+          4 name 8 (exchange) 5 Local
+          0
+          0
+          4
+
+            10 XcuCommand
+            2
+            5 label 35 (Received from
+foobar
+(Click to get)) 5 Local
+            4 name 15 (confirm_receipt) 5 Local
+            0
+            0
+            0
+
+            10 XcuCommand
+            2
+            5 label 16 (Click
+to
+Confirm) 5 Local
+            4 name 15 (confirm_discard) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 29 (Waiting for
+foobar's
+discards) 5 Local
+            4 name 7 (waiting) 5 Local
+            0
+            0
+            0
+
+            8 XcuLabel
+            2
+            5 label 10 (To Discard) 5 Local
+            4 name 7 (discard) 5 Local
+            0
+            0
+            0
+
+      6 XcuTbl
+      10
+      13 Label.gravity 1 (w) 6 Global
+      16 Label.background 9 (Goldenrod) 6 Global
+      17 Label.borderColor 9 (Goldenrod) 6 Global
+      13 internalWidth 2 (20) 5 Local
+      14 internalHeight 2 (20) 5 Local
+      15 Tbl.borderColor 9 (Goldenrod) 6 Global
+      10 background 9 (Goldenrod) 5 Local
+      14 Tbl.background 9 (Goldenrod) 6 Global
+      18 resizeParticipants 8 (children) 5 Local
+      12 formatString 2 (c.) 5 Local
+      0
+      0
+      4
+
+        8 XcuLabel
+        3
+        5 label 10 (Points:  0) 5 Local
+        4 name 11 (west_points) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Tricks:  0) 5 Local
+        4 name 11 (west_tricks) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Score:   0) 5 Local
+        4 name 10 (west_score) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 11 (           ) 5 Local
+        7 gravity 1 (c) 5 Local
+        4 name 7 (Wplayer) 5 Local
+        0
+        0
+        0
+
+      8 XcuLabel
+      2
+      17 mappedWhenManaged 5 (False) 5 Local
+      4 name 5 (dummy) 5 Local
+      0
+      0
+      0
+
+      6 XcuTbl
+      10
+      13 Label.gravity 1 (w) 6 Global
+      16 Label.background 9 (Goldenrod) 6 Global
+      17 Label.borderColor 9 (Goldenrod) 6 Global
+      13 internalWidth 2 (20) 5 Local
+      14 internalHeight 2 (20) 5 Local
+      15 Tbl.borderColor 9 (Goldenrod) 6 Global
+      10 background 9 (Goldenrod) 5 Local
+      14 Tbl.background 9 (Goldenrod) 6 Global
+      18 resizeParticipants 8 (children) 5 Local
+      12 formatString 2 (c.) 5 Local
+      0
+      0
+      4
+
+        8 XcuLabel
+        3
+        5 label 10 (Points:  0) 5 Local
+        4 name 12 (north_points) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Tricks:  0) 5 Local
+        4 name 12 (north_tricks) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 10 (Score:   0) 5 Local
+        4 name 11 (north_score) 5 Local
+        4 font 4 (8x13) 5 Local
+        0
+        0
+        0
+
+        8 XcuLabel
+        3
+        5 label 11 (           ) 5 Local
+        7 gravity 1 (c) 5 Local
+        4 name 7 (Nplayer) 5 Local
+        0
+        0
+        0
+
+      8 XcuLabel
+      2
+      17 mappedWhenManaged 5 (False) 5 Local
+      4 name 5 (dummy) 5 Local
+      0
+      0
+      0

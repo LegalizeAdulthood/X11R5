@@ -1,0 +1,115 @@
+  (3) Switching Mode
+
+  Correspondence table of letter form and switch key  
+	
+  +------+---------------------+-----------+---------------------------------+
+  |      |                     | Lock Key  |           Switch Key            | 
+  |Input |     Letter Form     +-----+-----+-----+-----+-----+---------------+
+  |Method|                     |Kana |CAPS | PF1 | PF2 | PF3 |Non-conversion/| 
+  |      |                     |     |     |     |     |     |Kana Full Width| 
+  +------+---------------------+-----+-----+-----+-----+-----+---------------+
+  |      | Non-conversion Mode |     |     |     |     |     |       q       | 
+  |      |                     |     |     |     |     |     |               | 
+  |      +-----+---------------+     |     +-----+-----+-----+---------------+
+  |      |     |   Hiragana    |     |     |  A  |     |     |               | 
+  |      |     |               |     |     |  |  |     |     |               |
+  |Romaji|     +--------+------+     |     +-----+-----+     |               | 
+  |      | Kana|        |Full  |     |     |  |  |  A  |     |      ^G       | 
+  |      |     |        |Width |     |     |  V  |  |  |     |               |
+  |Input |     |Katakana+------+     |     |     +-----|     |               | 
+  |      |     |        |Half  |     |     |     |  |  |  A  |               | 
+  |      |     |        |Width |     |     |     |  V  |  |  |               |
+  |      +-----+--------+------+     |     +-----+-----+-----+---------------+
+  |      |Full Width ASCII Mode|     |     |     |     | --- |       Q       | 
+  |      |                     |     |     |     |     |     |               |
+  +------+-----+---------------+-----+-----+-----+-----+-----+---------------+
+  |      |     |   Hiragana    |     |     |  A  |     |  |  | 
+  |      |     |               |     |     |  |  |     |  V  |
+  |      |     +--------+------+     |     +-----+-----+     | 
+  |      |Kana |        |Full  | ON  |     |  |  |  A  |     | 
+  |      |     |        |Width |     |     |  V  |  |  |     |
+  |      |     |Katakana+------+     |     |     +-----+     | 
+  |      |     |        |Half  |     |     |     |  |  |     | 
+  |      |     |        |Width |     |     |     |  V  |     |
+  |Direct+-----+--------+------+-----+-----+-----+-----+     | 
+  |      |     |        |Full  |     |     |     |  A  |     | 
+  |      |     |Small   |Width |     |     |     |  |  |     |
+  |Input |     |        +------+     | OFF +-----+-----+     | 
+  |      |     |Letters |Half  |     |     |     |  |  |     | 
+  |      |     |        |Width |     |     |     |  V  |     |
+  |      |Alpha+--------+------+ OFF +-----+-----+-----+     | 
+  |      |     |        |Full  |     |     |     |  A  |     | 
+  |      |     |Large   |Width |     |     |     |  |  |     |
+  |      |     |        +------+     | ON  +-----+-----+     |  
+  |      |     |Letters |Half  |     |     |     |  |  |     | 
+  |      |     |        |Width |     |     |     |  V  |     |
+  +------+-----+--------+------+-----+-----+-----+-----+-----+
+                                           |                 | 	  
+                                           +--------+--------+
+                                                    | 
+                                   Reverse every time the key is pressed.
+  NOTE:
+  To switch between Hiragana and Katakana input mode, press F1 key.
+  To switch between Zenkaku and Hankaku input mode, press F2 key.
+  To switch between Romaji and Kana input mode, press F3 key.
+
+  To switch:
+  During Romaji input mode, pressing "q" switches to ASCII input mode
+  [ q ].
+  During Romaji input mode, pressing "Q" switches to Zenkaku input mode
+  [ Q ].
+  To return to Romaji input mode, press "^G".
+  To switch from ASCII mode to Zenkaku input mode, press F2 key.
+
+
+< Figure 2.2.1 >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  NOTE: If you want to use Kana input mode, then by making the following
+        changes to the /usr/local/lib/wnn/rk/mode file, mode display will
+        start out in the Zenkaku Hiragana input mode, and ASCII input
+        mode can be entered by setting the Kana_Lock "off".
+
+        The below are the necessary changes:
+          +-----------------------+       +-----------------------+
+          |  (defmode romkan on)  |       |  (defmode romkan)     |
+          |  (defmode katakana)   |       |  (defmode katakana)   |
+          |  (defmode zenkaku)    |       |  (defmode zenkaku on) |
+          |       ....            |       |       ....            |
+          +-----------------------+       +-----------------------+
+
+        Refer to section 3.3: Japanese Language Processing Environment MODE
+

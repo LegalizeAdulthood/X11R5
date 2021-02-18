@@ -1,0 +1,65 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/11 02:28:07 ohm Exp $
+/**/#
+#include <Library.tmpl>
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+#DEBUG  -DDEBUG , -DJL_DEBBUG
+
+       INCLUDES = -I$(WNNINCLUDESRC) -I$(TOP)
+        DEFINES = $(WNNDEFINES) $(CWNNLANGDEF) $(TWNNLANGDEF) $(KWNNLANGDEF)
+   INSTALLFLAGS = $(INSTLIBFLAGS)
+       LINTLIBS = 
+
+SRC1= js.c \
+	wnnerrmsg.c \
+	jl.c
+OBJ1= js.o \
+	wnnerrmsg.o \
+	jl.o
+SRC2= $(WNNETCSRC)/msg.c
+OBJ2= msg.o
+LOCAL_RKSRCS= $(XWNMOROMKANMSRC)/rk_bltinfn.c $(XWNMOROMKANMSRC)/rk_main.c \
+	$(XWNMOROMKANMSRC)/rk_modread.c $(XWNMOROMKANMSRC)/rk_read.c \
+	$(XWNMOROMKANMSRC)/rk_vars.c $(XWNMOROMKANMSRC)/rk_alloc.c
+LOCAL_RKOBJS= $(XWNMOROMKANMSRC)/rk_bltinfn.o $(XWNMOROMKANMSRC)/rk_main.o \
+	$(XWNMOROMKANMSRC)/rk_modread.o $(XWNMOROMKANMSRC)/rk_read.o \
+	$(XWNMOROMKANMSRC)/rk_vars.o $(XWNMOROMKANMSRC)/rk_alloc.o
+SRCS= $(SRC1) $(SRC2)
+OBJS= $(OBJ1) $(OBJ2) $(LOCAL_RKOBJS)
+
+LibraryObjectRule()
+AllTarget($(OBJS) libwnn_m.a)
+
+includes:: $(SRC1)
+
+LinkSourceFile(js.c,$(WNNJLIBSRC))
+LinkSourceFile(wnnerrmsg.c,$(WNNJLIBSRC))
+LinkSourceFile(jl.c,$(WNNJLIBSRC))
+
+js.o : js.c $(WNNETCSRC)/bdic.c $(WNNETCSRC)/pwd.c $(WNNETCSRC)/gethinsi.c
+
+NormalLibraryTarget(wnn_m,$(OBJS))
+LintLibraryTarget(wnn_m,$(SRCS))
+
+#if ProfileLibJlib
+ProfiledLibraryTarget(wnn_m,$(OBJS))
+#endif
+
+#if DebugLibJlib
+DebuggedLibraryTarget(wnn,$(OBJS))
+DebuggedLibraryTarget(wnn_m,$(OBJS))
+#endif
+
+WnnSpecialObjectRule($(OBJ2),$(SRC2),$(WNNETCSRC),)
+
+$(LOCAL_RKOBJS) : $(LOCAL_RKSRCS)
+	@case '${MFLAGS}' in *[ik]*) set +e;; esac; \
+	cd $(XWNMOROMKANMSRC); echo "making all in $(XWNMOROMKANMSRC)"; \
+	$(MAKE) 'CDEBUGFLAGS=$(CDEBUGFLAGS)' $(MFLAGS)
+
+DependTarget()
+
+clean::
+	$(RM) $(SRC1)

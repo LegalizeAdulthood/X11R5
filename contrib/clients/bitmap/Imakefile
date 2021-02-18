@@ -1,0 +1,77 @@
+      DEPXAWLIB = $(CONTRIBSRC)/lib/Xaw/libXaw.a
+         XAWLIB = $(DEPXAWLIB)
+   DEPXWCHARLIB = $(CONTRIBSRC)/lib/Xwchar/libXwchar.a
+      XWCHARLIB = $(DEPXWCHARLIB)
+
+INSTALLFLAGS = $(INSTINCFLAGS)
+BUTTONPICTURES = \
+	Dashes \
+	Down \
+	Excl \
+	FlipHoriz \
+	FlipVert \
+	Fold \
+	Left \
+	Right \
+	RotateLeft \
+	RotateRight \
+	Stipple \
+	Term \
+	Up
+
+LINKS = $(BUTTONPICTURES) \
+        Bitmap-co.ad \
+        Bitmap.ad \
+        Bitmap.c \
+        BitmapP.h \
+        CutPaste.c \
+        Dialog.c \
+        Graphics.c \
+        Handlers.c \
+        ReqMach.c \
+        Requests.h \
+        atobm.c \
+        bitmap.icon \
+        bitmap.man \
+        bmtoa.c
+
+DEPLIBS = $(DEPXAWLIB) $(DEPXWCHARLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XWCHARLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+        DEFINES = $(IEEE_DEFS) $(SIGNAL_DEFINES) -DXI18N
+          SRCS1 = BitEdit.c CutPaste.c Graphics.c ReqMach.c Bitmap.c \
+                  Dialog.c Handlers.c 
+          OBJS1 = BitEdit.o CutPaste.o Graphics.o ReqMach.o Bitmap.o \
+                  Dialog.o Handlers.o 
+          SRCS2 = bmtoa.c
+          OBJS2 = bmtoa.o
+          SRCS3 = atobm.c
+          OBJS3 = atobm.o
+       PROGRAMS = bitmap bmtoa atobm
+
+ComplexProgramTarget_1(bitmap, $(LOCAL_LIBRARIES), -lm)
+SingleProgramTarget(bmtoa,$(OBJS2),$(XMULIB),NullParameter)
+SingleProgramTarget(atobm,$(OBJS3),NullParameter,NullParameter)
+
+includes::
+	$(RM) $(LINKS)
+	for i in $(LINKS); do (set -x; $(LN) $(CLIENTSRC)/bitmap/$$i .); done
+
+BuildIncludes($(BUTTONPICTURES),bitmaps,..)
+
+InstallAppDefaults(Bitmap)
+InstallAppDefaultsLong(Bitmap-co,Bitmap-color)
+InstallMultiple($(BUTTONPICTURES),$(INCDIR)/bitmaps)
+
+install::
+	MakeDir($(LIBDIR)/wr_WR.ct/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) Bitmap-ct.ad $(LIBDIR)/wr_WR.ct/app-defaults/Bitmap
+	MakeDir($(LIBDIR)/ja_JP.ujis/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) Bitmap-uj.ad $(LIBDIR)/ja_JP.ujis/app-defaults/Bitmap
+
+InstallProgramWithFlags(bmtoa,$(BINDIR),NullParameter)
+InstallProgramWithFlags(atobm,$(BINDIR),NullParameter)
+InstallManPageAliases(bitmap,$(MANDIR),bmtoa atobm)
+
+clean::
+	$(RM) $(LINKS)

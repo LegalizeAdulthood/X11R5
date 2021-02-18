@@ -1,0 +1,54 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+DOBJS = lex.do sym.do toksym.do lexdef.do
+IHFILES = lex.ih sym.ih toksym.ih lexdef.ih
+OBJS = lex.o sym.o toksym.o lexdef.o qsearch.o
+DOCS = lex.doc sym.doc
+
+#ifdef RESOLVER_ENV
+#ifdef LIBDL_ENV
+SYS_LIBS = -lresolv -lm
+RESOLVER_LIB = 
+#else
+RESOLVER_LIB = $(RESOLVLIB)
+SYS_LIBS = -lm
+#endif /* LIBDL_ENV */
+#else
+RESOLVER_LIB =
+SYS_LIBS = -lm
+#endif
+
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+LibraryTarget(libtokens.a, $(OBJS))
+InstallLibrary(libtokens.a, ${DESTDIR}/lib/atk)
+
+InstallFile(xgetchar.h, $(INSTINCFLAGS), $(DESTDIR)/include/atk)
+
+LIBS = 	${BASEDIR}/lib/atk/libbasics.a \
+	${BASEDIR}/lib/libclass.a  \
+	${RESOLVER_LIB} \
+	${MALLOCLIB}
+
+ProgramTarget(buildy, buildy.o, ${MALLOCLIB}, -lm)
+ProgramTarget(reyacc, reyacc.o qsearch.o, ${MALLOCLIB}, -lm)
+ClassProgramTarget(lextest, lextest.o, ${LIBS}, $(SYS_LIBS))
+
+test::	lextest
+	./lextest test.in | diff - test.owt
+
+InstallProgram(buildy, ${DESTDIR}/bin)
+InstallProgram(reyacc, ${DESTDIR}/bin)
+
+InstallDocs($(DOCS), $(DESTDIR)/doc/atk)
+
+CleanTarget(buildy reyacc)
+
+DependTarget()
+

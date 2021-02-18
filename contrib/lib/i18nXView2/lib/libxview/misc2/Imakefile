@@ -1,0 +1,65 @@
+#
+# @(#)Imakefile 1.3 90/02/26 SMI
+#
+
+#include "../../XView.config"
+
+HDRSPUBLIC=     cms.h cms_grays.h cms_mono.h cmsrainbow.h cms_rgb.h sun.h \
+                window_hs.h expandname.h
+HDRSPRIVATE=    bitmask.h hashfn.h
+HEADERS= ${HDRSPUBLIC} ${HDRSPRIVATE}
+INCLUDES= -I$(HEADER_DEST) -I$(TOP)
+
+OBJS =\
+	demorandom.o\
+	getlogindr.o\
+	setenv.o\
+	bitmask.o\
+	hashfn.o\
+	expandname.o\
+	expandpath.o\ 
+	bitmask.o\
+	hashfn.o
+
+SRCS =\
+	demorandom.c\
+	getlogindr.c\
+	setenv.c\
+	bitmask.c\
+	hashfn.c\
+	expandname.c\
+	expandpath.c\ 
+	bitmask.c\
+	hashfn.c
+
+all::
+
+#if DebugLibXvin && ProfileLibXvin
+DebuggedAndProfiledLibraryObjectRule()
+#else
+# if DebugLibXvin
+DebuggedLibraryObjectRule()
+# else
+#  if ProfileLibXvin
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+SubdirNormalLibTarget(xvin,$(OBJS))
+SubdirCompoundLibTarget(xview, $(OBJS)) 
+
+#if ProfileLibXvin
+SubdirProfiledLibTarget(xvin,$(OBJS))
+#endif
+
+#if DebugLibXvin
+SubdirDebuggedLibTarget(xvin,$(OBJS))
+#endif
+
+InstallMultipleDest(install_headers,$(HDRSPUBLIC),$(HEADER_DEST)/xview)
+InstallMultipleDest(install_headers,$(HDRSPRIVATE),$(HEADER_DEST)/xview_private)
+
+DependTarget()

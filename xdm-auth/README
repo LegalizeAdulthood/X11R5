@@ -1,0 +1,14 @@
+If you are looking for the file mit/lib/Xdmcp/Wraphelp.c, be advised that
+export of this software from the United States of America is assumed to
+require a specific license from the United States Government.  It is the
+responsibility of any person or organization contemplating export to obtain
+such a license before exporting.  You will find what you are looking for,
+in compressed form, as the file /etc/help on this machine.
+
+Although it sounds stupid, and it is, we would appreciate if you would
+only tell other people how to find this README file, and not point them
+directly to the actual source code, so that they will read this warning.
+
+For persons outside the US, a compatible version of this file, implemented
+outside the US, can be obtained by anonymous ftp to ftp.psy.uq.oz.au
+(130.102.32.1) in the directory /pub/X11R5/.

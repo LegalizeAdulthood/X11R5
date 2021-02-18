@@ -1,0 +1,47 @@
+.\"
+.\" $Header: pexdpyinfo.man,v 1.1 91/09/18 13:50:08 sinyaw Exp $
+.\"
+.TH PEXDPYINFO 1 "$Revision: 1.1 $" "Sony Microsystems"
+.SH "Name"
+pexdpyinfo \- 
+.SH "Synopsis"
+.B pexdpyinfo
+[\-option ...]
+.SH "Description"
+\fIpexdpyinfo\fP is a utility for displaying information about 
+an PEX server. It is used to examine the capabilities of a PEX
+server, the predefined values for various parameters used in 
+communicating between clients and the server.
+.SH"Options"
+\fIpexdpyinfo\fP does not accept all of the standard X Toolkit
+command line options. It does, however, accepts the following
+options:
+.sp
+.B \-display \fIdisplay_name\fP
+.sp
+.B \-synchronous
+.sp
+.B \-extensionInfo
+.sp
+.B \-enumTypeInfo
+.sp
+.B \-impDepConstants
+.sp
+.B \-lookupTables
+.sp
+.B \-pipelineContext
+.sp
+.B \-renderer
+.sp
+.B \-searchContext
+.sp
+.B \-workstation
+.sp
+.B \-all
+.SH "See Also"
+pexlsfonts(1)
+.SH "Bugs"
+Running \fIpexdpyinfo\fP with option -renderer will cause
+the client to core dump.
+.SH "Author"
+Erwin Hom, Sony Microsystems

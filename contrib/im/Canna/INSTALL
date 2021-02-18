@@ -1,0 +1,242 @@
+/*
+ * INSTALL
+ */
+
+This paragraph describes how to set up the environment of Canna.
+
+0.Intro
+
+  Following is an overview of how to use Canna.
+
+    1.Configuration
+    2.Compilation
+    3.Installation
+    4.Environment
+
+  Canna has been tested on the following systems.
+
+    machine         OS version
+
+    EWS-4800        EWS-UX/V
+    EWS-4800        EWS-UX/V(Rel 4.0)
+    PC-9801         PC-UX/V Rel3.2
+    Sparc Station   SUNOS 4.03
+    Sun4            SUNOS 4.0.3_EXPORT
+    Sun4            SUNOS 4.1
+    NEWS-1750       NEWS OS 4.0C
+    NEWS            NEWS OS 3.3
+
+1¡¥Configuration
+
+  In the file "config.sh", set the following variables for where Canna
+  is be installed in, 
+
+    irohaBinDir     the path name where commands would be installed in.
+    irohaLibDir     the path name where libraries would be installed in.
+    DicDir          the path name where dictionaries would be installed in.
+    ErrDir          the path name where the log file would be installed in.
+    LockDir         the path name where the lock file would be installed in.
+    LockFile        the name of the lock file.
+
+  example(also default):
+
+		irohaBinDir = /usr/local/bin
+		irohaLibDir = /usr/local/lib/iroha
+		DicDir = $(irohaLibDir)/dic
+		ErrDir = /tmp
+		LockDir = /tmp
+		LockFile = .IROHALOCK
+
+
+2.Compilation
+
+  The following command will make Canna using "imake".
+
+		# make iroha
+
+  If there is no "imake " environment, see mit/config/README.
+
+3.Installation
+
+  3.1 port number
+
+    To set a port number for communication between server and its clients, 
+    append the following line in "/etc/services".
+
+		iroha        5680/tcp
+
+    (If your system uses "NIS", do above modification on the
+    master server machine of NIS.)
+
+  3.2. To install
+
+    To install Canna, type the following commands.
+
+      1) make install
+          To install all of Canna.
+
+      2) make instserver
+          To install the environment of kana-to-kanji conversion
+	  server.
+
+      3) make instclient
+          To install the environment of Canna clients.
+
+      4) make instsgs
+          To install the sgs environment of Canna.
+
+    The directories where Canna would be installed in are defined in
+    "config.sh".
+
+  3.3 components
+
+    This distribution contains the following directories.
+
+    -+ lib ----+- RK       library for kana-to-kanji conversion.
+     |         +- RKC      library for clients to communicate with server.
+     |         +- RKWnn    library to communicate with jserver of Wnn.
+     |         +- iroha    library for clients of the input methods.
+     |         +- Xn       library for kana-to-kanji conversion in
+     |         |           Xwindow.
+     |         +- Xnw      library of Xaw for Japanese Language.
+     |	      
+     |               Directories where above libraries would be
+     |               installed in are "/usr/lib".
+     |          
+     |
+     + server        Sources of kana-to-kanji conversion
+     |               server. The directory it would be installed in
+     |               is defined by "$irohaBinDir".
+     |               Its mode, owner, and group should be "6555",
+     |               "bin", and "bin".
+     |          
+     |               
+     + iroha         Headers of Canna.
+     |
+     + cmd ----+*    Sources of tools of Canna.
+     |               The directory where they are installed in is
+     |               defined by $irohaBinDir.
+     |
+     + rcmd ---+     Sources of remote tools of the server.
+     |               The directory where they are installed in is
+     |               defined by $irohaBinDir.
+     | 
+     + dic ----+ irdic
+     |               kana-to-kanji conversion dictionaries.
+     |         + romdic
+     |               romaji-to-kana conversion dictionaries.
+     |
+     |                 The directory where above dictionaries are
+     |                 installed in is defined by $DicDir.
+     |
+     + doc ----+     Documents of Canna.
+     | 
+     + misc ---+     some other files.
+     | 
+     + can ----+     A Front-end program to input Japanese on TTY.
+     | 
+     + nemacs--+     Paths for nemacs, to use Canna in it.
+
+
+  3.4 logfile and lockfile
+
+    1) logfile
+      When kana-to-kanji conversion server starts, it creates a
+      logfile to print out its messages. 
+      The Directory where the logfile should be created in is defined
+      by "$ErrDir", and its name is "IROHA0msgs".
+      The following is the default.
+
+			/tmp/IROHA0msgs
+
+    2) lockfile
+      In Canna, one dictionary cannot be handled by plural
+      kana-to-kanji conversion servers. A lockfile created by the
+      server at its start up time, in order to prevent this. The path
+      of the lockfile is defined by "$LockDir/$LockFile", the default
+      is the following.
+
+	     		/tmp/.IROHALOCK      
+
+
+4. running Canna
+
+  4.1 To start kana-to-kanji conversion server
+
+    The following command starts the server.
+
+		# irohaserver
+
+    The irohaserver forks itself and runs background, so you don't
+    have to type '&' explicitly.
+    To start it when your unix system come up, append the following
+    lines in the "/etc/rc"(BSD) or some other rc file.
+
+                rm -f /tmp/.IROHALOCK*
+                /usr/local/bin/irohaserver
+                echo 'irohaserver started.'
+
+
+  4.2 To terminate kana-to-kanji conversion server
+
+    The following command terminate the conversion server.
+
+		# irohakill
+
+    The conversion server contains some dictionary data, and
+    these data must be reflected to corresponding dictionary files.
+    Killing irohaserver loses the data. Using "irohakill" command to
+    terminate the conversion server prevents the the loss of data, as
+    they will be written back to disk when the conversion server dies.
+
+
+  4.3 Dictionaries
+
+    (1) kana-to-kanji conversion dictionaries
+
+      Canna's dictionaries are stored at a "dictionary home
+      directory". The directory is defined by a variable "$DicDir".
+      You can also change the directory when you start up the
+      conversion server.
+      For example, you can change the directory to
+      "/usr/local/lib/iroha/dic" by typing:
+
+		# irohaserver /usr/local/lib/iroha/dic
+
+      The "dictionary home directory" contains the following.
+
+
+              -+-- *.rdic
+               |           romaji-to-kana conversion table
+               +-- iroha
+               |           dictionary directory for system
+               +-- user
+               |           dictionary directory for user
+               |
+               + user1
+               + user2
+               + user3
+                  :
+                  :
+
+      The "dictionary home directory " must be readable/writable by
+      the server.
+
+    (2) romaji-to-kana conversion table
+
+      Canna uses a romaji-to-kana conversion table in the "dictionary
+      home directory" by the default.
+
+      A user can use his own romaji-to-kana conversion table in place
+      of it.
+
+  4.4 Customization
+
+    Canna provides a customization file by which a user can customize
+    the input method system, which is $irohaLibDir/default.iroha, or
+    $HOME/.iroha, or the file defined by the environment variable
+    $IROHAFILE. In this file, the user can set environment for the input
+    method, key bindings, the romaji-to-kana conversion table,
+    kana-to-kanji conversion dictionaries, etc.
+
+    See doc/man/input/3.custom.

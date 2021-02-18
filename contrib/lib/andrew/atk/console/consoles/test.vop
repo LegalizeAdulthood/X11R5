@@ -1,0 +1,269 @@
+## ###################################################################### ##
+##         Copyright IBM Corporation 1988,1991 - All Rights Reserved      ##
+##        For full copyright information see:'andrew/config/COPYRITE'     ##
+## ###################################################################### ##
+# Every vopcon file should have the following:
+@set(period 5)
+@set(externalerrorfile "/dev/console")
+@instrument(function errors, displaytype logerror)
+#@instrument(function errorlog, displaytype drawerrorwindow)
+#@instrument(text "Vice Op Console", displaytype drawprogramname, remotefunction vicecalls)
+# End of mandatory stuff
+@set(maxheight 2000,
+	minheight 400,
+	desiredwidth 600,
+	maxwidth 800,
+	minwidth 500)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 25,
+	xmax 32,
+	ymin 21,
+	ymax 40,
+	label "Errors",
+	leftclickstring "There have been $ ethernet collisions in the last minute",
+	text "$",
+	remotefunction ethererrors)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 32,
+	xmax 40,
+	ymin 21,
+	ymax 40,
+	label "Packets",
+	leftclickstring "There have been $ ethernet packets sent in the last minute",
+	text "$",
+	remotefunction etherwrites)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 25,
+	xmax 40,
+	ymin 40,
+	ymax 50,
+	text "Ethernet",
+	remotefunction etherwrites)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 41,
+	xmax 50,
+	ymin 21,
+	ymax 40,
+	label "Connects",
+	leftclickstring "There are $ connections",
+	text "$",
+	remotefunction connections)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 51,
+	xmax 69,
+	ymin 40,
+	ymax 50,
+	text "Data Rates",
+	remotefunction storedatarate)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 51,
+	xmax 60,
+	ymin 21,
+	ymax 40,
+	label "Store"
+	text "$",
+	leftclickstring "The transfer rate for file stores is $ bytes per minute",
+	remotefunction storedatarate)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 60,
+	xmax 69,
+	ymin 21,
+	ymax 40,
+	label "Fetch"
+	text "$",
+	leftclickstring "The transfer rate for file fetches is $ bytes per minute",
+	remotefunction fetchdatarate)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 70,
+	xmax 100,
+	ymin 40,
+	ymax 50,
+	text "Disk Usage",
+	remotefunction disk1inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 70,
+	xmax 80,
+	ymin 21,
+	ymax 40,
+	highlightinvertmin 95,
+	highlightinvertmax 110,
+	label "*",
+	text "$ %",
+	remotefunction disk1inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 80,
+	xmax 90,
+	ymin 21,
+	ymax 40,
+	highlightinvertmin 95,
+	highlightinvertmax 110,
+	label "*",
+	text "$ %",
+	remotefunction disk2inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 90,
+	xmax 100,
+	ymin 21,
+	ymax 40,
+	highlightinvertmin 95,
+	highlightinvertmax 110,
+	label "*",
+	text "$ %",
+	remotefunction disk3inuse)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 0,
+	xmax 25,
+	ymin 40,
+	ymax 50,
+	text "Percent CPU Utilization",
+	remotefunction totalcpu)
+@instrument(
+	boxed,
+	displaytype ekggraph,
+	xmin 0,
+	xmax 20,
+	ymin 20,
+	ymax 40,
+	text "$",
+	leftclickstring "The CPU utilization is $ %",
+	remotefunction TotalCPU)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 25,
+	ymin 20,
+	ymax 40,
+	text $,
+	remotefunction totalcpu)
+@instrument(
+	boxed,
+	displaytype indicator,
+	text *
+	xmin 40,
+	xmax 60,
+	ymin 0,
+	ymax 20,
+	textfont andysans14b,
+	ceiling 30,
+	highlightinvertmin -1,
+	highlightinvertmax 30,
+	remotefunction ClusterName)
+@instrument(
+	displaytype indicator,
+	text "Cluster * is down"
+	xmin 30,
+	xmax 70,
+	ymin 1,
+	ymax 19,
+	textfont andysans14b,
+	threshhold 31,
+	highlightinvertmin 31,
+	highlightinvertmax 3000,
+	remotefunction ClusterName)
+@instrument(
+	boxed,
+	displaytype indicator
+	text "Booted at *"
+	xmin 0
+	xmax 40,
+	ymin 0,
+	ymax 20,
+	remotefunction boottime)
+@instrument(
+	boxed,
+	displaytype indicator
+	text "Started at *"
+	xmin 60,
+	xmax 100,
+	ymin 0,
+	ymax 20,
+	remotefunction starttime)
+@instrument(
+	boxed,
+	displaytype drawlog,
+	xmin 25,
+	xmax 100,
+	ymin 50,
+	ymax 100,
+	remotefunction remotelog)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 0,
+	xmax 25,
+	ymin 65,
+	ymax 75,
+	text "I/Os Per Minute",
+	remotefunction totalio)
+@instrument(
+	boxed,
+	displaytype ekggraph,
+	xmin 0,
+	xmax 20,
+	ymin 50,
+	ymax 65,
+	valuemax 500,
+	leftclickstring "There have been $ IOs in the last minute ^ is fullscale value",
+	remotefunction totalio)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 25,
+	ymin 50,
+	ymax 65,
+	text $,
+	remotefunction totalio)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 0,
+	xmax 25,
+	ymin 90,
+	ymax 100,
+	text "Vice Calls Per Minute"
+	remotefunction vicecalls)
+@instrument(
+	boxed,
+	displaytype ekggraph,
+	xmin 0,
+	xmax 20,
+	ymin 75,
+	ymax 90,
+	valuemax 250,
+	leftclickstring "There have been $ vice calls in the last minute ^ is fullscale",
+	remotefunction vicecalls)
+@instrument(
+	boxed,
+	displaytype indicator,
+	xmin 20,
+	xmax 25,
+	ymin 75,
+	ymax 90,
+	text $,
+	remotefunction vicecalls)

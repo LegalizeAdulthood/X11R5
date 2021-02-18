@@ -1,0 +1,134 @@
+		THE MAKEPSRES APPLICATION
+
+Copyright (C) 1991 by Adobe Systems Incorporated.
+All rights reserved.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notices appear in all copies and that
+both those copyright notices and this permission notice appear in
+supporting documentation and that the name of Adobe Systems
+Incorporated not be used in advertising or publicity pertaining to
+distribution of the software without specific, written prior
+permission.  If any portion of this software is changed, it cannot be
+marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+its sole discretion, approves by a prior writing the quality of the
+resulting implementation.
+
+ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+
+PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+Incorporated registered in the U.S.A. and other countries.
+
+Author: Adobe Systems Incorporated
+
+--------------------------------------------------------------------------
+
+Makepsres is an application to create PSres.upr files.  These files are used
+by the font selection panel and by other Adobe software to locate fonts and
+other PostScript resources; these resources can then be loaded into a printer
+or Display PostScript system for use by page descriptions or applications.
+
+For a description of PSres.upr files, see PSres.doc
+
+makepsres [options] directory ...
+
+makepsres creates a PSres.upr file containing all the resources in all the
+directories on the command line.  If the list of directories contains "-",
+stdin is read and assumed to be a space-, tab-, or newline- separated list of
+directories.  If the list of directories is empty, it is taken to be ".".  If
+all specified directories have a common initial prefix, makepsres extracts it
+as a directory prefix in the PSres.upr file.
+
+makepsres normally acts recursively; it looks for resource files in
+subdirectories of any specified directory.  This can be overridden with the
+command line option -nr.
+
+makepsres uses existing .upr files to assist in resource typing.  Its
+normal mode of operation is to create a new PSres.upr file containing
+
+  1. Resource files found in the directories on the command line,
+  2. Resource files pointed to by PostScript resource database files in the
+  directories on the command line, and
+  3. Resource entries found in the input PostScript resource database
+  files.  These entries are copied whenever the files they specify still
+  exist and are located in directories not specified on the command line.
+
+There are two other modes.  If run in "discard" mode, makepsres does not copy
+resource entries from the input PostScript resource database files; the
+output file consists solely of entries from the directories on the command
+line.  The input PSres.upr files are only used to assist in identifying
+files.  If run in "keep" mode, makepsres includes in the output file all
+resource entries in the input PSres.upr files, even entries for files that no
+longer exist or are located in directories specified on the command line.
+
+The normal way to invoke makepsres is simply
+	makepsres
+It is expected that installation scripts will invoke makepsres
+automatically, thereby avoiding the user's being aware of this whole effort.
+
+Options:
+	-o filename
+		Writes the output to the specified filename.  -o - writes
+		to stdout.  If the -o option is not specified, makepsres
+		creates a PSres.upr file in the current directory.
+
+	-f filename
+		Uses the specified file, which must be in PostScript resource
+		database file format, as information to assist resource
+		typing.  Multiple -f options may be specified.  -f - uses
+		stdin as an input file and may not be used if - is specified
+		as a directory on the command line.
+
+	-dir filename
+		Specifies that the filename is a directory.  Needed only if
+		the directory name would be confused with an option.
+
+	-e	Marks the resulting PSres.upr file as exclusive.  This makes
+		the associated subroutines run more quickly since they do not
+		have to look for other .upr files; however, makepsres must be
+		run whenever new resources are added to the directory, even
+		if the resources come with their own .upr file.
+
+	-i	Specifies interactive mode.  In interactive mode, the user
+		will be queried for the resource type of any encountered
+		file that makepsres cannot identify.  If -i is not specified,
+		makepsres assumes an unidentifiable file is not a resource
+		file.
+
+	-q	Be quiet:  do not warn about unidentifiable files, just
+		ignore them.
+
+	-nr	Specifies non-recursive.  If -nr is present makepsres does not
+		look in subdirectories for resource files.
+
+	-nb	If the output file already exists, do not back it up.
+
+	-s	Specifies strict mode.  If -s is present makepsres
+		terminates with an error when encountering an unidentifiable
+		file.
+
+	-p	Specifies no directory prefix.  If -p is present, makepsres
+		does not try to find a common directory prefix among the
+		specified directories.
+
+	-d	Specifies discard mode.
+
+	-k	Specifies keep mode.
+
+makepsres uses various heuristics to type files.  A file that is of a
+private resource type or that does not conform to the standard format for a
+resource file can be:
+	- Identified by the user by running makepsres in interactive mode,
+	- Preloaded into a PostScript resource database file used for input, or
+	- Begin with the line
+		%!PS-Adobe-3.0 Resource-<resource-type>

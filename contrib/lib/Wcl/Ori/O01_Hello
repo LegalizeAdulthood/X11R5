@@ -1,0 +1,14 @@
+! This resource file represents a very basic application: a single
+! button which, when pressed, causes the application to exit.
+
+!*wcTrace:		True
+*threeD:		True
+*background:		grey
+
+Ori.wcChildren:		command
+Ori.title:		O01_Hello
+
+*command.wcClass:	oblongButtonWidgetClass
+*command.inputFocusColor: grey
+*command.label:		Hello, Click left mouse button here
+*command.select:	WcExitCB

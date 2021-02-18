@@ -1,0 +1,581 @@
+#
+# $Header: sjrk,v 1.2 91/10/01 19:08:11 nao Locked $
+#
+#	ローマ字かな変換規則定義ファイル
+#
+#	(区切りは space か htab)
+#[in_romaji]	[out_kana]	[out_romaji]
+a		あ
+i		い
+u		う
+e		え
+o		お
+
+ka		か
+ki		き
+ku		く
+ke		け
+ko		こ
+ca		か
+ci		き
+cu		く
+ce		け
+co		こ
+kya		きゃ
+kyi		き
+kyu		きゅ
+kye		きぇ
+kyo		きょ
+qya		きゃ
+qyi		き
+qyu		きゅ
+qye		きぇ
+qyo		きょ
+
+sa		さ
+si		し
+su		す
+se		せ
+so		そ
+sya		しゃ
+syi		し
+syu		しゅ
+sye		しぇ
+syo		しょ
+sha		しゃ
+shi		し
+shu		しゅ
+she		しぇ
+sho		しょ
+
+ta		た
+ti		ち
+tu		つ
+te		て
+to		と
+tsa		た
+tsi		ち
+tsu		つ
+tse		て
+tso		と
+tha		たぁ
+thi		てぃ
+thu		とぅ
+tya		ちゃ
+tyi		ち
+tyu		ちゅ
+tye		ちぇ
+tyo		ちょ
+tsya		ちゃ
+tsyi		ち
+tsyu		ちゅ
+tsye		ちぇ
+tsyo		ちょ
+cha		ちゃ
+chi		ち
+chu		ちゅ
+che		ちぇ
+cho		ちょ
+cya		ちゃ
+cyi		ち
+cyu		ちゅ
+cye		ちぇ
+cyo		ちょ
+
+na		な
+ni		に
+nu		ぬ
+ne		ね
+no		の
+nya		にゃ
+nyi		に
+nyu		にゅ
+nye		にぇ
+nyo		にょ
+
+ha		は
+hi		ひ
+hu		ふ
+he		へ
+ho		ほ
+hya		ひゃ
+hyi		ひ
+hyu		ひゅ
+hye		ひぇ
+hyo		ひょ
+fa		ふぁ
+fi		ふぃ
+fu		ふ
+fe		ふぇ
+fo		ふぉ
+fya		ふゃ
+fyi		ふぃ
+fyu		ふゅ
+fye		ふぇ
+fyo		ふょ
+
+ma		ま
+mi		み
+mu		む
+me		め
+mo		も
+mya		みゃ
+myi		み
+myu		みゅ
+mye		みぇ
+myo		みょ
+
+ya		や
+yi		い
+yu		ゆ
+ye		いぇ
+yo		よ
+ra		ら
+ri		り
+ru		る
+re		れ
+ro		ろ
+la		ら
+li		り
+lu		る
+le		れ
+lo		ろ
+rya		りゃ
+ryi		り
+ryu		りゅ
+rye		りぇ
+ryo		りょ
+lya		りゃ
+lyi		り
+lyu		りゅ
+lye		りぇ
+lyo		りょ
+
+wa		わ
+wi		ゐ
+wu		う
+we		ゑ
+wo		を
+
+ga		が
+gi		ぎ
+gu		ぐ
+ge		げ
+go		ご
+gya		ぎゃ
+gyi		ぎ
+gyu		ぎゅ
+gye		ぎぇ
+gyo		ぎょ
+
+za		ざ
+zi		じ
+zu		ず
+ze		ぜ
+zo		ぞ
+zya		じゃ
+zyi		じ
+zyu		じゅ
+zye		じぇ
+zyo		じょ
+ja		じゃ
+ji		じ
+ju		じゅ
+je		じぇ
+jo		じょ
+jya		じゃ
+jyi		じ
+jyu		じゅ
+jye		じぇ
+jyo		じょ
+
+da		だ
+di		ぢ
+du		づ
+de		で
+do		ど
+dya		ぢゃ
+dyi		ぢ
+dyu		ぢゅ
+dye		ぢぇ
+dyo		ぢょ
+dha		だぁ
+dhi		でぃ
+dhu		どぅ
+dhyu		でゅ
+
+ba		ば
+bi		び
+bu		ぶ
+be		べ
+bo		ぼ
+bya		びゃ
+byi		び
+byu		びゅ
+bye		びぇ
+byo		びょ
+va		ヴぁ
+vi		ヴぃ
+vu		ヴ
+ve		ヴぇ
+vo		ヴぉ
+vya		びゃ
+vyi		び
+vyu		びゅ
+vye		びぇ
+vyo		びょ
+
+pa		ぱ
+pi		ぴ
+pu		ぷ
+pe		ぺ
+po		ぽ
+pya		ぴゃ
+pyi		ぴ
+pyu		ぴゅ
+pye		ぴぇ
+pyo		ぴょ
+
+qa		くぁ
+qi		くぃ
+qu		くぅ
+qe		くぇ
+qo		くぉ
+
+n		ん
+nn		ん
+#mb		ん		b
+#mm		ん		m
+#mp		ん		p
+
+kk		っ		k
+ss		っ		s
+tt		っ		t
+hh		っ		h
+mm		っ		m
+yy		っ		y
+rr		っ		r
+ll		っ		l
+ww		っ		w
+gg		っ		g
+zz		っ		z
+dd		っ		d
+bb		っ		b
+pp		っ		p
+cc		っ		c
+ff		っ		f
+jj		っ		j
+vv		っ		v
+qq		っ		q
+xx		っ		x
+#rch		っ		ch
+
+xa		ぁ
+xi		ぃ
+xu		ぅ
+xe		ぇ
+xo		ぉ
+xya		ゃ
+xyi		ぃ
+xyu		ゅ
+xye		ぇ
+xyo		ょ
+xtu		っ
+xtsu		っ
+xwa		ゎ
+xka		ヵ
+xke		ヶ
+
+x,		゛
+x.		゜
+~		～
+
+-		ー
+,		、
+.		。
+@		・
+[		「
+]		」
+#Z.		…
+#SONY		ソニー
+
+A		ア
+I		イ
+U		ウ
+E		エ
+O		オ
+
+KA		カ
+KI		キ
+KU		ク
+KE		ケ
+KO		コ
+CA		カ
+CI		キ
+CU		ク
+CE		ケ
+CO		コ
+KYA		キャ
+KYI		キ
+KYU		キュ
+KYE		キェ
+KYO		キョ
+QYA		キャ
+QYI		キ
+QYU		キュ
+QYE		キェ
+QYO		キョ
+
+SA		サ
+SI		シ
+SU		ス
+SE		セ
+SO		ソ
+SYA		シャ
+SYI		シ
+SYU		シュ
+SYE		シェ
+SYO		ショ
+SHA		シャ
+SHI		シ
+SHU		シュ
+SHE		シェ
+SHO		ショ
+
+TA		タ
+TI		チ
+TU		ツ
+TE		テ
+TO		ト
+TSA		タ
+TSI		チ
+TSU		ツ
+TSE		テ
+TSO		ト
+THA		タァ
+THI		ティ
+THU		トゥ
+TYA		チャ
+TYI		チ
+TYU		チュ
+TYE		チェ
+TYO		チョ
+TSYA		チャ
+TSYI		チ
+TSYU		チュ
+TSYE		チェ
+TSYO		チョ
+CHA		チャ
+CHI		チ
+CHU		チュ
+CHE		チェ
+CHO		チョ
+CYA		チャ
+CYI		チ
+CYU		チュ
+CYE		チェ
+CYO		チョ
+
+NA		ナ
+NI		ニ
+NU		ヌ
+NE		ネ
+NO		ノ
+NYA		ニャ
+NYI		ニ
+NYU		ニュ
+NYE		ニェ
+NYO		ニョ
+
+HA		ハ
+HI		ヒ
+HU		フ
+HE		ヘ
+HO		ホ
+HYA		ヒャ
+HYI		ヒ
+HYU		ヒュ
+HYE		ヒェ
+HYO		ヒョ
+FA		ファ
+FI		フィ
+FU		フ
+FE		フェ
+FO		フォ
+FYA		フャ
+FYI		フィ
+FYU		フュ
+FYE		フェ
+FYO		フョ
+
+MA		マ
+MI		ミ
+MU		ム
+ME		メ
+MO		モ
+MYA		ミャ
+MYI		ミ
+MYU		ミュ
+MYE		ミェ
+MYO		ミョ
+
+YA		ヤ
+YI		イ
+YU		ユ
+YE		イェ
+YO		ヨ
+RA		ラ
+RI		リ
+RU		ル
+RE		レ
+RO		ロ
+LA		ラ
+LI		リ
+LU		ル
+LE		レ
+LO		ロ
+RYA		リャ
+RYI		リ
+RYU		リュ
+RYE		リェ
+RYO		リョ
+LYA		リャ
+LYI		リ
+LYU		リュ
+LYE		リェ
+LYO		リョ
+
+WA		ワ
+WI		ヰ
+WU		ウ
+WE		ヱ
+WO		ヲ
+
+GA		ガ
+GI		ギ
+GU		グ
+GE		ゲ
+GO		ゴ
+GYA		ギャ
+GYI		ギ
+GYU		ギュ
+GYE		ギェ
+GYO		ギョ
+
+ZA		ザ
+ZI		ジ
+ZU		ズ
+ZE		ゼ
+ZO		ゾ
+ZYA		ジャ
+ZYI		ジ
+ZYU		ジュ
+ZYE		ジェ
+ZYO		ジョ
+JA		ジャ
+JI		ジ
+JU		ジュ
+JE		ジェ
+JO		ジョ
+JYA		ジャ
+JYI		ジ
+JYU		ジュ
+JYE		ジェ
+JYO		ジョ
+
+DA		ダ
+DI		ヂ
+DU		ヅ
+DE		デ
+DO		ド
+DYA		ヂャ
+DYI		ヂ
+DYU		ヂュ
+DYE		ヂェ
+DYO		ヂョ
+DHA		ダァ
+DHI		ディ
+DHU		ドゥ
+DHYU		デュ
+
+BA		バ
+BI		ビ
+BU		ブ
+BE		ベ
+BO		ボ
+BYA		ビャ
+BYI		ビ
+BYU		ビュ
+BYE		ビェ
+BYO		ビョ
+VA		ヴァ
+VI		ヴィ
+VU		ヴ
+VE		ヴェ
+VO		ヴォ
+VYA		ビャ
+VYI		ビ
+VYU		ビュ
+VYE		ビェ
+VYO		ビョ
+
+PA		パ
+PI		ピ
+PU		プ
+PE		ペ
+PO		ポ
+PYA		ピャ
+PYI		ピ
+PYU		ピュ
+PYE		ピェ
+PYO		ピョ
+
+QA		クァ
+QI		クィ
+QU		クゥ
+QE		クェ
+QO		クォ
+
+N		ン
+NN		ン
+#MB		ン		B
+#MM		ン		M
+#MP		ン		P
+
+KK		ッ		K
+SS		ッ		S
+TT		ッ		T
+HH		ッ		H
+MM		ッ		M
+YY		ッ		Y
+RR		ッ		R
+LL		ッ		L
+WW		ッ		W
+GG		ッ		G
+ZZ		ッ		Z
+DD		ッ		D
+BB		ッ		B
+PP		ッ		P
+CC		ッ		C
+FF		ッ		F
+JJ		ッ		J
+VV		ッ		V
+QQ		ッ		Q
+XX		ッ		X
+#TCH		ッ		CH
+
+XA		ァ
+XI		ィ
+XU		ゥ
+XE		ェ
+XO		ォ
+XYA		ャ
+XYI		ィ
+XYU		ュ
+XYE		ェ
+XYO		ョ
+XTU		ッ
+XTSU		ッ
+XWA		ヮ
+XKA		ヵ
+XKE		ヶ

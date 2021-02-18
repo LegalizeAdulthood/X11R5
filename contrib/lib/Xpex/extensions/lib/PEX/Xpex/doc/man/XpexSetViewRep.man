@@ -1,0 +1,146 @@
+.\" $Header: XpexSetViewRep.man,v 2.5 91/09/11 16:04:43 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexSetViewRep 3PEX "$Revision: 2.5 $" "Sony Microsystems" 
+.AT
+.SH "Name"
+XpexSetViewRep, XpexSetWksWindow, XpexSetWksViewport, XpexSetHlhsrMode,
+XpexSetWksBufferMode \- Functions that can be used to set "requested"
+values for PHIGS workstation resources.
+.SH "Synopsis"
+.nf
+void XpexSetViewRep(dpy, wks_id, view_rep)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexViewRep  *view_rep;
+.sp
+void XpexSetWksWindow(dpy, wks_id, npc_subvolume)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexNpcSubvolume  *npc_subvolume; 
+.sp
+void XpexSetWksViewport(dpy, wks_id, viewport)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexViewport  *viewport; 
+.sp
+void XpexSetHlhsrMode(dpy, wks_id, mode)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexHlhsrMode  mode;
+.sp
+void XpexSetWksBufferMode(dpy, wks_id, buffer_mode)
+.br
+	Display  *dpy;
+.br
+	XpexPhigsWks  wks_id;
+.br
+	XpexBufferMode  buffer_mode;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIwks_id\fP 1i   
+Specifies a workstation.
+.IP \fIview_rep\fP 1i   
+Specifies a pointer to a structure of type XpexViewRep.
+.SH "Description"
+Refer to PEX Protocol Specification Document, Section 10.4.
+.SH "Structures"
+typedef struct {
+.br
+	XpexTableIndex  index;
+.br
+	XpexViewEntry  view;
+.br
+} XpexViewRep;
+.sp
+typedef struct {
+.br
+	unsigned short  clipFlags;             
+.br
+	XpexNpcSubvolume  clipLimits;
+.br
+	XpexMatrix  orientation;
+.br
+	XpexMatrix  mapping;
+.br
+} XpexViewEntry;
+.sp
+typedef struct {
+.br
+	XpexCoord3D  min_val;
+.br
+	XpexCoord3D  max_val;
+.br
+} XpexNpcSubvolume;
+.sp
+typedef struct {
+.br
+	XpexFloat  x;
+.br
+	XpexFloat  y;
+.br
+	XpexFloat  z;
+.br
+} XpexCoord3D;
+.sp
+typedef struct {
+.br
+    XpexDeviceCoord  min_val;
+.br
+    XpexDeviceCoord  max_val;
+.br
+    unsigned char  use_drawable;
+.br
+} XpexViewport;
+.sp
+typedef struct {
+.br
+	short  x;
+.br
+	short  y;
+.br
+	XpexFloat  z;
+.br
+} XpexDeviceCoord;
+.SH "Errors"
+PhigsWks, FloatingPointFormat, Alloc
+.SH "Related Commands"
+To be added

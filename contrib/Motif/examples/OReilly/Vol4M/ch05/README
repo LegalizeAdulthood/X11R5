@@ -1,0 +1,5 @@
+xcomstring demonstrates creating compound string segments and
+modifying fonts in the middle of a compound string using character
+sets.
+
+xuildemo is a hello, world program written using uil.

@@ -1,0 +1,36 @@
+JL_FUZOKUGO_GET( )
+
+名称
+
+	jl_fuzokugo_get			付属語ファイルを得る。
+	jl_fuzokugo_get_e		付属語ファイルを得る。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_fuzokugo_get(buf, fname)
+	struct wnn_buf *buf;		/* バッファ */
+	char *fname;			/* 付属語ファイル名 */
+
+	int
+	jl_fuzokugo_get_e(env, fname)
+	struct wnn_env *env;		/* 環境 */
+	char *fname;			/* 付属語ファイル名 */
+
+機能
+
+	jl_fuzokugo_get は、バッファ buf の付属語ファイ名を fname に得、
+	付属語ファイルID を得る。
+	jl_fuzokugo_get_e は、環境 env の付属語ファイル名を fname に
+	付属語ファイルID を得る。
+
+	もし、付属語ファイルがセットされていない場合には、エラーが返り、
+	wnn_errorno に WNN_FZK_FILE_NO_LOAD がセットされる。
+
+リターンバリュー
+
+	正常終了時には、ファイル ID を返す。
+	異常終了時には、-1 を返す。
+

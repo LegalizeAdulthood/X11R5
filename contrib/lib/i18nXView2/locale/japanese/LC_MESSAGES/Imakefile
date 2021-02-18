@@ -1,0 +1,44 @@
+INSTALLFLAGS = $(INSTDATFLAGS)
+MSGFMT=../../../utilities/msgfmt
+
+
+SRCS = \
+	cmdtool.po \
+	fm.error.po \
+	fm.label.po \
+	fm.message.po \
+	olwm_messages.po \
+	props.po \
+	textedit.po \
+	xv_messages.po
+
+OBJS = \
+	cmdtool.mo \
+	fm.error.mo \
+	fm.label.mo \
+	fm.message.mo \
+	olwm_messages.mo \
+	props.mo \
+	textedit.mo \
+	xv_messages.mo
+
+
+all: $(OBJS)
+
+depend::
+
+.SUFFIXES:      .po .mo
+
+.po.mo:
+	${MSGFMT} $<
+
+install::
+	LibMkdir($(LIBDIR)/lib)
+	LibMkdir($(LIBDIR)/lib/locale)
+	LibMkdir($(LIBDIR)/lib/locale/japanese)
+	LibMkdir($(LIBDIR)/lib/locale/ja_JP.EUC)
+	LibMkdir($(LIBDIR)/lib/locale/japanese/LC_MESSAGES)
+	LibMkdir($(LIBDIR)/lib/locale/ja_JP.EUC/LC_MESSAGES)
+
+InstallMultiple($(OBJS),$(LIBDIR)/lib/locale/japanese/LC_MESSAGES)
+InstallMultiple($(OBJS),$(LIBDIR)/lib/locale/ja_JP.EUC/LC_MESSAGES)

@@ -1,0 +1,24 @@
+JS_ENV_EXIST( )
+
+名称
+
+	js_env_exist		サーバ中に環境が存在するかを調べる。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_env_exist(server, env_name)
+	WNN_JSERVER_ID *server;	
+	char *env_name;
+
+機能
+
+	サーバ server 中に env_name の環境が既に存在するかを調べる。
+
+リターンバリュー
+
+	環境が存在する時は、1 を、存在しない時は、0 返す。
+	異常終了時には、-1 を返す。
+

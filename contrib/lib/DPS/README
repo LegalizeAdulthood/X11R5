@@ -1,0 +1,114 @@
+This directory contains the libraries and utilities for writing applications
+that use the Display PostScript extension to X.  The contents are
+
+  doc - documentation on how to use all of this
+  include - include files needed for writing DPS/X applications
+  clients
+    pswrap - a utility to compile PostScript code fragments into C procedures
+    makepsres - a utility to create PostScript resource location files
+  lib
+    dps - the interface library to the Display PostScript extension
+    dpstk - a toolkit of useful routines for Display PostScript programmers
+    psres - utilities to locate fonts and other PostScript resources
+  tests
+    pswtest - an suite of tests for pswrap and the DPS/X system
+  demos
+    dpsexec - interact directly with the PostScript interpreter
+    texteroids - sort of like the game asteroids, but with text
+    xepsf - display an EPSF file on your screen
+  motifdemos
+    dpsclock - scalable clock a la Salvador Dali
+    draw - simple drawing editor with text, ellipses, and rectangles
+    fontview - preview the various fonts available on your system
+    scratchpad - graphical editor for manipulating text
+    wonderland - show off DPS/X imaging capabilities
+
+Pswtest in the tests directory will verify that your build of pswrap and
+libdps.a was correct and that your header files are properly configured.
+
+This distribution does not contain the source for the Display PostScript
+extension.  The extension is available on workstations sold by Digital
+Equipment Corporation, IBM, and Silicon Graphics, Inc.  Having this
+distribution will let you run applications on other platforms and display
+them on a workstation with the Display PostScript extension.  The libraries
+in this distribution also contain new features not yet included in the
+libraries supplied by these companies, so are useful if you're developing on
+those platforms.  Many of the demo programs use new features of the libraries
+and so may not link using the vendor-supplied DPS/X libraries.
+
+
+NEW CONFIG PARAMETERS USED BY THIS PACKAGE
+
+HasMotif - controls whether to build the widgets and demos that rely
+	upon having Motif (also see below)
+
+DebugLibDps - controls whether to build debugging versions of the various
+	libraries.
+ProfileLibDps - controls whether to build profiled versions of the various
+	libraries.
+
+NoStrstr - define this on systems that do not have strstr in libc.  (Some
+	Sun3 versions of SunOS, at least.)
+
+ImageDir - defines where to install the images used by the sample programs.
+	Defaults to $(LIBDIR)/images.
+
+DefaultResourcePath - the default library for the Font Selection Box to use
+	when searching for downloadable fonts.  Defaults to NULL.
+
+If your C compiler does not support function prototyes, you must go into the
+.cf file for your architecture and add -D_NO_PROTO to the StandardDefines
+entry.  If you use the configuration files supplied with Motif, this will be
+defined for you.
+
+If you build the Motif demos, you will need to make sure XMLIB is defined to
+be the Motif library (normally -lXm).  Again, if you use the configuration
+files supplied with Motif, this will be defined for you.
+
+The files clients/makepsres/makepsres.c and lib/psres/PSres.c need to include
+the header file for use with opendir/readdir/closedir.  This is not the same
+on all systems; on some it's <dirent.h>, on others <direct.h> and on others
+<sys/dir.h>.  If your system does not comply with POSIX (i.e. use <dirent.h>)
+you may need to edit these two files.
+
+If you are not using one of the following machine architectures, you may
+need to edit the file include/dpsconfig.h to support your configuration:
+	mc680x0 series, i80x86 series, IBM R6000, MIPS Rx000 series,
+	Sparc, VAX
+
+The default configuration is for an architecture that uses IEEE floating
+point and uses big-endian byte order.   If your architecture qualifies you
+don't need to edit dpsconfig.h; the default will work for you.
+
+/*
+ * Copyright (C) 1984-1991 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.  If any portion of this software is changed, it cannot be
+ * marketed under Adobe's trademarks and/or copyrights unless Adobe, in
+ * its sole discretion, approves by a prior writing the quality of the
+ * resulting implementation.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */

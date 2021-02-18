@@ -1,0 +1,41 @@
+!----Demo 13--Notice Shell ----
+
+! This demo shows the OLIT notice shell.  Note that the textarea can not have
+! children since it isn't composite.  Only the resource values for the
+! static text item in the textarea can be set.  The busy is set for the
+! parent widget and the emanateWidget can not be set as a wcl resource.
+! The notice is popped down by the notice itself when a button is pushed.
+
+!*wcTrace:               True
+Ori.wcChildren:		control
+*Ori.title:		O13_Notice
+*threeD:		TRUE
+*background:		grey
+
+*control.wcClass:	controlAreaWidgetClass
+*control.layoutType:	fixedcols
+*control.measure:	4
+*control.wcChildren:	quit,note
+
+*quit.wcClass:		oblongButtonGadgetClass
+*quit.label:		Quit
+*quit.select:		WcExitCB(0)
+
+*note.wcClass:		oblongButtonWidgetClass
+*note.label:		Notice...
+*note.saveUnder:	TRUE
+*note.wcPopups:		nname
+*note.select:		WcPopupCB(*nname)
+
+*nname.wcClass:		noticeShellWidgetClass
+*nname.wcCallback:	WcCreateChildrenCB(*nname*controlarea, yes, no)
+
+*nname*textarea*string:		File exits.  Do you want to overwrite?
+*nname*textarea*alignment:	center
+
+*yes.wcClass:		oblongButtonGadgetClass
+*yes.foreground:	Red
+*yes.label:		Yes
+
+*no.wcClass:		oblongButtonGadgetClass
+*no.label:		No

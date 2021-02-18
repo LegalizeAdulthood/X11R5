@@ -1,0 +1,184 @@
+# $Header: /usr/pli/x11r4.ps2/mit/extensions/server/xplijrr/Imakefile,v 0.0 03/12/90 15:28:51 jrhyne Exp $ 
+# $Source: /usr/pli/x11r4.ps2/mit/extensions/server/xplijrr/Imakefile,v 0.0 03/12/90 15:28:51 jrhyne Exp $ 
+
+#include <Server.tmpl>
+
+SRCS =		pliScrInfo.c	\
+		pliData.c	\
+		pliHWCntl.c	\
+		pliIO.c		\
+		pliGC.c		\
+		pliOSD.c	\
+		pliSuspScr.c	\
+		pliCurs.c	\
+		pliBitBlt.c	\
+		pliGlyph.c	\
+		pliImages.c	\
+		pliLine.c	\
+		pliStipple.c	\
+		pliSolid.c      \
+	 	ppcArea.c	\
+		ppcArc.c	\
+		ppcBitmap.c	\
+		ppcBStore.c	\
+		ppcCache.c	\
+		ppcCacheTx.c	\
+		ppcClip.c	\
+		ppcCmap.c	\
+		ppcCpArea.c	\
+		ppcCReduce.c	\
+		ppcCurs.c	\
+		ppcDepth.c	\
+		ppcFillRct.c	\
+		ppcFont.c	\
+		ppcWindowFS.c	\
+		ppcPixmapFS.c	\
+		ppcGenFS.c	\
+		ppcGBlt.c	\
+		ppcGC.c		\
+		ppcGetSp.c	\
+		ppcIO.c		\
+		ppcImg.c	\
+		ppcLine.c	\
+		ppcPixmap.c	\
+		ppcPntWin.c	\
+		ppcPolyPnt.c	\
+		ppcPolyRec.c	\
+		ppcPushPxl.c	\
+		ppcQuery.c	\
+		ppcRot.c	\
+		ppcRslvC.c	\
+		ppcSetSp.c	\
+		ppcSinTab.c	\
+		ppcWindow.c	\
+		emulOpStip.c	\
+		emulStip.c	\
+		emulRepAre.c	\
+		emulTile.c	\
+		xpliVGAInk.c    \
+		xpliEvents.c	\
+		xpliNodevUtil.c	\
+		xpliBSTtyDev.c	\
+		xpliDispatch.c	\
+		paradise.c
+
+
+#if defined(PS2Architecture) || defined(iAPX286) || defined(DOS)
+ASM_SRCS =	pliLine.386.s
+#else
+ASM_SRCS =
+#endif
+
+OTHER_FILES =	pliAddr.c
+
+C_OBJS =	pliScrInfo.o	\
+		pliData.o	\
+		pliHWCntl.o	\
+		pliIO.o		\
+		pliGC.o		\
+		pliOSD.o	\
+		pliSuspScr.o	\
+\
+		pliCurs.o	\
+		pliBitBlt.o	\
+		pliGlyph.o	\
+		pliImages.o	\
+		pliLine.o	\
+		pliStipple.o	\
+		pliSolid.o      \
+	 	ppcArea.o	\
+		ppcArc.o	\
+		ppcBitmap.o	\
+		ppcBStore.o	\
+		ppcCache.o	\
+		ppcCacheTx.o	\
+		ppcClip.o	\
+		ppcCmap.o	\
+		ppcCpArea.o	\
+		ppcCReduce.o	\
+		ppcCurs.o	\
+		ppcDepth.o	\
+		ppcFillRct.o	\
+		ppcFont.o	\
+		ppcWindowFS.o	\
+		ppcPixmapFS.o	\
+		ppcGenFS.o	\
+		ppcGBlt.o	\
+		ppcGC.o		\
+		ppcGetSp.o	\
+		ppcIO.o		\
+		ppcImg.o	\
+		ppcLine.o	\
+		ppcPixmap.o	\
+		ppcPntWin.o	\
+		ppcPolyPnt.o	\
+		ppcPolyRec.o	\
+		ppcPushPxl.o	\
+		ppcQuery.o	\
+		ppcRot.o	\
+		ppcRslvC.o	\
+		ppcSetSp.o	\
+		ppcSinTab.o	\
+		ppcWindow.o	\
+	\
+		emulOpStip.o	\
+		emulStip.o	\
+		emulRepAre.o	\
+		emulTile.o	\
+		xpliVGAInk.o    \
+		xpliEvents.o	\
+		xpliNodevUtil.o	\
+		xpliBSTtyDev.o	\
+		xpliDispatch.o	\
+		paradise.o
+
+
+#if defined(PS2Architecture) || defined(iAPX286) || defined(DOS)
+ASM_OBJS =	pliLine.386.o
+#else
+ASM_OBJS =
+#endif
+
+OBJS =		$(C_OBJS)	$(ASM_OBJS)
+
+#if defined(PS2Architecture) || defined(iAPX286) || defined(DOS)
+STD_DEFINES = ServerDefines -DPCIO -DVGA -DPS2
+#else
+#STD_DEFINES = ServerDefines -DATRIO -DUSE_PORTABLE_FAST_LINES=1 -DR4_FONT_STRUCTURES -DNO_FUNCTION_PROTOTYPES
+STD_DEFINES = ServerDefines -DATRIO -DUSE_PORTABLE_FAST_LINES=1 -DNO_FUNCTION_PROTOTYPES -DVGA -DIBM_OS_HAS_HFT
+#endif
+DEFINES = -DDEBUG
+
+INCLUDES =	-I. \
+		-I../../include/xpli \
+		-I../../../server/ddx/ibm/OPERATING_SYSTEM \
+		-I../../../server/ddx/ibm/ppc \
+		-I$(FONTSRC)/include \
+		-I$(FONTSRC)/lib/font/include \
+		-I../../../server/include \
+		-I$(INCLUDESRC) \
+		-I../../../server/ddx/ibm/common \
+		-I../../../server/ddx/mfb \
+		-I../../../server/ddx/mi
+
+LINTLIBS =	../../../server/ddx/mfb/llib-lmfb.ln \
+		../../../server/ddx/mi/llib-lmi.ln \
+		../../../server/ddx/ibm/ppc/llib-lppc.ln \
+		../../../server/ddx/ibm/common/llib-libmcomm.ln
+
+CDEBUGFLAGS = ServerCDebugFlags
+
+NormalLibraryTarget(xpli,$(OBJS))
+NormalLibraryObjectRule()
+.s.o:
+	$(RM) -f m.s $@
+	$(CPP) -E $(CFLAGS) $*.s > m.s
+	$(AS) -o $@ m.s
+	$(RM) -f m.s
+
+LintLibraryTarget(xpli,$(SRCS))
+NormalLintTarget($(SRCS))
+
+DependTarget()
+
+

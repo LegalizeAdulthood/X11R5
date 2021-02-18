@@ -1,0 +1,38 @@
+JL_WORD_INFO( )
+
+名称
+
+	jl_word_info		単語に関する情報を得る。
+	jl_word_info_e
+
+形式
+
+	#include "jslib.h"
+
+	struct wnn_jdata *
+	jl_word_info_e(env,dic_no,entry)
+	struct wnn_env *env;		/* 環境 */
+	int	dic_no;			/* 辞書番号 */
+	int	entry;			/* エントリ番号 */
+
+	struct wnn_jdata *
+	jl_word_info(buf,dic_no,entry)
+	struct wnn_buf *buf;		/* 環境 */
+	int	dic_no;			/* 辞書番号 */
+	int	entry;			/* エントリ番号 */
+
+機能
+
+	辞書番号 dic_no で示される辞書ファイルのエントリ番号 entry の語の情報を
+	取り出す。
+	結果は、struct wnn_jdata に格納され、そのポインタが返される。
+
+リターンバリュー
+
+	正常終了時には、単語情報へのポインタを返す。
+	異常終了時には、NULL を返す。
+
+使用上の注意事項
+
+	返値として返される領域は、次に jl 関数を呼んだ時に破壊される。
+

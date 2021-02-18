@@ -1,0 +1,9 @@
+	.file	"alloca.s"
+	.globl	alloca
+
+alloca:
+	popl	%edx
+	subl	0(%esp),%esp
+	andl	$0xfffffffc,%esp
+	leal	4(%esp),%eax
+	jmp	*%edx

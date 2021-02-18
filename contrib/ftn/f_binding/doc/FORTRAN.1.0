@@ -1,0 +1,2485 @@
+.\"
+.\"
+.\"  This macro puts the section numbers, labels, and page numbers out
+.\"   to the standard output.   aps, crw, rjr.
+.\"   WARNING: This macro assumes certain knowledge about the the ms/mu
+.\"   packages work (what number and string registers are used, to be exact).
+.\"
+.de AC
+.NH \\$2
+\\$1
+.\"
+.\"  This indents section heading of level two or greater.
+.\"
+.tm .Bg \\n(NS
+.tm \\*(SN \\$1
+.tm .Ed \\n%
+..
+
+.de Ao
+.PN \\$1
+.\"
+.\"  This indents section heading of level two or greater.
+.\"
+.tm .Bg 3
+.tm \\$1
+.tm .Ed \\n%
+..
+
+.de RU
+.br
+\l'6.5i'
+.sp
+..
+
+.de AR
+.IP \\$1 1.0i
+..
+
+.de Sh		\" start a section (chapter type)
+.bp
+.NH 1
+\fB\\$1\fP
+.tm .Nh "\\$1" "\\n%" "0" "\\n(H1" "\\n(H2" "\\n(H3"	 \" zero is for chapter,group
+..
+
+.de Nh		\" Start a new section
+.ds RH \\$1
+.nr In 0 1
+.ds Ic \\$1
+.nr Ac 0 1
+.LP
+.NH 2
+\\$1
+.tm .Nh "\\$1" "\\n%" "1" "\\n(H1" "\\n(H2" "\\n(H3"   	\" one is for sub-chapter
+..
+
+.de Fs		\" name of function
+.KS
+.LP
+.sp
+.B
+\\$1
+.R
+.sp
+.DS
+.tm .Bg 3
+.tm \\$1
+.tm .Ed \\n%
+..
+
+.de Fe		\" Subroutine end
+.DE
+.KE
+..
+
+.de Ps		\" parameter start
+.sp
+.I
+\\$1 Parameters:
+.R
+.TA 15
+.ta 15
+..
+
+.de Pe		\" parameter end
+..
+
+.de Es		\" Nnum start
+.KS
+.LP
+.sp
+\fB\s+1\\$1\s-1\fP
+.DS 3
+.TA 7 14 21 28 35 42 49 56 63 70
+.ta 7 14 21 28 35 42 49 56 63 70
+.tm .Bg 3
+.tm \\$1
+.tm .Ed \\n%
+..
+
+.de Ee		\" Enum end
+.DE
+.KE
+..
+
+.de Bl		\" Start of bullet item
+.sp -1
+.IP "\fI\\$1\fP"
+..
+                                      
+.de 2d		\" Description of 2d primtives
+When processed, this command will cause \\$1 primitives to be drawn.
+This primitive
+functions exactly as the 3D \\$1 primitive
+except that modeling
+coordinate positions are specified using only \fIx-\fP and \fIy-\fP
+coordinates, and the \fIz\fP-coordinate is always assumed to be zero.
+..
+
+.de Ds
+.nf
+.\\$1D \\$2 \\$1
+.ft 1
+.ps \\n(PS
+.if \\n(VS>=40 .vs \\n(VSu
+.if \\n(VS<=39 .vs \\n(VSp
+..
+
+.de De
+.ce 0
+.if \\n(BD .DF
+.nr BD 0
+.in \\n(OIu
+.if \\n(TM .ls 2
+.sp \\n(DDu
+.fi
+..
+
+.de Pn
+.IN \\$2
+.ie t \\$1\fB\^\\$2\^\fR\\$3
+.el \\$1\fI\^\\$2\^\fP\\$3
+..
+
+.de PN
+.IN \\$1
+.ie t \fB\^\\$1\^\fR\\$2
+.el \fI\^\\$1\^\fP\\$2
+..
+
+.nh
+.LP
+\ 
+.sp 12
+.PP
+.TL
+\fB\s+9PEX FORTRAN binding \s-9\fP
+.sp 1
+.AU
+Version 5R1 - \fBFINAL DRAFT\fP
+18-September-1991
+.sp 5
+.nf
+.ce
+\fB\s+2Author\s-2\fP
+.sp 
+.ce 5
+.R
+\fB\s+1Satoshi Kasai\s-1\fP
+FUJITSU SHIZUOKA ENGINEERING LTD.
+Development Department I-II
+16-3 Tenmacho
+Shizuoka 420, JAPAN
+.sp 3
+.ce
+\fB\s+2Document Editor\s-2\fP
+.sp
+.ce 6
+.R
+\fB\s+1Tatsuro Aoyama\s-1\fP
+FUJITSU LIMITED
+Office & Automation Division
+Personal & Office Systems Group
+1015 Kamikodanaka Nakahara-ku
+Kawasaki 211, JAPAN
+.ta
+.bp 1
+\ 
+.LP
+.sp 35
+.LP
+.nf
+.ce 2
+Copyright \(co 1991, FUJITSU LIMITED
+All rights reserved.
+.LP
+.LP
+Permission to use, copy, modify, and distribute this document for any purpose
+and without fee is hereby granted, provided that the above copyright notice
+appear in all copies and that both that copyright notice and this permission
+notice are retained, and that the name of FUJITSU LIMITED not be used in advertising or
+publicity pertaining to this document without specific, written prior
+permission.  FUJITSU LIMITED makes no representations about the suitability of this
+document or the interface defined in this document for any purpose.  It is
+provided "as is" without express or implied warranty.
+.bp
+.ps 10
+.nr PS 10
+.vs 18
+.nr VS 12
+.ad l
+.EH '\s+2\fBPEX V 5R1 18-September-1991\fP''\fBPEX FORTRAN Binding\fP\s-2'
+.OH '\s+2\fBPEX FORTRAN Binding\fP''\fBPEX V 5R1 18-September-1991\fP\s-2'
+.EF ''\s+2\fB % \fP\s-2''
+.OF ''\s+2\fB % \fP\s-2''
+
+.AC Acknowledgements 1
+.PP
+
+This document describes a part of PHIGS PLUS in the PEX Fortran Binding
+(PHIGS PLUS).
+Now, there is nothing a standerd of PHIGS PLUS Fortran Binding, then,
+we made this document and open the public.
+When we make this document, we refer to PHIGS PLUS Function Discription 
+(Working Draft).
+Among the functions defined PHIGS PLUS function description(Working Draft),
+specified any functions does not support.
+Because, those functions are not supported in PHIGS PLUS function description
+(Draft Proposed) or in PEX protocol 5.0P or in PEX rerease 1.
+  FILL AREA 3 WITH DATA
+  PARAMETRIC POLYNOMIAL CURVE
+  PARAMETRIC POLYNOMIAL SURFACE
+  SET TRIMMING CURVE APPROXIMATION CRITERIA
+  SET GENERAL INTERIOR REPRESENTATION
+  INQUIRE LIST OF GENERAL INTERIOR INDICES
+  INQUIRE GENERAL INTERIOR REPRESENTATION
+  INQUIRE GENERAL INTERIOR FACILITIES
+  INQUIRE PREDEFINED GENERAL INTERIOR REPRESENTATION
+
+This document include only full FORTRAN 77 version subroutines.
+
+.bp
+.AC "The PHIGS PLUS Enumeration types" 1
+
+.Es "attribute identifier(PHIGS PLUS only)"
+.I
+
+	polyline colour .....
+.R
+INTEGER	PPSHM,	PISHM,	PIRPR,	PIREQ,	PBIS,
+1	PBISI,	PBIC,	PBISHM,	PBIRPR,	PBIREQ,
+2	PCAPCR,	PSAPCR,
+PARAMETER(	PPSHM=18	PISHM=19	PIRPR=20	PIREQ=21	PBIS=22
+1	PBISI=23	PBIC=24		PBISHM=25	PBIRPR=26	PBIREQ=27
+2	PCAPCR=28	PSAPCR=29)
+.Ee
+
+.Es "culling mode"
+.I
+	none	backfacing	frontfacing
+.R
+INTEGER	PNCUL,	PBFAC,	PFFAC
+PARAMETER(	PNCUL=0,	PBFAC=1,	PFFAC=2 )
+.Ee
+
+.Es "curve placement"
+.I
+	UNIFORM	NON-UNIFORM
+.R
+INTEGER	PUNIFO	PNOUNI
+PARAMETEA(	PUNIFO=0,	PNOUNI=1 )
+.Ee
+
+.Es "depth cue mode"
+.I
+	suppressed	allowed
+.R
+INTEGER	PSUPPR	PALLOW
+PARAMETEA(	PSUPPR=0,	PALLOW=1 )
+.Ee
+
+.Es "edge flag"
+.I
+	no edge		edge visibility
+.R
+INTEGER	POFF	PON
+PARAMETEA(	POFF=0,		PON=1 )
+.Ee
+
+.Es "element type(PHIGS PLUS only)"
+.I
+	polyline set 3 with data ......
+.R
+INTEGER	PEPLS3,	PEFSD3,	PETRS3,	PEQMD3,	PESFS3,
+1	PENBSC,	PENBSS,	PECAP3,	PETXCL,	PEPMCL,
+2	PEEDCL,	PEPLCL,	PECAPC,	PEPLSM,	PEICL,
+3	PEBICL,	PEBISY,	PEBISI,	PERFP,	PEBRFP,
+4	PEISM,	PEBISM,	PEIRFE,	PEBIRE,	PESAPC,
+5	PEPSCH,	PEFDGM,	PEFCUM,	PELSST,	PEDPCI,	
+6	PECMI,	PERCLM)
+PARAMETER(	PEPLS3=71	PEFSD3=72	PETRS3=73	PEQMD3=74	PESFS3=75
+1	PENBSC=76	PENBSS=77	PECAP3=78	PETXCL=79	PEPMCL=80
+2	PEEDCL=81	PEPLCL=82	PECAPC=83	PEPLSM=84	PEICL=85
+3	PEBICL=86	PEBISY=87	PEBISI=88	PERFP=89	PEBRFP=90
+4	PEISM=91	PEBISM=92	PEIRFE=93	PEBIRE=94	PESAPC=95
+5	PEPSCH=96	PEFDGM=97	PEFCUM=98	PELSST=99	PEDPCI=100
+6	PECMI=101 	PERCLM=102)
+.Ee
+
+.Es "facet flag"
+.I
+	no facet	colour	normal	colour/normal
+.R
+INTEGER	PNOF,	PFCOLR,	PFNORM,	PFCONO
+PARAMETER(	PNOF=0,	PFCOLR=1,	PFNORM=2,	PFCONO=3)
+INTEGER rather than enumeration type. Explicitly defined and required portion of
+conceptually unbounded range defined here.
+.Ee
+
+.Es "face distinguishing mode"
+.I
+	distinguishing no	distinguishing yes
+.R
+INTEGER	PDSNO,	PDSYES
+PARAMETER(	PDSNO=0,	PDSYES=1 )
+.Ee
+
+.Es "rationality"
+.I
+	rational	non-rational
+.R
+INTEGER	PRATIO,	PNONRA
+PARAMETER(	PRATIO=0,	PNONRA=1 )
+.Ee
+
+.Es "vertex flag"
+.I
+	coordinate only	colour	normal	colour/normal
+.R
+INTEGER	PCOORD,	PCCOLR,	PCNORM,	PCCONO
+PARAMETER(	PCOORD=0,	PCCOLR=1,	PCNORM=2,	PCCONO=3)
+INTEGER rather than enumeration type. Explicitly defined and required portion of
+conceptually unbounded range defined here.
+.Ee
+
+.Es "PHIGS PLUS functions"
+.I
+.R
+INTEGER	EPLSD3,	EFASD3,	ECAP3,	ESOFA3,	ETSD3
+PARAMETER(	EPLSD3=301,	EFASD3=302,	ECAP3=303,	ESOFA3=304,	ETSD3=305 )
+INTEGER	EQMD3,	ENUBSC,	ENUBSS,	ESBII,	ESPLC
+PARAMETER(	EQMD3=306,	ENUBSC=307,	ENUBSS=308,	ESBII=309,	ESPLC=310 )
+INTEGER	ESPLSM,	ESPMC,	ESTXC,	ESFDM,	ESFCM
+PARAMETER(	ESPLSM=311	ESPMC=312,	ESTXC=313,	ESFDM=314,	ESFCM=315 )
+INTEGER	ESIC,	ESISM,	ESRFP,	ESRFE,	ESBIS
+PARAMETER(	ESIC=316,   	ESISM=317,	ESRFP=318,	ESRFE=319,	ESBIS=320 )
+INTEGER	ESBISI,	ESBIC,	ESBISM,	ESBRFP,	ESBRFE
+PARAMETER(	ESBISI=321,	ESBIC=322,	ESBISM=323,	ESBRFP=324,	ESBRFE=325 )
+INTEGER	 ESLSS,	ESEDC,	ESCAC,	ESSAC,	ESPCH
+PARAMETER(	ESLSS=326,	ESEDC=327,	ESCAC=328,	ESSAC=329,	ESPCH=330 )
+INTEGER	ESRCM,	ESDCI,	ESCMI,	ESPLRP,	ESPMRP
+PARAMETER(	ESRCM=331,	ESDCI=332,	ESCMI=333,	ESPLRP=334,	ESPMRP=335 )
+INTEGER	ESTXRP,	ESIRP,	ESEDRP,	ESPARP,	ESLSR
+PARAMETER(	ESTXRP=336,	ESIRP=337,	ESEDRP=338,	ESPARP=339,	ESLSR=340 )
+INTEGER	ESDCR,	ESCMR
+PARAMETER(	ESDCR=341,	ESCMR=342 )
+.Ee
+
+.bp
+.AC "PEX functions" 1
+
+.AC "Output primitive functions" 2
+
+.Fs "POLYLINE SET 3 WITH DATA"
+SUBROUTINE PPLSD3(VFLAG,CTYPE,NPL,IXA,PXA,PYA,PZA,VCOLI,VCOLR)
+.Ps Input 
+INTEGER VFLAG	data per vertex flag (PCOORD,PCCOLR) 
+INTEGER CTYPE	colour type
+INTEGER NPL	number of points lists
+INTEGER IXA(NPL)	array of end indices for point lists	
+REAL PXA(*),PYA(*),PZA(*)	coordinates of points(MC)
+INTEGER VCOLI(*)	colour indices
+REAL VCOLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "FILL AREA SET 3 WITH DATA" 
+SUBROUTINE PFASD3(FFLAG,EFLAG,VFLAG,CTYPE,NPL,IXA,PXA,PYA,PZA,
+*FCOLI,FCOLR,FVXA,FVYA,FVZA,EXA,EDATA,VCOLI,VCOLR,VVXA,VVYA,VVZA)
+.Ps Input
+INTEGER FFLAG	data per facet flag 
+	(PNOF,PFCOLR,PFNORM,PFCONO)
+INTEGER EFLAG	data per edge flag
+	(POFF,PON)
+INTEGER VFLAG	data per vertex flag
+	(PCOORD,PCCOLR,PCNORM,PCCONO)
+INTEGER CTYPE	colour type 
+INTEGER NPL	number of points lists
+INTEGER IXA(NPL)	array of end indices for point lists
+REAL PXA(*),PYA(*),PZA(*)	coordinates  of points(MC)
+INTEGER FCOLI	facet colour indices
+REAL FCOLR(*)	facet colour components
+REAL FVXA,FVYA,FVZA	facet normal data(MC)
+INTEGER EXA(NPL)	array of end indices for edge data lists 
+INTEGER EDATA(*)	edge data 
+INTEGER VCOLI(*)	vertex colour indices 
+REAL VCOLR(*)	vertex colour components
+REAL VVXA(*),VVYA(*),VVZA(*)	 vertex normal data(MC)
+.Pe
+.Fe
+
+.Fs "CELL ARRAY 3 PLUS"
+SUBROUTINE PCAP3(CPXA,CPYA,CPZA,DIMX,DIMY,CVSC,CVSR,DX,DY,CTYPE,COLIA,COLRA)
+.Ps Input
+REAL CPXA(3),CPYA(3),CPZA(3)	 cell parallelogram(P,Q,R)(MC) 
+INTEGER DIMX,DIMY	the dimensions of colour value which contains 
+	the cell array 
+INTEGER CVSC,CVSR	colour values of start column,start row
+INTEGER DX,DY	number of columns,number of rows 
+INTEGER CTYPE	colour type
+INTEGER COLIA(DIMX,DIMY)	colour indices array
+REAL COLRA(*)	colour components
+.Pe
+.Fe
+
+.Fs "SET OF FILL AREA SET 3 WITH DATA"
+
+SUBROUTINE PSOFA3(FFLAG,EFLAG,VFLAG,CTYPE,NFS,NF,NP,IXA,PXA,PYA,PZA,
+ *FCOLI,FCOLR,FVXA,FVYA,FVZA,EXA,EDATA,VCOLI,VCOLR,VVXA,VVYA,VVZA,VIND)
+.Ps Input 
+INTEGER FFLAG	data per facet flag 
+	(PNOF,PFCOLR,PFNORM,PFCONO) 
+INTEGER EFLAG	data per edge flag (POFF,PON)
+INTEGER VFLAG	data per vertex flag
+	(PCOORD,PCCOLR,PCNORM,PCCONO) 
+INTEGER CTYPE	colour type
+INTEGER NFS	number of fill area sets
+INTEGER NF(NFS)	number of facets
+INTEGER NP	number of points
+INTEGER IXA(*)	array of indices for vertex indices
+REAL PXA(NP),PYA(NP),PZA(NP)	 coordinates  of points(MC)
+INTEGER FCOLI(NFS)	facet colour indices
+REAL FCOLR(*)	facet colour components 
+REAL FVXA(NFS),FVYA(NFS),FVZA(NFS)	 facet normal data(MC) 
+INTEGER EXA(*)	array of end indices for edge data lists 
+INTEGER EDATA(*)	edge data 
+INTEGER VCOLI(NP)	vertex colour indices 
+REAL VCOLR(*)	vertex colour components
+REAL VVXA(NP),VVYA(NP),VVZA(NP)	  vertex normal data(MC)
+INTEGER  VIND(*)	vertex indices
+.Pe
+
+.Fe
+.Fs "TRIANGLE STRIP 3 WITH DATA"
+SUBROUTINE PTSD3(FFLAG,VFLAG,CTYPE,N,PXA,PYA,PZA,FCOLI,FCOLR,
+ *FVXA,FVYA,FVZA,VCOLI,VCOLR,VVXA,VVYA,VVZA) 
+.Ps Input
+INTEGER FFLAG	data per facet flag 
+	(PNOF,PFCOLR,PFNORM,PFCONO)
+INTEGER VFLAG	data per vertex flag
+	(PCOORD,PCCOLR,PCNORM,PCCONO) 
+INTEGER CTYPE	colour type
+INTEGER N	number of points
+REAL PXA(N),PYA(N),PZA(N)	coordinates  of points(MC)
+INTEGER FCOLI(N-2)	facet colour indices
+REAL FCOLR(*)	facet colour components 
+REAL FVXA(N-2),FVYA(N-2),FVZA(N-2)	 facet normal data(MC)
+INTEGER VCOLI(N)	vertex colour indices 
+REAL VCOLR(*)	vertex colour components
+REAL VVXA(N),VVYA(N),VVZA(N)	 vertex normal data(MC)
+.Pe
+.Fe
+
+.Fs "QUADRILATERAL MESH 3 WITH DATA"
+
+SUBROUTINE PQMD3(FFLAG,VFLAG,CTYPE,NC,NR,PXA,PYA,PZA,FCOLI,
+ *FCOLR,FVXA,FVYA,FVZA,VCOLI,VCOLR,VVXA,VVYA,VVZA)
+.Ps Input
+INTEGER FFLAG	data per facet flag 
+	(PNOF,PFCOLR,PFNORM,PFCONO)
+INTEGER VFLAG	data per vertex flag
+	(PCOORD,PCCOLR,PCNORM,PCCONO)
+INTEGER CTYPE	colour type
+INTEGER NC,NR	number of columns,number of rows
+REAL PXA(NC*NR),PYA(NC*NR),PZA(NC*NR)	 coordinates  of points(MC)
+INTEGER FCOLI((NC-1)*(NR-1))	facet colour indices
+REAL FCOLR(*)	 facet colour components
+REAL FVXA((NC-1)*(NR-1)),FVYA((NC-1)*(NR-1)),FVZA((NC-1)*(NR-1))
+	facet normal data(MC) 
+INTEGER VCOLI(NC*NR)	vertex colour indices 
+REAL VCOLR(*)	vertex colour components
+REAL VVXA(NC*NR),VVYA(NC*NR),VVZA(NC*NR)	 vertex normal data(MC) 
+.Pe
+.Fe
+
+
+.Fs "NON-UNIFORM B-SPLINE CURVE"
+SUBROUTINE PNUBSC(SORD,NKA,KNOTS,RTYPE,NCP,PXA,PYA,PZA,PWA,PARL)
+.Ps Input 
+INTEGER SORD	spline order
+INTEGER NKA	number of knots
+REAL KNOTS(NKA)	knots 
+INTEGER RTYPE	rationality (PRATIO,PNONRA)
+INTEGER NCP	number of control points
+REAL PXA(NCP),PYA(NCP),PZA(NCP),PWA(NCP) control points(MC)
+REAL PARL(2)	parameter range limits
+.Pe
+.Fe
+
+.Fs "NON-UNIFORM B-SPLINE SURFACE"
+SUBROUTINE PNUBSS(USORD,VSORD,UNKA,VNKA,UKNOTS,VKNOTS,RTYPE,UNCP,VNCP,
+ *PXA,PYA,PZA,PWA,NTL,ITL,TCAT,TCADR,TCVF,TSORD,TNKA,TKNOTS,TTYPE,
+ *TNCP,TPXA,TPYA,TPWA,TPARL)
+.Ps Input 
+INTEGER USORD	u spline order
+INTEGER VSORD	v spline order
+INTEGER UNKA	number of knots array for u 
+INTEGER VNKA	number of knots array for v 
+REAL UKNOTS(UNKA)	u knots
+REAL VKNOTS(VNKA)	v knots
+INTEGER RTYPE	rationality (PRATIO,PNONRA)
+INTEGER UNCP	u number of control points dimension
+INTEGER VNCP	v number of control points dimension
+REAL PXA(UNCP*VNCP),PYA(UNCP*VNCP),PZA(UNCP*VNCP),PWA(UNCP*VNCP) control points(MC)
+INTEGER NTL	number of trimming loops definition 
+INTEGER ITL(NTL)	array of end indices for trimming loops definition 
+INTEGER TCAT(NTL)	curve approximation criteria type
+INTEGER TCADR(NTL)	curve approximation criteria data record
+INTEGER TCVF(*)	curve visibility flag 
+INTEGER TSORD(*)	curve order 
+INTEGER TNKA(*)	array of end indices for curve knots vector
+REAL TKNOTS(*)	curve knots vector
+INTEGER TTYPE(*)	curve type (PRATIO,PNONRA) 
+INTEGER TNCP(*)	array of end indices for curve control points
+REAL TPXA(*),TPYA(*),TPWA(*) trimming curve control points(MC)
+REAL TPARL(2,*)	curve parameter range limits
+.Pe
+.Fe
+
+.Fs "COMPUTE FILL AREA SET GEOMETRIC NORMAL"
+SUBROUTINE PCFASN(NPL,IXA,PXA,PYA,PZA,ERRIND,VXA,VYA,VZA) 
+.Ps Input 
+INTEGER NPL	number of point lists 
+INTEGER IXA(NPL)	array of indices for point lists
+REAL PXA(*),PYA(*),PZA(*)	coordinates of points(MC) 
+
+.Ps Output
+INTEGER ERRIND	error indicator 
+REAL VXA,VYA,VZA	unit normal vector
+.Pe
+.Fe
+
+.AC "Attribute specification functions" 2
+
+.AC "Individual attribute selection" 3
+
+.Fs "SET DEPTH CUE INDEX"
+SUBROUTINE PSDCI(DCI) 
+.Ps Input 
+INTEGER DCI	depth cue index
+.Pe
+.Fe
+
+.Fs "SET COLOUR MAPPING INDEX"
+SUBROUTINE PSCMI(CMI)
+.Ps Input
+INTEGER CMI     colour mapping index
+.Pe
+.Fe
+
+.Fs "SET RENDERING COLOUR MODEL"
+SUBROUTINE PSRCM(RCOLM)
+.Ps Input
+INTEGER RCOLM   redering colour model
+.Pe
+.Fe
+
+.Fs "SET REFLECTANCE PROPERTIES"
+SUBROUTINE PSRFP(AMRC,DIRC,SPRC,CTYPE,COLI,COLR,SPEX) 
+.Ps Input 
+REAL AMRC	ambient reflection coefficient
+REAL DIRC	diffuse reflection coefficient
+REAL SPRC	specular reflection coefficient 
+INTEGER CTYPE	reflectance colour type 
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+REAL SPEX	specular exponent 
+.Pe
+.Fe
+
+.Fs "SET BACK REFLECTANCE PROPERTIES"
+SUBROUTINE PSBRFP(AMRC,DIRC,SPRC,CTYPE,COLI,COLR,SPEX) 
+.Ps Input 
+REAL AMRC	ambient reflection coefficient
+REAL DIRC	diffuse reflection coefficient
+REAL SPRC	specular reflection coefficient 
+INTEGER CTYPE	reflectance colour type 
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+REAL SPEX	specular exponent 
+.Pe
+.Fe
+
+.Fs "SET POLYLINE SHADING METHOD"
+SUBROUTINE PSPLSM(PLSM) 
+.Ps Input 
+INTEGER PLSM	polyline shading method
+.Pe
+.Fe
+
+.Fs "SET BACK INTERIOR STYLE"
+SUBROUTINE PSBIS(INTS)
+.Ps Input 
+INTEGER INTS	interior style
+	(PHOLLO,PSOLID,PATTR,PPATCH,PISEMP) 
+.Pe
+.Fe
+
+.Fs "SET BACK INTERIOR STYLE INDEX"
+SUBROUTINE PSBISI(ISTYLI)
+.Ps Input 
+INTEGER ISTYLI	interior style index
+.Pe
+.Fe
+
+.Fs "SET INTERIOR SHADING METHOD"
+SUBROUTINE PSISM(ISM) 
+.Ps Input 
+INTEGER ISM	interior shading method 
+.Pe
+.Fe
+
+.Fs "SET BACK INTERIOR SHADING METHOD"
+SUBROUTINE PSBISM(ISM)
+.Ps Input 
+INTEGER ISM	interior shading method
+.Pe
+.Fe
+
+.Fs "SET INTERIOR REFLECTANCE EQUATION"
+SUBROUTINE PSIRE(RFEQ) 
+.Ps Input 
+INTEGER RFEQ	reflectance equation 
+.Pe
+.Fe
+
+.Fs "SET BACK INTERIOR REFLECTANCE EQUATION"
+SUBROUTINE PSBIRE(RFEQ) 
+.Ps Input 
+INTEGER RFEQ	reflectance equation 
+.Pe
+.Fe
+
+.Fs "SET LIGHT SOURCE STATE"
+SUBROUTINE PSLSS(NACTI,ACTLST,NDEAI,DEALST)
+.Ps Input 
+INTEGER NACTI	number of activation index
+INTEGER ACTLST(NACTI)	activation list 
+INTEGER NDEAI	number of deactivation index
+INTEGER DEALST(NDEAI)	deactivation list 
+.Pe
+.Fe
+
+.Fs "SET FACE DISTINGUISHING MODE"
+SUBROUTINE PSFDM(DMODE) 
+.Ps Input 
+INTEGER DMODE	distinguishing mode (POFF,ON) 
+.Pe
+.Fe
+
+.Fs "SET FACE CULLING MODE"
+SUBROUTINE PSFCM(CMODE) 
+.Ps Input 
+INTEGER CMODE	culling mode (PNCUL,PBFAC,PFFAC) 
+.Pe
+.Fe
+
+.Fs "SET POLYLINE COLOUR"
+SUBROUTINE PSPLC(CTYPE,COLI,COLR) 
+.Ps Input 
+INTEGER CTYPE	polyline colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET POLYMARKER COLOUR"
+SUBROUTINE PSPMC(CTYPE,COLI,COLR) 
+.Ps Input 
+INTEGER CTYPE	polymarker colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET TEXT COLOUR"
+SUBROUTINE PSTXC(CTYPE,COLI,COLR) 
+.Ps Input 
+INTEGER CTYPE	text colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET INTERIOR COLOUR"
+SUBROUTINE PSIC(CTYPE,COLI,COLR)
+.Ps Input 
+INTEGER CTYPE	interior colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET BACK INTERIOR COLOUR"
+SUBROUTINE PSBIC(CTYPE,COLI,COLR) 
+.Ps Input 
+INTEGER CTYPE	back interior colour type 
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET EDGE COLOUR"
+SUBROUTINE PSEDC(CTYPE,COLI,COLR) 
+.Ps Input 
+INTEGER CTYPE	edge colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET CURVE APPROXIMATION CRITERIA"
+SUBROUTINE PSCAC(ACRI,AVAL)
+.Ps Input 
+INTEGER ACRI	curve approximation criteria type 
+REAL AVAL	approximation value
+.Pe
+.Fe
+
+
+.Fs "SET SURFACE APPROXIMATION CRITERIA
+SUBROUTINE PSSAC(ACRI,AVAL)
+.Ps Input 
+INTEGER ACRI	surface approximation criteria type 
+REAL AVAL(2)	approximation values
+.Pe
+.Fe
+
+.Fs "SET PARAMETRIC SURFACE CHARACTERISTICS"
+SUBROUTINE PSPSCH(PSCTY,LDR,DATREC)
+.Ps Input
+INTEGER PSCTY   parametric surface characteristics type
+INTEGER LDR     length of data record
+CHARACTER*80 DATREC(LDR) data record
+
+PPREC parameters to build PARAMETRIC SURFACE CHARACTERISTICS DATA RECORD for
+PSCTY = 3:
+IL= 3
+IA(1)= curve placement(PUNIFO,PNOUNI)
+IA(2)= curve count in u direction
+IA(3)= curve count in v direction
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= ()
+
+PPREC parameters to build PARAMETRIC SURFACE CHARACTERISTICS DATA RECORD for
+PSCTY = 4:
+IL= 1
+IA= (number of parameters)
+RL= 6+IA(1)
+RA(1)= x-coordinate of origin point(MC)
+RA(2)= y-coordinate of origin point(MC)
+RA(3)= z-coordinate of origin point(MC)
+RA(4)= x-value of direction vector(MC)
+RA(5)= y-value of direction vector(MC)
+RA(6)= z-value of direction vector(MC)
+RA= element 7 through IA(1)+6 contain parameters
+SL= 0
+LSTR= ()
+STR= ()
+
+PPREC parameters to build PARAMETRIC SURFACE CHARACTERISTICS DATA RECORD for
+PSCTY = 5:
+IL= 1
+IA= (number of parameters)
+RL= 6+IA(1)
+RA(1)= x-coordinate of origin point(WC)
+RA(2)= y-coordinate of origin point(WC)
+RA(3)= z-coordinate of origin point(WC)
+RA(4)= x-value of direction vector(WC)
+RA(5)= y-value of direction vector(WC)
+RA(6)= z-value of direction vector(WC)
+RA= element 7 through IA(1)+6 contain parameters
+SL= 0
+LSTR= ()
+STR= ()
+.Pe
+.Fe
+
+. AC "Aspect source flag setting" 3
+
+.Fs "SET INDIVIDUAL ASF"
+SUBROUTINE PSIASF(ASPCID,ASFVAL)
+.Ps Input
+INTEGER ASPCID	aspect identifier
+.I
+	(PLN,PLWSC,PPLIC,PMK,PMKSC,PPMCI,PTXFN,PTXPR,
+	PCHXP,PCHSP,PTXCI,PIS,PISI,PICI,PEDFG,PEDTY, 
+	PEWSC,PEDCI, *\**
+.R
+	PBICOL,PBINSY,PBINSI,PBREFQ,PBISHM,PBARAP,
+	PPSHMD,PREFEQ,PISHMD,PARAP,PCAPCR,PSAPCR)
+INTEGER ASFVAL	aspect source flag value
+	(PBUNDL,PINDIV) 
+.Pe
+.Fe
+.FS
+already defined in PHIGS
+.FE
+
+.AC "Workstation attribute table definition" 3
+
+.Fs "SET POLYLINE REPRESENTATION PLUS"
+SUBROUTINE PSPLRP(WKID,PLI,LTYPE,LWIDTH,CTYPE,COLI,COLR,PLSM,ACRI,AVAL)
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER PLI	polyline index
+INTEGER LTYPE	linetype
+REAL LWIDTH	linewidth scale factor
+INTEGER CTYPE	polyline colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+INTEGER PLSM	polyline shading method
+INTEGER ACRI	curve approximation criteria type 
+REAL AVAL	curve approximation criteria value
+.Pe
+.Fe
+
+.Fs "SET POLYMARKER REPRESENTATION PLUS"
+SUBROUTINE PSPMRP(WKID,PMI,MTYPE,MSZSF,CTYPE,COLI,COLR) 
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER PMI	polymarker index
+INTEGER MTYPE	marker type 
+REAL MSZSF	marker size scale factor
+INTEGER CTYPE	polymarker colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET TEXT REPRESENTATION PLUS"
+SUBROUTINE PSTXRP(WKID,TXI,FONT,PREC,CHXP,CHSP,CTYPE,COLI,COLR) 
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER TXI	text index
+INTEGER FONT	text font 
+INTEGER PREC	text precision
+	(PSTRP,PCHARP,PSTRKP) 
+REAL CHXP	character expansion factor
+REAL CHSP	character spacing 
+INTEGER CTYPE	text colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET INTERIOR REPRESENTATION PLUS"
+SUBROUTINE PSIRP(WKID,II,ICTYP,ICOLI,ICOLR,BICTYP,BICOLI,BICOLR,INTS,
+*BINTS,STYLI,BSTYLI,IRFEQ,BIRFEQ,ISM,BISM,AMRC,DIRC,SPRC,SCTYP,SCOLI,
+*SCOLR,SPEX,BAMRC,BDIRC,BSPRC,BSCTYP,BSCOLI,BSCOLR,BSPEX,ARCI,AVAL)
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER II	interior index
+INTEGER ICTYP	interior colour type
+INTEGER ICOLI	interior colour index
+REAL ICOLR(*)	interior colour components 
+INTEGER BICTYP	back interior colour type
+INTEGER BICOLI	back interior colour index
+REAL BICOLR(*)	back interior colour components 
+INTEGER INTS	interior style
+	(PHOLLO,PSOLID,PPATTR,PPATCH,PISEMP)
+INTEGER BINTS	back interior style
+	(PHOLLO,PSOLID,PPATTR,PPATCH,PISEMP)
+INTEGER STYLI	interior style index
+INTEGER BSTYLI	back interior style index
+INTEGER IRFEQ	interior reflectace equation
+INTEGER BIRFEQ	back interior reflectace equation
+INTEGER ISM	interior shading method 
+INTEGER BISM	back interior shading method 
+REAL AMRC	ambient reflection coefficient
+REAL DIRC	diffuse reflection coefficient
+REAL SPRC	specular reflection coefficient
+INTEGER SCTYP	specular colour type
+INTEGER SCOLI	specular colour index
+REAL SCOLR(*)	specular colour components 
+REAL SPEX	specular exponent
+REAL BAMRC	back ambient reflection coefficient
+REAL BDIRC	back diffuse reflection coefficient
+REAL BSPRC	back specular reflection coefficient
+INTEGER BSCTYP	back specular colour type
+INTEGER BSCOLI	back specular colour index
+REAL BSCOLR(*)	back specular colour components 
+REAL BSPEX	back specular exponent
+INTEGER ACRI	surface approximation criteria type
+REAL AVAL(2)	surface approximation criteria values
+.Pe
+.Fe
+
+.Fs "SET EDGE REPRESENTATION PLUS"
+SUBROUTINE PSEDRP(WKID,EDI,EDFLG,EDTYPE,EWIDTH,CTYPE,COLI,COLR) 
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER EDI	edge index
+INTEGER EDFLG	edge flag (POFF,PON)
+INTEGER EDTYPE	edge type
+REAL EWIDTH	edgewidth scale factor
+INTEGER CTYPE	edge colour type
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET PATTERN REPRESENTATION PLUS"
+SUBROUTINE PSPARP(WKID,PAI,DIMX,DIMY,CVSC,CVSR,DX,DY,CTYPE,COLIA,COLRA) 
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER PAI	pattern index 
+INTEGER DIMX,DIMY	the dimensions of colour value which contains the
+	*pattern array 
+INTEGER CVSC,CVSR	colour values to start columns,start row 
+INTEGER DX,DY	number of columns,number of rows used
+INTEGER CTYPE	interior colour type
+INTEGER COLIA(DIMX,DIMY)	colour indices
+REAL COLRA(DIMX,DIMY,*)	 colour components
+.Pe
+.Fe
+
+.Fs "SET DEPTH CUE REPRESENTATION"
+SUBROUTINE PSDCR(WKID,DCI,DCMODE,DCMIN,DCMAX,DCSFMI,DCSFMX,CTYPE,COLI,COLR)
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER DCI	depth cue 
+INTEGER DCMODE	depth cue mode
+	(PSUPPR,PALLOW) 
+REAL DCMIN,DCMAX	depth cue reference planes(NPC) 
+REAL DCSFMI,DCSFMX	depth cue scale factors 
+INTEGER CTYPE	depth cue colour type 
+INTEGER COLI	colour index
+REAL COLR(*)	colour components 
+.Pe
+.Fe
+
+.Fs "SET LIGHT SOURCE REPRESENTATION"
+SUBROUTINE PSLSR(WKID,LSI,LSTYPE,LDR,DATREC) 
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER LSI	light source index
+INTEGER LSTYPE	light source type
+INTEGER LDR	length of data record array 
+CHARACTER*80 DATREC(LDR)	data record 
+
+PPREC parameters to build LIGHT SOURCE DATA RECORD for LSTYPE = 1: 
+Common element:
+IL= 1+ n
+IA(1)= colour type
+RL= n 
+RA= ()
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)=colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(1)= colour value1
+    RA(2)= colour value2
+    RA(3)= colour value3
+
+PPREC parameters to build LIGHT SOURCE DATA RECORD for LSTYPE = 2: 
+Common element:
+IL= 1+n 
+IA(1)= colour type
+RL= n 
+RA=element 1 through 3 contain light source direction(WC) 
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)=colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(4)= colour value1
+    RA(5)= colour value2
+    RA(6)= colour value3
+
+PPREC parameters to build LIGHT SOURCE DATA RECORD for LSTYPE = 3: 
+Common element:
+IL= 1+ n 
+IA(1)= colour type
+RL= 5+ n
+RA=element 1 through 3 contain the light source position(WC)
+RA=element 4 through 5 contain the attention coefficients
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)=colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(6)= colour value1
+    RA(7)= colour value2
+    RA(8)= colour value3
+
+PPREC parameters to build LIGHT SOURCE DATA RECORD for LSTYPE = 4: 
+Common element:
+IL= 1+ n 
+IA(1)= colour type
+RL= 10+ n
+RA=element 1 through 3 contain light source position(WC)
+RA=element 4 through 6 contain light source direction(WC) 
+RA(7)= concentration exponent
+RA=element 8 through 9 contain attention coefficients
+RA(10)= spread angle
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)=colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(11)= colour value1
+    RA(12)= colour value2
+    RA(13)= colour value3
+.Pe
+.Fe
+
+.Fs "SET COLOUR MAPPING REPRESENTATION"
+SUBROUTINE PSCMR(WKID,CMI,CMM,LDR,DATREC)
+.Ps Input
+INTEGER WKID    workstation identifier
+INTEGER CMI     colour mapping index
+INTEGER CMM     colour mapping method
+INTEGER LDR     length of data record array
+CHARACTER*80 DATREC(LDR) data record
+
+PPREC parameters to build COLOUR MAPPING DATA RECORD for CMM = 2:
+IL= 3
+IA(1)= colour model
+IA(2)= number of weight vector
+IA(3)= number of dimensions in the specified colour mapping colour model
+RL= 3*IA(3)+IA(2)
+RA=element 1 through IA(2) contain the weight vector
+RA=element IA(2)+1 through 3*IA(3)+IA(2) contain the colour value
+SL= 0
+LSTR= ()
+STR= ()
+
+PPREC parameters to build COLOUR MAPPING DATA RECORD for CMM = 3:
+IL= n
+IA(1)= colour model
+IA(2)= number of list of colour coordinates
+IA= element 3 through IA(2)+2 contain the array of end indices for lists of colour coordinates
+RL= IA(IA(2)+2)
+RA=element 1 through IA(IA(2)+2) contain the colour coordinates
+SL= 0
+LSTR= ()
+STR= ()
+.Pe
+.Fe
+
+.bp
+.AC "Inquiry functions" 2
+
+.AC "Inquiry functions for workstation state list" 3
+
+.Fs "INQUIRE POLYLINE REPRESENTATION PLUS"
+SUBROUTINE PQPLRP(WKID,PLI,CCSBSZ,TYPE,ERRIND,LTYPE,LWIDTH,
+ *CTYPE,COLI,OL,COLR,PLSM,ACRI,AVAL)
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER PLI	polyline index
+INTEGER CCSBSZ	colour component specification buffer size
+INTEGER TYPE	type of return value(PSET,PREALI) 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER LTYPE	linetype
+REAL LWIDTH	linewidth scale factor
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ) colour components
+INTEGER PLSM	polyline shading method
+INTEGER ACRI	curve approximation criteria type 
+REAL AVAL	curve approximation criteria value 
+.Pe
+.Fe
+
+.Fs "INQUIRE POLYMARKER REPRESENTATION PLUS"
+SUBROUTINE PQPMRP(WKID,PMI,CCSBSZ,TYPE,ERRIND,MTYPE,MSZSF,CTYPE,COLI,OL,COLR) 
+.Ps Input
+INTEGER WKID	workstation identifier
+INTEGER PMI	polymarker index
+INTEGER CCSBSZ	colour component specification buffer size
+INTEGER TYPE	type of return value(PSET,PREALI) 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER MTYPE	marker type
+REAL MSZSF	marker scale factor 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ) colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE TEXT REPRESENTATION PLUS"
+SUBROUTINE PQTXRP(WKID,TXI,CCSBSZ,TYPE,ERRIND,FONT,PREC,CHXP,CHSP, 
+*CTYPE,COLI,OL,COLR) 
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER TXI	text index
+INTEGER CCSBSZ	colour component specification buffer size
+INTEGER TYPE	type of return value(PSET,PREALI) 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER FONT	text font 
+INTEGER PREC	text precision(PSTRP,PCHARP,PSTRKP) 
+REAL CHXP	character expansion factor
+REAL CHSP	character spacing 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ) 	colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE INTERIOR REPRESENTATION PLUS"
+SUBROUTINE PQIRP(WKID,II,ICCSS,BICCSS,SCCSS,BSCCSS,TYPE,ERRIND,
+*ICTYP,ICOLI,IOL,ICOLR,BICTYP,BICOLI,BIOL,BICOLR,INTS,BINTS,
+*STYLI,BSTYLI,IRFEQ,BIRFEQ,ISM,BISM,AMRC,DIRC,SPRC,
+*SCTYP,SCOLI,SOL,SCOLR,SPEX,BAMRC,BDIRC,BSPRC,BSCTYP,BSCOLI,
+*BSOL,BSCOLR,BSPEX,ARCI,AVAL)
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER II	interior index
+INTEGER ICCSS	interior colour component specification buffer size
+INTEGER BICCSS	back interior colour component specification buffer size
+INTEGER SCCSS	specular colour component specification buffer size
+INTEGER BSCCSS	back specular colour component specification buffer size
+INTEGER TYPE	type of return value(PSET,PREALI) 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER ICTYP	interior colour type 
+INTEGER ICOLI	interior colour index
+INTEGER IOL	number of interior colour components in the colour specification
+REAL ICOLR(ICCSS) interior colour components
+INTEGER BICTYP	back interior colour type 
+INTEGER BICOLI	back interior colour index
+INTEGER BIOL	number of back interior colour components in the colour specification
+REAL BICOLR(BICCSS) back interior colour components
+INTEGER INTS	interior style
+	(PHOLLO,PSOLID,PPATTR,PPATCH,PISEMP)
+INTEGER BINTS	back interior style
+	(PHOLLO,PSOLID,PPATTR,PPATCH,PISEMP)
+INTEGER STYLI	interior style index
+INTEGER BSTYLI	back interior style index
+INTEGER IRFEQ	interior reflectace equation
+INTEGER BIRFEQ	back interior reflectace equation
+INTEGER ISM	interior shading method 
+INTEGER BISM	back interior shading method 
+REAL AMRC	ambient reflection coefficient
+REAL DIRC	diffuse reflection coefficient
+REAL SPRC	specular reflection coefficient
+INTEGER SCTYP	specular colour type 
+INTEGER SCOLI	specular colour index
+INTEGER SOL	number of specular colour components in the colour specification
+REAL SCOLR(SCCSS) specular colour components
+REAL SPEX	specular exponent
+REAL BAMRC	back ambient reflection coefficient
+REAL BDIRC	back diffuse reflection coefficient
+REAL BSPRC	back specular reflection coefficient
+INTEGER BSCTYP	back specular colour type 
+INTEGER BSCOLI	back specular colour index
+INTEGER BSOL	number of back specular colour components in the colour specification
+REAL BSCOLR(BSCCSS) back specular colour components
+REAL BSPEX	back specular exponent
+INTEGER ACRI	surface approximation criteria type
+REAL AVAL(2)	surface approximation criteria values
+.Pe
+.Fe
+
+.Fs "INQUIRE EDGE REPRESENTATION PLUS"
+SUBROUTINE PQEDRP(WKID,EDI,CCSBSZ,TYPE,ERRIND,EDFLG,EDTYPE,EWIDTH,
+*CTYPE,COLI,OL,COLR) 
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER EDI	edge index
+INTEGER CCSBSZ	colour component specification buffer size
+INTEGER TYPE	type of return value(PSET,PREALI) 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER EDFLG	edge flag (POFF,PON)
+INTEGER EDTYPE	edge type 
+REAL EWIDTH	edge scale factor 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ) colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE PATTERN REPRESENTATION PLUS"
+SUBROUTINE PQPARP(WKID,PAI,CCSBSZ,TYPE,DIMX,DIMY,ERRIND,DX,DY,
+*CTYPE,COLIA,OL,COLRA) 
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER PAI	pattern index 
+INTEGER CCSBSZ	colour component specification buffer size
+INTEGER TYPE	type of return value(PSET,PREALI) 
+INTEGER DIMX,DIMY	maximum pattern array dimension 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER DX,DY	pattern array dimensions
+INTEGER CTYPE	colour type 
+INTEGER COLIA(DIMX,DIMY)	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLRA(DIMX,DIMY,CCSBSZ) colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE LIST element OF DEPTH CUE INDICES 
+SUBROUTINE PQEDCI(WKID,N,ERRIND,OL,DCI) 
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER N	list element requested
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER OL	number of depth cue table entries 
+INTEGER DCI	Nth element of list of defined depth cue indices
+.Pe
+.Fe
+
+.Fs "INQUIRE DEPTH CUE REPRESENTATION
+SUBROUTINE PQDCR(WKID,DCI,CCSBSZ,TYPE,ERRIND,DCMODE,DCMIN,DCMAX,
+*DCSFMI,DCSFMX,CTYPE,COLI,OL,COLR)
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER DCI	depth cue index 
+INTEGER CCSBSZ	colour component specification buffer size
+INTEGER TYPE	type of return value(PSET,PREALI) 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER DCMODE	depth cue mode(PSUPPR,PALLOW) 
+REAL DCMIN,DCMAX	depth cue reference plane(NPC)
+REAL DCSFMI,DCSFMX	depth cue scale factors 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ) colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE LIST element OF LIGHT SOURCE INDICES
+SUBROUTINE PQELSI(WKID,N,ERRIND,OL,LSI) 
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER N	list element requested
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER OL	number of light source table entries
+INTEGER LSI	Nth element of list of defined light source indices 
+.Pe
+.Fe
+
+.Fs "INQUIRE LIGHT SOURCE REPRESENTATION 
+SUBROUTINE PQLSR(WKID,LSI,TYPE,MLDR,ERRIND,LSTYPE,LDR,DATREC)
+.Ps Input 
+INTEGER WKID	workstation identifier
+INTEGER LSI	light source index
+INTEGER TYPE	type of return value(PSET,PREALI) 
+INTEGER MLDR	dimension of data record array
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER LSTYPE	light source type 
+INTEGER LDR	length of data record array 
+CHARACTER*80 DATREC(MLDR)	data record*\**
+.Pe
+.Fe
+.FS
+See SET LIGHT SOURCE REPRESENTATION for a description of the light source data record.
+.FE
+
+.Fs "INQUIRE COLOUR MAPPING STATE
+SUBROUTINE PQCMS(WKID,CMM,MLDR,ERRIND,LDR,DATREC)
+.Ps Input
+INTEGER WKID    workstation identifier
+INTEGER CMM     colour mapping method
+INTEGER MLDR    dimension of data record array
+.Pe
+.Ps Output
+INTEGER ERRIND  error indicator
+INTEGER LDR     length of data record array
+CHARACTER*80 DATREC(MLDR) data record
+
+Output parameters for COLOUR MAPPING DATA RECORD for CMM = 1:
+IL= 1
+IA= (number of true colour available)
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= (),
+
+Output parameters for COLOUR MAPPING DATA RECORD for CMM = 2:
+IL= 1
+IA= (number of pseudo colour entries available)
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= ()
+.Pe
+.Fe
+
+.Fs "INQUIRE LIST element OF COLOUR MAPPING INDICES
+SUBROUTINE PQECMI(WKID,N,ERRIND,OL,CMI)
+.Ps Input
+INTEGER WKID    workstation identifier
+INTEGER N       list element requested
+.Pe
+.Ps Output
+INTEGER ERRIND  error indicator
+INTEGER OL      number of colour mapping table entries
+INTEGER CMI     Nth element of list of defined colour mapping indices
+.Pe
+.Fe
+
+.Fs "INQUIRE COLOUR MAPPING REPRESENTATION
+SUBROUTINE PQCMR(WKID,CMI,TYPE,MLDR,ERRIND,CMM,LDR,DATREC)
+.Ps Input
+INTEGER WKID    workstation identifier
+INTEGER CMI     colour mapping index
+INTEGER TYPE    type of return value(PSET,PREALI)
+INTEGER MLDR    dimension of data record array
+.Pe
+.Ps Output
+INTEGER ERRIND  error indicator
+INTEGER CMM     colour mapping method
+INTEGER LDR     length of data record array
+CHARACTER*80 DATREC(MLDR)        data record*\**
+
+.Pe
+.Fe
+.FS
+See SET COLOUR MAPPING REPRESENTATION for a description of the colour mapping da
+ta record.
+.FE
+
+.bp
+.AC "Inquiry functions for workstation description table" 3
+
+.Fs "INQUIRE DIRECT COLOUR MODEL FACILITIES 
+SUBROUTINE PQDCMF(WTYPE,NRDCM,ERRIND,NDCM,DCM)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER NRDCM	list element requested of direct colour model 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER NDCM	number of available direct colour model 
+INTEGER DCM	Nth element of list of defined direct colour model
+.Pe
+.Fe
+
+.Fs "INQUIRE RENDERING COLOUR MODEL FACILITIES
+SUBROUTINE PQRCMF(WTYPE,NRRCM,ERRIND,NRCM,RCM)
+.Ps Input
+INTEGER WTYPE   workstation type
+INTEGER NRRCM   list element requested of rendering colour model
+.Pe
+.Ps Output
+INTEGER ERRIND  error indicator
+INTEGER NRCM    number of available rendering colour model
+INTEGER RCM     Nth element of list of defined rendering colour model
+.Pe
+.Fe
+
+.Fs "INQUIRE POLYLINE FACILITIES PLUS"
+SUBROUTINE PQPLFP(WTYPE,NRLT,NRSM,ERRIND,NLT,LT,NLW,NOMLW,
+*RLWMIN,RLWMAX,NSM,SM,NPPLI) 
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER NRLT	list of element requested of linetypes
+INTEGER NRSM	list of element requested of shading methods
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER NLT	number of available linetypes 
+INTEGER LT	Nth element of list of available linetypes
+INTEGER NLW	number of available linewidths
+REAL NOMLW	normal linewidth(DC>0)
+REAL RLWMIN,RLWMAX	range of linewidths(DC>0) 
+INTEGER NSM	number of available shading methods
+INTEGER SM	Nth element of list of available shading methods
+INTEGER NPPLI	number of predefined polyline indices 
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED POLYLINE REPRESENTATION PLUS"
+SUBROUTINE PQPPLP(WTYPE,PPLI,CCSBSZ,ERRIND,LTYPE,LWIDTH,CTYPE,COLI,OL,COLR,
+*PLSM,ACRI,AVAL)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER PPLI	predefined polyline index 
+INTEGER CCSBSZ	colour component specification buffer size
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER LTYPE	linetype
+REAL LWIDTH	linewidth scale factor
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ)	colour components
+INTEGER PLSM	polyline shading method 
+INTEGER ACRI	curve approximation criteria type 
+REAL AVAL	curve approximation criteria value 
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED POLYMARKER REPRESENTATION PLUS"
+SUBROUTINE PQPPMP(WTYPE,PPMI,CCSBSZ,ERRIND,MTYPE,MSZSF,CTYPE,COLI,OL,COLR)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER PPMI	predefined polymarker index 
+INTEGER CCSBSZ	colour component specification buffer size
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER MTYPE	marker type
+REAL MSZSF	marker scale factor 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ)	colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED TEXT REPRESENTATION PLUS"
+SUBROUTINE PQPTXP(WTYPE,PTXI,CCSBSZ,ERRIND,FONT,PREC,CHXP,CHSP,
+*CTYPE,COLI,OL,COLR)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER PTXI	predefined text index 
+INTEGER CCSBSZ	colour component specification buffer size
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER FONT	text font 
+INTEGER PREC	text precision(PSTRP,PCHARP,PSTRKP) 
+REAL CHXP	character expansion factor
+REAL CHSP	character spacing 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ)	colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED EDGE REPRESENTATION PLUS"
+SUBROUTINE PQPERP(WTYPE,PEDI,CCSBSZ,ERRIND,EDFLG,EDTYPE,EWIDTH,CTYPE,
+*COLI,OL,COLR)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER PEDI	predefined edge index 
+INTEGER CCSBSZ	colour component specification buffer size
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER EDFLG	edge flag (POFF,PON)
+INTEGER EDTYPE	edge type 
+REAL EWIDTH	edge scale factor 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR(CCSBSZ)	colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE INTERIOR FACILITIES PLUS"
+SUBROUTINE PQIFP(WTYPE,NRIS,NRHS,NRRQ,NRSM,ERRIND,NIS,IS,NHS,HS,
+*NRQ,RQ,NSM,SM,NPFAI)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER NRIS	list of element requested of interior style 
+INTEGER NRHS	list of element requested of hatch style
+INTEGER NRRQ	list of element requested of reflectance equations
+INTEGER NRSM	list of element requested of shading method 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER NIS	number of available interior styles
+INTEGER IS	Nth element of list of available interior styles
+INTEGER NHS	number of available hatch style 
+INTEGER HS	Nth element of list of available hatch styles 
+INTEGER NRQ	number of available reflectance equations
+INTEGER RQ	Nth element of list of available reflectance equations
+INTEGER NSM	number of available shading method 
+INTEGER SM	Nth element of list of available shading method 
+INTEGER NPFAI	number of predefined interior indices 
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED INTERIOR REPRESENTATION PLUS"
+SUBROUTINE PQPIRP(WTYPE,PII,ICCSS,BICCSS,SCCSS,BSCCSS,ERRIND,
+*ICTYP,ICOLI,IOL,ICOLR,BICTYP,BICOLI,BIOL,BICOLR,INTS,BINTS,
+*STYLI,BSTYLI,IRFEQ,BIRFEQ,ISM,BISM,AMRC,DIRC,SPRC,SCTYP,SCOLI,
+*SOL,SCOLR,SPEX,BAMRC,BDIRC,BSPRC,BSCTYP,BSCOLI,BSOL,BSCOLR,
+*BSPEX,ARCI,AVAL)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER PII	predefined interior index 
+INTEGER ICCSS	interior colour component specification buffer size
+INTEGER BICCSS	back interior colour component specification buffer size
+INTEGER SCCSS	specular colour component specification buffer size
+INTEGER BSCCSS	back specular colour component specification buffer size
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER ICTYP	interior colour type 
+INTEGER ICOLI	interior colour index
+INTEGER IOL	number of interior colour components in the colour specification
+REAL ICOLR(ICCSS) interior colour components
+INTEGER BICTYP	back interior colour type 
+INTEGER BICOLI	back interior colour index
+INTEGER BIOL	number of back interior colour components in the colour specification
+REAL BICOLR(BICCSS) back interior colour components
+INTEGER INTS	interior style
+	(PHOLLO,PSOLID,PPATTR,PPATCH,PISEMP)
+INTEGER BINTS	back interior style
+	(PHOLLO,PSOLID,PPATTR,PPATCH,PISEMP)
+INTEGER STYLI	interior style index
+INTEGER BSTYLI	back interior style index
+INTEGER IRFEQ	interior reflectace equation
+INTEGER BIRFEQ	back interior reflectace equation
+INTEGER ISM	interior shading method 
+INTEGER BISM	back interior shading method 
+REAL AMRC	ambient reflection coefficient
+REAL DIRC	diffuse reflection coefficient
+REAL SPRC	specular reflection coefficient
+INTEGER SCTYP	specular colour type 
+INTEGER SCOLI	specular colour index
+INTEGER SOL	number of specular colour components in the colour specification
+REAL SCOLR(SCCSS) specular colour components
+REAL SPEX	specular exponent
+REAL BAMRC	back ambient reflection coefficient
+REAL BDIRC	back diffuse reflection coefficient
+REAL BSPRC	back specular reflection coefficient
+INTEGER BSCTYP	back specular colour type 
+INTEGER BSCOLI	back specular colour index
+INTEGER BSOL	number of back specular colour components in the colour specification
+REAL BSCOLR(BSCCSS) back specular colour components
+REAL BSPEX	back specular exponent
+INTEGER ACRI	surface approximation criteria type
+REAL AVAL(2)	surface approximation criteria values
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED PATTERN REPRESENTATION PLUS"
+SUBROUTINE PQPPAP(WTYPE,PPAI,CCSBSZ,DIMX,DIMY,ERRIND,
+*DX,DY,CTYPE,COLIA,OL,COLRA)
+.Ps Input
+INTEGER WTYPE	workstation type
+INTEGER PPAI	predefined pattern index
+INTEGER CCSBSZ	colour component specification buffer size
+INTEGER DIMX,DIMY	maximum pattern array dimension 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER DX,DY	pattern array dimensions
+INTEGER CTYPE	colour type 
+INTEGER COLIA(DIMX,DIMY)	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLRA(DIMX,DIMY,CCSBSZ) colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE DEPTH CUE FACILITIES"
+SUBROUTINE PQDCF(WTYPE,ERRIND,NPDCI) 
+.Ps Input
+INTEGER WTYPE	workstation type
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER NPDCI	number of predefined depth cue indices
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED DEPTH CUE REPRESENTATION "
+SUBROUTINE PQPDCR(WTYPE,PDCI,CCSBSZ,ERRIND,DCMODE,DCMIN,DCMAX,DCSFMI,
+*DCSFMX,CTYPE,COLI,OL,COLR)
+.Ps Input
+INTEGER WTYPE	workstation type
+INTEGER PDCI	predefined depth cue index
+INTEGER CCSBSZ	colour component specification buffer size
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER DCMODE	depth cue mode(PSUPPR,PALLOW) 
+REAL DCMIN,DCMAX	depth cue reference planes(NPC) 
+REAL DCSFMI,DCSFMX	depth cue scale factors 
+INTEGER CTYPE	colour type 
+INTEGER COLI	colour index
+INTEGER OL	number of colour components in the colour specification
+REAL COLR	colour components
+.Pe
+.Fe
+
+.Fs "INQUIRE LIGHT SOURCE FACILITIES"
+SUBROUTINE PQLSF(WTYPE,NRLS,ERRIND,NLSTYP,LSTYP,MSNALS,NPLSI) 
+.Ps Input
+INTEGER WTYPE	workstation type
+INTEGER NRLS	list element requested of light source indices
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER NLSTYP	number of available light source types 
+INTEGER LSTYP	Nth element of list of available light source types 
+INTEGER MSNALS	maximum number of simultaneously active non-ambient
+	*light source
+INTEGER NPLSI	number of predefined light source indices 
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED LIGHT SOURCE REPRESENTATION"
+SUBROUTINE PQPLSR(WTYPE,PLSI,MLDR,ERRIND,LSTYPE,LDR,DATREC)
+.Ps Input
+INTEGER WTYPE	workstation type
+INTEGER PLSI	predefined pattern index
+INTEGER MLDR	dimension of data record array
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER LSTYPE	light source type 
+INTEGER LDR	length of data record array 
+CHARACTER*80 DATREC(MLDR)	data record*\**
+.Pe
+.Fe
+.FS
+See SET LIGHT SOURCE REPRESENTATION for a description of the light source data record.
+.FE
+
+.Fs "INQUIRE COLOUR MAPPING FACILITIES "
+SUBROUTINE PQCMF(WTYPE,N,ERRIND,NCMTYP,CMTYP,NPCMI)
+.Ps Input
+INTEGER WTYPE   workstation type
+INTEGER N	list element requested of colour mapping indices
+.Pe
+.Ps Output
+INTEGER ERRIND  error indicator
+INTEGER NCMTYP  number of available colour mapping methods
+INTEGER CMTYP   Nth element of list of available colour mapping methods
+INTEGER NPCMI   number of predefined colour mapping indices
+.Pe
+.Fe
+
+.Fs "INQUIRE COLOUR MAPPING METHOD FACILITIES"
+SUBROUTINE PQCMMF(WTYPE,CMM,MLDR,ERRIND,LDR,DATREC)
+.Ps Input
+INTEGER WTYPE   workstation type
+INTEGER CMM     colour mapping method
+INTEGER MLDR    dimension of data record array
+
+.Pe
+.Ps Output
+INTEGER ERRIND  error indicator
+INTEGER LDR     length of data record array
+CHARACTER*80 DATREC(MLDR)        data record
+
+Output parameters for COLOUR MAPPING METHOD DATA RECORD for CMM=1:
+IL= 1
+IA= (number of true colour available)
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= ()
+
+Output parameters for COLOUR MAPPING METHOD DATA RECORD for CMM=2:
+IL= 1
+IA= (maximum number of pseudo colour entries)
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= ()
+.Pe
+.Fe
+
+.Fs "INQUIRE PREDEFINED COLOUR MAPPING REPRESENTATION"
+SUBROUTINE PQPCMR(WTYPE,PCMI,MLDR,ERRIND,CMM,LDR,DATREC)
+.Ps Input
+INTEGER WTYPE   workstation type
+INTEGER PCMI    predefined colour mapping index
+INTEGER MLDR    dimension of data record array
+.Pe
+.Ps Output
+INTEGER ERRIND  error indicator
+INTEGER CMM     colour mapping method
+INTEGER LDR     length of data record array
+CHARACTER*80 DATREC(MLDR)        data record*\**
+.Pe
+.Fe
+.FS
+See SET COLOUR MAPPING REPRESENTATION for a description of the colour mapping da
+ta record.
+.FE
+
+.Fs "INQUIRE CURVE AND SURFACE FACILITIES
+SUBROUTINE PQCSF(WTYPE,NRCACT,NRSACT,NRTACT,NRPSCT,ERRIND,MNUBSC,
+*MTRIMC,NCACT,CACT,NCAST,CAST,NTACT,TACT,NPSCT,PSCT)
+.Ps Input 
+INTEGER WTYPE	workstation type
+INTEGER NRCACT	list element requested of curve approximation 
+	criteria types supported
+INTEGER NRSACT	list element requested of surface approximation 
+	criteria types supported
+INTEGER NRTACT	list element requested of trimming curve
+	approximation criteria types supported
+INTEGER NRPSCT	list element requested of parametric surface
+	characteristics types supported
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER MNUBSC	maximum non-uniform b-spline curve order supported
+INTEGER MTRIMC	maximum trimming curve order supported
+INTEGER NCACT	number of available curve approximation criteria types
+INTEGER CACT	Nth element of list of available curve approximation
+	criteria types
+INTEGER NCAST	number of available surface approximation criteria types
+INTEGER CAST	Nth element of list of available surface approximation
+	criteria types
+INTEGER NTACT	number of available trimming curve approximation
+	criteria types supported 
+INTEGER TACT	Nth element of list of available trimming curve
+	approximation criteria types supported
+INTEGER NPSCT	number of available parametric surface characteristics
+	types supported 
+INTEGER PSCT	Nth element of list of available parametric surface
+	characteristics types supported
+.Pe
+.Fe
+
+.Fs "INQUIRE DYNAMICS OF WORKSTATION ATTRIBUTE PLUS
+SUBROUTINE PQDWAP(WTYPE,ERRIND,LSR,DCR,CMR) 
+.Ps Input 
+INTEGER WTYPE	workstation type
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER LSR	light source representation(PIRG,PIMM,PCBS) 
+INTEGER DCR	depth cue representation(PIRG,PIMM,PCBS)
+INTEGER CMR	colour mapping representation(PIRG,PIMM,PCBS) 
+.Pe
+.Fe
+
+.Fs "INQUIRE WORKSTATION STATE TABLE LENGTHS PLUS"
+SUBROUTINE PQWSLP(WTYPE,ERRIND,MDCTE,MLSTE,MCMTE)
+.Ps Input
+INTEGER WTYPE	workstation type
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER MDCTE	maximum number of depth cue table entries 
+INTEGER MLSTE	maximum number of light source table entries
+INTEGER MCMTE	maximum number of colour mapping table entries
+.Pe
+.Fe
+
+.Fs "INQUIRE CURRENT ELEMENT TYPE AND SIZE "
+SUBROUTINE PQCETS(ERRIND,ELTYPE,IL,RL,SL) 
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER ELTYPE	element type 
+.I
+	(PENIL,PEPL3,PEPL,PEPM3,PEPM,PETX3,PETX,
+	PEATR3,PEATR,PEFA3,PEFA,PEFAS3,PEFAS,PECA3,PECA, 
+	PEGDP3,PEGDP,PEPLI,PEPMI,PETXI,PEII,PEEDI,PELN,
+	PELWSC,PEPLCI,PEMK,PEMKSC,PEPMCI,PETXFN,PETXPR,
+	PECHXP,PECHSP,PETXCI,PECHH,PECHUP,PETXP,PETXAL,
+	PEATCH,PEATCU,PEATP,PEATAL,PEANST,PEIS,PEISI,
+	PEICI, PEEDFG,PEEDT,PEEWSC,PEEDCI,PEPA,PEIASF, 
+	PEHRID,PELMT3,PELMT,PEGMT3,PEGMT,PEMCV3,PEMCV, 
+	PEMCLI,PERMCV,PEVWI,PEEXST,PELB,PEAP,PEGSE,PEPKID,*\**
+.R		
+	PEPLS3,PEFSD3,PETRS3,PEQMD3,PESFS3,PENBSC,
+	PENBSS,PECAP3,PETXCL,PEPMCL,PEEDCL,PEPLCL,
+	PECAPC,PEPLSM,PEICL,PEBICL,PEBISY,PEBISI,
+	PERFP,PEBRFP,PEISM,PEBISM,PEIRFE,PEBIRE,
+	PESAPC,PEPSCH,PEFDGM,PEFCUM,PELSST,PEDPCI,
+	PECMI,PERCLM)
+INTEGER IL	dimension of integer array
+INTEGER RL	dimension of real array 
+INTEGER SL	dimension of character array
+.Pe
+.Fe
+.FS
+already defined in PHIGS
+.FE
+
+.Fs "INQUIRE ELEMENT TYPE AND SIZE "
+SUBROUTINE PQETS(STRID,ELENUM,ERRIND,ELTYPE,IL,RL,SL)
+.Ps Input
+INTEGER STRID	structure identifier
+INTEGER ELENUM	element number
+.Pe
+.Ps Output
+INTEGER ERRIND	error indicator 
+INTEGER ELTYPE	element type 
+.I
+	(PENIL,PEPL3,PEPL,PEPM3,PEPM,PETX3,PETX,
+	PEATR3,PEATR,PEFA3,PEFA,PEFAS3,PEFAS,PECA3,PECA, 
+	PEGDP3,PEGDP,PEPLI,PEPMI,PETXI,PEII,PEEDI,PELN,
+	PELWSC,PEPLCI,PEMK,PEMKSC,PEPMCI,PETXFN,PETXPR,
+	PECHXP,PECHSP,PETXCI,PECHH,PECHUP,PETXP,PETXAL,
+	PEATCH,PEATCU,PEATP,PEATAL,PEANST,PEIS,PEISI,
+	PEICI, PEEDFG,PEEDT,PEEWSC,PEEDCI,PEPA,PEIASF, 
+	PEHRID,PELMT3,PELMT,PEGMT3,PEGMT,PEMCV3,PEMCV, 
+	PEMCLI,PERMCV,PEVWI,PEEXST,PELB,PEAP,PEGSE,PEPKID, *\**
+.R
+	PEPLS3,PEFSD3,PETRS3,PEQMD3,PESFS3,PENBSC,
+	PENBSS,PECAP3,PETXCL,PEPMCL,PEEDCL,PEPLCL,
+	PECAPC,PEPLSM,PEICL,PEBICL,PEBISY,PEBISI,
+	PERFP,PEBRFP,PEISM,PEBISM,PEIRFE,PEBIRE,
+	PESAPC,PEPSCH,PEFDGM,PEFCUM,PELSST,PEDPCI,
+	PECMI,PERCLM)
+INTEGER IL	dimension of integer array
+INTEGER RL	dimension of real array 
+INTEGER SL	dimension of character array
+.Pe 
+.Fe 
+.FS 
+already defined in PHIGS 
+.FE 
+
+.Fs "INQUIRE CURRENT ELEMENT CONTENT" 
+SUBROUTINE PQCECO(IIL,IRL,ISL,ERRIND,IL,IA,RL,RA,SL,LSTR,STR) 
+.Ps Input 
+INTEGER IIL	dimension of integer array 
+INTEGER IRL	dimension of real array 
+INTEGER ISL	dimension of character array 
+.Pe 
+.Ps Output 
+INTEGER ERRIND	error indicator 
+INTEGER IL	number of integer entries 
+INTEGER IA(IIL)	array of containing integer entries
+INTEGER RL	number of real entries
+REAL RA(IRL)	array of containing real entries
+INTEGER SL	number of character string entries
+INTEGER LSTR(ISL)	length of each character string entry
+CHARACTER*(*) STR(ISL)	character string entries
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEPLS3:
+IL= 7+IA(7)+(IA(2)-IA(1)-1) 
+IA(1)= start element number of vertex colour indices 
+IA(2)= end element number of vertex colour indices 
+IA(3)= start element number of vertex colour components 
+IA(4)= end element number of vertex colour components 
+IA(5)= data per vertex flag(PCOORD,PCCOLR)
+IA(6)= colour type
+IA(7)= number of point lists in polyline set 3 with data
+IA= element 8 through IA(7)+7 contain the array of end indices for point lists in polyline set 3 with data
+IA=element IA(1) through IA(2) contain the vertex colour indices
+RL= 3*(IA(7)+7)+IA(4)-IA(3)-1
+RA=element 1 through IA(IA(7)+7)*3 contain the coordinates of points
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(3) through IA(4) contain the vertex colour components
+    example(colour type = RGB) r1,r2,r3,...g1,g2,g3,...b1,b2,b3...
+SL= 0
+LSTR= ()
+STR= () 
+If start element number equal zero, specified data is nothing in data record.
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEFSD3:
+IL=21+IA(21)+(IA(2)-IA(1)-1)+(IA(4)-IA(3)-1)+(IA(6)-IA(5)-1) 
+IA(1)= start element number of facet colour indices 
+IA(2)= end element number of facet colour indices 
+IA(3)= start element number of the array of end indices for edge data
+IA(4)= end element number of the array of end indices for edge data
+IA(5)= start element number of edge data
+IA(6)= end element number of edge data
+IA(7)= start element number of vertex colour indices 
+IA(8)= end element number of vertex colour indices 
+IA(9)= start element number of facet colour components 
+IA(10)= end element number of facet colour components 
+IA(11)= start element number of facet normal data
+IA(12)= end element number of facet normal data
+IA(13)= start element number of vertex colour components 
+IA(14)= end element number of vertex colour components 
+IA(15)= start element number of vertex normal data
+IA(16)= end element number of vertex normal data
+IA(17)= data per facet flag(PNOF,PFCOLR,PFNORM,PFCONO)
+IA(18)= data per edge flag(POFF,PON)
+IA(19)= data per vertex flag(PCOORD,PCCOLR,PCNORM,PCCONO)
+IA(20)= colour type
+IA(21)= number of point lists in fill area set 3 with data
+IA=element 22 through IA(21)+21 contain the array of end indices for point lists in fill area set 3 with data
+ in fill area set 3 with data
+IA=element IA(1) through IA(2) contain the facet colour indices
+(IA(1)=IA(2))
+IA=element IA(3) through IA(4) contain the array of end indices for edge data
+IA=element IA(5) through IA(6) contain the edge data
+IA=element IA(7) through IA(8) contain the vertex colour indices
+RL= IA(IA(21)+21)*3+(IA(10)-IA(9)-1)+(IA(12)-IA(11)-1)+(IA(14)-IA(13)-1)+(IA(16)-IA(15)-1)
+RA=element 1 through IA(IA(21)+21)*3 contain the coordinates of points
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(9) through IA(10) contain the facet colour components
+    example(colour type = RGB) r1,g1,b1
+RA=element IA(11) through IA(12) contain the facet normal data
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(13) through IA(14) contain the vertex colour components
+    example(colour type = RGB) r1,r2,r3,...g1,g2,g3,...b1,b2,b3...
+RA=element IA(15) through IA(16) contain the vertex normal data
+SL= 0
+LSTR= ()
+STR= () 
+If start element number equal zero, specified data is nothing in data record.
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PETRS3:
+IL= 16+(IA(2)-IA(1)-1)+(IA(4)-IA(3)-1) 
+IA(1)= start element number of facet colour indices 
+IA(2)= end element number of facet colour indices 
+IA(3)= start element number of vertex colour indices 
+IA(4)= end element number of vertex colour indices 
+IA(5)= start element number of facet colour components 
+IA(6)= end element number of facet colour components 
+IA(7)= start element number of facet normal data
+IA(8)= end element number of facet normal data
+IA(9)= start element number of vertex colour components 
+IA(10)= end element number of vertex colour components 
+IA(11)= start element number of vertex normal data
+IA(12)= end element number of vertex normal data
+IA(13)= data per facet flag(PNOF,PFCOLR,PFNORM,PFCONO)
+IA(14)= data per vertex flag(PCOORD,PCCOLR,PCNORM,PCCONO)
+IA(15)= colour type
+IA(16)= number of points in triangle strip 3 with data
+IA=element IA(1) through IA(2) contain the facet colour indices
+IA=element IA(3) through IA(4) contain the vertex colour indices
+RL= IA(16)*3+(IA(6)-IA(5)-1)+(IA(8)-IA(7)-1)+(IA(10)-IA(9)-1)+(IA(12)-IA(11)-1)
+RA=element 1 through IA(16)*3 contain the coordinates of points
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(5) through IA(6) contain the facet colour components
+    example(colour type = RGB) r1,r2,r3,...g1,g2,g3,...b1,b2,b3...
+RA=element IA(7) through IA(8) contain the facet normal data
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(9) through IA(10) contain the vertex colour components
+RA=element IA(11) through IA(12) contain the vertex normal data
+SL= 0
+LSTR= ()
+STR= () 
+If start element number equal zero, specified data is nothing in data record.
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEQMD3:
+IL= 17+(IA(2)-IA(1)-1)+(IA(4)-IA(3)-1)
+IA(1)= start element number of facet colour indices 
+IA(2)= end element number of facet colour indices 
+IA(3)= start element number of vertex colour indices 
+IA(4)= end element number of vertex colour indices 
+IA(5)= start element number of facet colour components 
+IA(6)= end element number of facet colour components 
+IA(7)= start element number of facet normal data
+IA(8)= end element number of facet normal data
+IA(9)= start element number of vertex colour components 
+IA(10)= end element number of vertex colour components 
+IA(11)= start element number of vertex normal data
+IA(12)= end element number of vertex normal data
+IA(13)= data per facet flag(PNOF,PFCOLR,PFNORM,PFCONO)
+IA(14)= data per vertex flag(PCOORD,PCCOLR,PCNORM,PCCONO)
+IA(15)= colour type
+IA(16)= columns number of points dimension
+IA(17)= rows number of points dimension
+IA=element IA(1) through IA(2) contain the facet colour indices
+IA=element IA(3) through IA(4) contain the vertex colour indices
+RL= IA(16)*IA(17)*3+(IA(6)-IA(5)-1)+(IA(8)-IA(7)-1)+(IA(10)-IA(9)-1)+(IA(12)-IA(11)-1)
+RA=element 1 through IA(16)*IA(17)*3 contain the coordinates of points
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(5) through IA(6) contain the facet colour components
+    example(colour type = RGB) r1,r2,r3,...g1,g2,g3,...b1,b2,b3...
+RA=element IA(7) through IA(8) contain the facet normal data
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(9) through IA(10) contain the vertex colour components
+RA=element IA(11) through IA(12) contain the vertex normal data
+SL= 0
+LSTR= ()
+STR= () 
+If start element number equal zero, specified data is nothing in data record.
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PESFS3:
+IL= 26+IA(25)+(IA(2)-IA(1)-1)+(IA(4)-IA(3)-1)+(IA(6)-IA(5)-1)+IA(IA(8)-IA(7)-1)+(IA(10)-IA(9)-1)+(IA(12)-IA(11)-1)
+IA(1)= start element number of array of end indices for vertex indices 
+IA(2)= end element number of array of end indices for vertex indices 
+IA(3)= start element number of vertex indices 
+IA(4)= end element number of vertex indices 
+IA(5)= start element number of array of end indices for edge data 
+IA(6)= end element number of array of end indices for edge data 
+IA(7)= start element number of facet colour indices 
+IA(8)= end element number of facet colour indices 
+IA(9)= start element number of edge data
+IA(10)= end element number of edge data
+IA(11)= start element number of vertex colour indices 
+IA(12)= end element number of vertex colour indices 
+IA(13)= start element number of facet colour components 
+IA(14)= end element number of facet colour components 
+IA(15)= start element number of facet normal data
+IA(16)= end element number of facet normal data
+IA(17)= start element number of vertex colour components 
+IA(18)= end element number of vertex colour components 
+IA(19)= start element number of vertex normal data
+IA(20)= end element number of vertex normal data
+IA(21)= data per facet flag(PNOF,PFCOLR,PFNORM,PFCONO)
+IA(22)= data per edge flag(POFF,PON)
+IA(23)= data per vertex flag(PCOORD,PCCOLR,PCNORM,PCCONO)
+IA(24)= colour type
+IA(25)= number of fill area sets in set of fill area set 3 with data
+IA(26)= number of points in set of fill area set 3 with data
+IA=element 27 through IA(25)+26 contain the number of facets
+IA=element IA(1) through IA(2) contain the array of end indices for vertex indices 
+IA=element IA(3) through IA(4) contain the vertex indices
+IA=element IA(5) through IA(6) contain the array of end indices for edge data
+IA=element IA(7) through IA(8) contain the facet colour indices
+IA=element IA(9) through IA(10) contain the edge data
+IA=element IA(11) through IA(12) contain the vertex colour indices
+RL= IA(26)*3+(IA(14)-IA(13)-1)+(IA(16)-IA(15)-1)+(IA(18)-IA(17)-1)+(IA(20)-IA(19)-1)
+RA=element 1 through IA(26)*3 contain the coordinates of points
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(13) through IA(14) contain the facet colour components
+    example(colour type = RGB) r1,r2,r3,...g1,g2,g3,...b1,b2,b3...
+RA=element IA(15) through IA(16) contain the facet normal data
+    example x1,x2,...y1,y2,...z1,z2...
+RA=element IA(17) through IA(18) contain the vertex colour components
+RA=element IA(19) through IA(20) contain the vertex normal data
+SL= 0
+LSTR= ()
+STR= () 
+If start element number equal zero, specified data is nothing in data record.
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PENBSC:
+IL= 4
+IA(1)= spline order
+IA(2)= number of knots array
+IA(3)= rationality(PRATIO,PNONRA)
+IA(4)= number of control points
+RL= 2+IA(2)+IA(4)*4 
+RA=element 1 through IA(2) contain the knots
+RA=element IA(2)+1 through IA(2)+2 contain the parameter range limits
+RA=element IA(2)+3 through IA(2)+IA(4)+2 control point x
+RA=element IA(2)+IA(4)+3 through IA(2)+IA(4)*2+2 control point y
+RA=element IA(2)+IA(4)*2+3 through IA(2)+IA(4)*3+2 control point z
+RA=element IA(2)+IA(4)*3+3 through IA(2)+IA(4)*4+2 control point w
+(If rationality=PRATIO)
+SL= 0 
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PENBSS:
+IL= n
+IA(1)= start element number of u knots
+IA(2)= end element number of u knots
+IA(3)= start element number of v knots
+IA(4)= end element number of v knots
+IA(5)= start element number of control points x
+IA(6)= end element number of control points x
+IA(7)= start element number of control points y
+IA(8)= end element number of control points y
+IA(9)= start element number of control points z
+IA(10)= end element number of control points z
+IA(11)= start element number of control points w
+IA(12)= end element number of control points w
+IA(13)= start element number of curve approximation type
+IA(14)= end element number of curve approximation type
+IA(15)= start element number of curve approximation data record
+IA(16)= end element number of curve approximation data record
+IA(17)= start element number of curve visibility flag
+IA(18)= end element number of curve visibility flag
+IA(19)= start element number of curve order
+IA(20)= end element number of curve order
+IA(21)= start element number of knots array for curve knots vector
+IA(22)= end element number of knots array for curve knots vector
+IA(23)= start element number of curve knots vector
+IA(24)= end element number of curve knots vector
+IA(25)= start element number of curve type
+IA(26)= end element number of curve type
+IA(27)= start element number of ccurve control points x
+IA(28)= end element number of ccurve control points x
+IA(29)= start element number of curve control points y
+IA(30)= end element number of curve control points y
+IA(31)= start element number of curve control points w
+IA(32)= end element number of curve control points w
+IA(33)= spline orders u
+IA(34)= spline orders v
+IA(35)= number of knots array for u
+IA(36)= number of knots array for v
+IA(37)= rationality(PRATIO,PNONRA)
+IA(38)= u number of control points dimension
+IA(39)= v number of control points dimension
+IA(40)= number of trimming loops dimension
+IA=element IA(41) through IA(40)+40 contain the array of indices for trimming loops definitions
+IA=element IA(13) through IA(14) contain the curve approximation criteria types
+IA=element IA(15) through IA(16) contain the curve approximation data record
+IA=element IA(17) through IA(18) contain the curve visibility flag
+IA=element IA(19) through IA(20) contain the curve order
+IA=element IA(21) through IA(22) contain the knots array for curve konts vector
+IA=element IA(25) through IA(26) contain the curve type
+RL= n 
+RA=element IA(1) through IA(2) contain the u knots
+RA=element IA(3) through IA(4) contain the v knots
+RA=element IA(5) through IA(6) contain the control point x
+RA=element IA(7) through IA(8) contain the control point y
+RA=element IA(9) through IA(10) contain the control point z
+RA=element IA(11) through IA(12) contain the control point w(If rationality=PRATIO)
+RA=element IA(23) through IA(24) contain the curve knots vector
+RA=element IA(27) through IA(28) contain the curve control point x
+RA=element IA(29) through IA(30) contain the curve control point y
+RA=element IA(31) through IA(32) contain the curve control point w
+(If rationality=PRATIO)
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PECAP3:
+Common element:
+IL= 3+ n 
+IA(1)= number of columns
+IA(2)= number of rows
+IA(3)= colour type
+RL= 9+ n 
+RA=element 1 through 3 contain the cell parallelogram(P)
+RA=element 4 through 6 contain the cell parallelogram(Q)
+RA=element 7 through 9 contain the cell parallelogram(R)
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA=element 4 through IA(1)*IA(2)+3 contain colour index 
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA=element 10 through IA(1)*IA(2)+9 colour value 1
+         element IA(1)*IA(2)+10 through 2*IA(1)*IA(2)+9 colour value 2
+         element 2*IA(1)*IA(2)+10 through 3*IA(1)*IA(2)+9 colour value 3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PETXCL:
+Common element:
+IL= n 
+IA(1)= colour type 
+RL= n 
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(1)= colour value1
+    RA(2)= colour value2
+    RA(3)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEPMCL:
+Common element:
+IL= n 
+IA(1)= colour type 
+RL= n 
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(1)= colour value1
+    RA(2)= colour value2
+    RA(3)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEEDCL:
+Common element:
+IL= n 
+IA(1)= colour type 
+RL= n 
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(1)= colour value1
+    RA(2)= colour value2
+    RA(3)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEPLCL:
+Common element:
+IL= n 
+IA(1)= colour type 
+RL= n 
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(1)= colour value1
+    RA(2)= colour value2
+    RA(3)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PECAC:
+IL= 2
+IA(1)= curve approximation criteria type
+IA(2)= count
+RL= 1
+RA(1)= approximation value
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEPLSM:
+IL= 1
+IA(1)= polyline shading method
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEICL:
+Common element:
+IL= n 
+IA(1)= colour type 
+RL= n 
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(1)= colour value1
+    RA(2)= colour value2
+    RA(3)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEBICL:
+Common element:
+IL= n 
+IA(1)= colour type 
+RL= n 
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(1)= colour value1
+    RA(2)= colour value2
+    RA(3)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEBISY:
+IL= 1
+IA(1)= interior style(PHOLLO,PSOLID,PATTR,PPATCH,PISEMP)
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEBISI:
+IL= 1
+IA(1)= interior style index
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PERFP:
+Common element:
+IL= 1+ n 
+IA(1)= colour type 
+RL= 5+ n 
+RA(1)= ambient reflection coefficient
+RA(2)= diffuse reflection coefficient
+RA(3)= specular reflection coefficient
+RA(4)= specular exponent
+RA(5)= transparency coefficient
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(6)= colour value1
+    RA(7)= colour value2
+    RA(8)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEBRFP:
+Common element:
+IL= 1+n 
+IA(1)= colour type 
+RL= 5+n 
+RA(1)= ambient reflection coefficient
+RA(2)= diffuse reflection coefficient
+RA(3)= specular reflection coefficient
+RA(4)= specular exponent
+RA(5)= transparency coefficient
+SL= 0 
+LSTR= ()
+STR= () 
+Individual element:
+  CASE colour type=0(index):
+    IA(2)= colour index
+  CASE colour type=1(RGB)or2(CIE)or3(HSV)or4(HLS):
+    RA(6)= colour value1
+    RA(7)= colour value2
+    RA(8)= colour value3
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEISM:
+IL= 1
+IA(1)= interior shading method
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEBISM:
+IL= 1
+IA(1)= interior shading method
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEIRFE:
+IL= 1
+IA(1)= reflectance equation
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEBIRE:
+IL= 1
+IA(1)= reflectance equation
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PESAPC:
+IL= 1
+IA(1)= curve approximation criteria type
+RL= 2
+RA(1)= u approximation value or approximation value
+RA(2)= v approximation value
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEPSCH:
+IL= 1
+IA(1)= parametric surface characteristics type
+RL= 0
+RA= ()
+SL= length of data record array
+FOR i=1 TO length of data record array
+LSTR(i)= 80
+STR= data record*\**
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEFDGM:
+IL= 1
+IA(1)= distinguishing mode(POFF,PON)
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEFCUM:
+IL= 1
+IA(1)= culling mode(PNCUL,PBFAC,PFFAC)
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PELSST:
+IL= 1+n 
+IA(1)= number of activation index 
+IA= element 2 through IA(1)+1 contain the activation list
+IA(IA(1)+2)= number of deactivation index 
+IA= element IA(1)+3 through IA(IA(1)+2)+IA(1)+2 contain the deactivation list
+RL= 0 
+RA= ()
+SL= 0 
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PEDPCI:
+IL= 1
+IA(1)= depth cue index
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PECMI:
+IL= 1
+IA(1)= colour mapping index
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= ()
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PECMI:
+IL= 1
+IA(1)= colour mapping index
+RL= 0
+RA= ()
+SL= 0
+LSTR= ()
+STR= () 
+
+Output parameters for STRUCTURE CONTENT DATA RECORD for ELTYPE = PERCLM:
+IL= 1
+IA(1)= rendering colour model(PRWKD,PRMRGB,PRMCIE,PRMHSV,PRMHLS) 
+RL= 0 
+RA= () 
+SL= 0
+LSTR= ()
+STR= () 
+
+.Pe
+.Fe
+.Fs
+See SET PARAMETRIC SURFACE CHARACTERISTICS for a description of the parametric s
+urface characteristics data record.
+.FE
+
+.bp
+.AC "Note"4
+
+.Fs "OPEN WORKSTATION"
+SUBROUTINE POPWK(WKID,CONID,WTYPE)
+.Ps Input
+INTEGER           WKID      workstation identifier
+INTEGER           CONID     connection identifier 
+INTEGER           WTYPE     workstation type
+.Pe
+.Fe
+Extension: In FORTRAN Binding, following two workstation type already defind.
+phigs_ws_x_tool is 0(INTEGER). phigs_ws_x_drawable is 1(INTEGER).
+But you can only specified 0(phigs_ws_x_tool) to workstation type.
+And you must specified 0 to connection identifier.
+This version does not supported phigs_ws_x_drawable.
+

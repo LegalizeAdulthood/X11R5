@@ -1,0 +1,31 @@
+# Makefile for xdaliclock, Copyright (c) 1991 Jamie Zawinski.
+#
+# If you don't have the SHAPE extension, you shouldn't pass -DSHAPE
+# and you don't need to link with -lXext.
+#
+# If your system doesn't have the select() system call, use -DNO_SELECT.
+# This will make the usleep() system call be used instead (this pauses
+# for the given number of microseconds).  If your system doesn't have
+# either select() or usleep(), you've got some hacking to do.  :-)
+
+CC=		cc
+CFLAGS=		-O
+DEFINES=	-DBUILTIN_FONT -DSHAPE
+INCLUDES=	-I./numbers
+LIBS=		-lXext -lX11
+TAR=		tar
+
+xdaliclock: xdaliclock.c defaults.h
+	$(CC) -o $@ $(DEFINES) $@.c $(CFLAGS) $(INCLUDES) $(LIBS)
+
+TARFILES= README xdaliclock.man Imakefile Makefile.simple \
+	xdaliclock.c defaults.h numbers
+
+uu:: xdaliclock.tar.Z.uu
+
+xdaliclock.tar: $(TARFILES)
+	$(TAR) -vcf $@ $(TARFILES)
+xdaliclock.tar.Z: $(TARFILES)
+	$(TAR) -vcf - $(TARFILES) | compress > $@
+xdaliclock.tar.Z.uu: $(TARFILES)
+	$(TAR) -vcf - $(TARFILES) | compress | uuencode $(@:.uu=) > $@

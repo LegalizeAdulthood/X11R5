@@ -1,0 +1,13 @@
+#ifndef WcTopDir
+#define WcTopDir ..
+#endif
+
+#include "../Wc.tmpl"
+
+       PROGRAMS = MDcornell
+          SRCS1 = MDcornell.c
+          OBJS1 = MDcornell.o
+LOCAL_LIBRARIES = $(XCPLIB) -lXcu $(WCLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+
+UninstalledComplexProgramTarget_1(MDcornell,	$(LOCAL_LIBRARIES),$(SYSTEM_LIBRARIES))

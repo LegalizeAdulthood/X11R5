@@ -1,0 +1,21 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS		=	apt.do aptv.do apts.do
+IHFILES		=	apt.ih aptv.ih apts.ih
+OBJS			=	apt.o aptv.o apts.o
+
+FontRule()
+NSDeclareFont(aptcsr20)
+NSDeclareFont(apticn20)
+
+NormalObjectRule()
+NormalATKRule()
+DependTarget()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+InstallFile(apt.h,${INSTINCFLAGS},${DESTDIR}/include/atk)
+
+MkdirTarget(${DESTDIR}/doc/atk/apt  ${DESTDIR}/doc/atk/apt/apt)
+InstallDocs(AptPG.doc,${DESTDIR}/doc/atk/apt/apt)

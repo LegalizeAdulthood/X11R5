@@ -1,0 +1,38 @@
+      DEPXAWLIB = $(CONTRIBSRC)/lib/Xaw/libXaw.a
+         XAWLIB = $(DEPXAWLIB)
+   DEPXWCHARLIB = $(CONTRIBSRC)/lib/Xwchar/libXwchar.a
+      XWCHARLIB = $(DEPXWCHARLIB)
+
+LINKS = XClipboard.ad \
+        Xawi18n.h \
+        xclipboard.man \
+        xcutsel.c \
+        xcutsel.man
+
+DEFINES = -DXI18N
+DEPLIBS = $(DEPXAWLIB) $(DEPXWCHARLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XWCHARLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+          SRCS1 = xclipboard.c
+          OBJS1 = xclipboard.o
+          SRCS2 = xcutsel.c
+          OBJS2 = xcutsel.o
+       PROGRAMS = xclipboard xcutsel
+
+ComplexProgramTarget_1(xclipboard,$(LOCAL_LIBRARIES),NullParameter)
+ComplexProgramTarget_2(xcutsel,$(LOCAL_LIBRARIES),NullParameter)
+
+includes::
+	$(RM) $(LINKS)
+	for i in $(LINKS); do (set -x; $(LN) $(CLIENTSRC)/xclipboard/$$i .); done
+	
+InstallAppDefaults(XClipboard)
+
+install::
+	MakeDir($(LIBDIR)/wr_WR.ct/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) XClip-ct.ad $(LIBDIR)/wr_WR.ct/app-defaults/XClipboard
+	MakeDir($(LIBDIR)/ja_JP.ujis/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) XClip-uj.ad $(LIBDIR)/ja_JP.ujis/app-defaults/XClipboard
+
+clean::
+	$(RM) $(LINKS)

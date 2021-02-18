@@ -1,0 +1,15 @@
+WDDEL
+
+名称
+
+	wddel		───	単語削除をバッチ的に行なう。
+
+形式
+
+	wdreg jserver_n env_n dic_no < text
+
+機能説明
+
+	指定された jserver の環境の辞書に、text の中の番号の単語を
+	バッチ的に削除するする。text は、各行の先頭に、削除したい単語の
+	serial no が書かれているファイルであること。

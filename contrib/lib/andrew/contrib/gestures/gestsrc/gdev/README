@@ -1,0 +1,28 @@
+/***********************************************************************
+
+Copyright (C) 1991 Dean Rubine
+
+** Permission to use, copy, modify, and distribute this software and its
+** documentation for any purpose and without fee is hereby granted, provided
+** that the above copyright notice appear in all copies and that both that
+** copyright notice and this permission notice appear in supporting
+** documentation.  This software is provided "as is" without express or
+** implied warranty.
+
+**********************************************************************/
+
+This is a graphics layer I've been using for a while.
+Check out gdev.h for more details.
+
+The various files are:
+args.h	for processing argc and argv
+dp.c	a back end for the dp drawing program
+gdev.c	the system indepent graphics interface
+gdev.h	header for above
+gdrv.h	file included by system specific back ends
+gtest.c	test program
+poof.c	back end for spoof
+ps.c	back end for postscript
+wm.c	back end for wm (old andrew window manager)
+x11r4.c back end for x11 r4
+xdev.c  back end for x10

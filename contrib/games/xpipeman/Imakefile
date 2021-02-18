@@ -1,0 +1,22 @@
+
+     SCORE_FILE = -DSCORE_FILE=\"./xpipescores\"
+      MAXSCORES = -DMAXSCORES=20
+        DEFINES = $(SCORE_FILE) $(MAXSCORES)
+
+           SRCS = actions.c game.c graphics.c main.c score.c popup.c info.c
+           OBJS = actions.o game.o graphics.o main.o score.o popup.o info.o
+
+       INCLUDES = -I$(TOP) -I$(TOOLKITSRC)
+LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+  SYS_LIBRARIES = -lm
+
+all:: xpipeman
+
+ComplexProgramTarget(xpipeman)
+/*
+ *  The following is a matter of preference:
+ *
+ *  InstallManPage(xpipeman,$(MANDIR))
+ *  InstallProgram(xpipeman,$(BINDIR))
+ */
+

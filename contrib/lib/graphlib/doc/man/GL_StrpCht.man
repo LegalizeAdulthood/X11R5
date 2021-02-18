@@ -1,0 +1,91 @@
+.TH GL_StripChart 3GL 5Jul91 "GraphLib 0.5a"
+.SH NAME
+GL_StripChart \- Type to use to create a stripchart window.
+.SH SYNTAX
+(Window)GL_Create(GL_StripChart,
+.br
+		    <option>, [args,]
+.br
+		  ...,
+.br
+		  GL_Done);
+void GL_ResetStripChart(window)
+.br
+	Window window;
+.SH ARGUMENTS
+.IP GL_StripChart 1i
+Type specifier for the GL_Create call.
+.IP GL_Done 1i
+Mark to terminate variable arguments list.
+.IP window 1i
+The window associated with the stripchart to reset.
+
+.SH DESCRIPTION
+This call creates a window with a stripchart in it.  Currently the stripchart
+is set up so that it will attempt to get input ever so many units of time
+from a function passed to it by its caller.  Whenever the current scale 
+changes, such as a very large value is returned or the large values have
+moved off the left side of the stripchart, it will call a change scale max
+function with the values of the current maximum, and the current multiplier.
+The multiplier is an integer which tells by what number all the returned
+values are multiplied by.  For example in the perfmon client, all the values
+for load are multiplied by LOAD_SCALE, which is currently 100.  Values
+can also be set so that the stripchart will never have a value above or below
+a certain point, and how much it will jump by.
+The GL_ResetStripChart call will reset the stripchart to the initial state
+of recording information.  This is useful if the getfunc of the stripchart
+is changed and the programmer does not want old data cluttering up the
+stripchart.
+.SH OPTIONS
+
+.IP "GLSC_DrawFunc, <VPTF drawfunc>" 1i
+This specifies the function to use to draw, this is currently unsupported, 
+and will require a similar expose function also.  This will be fixed if
+anyone desires these features to become available.
+.IP "GLSC_GetFunc, <LPTF getfunc>" 1i
+This specifies the function with which to aquire new values.  This function
+should return long values.  There are probably some inconsistancies in the
+code dealing with the difference between long and int values, because on all
+the systems that the code has been tested on these values are exactly the same.
+This value defaults to NULL
+.IP "GLSC_CurScale, <int curscale>" 1i
+This specifies the value that the current scale should have, this value
+will be changed as values are returned by the getfunc subject to the
+constraints of the Maximum, Minimum, and Delta.  This value defaults to 0.
+.IP "GLSC_MinScale, <int minscale>" 1i
+This specifies the minimum value that the scale should ever have.  The current
+scale will never fall below this value which defaults to 0.
+.IP "GLSC_MaxScale, <int maxscale>" 1i
+This specifies the maximum value that the scale should ever have.  The current
+scale will never go above this value which defaults to INT_MAX.
+.IP "GLSC_DeltaScale, <int deltascale>" 1i
+This specifies the amount by which the scale should move up and down.
+Depending on the value specified the current scale may move up by any
+multiple of this value. This defaults to 100.
+.IP "GLSC_Interval_Sec, <int secinterval>" 1i
+This specifies the interval in seconds by which the get function should be 
+called. This defaults to 1.
+.IP "GLSC_Interval_USec, <int usecinterval>" 1i
+This specifies the interval in microseconds by which the get function should
+be called. This defaults to 0.
+.IP "GLSC_ChangeScaleMaxFunc, <VPTF changescalemaxfunc>" 1i
+This function will be called any time that the current maximum changes.
+It will be called with two values.  First the current maximum, and second
+the current multiplier.  Both of these values will be passed as integers.
+This defaults to NULL.
+.IP "GLSC_Multiplier, <int multiplier>" 1i
+This specifies the multiplier which is being used.  This value will be
+passed to the changescalemaxfunc so that it can accurately display the 
+current maximum.  This defaults to 1.  This value is guarenteed to be
+non zero, if it is ever set to 0 it will be changed to 1.
+
+.SH FEATURES?
+This window will add a time out function to the eventmanager, and therefore
+no other part of the program should add a time out function.  Furthermore,
+this requires that two of the stripchart windows cannot be run at the same 
+time.  This will be fixed when the eventmanager is fixed.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Window(3GL), perfmon(1), GL_SetTimeOut(3GL),
+GraphLib Programming Manual
+

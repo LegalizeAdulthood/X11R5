@@ -1,0 +1,600 @@
+
+			*************************************************
+			*	Chapter 2	BASIC OPERATIONS	*
+			*************************************************
+
+
+
+	
+   2.1 CWNN STARTUP AND TERMINATION   
+   ================================
+
+	After the  installation of cWnn (refer to appendix 1), the system is ready to be 
+used.  First of  all, the user needs to startup the server before he can use cWnn, which 
+is  the client.  Only one server is needed.  Once  the server is up, it can be shared by 
+several uum's.
+ 
+
+1. Startup of Cserver
+~~~~~~~~~~~~~~~~~~~~~
+To start the server, type the following command at the C-Shell prompt :
+	+------------------------------------------------------------+
+        | %  cserver  <CR>                                           |
+        +------------------------------------------------------------+
+
+The  standard path of cserver is  "/usr/local/bin/cWnn4/ ".  If the user has not set this 
+path, he  can  either  set the path or type the full pathname of cserver while executing 
+this command.
+
+Once the cserver is up, all the clients are able to use it.  The server will read in all 
+the  necessary  dictionaries  and  grammar files, after which the C-Shell prompt will be 
+ready to receive commands again.
+
+
+2. Startup of cWnn
+~~~~~~~~~~~~~~~~~~
+To start cWnn, type the following command at the C-Shell prompt of a Chinese window 
+( eg. X-window and Gmw ). 
+	+------------------------------------------------------------+
+        | %  uum  <CR>                                              |
+        +------------------------------------------------------------+
+
+The  standard path for cWnn is similar to  that  of the  server, "/usr/local/bin/cWnn4/". 
+Many clients  can  be  started  at the same time on different windows, but served by the 
+same server.
+
+
+
+
+
+					- 2-1 -
+
+	During the execution of the uum command, the folloing status will apper.
+
+        +---------------------------------------------------------------+
+	|                                                               |
+	| %                                                             |
+	| [---]                                                         |
+        +---------------------------------------------------------------+
+
+
+	cWnn is now ready to be used.  To enter the input mode, press <CTRL-SP>.  
+To leave the input mode, press <CTRL-SP> again.
+
+
+3. Termination of cWnn 
+~~~~~~~~~~~~~~~~~~~~~~
+In order to terminate a cWnn process, type the following :
+	 +------------------------------------------------------------+
+         |                                                            | 
+         | %  exit <CR>          (or)  %  Ctrl + d                    | 
+         | [---]                                                      | 
+         +------------------------------------------------------------+
+
+The server will save all the usage frequency files and dictionaries of the particular
+client and terminate the connection between itself and that client.
+
+ 
+4. Termination of cserver 
+~~~~~~~~~~~~~~~~~~~~~~~~~
+To terminate the server, type the following command :
+	 +------------------------------------------------------------+
+         | % wnnkill <CR>                                             | 
+         | Cserver Terminated                                         | 
+         | %                                                          | 
+         +------------------------------------------------------------+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-2 -
+If some other clients still exist, the following message will be displayed.
+	 +------------------------------------------------------------+
+         | % wnnkill <CR>                                             | 
+         | Cserver Not Killed                                         | 
+         | %                                                          | 
+         | [---]                                                      | 
+         +------------------------------------------------------------+ 
+
+For more details, please refer to Chapter 4.
+
+
+Note :  The <CR> at the end of the command line represents a carriage return.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-3 -
+
+   2.2 STANDARD INPUT ENVIRONMENT   
+   ==============================
+
+	The standard input environment of cWnn is supported by the automaton.
+
+Standard path : /usr/local/lib/wnn/zh_CN/rk/  (default) 
+
+The following shows the input methods that are available in this environment :
+
+	Pinyin input, Zhuyin input			(PF1)
+	Wubi input, Cangjie input			(PF2)
+	Quanjiao input, Banjiao input			(PF3)
+	Quwei input, Neima input			(PF4)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-4 -
+
+   2.3 PHONETIC INPUT METHOD    
+   =========================
+
+	This input  method  makes use of the Chinese pronunciation to perform the Pinyin 
+to Chinese  character  conversion.  We will now show how the Pinyin input method is used. 
+For details on the Pinyin-Hanzi conversion, refer to Chapter 3.
+
+	After the startup  of uum, press <Ctrl-SP> to enter into the input  environment.
+The user  will be  able  to see the  prompt  as shown below, after which Pinyin input is 
+possible. 
+
+
+<Table-c-2.2>
+
+
+
+1. Keyboard Layout
+~~~~~~~~~~~~~~~~~~
+The keyboard layout can be shown in the diagram below :
+    +-------------------------------------------------+
+    | PF1| PF2| PF3| PF4| PF5| PF6| PF7| PF8| PF9|PF10|
+    +-------------------------------------------------+
+    +----------------------------------------------------------+ +----++----+ 
+    |                                                          | |Add ||Dic | 
+    |                                                          | +----++----+
+    |                                                          |+--------++--------+
+    |                                                          ||Segment ||Segment |
+    |                        QWERTY keyboard                   |+--------++--------+
+    |                                                          | +------------------+
+    |                                                          | |Previous candidate|
+    |                                                          | +------------------+
+    |                                                          | +----++----+ 
+    |----------+                                        +------| | <- || -> | 
+    | Shift    |                                        | Shift| +----++----+ 
+    |----------+-----------------------------------------------| +--------------+
+    | Confirm  |  Meta |  CAP |  SPACE   |  Kana |  Conversion | |Next candidate| 
+    +----------------------------------------------------------+ +--------------+
+       
+
+
+
+
+
+
+
+
+
+
+					- 2-5 -
+2. The Different Types of Input Mode 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Different input  methods will have different input modes.  The following input modes are 
+available in cWnn :
+
+<Table-c-2.3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-6 -
+<Table-c-2.4>
+
+
+
+
+
+
+
+
+
+
+3. Toggle Among the Different Input Modes 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* To enter or exit the uum input mode	          ----	<Ctrl-SP>
+
+* To enter and toggle Pinyin input mode	    	  ----	 PF1 
+  Example : Quanpin, Erpin, Sanpin input methods.
+
+* To enter and toggle Bixing input mode	          ----	 PF2 
+  Example : Wubi, Qianma input methods.
+
+* To enter and toggle ASCII character input mode  ----   PF3 
+  Example : Quanjiao, Banjiao input methods.
+
+* To enter and toggle other input modes	    	  ----	 PF4 
+  Example :  Guobiao, Quwei, Neima input methods.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-7 -
+4. The Input Process 
+~~~~~~~~~~~~~~~~~~~~
+
+    (a) Pinyin input method 
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+	First, the user needs to enter into the required input mode.  For example, enter 
+	Pinyin mode through PF1.  
+	The  Chinese  pronunciation can  be entered with or without the four tones.  Any 
+	arbitrary length of pronunciations  is allowed and user can correct his mistakes 
+	by  just  moving  the cursor  to the  particular position and do the correction, 
+	without having to re-type the entire Pinyin string again.
+
+	The system  will  perform  an  auto-checking for the Pinyin entered, to ensure a 
+	legal Pinyin input.  
+
+
+	The following keys can be used to manupulate the input :
+
+	Function keys  		Functions  
+	--------------------------------------------------------------------
+	 ^F (or ->|)	To move the cursor one position to the right.  
+ 
+	 ^B (or |<-)   	To move the cursor one position to the left.  
+ 
+	 ^D 	 	To delete the character on the cursor.  
+ 
+	 ^E 	 	To move the cursor to the end of the input string.  
+ 
+	 ^A	 	To move the cursor to the front of the input string.  
+ 
+	 ^K      	To delete all the input characters from the cursor 
+			position till the end of the input string.  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-8 -
+    (b) Pinyin-Hanzi conversion 
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+<Table-c-2.5>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    (c) Conversion confirmation 
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<Table-c-2.6>
+
+
+
+
+
+
+
+
+
+
+
+					- 2-9 -
+5. An example of Pinyin-Hanzi Conversion 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<Table-c-2.7> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-10 -
+
+   2.4 OTHER INPUT METHODS 
+   =======================
+
+	Besides Pinyin input method, cWnn provides other methods to input Chinese.
+
+1. Encoded Input Method (Bianma Input Method) 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	To input a Chinese character, the user needs to input according to the components 
+of the character.  Currently,  a few  hundred  types  of Bianma  input methods have been
+developed.   cWnn  provides the commonly  used methods such as Wubi and Qianma.  However, 
+being system  independent, any  input method can be installed easily into cWnn. To input 
+via  Wubi or Qianma method, just enter into the respective input mode using the function 
+keys. 
+
+(a) Wubi input method 	This method uses up to four keys to represent one Chinese 
+			character,  and  each key represents one component of the 
+			character.  Once  the  four  components  are entered, the 
+			system  automatically  performs  the conversion to Hanzi.
+			If  components  do not correspond to a Chinese character, 
+			the input will be cancelled automatically.
+
+			If the  Chinese character  requires  less than four keys, 
+			the input can be completed by pressing the space bar.
+
+			When the  user  is  uncertain  of  the  components of the 
+			Chinese character, he can enter "?" or "z" as a  wildcard 
+			to select all the  possible characters. The way to select 
+			the correct  candidate is similar to Pinyin input  method.
+
+(b) Qianma input method This  method  uses  three  keys to represent one  Chinese 
+			character, and  each key represents one component  of the 
+			character.  Once  the three  components are  entered, the 
+			system  automatically perform the conversion to Hanzi. If 
+			the components do not  correspond to a Chinese character,
+			the input will be cancelled automatically.
+
+			If the  Chinese character  requires less than three keys, 
+			the input can be completed by pressing the space bar.
+
+			When the  user  is  uncertain  of  the components  of the 
+			Chinese character, he can enter "?" or "z" as a  wildcard 
+			to select all the possible characters. 
+			The way  to  select  the correct  candidate is similar to 
+			Pinyin input method.
+
+
+
+
+					- 2-11 -
+<Table-c-2.8>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 2-12 -

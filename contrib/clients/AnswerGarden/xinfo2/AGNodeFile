@@ -1,0 +1,101 @@
+NoAction		#(null)		#NoAction			#xag00001
+General_Programming		#SBrowser		#Programming X			#xag00002
+MissingNode		#SBrowser		#MissingNode			#xag00003
+Control		#SBrowser		#Control			#xag00004
+RootGrapher		#Grapher		#The X Window System			#xag00005
+Root		#SBrowser		#The X Window System			#xag00006
+General_Using		#SBrowser		#Using X			#xag00007
+Using_Applications		#SBrowser		#Applications			#xag00008
+General_Information		#SBrowser		#Finding information			#xag00009
+Info_Using_AnswerGarden		#SBrowser		#Using AnswerGarden			#xag00010
+Info_X_General		#SBrowser		#Books about X			#xag00011
+Info_AnswerGarden		#SBrowser		#Info about Answer Garden			#xag00012
+Prog_Athena		#SBrowser		#The Athena widget set			#xag00013
+Prog_Motif		#SBrowser		#The Motif widget set			#xag00014
+Prog_OLWT		#SBrowser		#The OpenLook widget set			#xag00015
+Prog_XView		#SBrowser		#XView			#xag00016
+Prog_Other_TK		#SBrowser		#Other toolkits			#xag00017
+Prog_Xlib		#SBrowser		#The Xlib level			#xag00018
+Prog_Misc		#SBrowser		#Something else			#xag00019
+Athena_Overview		#SBrowser		#A particular Athena widget			#xag00020
+Athena_Doc		#SBrowser		#Athena documentation			#xag00021
+Athena_DocR4Err		#QA-Node		#R4 Errors			#xag00022
+Prog_Xt		#SBrowser		#Programming with Xt			#xag00023
+Prog_Compile		#SBrowser		#Getting code to compile			#xag00024
+Prog_Compile_More		#SBrowser		#More info			#xag00025
+AGGrapher		#Grapher		#Answer Garden Tree			#xag00026
+Info_Authoring_AG		#Discussion		#Using the authoring system			#xag00027
+InfoGrapher		#Grapher		#Finding information about X...			#xag00028
+XtGrapher		#Grapher		#Xt...			#xag00029
+Xt_Accelerators		#QA-Node		#Accelerators			#xag00030
+Xt_Actions		#QA-Node		#Actions			#xag00031
+Xt_AppContext		#QA-Node		#AppContexts			#xag00032
+Xt_Callbacks		#QA-Node		#Callbacks			#xag00033
+Xt_Conventions		#QA-Node		#Conventions			#xag00034
+Xt_Converters		#QA-Node		#Converters			#xag00035
+Xt_Destroy		#QA-Node		#Destroying			#xag00036
+Xt_Events		#QA-Node		#Events			#xag00037
+Xt_Exit		#QA-Node		#Exiting			#xag00038
+Xt_Geometry		#QA-Node		#Geometry			#xag00039
+Xt_Grabs		#QA-Node		#Grabs			#xag00040
+Xt_Icons		#QA-Node		#Icons			#xag00041
+Xt_Input		#Discussion		#Input			#xag00042
+Xt_Popups		#QA-Node		#Popups			#xag00043
+Xt_Resources		#SBrowser		#Resources			#xag00044
+Xt_Res_Tutorial		#Discussion		#Resource Tutorial			#xag00045
+Xt_Res_QA		#QA-Node		#Resource Q&A			#xag00046
+Xt_Signals		#Discussion		#Signals			#xag00047
+Xt_Version		#QA-Node		#Version			#xag00048
+Xt_WidgetCur		#QA-Node		#Widget_Cursor			#xag00049
+Xt_Writing		#QA-Node		#Writing widgets			#xag00050
+Xt_Subclassing		#QA-Node		#Subclassing widgets			#xag00051
+Xt_Writing_1		#SBrowser		#Writing widgets			#xag00052
+Xt_General		#QA-Node		#General info about Xt 			#xag00053
+Xlib_fonts		#Discussion		#fonts			#xag00054
+Xlib_visuals		#Discussion		#visuals			#xag00055
+Xt_Prompt		#Discussion		#popup prompt design			#xag00056
+Xt_Popups_1		#SBrowser		#popups			#xag00057
+Info_Who		#SBrowser		#Who is the X Consortium			#xag00058
+Info_X_Consortium		#SBrowser		#X Consortium			#xag00059
+Info_Whos_AnswerGarden		#SBrowser		#Who's responsible for AG?			#xag00060
+Info_Definitions		#QA-Node		#X Definitions			#xag00061
+Using_Applications_Particular		#SBrowser		#Using a particular application			#xag00062
+Using_Applications_Types		#SBrowser		#Picking the right application			#xag00063
+Using_Locating		#SBrowser		#Locating an X binary			#xag00064
+Motif_Routine		#SBrowser		#Using a Motif routine			#xag00065
+Motif_Widgets_General		#SBrowser		#Using a Motif widget			#xag00066
+Xt_Send		#QA-Node		#Sending Events			#xag00067
+Info_OSF		#SBrowser		#the Open Software Foundation			#xag00068
+Info_Who_Does		#Discussion		#Who does what			#xag00069
+Info_X_Definitions		#SBrowser		#X definitions			#xag00070
+Info_Definitions_Widgets		#Discussion		#"intrinsics" vs. "widgets"			#xag00071
+MotifGrapher		#Grapher		#Motif widget set			#xag00072
+MrmFetchWidget		#QA-Node		#MrmFetchWidget			#xag00073
+Prog_Runtime_1		#QA-Node		#Run-time problems			#xag00074
+Prog_Debug		#SBrowser		#Don't know			#xag00075
+Prog_Runtime_2		#QA-Node		#Silent problems			#xag00076
+DebugGrapher		#Grapher		#Debugging			#xag00077
+Prog_Xt_Topics		#SBrowser		#General Xt topics			#xag00078
+Athena_Dialog		#QA-Node		#Dialog widget			#xag00079
+Athena_Form		#QA-Node		#Form widget			#xag00080
+Athena_Label		#QA-Node		#Label widget			#xag00081
+AthenaGrapher		#Grapher		#Athena widget set			#xag00082
+Athena_Viewport		#QA-Node		#Viewport widget			#xag00083
+Prog_Xt_Init		#SBrowser		#XtAppInitialize vs XtInitialize			#xag00084
+Prog_Xt_Routines		#SBrowser		#Xt routines			#xag00085
+Prog_Xt_Code_App1		#Code		#XtAppInitialize code			#xag00086
+XtRoutinesGrapher		#Grapher		#Xt routines ...			#xag00087
+General_Admin		#SBrowser		#Administering X			#xag00088
+Info_AG_Bugs		#SBrowser		#Reporting Bugs			#xag00089
+AdminGrapher		#Grapher		#Administering X ...			#xag00090
+Admin_Paths		#QA-Node		#Setting paths			#xag00091
+Admin_Compiler		#QA-Node		#Compiler errors			#xag00092
+Motif_Admin		#QA-Node		#Motif problems			#xag00093
+Motif_Debug		#QA-Node		#Debugging Motif			#xag00094
+Motif_Widget_Bulletin		#QA-Node		#Bulletin Board Dialog			#xag00095
+Motif_Widget_Dialog		#QA-Node		#Dialogs in general			#xag00096
+XmString		#QA-Node		#XmString			#xag00097
+Motif_Widget_Form		#QA-Node		#Form			#xag00098
+Athena_List		#QA-Node			#List widget		#xag00099
+XlibGrapherP		#Grapher			#Xlib level ..		#xag00100
+Athena_Text		#QA-Node			#Text widget		#xag00101

@@ -1,0 +1,22 @@
+;
+; $Id: jserverrc,v 1.1 1991/09/09 22:38:49 ohm Exp $
+;
+max_client 64
+jserver_dir /usr/local/lib/wnn/ja_JP/dic
+readfile pubdic/kihon.dic
+readfile pubdic/setsuji.dic
+readfile pubdic/koyuu.dic
+readfile pubdic/chimei.dic
+readfile pubdic/jinmei.dic
+readfile pubdic/special.dic
+readfile pubdic/computer.dic
+readfile pubdic/symbol.dic
+readfile pubdic/tankan.dic
+readfile pubdic/bio.dic
+
+readfile pubdic/full.fzk
+;         n nbun hindo len jiri flag jisho sbn dbn_len sbn_cnt suji kana eisuu kigou toji fuzoku kai
+def_param 2 10   2     45  5    100  5     1   15      0       400  0    400   80    200  2      200
+
+;set_giji_ascii '-' '_' 0x20 \x5c ^M '変' 1234 012 \o12
+set_giji_ascii '-' '_' 0x20 '―' '＿' '￣' '!' '?' '.' ',' ':' ';' '：' '；' '？' '！' '，' '．' '・'

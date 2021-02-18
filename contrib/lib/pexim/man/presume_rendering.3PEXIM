@@ -1,0 +1,108 @@
+."		"@(#)presume_rendering.3PEXIM	1.4 Stardent 91/07/03"
+."			Copyright (c) 1989 by
+."			Stardent Computer Inc.
+."			All Rights Reserved
+."	
+.\"  Permission to use, copy, modify, and distribute this software and its
+.\"  documentation for any purpose and without fee is hereby granted,
+.\"  provided that the above copyright notice appear in all copies and that
+.\"  both that copyright notice and this permission notice appear in
+.\"  supporting documentation, and that the name of Stardent Computer not be
+.\"  used in advertising or publicity pertaining to distribution of the
+.\"  software without specific, written prior permission. Stardent Computer
+.\"  makes no representations about the suitability of this software for any
+.\"  purpose.  It is provided "as is" without express or implied warranty.
+."	
+."	This file is under sccs control at Stardent in:
+."	@uranus/sccs1.p/cmd/grafix/X11/extensions/doc/PEX/pexim/s.presume_rendering.3PEXIM
+."	
+.TH "RESUME RENDERING" 3PEXIM "5-Jun-91"
+.SH NAME
+RESUME RENDERING \- Resume rendering in specified Renderer.
+.IX "Renderer" "RESUME RENDERING"
+.SH SYNOPSIS
+.SS C Syntax
+.ft B
+.ta 1.25i 2.75i
+.nf
+Pint
+presume_rendering ( wkid )
+Pint	wkid;		\fIRenderer ID given by the application
+.fi
+.ft R
+.SH DESCRIPTION
+.SS Purpose
+Use this routine to resume rendering in the specified renderer.  You can resume rendering
+only in a renderer that is in a paused state (as
+a result of calling the \s-1PAUSE RENDERING\s+1 routine on that renderer).  In
+addition, to resume rendering, there can be no currently active renderer
+(i.e., if rendering, you must call either \s-1END RENDERER\s+1 or \s-1PAUSE RENDERER\s+1
+before you can resume rendering in another renderer).
+.LP
+Typically, an application might use this routine in conjunction with the \s-1PAUSE RENDERING\s+1
+routine to
+temporarily stop rendering in one window, begin rendering in another (such as a window displaying
+a warning or a choice menu), and
+then reactivate the original renderer.  The following illustrates this sequence:
+.nf
+.ift \{
+.in 5
+\f5 \}
+pbegin_rendering (renderer_mainwindow)   /* renderer state-\s-1PEXIM_RENDERING\s+1
+             .                           /* rendering in the main window
+             .
+             .
+ppause_rendering (renderer_mainwindow)   /* renderer state-\s-1PEXIM_PAUSED\s+1
+                                         /* put rendering on hold temporarily
+
+pbegin_rendering (renderer_choicewindow) /* renderer state-\s-1PEXIM_RENDERING\s+1
+             .                           /* begin rendering in the choice window
+             .
+             .
+ppause_rendering (renderer_choicewindow) /* renderer state-\s-1PEXIM_PAUSED\s+1
+                                         /* choice window renderer is put on 
+                                         /* hold as rendering may be resumed
+                                         /* again in this window
+
+presume_rendering (renderer_mainwindow)  /* renderer state-\s-1PEXIM_RENDERING\s+1
+                                         /* return to rendering in the main window
+.ift \{
+\f1
+.fi
+.in
+\}
+.LP
+See \f6another section in the documentation for info on allowed renderer state
+transitions\f1.
+.\"Since each Renderer has associated with it an X drawable, you can use this
+.\"routine to direct graphics output to another X window by specifying an
+.\"appropriately defined renderer with the \f2wkid\f1 parameter.  Use the \s-1OPEN
+.\"RENDERER\s+1 routine to create a renderer with the desired attributes.
+.SS C Input Parameters
+.IP \fIwkid\fP
+This is the \s-1ID\s+1 by which the application identifies the
+renderer.  The application specifies the \s-1ID\s+1 when it opens the renderer
+(using \s-1OPEN RENDERER\s+1).  A renderer \s-1ID\s+1 is synonymous with
+a workstation identifier and is passed to other \s-1PHIGS\s+1 workstation
+routines to set views or lights.
+.SS Execution
+Required state of specified renderer before execution: \s-1PEXIM_PAUSED\s+1.
+.br
+Specified renderer's state after execution: \s-1PEXIM_RENDERING\s+1.
+.SS Function Return
+\f3presume_rendering\f1 returns an integer status.  A value of \s-1POK\s+1 indicates successful
+execution.
+.SH ERRORS
+.IP \s-1PEXIMERRB\s+1ad\s-1WKID\s+1
+Specified Renderer is not open.
+.IP \s-1PEXIMERRN\s+1ot\s-1R\s+1endering
+There is no active renderer.
+.SH SEE ALSO
+.nf
+.IP
+.ta 0.5i
+.SM "PAUSE RENDERING"
+.SM "END RENDERING"
+.SM "OPEN RENDERER"
+.SM "INQUIRE RENDERER STATE"
+.fi

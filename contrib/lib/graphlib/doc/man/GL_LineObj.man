@@ -1,0 +1,24 @@
+.TH GL_LineObject 3GL "10Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_LineObject \- Object to display a single line.
+.SH SYNTAX
+GLPointer GL_Create(GL_LineObject,
+.br
+		       <option>, [args,]
+.br
+		    ...,
+.br
+		    GL_Done);
+.SH DESCRIPTION
+This object will draw a single line.  It will use the clip region features
+of the X server to guarentee that it never draws more of the line than is
+neccesary.
+
+.SH OPTIONS
+
+.IP "GLLO_LinePos, <int x1, int y1, int x2, int y2>"
+This specifies the position of the line, it will be drawn from x1,y1 to x2,y2
+with the default drawing gc.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GL_Object(3GL), XDrawLine(3X11), GraphLib Programming Manual

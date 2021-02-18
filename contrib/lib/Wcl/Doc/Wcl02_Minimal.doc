@@ -1,0 +1,76 @@
+What Every Application Needs
+----------------------------
+
+All applications should include the public header file, should
+create the application shell, and should call WcCreateWidgets().
+They should also include an external decl for either MriRegisterMotif
+or AriRegisterAthena(), depending on the widget set desired.
+
+Here is an absolute minimal Motif based application:
+
+/*************************** Cut Here ***************************/
+#include <Xm/Xm.h>
+#include <Wc/WcCreate.h>
+
+extern void MriRegisterMotif();
+
+main( argc, argv )
+    int   argc;
+    char* argv[];
+{
+    XtAppContext app;
+    Widget appShell;
+
+    appShell = XtInitialize( "app", "App", NULL, 0, &argc, argv);
+
+    app = XtWidgetToApplicationContext(appShell);
+
+    MriRegisterMotif ( app );
+
+    WcWidgetCreation ( appShell );
+
+    XtRealizeWidget ( appShell );
+    XtMainLoop ( );
+}
+
+/********************** That's all, folks! **********************/
+
+This program can be linked like this:
+
+    % cc this.c -lXmp -lXm -lWc -lXt -lX11
+
+A minimal Athena application differs slightly due to the different
+include files and the different widget registration routine:
+
+/*************************** Cut Here ***************************/
+#include <X11/Intrinsic.h>
+#include <Wc/WcCreate.h>
+
+extern void AriRegisterAthena();
+
+main( argc, argv )
+    int   argc;
+    char* argv[];
+{
+    XtAppContext app;
+    Widget appShell;
+
+    appShell = XtInitialize( "app", "App", NULL, 0, &argc, argv);
+
+    app = XtWidgetToApplicationContext(appShell);
+
+    AriRegisterAthena ( app );
+
+    WcWidgetCreation ( appShell );
+
+    XtRealizeWidget ( appShell );
+    XtMainLoop ( );
+}
+/********************** That's all, folks! **********************/
+
+This program can be lined like this:
+
+    % cc this.c -lXp -lXaw -lWc -lXmu -lXt -lX11 -lm
+
+As you can see, every application needs as a minimum to invoke either
+MriRegisterMotif() or AriRegisterAthena(), and WcWidgetCreation().

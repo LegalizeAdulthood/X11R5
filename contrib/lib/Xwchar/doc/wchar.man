@@ -1,0 +1,129 @@
+.\" $Header: wchar.3,v 1.2 90/12/30 03:16:27 morisaki Exp $
+.\" $Date: 90/12/30 03:16:27 $
+.\" Copyright 1990 by OMRON Corp.  All Rights Reserved.
+.TH WCHAR 3 "June, 1990"
+.SH NAME
+.B iswascii, iswblank, iswcntrl, iswspace, iswprint, wgetgroup, wgetplane, wgetrow, wgetcell
+\- wchar character classification/operation macros or functions 
+.SH SYNOPSIS
+.nf
+.B #include \f2<X11/wchar.h>
+.PP
+.B iswascii\f2(wc)
+   . . . 
+
+
+.SH DESCRIPTION
+The wchar is a data type of processing code set that is referred from
+ISO DIS 10646.
+Each code is consisted of 4 bytes, called
+group(G), plane(P), row(R) and cell(C) respectively.  
+The control characters in wchar is defined that P, R, C are all PAD, 
+G is in ascii control set 0 or 1, i.e.,
+     
+                     G   P   R   C
+                     C0  PAD PAD PAD 
+          or:        C1  PAD PAD PAD
+
+where C0 and C1 stand for ascii control set 0 and 1, PAD is 0x80.
+Here we only refer the canonical form of DIS 10646(compaction method 4),
+no other compaction methods is mentioned.
+The ascii in wchar is defined as following area(decimal):
+
+                G=032   P=032  R=032  C=032-127
+
+The printable character in wchar is defined that all bytes(G, P, R 
+and C) are either in GL or GR, i.e. group, plane
+row and cell are all between 032 and 126(including 032 and 126),
+or between 160 and 255(including 160 and 255)
+
+The wchar is used in the multi-lingual terminal emulator as an internal
+processing coded character set.  The above definitions are not strictly
+equal to ISO DIS 10646.  In addition the script position of KANJI, 
+HANZI and Korean HANGUL/HANJA is put on another plane to be exactly
+compatible with the current national standard fonts, JISX0208, GB2312,
+and etc. because no areas are defined to put the special characters
+e.g., 2-column(ZENKAKU) letters, digits of JISX0208, GB2312
+even if there are, they are not encoded together in a continent script
+at all.
+The new planes for the 3 ideographical characters are:
+
+       HANZI:         G=032 P=048  Q=11
+                            P=048
+                            ...
+
+       KANJI:         G=032 P=064  Q=11
+                            P=064 
+                            ...
+
+       HANGUL/HANJA:  G=032 P=080  Q=11
+                            P=080
+                            ...
+
+where Q stands for quadrant, 00 for left-top, 10 for left bottom, 
+11 for right bottom.
+Because say KANJI, we only have full JISX0208 including
+special characters and KANJI, so now we put the JISX0208 onto Q11(A-11
+for special characters of JISX0208, I-11 for KANJI characters)
+
+The each classification function/macro is a predicate returning nonzero for true,
+zero for false.  
+.TP 15n
+.B iswascii 
+.I wc
+is ascii wchar, i.e., 0x20202020 <= wc <= 0x2020207f, or C0 PAD PAD PAD,
+or WNULL
+.TP
+.B iswblank
+.I wc
+is a blank. where the blank is defined one of the following:
+.TP 20n
+.B " "
+  \. ASCII blank  0x20202020 or
+  \. Chinese blank  0x2028A1A1 or
+  \. Japanese blank 0x2030A1A1 or
+  \. Korean blank   0x2038A1A1
+.TP 15n
+.B " "
+refer to NOTES in source.
+.TP 15n
+.B iswcntrl
+.I wc
+is control wchar, i.e, wc is C0/C1 PAD PAD PAD and WNULL.
+.TP
+.B iswprint
+.I wc
+is printable, i.e., 0x20<= all bytes < 0x7e, or 0xa0 <= all bytes <= 0xff.
+.TP
+.B iswspace
+.I wc
+is a whitespace, where the whitespace is defined one of the following:
+.TP 17n
+.B " "
+blank same as function iswblank() or
+.TP
+.B " "
+control spaces that are defined same as ANSI C library, i.e.,
+any character for which isspace() returns true.
+.PP
+The following is macros.
+.TP 15n
+.B wgetgroup
+get group of wc.
+.TP
+.B wgetplane
+get plane of wc.
+.TP
+.B wgetrow
+get row of wc.
+.TP
+.B wgetcell
+get cell of wc.
+.SH "SEE ALSO"
+isascii(3), isprint(3), ...
+wcscpy(3), wcscmp(3), ...
+.br
+Information Processing -- Programming Language C,
+ADDENDUM 3 Multibyte Support Extensions, SC22/WG14/N145R 1991-04-22
+.br
+ISO DIS 10646(UCS), 4 November 1990.

@@ -1,0 +1,274 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%DocumentFonts: Helvetica-Bold Helvetica
+%%Pages: 1
+%%BoundingBox: 40 604 251 758
+%%EndComments
+
+IdrawDict begin -40 -604 translate
+
+%I Idraw 5 Grid 16
+
+%%Page: 1 1
+
+Begin
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ 0.648649 0 0 0.648649 0 0 ] concat
+/originalCTM matrix currentmatrix def
+
+Begin %I Rect
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+< 88 55 22 55 88 55 22 55 > -1 SetP
+%I t u
+%I
+67 963 383 1164 Rect
+End
+
+Begin %I Rect
+%I b 65535
+2 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+1 SetP
+%I t
+[ 1 0 0 1 -1.25 4.5 ] concat
+%I
+122 998 331 1120 Rect
+End
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ 1 0 0 1 -1.25 4.5 ] concat
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ 1 0 0 1 13.5 3 ] concat
+
+Begin %I Rect
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+0.75 SetP
+%I t
+[ 1 0 0 1 -13 -157 ] concat
+%I
+78 1125 373 1149 Rect
+End
+
+Begin %I Text
+%I cfg Black
+0 0 0 SetCFg
+%I f *-helvetica-bold-r-normal--12-*
+/Helvetica-Bold 12 SetF
+%I t
+[ 1 0 0 1 187 987 ] concat
+%I
+[
+(base bar)
+] Text
+End
+
+End %I eop
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t u
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t u
+
+Begin %I Rect
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+0.75 SetP
+%I t
+[ 1 0 0 1 1 -2 ] concat
+%I
+78 1125 373 1149 Rect
+End
+
+Begin %I Text
+%I cfg Black
+0 0 0 SetCFg
+%I f *-helvetica-bold-r-normal--12-*
+/Helvetica-Bold 12 SetF
+%I t
+[ 1 0 0 1 203.5 1142 ] concat
+%I
+[
+(title bar)
+] Text
+End
+
+End %I eop
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ 1 0 0 1 0 2.5 ] concat
+
+Begin %I Rect
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+0.75 SetP
+%I t
+[ 1 0 0 1 -0.5 -3.5 ] concat
+%I
+79 997 118 1123 Rect
+End
+
+Begin %I Text
+%I cfg Black
+0 0 0 SetCFg
+%I f *-helvetica-bold-r-normal--12-*
+/Helvetica-Bold 12 SetF
+%I t
+[ -4.37114e-08 1 -1 -4.37114e-08 91 1035 ] concat
+%I
+[
+(left bar)
+] Text
+End
+
+End %I eop
+
+Begin %I Pict
+%I b u
+%I cfg u
+%I cbg u
+%I f u
+%I p u
+%I t
+[ 1 0 0 1 -1.5 3 ] concat
+
+Begin %I Rect
+%I b 65535
+1 0 0 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+%I p
+0.75 SetP
+%I t
+[ 1 0 0 1 257.5 -4 ] concat
+%I
+79 997 118 1123 Rect
+End
+
+Begin %I Text
+%I cfg Black
+0 0 0 SetCFg
+%I f *-helvetica-bold-r-normal--12-*
+/Helvetica-Bold 12 SetF
+%I t
+[ -4.37114e-08 1 -1 -4.37114e-08 349 1031 ] concat
+%I
+[
+(right bar)
+] Text
+End
+
+End %I eop
+
+End %I eop
+
+End %I eop
+
+Begin %I Text
+%I cfg Black
+0 0 0 SetCFg
+%I f *-helvetica-medium-r-normal--18-*
+/Helvetica 18 SetF
+%I t
+[ 1.51617 0.460461 -0.639634 1.09146 156.65 1069.52 ] concat
+%I
+[
+(Client)
+(Window)
+] Text
+End
+
+Begin %I Text
+%I cfg Black
+0 0 0 SetCFg
+%I f *-helvetica-medium-r-normal--14-*
+/Helvetica 14 SetF
+%I t
+[ 1 0 0 1 77 952 ] concat
+%I
+[
+(border of GWM Window)
+] Text
+End
+
+Begin %I Line
+%I b 65535
+2 0 1 [] 0 SetB
+%I cfg Black
+0 0 0 SetCFg
+%I cbg White
+1 1 1 SetCBg
+none SetP %I p n
+%I t u
+%I
+242 944 310 968 Line
+End
+
+End %I eop
+
+40 604 translate
+
+%%Trailer
+
+end

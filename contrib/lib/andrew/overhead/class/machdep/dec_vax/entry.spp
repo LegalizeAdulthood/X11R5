@@ -1,0 +1,44 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+	.globl	_class_Lookup
+	.data
+	.globl	_class_ErrorReturnValue
+	.text
+	.align	1
+L000:
+	pushl	4(ap)
+	calls	$1, _class_Lookup
+	tstl	r0
+	jneq	L001
+
+	movl	_class_ErrorReturnValue,r0
+	ret
+
+L001:	ashl	$2,(sp)+,r1
+	addl2	r1, r0
+	movl	(r0), r0
+	jmp	2(r0)
+
+#ifdef __STDC__
+#define ClassEntry(n) \
+	.globl	_ClassEntry ## n;\
+_ClassEntry ## n:;\
+	.word	0xffc; \
+	pushl	 $n; \
+	jbr		L000
+#else
+#define ClassEntry(n) \
+	.globl	_ClassEntry/**/n;\
+_ClassEntry/**/n:;\
+	.word	0xffc;\
+	pushl	 $/**/n; \
+	jbr		L000
+#endif
+
+#include <../common/entrydefs.h>
+
+	.align	2
+	.data

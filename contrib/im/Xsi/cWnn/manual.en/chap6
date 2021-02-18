@@ -1,0 +1,1050 @@
+
+		*************************************************
+		*	Chapter 6	INPUT AUTOMATION	*
+		*************************************************
+
+
+
+
+   6.1 OVERVIEW   
+   ============
+
+	The input automaton, also known as user input automaton, is used for converting 
+the  user's input  into the standard  internal representation  used by the system.  The 
+conversion is done  automatically, and the definition of the input automaton is set via 
+the environment. 
+
+
+1. Structure of Input Automaton 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	The  diagram  below shows  the structure  of the input automaton.  The "input" 
+refers to  the  user input from  the keyboard, and "output" refers to the final output
+received  by the system.  The  mapping from  input to output is performed by the input 
+automaton.  Environment setting defines the mapping process from input to output.  
+Through  environment setting, different types of input automaton mapping relationships
+can be defined.  At the same time, the input automaton is capable of perform automaton 
+input by providing  appropriate feedback  characters  which are sent back to the input 
+automaton automatically.
+
+        	+----------------------------------------------------+
+	        |                                                    |
+	        |                    +--------------+                |
+	        |     Input    ----->|    Input     |-----> Output   |
+	        |              +---->|  Automaton   |                |
+	        |              |     +--------------+                |
+	        |              |          ^  |                       |
+		|	       |          |  V			     |
+	        |    feedback  |       +--+-------------------+      |
+	        |              +-------| Environment Setting  |      |
+	        |                      +----------------------+      |
+	        |                                                    |
+	        +----------------------------------------------------+
+			Figure 6.1 : Structure of Input Automaton
+			~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
+					- 6-1 -
+	During  the startup of  uum (client), the initial environment  setting of the
+input automaton is read via the standard path.  After this, the user can input through 
+the input automaton.  There is a  default  input automaton  environment in the system.  
+However, the  user is  able to  define his  own input automaton environment.  In other 
+words, he can set his individual input environment via the "environment setting". 
+
+	"Environment setting" is done by using a simple language similar to "Lisp". 
+This is stored in the system  as source files.  During uum startup, it first reads in 
+all the environment  files, and subsequently  convert them to internal format  used by 
+the system.  The  characteristics of the input automaton is entirely dependent  on the 
+"environment setting".   Thus, from the user's viewpoint, the "environmnet setting" is 
+the input automaton.
+
+
+2. User Input Environment
+~~~~~~~~~~~~~~~~~~~~~~~~~
+(a) Phonetic input
+	Definition  of  Pinyin input  is possible  through the definition of the input 
+	automaton.   Hence  for all  Pinyin  input  (including  Quanpin, Erpin, Sanpin 
+	together  with  the four  tones),  the system will always receive the standard 
+	Pinyin. 
+
+	The input automaton also performs a checking for legal pinyin input.
+	When user inputs a Pinyin (external representation), the automaton converts it 
+	to its internal representation.  This internal representation is treated as a 
+	unit by the system.  This has also made Pinyin tone error tolerance possible.
+ 
+(b) Radical input
+	Through the  definition of  the input  automaton,  different types  of radical 
+	input  can be defined.  Besides, internal  code input, Quwei input, Guobiao as 
+	well as other inputs of Hanzi are also possible.
+
+	Similarly,  the "environment setting"  for  radical input  is done  by using a
+	simple language  similar to  "Lisp".   This is  stored in the system as source 
+	files. During the startup of the client, it first reads in all the environment 
+	files,  and  subsequently convert  them to internal format used by the system.  
+	The characteristics of the input automaton is entirely dependent on the 
+	"environment setting".  Thus, from the user's viewpoint, the 
+	"environmnet setting" is the input automaton. 
+
+
+
+
+
+
+
+
+
+
+					- 6-2 -
+3. Setting of Input Automaton
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+During startup of front-end processor "uum", the mode definition file is searched in 
+the following order :
+
+(a) During startup, the path of input automaton is set using the "-r" option of uum.
+    If the path indicated is a directory name, the system will read in the file "mode" 
+    under the directory.
+
+(b) In the initialization files "uumrc" of uum, the path is set via the "setautofile" 
+    command.  If the path is a directory name, the system will read in the file "mode" 
+    under the directory.
+ 
+(c) If (a) and (b) are not set or the file does not exist, the respective standard 
+    path for uum will be read.  The standard path is as follows :
+
+	/usr/local/lib/wnn/zh_CN/rk/mode           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-3 -
+
+   6.2 CONVERSION METHOD    
+   =====================
+
+	An input  automaton consists  of a mode definition table and several mapping
+tables,  collectively known  as the  conversion table.  Figure 6.3 shows the logical 
+structure of input automaton conversion tables.  The mode definition table describes 
+the mapping tables of the input automaton and relationships among them.
+	One input mode provides one input method at the user interface.  The mapping 
+tables show (1) Mapping from the input to output shown in Figure 6.1
+	    (2)	Feedback input via environment setting
+	    (3) State of the mode variables
+
+The mapping  table describes the variable definitions and the mapping relationship.  
+It can be divided  into initial mapping table, intermediate mapping table and final 
+mapping table as shown below :
+
+   	+---------------------------------------------------------------------+
+   	|                                              		      	      |
+   	|                   +--- (1) Mode definition table       	      |
+   	| Input automaton --| 					      	      |
+   	|                   +--- (2) Mapping 				      |
+   	|			      table --+--- Initial mapping table      |
+   	|                                     |--- Intermediate mapping table |
+   	|                                     +--- Final mapping table        |
+   	|                                              		      	      |
+   	+---------------------------------------------------------------------+
+	    Figure 6.2 Structure of Input Automaton Description Language 
+	    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-4 -
+	During the input automaton mapping process, the input first undergoes the 
+initial mapping as shown in Figures 6.3.  The result (output-1) is then passed to 
+the intermediate  mapping table  as input, and subsequently output-2 is passed as 
+input  for final mapping.  Output-3  is the  final output of the input automaton.  
+The feedback shown in diagram is treated as input to the intermediate mapping.
+
+    +---------------------------------------------------------------------------+
+    |           Initial           Intermediate            Final                	|
+    |           mapping             mapping              mapping               	|
+    |          +-------+        +-----------+        +---------+            	|
+    |  Input ->| e  E  |output-1| EU   Eu   |output-2| E   Ch  | output-3   	|
+    |          | u  U  |------->|  .    .   |------->| A   Sh  |----->      	|
+    |          | .  .  |    +-->|  .    .   |        | V   Zh  |            	|
+    |          +-------+    |   +-----------+        +---------+            	|
+    |       		    |		| feedback                             	|
+    |			    |		V					|
+    |            	    +-----------+                             		|
+    +---------------------------------------------------------------------------+
+			Figure 6.3 Input Automaton Process
+			~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      
+The mode definition table consists of the mode variable definitions and the input 
+mode expressions.  In mode  definition table, the setting sequence of the mapping 
+tables must be initial, intermediate, and followed by final mapping.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-5 -
+
+   6.3 MODE DEFINITION TABLE    
+   =========================
+
+	The  mode definition table describes the definition of the mode variables, 
+input modes, as well as the relation among the different input modes. The table is 
+made up of the following three types of expressions :
+
+
+1. Mode Variable Definition 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(defmode  <mode name>  [initial state])
+
+ * Mode name
+  	Begins  with  an alphabet.  Consists  of numbers and alphabets.  The mode 
+	variable may have two values : ON and OFF.
+
+ * Initial state
+  	The initial state can be ON or OFF.  This indicates  the initial state of 
+	the mode variable.  Default is OFF.
+
+ * A mode variable must be defined before it can be used. 
+ 
+
+2. Search Path of Mapping Table 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mapping tables  which appear in the mode definition table are assumed to have the
+same path as the  mode definition table.  If the path is different, the directory
+name has to be set as follows :
+
+	(search pathname ... ...)
+
+  	* Several pathnames may be set, each separated by a separator.
+	* The path must be defined before the mapping tables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-6 -
+3. Input Mode Expression
+~~~~~~~~~~~~~~~~~~~~~~~~
+The definition of the input mode can be done in the following three ways :
+  	(a)  Mapping table [mapping table ...] mode indicator
+  	(b)  ( if    condition   mapping table  [mapping table ...]  Mode indicator )
+  	(c)  ( When  condition   mapping table  [mapping table ...]  Mode indicator )
+
+"mapping table" is an  identifier that  specifies an  actual file in the current search 
+path.  The file describes the input condition under the current input mode.
+Both "if" and "when" are conditional statements, with some differences between them.  
+For "if" statements, if the condition is ture, the remaining part of the "if" statement
+will  be evaluated,  and the next statement will not be evaluated.  If the condition is
+false, leave the current "if" statement and proceed to evaluate the next statement.
+For  "when"  statements,  if the  condition is true, the remaining  part  of the "when"
+statement will be evaluated; otherwise the remaining part will not be evaluated. In any
+case, the next statement after the "when" statement will be evaluated.
+
+In the mode definition table, the identifier of initial mapping tables begin with a "1".
+Intermediate mapping tables begin with a "2"and final mapping tables begin with a "3".  
+
+The mapping tables must follow the sequence of initial, intermediate and final.
+There may be several mapping tables in each stage (initial, intermediate, final). 
+
+The  "mode indicator"  can be represented  by a string of characters quoted in " ", to 
+indicate the current input mode to the user.  If there are more than one mode indicator 
+in the mode expression, only the last indicator is valid.
+
+
+
+Condition Definition 
+~~~~~~~~~~~~~~~~~~~~
+The "condition" above can be expressed in the following ways :
+
+   +-----------------------------------------------------------------------------+ 
+   |    Mode variable name     | 	  ON when true, OFF when false 		 |
+   |---------------------------+-------------------------------------------------|
+   |(and condition condition)  |True when both conditions are true.              |
+   |			       |					         |
+   |(or condition condition)   |True when at least one of the two conditions is  |
+   |			       |true.					         |
+   |			       |					         |
+   |( not condition )          |True when the condition is false  	         |
+   |			       |					         |
+   |( false )  	       	       |False					         |
+   |			       |						 |
+   |( true )   	               |True					   	 |
+   +-----------------------------------------------------------------------------+ 
+
+
+					- 6-7 -
+
+<Table-c-6.1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-8 -
+
+   6.4 MAPPING TABLES   
+   ==================
+ 
+	The relation between input and output of the input automaton in any input mode 
+is  represented  in  the  mapping  tables.  The mapping  tables consist of the initial, 
+intermediate and final mapping tables.  In the whole process, the intermediate mapping 
+plays the main role, with the initial and final mapping  acting as the preparation and 
+touchings respectively. 
+
+Each process table has its own representation as shown below: 
+(a) Initial mapping table 
+  	(a0) Character variable definition
+	(a1) Input character representation  [output character representation]
+
+(b) Intermediate mapping table 
+  	(b0) Character variable definition
+  	(b1) Input character string representation  [output character representation]
+ 	     [feedback character string representation] 
+	(b2) Input character string representation    operation
+
+(c) Final mapping table 
+  	(c0) Character variable definition
+  	(c1) Input character representation  [output character string representation]
+
+
+	The initial mapping can only perform mapping between characters.  Intermediate 
+mapping is  able to perform  mapping between  character strings, and final mapping can 
+perform  mappings from  character  and character string.  Besides, feedback  input can 
+only be provided by the intermediate mapping. 
+
+In the above (a1) -- if the input character matches the character in
+		     "input character representation", the input automaton converts it 
+		     to the character in "output character representation".
+
+	     (b1) -- if the  input character  string  matches  the character string in
+		     "input  character  string  representation",  the  input automaton 
+		     converts  it to  the character string in "output character string 
+	 	     representation".
+		     During output, the "feedback character string representation" will 
+		     be treated as new input to intermediate mapping.
+
+
+
+
+
+
+
+
+					- 6-9 -
+	     (b2) -- if the input character matches the character in 
+		     "input character representation", the input automaton performs the 
+		     operation on the mode variables.
+
+	     (c1) -- if the input character matches the character in 
+		     "input character representation", the input automaton converts it 
+		     to the character string in "output character string representation".
+ 
+ 	Note:	
+        ~~~~
+	* In the above (a) (b) and (c), parts in [ ] are options.
+	* One expression should be in the same line.  If there is not enough space for 
+	  the expression, it can be continued in the following line by using the \.
+	* Anything after a semicolon ";" in a line is treated as comment. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-10 -
+1. Variable Definition 
+~~~~~~~~~~~~~~~~~~~~~~
+Through  definitions and  the use of  variables,  similar mapping relations can be
+described easily and effectively.  The format of variable definition is as follows:
+
+ (a) (defvar  variable name  (list  character  ...  ...))
+ (b) (defvar  variable name  (all))
+
+In (a), variable  name can  be any of the characters in list.  In (b), the variable 
+name can be any character.  The example below show the similar conversion relations. 
+
+ * example 1:
+	(defvar A (list B C D) )
+	(A)A       (A)a
+
+ * example 2:
+	BA    Ba
+	CA    Ca
+	DA    Da
+
+During the definition and use of variables,
+ (a) The variable must be defined before it is used. 
+ (b) The variable definition is valid for all the current mapping tables.
+ (c) Besides the current mapping tables, the variable definition is not valid for 
+     other tables.
+ (d) Variables in the same line have the same value.  For example :
+
+		(defvar a1 (list A B))
+		(a1) (tolower(a1))  3
+
+	When input [Aa] or [Bb], the result will be 3.  However, there is no match 
+	when input is [Ab] or [Ba]. Besides, variable that occurs in the remaining 
+	character string must also appear at the same input character string. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-11 -
+2. Evaluation of Characters 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The format of representing  a character is shown below.  This format is different 
+from the character string representation.  The evaluation result of the character 
+representation must be a  character,  and character can be a single character and 
+multi-characters.
+
+ (a) Character representation
+	Character   	--  Character other than ---- ( ) ' \ " ; SP 
+	'Character' 	--  Character other than ----  ' \ ^  
+	'^Character' 	--  Indicates control character <ctrl + character>.  The 
+			    character must be between 64-95 or lower case alphabets.
+	'\Character' 	--  Indicates special characters.  Generally, '\character'
+			    refers to the character after [\].  Besides,
+			    '\n', '\t', '\b', '\r', '\f' having the same 
+			    meanings as C language;  '\e', '\E' represent ESC;  
+			    and '\8 ...' '\o...', '\d ...' ,'\x ...' represent 
+			    octal, decimal and hexadecimal repsectively.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-12 -
+ (b) Function representation
+	There are some special functions in the automaton.  These functions can be used 
+	in direct representation.  The table below gives a summary of the functions.
+
+
+<Table-c-6.2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Function representation format :
+               < 1 > (function name   operand)
+               < 2 > (function name   operand   operand)
+
+
+
+
+
+
+					- 6-13 -
+3. Evaluation of Character String 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	The character string representation is a sequence of character representations, 
+which has been described in 2 (Evaluation of characters).  The evaluation result of the 
+character string  representation  is also a character string, can be a single character 
+as well as multi-characters.
+
+ (a) Character representation 
+	Similar  to  the  character  representation  and evaluation in 2 (Evaluation of 
+	characters).
+
+ (b) Function representaiton 
+  	* function last=
+	  If the last character of the most recently mapped character string matches the
+	  function parameter, the function evaluates to an empty string. 
+
+  	* function todigit
+	  Convert the code given by the first parameter to the value in the base of the
+	  code given by the second parameter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-14 -
+ (c) Mode operation and evaluation 
+	
+	Function name			Function
+	~~~~~~~~~~~~~       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  	 if 			To evaluate the state of mode operation.  
+				If ON, it will be treated as empty character string.
+
+ 	 unless 		To evaluate the state of mode operation.  
+				If OFF, it will be treated as empty character string.
+
+  	 on 			To set the state of mode operation to ON.
+
+ 	 off 			To set the state of mode operation to OFF.
+
+  	 switch 		To switch the mode operation state.  
+				In other words, if the state is ON, set it to OFF
+				and vice versa.
+
+  	 allon 			Set all modes to ON.
+
+ 	 alloff 		Set all modes to OFF.
+
+ 	 (error) 		Error handling for input keys that cannot be mapped.
+
+  	 (restart) 		To read  in new  mode definition table and re-define 
+				the conversion. If error exists in the new conversion 
+				table, an error message will be given and the system 
+				returns to the  settings  of the original conversion 
+				table.
+
+	Note :	* Function "if" and  "unless" can only be used in the input character 
+		  string representations;  
+		* "on",  "off" and  "switch" can only be used in the output character
+		  string representations; 
+		* "allon" and  "alloff" and  "(error)" can only be used in the output 
+		  character string representations of intermediate mapping tables.  
+		* "(restart)" is used by itself.
+
+ 
+
+
+
+
+
+
+
+
+
+
+					- 6-15 -
+
+   6.5 EXAMPLE OF MODE DEFINITION   
+   ==============================
+ 
+	We have introduced the input automaton in the above sections.  We will now
+give an example of a simple input automaton, using front-end processor "uum".
+Take note that some of the definitions are different from the standard definition.
+For example, only two Pinyin input definitions are given here and the Bixing input
+definitions are not included.
+	Users  who are interested in the input automaton can refer directly to the
+files under the standard path.
+
+
+1. Mode Definition Table (mode)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Standard path
+	/usr/local/lib/wnn/zh_CN/rk/rk/mode
+
+* Content
+	Relation between mode variables and input mode.
+
+
+<Table-c-6.3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-16 -
+2. Mode Control Table (2A_CTRL)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Standard path
+	/usr/local/lib/wnn/zh_CN/rk/2A_CTRL
+
+* Content
+	Control of mode variables 
+
+	(defvar pf1 (list '\x81') )
+        (defvar pf2 (list '\x82') )
+
+        (unless PIN_YIN)(pf1) (on PIN_YIN)(off ASCII)
+        (if PIN_YIN)(pf1)     (switch QUAN_PIN)(switch ER_PIN)
+
+        (unless ASCII)(pf2)   (on ASCII)(off PIN_YIN)
+        (if ASCII)(pf2)       (switch QUAN_JIAO)(switch BAN_JIAO)
+
+
+3. Quanpin Mapping Table (2P_QuanPin)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Standard path
+	/usr/local/lib/wnn/zh_CN/rk/2P_QuanPin
+
+* Content
+	Mapping table of Quanpin input 
+
+	(defvar A      (list B C D F G H   K L M N P     S T W   Y Z  ))
+        (defvar AI     (list B C D   G H   K L M N P     S T W     Z  ))
+        (defvar AN     (list B C D F G H   K L M N P   R S T W   Y Z  )) ;ANG
+        (defvar AO     (list B C D   G H   K L M N P   R S T W   Y Z  ))
+        (defvar E      (list B C D   G H   K L M N     R S T     Y Z  ))
+         . . .           . . .
+
+           
+<Table-c-6.4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-17 -
+4. Erpin Mapping Table (ER_PIN)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Standard path
+	/usr/local/lib/wnn/zh_CN/rk/2P_ErPin
+
+* Content
+	Mapping table of Erpin input
+
+	(defvar A     (list B C E D F G H   K L M N P     S A T W   Y Z V))
+        (defvar AI    (list B C E D   G H   K L M N P     S A T W     Z V))
+        (defvar AN    (list B C E D F G H   K L M N P   R S A T W   Y Z V));ANG
+        (defvar AO    (list B C E D   G H   K L M N P   R S A T W   Y Z V))
+        (defvar E     (list B C E D   G H   K L M N     R S A T     Y Z V))
+        . . .            . . .
+
+
+<Table-c-6.5>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-18 -
+5. Pinyin Error Correction Table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Standard path
+	/usr/local/lib/wnn/zh_CN/rk/2P_RongCuo
+
+* Content
+	The auto-correcting definition in the Pinyin input
+
+
+<Table-c-6.6>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-19 -
+6. Other Mapping Tables
+~~~~~~~~~~~~~~~~~~~~~~~
+
+(a) 1B_TOUPPER mapping table
+    	Convert the input characters into upper case alphabets.
+
+	(defvar low (all))
+        (low)   (toupper (low))
+
+(b) 2P_Tail mapping table
+
+<Table-c-6.7>
+
+
+
+
+
+
+
+
+(c) 3B_QuanJiao mapping table
+    	Convert the input characters to wide ASCII characters.
+
+	(defvar a (all))
+        (a)     (toQalpha (a))
+
+
+	The above mode definition table defines the "Pinyin" , "Erpin", "Banjiao" 
+	character and "Quanjiao" input modes.  
+
+	Initially  -- PIN_YIN mode is set to OFF 
+		   -- QUAN_PIN mode under PIN_YIN is set to ON 
+		   -- ER_PIN is set to OFF
+		   -- ASCII mode is set to ON
+		   -- BAN_JIAO mode under ASCII is set to ON
+		   -- QUAN_JIAO mode under ASCII is set to OFF
+
+
+	From the above definitions in the mode definition table, during the initial 
+state, the input automaton receives  Banjiao input.  Notice that the BAN_JIAO state 
+under  the  ASCII  state has  no mapping  table, this  means that the user input is 
+received directly by the system.  To input Pinyin, user needs to change the mode to 
+QUAN_PIN (under PIN_YIN).  The way of  changing the  mode is defined in the mapping 
+table 2A_CTRL  ( see next paragraph ).  Here, we assume that  we are already in the 
+QUAN_PIN mode, and the input automaton receives Pinyin input.
+
+
+
+
+					- 6-20 -
+	Note that  from the  above mode  definition table, the automaton will first 
+follow the  definition of mapping table 1B_TOUPPER to convert the actual user input 
+to  upper case  alphabets.  Subsequently, the  automaton  creates the "actual input
+received by the system" based on  mapping tables 2P_QuanPin, 2P_RongCuo and 2P_Tail.
+We will now show a simple example.
+
+
+<Table-c-6.8>
+
+
+
+
+
+
+Similarly,  the user  is able to change  the mode to Erpin mode to input Hanzi, or 
+change to Quanjiao mode to input wide ASCII characters.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					- 6-21 -

@@ -1,0 +1,7 @@
+*hello.fontList:	*times-medium-r*180*=chset1,\
+                    *times-medium-i*180*=chset2, 
+*foreground: black
+*background: white
+*bottomShadowPixmap: 75_foreground
+*topShadowPixmap: 25_foreground
+*highlightPixmap: 50_foreground

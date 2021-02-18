@@ -1,0 +1,103 @@
+.\" $Header: XpexGetEnumTypeInfo.man,v 2.5 91/09/11 16:04:28 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\"
+.TH XpexGetEnumTypeInfo 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.SH "Name"
+XpexGetEnumTypeInfo, XpexGetAllEnumTypeInfo \- get information for 
+one or more or all enumerated types 
+.SH "Synopsis"
+.nf
+Status XpexGetEnumTypeInfo(dpy, drawable_id, enum_types, count,
+.br
+	return_format, info_list, actual_count)
+.br
+	Display *\fIdpy\fP;
+.br
+	Drawable \fIdrawable_id\fP;
+.br
+	XpexEnumType *\fIenum_types\fP;
+.br
+	int \fIcount\fP;
+.br
+	XpexBitmask \fIreturn_format\fP;
+.br
+	XpexListOfEnumTypeDesc *\fIinfo_list[]\fP; /* RETURN */
+.br
+	int *\fIactual_count\fP; /* RETURN */
+.sp
+Status XpexGetAllEnumTypeInfo(dpy, drawable_id, info_list, count)
+.br
+	Display *\fIdpy\fP;
+.br
+	Drawable \fIdrawable_id\fP;
+.br
+	XpexListOfEnumTypeDesc *\fIinfo_list[]\fP; /* RETURN */
+.br
+	int count; /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure; 
+returned from XOpenDisplay.
+.IP \fIdrawable_id\fP 1i
+Specifies the drawable.
+.IP \fIenum_types\fP 1i 
+To be added 
+.IP \fIcount\fP 1i 
+To be added 
+.IP \fIreturn_format\fP 1i 
+To be added 
+.IP \fIinfo_list\fP 1i 
+To be added 
+.IP \fIactual_count\fP 1i 
+To be added 
+.SH "Description"
+This function returns information about the enumerated types
+that are supported for drawables that have the same root window
+and depth as the drawable indicated by drawable_id.
+.SH "Structures"
+typedef struct {
+.br
+	int count;
+.br
+	XpexEnumTypeDesc *desc;
+.br
+} XpexListOfEnumTypeDesc;
+.sp
+typedef struct {
+.br
+	XpexEnumTypeIndex index;
+.br
+	XpexString name;
+.br
+} XpexEnumTypeDesc;
+.SH "Errors"
+BadDrawable, BadValue
+.SH "Related Commands"
+XpexInitialize, XpexQueryExtension, 
+XpexGetExtensionInfo, XpexGetImpDepConstants,
+XpexGetAllImpDepConstants.
+.br

@@ -1,0 +1,454 @@
+\begindata{text,1031800}
+\textdsversion{12}
+\template{med}
+
+
+
+\chapter{\bigger{\bigger{SEARCH HELP WINDOW
+
+}}
+}\author{\smaller{WALT (Washington University's Approach to Lots of 
+Text)}}\chapter{
+
+}\author{Scott W. Hassan
+
+June 1991
+
+
+
+}\section{\bold{1.0 Searching and Walt:}}
+
+
+\paragraph{\italic{Walt}'s most powerful feature and main objective is its 
+high speed searching.  The high speed is accompished through the use of word 
+indexes that point to the documents that contain the search query word.  When 
+a group of search hits (a \italic{search hit} is a specific instance of the 
+word or group of words in the text) are found, depending on the search 
+algorithm used, they are ordered in some way and displayed allowing the user 
+to choose from the possible search hits.
+
+}\section{
+\bold{2.0 The Search Input Dialog:
+
+
+}}\paragraph{\section{\section{Before doing a search when using \italic{Walt}, 
+the screen display should look like Figure 2.0.  This is the \italic{search 
+input dialog }}}and allows the user to enter a search query and gives options 
+to control the search.  To enter a search query, just start typing a word on 
+the keyboard (remember, keep the mouse in the \italic{Walt} window.)   The 
+word should appear below in the Search Input Dialog.  You can use most editing 
+commands to correctly enter the search query.  Use spaces to denote different 
+words.\section{\section{
+
+}}}
+\center{\
+\begindata{raster,1089544}
+2 0 68266 68266 0 0 290 96
+bits 1089544 290 96
+zj0108q |
+zw |
+03e0i38zq |
+0660i18zq |
+0c20i18zq |
+0e21c78dc79bzq |
+07826cc6cc9d98	zp |
+03c620c6181998	zp |
+g!e7c6181980zp |
+08660cc6181980	zp |
+08660cc6181980	zp |
+0ce32cc60c9998	zp |
+0fc1c76f073dd8	zp |
+zw |
+m3fZJe0j |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+g03c0r0fs3cm |
+g0c303cg30h18	l30c3f0qc3g81	c73f80h |
+g100866g10h08	l402118p01g!80	c208c0h |
+g100842g10h08	l4f2108l08i01	3c8140a20840h |
+g2004815cf1cb	9c78l9f9109cb	b6e1c6c39b1ei	027e4140b20820
+ h |
+g200481359226	a2c8l9f911a26	9b3323644d88i	027e4220920820
+ h |
+g2004812113e4	3e88l9f91f3e4	11106227c888i	027e42209a0820
+ h |
+g200481211204	2088l9f910204	!11a2240888i02	7e43e08a0820h |
+g100842211204	2088l4f210204	111222240888i	013c84108a0840
+ h |
+g10086621b324	32d8l40210324	111322264888i	01g84108608c0
+ h |
+g0c303c70c9ce	1c64l30c381ce	3bb9d7739dc6j	c30e39c63f80h |
+g03c0r0fs3cm |
+zw |
+zw |
+zw |
+g03c0r0fs3cm |
+g0c31dc701006	h18k30c020cc0f	c0gc0lc303c7e0	j |
+g100888201002	h08k40!204404	60g40k01g8662	30j |
+g13c8cc60g!02	g08k4020504404	20g40k01g8422	10j |
+g27e4444731f2	c79c78k801050	4404671c4c70j	02g481230j |
+g27e444489243	6222c8k801088	4407cdb64890j	02g4813e0j |
+g27e466cf92!22	3e88k80108844	0468a270c0j02	g4812c0j |
+g27e42a8813!22	2088k8010f844	0428a25060j02	g481240j |
+g13c83b8811c2	222088k402104	440428a24830j	01g842220j |
+g1008110c9102	2232d8k402104	44046db64490j	01g866230j |
+g0c30110739e7	719c64k30c38e	ee0fc71ce6e0k	c303c718j |
+g03c0h0210n0f	s3cm |
+k0330zp |
+k01e0zp |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+zg0fNf8l |
+zg30n06l |
+zg43Ne1l |
+zg8cn1880k |
+z0110n0440k |
+z0120n0240k |
+z0240h10g0180	h0120k |
+z0240h10h80h01	20k |
+z0280h28h80ia0	k |
+z0280h286cd89d	c0ha0k |
+z0280h44366c88	80ha0k |
+z0280h44224488	80ha0k |
+z0280h7c224485	ia0k |
+z0280h82224487	ia0k |
+z0280h82366c82	ia0k |
+z0280g01c72c59	c2ia0k |
+z0280i204004i	a0k |
+z0240i204014h	0120k |
+z0240i70e018h	0120k |
+z0120n0240k |
+z0110n0440k |
+zg8cn1880k |
+zg43Ne1l |
+zg30n06l |
+zg0fNf8l |
+zw |
+zw |
+zw |
+zw |
+zw |
+zw |
+\enddata{raster, 1089544}
+\view{rasterview,1089544,0,0,0}
+\italic{Figure 2.0
+
+
+}
+}\paragraph{After typing the search query (should look like Figure 2.1), 
+either click on the \bold{Apply} button or hit the \bold{Return} key.  This 
+will activate the search and the program will be busy for a while.  Just sit 
+back and wait.  
+
+}\center{
+\begindata{raster,1150440}
+2 0 68266 68266 0 0 297 106
+bits 1150440 297 106
+zx |
+zx |
+zx |
+zx |
+gf8i0ej01cczl |
+0198i06kcczl |
+0308i06kc0zl |
+038871e371e6c0	01e78dc6dc783c	zj |
+01e09b31b32766	032cc6cd!cc64	zj |
+gf18831860666	06gc618cc0cc0	zj |
+g39f9f1860660	0607c618cc7cc0	zj |
+02198331860660	060cc618!ccc0	zj |
+02198331860660	060cc618!ccc0	zj |
+0338cb31832666	032cc60d!cc64	zj |
+03f071dbc1cf76	01c76f075e7638	zj |
+zx |
+m0fZJf8k |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+hf0r03c0r0fn |
+g030c0fg0ch06	l0c30fcq30c020	71cfe0i |
+g0402198004h02	l100846q40!20	308230i |
+g0402108004h02	l13c842l02j4f	2050288210i |
+g080120573c72	e71el27e44272	edb871b0e6c780	i9f90502c8208
+ i |
+g0801204d6489	a8b2l27e44689	a6ccc8d91362j	9f9088248208i |
+g0801204844f9	0fa2l27e47cf9	04441889f222j	9f9088268208i |
+g080120484481	0822l27e44081	044468890222j	9f90f8228208i |
+g040210884481	0822l13c84081	044488890222j	4f2104228210i |
+g040219886cc9	0cb6l100840c9	0444c8899222j	402104218230i |
+g030c0f1c3273	8719l0c30e073	8eee75dce77180	i30c38e718fe0
+ i |
+hf0r03c0r0fn |
+zx |
+zx |
+zx |
+hf0r03c0r0fn |
+g030c771c0401	80g06k0c300833	03f0g30l30c0f1	f8k |
+g0402220804g80	g02k10!081101	18g10l4021988c	k |
+g04f23318h!80	02k1008141101	08g10l40210884	k |
+g09f9!11cc7cb1	e71ek20041411	0119c7131ck80	12048ck |
+g09f911122490	d888b2k200422	1101f36d9224k	801204f8k |
+g09f919b3e4!88	8fa2k20042211	011a289c30k80	1204b0k |
+g09f90aa204c8	!8822k20043e11	010a289418k80	120490k |
+g04f20ee20470	!8822k10084111	010a28920ck40	210888k |
+g040204432440	888cb6k100841	11011b6d9124k	4021988ck |
+g030c0441ce79	dc6719k0c30e3	bb83f1c739b8k	30c0f1c6k |
+hf0i84n03c0r0f	n |
+lcczq |
+l78zq |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zg03Nfem |
+zg0cn0180l |
+zg10Nf840l |
+zg23n0620l |
+zg44n0110l |
+zg48o90l |
+zg90h04h60i48	l |
+zg90h04h20i48	l |
+zga0h0ah20i28	l |
+zga0h0a1b3627	70h28l |
+zga0h110d9b22	20h28l |
+zga0h11089122	20h28l |
+zga0h1f089121	40h28l |
+zga0h20889121	c0h28l |
+zga0h208d9b20	80h28l |
+zga0h71cb1670	80h28l |
+zga0i081001i28	l |
+zg90i081005i48	l |
+zg90i1c3806i48	l |
+zg48o90l |
+zg44n0110l |
+zg23n0620l |
+zg10Nf840l |
+zg0cn0180l |
+zg03Nfem |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+\enddata{raster, 1150440}
+\view{rasterview,1150440,1,0,0}
+\italic{Figure 2.1
+
+
+}}\section{\bold{3.0  The Search Result Dialog:
+
+}}\center{
+}\paragraph{Figure 3.0 displays the result of the search query.  A search was 
+made for the word \bold{\typewriter{cardiac }}and there were 248 hits of 
+cardiac throughout the text database.  The histogram shows a sorted list of 
+search hits.  The X axis is an individual section where the search hit occurs 
+and the Y axis is the logarithmic weight of the search hit.   The first dotted 
+line is a weight of 10, the second is a weight of 100, and the top of the 
+histogram has a weight of 1000.  Rarely should you ever get a weight over 100. 
+ On the left of the histogram, there are the 'best' search hits decreasing to 
+the right of the diagram.
+
+}
+\paragraph{Each of the bars of the histogram is active.  Click on a bar and 
+\italic{Walt} will jump to that section and display it.  The white bars mean 
+that the search hit is in another book, the gray bars mean that the search hit 
+is in the current book but in another chapter, and the black bars mean that 
+the search hit is in the current chapter.
+
+
+}\paragraph{The buttons at the bottom of the Search Result Dialog are 
+\bold{Previous}, \bold{Next}, \bold{New} \bold{Search}, and help.  The 
+\bold{Next} Button is used to move to the next search hit and the 
+\bold{Previous} Button is used to move to the previous search hit.  The 
+\bold{Next} Button is associated with the \bold{Return} key so that you can 
+just hit the \bold{Return} key on the keyboard.  \bold{New Search} will bring 
+the Search Input Dialog back and allow the user to enter into a new search 
+query.  Typing any other key will do the same at this point.
+
+}\center{\
+\begindata{raster,1130688}
+2 0 68266 68266 0 0 302 114
+bits 1130688 302 114
+zx |
+zx |
+zx |
+gf8i0ej01cczl |
+0198i06kcczl |
+0308i06kc0zl |
+038871e371e6c0	01e78dc6dc783c	zj |
+01e09b31b32766	032cc6cd!cc64	zj |
+gf18831860666	06gc618cc0cc0	zj |
+g39f9f1860660	0607c618cc7cc0	zj |
+02198331860660	060cc618!ccc0	zj |
+02198331860660	060cc618!ccc0	zj |
+0338cb31832666	032cc60d!cc64	zj |
+03f071dbc1cf76	01c76f075e7638	zj |
+zx |
+m0fZJf8k |
+y0280071808h78	11e0o |
+y02800c!08hcc	3330o |
+y0fc0!08g80g84	3210o |
+y05039f0b19e7	20045330o |
+y0506c80d8889	200891e0o |
+y05044808888c	g109330o |
+y1f8448088886	g211210o |
+h08v0a04480888	83g41fa10o |
+h08v0a06c80888	8920c41330o |
+h08v0a039e1ddc	6e20fc11e0o |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h0d/55,5550k |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h08zu |
+h0ffezt |
+h0fd7G80zr |
+h0feaba80zr |
+h0fd755Hzq |
+h0a/aa,aaa0k |
+h0fd755d575Lc0	zj |
+h0feabaaeabaa	ebGaeabaac0zj |
+h0fd755d5755d	57Gd5755d40zj |
+h0feabaaeabaa	ebGaeabaaYf8k |
+h0fd755d5755d	57Gd5755d5755	d5755d5755d575	5d57Gd5755d57
+ 55d57558k |
+h0feabaaeabaa	ebGaeabaaeaba	aeabaaeabaaeab	aaebGaeabaaea
+ baaeaba8k |
+h0fd755d5755d	57Gd5755d5755	d5755d5755d575	5d57Gd5755d57
+ 55d57558k |
+h0feabaaeabaa	ebGaeabaaeaba	aeabaaeabaaeab	aaebGaeabaaea
+ baaeaba8k |
+h0fd755d5755d	57Gd5755d5755	d5755d5755d575	5d57Gd5755d57
+ 55d57558k |
+h0feabaaeabaa	ebGaeabaaeaba	aeabaaeabaaeab	aaebGaeabaaea
+ baaeaba8k |
+h0fd755d5755d	57Gd5755d5755	d5755d5755d575	5d57Gd5755d57
+ 55d57558k |
+h0feabaaeabaa	ebGaeabaaeaba	aeabaaeabaaeab	aaebGaeabaaea
+ baaeaba8k |
+h0fd755d5755d	57Gd5755d5755	d5755d5755d575	5d57Gd5755d57
+ 55d57558k |
+h0feabaaeabaa	ebGaeabaaeaba	aeabaaeabaaeab	aaebGaeabaaea
+ baaeaba8k |
+h0fd755d5755d	57Gd5755d5755	d5755d5755d575	5d57Gd5755d57
+ 55d57558k |
+h0fZOf8k |
+zx |
+zx |
+h06zu |
+h0fzu |
+h1f80zt |
+h3fc0zt |
+h7fe0zt |
+sO80u |
+r03o60u |
+hNf8g043fMfe10	g0fN80g03e0g |
+g03n06g08c0m01	88g30n60g0c18	g |
+g04n01g11o44g	40n10g1004g |
+g08o8012o24g80	n08g2002g |
+g10g7eh02j4024	h038ek12011c70	h0e80h1804g43	81g |
+g10g23h02j4024	h0184k12010c20	h1980h0804g44	c1g |
+g20g21m2028h01	44g01i0a020a20	h1080h0802g84	4080 |
+g20g215ce77639	98e0g2028h0164	73bbc0h0a020b	239ddc181c7173
+ 8b02g80c080 |
+g20g233512226c	8920g2028h0124	8911i0a020924	48880e22c8d64d
+ 82g81!80 |
+g20g3e21f22244	8980g2028h0134	f8e1i0a0209a7	c888033e188408
+ 82g81g80 |
+g20g2021014244	88c0g2028h0114	8041i0a0208a4	0550ga0688408
+ 82g81g80 |
+g20g202101c244	8860g2028h0114	80e1i0a0208a4	077010a0888408
+ 82g80g80 |
+g20g202190826c	d920g2028h010c	c911i0a020866	422019b2c88648
+ 82g81g80 |
+g20g!70e08738	6dc0g2028h038c	73b8c0h0a021c	638220171c75c3
+ 9dc2g81g80 |
+g20o2028o0a02	o02g80g80 |
+g10o4024o1201	o04g4001g |
+g10o4024o1201	o04g4001g |
+g08o8012o24g80	n08g2002g |
+g04n01g11o44g	40n10g1004g |
+g03n06g08c0m01	88g30n60g0c18	g |
+hNf8g043fMfe10	g0fN80g03e0g |
+r03o60u |
+sO80u |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+zx |
+\enddata{raster, 1130688}
+\view{rasterview,1130688,2,0,0}
+\italic{Figure 3.0}
+
+}\paragraph{\author{\section{
+}}}\bold{ALSO SEE}
+
+	\typewriter{WALT
+
+	tf-idf weighting scheme
+
+}\enddata{text,1031800}

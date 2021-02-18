@@ -1,0 +1,21 @@
+   DPS_INCLUDES = ../../include
+ EXTRA_INCLUDES = -I$(DPS_INCLUDES)
+        DPS_LIB = ../../lib/dps/libdps.a
+LOCAL_LIBRARIES = $(DPS_LIB) $(XLIB)
+         PSWRAP = ../../clients/pswrap/pswrap
+
+.SUFFIXES: .psw
+
+OBJS1 = goodfile.o
+
+OBJS2 = goodfileA.o
+
+all:
+
+NormalProgramTarget(goodfile, $(OBJS1), , $(LOCAL_LIBRARIES), )
+NormalProgramTarget(goodfileA, $(OBJS2), , $(LOCAL_LIBRARIES), )
+
+clean ::
+	$(RM) errorfile psfile psfileA errorfileA *.c *.h
+
+

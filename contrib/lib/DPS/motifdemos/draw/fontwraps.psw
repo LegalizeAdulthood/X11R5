@@ -1,0 +1,155 @@
+/* fontwraps.psw
+ *
+ * Copyright (C) 1990-1991 by Adobe Systems Incorporated.
+ * All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notices appear in all copies and that
+ * both those copyright notices and this permission notice appear in
+ * supporting documentation and that the name of Adobe Systems
+ * Incorporated not be used in advertising or publicity pertaining to
+ * distribution of the software without specific, written prior
+ * permission.
+ * 
+ * ADOBE MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY OF THE SOFTWARE FOR
+ * ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
+ * ADOBE DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL
+ * IMPLIED WARRANTIES OF MERCHANTABILITY FITNESS FOR A PARTICULAR PURPOSE AND
+ * NON-INFRINGEMENT OF THIRD PARTY RIGHTS.  IN NO EVENT SHALL ADOBE BE LIABLE
+ * TO YOU OR ANY OTHER PARTY FOR ANY SPECIAL, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE, STRICT LIABILITY OR ANY OTHER ACTION ARISING OUT OF OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.  ADOBE WILL NOT
+ * PROVIDE ANY TRAINING OR OTHER SUPPORT FOR THE SOFTWARE.
+ * 
+ * PostScript, Display PostScript, and Adobe are trademarks of Adobe Systems
+ * Incorporated registered in the U.S.A. and other countries.
+ *
+ * Author: Adobe Systems Incorporated
+ */
+
+defineps PSWEnumFonts(| int *count)
+    userdict /$fontNames 5 dict put
+    $fontNames begin
+    /currentItem 0 def
+    /maxItems 100 def
+    /maxArrays 10 def
+    /baseArray maxArrays array def
+    /currentArray 0 def
+    baseArray 0 maxItems array put
+    end
+
+    /AddFontName { % string AddFontName -
+        $fontNames begin
+        dup length string copy
+        1 { % provides enclosing loop for exit
+            currentItem maxItems eq
+            {
+                /currentArray currentArray 1 add def
+                currentArray maxArrays eq {pop exit} if
+                baseArray currentArray maxItems array put
+                /currentItem 0 def
+            } if
+            baseArray currentArray get currentItem 3 -1 roll put
+            /currentItem currentItem 1 add def
+        } repeat
+        end
+    } def
+
+    /EnumFonts {
+        2 dict begin
+        /$listString 256 string def
+        /countFonts 0 def
+        % Enumerate FontDirectory and report fonts not available as files.
+        FontDirectory { % forall
+            pop                          % /fontname
+            $listString cvs              % (fontname)
+            dup dup length 6 add string  % (fontname) (string)
+            dup 0 (%font%) putinterval   % (fontname) (%font%)
+            dup 6 4 -1 roll putinterval  % (%font%fontname)
+            mark exch
+            {(r) file} stopped { % if
+                cleartomark 
+                AddFontName              % Add font name to array of names
+                /countFonts countFonts 1 add def
+            }{ % else
+                closefile pop pop        % Discard -- will be listed later.
+            } ifelse
+        } forall
+
+        % Enumerate %font% storage device, if available.
+        % Check each file for "%!".
+        /filenameforall where { % if
+            pop
+            (%font%*) { % filenameforall
+                (.) search { % if           % Discard filenames containing "."
+                    pop pop pop             % as not official "findfont" names.
+                }{ % else
+                    dup                           % (%font%name) (%font%name)
+                    (%font%) anchorsearch { % if  % (%font%name) (name) (%font%)
+                        pop
+	                exch                      % (name) (%font%name)
+	                mark exch                 % (name) mark (%font%name)
+	                {(r) file} stopped { % if % (name) mark ?
+	                    cleartomark           % (name)
+	                    pop                   % File & thus not available.
+                        }{ % else                 % (name) mark file
+	                    exch pop              % (name) file
+	                    dup mark exch
+	                    {read} stopped { % if % (name) file mark file
+	                        cleartomark
+	                        closefile pop
+	                    }{ % else             % (name) file mark char bool
+	                        not {-1} if       % (name) file mark char
+	                        exch pop          % (name) file char
+	                        exch dup read 
+                                not {-1} if       % (name) char file char
+	                        exch closefile    % (name) char char
+                                pop pop
+                                8#045 8#041 8#041 % Check for "%!' at the
+                                eq exch 8#045 eq  % beginning of file.
+	                        and { % if
+	                            AddFontName   % Add font name to name array.
+                                    /countFonts 
+                                    countFonts 1 add def
+	                        }{ % else
+	                            pop           % Not a "%!" file, not a font.
+                                } ifelse
+                            } ifelse
+                        } ifelse
+                    }{ % else
+	                pop (Error: Unexpected font filename: ) print =
+                    } ifelse
+                } ifelse
+            } $listString filenameforall
+        } if
+        flush
+        countFonts
+        end
+    } def % End of EnumFonts
+
+    % NOW, actually do the font enumeration...
+        EnumFonts count
+endps
+
+defineps PSWGetFontName(int fontNum | char *fontName)
+      fontNum GetFontName fontName
+endps
+
+defineps PSWFontsKnown(| int *count)
+    /GetFontName { % int GetFontName string
+        $fontNames begin
+        dup maxItems div truncate cvi baseArray exch get
+        exch maxItems mod get
+        end
+    } def
+
+    userdict /$fontNames known { % if
+        $fontNames begin
+        currentArray maxItems mul currentItem add count
+        end
+    }{ % else
+        -1 count
+    } ifelse
+endps

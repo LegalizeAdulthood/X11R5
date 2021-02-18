@@ -1,0 +1,115 @@
+Reading first three tokens
+:
+"asd  from (5,3)
+=
+Restarting at the second token
+(258) "asd  from (5,3)
+(61) =
+(267) if
+(262) function
+(260) 0x00  from (24,2)  val 0
+(62) >
+(271) false
+(263) :=
+(59) ;
+(258) "  from (0,0)
+(257) asd  from (42,3)
+(260) 0x3fbf7ced916872b0  from (45,4)  val 0.123
+(44) ,
+(58) :
+(43) +
+(260) 0x42dbf78ad3ac0000  from (52,6)  val 1.23e+14
+(257) def  from (58,3)
+(260) 0x3f2026b0f23a6a6b  from (62,11)  val 0.00012322
+(260) 0x49906e2331449046  from (74,54)  val 2.345e+46
+(259) 0xabdfe  from (129,7)  val 703998
+(259) 0x53977  from (137,8)  val 342391
+(260) 0x4028ae147ae147ae  from (146,10)  val 12.34
+(47) /
+(257) cmu  from (158,3)
+(47) /
+(257) unix  from (162,4)
+(47) /
+(257) rt_r3  from (167,5)
+(47) /
+(257) itcobjects  from (173,10)
+(47) /
+(257) itc  from (184,3)
+(47) /
+(257) be2  from (188,3)
+(47) /
+(257) text  from (192,4)
+(47) /
+(257) simpletext  from (197,10)
+(46) .
+(257) dog  from (208,3)
+(258) "  from (0,0)
+(257) badones  from (218,7)
+(58) :
+ERROR: :error ends number at 228 (len 4)
+        Preceding text: "
+//
+\\
+badOnes:  0678"
+(259) 0xfffffc19  from (228,4)  val -999
+ERROR: :error ends number at 234 (len 6)
+        Preceding text: "badOnes:  0678  123.55"
+(259) 0xfffffc19  from (234,6)  val -999
+(260) 0x3fcd70a3d70a3d71  from (240,3)  val 0.23
+ERROR: :error ends number at 245 (len 8)
+        Preceding text: "0678  123.55.23  06723e10"
+(259) 0xfffffc19  from (245,8)  val -999
+ERROR: :error ends number at 254 (len 5)
+        Preceding text: "123.55.23  06723e10 067.3"
+(259) 0xfffffc19  from (254,5)  val -999
+(258) /1  from (263,178)
+(258) "asdadasadqqqwq'wdqwqwqw"
+new	tabbedXbacked  from (446,50)
+(258) /2  from (501,32)
+(59) ;
+(259) 'a  from (539,1)  val 97
+(259) '!  from (543,8)  val 33
+ERROR: :character constant is not exactly one character at 554 (len 2)
+        Preceding text: "; 'a' '\0000041'  ''"
+(258) "  from (0,0)
+ERROR: :Character constant crosses line end at 558 (len 2)
+        Preceding text: "'a' '\0000041'  ''  '
+"
+ERROR: :character constant is not exactly one character at 558 (len 2)
+        Preceding text: "'a' '\0000041'  ''  '
+"
+(258) "  from (0,0)
+(257) abc  from (560,3)
+ERROR: :character constant is not exactly one character at 564 (len 4)
+        Preceding text: "''  '
+abc 'ab'"
+(259) 'ab  from (565,2)  val 97
+ERROR: :Character constant crosses line end at 569 (len 3)
+        Preceding text: "'
+abc 'ab' 'a
+"
+(259) 'a  from (539,1)  val 97
+ERROR: :String constant longer than 256 characters at 572 (len 257)
+        Preceding text: "abc 'ab' 'a
+"-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-12345"
+(258) "-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-123456789012345678901234567890123456789012345.+50-12345  from (573,256)
+(260) 0x4833f37c37891a25  from (829,41)  val 6.789e+39
+(43) +
+(259) 0x32  from (871,2)  val 50
+(257) this  from (874,4)
+ERROR: :String crosses end of line at 879 (len 25)
+        Preceding text: "+50
+this "string crosses line end
+"
+(258) "string crosses line end  from (880,23)
+(257) line  from (904,4)
+(259) 0xa  from (909,2)  val 10
+(260) 0x400000029f16b11c  from (912,8)  val 2
+(257) a  from (922,1)
+(260) 0x00  from (923,2)  val 0
+(260) 0x00  from (926,2)  val 0
+(257) a  from (922,1)
+(260) 0x00  from (930,4)  val 0
+(257) end  from (935,3)
+
+last of the text was: a 0.e0 end

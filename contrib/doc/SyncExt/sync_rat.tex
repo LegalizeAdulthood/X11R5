@@ -1,0 +1,252 @@
+% Copyright 1991 by Olivetti Research Limited, Cambridge, England and
+% Digital Equipment Corporation, Maynard, Massachusetts.
+%
+%                        All Rights Reserved
+%
+% Permission to use, copy, modify, and distribute this software and its 
+% documentation for any purpose and without fee is hereby granted, 
+% provided that the above copyright notice appear in all copies and that
+% both that copyright notice and this permission notice appear in 
+% supporting documentation, and that the names of Digital or Olivetti
+% not be used in advertising or publicity pertaining to distribution of the
+% software without specific, written prior permission.  
+%
+% DIGITAL AND OLIVETTI DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+% INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT
+% SHALL THEY BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
+% ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
+% IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTUOUS ACTION, ARISING OUT
+% OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+\documentstyle{article}
+
+\setlength{\parindent}{0 pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\begin{center}
+
+{\large X SYNCHRONIZATION EXTENSION}\\[10pt]
+{\large Overview of Version 2.0}\\[15pt]
+{\it Tim Glauert}\\[0pt]
+{\tt thg@cam-orl.co.uk}\\[0pt]
+{\bf Olivetti Research/MultiWorks}\\[5pt]
+{\it Jim Gettys}\\[0pt]
+{\tt jg@crl.dec.com}\\[0pt]
+{\bf Digital Equipment Corporation,}\\[0pt]
+{\bf Cambridge Research Laboratory}
+
+\end {center}
+
+\subsection*{Motivation}
+
+The motivation behind this extension came from work with multi-media
+applications, particularly those involving digital video and animation. Such
+applications perform reasonably well when run on an unloaded local machine or
+over an unloaded network, but synchronization cannot be maintained in a world
+wide distributed systems environment, with the attendant delays caused by an
+unpredictable network, the speed of light and paging on the client machine.
+By providing a mechanism whereby the server can internally coordinate
+when requests are executed, applications can work much more closely to real
+time.  More sophisticated multi-media applications require synchronization of
+graphics between two or more clients which can greatly increase the problems.
+
+\subsection*{Animation}
+
+Applications which use animation need to display an image or some graphics at
+regular intervals. Without this extension, such applications must keep track
+of real-time internally, and deliver requests to X at the time they are
+needed. This relies on there being a consistent delay between the generation
+of the requests by the client and the execution of the requests by the server,
+and in most cases such applications also rely on this delay being short in
+relation to the time between frames. It is common for such clients to
+synchronize with the server after each frame to ensure that the server is
+processing the requests within the required time.
+
+Using the synchronization extension it is possible to send a number of frames
+of animation to an X server as a single unit. The server then interprets the
+synchronization requests between the frames and plays the animation at the
+correct speed. This provides two major benefits:
+
+\begin{description}
+
+\item[Batching requests]
+
+The synchronization is done within the server and so it is possible to send
+the requests for a number of frames in a single batch.  This can make the data
+transport to the server more efficient, particularly if the client is on a
+different machine from the server and the data must travel over a network.  In
+the case where the client is on the local machine, batching can reduce the
+number of process-switches required, and more importantly, the number
+of network packets transported.
+
+\item[Low Latency]
+
+The fact that the synchronization is done in the server can reduce the latency
+between the time a frame is supposed to be displayed and the time at which the
+server processes the requests for that frame. The delay caused by the data
+transport from the client to the server is removed, although there may still
+be a delay if the server is busy processing another client's requests.
+
+\end{description}
+
+All servers which implement the synchronization extension provide a {\bf
+Counter} called SERVERTIME which counts up in milliseconds from some arbitrary
+starting point. A client can {\bf Query} the value of this counter and can
+send an {\bf Await} request which will block until this counter reaches some
+later value. When that value is reached, the client is unblocked and
+processing continues with the request following the {\bf Await}. An example
+animation application would send the following requests to display 5 frames of
+animation at 40 millisecond intervals.
+
+\begin{center}
+\begin{tabular}{l}
+	{\bf Await} 1000\\
+	{\bf PutImage} {\it image1}\\
+	{\bf Await} 1040\\
+	{\bf PutImage} {\it image2}\\
+	{\bf Await} 1080\\
+	{\bf PutImage} {\it image3}\\
+	{\bf Await} 1120\\
+	{\bf PutImage} {\it image4}\\
+	{\bf Await} 1160\\
+	{\bf PutImage} {\it image5}\\
+\end{tabular}
+\end{center}
+
+Applications can easily ask a server to do more than it possibly can execute
+in the time available.  Yet only the application can determine how to shed
+load to the server to keep near real time.  We examined mechanisms by which
+requests already buffered in the connection might be ignored. In the end, we
+agreed that the complications that would ensue in such semantics were not
+worth it, and that notification of the application was both necessary and
+sufficient. Thus the extension will generate an event when the server cannot
+meet the specified timing requirements, so that the client can take some
+action to reduce the load. The client may, for example, skip a few frames of
+animation or reduce the detail in an image.
+
+This is achieved by specifying a {\it threshold} with an await request. If the
+counter has already exceeded the wait value by at least this threshold, an
+event is generated. This informs the client that the server is failing to keep
+up with the requests it is being given or, less likely, that the client is
+sending the requests too late.
+
+\subsection*{Other system counters}
+
+Some implementations of this extension may provide other system counters in
+addition to SERVERTIME. One very useful system counter is FRAMEEND, which
+advances by 1 when the display hardware has finished displaying a new frame.
+By preceding some graphics requests with a wait on FRAMEEND, a client can
+ensure that each frame of the animation corresponds to a single frame on the
+display. In addition, an efficient server may be able to process these
+graphics requests when the screen is not being updated by the hardware, thus
+reducing or eliminating flicker.
+
+The extension implementation allows other extensions to define their own
+counters. A video extension may provide a counter which advances in step with
+some incoming analogue video signal. The multi-buffering extension may provide
+a counter which can be used to synchronize buffer-switching between different
+multi-buffering clients.
+
+\subsection*{Multiple clients}
+
+As well as using the system-provided counters, clients can
+create their own counters for inter-client synchronization. The value of
+such counters is changed by an {\bf Advance} request which adds a small number
+(usually 1) to the current counter value.
+
+Graphics overlays can be implemented using counters, for example. One client
+is responsible for generating the background image and this client uses a
+system counter as before. It also has its own counter which it advances after
+the background has been drawn. A second client is responsible for the overlay,
+and it waits for the first client's counter to be advanced before drawing its
+graphics. This ensures that the background is always drawn before the overlay
+without the need for the two clients to communicate directly with each other
+at every frame.
+
+By using a pair of counters it is possible to implement a rendezvous between
+two clients, so that, for example, there could be a pair of animations where
+are kept synchronized to each other but not to real time. Although it would be
+possible to make the clients follow one another as described above, the
+rendezvous scheme has the advantage that the requests for the two clients can
+be executed in parallel.
+
+There is a danger of deadlock in some of the more complicated synchronization
+systems, but this can be avoided by using an await request which waits for one
+of a set of counters to change. A client can wait on SERVERTIME as well as on
+another counter so that the wait will time-out if the other client does not
+respond.
+
+One mechanism which is absent from this extension is mutual-exclusion.
+Although a number of schemes for mutual exclusion have been proposed, none of
+them are entirely satisfactory. More importantly, there are no obvious
+example applications which require {\it fine-grain} mutual-exclusion within
+the server. Coarse-grain mutual exclusion can be implemented using the
+selection mechanism or {\bf GrabServer/UngrabServer} requests.
+
+\subsection*{Alarms}
+
+This extension also provides {\bf Alarms}, which allow a client to have an
+event delivered when a counter reaches a certain value. This is most often
+used in conjunction with the SERVERTIME counter, or another real-time counter,
+to have events delivered at regular real-time intervals.  An alarm is
+associated with a counter and has a {\it value} at which it will generate the
+next event. When the counter reaches this value, an event is generated and the
+value is increased by some {\it increment}. This process continues until the
+alarm reaches a {\it limit} value, at which point a last event is generated
+and the alarm becomes {\bf Exhausted}.
+
+Alarms may also be used to keep track of the progress of other synchronized
+activity by selecting for events from a counter created by one of a set of
+co-operating clients.
+
+\subsection*{Availability}
+
+The original design was implemented over a year ago; this revised
+specification was prepared in reaction to experience in its use. A sample
+implementation using the X11R5 server of this revised specification is
+currently close to completion, and will be made available by the end of
+November 1991.
+
+% ???, once conversion of example programs and implementation
+% FRAMEEND system counters are complete.
+
+This extension will be proposed as an X Consortium Standard and, if accepted,
+it will be available in the next release of X.  For more details on this
+extension email the authors.
+
+\subsection*{Changes from version 1.0}
+
+The protocol description for version 1.0 of this extension was published as
+part of the proceedings of the 5th Annual X Technical Conference. The major
+differences between that version and version 2.0 are:
+
+\begin{itemize}
+
+\item Alarms have been added.
+
+\item System counters have been added.
+
+\item {\bf Timers} have been replaced by the SERVERTIME system counter.
+
+\item The {\bf AutoAdvance} mechanism, which allowed a counter to be advanced
+when a given event was delivered, has been removed. The system counter
+mechanism provides similar functionality in a simpler and more efficient
+manner.
+
+\item Counters are now 64-bit entities, which removes the need to handle the
+problem of counter wrap-around.
+
+\end{itemize}
+
+\subsection*{Acknowledgements}
+
+The idea of blocking clients within the server came from Todd Brunhoff of
+Tektronix, and the basic elements of this extension were developed by Tim
+Glauert. Dave Carver suggested the Alarms mechanism and provided a first
+implementation of it. Jim Gettys made many useful comments on the
+specification and Bob Scheifler made some small but crucial observations, as
+he does in most things related to X.
+
+\end{document}

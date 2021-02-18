@@ -1,0 +1,11 @@
+        DEPLIBS = $(DEPXLIB)
+LOCAL_LIBRARIES = $(XLIB)
+  SYS_LIBRARIES = 
+           SRCS = xco.c xargs.c
+           OBJS = xco.o xargs.o
+
+        RGBFILE = DefaultRGBDatabase.txt
+     RGB_DEFINE = '-DRGBDATABASE="$(RGBFILE)"'
+
+ComplexProgramTarget(xco)
+SpecialObjectRule(xco.o, $(ICONFIGFILES), $(RGB_DEFINE))

@@ -1,0 +1,28 @@
+JS_WORD_COMMENT_SET
+
+名称
+
+	js_word_comment_set	単語にコメントをセットする。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_word_comment_set(env, dic_no, entry, comment)
+	struct wnn_env *env;	/* 環境 */
+	int dic_no;		/* 辞書番号 */
+	int entry;		/* エントリー番号 */
+	w_char *comment;		/* コメント */
+
+機能
+
+	dic_no, entry で指定された辞書内の単語にコメントをセットする。
+	コメントをセット可能なためには、その辞書は、登録可能である必要がある。
+	コメントの comment 最大文字数は、1024文字である。
+	
+リターンバリュー
+
+	正常終了時には、0 を返す。
+	異常終了時には、-1 を返す。
+

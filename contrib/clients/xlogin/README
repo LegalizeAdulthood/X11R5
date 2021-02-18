@@ -1,0 +1,44 @@
+  This is the second release of xlogin! There has been a lot
+of cleanup of the code and a few features have been added.
+Please look at the manual page and the file CHANGES for more
+information.
+
+ABOUT:
+------
+  This program was written to do some stuff, which is no longer
+done, when using Xdm from X Windows Version 11 (and not using sessreg).
+It handles /etc/motd, /etc/nologin, user quotas (EPROCLIM, EUSERS),
+/usr/adm/lastlog, /usr/adm/wtmp, /etc/utmp and $USER/.hushlogin.
+You can even specify more than one "MOTD" file, using the -sysFiles
+commandline option.
+For more information see the manual page.
+  I tried to write it as secure as possible (range checking in
+strings etc.), but any further security hints are welcome.
+
+COMPILING:
+----------
+  There are four compiler-flags: -DHOSTNAME, -DQUOTA, -DLASTLOGIN
+  and -DHAS_NO_SETRE
+o if you want the utmp host field to contain the hostname if the
+  display string starts with ":", compile with -DHOSTNAME. This code
+  is useful, if the utmp/wtmp is collected on a central machine.
+o if you want lastlogin records to be written, use -DLASTLOGIN
+o if you want to turn on the QUOTA code use -DQUOTA
+
+ATTENTION!
+o you *SHOULD* avoid setting -DHAS_NO_SETRE. This causes a possible
+  security hole! If you don't have setreguid() or setreuid() functions,
+  you have to specify "-userFiles /etc/motd" (e.g.) on the commandline
+  in order to prevent users from reading protected files!
+
+The program has been tested on the following machines:
+   DecStation 2100,    Ultrix 3.1
+   DecStation 3100,    Ultrix 3.1
+   SunSparcStation 1,  SunOS 4.1.1
+
+Enjoy!
+
+\Maex
+
+______________________________________________________________________________
+ Markus Stumpf                        Markus.Stumpf@Informatik.TU-Muenchen.DE 

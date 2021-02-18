@@ -1,0 +1,149 @@
+
+	kinput2 -- a front-end program for easy input of Japanese text
+
+
+Kinput2 is a front-end for X11 applications that want Japanese text input.
+
+A client that wants kana-kanji conversion service for Japanese text sends
+a request to kinput2. Kinput2 receives the request, does kana-kanji
+conversion, and sends the converted text back to the client.
+
+
+* Kinput2 Features
+
+    Upward-Compatible with Kinput:
+	Kinput2 is fully upward-compatible with kinput, which was
+	contributed to X11R4. Applications using kinput to input
+	Japanese can also use kinput2 without any modification.
+
+    Multiple Input Style:
+	Kinput2 supports 3 input styles: root-window, off-the-spot and
+	over-the-spot.
+
+    Multiple Protocol:
+	There are several protocols which define how the communication
+	between front-end and clients should be done. Kinput2 implements
+	following protocols:
+
+		* kinput protocol
+		* kinput2 protocol
+		* Matsushita's jinput protocol
+		* Sony's xlc protocol
+		* XIMP protocol
+
+	If a client can speak at least one of them, the client can
+	communicate with kinput2 and get Japanese text.
+
+    Multiple Conversion Engine:
+	Kinput doesn't do actual kana-kanji conversion itself.  There are
+	several conversion servers available, so kinput2 uses them as a
+	conversion engine. Kinput2 can connect to the following servers:
+
+		* Wnn jserver
+		* Canna irohaserver
+		* Sj3 sj3serv (sj3serv support is still in beta testing phase)
+
+	All of these are contributed to X11R5.
+
+	You can choose which server to use at compilation time.  If you
+	choose more than one, you can choose your favorite engine by a
+	command line option when you invoke kinput2.
+
+
+                                                +-------------------------+
+    +---------+                           +---->|        jserver          |
+    | client1 |<------+    +---------+    |     | (Wnn conversion daemon) |
+    +---------+       +--->|         |<---+     +-------------------------+
+                           | kinput2 |<-----+
+    +---------+       +--->|         |<--+  |
+    | client2 |<------+    +---------+   |  |   +-------------------------+
+    +---------+                          |  +-->|      irohaserver        |
+                                         |      |(Canna conversion daemon)|
+                                         |      +-------------------------+
+                                         |
+                                         |      +-------------------------+
+                                         +----->|        sj3serv          |
+                                                | (SJ3 conversion daemon) |
+                                                +-------------------------+
+
+
+* Directories
+
+This directory contains the following subdirectories:
+
+	lib/		source code for a library kinput2 uses
+	include/	header files
+	cmd/		kinput2 source code
+	doc/		various documents
+	client/		sample client library and patch to kterm
+	ccdef/		character conversion rule files
+
+
+* Installation
+
+First you have to decide which conversion server to use.  Currently
+kinput2 supports 3 servers -- Wnn jserver, Canna irohasersver and SJ3
+sj3serv.  You can choose one of them, or more (in this case, you can
+choose the server to use at run time with a command line option).
+
+You have to compile and install the conversion system (i.e. conversion
+server and client-side library to use the server) you have chosen before
+making kinput2. See the documents in each source directory for their
+installation and how to get the servers up and running.
+
+Then, you have to edit Kinput.conf in this directory. It is the global
+configuration file for kinput2. See the file for details.
+
+If you're going to generate Makefiles by xmkmf, maybe you should specify
+TOP directory in Imakefile in this directory.
+
+Ready? Now what you should do to build kinput2 is:
+
+	xmkmf	(in this directory)
+	make Makefiles
+	make depend
+	make
+	make install
+
+During make depend, you may get a warning message that kinput2.c
+includes "WcharDisp.h" more than once, which can be ignored.
+
+Don't forget to do 'make install'.
+
+
+* How to Use
+
+Please see cmd/kinput2.man for general setting. Default key bindings are
+described in doc/defaultkeys. Other documents will be found in doc
+subdirectory, though they are written in Japanese.
+
+
+* Client
+
+A sample client-side library source to use kinput2 and patch for kterm to
+make it do over-the-spot conversion is provided in client subdirectory. 
+See client/README for details.
+
+
+* Bugs
+
+If you find a bug, please send a bug report to kinput2@astec.co.jp.
+Please don't forget to include the description of your environment (your
+machine, OS version, X window patchlevel, etc.).
+
+
+* Credits
+
+I wish to thank the following people who have contributed much to this
+release:
+    Akira Kon, Naoshi Suzuki, Hiroshi Ohta, Masaki Takeuchi, Hideki Hiura,
+    Ryuji Ishiguro, the members of the kinput2 mailing list and JUS XXI
+    working group.
+
+Also my thanks go to all the people who participated in beta testing of
+kinput2.
+
+
+					Makoto Ishisone
+					Software Research Associates, Inc.
+					ishisone@sra.co.jp

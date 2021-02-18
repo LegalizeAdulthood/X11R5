@@ -1,0 +1,24 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+
+HELP = console.help vopcon.help lacc.help \
+	laccqr.help cnclass.help ermproc.help \
+	inpproc.help lgvproc.help erprintf.help
+
+DOCS = console.doc vopcon.doc logview.doc
+
+MkdirTarget($(DESTDIR)/doc/atk/console)
+
+NormalHelpRule()
+InstallDocs($(HELP), ${DESTDIR}/help)
+InstallDocs($(DOCS),${DESTDIR}/doc/atk/console)
+InstallHelpAlias(laccqr, lacc-quickref)
+InstallHelpAlias(console, consoles)
+InstallHelpAlias(ermproc, errmonf errmonfproc)
+InstallHelpAlias(inpproc, inputproc)
+InstallHelpAlias(lgvproc, logvproc logview)
+InstallHelpAlias(cnclass, conclass)
+InstallHelpAlias(erprintf, errprintf)
+

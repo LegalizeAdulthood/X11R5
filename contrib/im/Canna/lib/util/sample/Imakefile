@@ -1,0 +1,21 @@
+#include "../../../config.sh"
+#define UseLocalX 0
+       IROHAROOT = ../../..
+            SRCS = sample.c
+            OBJS = sample.o
+#if UseLocalX
+        INCLUDES = -I$(IROHAROOT) -I$(IROHAROOT)/include \
+			-I$(XDIR)/usr/include/X11 \
+			-I$(XDIR)/usr/include
+#else
+        INCLUDES = -I$(IROHAROOT) -I$(IROHAROOT)/include
+#endif
+
+#if UseLocalX
+            XLIB = /usr/lib/libX11.a
+          XMULIB = /usr/lib/libXmu.a
+#endif
+        LIBIROHA = $(IROHAROOT)/lib/iroha/libiroha.a
+ LOCAL_LIBRARIES = $(IROHAROOT)/lib/Xn/libXn.a $(LIBIROHA) $(XMULIB) $(XLIB)
+
+ComplexProgramTarget(sample)

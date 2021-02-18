@@ -1,0 +1,18 @@
+ＵＳＲ＿ＤＩＣ（５＿ＪＴ）
+
+
+名称
+    USR_DIC  −  登録可能形式辞書
+
+形式
+    JSERVER_DIR/usr/ユーザ名/ud
+
+機能説明
+      uum(1_JT) のかな漢字変換で使用される登録可能形式辞書である。
+    これは、uum が起動される時に、デフォルトとして作成するが、uumrc(4_JT)
+    によって、ディレクトリ位置やファイルを変更することが可能である。
+    JSERVER_DIR は、jserverrc(4_JT) の中で、jserver_dir によって設定される。
+
+関連項目
+      uum(1_JT), jserver(1_JT), wnnenvrc(4_JT), jserverrc(4_JT),
+    dtoa(1_JT), atod(1_JT).

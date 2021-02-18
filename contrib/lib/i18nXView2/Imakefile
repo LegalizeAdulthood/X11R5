@@ -1,0 +1,7 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+CDEBUGFLAGS=-DOW_I18N
+SUBDIRS = utilities locale doc images include lib clients nls
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

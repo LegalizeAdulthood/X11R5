@@ -1,0 +1,204 @@
+
+
+
+
+
+
+
+
+
+
+GraphLib Programming Manual
+Version 0.5a
+Eric Anderson
+July 12, 1991
+Chapter 1 :Copyrights and Disclaimers
+
+
+GraphLib - A library and collection of programs to make
+X programming easier.
+
+(c) Copyright 1990,1991 Eric Anderson 
+Buttons and menus mostly by Jeffrey Hutzelman
+
+Our thanks to the contributed maintainers at andrew for providing
+disk space for the development of this library.
+My thanks to Geoffrey Collyer and Henry Spencer for providing the basis
+for this copyright.
+
+This software is not subject to any license of the American Telephone
+and Telegraph Company, the Regents of the University of California, or
+the Free Software Foundation.
+
+Permission is granted to anyone to use this software for any purpose on
+any computer system, and to alter it and redistribute it freely, subject
+to the following restrictions:
+
+1. The authors are not responsible for the consequences of use of this
+software, no matter how awful, even if they arise from flaws in it.
+
+2. The origin of this software must not be misrepresented, either by
+explicit claim or by omission. Since few users ever read sources,
+credits must appear in the documentation.
+
+3. Altered versions must be plainly marked as such, and must not be
+misrepresented as being the original software. Since few users
+ever read sources, credits must appear in the documentation.
+
+4. This notice may not be removed or altered.
+
+
+Chapter 2 :Introduction
+GraphLib is a project which began a short time after I began attempting to write X programs. The only previous experience I had had with programming in a windowing environment was in Sunview, and so when I began to look at programming in X I was pretty dismayed, I tried to understand what Xt programs were doing, and it was just thoroughly confusing. Since X seemed to be an excellent idea I decided that I would try to write an interface which people would be able to use easier. GraphLib is the result.
+This is the initial release of graphlib, and as can be interpreted by the release number, 0.5a, I do not consider this to be a finished product, or even to be really good, however, as I have completed two useful clients, and I would like to see the worlds reaction to yet another toolkit, I decided to try to get it released as soon as possible. Also I am hoping that other people will write code for the library and that I will eventually be able to present a reasonable replacement for the Xt library for the use of programming.
+We have decided that it is neccesary to rewrite the library in C++. Therefore, this version should be considered mostly terminal. I will be supporting it, and will accept bug fixes, and improvements, and I will accept any suggestions for what people would like to see in the library, but will not write any code to implement those improvements.
+As this project is designed to shorten the learning curve for X programming, I am requesting feedback on how well it achieves this goal. From every report that I have heard, it takes about 6 months to be able to program in Xt well. I hope that in graphlib this time will be shortened to at most a week before people will be able to put together fully functional clients, and a few more weeks if people want to write extensions to the library. 
+The library is not yet to the point at which people will be able to write complicated useful programs in it, it requires more classes to be written for it. To be able to write these classes will require some familiarity with the Xlib interface, however this familiarity is much easier to achieve, and many examples of usage of the Xlib calls can be found in the code. Indeed once the object things are completed, it is unlikely that programmers will have to make any calls to X for general usage.
+The manual is divided up into a number of parts, the first part being a section on concepts of the library. There are a number of recurring paradigms that are used, and as a result it is important to introduce the method in which they are used early as this increases comprehension. After the recurring methods are discussed, an in-complete discussion of all of the currently available pieces(wc?) are discussed. Finally the collection of miscellaneous routines which are available to make programming easier. After that there is a discussion of the current bad choices in design and coding, and a discussion of the expected fixes. Finally there is a discussion of some of the long term plans, and the questioning of the way that some of the long term design should be handled.
+Chapter 3 :General Features
+This chapter will discuss some of the general design decisions that were made. The first is the DataList, which because it is used in numerous places has to be discussed. The second is the use of GL_Create for the building of all types of structures. Third will be a discussion of how event handling is done.
+3.1  DataLists's
+A datalist, which is so named because of the current implementation is merely a linked list. However, they are supposed to be a way of associating a piece of data with a key so that it can be retrieved in the future. Datalists are created using GL_Init_DataList Depending on this implementation however is foolhardy, because I expect to change it to either a binary tree or a hash table at some point in the future when I decide that the increased speed of lookups is worth the extra coding time.
+Additions to datalists are handled by calling the function GL_Add_To_DataList. It was decided to use pointers to functions as the keys because this gave a much higher guarantee that the keys would be unique while not requiring time to be spent maintaining a list of this person owns this key, etc., which would have to be maintained between sites, and furthermore could easily cause conflicts with people writing their own extensions to the library which they did not want to release, and therefore would not have to `register' their key for. 
+To retrieve the data stored in a datalist, the GL_Search_DataList call is made. This call simply uses the key specified and searches through the datalist to find the key, then it returns the data which was associated with that particular key. It is important that the key actually exist in the list that is searched because if it doesn't, GL_Search_DataList will exit. 
+To test for the existence of a key in a particular database a call should be made to GL_Key_In_DataList, this call takes the same arguments as GL_Search_DataList, however it returns an integer which tells the caller if that key existed in the datalist.
+Datalists are used in many different places. First, every window has a datalist associated with it. This datalist is used to store the information that the functions which deal with the window need. An example of this is that a label needs to store the text that it is supposed to display, this data is stored in the Datalist associated with the window. DataLists are also used for object handling, there is a datalist which contains all of the objects which are installed in a window. Programmers should feel free to use datalists when they need to associate some data with various keys, If there are a number of complaints about the speed with which the datalists are searched, I or someone else definitely will rewrite the code.
+3.2  GL_Create
+GL_Create is the generic method of creating all of the things which are used in GraphLib. It is used to create all types of windows, objects, it is even used to manage the handling of command line options and resources.
+All calls to GL_Create are done in the following method:
+<possible return type>GL_Create(<type specifier>,
+	<option>, [args,]
+	...,
+	GL_Done);
+The specified return type of GL_Create is a GLPointer, which is designed to be large enough to hold any pointer, or a long, and should therefore be sufficient for returning many varied and different types. It is not neccesary that anything useful be returned, for example when the type is GL_Resource, the value returned is unspecified.
+The options are specifiers which say what is being affected, examples are GL_WinX which would specify the x position of a window. Various arguments often have to be specified after the option, such as GL_WinX would require an integer after it to specify the 
+It is not neccesary that there even be any arguments to a particular option. For example for the creation of polygonal objects there is the option GLPO_Closed, which takes no arguments and merely specifies that the polygon that is begin described should be forced to be closed.
+3.2.1  How the type specifier works.
+The type specifier is actually a macro which specifies five functions. These functions, in the order they are specified in the type are the Initializer, the Handler, the Executer, the Destroyer, and the Returner. The first four are all void, and the fifth returns a GLPointer. These functions are called in a specific manner by the GL_Create function.All of the functions first argument is a GL_DataList in which they can store data so that information can be passed from one stage of processing to another. 
+3.2.2  The Initializer
+The first stage of processing is initialization. The Initializer is called, and it's purpose is to set up the initial default values that will be used. For example, the label initializer sets the initial string to NULL. Each initializer is responsible for calling it's parent initializer, for example the label initializer calls the window initializer before it sets up any of its information.
+3.2.3  The Handler
+After the initializer is called, GL_Create begins to loop through the varargs data. First, it picks off a long which specifies which option is used. Then it calls the handling function with the list, the modifier, and a pointer to the varargs list. This allows the handling function to modify the varargs position. Each Handling routine should have a default entry in the case statement which passes all the values to its parent. Root handlers should print an error message out, and exit. In general the handling functions should just store the values that they get in the structure that was initialized in the Initializer. When all of the variable arguments have been handled, which means that the GL_Create function found a modifier of the value GL_Done which is a #define for 0, it will stop looping through the variable arguments and proceed to call the executer.
+3.2.4  The Executer
+GL_Create will next call the Executer. This is the function which generally does all the work of getting set up. For example, in the Execute function for labels, it calculates the width of the text that it is going to be displaying. The execute function is responsible for calling the execute function for its parent, the execute function for the labels calls the execute function for windows, which creates the window in which the label will be displayed. This function in turn calls the execute function for the event manager, which adds the window to the list of windows to handle events for.
+3.2.5  The Returner
+Next the returner is called, and the value that it returns is saved. In general this is likely to be the returner of a parent function, most things subclassed off of the window class will use the window returner, most objects will use the default object returner. 
+3.2.6  The Destroyer
+Finally, the destroyer is called. This function should destroy anything that was constructed that is not wanted any more, such as the window returner destroys all the information that it had stored, as that information has already been used to create the window, and is therefore no longer needed, and is also likely to become out of date soon.
+3.2.7  Cleanup
+Finally, GL_Create returns the stored value that it got from the returner. In this way, classes can be built on top of each other, which allows for easier implementing of more complicated things, for example, labels don't need to know how to position the window they are in.
+3.3  Event Handling
+Event handling is all done through the use of callbacks. The basic idea is that the programmer registers routines which will be called whenever a certain event is received. These handlers are specific to each window. The advantage of this method is that the event loop is centralized in a single place, handlers are added to deal with each type of event, and provided they are designed not to interfere with each other, all of your event handling is done cleanly, you don't have to worry about events being missed, or failing to be delivered to routines that need to handle them. Beyond that a central event handling routine cleans up the code and prevents a number of problems which result from multiple event loops. The event handling code also can deal with functions which need to be called regularly, as it is unsafe to make X calls inside of signal handlers. Also, the code to switch on the event type only has to be done in a single place instead of in every function that handles events. Finally, in the future, you will be able to add callback routines to handle input on an arbitrary file descriptor.
+3.3.1  Adding callback functions
+Callback functions can be added at any point. If they are added at the creation time, they are merely dumped into the call to GL_Create using the following format: 
+Event <| Options>, [OptionValues,] CallbackFunction.
+For example to add a function to handle the expose events, the line would look like so: 
+Expose, Demo_Expose_Function,
+and then the programmer would continue to list options exactly as they had before. The only option which is supported is GL_Restricted. This causes the event handling functions to restrict the times at which they will call the callback function. The basic concept is that the programmer specifies a rectangle in which the event should have happened, and when the position in the XEvent structure is inside of this rectangle, then the function is called. The events for which it is legitimate to specify a restriction rectangle are ButtonPress, ButtonRelease, EnterNotify, LeaveNotify, KeyPress, KeyRelease, and MotionNotify. Although it is possible to restrict the notify events, this is probably not going to result in the expected behavior, and t therefore probably shouldn't be used. To have a function called if the button is pressed inside the upper left hand corner of the window, the line would be specified as follows:
+ButtonPress|GL_Restricted, 0,0,10,10, Demo_Button_Function,
+This would cause the function to only be called if the button was pressed in the upper left hand corner inside of the rectangle specified. This could be used to optimize for buttons that only need to deal with things if the button is pressed inside of their section or something like that. This is mainly designed to be a convenience for programming.
+To add a callback function after the window has been created, the GL_AddFuncPtr call is used. This functions first argument is the window to which the functions should be added, and the remainder of its arguments are identical to the arguments which are used when a callback function is added at creation time.
+3.3.2  Adding Time-out functions
+A time-out function is a function which is supposed to be called regularly at a specified interval. This is useful for programs which wish to be called to update statistics which are being monitored, for blinking the cursor, etc. There are three values which are passed to the time-out function. The first is the timer interval. This is a struct timeval, the definition of which is: 
+#include <sys/time.h>
+struct timeval {
+ long tv_sec; /* seconds */
+ long tv_usec; /* and microseconds */
+};
+
+The second value is the time-out function, and the final value is the window that the time-out function is associated with. this is so that it can get information which would be neccesary for updating values and things like that.
+For example to set up a function that would be called twice a second, the following code would be used:
+struct timeval timeout;
+timeout.tv_sec = 0;
+timeout.tv_usec = 500000;
+GL_SetTimeOut(&timeout,demo_timeout_function,
+	demo_timeout_window);
+This code would cause the timeout function to be called twice a second. If a call is missed because of heavy load on the machine the timeout function will immediately be called, it will then set the next call time to be in interval units. Otherwise the function should be called almost exactly on time consistently. It should be noted that at the current time only a single timeout function is supported.
+Chapter 4 :Current Classes
+There are two base classes, the event manager class, and the object class. The event manager class could potentially more correctly be called the window class, and probably will be for the remainder of this because the only subclass that makes sense for the event manager routines is one that sets up a window.
+4.1  Window class
+The window class is one of the basic most useful classes. For example to put a window on the screen with the title Hello World, the following code would be used:
+#include "X11/gl/window.h"
+
+main(argc,argv)
+int argc;
+char **argv;
+{
+	Window mainwin;
+
+		GL_InitGraphics(argc,argv,"helloworld",GL_Window_Help);
+	mainwin = (Window)GL_Create(GL_Window,
+	GL_PrimaryWindow,
+		GL_WinName, "Hello World",
+	GL_Done);
+	GL_MainLoop(mainwin);
+}
+
+This program would be compiled with a line similar to cc -o demo demo.c -lgl -lX11. You may need to add a -L/usr/local/lib or something like that to this line. Now an explanation for the code which was used. The include statement gets the GraphLib include file which describes windows. The call to GL_InitGraphics initializes the library with argc, argv, the standard classname, and the default help function. The call to GL_Create creates the window with the title of Hello World, exactly how this would be displayed on your screen is dependant on the window manager that you use. Finally, the call to GL_MainLoop with the window that was created tells the library to map that window and all its children, and begin handling events. 
+This is indeed a complete application, it is legitimate to give it command line arguments such as -geometry, and -display.
+The other options which can be set for windows are document on the manpage for GL_Window. They are GL_WinWidth, GL_WinHeight, GL_WinParent, GL_WinX, GL_WinY, GL_EventMask, GL_OverrideRedirect, GL_SaveUnder, GL_WindowBorderWidth, GL_WinName, GL_BackgroundPixel, GL_PrimaryWindow. It is important that GL_Primary window always be specified for at least one window because otherwise the geometry command line option will not be properly handled. 
+People wishing to accept events other than Exposures, Keypresses, ButtonPresses and StructureNotifies will need to set the eventmask.
+4.1.1  Label Class
+The label class is a subclass of the window class. Its primary function is to display a single string in a window. The following program will supports a label which can be changed by clicking in the window and then typing in the new label in the xterm that the program was run from.
+
+#include <stdio.h>
+#include "X11/gl/label.h"
+
+Window mainwin;
+
+void ButtonPressProc(report)
+XButtonEvent *report
+{
+	char newlabel[200];
+
+	printf("Enter New Label --->>");
+	gets(newlabel);
+	Change_Label(mainwin,newlabel);
+}
+
+main(argc,argv)
+int argc;
+char ** argv;
+{
+	Window mainwin;
+
+	GL_InitGraphics(argc,argv,"labeldemo",GL_Label_Help);
+	mainwin = (Window)GL_Create(GL_Label,
+	GL_PrimaryWindow,
+	ButtonPress,ButtonPressProc,
+	GL_Done);
+			GL_MainLoop(mainwin);
+}
+
+4.2  Other Classes
+I'm tired of documenting. This is all covered in the manpages, or at least sort of is. Read the manpages, read the examples, tell me what documentation I should write and then I will write it, but after a month of continuous documenting, I'm just tired of it. Assuredly more documentation will be written as further releases are done. I expect to have a real programmers manual once I hit version 1.0, but until then there will just be interim releases of the programmers manual.
+Chapter 5 :Miscellaneous Routines
+Currently supported misc. routines are Gl_GetColor, GL_GetGC, GL_SetGCColor, GL_SetWinColor, and xmalloc.
+Chapter 6 :Current badnesses
+The use of GL_Modify really should be thought through more carefully. It is a very useful function, however, it is not going to operate in exactly the way that would be expected in all cases.
+I don't really like the way that menus are created, the use of recursive calls to GL_Create is really nifty, but it complicates and adds to the amount of writing that needs to be done.
+The menu code should support some sort of variable so that you don't need a different function for every single argument. See the evilness in perfmon for why this is really bad.
+The menu code for shadows is slightly broken it should be another window which is the shadow, this is not the way it currently works.
+Some of the stripchart code is a little more hairy then I would like it to be. The internals should be cleaned up.
+Chapter 7 :Future plans
+o	The library will be re-written in C++. Send mail to ea08+@andrew.cmu.edu for information on how this is coming.
+o	The consideration of whether or not all windows should be objects is coming up more and more. 
+o	Some method for dealing with organization of different things such as saying that one window is below another one and having it deal with it is definitely needed. Anyone coming up with code to support, and/or just a good way of handling it would get a lot of gratitude and definitely mention in the comments
+o	 Multiple timeout functions need to be supported in the near future. 
+o	I need to add stuff so that GC's can be supported better, I plan to have it cache all of the different GC's and allow them to be shared between people, also support for clip regions will be added so that you can multiply set the clip region and the X call will only go out a single time.
+o	I plan to deal with scrollable regions in the near future, which will require the writing of scrollbars.
+o	The code to handle objects needs to have a better way of dealing with expose events, it gets pretty slow when there are 500 or so objects being managed. 
+o	More options need to be added to the creation of windows
+o	The event mask should be set up so that it sets itself based on which callback functions are defined
+o	Code to deal with graphics exposes needs to be written so that they can be adjusted for long delays.
+o	Better support for sup parts to the classname should be done.
+o	Many more objects need to be written. I plan to write scrollbars, better text stuff.
+o	Many more window classes need to be written. Mainly the scrollable text window will be written.
+o	The documentation needs to be improved.
+o	Future clients: a replacement for xmag, and a better version of xconsole.
+o	Support for accepting input on arbitrary filehandles needs to be done.
+o	May want to consider methods of dealing with multiple displays.
+Chapter 8 :General comments
+I would appreciate any comments that would improve this manual in any way, also any comments on the future plans would be nice. When writing code in X, the program oneko, available from export.lcs.mit.edu is very useful for testing if you are dealing with expose events well, you should use it on all of the clients that you release, also running the windowmanager with opaque scrolling will tell you how well you deal with expose events. There should not be any flicker or stuff like that.
+Anyway, this library is an attempt to improve the general status of programming in X, and I hope that at some point it will be complete enough to be very usable.
+

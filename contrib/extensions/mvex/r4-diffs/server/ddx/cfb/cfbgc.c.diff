@@ -1,0 +1,20 @@
+Mklinks subprocess -- rcsdiff -c -rR4-Vanilla -rR4-Mvex-r1 server/ddx/cfb/RCS/cfbgc.c,v 
+*** 1.1	1991/09/22 18:23:44
+--- 1.2	1991/09/22 18:30:18
+***************
+*** 693,699 ****
+  	    if (pGC->alu == GXcopy &&
+  		((pGC->planemask & PMSK) == PMSK))
+  	    {
+! 		pGC->ops->PushPixels = cfbPushPixels8;
+  		pGC->ops->PolyFillArc = cfbPolyFillArcSolidCopy;
+  	    }
+  	    break;
+--- 693,699 ----
+  	    if (pGC->alu == GXcopy &&
+  		((pGC->planemask & PMSK) == PMSK))
+  	    {
+! 		pGC->ops->PushPixels = mfbPushPixels;
+  		pGC->ops->PolyFillArc = cfbPolyFillArcSolidCopy;
+  	    }
+  	    break;

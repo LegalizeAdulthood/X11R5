@@ -1,0 +1,208 @@
+
+XCalendar is a simple interactive calendar program with a notebook
+capability. It is built on the X Toolkit and the Athena Widgets.
+If you are writing your first toolkit application this
+program is an example of an extensive use of callbacks
+and event handlers. It also takes advantage of application
+specific resources and actions.
+
+CREDITS:
+        Version 3.0
+        Authors: Roman J. Budzianowski - MIT Project Athena
+                      Copyright 1988 Massachusetts Institute of Technology
+	         Richard Bingle - Comp. Sci. Dept., Purdue University
+                      Copyright 1990 Purdue University
+	Contributions: 
+		Beth Chaney - Comp. Sci. Dept., Purdue University
+
+You can start the program as:  xcalendar [ month [year]]
+If month and year are not provided they are assumed
+to be current. 
+
+INTERACTIONS:
+
+Clicking the left mouse button on a day will start a text editor.
+You can edit and save a text.  This text will be associated with the
+day. You can later on read and edit this text when you open the editor
+for the same day. The text is saved in a file in the directory
+~/Calendar. The editor lets you also clear an entry associated with
+a particular day.  You can also scroll through days while in the editor
+by clicking on the arrows on either side of the date label.  If an already
+open day is scrolled to, an appropriate message is displayed and the 
+editor is brought up in read only mode.
+
+It is also possible to scroll through months in the main window by 
+clicking on the arrows on either side of the current month label.
+
+You can highlight all entries in a month by invoking
+the function ShowEntries. By default this function is
+called when the left mouse button is pressed in the
+title window (where month and  year are displayed).
+Pressing the same button again will unhighlight the entries.
+
+
+MISSING FEATURES:
+
+To remove all entries in a particular month
+you have to use your system's commands. The naming scheme for
+the files makes it easy : the command "rm ~/Calendar/xc*sep1988 "
+on UNIX(TM) will remove all entries from september 1988.
+The facility to do that from the xcalendar should be provided.
+
+One can imagine many other useful features. For example
+automatic parsing of the current day entry in search for
+appointments to trigger alarms (reminders) at the approriate
+time. Well, maybe one day...
+
+RESOURCES:
+
+The resource data base lets you alter the visual appearance
+of the program. You can change fonts, border widths, labels, 
+and other resources used by widgets. One use of this facility is
+to change names of week days and months.
+
+Here are the names of widgets you can use to set 
+various resources: 
+
+XCalendar    - class of the application
+xcalendar    - top level pane
+controls     - control panel
+quitButton   - quit button
+helpButton   - help button
+date         - date label
+calendar     - calendar pane
+daynumbers   - day numbers frame
+1-49         - day number buttons
+daynames     - day names frame
+MON,TUE,WED,THU,FRI,SAT,SUN - day name buttons
+helpWindow   - help window
+bcontrols    - month buttons frame
+prev         - previous month button
+succ         - succeeding month button
+cdate        - current date widget
+dayEditor    - editor popup
+editorFrame  - editor frame
+editorTitle  - editor title
+editor       - editor
+daybuttons   - day buttons frame
+prevday      - previous day button
+succday      - succeeding day button
+editorControls- control panel
+doneButton   - done button
+saveButton   - save button
+clearEntry   - clear entry button
+
+Application specific resources:
+reverseVideoMark - if True entries are highlighted in reverse video
+                   default True for black and white, and False for color
+                   displays
+setMarkBackground - if True and reverseVideoMark is False entries are
+                    highlighted by setting background to markBackground
+markBackground    - background color for highlighting entries
+setMarkForeground - analogous to setMarkBackground
+markForeground    - foreground color for highlighting entries
+
+setMarkBackground and setMarkForeground can take any combination of
+values.
+
+january,february,..,december - these resources can be used for
+                    changing names of months.
+firstDay - an integer between 1-7,  indicating the day to start a week with,
+		   default:  7 (Sunday);
+markOnStartup   -  if True mark the entries upon startup, 
+		   default: False;
+helpFile        -  full pathname of the xcalendar.hlp file,
+		   default: /usr/lib/X11/xcalendar.hlp;
+textBufferSize  -  maximum size of the text buffer in the day editor,
+		   default: 2048;
+
+DEFAULT RESOURCE DATA BASE:
+
+!
+XCalendar*showGrip:		False
+XCalendar*calendar*internalBorderWidth: 0
+XCalendar*input:		True
+XCalendar*resize: False
+XCalendar*resizable: True
+XCalendar.title: XCalendar v.3.0
+XCalendar.dayEditor.title: Day Editor
+XCalendar.helpWindow.title: XCalendar Help
+XCalendar*Font: 8x13
+
+XCalendar*helpFile:	/usr/local/X11R5/lib/X11/xcalendar/xcalendar.hlp
+
+XCalendar*firstDay:		7
+
+!bitmaps
+XCalendar*prev*bitmap: /usr/local/X11R5/lib/X11/xcalendar/larrow.xbm
+XCalendar*succ*bitmap: /usr/local/X11R5/lib/X11/xcalendar/rarrow.xbm
+XCalendar*prevday*bitmap: /usr/local/X11R5/lib/X11/xcalendar/larrow.xbm
+XCalendar*succday*bitmap: /usr/local/X11R5/lib/X11/xcalendar/rarrow.xbm
+XCalendar*helpButton*bitmap: /usr/local/X11R5/lib/X11/xcalendar/qmark.xbm
+XCalendar*quitButton*bitmap: /usr/local/X11R5/lib/X11/xcalendar/quit.xbm
+
+! colors
+! Note: These may cause problems using the -rv option on monochrome displays
+XCalendar*Background: lightgray
+XCalendar*markBackground: Steel Blue
+XCalendar*daynames*Background: lightgray
+XCalendar*daynames.SUN*Foreground: Red
+XCalendar*daynames.SAT*Foreground: Black
+XCalendar*daynumbers*Foreground:   Black
+XCalendar*daynumbers.1*Foreground: Red
+XCalendar*daynumbers.8*Foreground: Red
+XCalendar*daynumbers.15*Foreground: Red
+XCalendar*daynumbers.22*Foreground: Red
+XCalendar*daynumbers.29*Foreground: Red
+XCalendar*daynumbers.36*Foreground: Red
+XCalendar*helpButton*Background: slategray
+XCalendar*helpButton*Foreground: White
+XCalendar*quitButton*Background: slategray
+XCalendar*quitButton*Foreground: White
+XCalendar*editorTitle*Background: lightgray
+XCalendar*editorTitle*Foreground: Black
+XCalendar*editorControls*Background: lightgray
+XCalendar*editorControls*Command.Background: slategray
+XCalendar*editorControls*Command.Foreground: White
+
+XCalendar*setMarkBackground: True
+XCalendar*markOnStartup: True
+
+XCalendar.BorderWidth:		2
+XCalendar*calendar.borderWidth:	1
+XCalendar*borderWidth: 0
+XCalendar*date*borderWidth: 0
+XCalendar*date*vertDistance: 5
+
+XCalendar*date*font:		8x13bold
+XCalendar*daynames*font:		8x13bold
+XCalendar*dayEditor*editorTitle*font: 8x13bold
+XCalendar*helpWindow*editorTitle*font: 8x13bold
+
+XCalendar*helpButton*vertDistance: 12
+XCalendar*quitButton*vertDistance: 12
+XCalendar*editorTitle*vertDistance: 5
+
+XCalendar*editorControls*doneButton*label: Done
+XCalendar*editorControls*saveButton*label: Save
+XCalendar*editorControls*clearEntry*label: Clear Entry
+
+XCalendar*dayEditor*geometry: 300x150
+XCalendar*helpWindow*geometry: 600x350
+
+XCalendar*doneButton*Label: done
+XCalendar*editorTitle*Label: Help
+XCalendar*helpButton*Label: help
+XCalendar*quitButton*Label: quit
+XCalendar*saveButton*Label: save
+
+XCalendar*bcontrols*borderWidth: 0
+XCalendar*prev*highlightThickness: 0
+XCalendar*succ*highlightThickness: 0
+
+XCalendar*prevday*highlightThickness: 0
+XCalendar*succday*highlightThickness: 0
+XCalendar*daybuttons*borderWidth: 0
+
+XCalendar*Scrollbar.borderWidth: 1
+XCalendar*editor.scrollVertical: whenNeeded

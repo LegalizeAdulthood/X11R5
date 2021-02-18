@@ -1,0 +1,18 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS        = src wlmCompiler examples clients bin man
+
+DEPEND_SUBDIRS = src wlmCompiler examples clients bin
+
+#MAKE_SUBDIRS   = src wlmCompiler examples clients bin man
+MAKE_SUBDIRS   = src wlmCompiler          clients bin man
+
+MakeSubdirs($(MAKE_SUBDIRS))
+DependSubdirs($(DEPEND_SUBDIRS))
+
+World :
+	make Makefiles
+	make depend
+	make
+

@@ -1,0 +1,100 @@
+# 
+# WINTERP Copyright 1989, 1990, 1991 Hewlett-Packard Company (by Niels Mayer).
+# XLISP version 2.1, Copyright (c) 1989, by David Betz.
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Hewlett-Packard, David Betz and
+# Niels Mayer not be used in advertising or publicity pertaining to distribution
+# of the software without specific, written prior permission.  Hewlett-Packard,
+# David Betz and Niels Mayer makes no representations about the suitability of
+# this software and documentation for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+
+RUNNING WINTERP:
+================
+
+	0) First, you should compile WINTERP. See ./COMPILING for details.
+
+	1) Once WINTERP has been compiled, start up the 'winterp' program
+	in ./../src-server/winterp by running it in a terminal emulator
+	window (xterm, hpterm, gnu-emacs' M-X shell). WINTERP will create
+	windows and widgets when you ask it to, the results of evaluating 
+	Winterp-Lisp language expressions will print to "standard
+	output", and any XLISP, Motif, Xt, or X error messages will print
+	to "standard error".
+
+	See ./winterp.doc for X resources that you may want to set before
+	starting up WINTERP. In particular, you should set resources
+	"Winterp.lispInitFile" and "Winterp.lispLibDir" according to the
+	directions given in the section of winterp.doc entitled
+	"WINTERP Resources (~/.Xdefaults)".
+
+	2) make sure you've installed the winterp client program
+	'./winterp/src-client/wl' somewhere on your search path ($PATH).
+
+	See ./winterp.doc sections entitled "Usage: the WINTERP-Lisp Unix
+	Domain Socket client" for details on 'wl'.
+
+	3) start up gnu-emacs. In gnu-emacs, load the emacs-lisp file
+	./../src-client/winterp.el. (Use M-x load-file, or do
+	(load "<pathname>/winterp") in your ~/.emacs file)
+
+	See ./winterp.doc sections entitled 
+	"Usage: the Gnu-Emacs programmers interface" for details.
+
+	4) in gnuemacs, do find-file (^X^f) on one of the example programs
+	in ./../examples/*.lsp: a good start might be the simple search
+	browser	application built upon the unix 'grep' command --
+	./../examples/grep-br.lsp'. See ./../examples/README for a 
+	description of the example code provided in the WINTERP
+	distribution.
+
+	After visiting a *.lsp file, the buffer you're in should be in
+	'lisp'-mode. Place the point somewhere within a lisp s-expression
+	(aka, in between the opening and closing parentheses of a lisp
+	statement), and hit C-M-X to send the expression you're pointing at
+	to WINTERP. If you don't like hitting C-M-X, you can rebind the
+	gnuemacs function winterp-send-defun to	a more accessible key.
+	To send the current buffer being edited to WINTERP, you may use M-X
+	winterp-send-buffer
+
+	5) browse around  the various files in ./../examples and evaluate
+	various forms.... The best way to see the power of combining Motif
+	widgets with XLISP is via programming by example.
+
+			--------------------
+
+If you don't use gnuemacs, you can still send lisp input to WINTERP,
+although it's much less elegant. While WINTERP is running inside a terminal
+emulator, just use the 'wl' command to send forms to the lisp interpreter.
+Assuming you either started WINTERP while cd'd to ./../examples, or
+assuming that you set resource "Winterp.lispLibDir" to the examples
+directory, you can then issue the following command to the shell
+		wl '(load "grep-br")'
+WINTERP will then load the file grep-br.lsp, and the grep search browser
+application will appear momentarily.
+
+			--------------------
+
+Another way for non-emacs users to program in Winterp-Lisp is by using the
+Winterp control panel, which is written in Winterp-Lisp. You should load
+file ./../examples/w_ctrlpnl.lsp from your WINTERP initialization file.
+For details on how to do that, see the section in winterp.doc that
+documents resource "Winterp.lispInitFile". Just to try things out, you can
+just load the control panel from the shell:
+		wl '(load "w_ctrlpnl")'
+
+w_ctrlpnl.lsp will give you a simple file-browser (based on the Motif
+XmFileSelectionBox widget) that will allow you to load Winterp-Lisp files
+into WINTERP.  You may also edit files in an editor (based on the Motif
+XmText widget), and interactively send individual Winterp-Lisp expressions
+off for evaluation using the "Eval @ Point" button. See
+./../examples/README and ./../examples/w_ctrlpnl.lsp for details.
+
+			--------------------
+
+

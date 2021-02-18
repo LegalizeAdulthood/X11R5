@@ -1,0 +1,460 @@
+\begindata{text,1074006416}
+\textdsversion{12}
+\template{roff}
+
+
+\begindata{bp,1074343064}
+\enddata{bp,1074343064}
+\view{bpv,1074343064,0,0,0}
+
+
+
+\majorheading{DYNLD(3X)    UNIX Programmer's Manual    DYNLD(3X)
+
+}
+
+
+\indent1{
+\begindata{bp,1074343104}
+\enddata{bp,1074343104}
+\view{bpv,1074343104,1,0,0}
+
+\tempindentneg1{
+\bold{NAME 
+
+}}dynld - dynamic linking and loading of object modules 
+
+\tempindentneg1{
+\bold{SYNOPSIS 
+
+}}\bold{int _init_loader(); }
+
+
+\bold{int _define_symbol(name, symbol_value); }
+
+
+\bold{int _declare_undefined_symbol(char *name); }
+
+
+\bold{int _declare_common_symbol(char *name, int length); }
+
+
+\bold{int _set_unsat_handler(int (*handler)()); }
+
+
+\bold{int _load_file(char *filename); }
+
+
+\bold{int _load_module_from_memory(char *object); }
+
+
+\bold{int _search_library(char *filename); }
+
+
+\bold{int _unload_file(char *filename); }
+
+
+\bold{int _reset_all_data(); }
+
+
+\bold{char **_get_modules(char **module); }
+
+
+\bold{char **_get_globals(char **module, char **symbol); }
+
+
+\bold{char **_get_unsats(char **symbol); }
+
+
+\bold{long _get_symbol_value(char *name); }
+
+
+\bold{char **_get_symbol_name(long address, char **module, long *rem); }
+
+
+\bold{char *_dloader_version(); }
+
+\tempindentneg1{
+\bold{DESCRIPTION 
+
+}}The \italic{dynamic linker }supports dynamic linking and loading of object 
+modules from relocatable object files (``.o files'') and relocatable libraries 
+(``.a files''). It can be called to link and load individual .o files, or to 
+search and selectively load modules from libraries. It can also be used to 
+unload a previously loaded module. 
+
+
+Dynamically-loaded modules are loaded into the calling process' data space, 
+and the text is not shared by any other process. On the Series 800 
+architecture, transfer of control between the code and data space requires 
+code sequences that are not part of the standard calling convention, and the 
+dynamic linker automatically supplies the appropriate code sequences in the 
+form of stub routines. 
+
+
+The \italic{_init_loader }routine initializes the dynamic linker. It must be 
+called before any other routines are called. 
+
+
+The \italic{_define_symbol }routine is used to make symbols known to the 
+dynamic linker that are defined in the main program and are available for 
+import by dynamically-loaded modules. Prior to loading any modules, the 
+following symbols should be defined for use by dynamically-loaded code: 
+
+
+\begindata{table,1074343144}
+\cols 207 189
+"extern FILE __iob[];	"extern int errno;
+"extern char *_stdbuf;	"extern int errnet;
+"extern char *_lastbuf;	"extern char _errnet;
+"extern char *_sibuf;	"extern char *brk();
+"extern char *_smbuf;	"extern char *__brk();
+"extern char *_sobuf;	"extern char *sbrk();
+"extern char **environ;	"extern char *_sbrk();
+"extern char **_environ;	 
+\enddata{table,1074343144}
+\view{spread,1074343144,2,0,0}
+The following symbols should \italic{not }be defined: all millicode routines 
+(names beginning with ``$$''), \italic{sigsetjmp}, \italic{_sigsetjmp}, 
+\italic{siglongjmp}, and \italic{_siglongjmp}. These routines must be 
+dynamically loaded from the C library so that they are in the same space as 
+the code that calls them. 
+
+
+The \italic{_declare_undefined_symbol }routine adds a symbol name to the list 
+of currently undefined symbols. Its purpose is to prime the list with one or 
+more initial symbols prior to invoking \italic{_search_library}. 
+
+
+The \italic{_declare_common_symbol }routine adds a symbol name to the list of 
+currently undefined symbols. The symbol is recorded as a common request with 
+an associated length, and storage is allocated for it if the symbol remains 
+undefined. Common requests have the property that storage is allocated for the 
+largest of several requests for the same symbol. 
+
+
+The \italic{_set_unsat_handler }routine defines a procedure to be called 
+whenever a call is attempted to a procedure that is undefined at the time of 
+call. The unsat handler may be a routine in the main program or a 
+dynamically-loaded procedure. 
+
+
+The \italic{_load_file }routine loads a module from the named object file 
+unconditionally. If the module is already loaded, it is unloaded prior to 
+loading the new module (libraries are not unloaded). If the file is a library, 
+it loads every module unconditionally. Symbols defined in the loaded module 
+are used to resolve currently undefined symbols, and undefined symbols in the 
+loaded module are either resolved to previously defined symbols or added to 
+the list of undefined symbols. 
+
+
+The \italic{_load_module_from_memory }routine is identical to 
+\italic{_load_file}, except that the object module to be loaded is read from 
+memory instead of from a file. 
+
+
+The \italic{_search_library }routine searches the named library and loads 
+(individually) any modules that satisfy currently undefined symbols. As 
+symbols are added, the list of undefined symbols may grow, and the library is 
+iteratively searched until no more undefined symbols can be resolved. 
+
+
+The \italic{_unload_file }routine unloads the module specified. All symbols 
+defined in the module are removed. If any symbol in the module was used to 
+resolve undefined symbols, those symbols will be added back to the list of 
+undefined symbols. If a library symbol was used to resolve a symbol removed 
+when the module was unloaded and there are no other references to that library 
+symbol, the library symbol is also removed. 
+
+
+The module must have been loaded first before it can be unloaded. Libraries 
+are not unloaded (the library as a whole cannot be unloaded, but individual 
+modules \italic{can }be unloaded). 
+
+
+The \italic{_reset_all_data }routine resets all initialized data in 
+dynamically-loaded modules to the original state, and clears all common blocks 
+and bss sections to zero. 
+
+
+The \italic{_get_modules }routine returns the next module in the module list. 
+\italic{NULL }should be passed in the first time to get the first module in 
+the list. Subsequent calls should pass the previous return value. 
+
+
+The \italic{_get_globals }routine returns the next global symbol in the 
+module. If \italic{NULL }is passed as the module pointer, \italic{_get_globals 
+}will scan all global symbols; otherwise, it will scan only the global symbols 
+for the given module. \italic{NULL }should be passed in as the symbol pointer 
+for the first call. Subsequent calls should pass the previous return value. 
+
+
+The \italic{_get_unsats }routine returns the next undefined symbol in the list 
+of undefined symbols. \italic{NULL }should be passed in the first time to get 
+the first undefined symbol. Subsequent calls should pass the previous return 
+value. 
+
+
+The \italic{_get_symbol_value }routine returns the address of the named 
+symbol. If the named symbol is undefined, \italic{NULL }is returned. 
+
+
+The \italic{_get_symbol_name }routine returns a symbol name corresponding to a 
+given address, if the address is within any dynamically-loaded module. If the 
+\italic{module }parameter is not \italic{NULL}, the location that it points to 
+is filled in with a pointer to the name of the module that contains the 
+address. If the \italic{rem }parameter is not \italic{NULL}, the location that 
+it points to is filled in with the difference between actual address of the 
+returned symbol and the original address. The difference will always be 
+positive. If the given address is not within any module, \italic{NULL }is 
+returned and the last two parameters are not filled in. 
+
+
+The \italic{_dloader_version }routine returns a character string containing 
+the version number of the dynamic linker. 
+
+\tempindentneg1{
+\bold{RETURN VALUE 
+
+}}The \italic{_init_loader}, \italic{_define_symbol}, 
+\italic{_declare_undefined_symbol}, \italic{_declare_common_symbol}, 
+\italic{_set_unsat_handler}, \italic{_load_file}, 
+\italic{_load_module_from_memory}, \italic{_search_library}, 
+\italic{_unload_file}, and routines return an integer status value. A zero 
+status indicates successful completion of the operation; non-zero status 
+returns indicate an error condition. 
+
+\tempindentneg1{
+\bold{EXAMPLES 
+
+}}
+
+The dynamic linker should be initialized with code similar to the following: 
+
+
+}\indent1{\indent2{extern FILE __iob[];
+
+extern char *_stdbuf, *_lastbuf, *_sibuf, *_smbuf, *_sobuf;
+
+extern char **environ, **_environ;
+
+extern int errno, errnet, _errnet;
+
+extern char *brk(), *__brk(), *sbrk(), *_sbrk(); 
+
+
+int status;
+
+
+/* Initialize the dynamic linker */
+
+status = _init_loader();
+
+if (status != 0)
+
+        exit(1);
+
+
+/* Define the required symbols */
+
+status = _define_symbol("__iob", (char *)__iob);
+
+status = _define_symbol("_bufendtab", (char *)&_bufendtab);
+
+status = _define_symbol("_stdbuf", (char *)&_stdbuf);
+
+status = _define_symbol("_lastbuf", (char *)&_lastbuf);
+
+status = _define_symbol("_sibuf", (char *)&_sibuf);
+
+status = _define_symbol("_smbuf", (char *)&_smbuf);
+
+status = _define_symbol("_sobuf", (char *)&_sobuf);
+
+status = _define_symbol("environ", (char *)&environ);
+
+status = _define_symbol("_environ", (char *)&_environ);
+
+status = _define_symbol("errno", (char *)&errno);
+
+status = _define_symbol("errnet", (char *)&errnet);
+
+status = _define_symbol("_errnet", (char *)&_errnet);
+
+status = _define_symbol("brk", (char *)brk);
+
+status = _define_symbol("__brk", (char *)__brk);
+
+status = _define_symbol("sbrk", (char *)sbrk);
+
+status = _define_symbol("_sbrk", (char *)_sbrk);
+
+if (status != 0)
+
+        exit(1);
+
+
+/* Load millicode */
+
+status = _load_file("milli.a");
+
+if (status != 0)
+
+        exit(1);
+
+
+}}\indent1{
+The millicode library \italic{milli.a }contains compiler support routines that 
+must exist in the same space as the code that uses it. Therefore, it must be 
+dynamically loaded into the data space so that other dynamically-loaded code 
+can function correctly. 
+
+
+After a file or several files are loaded, the C library (at least) should be 
+searched to resolve any unsatisfied references. The \italic{_get_unsats 
+}routine can be used to ensure all references are resolved. 
+
+
+}\indent1{\indent2{status = _load_file("func.o");
+
+if (status != 0)
+
+        exit(1);
+
+
+status = _search_library("/lib/libc.a");
+
+if (status != 0)
+
+        exit(1);
+
+
+if (_get_unsats(NULL) != NULL) \{
+
+        fprintf(stderr, "Unsatisfied symbols remain\\n");
+
+        exit(1);
+
+        \}
+
+
+}}\indent1{
+To extract a particular module from a library, the 
+\italic{_declare_undefined_symbol }routine can be used to force a reference to 
+the module, causing \italic{_search_library }to load it (and any other library 
+routines that it in turn references). 
+
+
+}\indent1{\indent2{status = _declare_undefined_symbol("func");
+
+if (status != 0)
+
+        exit(1);
+
+
+status = _search_library("lib.a");
+
+if (status != 0)
+
+        exit(1);
+
+
+}}\indent1{
+To call a dynamically-loaded function, the \italic{_get_symbol_value }routine 
+returns a value suitable for use as a function pointer. 
+
+
+}\indent1{\indent2{typedef void (*funcptr)();
+
+
+funcptr fp;
+
+
+fp = _get_symbol_value(func_name);
+
+if (fp == NULL) \{
+
+        fprintf(stderr, "%s is not defined\\n", func_name);
+
+        exit(1);
+
+        \}
+
+
+(*fp)();
+
+
+}}\indent1{
+The following command line links the \italic{dynamic linker }into a program 
+file. 
+
+
+}\indent1{\indent2{cc file1.o file2.o dynld.o -o prog
+
+
+}}\indent1{\tempindentneg1{
+\bold{WARNINGS 
+
+}}}\tempindentneg1{\indent2{o 
+
+}}\indent2{Subspaces will be aligned on 8-byte boundaries only, regardless of 
+their requested alignment. Subspace access rights and residency requirements 
+are also ignored. 
+
+
+}\tempindentneg1{\indent2{o 
+
+}}\indent2{Qualifiers on symbol names are not supported. 
+
+
+}\tempindentneg1{\indent2{o 
+
+}}\indent2{Symbolic debug information is not supported. 
+
+
+}\tempindentneg1{\indent2{o 
+
+}}\indent2{Unsatisfied symbols are not resolved by local symbols. 
+
+
+}\tempindentneg1{\indent2{o 
+
+}}\indent2{No parameter type checking is performed. 
+
+
+}\tempindentneg1{\indent2{o 
+
+}}\indent2{The modules within a library can be unloaded individually, but not 
+\italic{_unload_file }cannot unload an entire library. 
+
+}\indent1{\tempindentneg1{
+\bold{FILES 
+
+}}}\tempindentneg1{\tempindentneg2{\indent4{dynld.o 
+
+}}}\indent4{Dynamic linker 
+
+}\tempindentneg1{\tempindentneg2{\indent4{milli.a 
+
+}}}\indent4{Millicode library 
+
+}\indent1{\tempindentneg1{
+\bold{AUTHOR 
+
+}}The dynamic linker was developed by Hewlett-Packard Company. 
+
+\tempindentneg1{
+\bold{SEE ALSO 
+
+}}ld(1). }
+
+
+
+\majorheading{Printed 3/6/91    Series 800 Only    
+
+}
+\begindata{bp,1074625392}
+\enddata{bp,1074625392}
+\view{bpv,1074625392,3,0,0}
+\indent1{
+}\enddata{text,1074006416}

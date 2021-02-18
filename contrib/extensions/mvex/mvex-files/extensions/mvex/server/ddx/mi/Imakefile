@@ -1,0 +1,21 @@
+# $Header: /n/lacey/usr/local/src/video/MVEX/server/ddx/mi/RCS/Imakefile,v 1.7 1991/09/26 21:19:45 toddb Exp $
+#include <Server.tmpl>
+        SRCS = vmiinit.c vmivideo.c vmiio.c vmiwrap.c
+        OBJS = vmiinit.o vmivideo.o vmiio.o vmiwrap.o
+ STD_DEFINES = ServerDefines
+ CDEBUGFLAGS = ServerCDebugFlags
+    INCLUDES =	-I../../include \
+		-I../../../include \
+		-I$(SERVERSRC)/include \
+		-I$(SERVERSRC)/ddx/cfb \
+		-I$(SERVERSRC)/ddx/mfb \
+		-I$(SERVERSRC)/ddx/mi \
+		-I$(FONTSRC)/include \
+		-I$(INCLUDESRC)
+ EXT_DEFINES = ExtensionDefines
+
+NormalLibraryObjectRule()
+NormalLibraryTarget(mi,$(OBJS))
+LintLibraryTarget(mi,$(SRCS))
+NormalLintTarget($(SRCS))
+DependTarget()

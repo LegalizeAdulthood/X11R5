@@ -1,0 +1,37 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+DOBJS = strinput.do \
+               dialog.do \
+               dialogv.do 
+
+
+IHFILES = strinput.ih \
+                 dialog.ih \
+                 dialogv.ih 
+
+
+OBJS = strinput.o \
+            dialog.o \
+            dialogv.o 
+
+
+DependTarget()
+NormalObjectRule()
+NormalATKRule()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+DynamicObject(dialog, ${UTILLIB}, ${BSDLIB})
+
+LibraryTarget(libutilviews.a, $(OBJS))
+InstallLibrary(libutilviews.a, ${DESTDIR}/lib/atk)
+
+InstallMultiple(dialog.tpl, ${INSTINCFLAGS}, ${DESTDIR}/lib/tpls)
+InstallDocs(dialogs.help, $(DESTDIR)/help)
+InstallHelpAlias(dialogs, dialog-boxes dialog dialogboxes)

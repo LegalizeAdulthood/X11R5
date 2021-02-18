@@ -1,0 +1,17 @@
+
+		Internationalized LISTRES
+
+To build i18n-listres you should use the following commands:
+
+	% cd listres
+	% xmkmf <Topdir> <Curdir> (you may set Topdir and Curdir)
+	% make includes
+	% make depend
+	% make all
+
+After building, It can be installed in your local bin using:
+
+	% make install
+
+Seiji Kuwari		kuwa@nff.ncl.omron.co.jp
+Omron Corporation

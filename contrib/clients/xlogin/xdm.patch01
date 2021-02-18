@@ -1,0 +1,36 @@
+*** session.c.mit	Mon Feb 12 21:44:13 1990
+--- session.c	Thu Mar 15 10:55:13 1990
+***************
+*** 112,122 ****
+      LoadXloginResources (d);
+      Debug ("name now %s\n", d->name);
+      dpy = InitGreet (d);
+-     if (d->authorization && d->authFile)
+-     {
+- 	Debug ("Done with authorization file %s, removing\n", d->authFile);
+- 	(void) unlink (d->authFile);
+-     }
+      for (;;) {
+  	/*
+  	 * Greet user, requesting name/password
+--- 112,117 ----
+***************
+*** 141,147 ****
+--- 136,152 ----
+      {
+  	Debug ("Startup program %s exited with non-zero status\n",
+  		d->startup);
++       if (d->authorization && d->authFile)
++       {
++ 	  Debug ("Done with authorization file %s, removing\n", d->authFile);
++ 	  (void) unlink (d->authFile);
++       }
+  	SessionExit (d, OBEYSESS_DISPLAY);
++     }
++     if (d->authorization && d->authFile)
++     {
++ 	Debug ("Done with authorization file %s, removing\n", d->authFile);
++ 	(void) unlink (d->authFile);
+      }
+      clientPid = 0;
+      if (!setjmp (abortSession)) {

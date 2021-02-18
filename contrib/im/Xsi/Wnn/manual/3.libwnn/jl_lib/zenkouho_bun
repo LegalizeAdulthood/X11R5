@@ -1,0 +1,22 @@
+JL_ZENKOUHO_BUN( )
+
+名称
+
+	jl_zenkouho_bun		全候補を表示している文節番号を得る。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_zenkouho_bun(buf)
+	struct wnn_buf *buf;	/* バッファ */
+
+機能
+
+	全候補を表示している文節番号を得る。
+
+リターンバリュー
+
+	全候補を表示している文節番号を返す。
+

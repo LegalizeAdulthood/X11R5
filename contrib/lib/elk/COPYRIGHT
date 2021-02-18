@@ -1,0 +1,20 @@
+This software is Copyright 1987, 1988, 1989, Nixdorf Computer AG
+and Teles GmbH, Berlin.
+
+This software has been written by Oliver Laumann (me) for TELES
+Telematic Services, Berlin, in a joint project between TELES and
+Nixdorf Microprocessor Engineering, Berlin.  I would like to thank
+Claus Bathe of NME Berlin for securing the permission from his
+management to publish this software, Prof. Dr. Sigram Schindler for
+providing the work environment for ISOTEXT and Elk, and Carsten
+Bormann for his support and src/bignum.c and src/alloca.h.
+
+Any use of this software is permitted provided that this notice is not
+removed and that neither Oliver Laumann nor TELES nor Nixdorf are
+deemed to have made any representations as to the suitability of this
+software for any purpose nor are held responsible for any defects of
+this software.  THERE IS ABSOLUTELY NO WARRANTY FOR THIS SOFTWARE.
+
+Berlin, July 1, 1989
+
+Oliver Laumann    net@tub.cs.tu-berlin.de  net@tub.UUCP  net@tub.BITNET

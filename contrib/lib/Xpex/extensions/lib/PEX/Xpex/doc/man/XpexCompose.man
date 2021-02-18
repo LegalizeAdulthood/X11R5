@@ -1,0 +1,143 @@
+.\" $Header: XpexCompose.man,v 2.5 91/09/11 16:04:33 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.TH XpexCompose 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexComposeMatrix \- generate the composition of two homogeneous
+2-D matrices.
+.sp
+XpexComposeMatrix2D \- generate the composition of two homogeneous
+3-D matrices.
+.sp
+XpexComposeTransformationMatrix \- compose a 3D transformation
+matrix, which is the composition of a specified matrix and a
+transformation matrix defined by a fixed point, shift vector,
+rotation angle, and scale factors.
+.sp
+XpexComposeTransformationMatrix2D \- compose a 2D transformation
+matrix, which is the composition of a specified matrix and a 
+transformation matrix defined by a fixed point, shift vector, 
+rotation angle, and scale factors.
+.sp
+XpexComputeGeometricNormal \- compute geometric normal of the fill 
+area set
+.SH "Synopsis"
+.nf
+void XpexComposeMatrix(matrix_a, matrix_b, composed_matrix)
+.br
+	XpexMatrix matrix_a;  
+.br
+	XpexMatrix matrix_b;  
+.br
+	XpexMatrix composed_matrix;  /* RETURN */
+.sp
+void XpexComposeMatrix2D(matrix_a, matrix_b, composed_matrix)
+.br
+	XpexMatrix3X3 matrix_a;
+.br
+	XpexMatrix3X3 matrix_b;
+.br
+	XpexMatrix3X3 composed_matrix; /* RETURN */
+.sp
+void XpexComposeTransformationMatrix(transformation_matrix, 
+.br
+	fixed_point, shift_vector, rotation_angle_x, 
+.br
+	rotation_angle_y, rotation_angle_z, scale_vector, 
+.br
+	composed_matrix)
+.br
+	XpexMatrix transformation_matrix;
+.br
+	XpexCoord3D *fixed_point;  
+.br
+	XpexVector3D *shift_vector;
+.br
+	XpexFloat rotation_angle_x; 
+.br
+	XpexFloat rotation_angle_y;
+.br
+	XpexFloat rotation_angle_z;
+.br
+	XpexVector3D *scale_vector;
+.br
+	XpexMatrix composed_matrix; /* RETURN */
+.sp
+void XpexComposeTransformationMatrix2D(transformation_matrix, 
+.br
+	fixed_point, shift_vector, rotation_angle, scale_vector, 
+.br
+	composed_matrix)
+.br
+	XpexMatrix3X3 transformation_matrix;  
+.br
+	XpexCoord2D *fixed_point;
+.br
+	XpexVector2D *shift_vector;  
+.br
+	XpexFloat rotation_angle;  
+.br
+	XpexVector2D *scale_vector;  
+.br
+	XpexMatrix3X3 composed_matrix; /* RETURN */ 
+.sp
+int XpexComputeGeometricNormal(vert_attr, color_type, vertex_lists, num_lists, 
+.br
+	geometric_normal)
+.br
+	XpexBitmaskShort vert_attr;
+.br
+	XpexColorType color_type;
+.br
+	XpexListOfVertex *vertex_lists;
+.br
+	int num_lists;
+.br
+	XpexVector3D *geometric_normal; /* RETURN */
+.fi
+.SH "Arguments"
+.IP \fIvert_attr\fP 1i
+Specifies what vertex data is available for each vertex 
+of the primitive.
+.IP \fIvertex_lists\fP 1i
+Specifies the fill area data.
+.IP \fInum_lists\fP 1i
+Specifies the number of fill areas in the set.
+.IP \fIgeometric_normal\fP 1i
+Specifies a pointer to the location to store the computed 
+geometric normal.
+.SH "Description"
+This function computes the geometric normal of the fill area set.
+.SH Structures
+To be added 
+.SH "Errors"
+If the return value is 1, the fill area is degenerate.
+Otherwise, the default return value is 0.
+.SH "Related Commands"
+XpexFillAreaSet, XpexExtFillAreaSet,
+XpexSetLocalTransform, XpexSetGlobalTransform,
+XpexSetLocalTransform2D, XpexSetGlobalTransform2D.

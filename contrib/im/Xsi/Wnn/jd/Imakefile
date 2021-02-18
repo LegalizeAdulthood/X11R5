@@ -1,0 +1,81 @@
+/**/#
+/**/# $Id: Imakefile,v 1.1 1991/09/09 22:38:46 ohm Exp $
+/**/#
+#define IHaveSubdirs
+
+   INSTALLFLAGS = $(INSTDATFLAGS)
+
+SUBDIRS = rk rk.vi
+
+SERVERCDS = jserverrc hinsi.data
+
+LINKS = wnnenvrc wnnenvrc_R hinsi.data uumrc eggrc \
+	cvt_key_empty \
+	cvt_key_tbl \
+	cvt_key_tbl.ST \
+	cvt_key_tbl.gm \
+	cvt_key_tbl.kt \
+	cvt_key_tbl.mv \
+	cvt_key_tbl.vt
+
+CLIENTJDS1 = eggrc \
+	eggrc.omr \
+	eggrc.rev \
+	hinsi.data \
+	libwnn.msg \
+	uum.msg \
+	uumkey \
+	uumkey.omr \
+	uumkey_e \
+	uumrc \
+	uumrc.omr \
+	uumrc.rev \
+	uumrc_e \
+	uumrc_vi \
+	wnnenvrc \
+	wnnenvrc.omr \
+	wnnenvrc.rem \
+	wnnenvrc.rev \
+	wnnenvrc_R \
+	wnnenvrc_R.omr \
+	wnnenvrc_R.rem \
+	wnnstat.msg
+
+
+CLIENTJDS2 = cvt_key_empty \
+	cvt_key_tbl \
+	cvt_key_tbl.ST \
+	cvt_key_tbl.gm \
+	cvt_key_tbl.kt \
+	cvt_key_tbl.mv \
+	cvt_key_tbl.vt \
+	serverdefs
+all::
+
+includes:: $(LINKS)
+
+LinkFile(wnnenvrc,wnnenvrc.omr)
+LinkFile(wnnenvrc_R,wnnenvrc_R.omr)
+LinkFile(uumrc,uumrc.omr)
+LinkFile(eggrc,eggrc.omr)
+LinkSourceFile(hinsi.data,../../Pubdic)
+LinkSourceFile(cvt_key_empty,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.ST,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.gm,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.kt,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.mv,$(WNNCNVFILEDIR))
+LinkSourceFile(cvt_key_tbl.vt,$(WNNCNVFILEDIR))
+
+install:: instserver instclient
+
+instclient:: instclient1 instclient2
+
+InstallMultipleDest(instserver, $(SERVERCDS),$(JWNNWNNDIR))
+InstallMultipleDest(instclient1, $(CLIENTJDS1),$(JWNNWNNDIR))
+InstallMultipleDest(instclient2, $(CLIENTJDS2),$(WNNWNNDIR))
+
+depend::
+
+clean::
+	$(RM) $(LINKS)

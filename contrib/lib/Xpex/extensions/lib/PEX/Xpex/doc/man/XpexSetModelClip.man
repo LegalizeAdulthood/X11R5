@@ -1,0 +1,113 @@
+.\" $Header: XpexSetModelClip.man,v 2.5 91/09/11 16:03:37 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.\"
+.\"
+.\"
+.TH XpexSetModelClip 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexSetModelClip \-
+.sp
+XpexRestoreModelClip \-
+.sp
+XpexSetModelClipVolume \-
+.sp
+XpexSetModelClipVolume2D \-
+.sp
+XpexSetViewIndex \-
+.SH "Synopsis"
+.nf
+void XpexSetModelClip(dpy, on_off)
+.br
+	Display *dpy;
+.br
+	XpexSwitch on_off;
+.sp
+void XpexRestoreModelClip(dpy)
+.br
+	Display *dpy;
+.sp
+void XpexSetModelClipVolume(dpy, operator, halfspaces, count)
+.br
+	Display *dpy;
+.br
+	XpexEnumTypeIndex operator;
+.br
+	XpexHalfSpace3D *halfspaces;
+.br
+	int count;
+.sp
+void XpexSetModelClipVolume2D(dpy, operator, halfspaces, count)
+.br
+	Display *dpy;
+.br
+	XpexEnumTypeIndex operator;
+.br
+	XpexHalfSpace2D *halfspaces;
+.br
+	int count;
+.sp
+void XpexSetViewIndex(dpy, view_index)
+.br
+	Display *dpy;
+.br
+	XpexTableIndex view_index;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIon_off\fP 1i
+To be added 
+.IP \fIhalfspaces\fP 1i
+To be added 
+.IP \fIcount\fP 1i
+To be added 
+.IP \fIview_index\fP 1i
+To be added 
+.SH "Description"
+Refer to the PEX Protocol Specification Document, Section 3.
+.SH "Structures"
+typedef struct {
+.br
+	XpexCoord3D point;
+.br
+	XpexVector3D vector;
+.br
+} XpexHalfSpace3D;
+.sp
+typedef struct {
+.br
+	XpexCoord2D point;
+.br
+	XpexVector2D vector;
+.br
+} XpexHalfSpace2D;
+.SH "Errors"
+Structure, Renderer, FloatingPointFormat, OutputCommand, Value
+.SH "Related Commands"
+To be added 

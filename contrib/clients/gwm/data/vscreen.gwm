@@ -1,0 +1,375 @@
+;; 
+;; Virtual Screen code my Emanuel Jay Berkenbilt, MIT
+;;
+;; Parameters
+;;
+;; vscreen.right, left, up, down are amounts to move windows in 
+;; the respective directions.
+;;
+;; vscreen.nailed-windows is a list of windowspecs that are immune from 
+;; the virtual screen code
+;;
+
+;; Colas' note: this neat vtwm-like package is included as sent to me by
+;; Jay Berkenbilt, MIT <qjb@ATHENA.MIT.EDU>
+
+;; The vscreen code that I am going to include here is not the most
+;; "cleaned up" possible code.  It isn't that bad, though.  All
+;; globals start with "vscreen.".  The only hard-coded values that
+;; are not set to constants are indices into lists.  I have a list
+;; called "params".  I freely refer to (# 0 params) intead of
+;; assigning this a name.  I do this also with a point: (# 0
+;; vscreen.pos) is the x coordinate.....  In addition, I have some
+;; things in vscreen.gwm that really should be in .profile.gwm, but
+;; this will probably be obvious when you look at the code.
+;; 
+;; I am not sure that my handling the "show-windows" code is
+;; correct.  I display a map of the windows on the screen by
+;; creating a pixmap and making a one-bar menu out of it.  I then
+;; use place-menu to show the window and delete-menu to get rid of
+;; it. 
+;; 
+;; Anyway, here is the code.  After the code, I will mention a few
+;; of the ways that I use it.
+;; 
+;; The main interesting functions are
+;; vscreen.move-windows-{left,up,down,right}, vscreen.restore and
+;; vscreen.show-windows.  The vscreen.move-windows routines move
+;; all windows (except for the "nailed" ones) and keep vscreen.pos
+;; consistent.  vcsreen.restore puts the virtual screen back where
+;; it belongs.  vscreen.show-windows draws a map of the windows
+;; putting an X on the spot where the physical origin of the screen
+;; is. 
+;; 
+;; I have key bindings (CTRL-SHIFT arrows) for the move functions
+;; and other key bindings for restore and show-windows.
+;; 
+;; This code as presented works fine with the standard profile. (I
+;; tested it with the aid of "Exec Cut" :-) .
+;; 
+;; I use it elsewhere in my code as well, however.  There is a
+;; function vscreen.make-window-visible that moves the virtual
+;; screen enough to make the current window visible.  I use this
+;; along with raise-window in my de-iconfication code.  In
+;; addition, I have some functions that bring a window of a given
+;; name to the top, map the window and deiconify it if necessary,
+;; and warp the mouse pointer to the window.  That code now also
+;; moves the vscreen appropriately as well.  The vscreen motion is
+;; occasionally a little off -- sometimes it moves one notch too
+;; far.  This is a border condition that happens because I have a
+;; lot of windows flush against the edge of the screen.  In any
+;; case, the window is always at least partially on the screen...
+;; 
+;; Finally, I load the vscreen code by doing
+;; (set-window Gwm.Gwm.Vscreen vscreen) in my .profile.  This is
+;; the window that vscreen.show-windows creates.
+
+;; User-redefinable defaults
+;;==========================
+
+(defaults-to				; user-settable resources
+  vscreen.menupos 6			; position in root menu
+  vscreen.windowmenupos 4		; position in window menu
+  vscreen.modifiers (together with-control with-alt) ; modifs for arrow keys
+  vscreen.no-bindings ()		; t for not binding arrow keys
+
+  vscreen.right-left (/ screen-width 2)	; amount to move by keys
+  vscreen.down-up (/ screen-height 2)
+
+  vscreen.nailed-windows		; fixed windows
+      (list
+       (list 'client-class "Zwgc" 'client-name "zwgc")
+       (list 'client-class "XScreensaver")
+       (list 'client-class "Console" 'client-name "console")
+       (list 'client-class "XTerm" 'client-name "local" 'window-name "safe")
+)))
+
+;; ============================================================================
+
+;;
+;; Our position.  This is the real coordinates of the virtual origin
+;;
+
+(setq vscreen.pos (list 0 0))
+
+
+(defun vscreen.nailed ()
+  ;;
+  ;; Determine whether the current window is nailed or not
+  ;; caches the result in 'nailed property on main window (not icon)
+  ;;
+  (if (setq tmp (# 'nailed window-window))
+    (if (= 'no tmp) ()
+      t
+    )
+    (tag vscreen.match-windowspec
+      (for spec vscreen.nailed-windows 
+	(if (match-windowspec spec)
+	  (progn
+	    (vscreen.nail)
+	    (exit vscreen.match-windowspec t)
+	  ))
+	(vscreen.un-nail)
+	()
+)))))
+
+(defun vscreen.nail ()
+  ;; nail down a window
+  (## 'nailed window-window t)
+)
+
+(defun vscreen.un-nail ()
+  ;; un-nail a window
+  (## 'nailed window-window 'no)
+)
+
+(defun vscreen.movable ()
+  ;;
+  ;; Returns a list of movable windows
+  ;;
+  (with (movable nil savewindow nil spec nil)
+	(setq savewindow window)
+	(for window (list-of-windows 'window)
+	     (if (not (vscreen.nailed))
+		 (setq movable (+ movable (list window)))))
+	movable))
+
+(defun vscreen.move-windows (deltax deltay)
+  ;;
+  ;; Moves a window by deltax and deltay adjusting vscreen.pos 
+  ;; appropriately
+  ;;
+  (for window (vscreen.movable)
+       (move-window (+ window-x deltax) (+ window-y deltay)))
+  (with (x (# 0 vscreen.pos) y (# 1 vscreen.pos))
+	(setq vscreen.pos (list (+ x deltax) (+ y deltay)))))
+
+(defun vscreen.move-windows-right ()
+  (vscreen.move-windows vscreen.right-left 0))
+
+(defun vscreen.move-windows-left ()
+  (vscreen.move-windows (- vscreen.right-left) 0))
+
+(defun vscreen.move-windows-down ()
+  (vscreen.move-windows 0 vscreen.down-up))
+
+(defun vscreen.move-windows-up ()
+  (vscreen.move-windows 0 (- vscreen.down-up)))
+
+(defun vscreen.restore ()
+  (vscreen.move-windows (- (# 0 vscreen.pos)) (- (# 1 vscreen.pos))))
+
+(defun vscreen.make-window-visible ()
+  ;;
+  ;; Here we move the virtual screen around so that as much of the
+  ;; current window is visible as possible.  For example, if the top
+  ;; of the window is lower than the bottom of the screen, move so
+  ;; that the BOTTOM of that window is above the bottom of the screen.
+  ;; The other transformations are analagous.
+  ;;
+  ;; dx and dy start of being the number of increments we will
+  ;; move.  We then scale them to pixels.
+  ;;
+  (if (not (vscreen.nailed))
+      (with (dx 0 dy 0 
+		window-top window-y
+		window-bot (+ window-y window-height)
+		window-left window-x
+		window-right (+ window-x window-width)
+		screen-top 0
+		screen-bot screen-height
+		screen-left 0
+		screen-right screen-width)
+	    (if (le window-right screen-left)
+		(setq dx (ceildiv (- screen-left window-left) 
+				  vscreen.right-left)))
+	    (if (ge window-left screen-right)
+		(setq dx (- (ceildiv (- window-right screen-right) 
+				     vscreen.right-left))))
+	    (if (le window-bot screen-top)
+		(setq dy (ceildiv (- screen-top window-top)
+				  vscreen.down-up)))
+	    (if (ge window-top screen-bot)
+		(setq dy (- (ceildiv (- window-bot screen-bot)
+				     vscreen.down-up))))
+	    (setq dx (* dx vscreen.right-left))
+	    (setq dy (* dy vscreen.down-up))
+	    (vscreen.move-windows dx dy))))
+
+
+
+(setq vscreen.pixsize 300)
+
+(defun vscreen.min (x y)
+  (if (< x y) 
+      x
+    y))
+
+(defun vscreen.max (x y)
+  (if (> x y) 
+      x
+    y))
+
+(defun vscreen.calc-params ()
+  ;; 
+  ;; Return a list that contains scale factor, x position of origin,
+  ;; and y position of origin
+  ;;
+
+  ;;
+  ;; First, we find x and y extremes.  Initialize so that the current
+  ;; will  always be visible.
+  ;;
+  
+  (with (minx 0 miny 0 maxx screen-width maxy screen-height
+	      xcenter nil ycenter nil
+	      range nil scale nil x0 nil y0 nil
+	      low (list-of-windows 'window 'mapped))
+	(for window (list-of-windows 'window 'mapped)
+	     (setq minx (vscreen.min minx window-x))
+	     (setq miny (vscreen.min miny window-y))
+	     (setq maxx (vscreen.max maxx (+ window-x window-width)))
+	     (setq maxy (vscreen.max maxy (+ window-y window-height))))
+	
+	;; 
+	;; Next, figure out the number of pixels to display. 
+	;;
+
+	(setq range (vscreen.max (- maxy miny) (- maxx minx)))
+	
+	(setq xcenter (/ (+ minx maxx) 2))
+	(setq ycenter (/ (+ miny maxy) 2))
+
+	;; 
+	;; Our scale factor is a simple quotient.  We divide by .9
+	;; times the number of pixels to leave some inner border in
+	;; our map window.  To get the origin, figure out where 0,0
+	;; would be given that the center of the current screen should
+	;; be in the center.
+	;;
+
+	(setq scale (/ range (* 9 (/ vscreen.pixsize 10))))
+	(setq x0 (/ vscreen.pixsize 2))
+	(setq y0 (/ vscreen.pixsize 2))
+	(setq x0 (- x0 (/ xcenter scale)))
+	(setq y0 (- y0 (/ ycenter scale)))
+	(list scale x0 y0)))
+
+(defun vscreen.draw-windows (pix params)
+  (with (foreground black)
+	(draw-line vscreen.pix (- (# 1 params) 5) (- (# 2 params) 5)
+		   (+ (# 1 params) 5) (+ (# 2 params) 5))
+	(draw-line vscreen.pix (- (# 1 params) 5) (+ (# 2 params) 5)
+		   (+ (# 1 params) 5) (- (# 2 params) 5))
+	(for window (list-of-windows 'window 'mapped)
+	     (with (tlx (+ (/ window-x (# 0 params)) (# 1 params))
+			tly (+ (/ window-y (# 0 params)) (# 2 params))
+			trx (+ tlx (/ window-width (# 0 params)))
+			try tly
+			blx tlx
+			bly (+ tly (/ window-height (# 0 params)))
+			brx trx
+			bry bly)
+		   (draw-line pix tlx tly trx try)
+		   (draw-line pix trx try brx bry)
+		   (draw-line pix brx bry blx bly)
+		   (draw-line pix blx bly tlx tly)
+		   ))))
+
+
+(defun vscreen.show-windows ()
+  (with (params (vscreen.calc-params))
+    (with (bar-max-width vscreen.pixsize
+	fsm vscreen-fsm)
+      (with (foreground white)
+	(setq vscreen.pix (pixmap-make 300 300)))
+      (vscreen.draw-windows vscreen.pix params)
+      (setq vscreen.pixmenu
+	(menu-make (bar-make (plug-make vscreen.pix))))
+      (place-menu "Vscreen" vscreen.pixmenu))))
+
+;; Colas: here is a sample code to bind it to control-alt-arrows
+;; define vscreen.no-bindings if you don't want these bindings before loading
+;; vscreen
+
+(if (not vscreen.no-bindings)
+  (progn
+    
+    (setq vscreen-behavior (state-make
+	(on (keypress "Left" vscreen.modifiers)
+	  (vscreen.move-windows-right)
+	)
+	(on (setq a (keypress "Right" vscreen.modifiers))
+	  (vscreen.move-windows-left)
+	)
+	(on (keypress "Up" vscreen.modifiers)
+	  (vscreen.move-windows-down)
+	)
+	(on (keypress "Down" vscreen.modifiers)
+	  (vscreen.move-windows-up)
+	)
+    ))
+
+    (setq standard-behavior (state-make
+	standard-behavior
+	vscreen-behavior
+    ))
+    (setq root-behavior (state-make
+	root-behavior
+	vscreen-behavior
+    ))
+    
+    (setq vscreen-grabs (list
+	(key "Left" vscreen.modifiers)
+	(key "Right" vscreen.modifiers)
+	(key "Up" vscreen.modifiers)
+	(key "Down" vscreen.modifiers)
+    ))
+    (setq root-grabs (+ root-grabs vscreen-grabs))
+    (setq window-grabs (+ window-grabs vscreen-grabs))
+    (setq icon-grabs (+ icon-grabs vscreen-grabs))
+    (reparse-standard-behaviors)
+))
+
+(setq vscreen-fsm 
+  (fsm-make
+    (state-make
+      (on (buttonrelease 1 alone) (delete-window))
+      (on (buttonrelease 2 alone) (delete-window))
+      (on (buttonrelease 3 alone) (delete-window))
+      window-behavior
+      standard-behavior
+)))
+
+(setq vscreen-grabs (+ grabs (list (button any alone))))
+	  
+
+(setq vscreen
+  (with (fsm vscreen-fsm menu 'window-pop
+      borderpixel black
+      borderwidth 3
+      property (+ property '(nailed t))
+      grabs vscreen-grabs)
+    (window-make () () () () ())))
+
+;; add entries in the root & window menus
+
+(insert-at '(multi-item-make
+    "VS" ()
+    ("Show" (vscreen.show-windows))
+    ("Restore" (vscreen.restore))
+  )
+  root-pop-items
+  vscreen.menupos
+)
+    
+(insert-at '(multi-item-make
+    "VS"
+    ()
+    ("Un" (vscreen.un-nail))
+    ("Nail" (vscreen.nail))
+    ()
+  )
+  window-pop-items
+  vscreen.windowmenupos
+)

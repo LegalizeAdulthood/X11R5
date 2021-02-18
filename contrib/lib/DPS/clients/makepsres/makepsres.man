@@ -1,0 +1,159 @@
+.TH makepsres 1 "20 Jul 1991" "Adobe Systems"
+.SH NAME
+makepsres \- Build PostScript resource directory file.
+.SH SYNOPSIS
+.B makepsres
+[
+.I option
+]
+.I directory ...
+.SH DESCRIPTION
+.B makepsres
+creates a PSres.upr file containing all the resources in all the
+.I directory
+pathnames on the command line.  If the list of directories contains "-",
+stdin is read and assumed to be a space-, tab-, or newline- separated list of
+directories.  If the list of directories is empty, it is taken to be ".".  If
+all specified directories have a common initial prefix,
+.B makepsres
+extracts it as a directory prefix in the PSres.upr file.
+.PP
+.B makepsres
+normally acts recursively; it looks for resource files in
+subdirectories of any specified directory.  This can be overridden with the
+command line option -nr.
+.B makepsres
+uses existing .upr files to assist in resource typing.  Its
+normal mode of operation is to create a new PSres.upr file containing:
+.RS
+.TP
+1)
+Resource files found in the directories on the command line,
+.TP
+2)
+Resource files pointed to by PostScript resource database files in the
+directories on the command line, and
+.TP
+3)
+Resource entries found in the input PostScript resource database
+files.  These entries are copied whenever the files they specify still
+exist and are located in directories not specified on the command line.
+.RE
+.PP
+There are two other modes of operation.  If run in "discard" mode (see below),
+.B makepsres
+does not copy resource entries from the input PostScript resource database files;
+the output file consists solely of entries from the directories on the command
+line.  The input PSres.upr files are only used to assist in identifying
+files.  If run in "keep" mode,
+.B makepsres
+includes in the output file all
+resource entries in the input PSres.upr files, even entries for files that no
+longer exist or are located in directories specified on the command line.
+.PP
+.B makepsres
+uses various heuristics to type files.  A file that is of a
+private resource type or that does not conform to the standard format for a
+resource file can be:
+.RS
+.TP
+1)
+Identified by the user by running makepsres in interactive mode,
+.TP
+2)
+Preloaded into a PostScript resource database file used for input, or
+.TP
+3)
+Begin with the line:
+.br
+	%!PS-Adobe-3.0 Resource-<resource-type>
+.RE
+.PP
+Consult the documentation for your Adobe PostScript system software for
+further details on the use of PostScript resource directory files.
+.SH OPTIONS
+.TP
+.BI \-o " filename"
+Writes the output to the specified
+.I filename.  -o - writes
+to stdout.  If the -o option is not specified,
+.B makepsres
+creates a PSres.upr file in the current directory.
+.TP
+.BI \-f " filename"
+Uses the specified file, which must be in PostScript resource
+database file format, as information to assist resource
+typing.  Multiple
+.B -f
+options may be specified.
+.B -f
+- uses stdin as an input file and may not be used if "-" is specified
+as a directory on the command line.
+.TP
+.BI -dir " filename"
+Specifies that the filename is a directory.  Needed only if
+the directory name would be confused with an option.
+.TP
+.B \-e
+Marks the resulting PSres.upr file as exclusive.  This makes
+the associated subroutines run more quickly since they do not
+have to look for other .upr files; however,
+.B makepsres
+must be run whenever new resources are added to the directory, even
+if the resources come with their own ".upr" file.
+.TP
+.B \-i
+Specifies interactive mode.  In interactive mode, the user
+will be queried for the resource type of any encountered
+file that
+.B makepsres
+cannot identify.  If
+.B -i
+is not specified,
+.B makepsres
+assumes an unidentifiable file is not a resource file.
+.TP
+.B \-q
+Be quiet:  do not warn about unidentifiable files, just ignore them.
+.TP
+.B \-nr
+Specifies non-recursive.  If -nr is present makepsres does not
+look in subdirectories for resource files.
+.TP
+.B \-nb
+If the output file already exists, do not back it up.
+.TP
+.B \-s
+Specifies strict mode.  If
+.B -s
+is present
+.B makepsres
+terminates with an error when encountering an unidentifiable file.
+.TP
+.B \-p
+Specifies no directory prefix.  If
+.B -p
+is present,
+.B makepsres
+does not try to find a common directory prefix among the specified directories.
+.TP
+.B \-d
+Specifies discard mode.
+.TP
+.B \-k
+Specifies keep mode.
+.SH EXAMPLE
+$ makepsres /usr/local/lib/ps/fonts
+.SH SEE ALSO
+installresource(1), unixfont(1)
+.PP
+.I PostScript Language Reference Manual
+and the product-specific documentation for your Adobe
+.I PostScript system software.
+.SH AUTHOR
+Adobe Systems Incorporated
+.SH NOTES
+PostScript is a registered trademark of Adobe Systems Incorporated.
+.PP
+Copyright (c) 1989-1991 Adobe Systems Incorporated.  All rights reserved.
+

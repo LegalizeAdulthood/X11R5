@@ -1,0 +1,44 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifndef NO_FONTS_ENV
+#if SY_AIX221
+install::
+	${RM} ${DESTDIR}/X11fonts/fonts.alias
+	${RM} ${DESTDIR}/X11fonts/fonts.dir
+	${XMKFONTDIR} $(DESTDIR)/X11fonts
+	./aixrt.csh ${DESTDIR}/X11fonts .rtx
+#else /* SY_AIX221 */
+#ifndef RELEASE2_ENV
+install::
+	${RM} ${DESTDIR}/X11fonts/fonts.alias
+	${XMKFONTDIR} $(DESTDIR)/X11fonts
+#ifdef ISO80_FONTS_ENV
+	$(INSTALL)  ${INSTLIBFLAGS} non-andrew.fonts.alias  ${DESTDIR}/X11fonts/fonts.alias	
+#else  /* ISO80_FONTS_ENV */
+#ifdef SCOunix
+#ifdef FONTS_TO_PCF_ENV
+	${CSHELL} ./mkfntdir.csh ${DESTDIR}/X11fonts .pcf
+#else
+	${CSHELL} ./mkfntdir.csh ${DESTDIR}/X11fonts .snf
+#endif
+	awk -e '{ print $$2 "	" $$1 }' < ${DESTDIR}/X11fonts/fonts.alias > /tmp/fonts.alias
+	mv /tmp/fonts.alias ${DESTDIR}/X11fonts/fonts.alias
+#else /* SCOunix */
+#ifdef FONTS_TO_PCF_ENV
+	./mkfntdir.csh ${DESTDIR}/X11fonts .pcf
+#else
+	./mkfntdir.csh ${DESTDIR}/X11fonts .snf
+#endif
+#endif /* SCOunix */
+#endif /* ISO80_FONTS_ENV */
+#if defined(OPENWINDOWS_ENV)
+install::
+	${RM} ${DESTDIR}/xnwsfnts/Synonyms.list
+	${RM} ${DESTDIR}/xnwsfnts/Families.list
+	./openwin.csh ${DESTDIR}/xnwsfnts ${BLDFAMILY}
+#endif /* OPENWINDOWS_ENV */
+#endif /* RELEASE2_ENV */
+#endif /* SY_AIX221 */
+#endif /* NO_FONTS_ENV */

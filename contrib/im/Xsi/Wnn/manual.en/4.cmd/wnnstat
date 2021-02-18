@@ -1,0 +1,45 @@
+WNNSTAT(1)
+
+NAME
+    wnnstat - Getting the infoemation of server
+
+SYNOPSIS
+    /usr/local/bin/Wnn4/wnnstat [-w][-e][-E][-f][-F][-d][-D][-J][-U][-S]
+			        [-L lang] [hostname]
+DESCRIPTION
+    To request for the current execution status of the server for the current
+    host or another machine given the hostname.
+    With the function options as shown below, different information can be
+    obtained.
+
+	-w  List username, hostname, socket number and the environment number.
+
+	-e  List environment number, environment name and reference count.
+
+	-E  List environment number, environment name, reference count,
+	    grammatical file number, dictionary file number and the filenames.
+
+	-f  List file id of each Wnn file in the server, the file type,
+	    location of file, reference count and filename.
+
+	-F  Same as -f
+
+	-d  List dictionary number, type, file number, filename and usage
+	    frequency filename of the dictionaries.
+
+	-D  List dictionary number, type, conversion method, number of entries, 
+	    static/dynamic, current usage status, priority, alias, file name, 
+	    [(alias:usage frequency filename)], [password (frequency password)]
+		of the dictionaries.
+
+	-U  The output code will be set UJIS. (default)
+
+	-J  The output code will be set JIS.
+
+	-S  The output code will be set Shift-JIS.
+
+	-L  lang 
+	    Specifies the language name which is referred for selecting of
+	    server. If no lang is specified, the one specified by the
+	    environment variable LANG will be used. The default is "ja_JP",
+	    so the server is jserver.

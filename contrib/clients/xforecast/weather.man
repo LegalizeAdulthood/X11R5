@@ -1,0 +1,40 @@
+.TH WEATHER 1 
+.SH NAME
+weather - display current weather for a city or state
+.SH SYNOPSIS
+.B "weather"
+[city or state code]
+.SH DESCRIPTION
+.PP
+.I Weather
+is program that will print the current weather conditions for an area.
+.I Weather
+is a Perl(1) script that connects to the "weather underground" weather 
+server from The University of Michigan, sends the appropriate request,
+ignores the inappropriate text, and prints out the weather data.
+
+.SH OPTIONS
+.TP
+.B city code
+the 3 letter airport style city code will cause
+.I weather
+to display the weather for that specified city.
+.TP
+.B state code
+the 2 letter state abbreviation will cause
+.I weather
+to display (a brief version of) the current weather 
+for that specified state.
+
+.SH BUGS
+Every time the menus on the server changes, 
+.I weather 
+will usually wind up hanging, or printing the same
+text infinitely.
+.SH SEE ALSO
+.BR xweather(1),
+.BR Perl(1)
+
+.SH COPYRIGHT
+Copyright 1991, Frank Adelstein.
+.br

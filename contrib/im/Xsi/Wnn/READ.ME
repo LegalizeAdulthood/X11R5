@@ -1,0 +1,168 @@
+/*
+ * $Id: READ.ME,v 1.3 1991/09/18 05:30:44 proj Exp $
+ */
+
+	Wnn Version 4.1
+
+This distribution contains Version 4.1 of Wnn Japanese Input
+System.  Wnn is a network-extensible Kana-to-Kanji conversion system
+and was jointly developed and released by the Software Research Group
+of Kyoto University Research Institute for Mathematical Science, OMRON
+Corporation and Astec, Inc.  
+
+This distribution has been tested on the following systems.
+	Sun SunOS4.0.3 and SunOS4.1.1
+	OMRON LUNA, UniOS-B(4.3BSD), UniOS-U(SystemV R2.1), UniOS-Mach(MACH)
+
+**Installation
+
+The source file contains literal strings and comments in "EUC" code.
+Be sure to have a compiler allowing 8-bit input data path.
+
+*Compilation by "Imake"
+
+	cd ..
+	make World -f Makefile.ini
+
+*Installation by "Imake"
+ 
+    If you want to install all of Wnn
+	make install
+
+    If you want to install only server-side of Wnn,
+	make instserver
+    (jserver, jserverrc, hinsi.data, pubdic)
+
+    If you want to install only client-side of Wnn,
+	make instclient
+    (uum, jutil, configuration files)
+
+    If you want to install only client-side of Wnn
+	make instlib
+    (libwnn.a, include files)
+
+The Project.tmpl (in $(TOP)/contrib/im/Xsi/config) defines variables
+JWNNBINDIR, WNNWNNDIR and JWNNPUBDICDIR where commands on jserver,
+uum and dictionary utilities (in JWNNBINDIR), configuration files
+(in WNNWNNDIR), and PUBDIC(JWNNPUBDICDIR) will be installed.
+Default values are /usr/local/bin/Wnn4, /usr/local/lib/wnn/ja_JP, and
+/usr/local/lib/wnn/ja_JP/dic/pubdic respectively.
+You will also have to edit include/config.h when you want to change
+LIBDIR.
+
+The Project.tmpl (in $(TOP)/contrib/im/Xsi/config) defines variable
+WNNOWNER that defines user-id of all-programs (insread of uum).
+We recommend that you create a new user-id for all-programs,
+instead of staying at root.  A default user-id is wnn.
+
+"uum"'s owner is root with an s-bit.
+
+Confirm your installation by adding /usr/local/bin/Wnn4 to $PATH.
+Enjoy jserver and uum.
+
+*uum
+
+The configuration of uum is in .uumrc and key bindings are in .uumkey.
+(.uumrc and .uumkey used to be .wnnrc and .wnnkey in Wnn up to Ver.3.3.)
+.uumrc defines the location where dictionary configuration files are
+located. (Refer to Manual.)
+
+**Directories
+This distribution contains the following directories.
+
+conv		to configure function keys.
+
+etc		source files to be shared by several directories.
+
+fuzokugo	"fuzokugo" definition program (atof).
+
+include	 	header files.
+
+jd		configuration files for uum, jserver, and
+		Romaji(alphabet)-to-Kana conversion table.  
+		These files will be installed in JWNNWNNDIR
+		(/usr/local/lib/wnn/ja_JP by default).
+
+		jserverrc 	to define initialization of jserver
+		uumrc		to initialize uum 
+		uumkey		to define key binding of uum 
+		wnnenvrc	to define dictionaries
+
+		You may find many configuration files available
+		in addition to default files.
+
+jlib		libraries for application programmers.
+
+jlib.V3		compatible library from Wnn Ver.3
+
+jserver		Kana-to-Kanji conversion server.
+
+jutil		dictionary utilities.
+
+		atod	    to create new dictionary (from EUC to binary)
+		dtoa	    from binaries to EUC
+		oldatonewa  to convert EUC of Ver.3 to that of Ver.4
+		wnnstat	    to report jserver status (e.g., users,
+			    environment, files, dictionaries)
+		wnnkill	    to terminate jserver
+		wnntouch    to check and recover consistency of dictionary
+			    files
+		wddel	    to delete several words from a dictionary
+		wdreg	    to add new words to a dictionary
+
+manual		manuals in Japanese.
+
+manual.en	manuals in English (subset).
+
+pubdic 		dictionaries of PUBDIC.
+
+romkan		Romaji(alphabet)-to-Kana conversion.
+
+uum		front end processor for Japanese character input.
+
+-----------------------------------------------------------------------
+/*
+ * Copyright Kyoto University Research Institute for Mathematical Sciences
+ *                 1987, 1988, 1989, 1990, 1991
+ * Copyright OMRON Corporation. 1987, 1988, 1989, 1990, 1991
+ * Copyright ASTEC, Inc. 1987, 1988, 1989, 1990, 1991
+ *
+ * Permission to use, copy, modify, distribute, and sell this software
+ * and its documentation for any purpose is hereby granted without fee,
+ * provided that all of the following conditions are satisfied:
+ *
+ * 1) The above copyright notices appear in all copies
+ * 2) Both those copyright notices and this permission notice appear
+ *    in supporting documentation
+ * 3) The name of "Wnn" isn't changed unless substantial modifications
+ *    are made, or
+ * 3') Following words followed by the above copyright notices appear
+ *    in all supporting documentation of software based on "Wnn":
+ *
+ *   "This software is based on the original version of Wnn developed by
+ *    Kyoto University Research Institute for Mathematical Sciences (KURIMS),
+ *    OMRON Corporation and ASTEC Inc."
+ *
+ * 4) The names KURIMS, OMRON and ASTEC not be used in advertising or
+ *    publicity pertaining to distribution of the software without
+ *    specific, written prior permission
+ *
+ * KURIMS, OMRON and ASTEC make no representations about the suitability
+ * of this software for any purpose.  It is provided "as is" without
+ * express or implied warranty.
+ *
+ * Wnn consortium is one of distributors of the official Wnn source code
+ * release.  Wnn consortium also makes no representations about the
+ * suitability of this software for any purpose.  It is provided "as is"
+ * without express or implied warranty.
+ *
+ * KURIMS, OMRON, ASTEC AND WNN CONSORTIUM DISCLAIM ALL WARRANTIES WITH
+ * REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL KURIMS, OMRON, ASTEC OR
+ * WNN CONSORTIUM BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+ * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTUOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ *
+ */

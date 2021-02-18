@@ -1,0 +1,26 @@
+#include <GLLibrary.tmpl>
+#include <GraphLib.tmpl>
+
+INCLUDES = -I$(INCLUDESRC) -I$(TOP)
+HEADERS = \
+	menus.h 
+
+SRCS = \
+	menus.c
+
+OBJS = \
+	menus.o
+
+
+all:: $(OBJS)
+NormalLibraryObjectRule()
+#if SharedLibGL
+SharedLibraryObjectRule()
+#endif
+
+BuildIncludes($(HEADERS),gl,..)
+InstallMultiple($(HEADERS),$(INCDIR)/gl)
+
+DependTarget()
+
+

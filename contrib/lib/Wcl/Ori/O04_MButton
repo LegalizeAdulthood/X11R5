@@ -1,0 +1,62 @@
+! The fourth demo is a more complex use of menubuttons. This one has two 
+! menu buttons.  The edit button shows OLIT's pushpin feature. A control area
+! is used to contain the two menu buttons.  Gadgets are used rather than
+! widgets for the oblong buttons.
+
+!*wcTrace:               True
+Ori.wcChildren:		control
+Ori.title:		O04_ComplexMenuButt
+
+*threeD:		TRUE
+*background:		grey
+
+*control.wcClass:	controlAreaWidgetClass
+*control.layoutType:	fixedrows
+*control.measure:	1
+*control.wcChildren:	fBtn,eBtn
+
+! First Menu
+*fBtn.wcClass:		menuButtonWidgetClass
+*fBtn.label:		File
+*fBtn.wcCallback:	WcCreateChildrenCB(*fBtn*pane, open, close, quit)
+
+*fBtn*pane.open.label:		Open
+*fBtn*pane.open.wcClass:	oblongButtonGadgetClass
+*fBtn*pane.open.select:		WcSystemCB(echo open)
+
+*fBtn*pane.close.label:		Close
+*fBtn*pane.close.wcClass:	oblongButtonGadgetClass
+*fBtn*pane.close.select:	WcSystemCB(echo close)
+
+*fBtn*pane.quit.label:		Quit
+*fBtn*pane.quit.wcClass:	oblongButtonGadgetClass
+*fBtn*pane.quit.select:		WcExitCB
+
+
+! Second menu
+*eBtn.wcClass:			menuButtonWidgetClass
+*eBtn*pushpin:			out
+*eBtn.label:			Edit
+*eBtn.wcCallback:		WcCreateChildrenCB(*eBtn*pane, cut, \
+			copy, paste, undo, again)
+
+*eBtn*pane.cut.label:		Cut
+*eBtn*pane.cut.wcClass:		oblongButtonGadgetClass
+*eBtn*pane.cut.select:		WcSystemCB(echo cut)
+
+*eBtn*pane.copy.label:		Copy
+*eBtn*pane.copy.wcClass:	oblongButtonGadgetClass
+*eBtn*pane.copy.select:		WcSystemCB(echo copy)
+
+*eBtn*pane.paste.label:		Paste
+*eBtn*pane.paste.wcClass:	oblongButtonGadgetClass
+*eBtn*pane.paste.select:	WcSystemCB(echo paste)
+
+*eBtn*pane.undo.label:		Undo
+*eBtn*pane.undo.wcClass:	oblongButtonGadgetClass
+*eBtn*pane.undo.default:	TRUE
+*eBtn*pane.undo.select:		WcSetValueCB(this.label: bub)
+
+*eBtn*pane.again.label:		Again
+*eBtn*pane.again.wcClass:	oblongButtonGadgetClass
+*eBtn*pane.again.select:	WcSystemCB(echo again)

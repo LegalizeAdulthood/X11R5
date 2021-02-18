@@ -1,0 +1,14 @@
+#!/bin/csh
+if ($#argv >= 1) then
+   setenv XAPPLRESDIR $1
+else
+   setenv XAPPLRESDIR ./
+   cd DemosOlit
+endif
+if (-e MDopenlook) then
+    echo ============= Testing MDopenlook =============
+    MDopenlook MD
+endif
+if ($#argv == 0 ) then
+   cd ..
+endif

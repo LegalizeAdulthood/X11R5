@@ -1,0 +1,37 @@
+JL_DIC_LIST( )
+
+名称
+
+	jl_dic_list		バッファの辞書情報を得る。
+	jl_dic_list_e		環境の辞書情報を得る。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_dic_list(buf, dip)
+	struct wnn_buf *buf;		/* バッファ */
+	WNN_DIC_INFO **dip;
+
+	int
+	jl_dic_list_e(env, dip)
+	struct wnn_env *env;		/* 環境 */
+	WNN_DIC_INFO **dip;
+
+機能
+
+	jl_dic_list は、バッファ buf に対する辞書情報を得る。
+	jl_dic_list_e は、環境 env に対する辞書情報を得る。
+	結果は、領域を確保して格納し、領域の先頭へのポインタを領域 dip 
+	の先に格納する。
+	
+
+リターンバリュー
+
+	辞書の個数を返す。
+	エラー時には、-1 を返す。
+
+使用上の注意事項
+
+	返値として返される領域は、次に jl_dic_list を呼ぶまで保持される。

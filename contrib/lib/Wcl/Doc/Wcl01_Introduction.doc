@@ -1,0 +1,191 @@
+
+                        Widget Creation Library,
+
+                An Easier Way to Develop Applications
+                    using X toolkit based Widgets.
+
+                            David Smyth
+                         (formerly of JPL)
+                Martin Brunecky, Auto-trol Technology
+                       (marbru@auto-trol.com)
+
+                      
+Window-based applications are notoriously difficult to program.  When
+the Macintosh was introduced in early 1984, Bill Gates projected that
+50% of Microsoft revenues would come from Mac application by October
+1984.  In reality, the first Mac applications were only beginning to be
+shipped by that date.
+
+When Steve Jobs left Apple and developed the NeXT computer, the window
+environment was specifically designed to support a WYSIWYG interface
+builder.  NextStep and the NeXT IB were the results of this effort.
+
+The X developers at MIT and DEC also needed an easy way to develop
+windowed applications.  Instead of developing a WYSIWYG tool like NeXT,
+they developed a toolkit where interfaces were specified using C code,
+and could be significantly modified via `resource files' using a
+minimum number of attribute specifications. They provided an instance
+attribute inheritance mechanism to propogate attributes throughout an
+interface.  This allows such simple specification as the following to
+alter every font in an interface:
+
+        *font: 9x15
+
+The toolkit is called the Xt Intrinsics.  The windows, buttons, menus,
+scrollbars, etc., are called Widgets.  The Athena Widgets are one set
+of user interface objects built upon the Xt Intrinsics.  Motif is
+another set of widgets.
+
+As time went on, developers of widget-based applications found the
+resource files to be more and more useful.  For the fourth release of
+the X11 window system, many of the example programs evolved to the
+point that only the raw behavior of the applications were specified in
+C, with most of the look and feel being specified using resource
+files.
+
+At the fourth annual X Technical Conference, several people pointed out
+that resource files could be used to specify everything about a widget
+based user interface, except the actual "tree" of widgets, their types,
+and bindings of behaviors to the user interface widgets.  Could the
+resource mechanism be enhanced to allow these to be specified as well?
+
+Martin Brunecky at Auto-Trol in Denver Colorado took up the challenge,
+and posted a simple set of routines which he called WsXc, for "Window
+System: Xrm Creation."
+
+Xrm stands for X Resource Manager, which is a heirarchical database for
+keeping arbitrary named data related to X window interfaces.  The Xt
+Intrinsics use Xrm for widget resources.  The basic idea of WsXc is to
+search the Xrm database, starting at the root, and pull out resources
+which describe the widget heirarchy and bindings to callback
+functions.
+
+Over the next several months, WsXc was repackaged as Mri (Motif
+Resource Interpreter), and then Ari (Athena Resource Interpreter), and
+finally generalized into the Widget Creation Library.  The result
+provides several significant benefits to the developer and the user:
+
+        o Rapid Prototyping: Arbitrarily complex widget interfaces
+                may be specified, and many common behaviors (pop-up,
+                change attributes, exit) can be specified for the
+                interface.
+
+        o Prototyping Environment is the Development Environment is
+                the Delivery Environment: There is no specific breaking
+                point between prototyping, developing, and tuning a
+                delivered program.
+
+        o Minimum Specifications: The Xrm and Xt Intrinsics instance
+                attribute inheritance mechanism is fully utilized, so
+                a minimum number of specifications can describe a
+                complete user interface.
+
+        o Extensible:  Adding new widget types and callback routines
+                is trivial.
+
+        o Widget Set Independent: The library itself is completely 
+		widget set independent.
+
+	o Mostly Widget Set Independent Applications:  Much of the
+		C code which provides the behavior of the application 
+		can be written in a widget set independent manner.
+                This allows an application to be written which supports
+                multiple look-and-feel definitions: Motif, OpenLook,
+                and Athena interfaces can all be front-ends to the
+                same underlying application.
+
+        o The user can make any change to the interface: Deeply nested
+                menus can be substituted for dialog boxes, or vice 
+		versa.  Any label or image can be altered, which 
+		supports internationalization.
+
+One of the guiding principles was and is KISS.  This is intended to be
+a very small library which provides very big gains in productivity for
+programmers developing applications using the various widget sets based
+on the Xt Intrinsics.  A large number of the total lines of code
+provide error messages.  The rest is quite straight forward.
+
+
+
+Authors
+-------
+Martin Brunecky at Auto-trol Technology, Denver (marbru@auto-trol.UUCP)
+wrote the initial code and posted it to comp.windows.x with the title
+POOR MAN's UIL - WsXc.
+
+David E. Smyth (formerly of Jet Propulsion Labs, Pasadena) rewrote WsXc
+into it's present form - Wcl, adding Ari and Mri interpreters, providing
+numerous enhancements, examples, documentation and overall support.
+
+David Harrison of the UC Berkeley Electronics Research Lab
+(davidh@ic.Berkeley.EDU or ...!ucbvax!ucbcad!davidh) wrote a very
+useful Table widget.  Kee Hinckley (nazgul@alphalpa.com) wrote a
+version of Table which works with Motif.  The Table widget, in both its
+incarnations, is so good I've included it with this distribution.  It
+is separately available from archive sites.  See TableHEARYE and
+TableFIRST for information on this widget.
+
+Many people helped alot by providing bug fixes, enhancements,
+suggestions, and just plain feedback.  There are many who helped,
+including Andrew Peebles at MIPS, Randy Brown, Art Poley, Mike Yee of
+OSF, Richard Hesketh, Kaleb Keithley, Ron Newman, and Kim Gillies
+from NAOA who provided support for OLIT and Corrnell widget set.
+
+
+Ari, Mri, Ori and Cri Widget Resource Interpreters
+--------------------------------------------------
+
+Resource file "interpreters" are provided which allow widget based user
+interfaces to be developed and to have a few useful behaviors.  These
+interpreters are intended to be useful for prototyping.
+
+Ari is the Athena Resource Interpreter, and it knows about all the
+Athena widgets.  Mri is the Motif Resource Interpreter, and is knows
+about all the Motif widgets. Ori is the Open Look Resource Interpreter
+and it knows about all OLIT widgets. Cri is the Cornell Resource
+Interpretor and it knows about Cornell widgets. All interpreters also 
+know about the very useful Table widget, which is described in the 
+separate document.
+
+Each interpreter consists of a main() procedure, and a function which
+registers all the known widget types.  Mri consists of Mri.c and
+MriRegAll.c while Ari consists of Ari.c and AriRegAll.c.  The
+registration files are intended to be independent.
+
+It is a simple task to build a single interpreter which knows about
+every widget on earth, but if you don't have shared libs, the resulting
+executable is HUGE. In addition, some widget sets do not coexist well
+with others.
+
+Several resource files are provided for each of the interpreters.  They
+are named <x><nn>_<description> where the first letter denotes the widget
+set used - A for Ari, M for Mri... To try out the interpreters (after you
+build them), do as the following:
+
+    % cd Ari
+    % setenv XAPPLRESDIR ./ 
+    % Ari A01_Hello
+
+The resource files are intended to be tutorials, so they are heavily
+commented and they explore various topics you may find interesting.
+
+Once an interface is prototyped using Mri or other interpreter, one can
+take the interpreter and resource files and evolve them into the real
+applications.
+
+
+Sample Applications
+-------------------
+
+There are several programs intended as example applications in the
+DemoXyz directories. If you look at such programs, you will notice
+that main() is very minimal. The application is really defined by 
+its resource file (the look and feel) . Most of the coding is done
+in the callbacks, which provide the behavior. Notice that callbacks
+use several routines provided by the Wc library. They are introduced
+later in this document.
+
+To try demo programs, refer to test_xxxxx scripts in the main Wcl
+directory.
+
+

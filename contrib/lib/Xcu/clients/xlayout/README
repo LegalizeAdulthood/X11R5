@@ -1,0 +1,40 @@
+xlayout is a simple client that allows a widget description language
+programmer to test a layout.
+
+xlayout.wh contains all the Xcu widgets, so xlayout.c will not need
+recompiling until widgets from other sources are included in a
+description language file.
+
+To test a layout, merely issue the following two commands, where name
+is the name of the layout description file with a .wl extension,
+e.g., name.wl :
+
+	../../wlmCompiler/wlc name
+	xlayout name
+
+The following sample layout descriptions are included in this directory:
+
+	(bw_)bmgr   : shows the five XcuBmgr (button manager) semantics
+	(bw_)menu   : shows a common menu device using the XcuDeck widget
+	(bw_)shadow : shows facets vs. shadow and sensitive vs. insensitive
+	(bw_)manip  : shows a graphics manipulation menu
+
+	The bw_ versions work better for displays without good colors
+
+IMPORTANT HINT:  You will want a customized version of this program
+on your system when you get around to writing layout descriptions with
+non-Xcu widgets.
+
+To customize, all you have to do is put the widgets you will use
+in xlayout.wh.  Then, to test menus all you need is xlayout, wlc, and an
+editor.  Repeat the following three steps until satisfied:
+
+    1) vi layout.wl
+    2) wlc layout
+    3) xlayout layout
+
+No application code, hence no compiling, no linking.  The only thing
+you can't test are things like callbacks to your application.  It is 
+literally possible to do one iteration of the above in under 15 seconds.
+I've made lots of minor adjustments to menus in just that fashion.
+

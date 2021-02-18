@@ -1,0 +1,11 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+#if HasMotif
+SUBDIRS = include clients lib tests demos motifdemos 
+#else
+SUBDIRS = include clients lib tests demos
+#endif
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))

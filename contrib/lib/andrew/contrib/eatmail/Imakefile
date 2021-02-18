@@ -1,0 +1,24 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOCALINCLUDES = -I${BASEDIR}/include/ams
+
+OBJS		=	eatmail.o
+
+LIBS= ${BASEDIR}/lib/libmail.a \
+	${BASEDIR}/lib/liberrors.a \
+	${UTILLIB}
+
+NormalObjectRule()
+
+ProgramTarget(eatmail, ${OBJS}, ${LIBS} , ${NETLIBS} ${BSDLIB})
+
+DependTarget()
+
+InstallProgram(eatmail, ${DESTDIR}/bin)
+

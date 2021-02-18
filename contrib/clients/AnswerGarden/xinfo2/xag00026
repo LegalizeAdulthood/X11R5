@@ -1,0 +1,15 @@
+@begin(header)
+author: ackerman@athena.mit.edu
+show_author: ShowNone
+author_organization: MIT
+expiration_date: 06/25/93
+last_modifier: ack@amt.media.mit.edu
+last_mod_date: 08/31/91
+mod_num: 2
+@end(header)
+Answer Garden/Info_AnswerGarden
+ Getting Answer Garden to work/Info_Using_AnswerGarden
+ Using the authoring system/Info_Authoring_AG
+ Who's responsible?/Info_Whos_AnswerGarden
+ How it works/Info_How_AnswerGarden
+ Reporting bugs/Info_AG_Bugs

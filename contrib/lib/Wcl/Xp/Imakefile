@@ -1,0 +1,70 @@
+#include "../Wc.tmpl"
+
+/**/# Imakefile for libXp
+
+#if WantTableWidget
+TABLE_HEADERS = Table.h TableP.h
+TABLE_SRCS    = Table.c
+TABLE_OBJS    = Table.o
+DEFINES       = -DTABLE
+#endif
+
+INCLUDES       = -I. -I$(TOP)  $(X11INC)
+HEADERS        = $(TABLE_HEADERS)
+SRCS           = XpRegAll.c $(TABLE_SRCS)
+OBJS           = XpRegAll.o $(TABLE_OBJS)
+
+all::
+#if HasSunOSSharedLibraries
+# if DebugLibWc
+SharedAndDebuggedLibraryObjectRule()
+# else
+SharedLibraryObjectRule()
+# endif
+#else
+# if DebugLibWc && ProfileLibWc
+DebuggedAndProfiledLibraryObjectRule()
+# else
+#  if DebugLibWc
+DebuggedLibraryObjectRule()
+#  else
+#   if ProfileLibWc
+ProfiledLibraryObjectRule()
+#   else
+NormalLibraryObjectRule()
+#   endif
+#  endif
+# endif
+#endif
+
+/*
+ * always generate unshared library too
+ */
+MakeDirectories(install,$(INSTLIB))
+#if HasSunOSSharedLibraries
+NormalSharedLibraryTarget(Xp,$(SoWcRev),$(OBJS))
+InstallSharedLibrary(Xp,$(SoWcRev),$(INSTLIB))
+#endif
+NormalLibraryTarget(Xp,$(OBJS))
+InstallLibrary(Xp,$(INSTLIB))
+
+LintLibraryTarget(Xp,$(SRCS))
+InstallLintLibrary(Xp,$(INSTLIN))
+
+#if ProfileLibWc
+ProfiledLibraryTarget(Xp,$(OBJS))
+InstallLibrary(Xp_p,$(INSTLIB))
+#endif
+
+#if DebugLibWc
+DebuggedLibraryTarget(Xp,$(OBJS))
+
+#endif
+
+MakeDirectories(install,$(INSTINC)/Xp)
+InstallMultiple($(HEADERS),$(INSTINC)/Xp)
+
+DependTarget()
+
+NormalLintTarget($(SRCS))
+

@@ -1,0 +1,34 @@
+/*
+    $prog - $desc
+
+    Author:  Miles O'Neal
+
+    Release: $release_info
+
+    COPYRIGHT 1990, 1991, Systems & Software Solutions, Inc, Marietta, GA
+
+    Permission is hereby granted to use, copy, modify and/or distribute
+    this software and supporting documentation, for any purpose and
+    without fee, as long as this copyright notice and disclaimer are
+    included in all such copies and derived works, and as long as
+    neither the author's nor the copyright holder's name are used
+    in publicity or distribution of said software and/or documentation
+    without prior, written permission.
+
+    This software is presented as is, with no warranties expressed or
+    implied, including implied warranties of merchantability and
+    fitness. In no event shall the author be liable for any special,
+    direct, indirect or consequential damages whatsoever resulting
+    from loss of use, data or profits, whether in an action of
+    contract, negligence or other tortious action, arising out of
+    or in connection with the use or performance of this software.
+    In other words, you are on your own. If you don't like it, don't
+    use it!
+
+    S&SSi  3641 Silver Leaf Lane  Marietta, GA 30060-5889  1-404-435-6049
+                   or  Box 202254  Austin, TX 78720-2254
+    meo@pencom.com                              cs.utexas.edu!pensoft!meo
+*/
+static char _SSS_copyright[] =
+	"$prog $rel Copyright 1990, 1991, Systems & Software Solutions, Inc, Marietta, GA";
+

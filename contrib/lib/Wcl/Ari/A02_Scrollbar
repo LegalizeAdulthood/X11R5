@@ -1,0 +1,21 @@
+!  This provides similar functionality as that shown by the Xaw example
+!  named xscroll, which demonstrates how to use the Scrollbar widget.
+!
+Ari.wcChildren:		box
+Ari.title:		A02_Scrollbar
+
+*box.wcClassName:	Box
+*Box*allowResize:	True
+*box.wcChildren:	quit, scrollbar
+
+*quit.wcClass:		commandWidgetClass
+*quit.Label:		Quit
+*quit.callback:		WcExitCB
+
+*scrollbar.wcClass:	scrollbarWidgetClass
+*scrollbar.orientation:	horizontal
+*scrollbar.topOfThumb:  0.5
+*scrollbar.length:	300
+*scrollbar.jumpProc:	WcSystemCB(echo Jumped)
+*scrollbar.scrollProc:	WcSystemCB( echo Scrolled)
+

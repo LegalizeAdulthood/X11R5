@@ -1,0 +1,92 @@
+#
+# $Header: /usr/src/local/emu/term/RCS/Imakefile,v 1.10 90/11/20 17:44:57 jkh Exp Locker: jkh $
+#
+# This file is part of the PCS emu system.
+#
+# Copyright 1990 by PCS Computer Systeme, GmbH. Munich, West Germany.
+#
+#                        All Rights Reserved
+#
+# Permission to use, copy, modify, and distribute this software and its 
+# documentation for any purpose and without fee is hereby granted, 
+# provided that the above copyright notice appear in all copies and that
+# both that copyright notice and this permission notice appear in 
+# supporting documentation, and that the names of PCS or the authors not
+# be used in advertising or publicity pertaining to distribution of the
+# software without specific, written prior permission.  
+# 
+# PCS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
+# ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL
+# PCS, THE AUTHORS, OR THEIR HOUSEPETS BE LIABLE FOR ANY SPECIAL, INDIRECT
+# OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+# OF THIS SOFTWARE. SO DON'T SUE US. THANK YOU.
+#
+#
+# USE THIS IMAKEFILE FOR TESTING.
+#
+# This Imakefile will generate a simple test application of the emu widget.
+#
+
+# CCOPTIONS = -Wall -g -DNO_MENUS
+CCOPTIONS = -g
+
+/* STD_DEFINES = StandardDefines -DATHENA -DDEBUG */
+STD_DEFINES = StandardDefines
+INCLUDES = StandardIncludes -I. -I../include -I../canvas -Iparser -I../menus
+LOCAL_LIBRARIES = $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+CDPATH =
+
+C_SRCS=	../canvas/TermCanvas.c ../canvas/functions.c ../canvas/char_array.c \
+	../canvas/screen.c ../canvas/selection.c
+C_OBJS=	../canvas/TermCanvas.o ../canvas/functions.o ../canvas/char_array.o \
+	../canvas/screen.o ../canvas/selection.o
+
+/* All the miscellaneous stuff */
+U_SRCS= ../misc/msgs.c ../misc/strutils.c ../misc/rdb.c
+U_OBJS= ../misc/msgs.o ../misc/strutils.o ../misc/rdb.o
+
+/* All the tty section sources */
+T_SRCS=	tty.c process.c
+T_OBJS= tty.o process.o
+
+/* All the parser section sources */
+P_SRCS= parser/destroy.c parser/new.c parser/trie.c parser/iops.c
+P_OBJS= parser/destroy.o parser/new.o parser/trie.o parser/iops.o
+
+/* menu sources */
+M_SRCS= ../menus/menus.c ../menus/menus.h
+M_OBJS= ../menus/menus.o
+
+SRCS = Term.c handlers.c test_client.c $(C_SRCS) $(U_SRCS) \
+	$(T_SRCS) $(P_SRCS) $(M_SRCS)
+OBJS = Term.o handlers.o test_client.o $(C_OBJS) $(U_OBJS) \
+	$(T_OBJS) $(P_OBJS) $(M_OBJS)
+
+#ifdef PCS	/* PCS's DEPLIBS is screwy */
+DEPLIBS =
+#endif
+
+.c.o:
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $*.c -o $*.o
+
+ComplexProgramTarget(test_term)
+
+clean::
+	@(cd ./parser; make clean)
+
+Makefiles::
+	@(cd ./parser; make forceMakefile)
+
+/*
+ * The "forceMakefile" rule was in R3. For some reason, we couldn't
+ * find it again in R4, so we put it back. This is a useful rule so
+ * I don't know why it was nuked in the first place.
+ */
+forceMakefile::
+	-@if [ -f Makefile ]; then \
+		echo "$(RM) Makefile.bak; $(MV) Makefile Makefile.bak"; \
+		$(RM) Makefile.bak; $(MV) Makefile Makefile.bak; \
+	else exit 0; fi
+	$(IMAKE_CMD) -DTOPDIR=$(TOP) -DCURDIR=$(CURRENT_DIR) imakeflags

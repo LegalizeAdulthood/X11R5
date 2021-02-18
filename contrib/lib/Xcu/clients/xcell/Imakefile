@@ -1,0 +1,28 @@
+#define IHaveSubdirs
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+SUBDIRS = Mods LCR4 LCCR4
+INCLUDES = $(XCUINCFLAG)
+
+#ifdef FileDir
+CELLDIR = \"FileDir/Cell\"
+#endif
+
+DEFINES = -DDEFFILE=$(CELLDIR)
+
+PROGRAMS        = xcell icell
+LOCAL_LIBRARIES = $(XCULIB) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+      SRCS1 = Cell.c klcrt.c lccr.c lccrrr.c lcr.c xcell.c
+      OBJS1 = Cell.o klcrt.o lccr.o lccrrr.o lcr.o xcell.o
+      SRCS2 = Cell.c klcrt.c lccr.c lccrrr.c lcr.c icell.c 
+      OBJS2 = Cell.o klcrt.o lccr.o lccrrr.o lcr.o icell.o
+
+    SYSLIBS =
+
+ComplexProgramTarget_1(xcell,$(LOCAL_LIBRARIES),$(SYSLIBS))
+ComplexProgramTarget_2(icell,$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+MakeSubdirs($(SUBDIRS))
+DependSubdirs($(SUBDIRS))
+

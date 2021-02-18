@@ -1,0 +1,32 @@
+.TH GL_Modify 3GL "4Jul91" "GraphLib 0.5a"
+.SH NAME
+GL_Modify \- Change something created with GL_Create
+.SH SYNTAX
+void GL_Modify(<type>, object, ..., GL_Done)
+.br
+	GL_DataList object;
+.SH ARGUMENTS
+.IP <type> 1i
+Type of thing to modify.
+.IP object 1i
+The datalist containing the object to modify.
+
+.SH DESCRIPTION
+GL_Modify will modify an object created with GL_Create, maybe.
+This particular routine is not completely supported because the semantics
+of it's actions are not completely defined.  It is available for use
+because I needed it to write the perfmon program, I wanted to change what
+the stripchart was monitering.  You should in theory be able to use this,
+if it works a single time it will work all of the times, however,
+be prepared for programs using this to exit with messages about not finding
+things in datalists.  The object will usually be the datalist associated
+with the window that the thing is in.
+
+.SH FEATURES?
+This will not work for modifying window options, it will also not 
+work for editing any of the types subclassed off of GL_Object.
+Be warned that this list could change at any point as to a large degree I
+consider GL_Modify to currently be a hack.
+
+.SH "SEE ALSO"
+GL_Create(3GL), GraphLib Programming Manual

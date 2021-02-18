@@ -1,0 +1,40 @@
+;; trace-func
+;; trace individual functions
+
+(setq trace-func.level 0)
+
+;; (trace-func foo)
+;; will trace all calls to foo, printing arguments passed, and result returned
+;; (trace-func func expr)
+;; trace func and print value of expr at invocation
+
+(df trace-func tfargs
+    (with (func (# 0 tfargs)
+	   old-func-name (atom (+ "%%OLD-" func))
+			 res ())
+      (if (boundp old-func-name)
+	  (trigger-error "already traced function: " func))
+      (set old-func-name (eval func))
+      (set func
+	   (eval
+	    (list 'lambdaq 'args
+		  (list '? 'trace-func.level ">" (+ "" func) "> " 'args
+			" "(# 1 tfargs)"\n")
+		  '(setq trace-func.level (+ 1 trace-func.level))
+		  (list ': 'res
+			(list 'eval (list '+
+					  (list 'list (eval func)) 'args)))
+		  '(setq trace-func.level (+ -1 trace-func.level))
+		  (list '? 'trace-func.level "<" (+ "" func) "< " 'res "\n")
+		  'res)))))
+
+;; (untrace-func foo)
+;; will remove tracing of function foo
+
+(df untrace-func (func)
+    (with (old-func-name (atom (+ "%%OLD-" func)))
+      (if (not (boundp old-func-name))
+	  (trigger-error (+ "" old-func-name) " was not traced")
+	(set func (eval old-func-name))
+	(unbind  old-func-name))))
+

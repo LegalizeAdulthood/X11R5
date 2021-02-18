@@ -1,0 +1,82 @@
+JL_PARAM_GET( )
+
+名称
+
+	jl_param_get	変換パラメータの設定を取り出す。
+	jl_param_get_e	変換パラメータの設定を取り出す。
+
+	jl_param_set	変換パラメータを設定する。
+	jl_param_set_e	変換パラメータを設定する。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_param_get(buf, param)
+	struct wnn_buf *buf;		/* バッファ */
+	struct wnn_param *param;	/* パラメータ */
+
+	int
+	jl_param_get_e(env, param)
+	struct wnn_env *env;		/* 環境 */
+	struct wnn_param *param;	/* パラメータ */
+
+	int
+	jl_param_set(buf, param)
+	struct wnn_buf *buf;		/* バッファ */
+	struct wnn_param *param;	/* パラメータ */
+
+	int
+	jl_param_set_e(env, param)
+	struct wnn_env *env;		/* 環境 */
+	struct wnn_param *param;	/* パラメータ */
+
+	struct wnn_param {
+		int     n;      /* Ｎ(大)文節解析のＮ */
+		int     nsho;   /* 大文節中の小文節の最大数 */
+		int     p1;     /* 幹語の頻度のパラメータ */
+		int     p2;     /* 小文節長のパラメータ */
+		int     p3;     /* 幹語長のパラメータ */
+		int     p4;     /* 今使ったよビットのパラメータ */
+		int     p5;     /* 辞書のパラメータ */
+		int     p6;     /* 小文節の評価値のパラメータ */
+		int     p7;     /* 大文節長のパラメータ */
+		int     p8;     /* 小文節数のパラメータ */
+		int     p9;     /* 幹語長のパラメータ */
+		int     p10;    /* 未使用 */
+	};
+
+
+機能
+
+	jl_param_getは、バッファ buf 内の環境の変換パラメータを param に取り出す。
+	jl_param_get_eは、環境 env に対してパラメータの設定を param に取り出す。
+
+	jl_param_set は、バッファ buf の環境の変換パラメータを param に設定する。
+	jl_param_set_e は、環境 env の変換パラメータを param に設定する。
+
+	<小文節の評価値> = p1 * <頻度> +
+			   p2 * <小文節長> +
+			   p3 * <自立語長さ> +
+			   p4 * <今使ったよビット> +
+			   p5 * <辞書プライオリティ>
+
+	<大文節の評価値> = p6 * <小文節の評価値の合計> / <小文節数> +
+			   p7 * <大文節長> +
+			   p8 * <小文節数> +
+			   p9 * <最大幹語長>
+
+	で評価値を求め、変換候補の順位を決定する。
+
+	n, nsho は 1 以上の整数でなければならない。
+	p1, p2, p3, p4, p5, p6, p7, p8, p9 は任意の整数である。
+
+	<最大幹語長> とは、大文節中で、連続する幹語(途中に付属語を含まない)の
+	長さの最大値である。
+
+リターンバリュー
+
+	正常終了時には 0 を返す。
+	異常終了時には、-1 を返す。
+

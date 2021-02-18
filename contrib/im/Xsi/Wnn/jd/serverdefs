@@ -1,0 +1,9 @@
+;
+; $Id: serverdefs,v 1.1 1991/09/09 22:38:52 ohm Exp $
+;
+;lang_name	machine_name	unix_domain_socket_name		service_name
+ja_JP		jserver		/tmp/jd_sockV4			wnn4
+japanese	jserver		/tmp/jd_sockV4			wnn4
+nihongo		jserver		/tmp/jd_sockV4			wnn4
+zh_CN		cserver		/tmp/cd_sockV4			wnn4_Cn
+zhongwen	cserver		/tmp/cd_sockV4			wnn4_Cn

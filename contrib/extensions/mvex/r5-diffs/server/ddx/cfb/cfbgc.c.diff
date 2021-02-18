@@ -1,0 +1,89 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/cfb/RCS/cfbgc.c,v 
+*** 1.3	1991/09/24 16:54:20
+--- 1.5	1991/09/24 22:15:16
+***************
+*** 72,81 ****
+      miPolyRectangle,
+  #if PPW == 4
+      cfbZeroPolyArcSS8Copy,
+  #else
+      miZeroPolyArc,
+  #endif
+-     cfbFillPoly1RectCopy,
+      cfbPolyFillRect,
+      cfbPolyFillArcSolidCopy,
+      miPolyText8,
+--- 72,82 ----
+      miPolyRectangle,
+  #if PPW == 4
+      cfbZeroPolyArcSS8Copy,
++     cfbFillPoly1RectCopy,
+  #else
+      miZeroPolyArc,
++     miFillPolygon,
+  #endif
+      cfbPolyFillRect,
+      cfbPolyFillArcSolidCopy,
+      miPolyText8,
+***************
+*** 145,154 ****
+      miPolyRectangle,
+  #if PPW == 4
+      cfbZeroPolyArcSS8Copy,
+  #else
+      miZeroPolyArc,
+  #endif
+-     cfbFillPoly1RectCopy,
+      cfbPolyFillRect,
+      cfbPolyFillArcSolidCopy,
+      miPolyText8,
+--- 146,156 ----
+      miPolyRectangle,
+  #if PPW == 4
+      cfbZeroPolyArcSS8Copy,
++     cfbFillPoly1RectCopy,
+  #else
+      miZeroPolyArc,
++     miFillPolygon,
+  #endif
+      cfbPolyFillRect,
+      cfbPolyFillArcSolidCopy,
+      miPolyText8,
+***************
+*** 155,163 ****
+--- 157,171 ----
+      miPolyText16,
+      miImageText8,
+      miImageText16,
++ #if PPW == 4
+      cfbImageGlyphBlt8,
+      cfbPolyGlyphBlt8,
+      cfbPushPixels8,
++ #else
++     miImageGlyphBlt,
++     miPolyGlyphBlt,
++     mfbPushPixels,
++ #endif
+      NULL,
+  };
+  
+***************
+*** 672,677 ****
+--- 680,686 ----
+      if (new_line)
+      {
+  	pGC->ops->FillPolygon = miFillPolygon;
++ #if PPW == 4
+  	if (devPriv->oneRect && pGC->fillStyle == FillSolid)
+  	{
+  	    switch (devPriv->rop) {
+***************
+*** 683,688 ****
+--- 692,698 ----
+  		break;
+  	    }
+  	}
++ #endif
+  	if (pGC->lineWidth == 0)
+  	{
+  #if PPW == 4

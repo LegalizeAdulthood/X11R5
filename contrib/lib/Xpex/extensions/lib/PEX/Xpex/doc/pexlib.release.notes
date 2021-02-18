@@ -1,0 +1,263 @@
+PEX Extension Information [+] = Implemented, [o] = Not Implemented
+
+[+] XpexGetExtensionInfo
+[+] XpexGetEnumTypeInfo
+[+] XpexGetImpDepConstants
+
+[ Convenience Functions ]
+
+[+] XpexInitialize
+[+] XpexQueryExtension
+[+] XpexGetAllEnumTypeInfo
+[+] XpexGetImpDepConstant
+[+] XpexGetAllImpDepConstants
+
+PEX Lookup Tables [+] = Implemented, [o] = Not Implemented
+
+[+] XpexCreateLookupTable
+[+] XpexCopyLookupTable
+[+] XpexFreeLookupTable
+[+] XpexGetTableInfo
+[+] XpexGetPredefinedEntries
+[+] XpexGetDefinedIndices
+[+] XpexGetTableEntry
+[+] XpexGetTableEntries
+[+] XpexSetTableEntries
+[+] XpexDeleteTableEntries
+
+PEX Pipeline Contexts [+] = Implemented, [o] = Not Implemented 
+
+[+] XpexCreatePC 
+[+] XpexCopyPC 
+[+] XpexFreePC 
+[+] XpexGetPC 
+[+] XpexChangePC 
+
+PEX Renderer [+] = Implemented, [o] = Not Implemented 
+
+[+] XpexCreateRenderer
+[+] XpexFreeRenderer
+[+] XpexChangeRenderer
+[+] XpexGetRendererAttributes
+[+] XpexGetRendererDynamics
+[+] XpexBeginRendering
+[+] XpexEndRendering
+[+] XpexBeginStructure
+[+] XpexEndStructure
+[+] XpexRenderOutputCmds
+[+] XpexRenderNetwork
+
+PEX Structures [+] = Implemented, [o] = Not Implemented 
+
+[+] XpexCreateStructure
+[+] XpexCopyStructure
+[+] XpexDestroyStructures
+[+] XpexGetStructureInfo
+[+] XpexGetElementInfo
+[+] XpexGetStructuresInNetwork
+[+] XpexGetAncestors
+[+] XpexGetDescendants
+[+] XpexFetchElements
+[+] XpexSetEditingMode
+[+] XpexSetElementPointer
+[+] XpexSetElementPointerAtLabel
+[+] XpexElementSearch
+[+] XpexStoreElements
+[+] XpexDeleteElements
+[+] XpexDeleteElementsToLabel
+[+] XpexDeleteElementsBetweenLabels
+[+] XpexCopyElements
+[+] XpexChangeStructureRefs
+
+PEX Name Sets [+] = Implemented, [o] = Not Implemented 
+
+[+] XpexCreateNameSet
+[+] XpexCopyNameSet
+[+] XpexFreeNameSet
+[+] XpexGetNameSet
+[+] XpexChangeNameSet
+
+PEX Search Contexts [+] = Implemented, [o] = Not Implemented 
+
+[+] XpexCreateSC
+[+] XpexCopySC
+[+] XpexFreeSC
+[+] XpexGetSC
+[+] XpexChangeSC
+[+] XpexSearchNetwork
+
+[+] XpexCreatePhigsWks
+[+] XpexFreePhigsWks
+[+] XpexGetWksInfo
+[+] XpexGetDynamics
+[+] XpexGetViewRep
+[+] XpexRedrawAllStructures
+[+] XpexUpdateWorkstation
+[+] XpexRedrawClipRegion
+[+] XpexExecutedDeferredActions
+[+] XpexSetViewPriority
+[+] XpexSetDisplayUpdateMode
+[+] XpexMapDCtoWC
+[+] XpexMapWCtoDC
+[+] XpexSetViewRep
+[+] XpexSetWksWindow
+[+] XpexSetWksViewport
+[+] XpexSetHlhsrMode
+[+] XpexSetWksBufferMode
+[+] XpexPostStructure
+[+] XpexUnpostStructure
+[+] XpexUnpostAllStructures
+[+] XpexGetWksPostings
+
+[+] XpexGetPickDevice
+[+] XpexChangePickDevice
+[+] XpexCreatePickMeasure
+[+] XpexFreePickMeasure
+[+] XpexGetPickMeasure
+[+] XpexUpdatePickMeasure
+
+[+] XpexOpenFont
+[+] XpexCloseFont
+[+] XpexQueryFont
+[+] XpexListFonts
+[_] XpexListFontsWithInfo
+[_] XpexQueryTextExtents
+
+Output Commands [+] = Implemented, [o] = Not Implemented
+
+[+] XpexSetMarkerType
+[+] XpexSetMarkerScale
+[+] XpexSetMarkerColorIndex
+[+] XpexSetMarkerColor
+[+] XpexSetMarkerBundleIndex	
+[+] XpexSetTextFontIndex
+[+] XpexSetTextPrecision
+[+] XpexSetCharExpansion
+[+] XpexSetCharSpacing		
+[+] XpexSetTextColorIndex	
+[+] XpexSetTextColor	
+[+] XpexSetCharHeight
+[+] XpexSetCharUpVector
+[+] XpexSetTextPath
+[+] XpexSetTextAlignment
+[+] XpexSetAtextHeight	
+[+] XpexSetAtextUpVector
+[+] XpexSetAtextPath	
+[+] XpexSetAtextAlignment
+[+] XpexSetAtextStyle	
+[+] XpexSetTextBundleIndex
+[+] XpexSetLineType	
+[+] XpexSetLineWidth
+[+] XpexSetLineColorIndex
+[+] XpexSetLineColor
+[+] XpexSetCurveApproximation
+[+] XpexSetPolylineInterpMethod
+[+] XpexSetLineBundleIndex		
+[+] XpexSetInteriorStyle	
+[+] XpexSetInteriorStyleIndex
+[+] XpexSetSurfaceColorIndex
+[+] XpexSetSurfaceColor	
+[+] XpexSetReflectionAttributes	
+[+] XpexSetReflectionModel
+[+] XpexSetSurfaceInterpMethod
+[+] XpexSetBfInteriorStyle
+[+] XpexSetBfInteriorStyleIndex	 
+[+] XpexSetBfSurfaceColorIndex	
+[+] XpexSetBfSurfaceColor		 
+[+] XpexSetBfSurfaceReflAttr	
+[+] XpexSetBfSurfaceReflModel
+[+] XpexSetBfSurfaceInterpMethod
+[+] XpexSetSurfaceApproximation	 
+[+] XpexSetCullingMode		 
+[+] XpexSetDistinguishFlag	
+[+] XpexSetPatternSize	
+[+] XpexSetPatternRefPt
+[+] XpexSetPatternAttr	
+[+] XpexSetInteriorBundleIndex	 
+[+] XpexSetSurfaceEdgeFlag		
+[+] XpexSetSurfaceEdgeType	
+[+] XpexSetSurfaceEdgeWidth
+[+] XpexSetSurfaceEdgeColorIndex
+[+] XpexSetSurfaceEdgeColor	
+[+] XpexSetEdgeBundleIndex	
+[+] XpexSetIndividualAsf
+[+] XpexSetLocalTransform
+[+] XpexSetLocalTransform2D
+[+] XpexSetGlobalTransform
+[+] XpexSetGlobalTransform2D		 
+[+] XpexSetModelClip			
+[+] XpexSetModelClipVolume		
+[+] XpexSetModelClipVolume2D
+[+] XpexSetRestoreModelClip
+[+] XpexSetViewIndex	
+[+] XpexSetLightState
+[+] XpexSetDepthCueIndex
+[+] XpexSetPickId		
+[+] XpexSetHlhsrIdentifier
+[+] XpexSetColorApproxIndex
+[+] XpexSetRenderingColorModel	
+[+] XpexSetParaSurfCharacteristics	
+[+] XpexAddToNameSet		
+[+] XpexRemoveFromNameSet
+[+] XpexExecuteStructure
+[+] XpexLabel		
+[+] XpexApplicationData
+[+] XpexGse			
+[+] XpexMarkers	
+[+] XpexMarkers2D
+[+] XpexText
+[+] XpexText2D
+[+] XpexAtext		
+[+] XpexAtext2D
+[+] XpexPolyline	
+[+] XpexPolyline2D
+[+] XpexPolylineSet
+[+] XpexNurbCurve
+[+] XpexFillArea
+[+] XpexFillArea2D	
+[+] XpexExtFillArea
+[+] XpexFillAreaSet		
+[+] XpexFillAreaSet2D	
+[+] XpexExtFillAreaSet
+[+] XpexTriangleStrip
+[+] XpexQuadrilateralMesh		 
+[o] XpexSetOfFillAreaSets		
+[+] XpexNurbSurface
+[+] XpexCellArray
+[+] XpexCellArray2D
+[+] XpexExtCellArray	
+[+] XpexGdp	
+[+] XpexGdp2D	
+ 
+Matrix Utility Functions [+] = Implemented, [o] = Not Implemented
+[+] XpexBuildTransformationMatrix
+[+] XpexBuildTransformationMatrix2D
+[+] XpexComposeMatrix
+[+] XpexComposeMatrix2D
+[+] XpexComposeTransformationMatrix
+[+] XpexComposeTransformationMatrix2D
+[o] XpexComputeGeometricNormal
+[+] XpexEvaluateViewMappingMatrix
+[+] XpexEvaluateViewMappingMatrix2D
+[+] XpexEvaluateViewOrientationMatrix
+[+] XpexEvaluateViewOrientationMatrix2D
+[+] XpexRotate
+[+] XpexRotateX
+[+] XpexRotateY
+[+] XpexRotateZ
+[+] XpexScale
+[+] XpexScale2D
+[+] XpexTransformPoint
+[+] XpexTransformPoint2D
+[+] XpexTranslate
+[+] XpexTranslate2D
+ 
+Misc. Functions [+] = Implemented, [o] = Not Implemented
+
+[+] XpexSetupColormap
+[+] XpexGetFloatingPointFormat
+[+] XpexSetFloatingPointFormat
+[+] XpexGetColorType
+[+] XpexSetColorType
+[+] XpexRenderOutputCmds
+[+] XpexStoreOutputCmds

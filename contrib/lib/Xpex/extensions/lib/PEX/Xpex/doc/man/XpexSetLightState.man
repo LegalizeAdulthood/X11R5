@@ -1,0 +1,173 @@
+.\" $Header: XpexSetLightState.man,v 2.5 91/09/11 16:03:30 sinyaw Exp $
+.\"
+.\"
+.\" Copyright 1991 by Sony Microsystems Company, San Jose, California
+.\" 
+.\"                   All Rights Reserved
+.\"
+.\" Permission to use, modify, and distribute this software and its
+.\" documentation for any purpose and without fee is hereby granted,
+.\" provided that the above copyright notice appear in all copies and
+.\" that both that copyright notice and this permission notice appear
+.\" in supporting documentation, and that the name of Sony not be used
+.\" in advertising or publicity pertaining to distribution of the
+.\" software without specific, written prior permission.
+.\"
+.\" SONY DISCLAIMS ANY AND ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+.\" INCLUDING ALL EXPRESS WARRANTIES AND ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS, FOR A PARTICULAR PURPOSE. IN NO EVENT
+.\" SHALL SONY BE LIABLE FOR ANY DAMAGES OF ANY KIND, INCLUDING BUT NOT
+.\" LIMITED TO SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES RESULTING FROM
+.\" LOSS OF USE, DATA OR LOSS OF ANY PAST, PRESENT, OR PROSPECTIVE PROFITS,
+.\" WHETHER IN AN ACTION OF CONTRACT, NEGLIENCE OR OTHER TORTIOUS ACTION, 
+.\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS 
+.\" SOFTWARE.
+.\"
+.\" 
+.\"
+.\"
+.\"
+.TH XpexSetLightState 3PEX "$Revision: 2.5 $" "Sony Microsystems"
+.AT
+.SH "Name"
+XpexSetLightState \-
+.sp
+XpexSetDepthCueIndex \-
+.sp
+XpexSetColorApproxIndex \-
+.sp
+XpexSetRenderingColorModel \-
+.sp
+XpexSetParaSurfChar \- Set Parametric Surface Characteristics
+.SH "Synopsis"
+.nf
+void XpexSetLightState(dpy, enable, num_enable, disable, num_disable)
+.br
+	Display *dpy;
+.br
+	XpexTableIndex *enable;
+.br
+	int num_enable;
+.br
+	XpexTableIndex *disable;
+.br
+	int num_disable;
+.sp
+void XpexSetDepthCueIndex(dpy, index)
+.br
+	Display  *dpy;
+.br
+	XpexTableIndex index;
+.sp
+void XpexSetColorApproxIndex(dpy, index)
+.br
+	Display *dpy;
+.br
+	XpexTableIndex index;
+.sp
+void XpexSetRenderingColorModel(dpy, model)
+.br
+	Display *dpy;
+.br
+	XpexEnumTypeIndex model;
+.sp
+void XpexSetParaSurfChar(dpy, psc)
+.br
+	Display *dpy;
+.br
+	XpexParaSurfChar *psc;
+.fi
+.SH "Arguments"
+.IP \fIdpy\fP 1i
+Specifies a pointer to the Display structure;
+returned from XOpenDisplay.
+.IP \fIenable\fP 1i
+[ To be added ]
+.IP \fInum_enable\fP 1i
+[ To be added ]
+.IP \fIdisable\fP 1i
+[ To be added ]
+.IP \fInum_disable\fP 1i
+[ To be added ]
+.IP \fIindex\fP 1i
+[ To be added ]
+.IP \fIpsc\fP 1i
+[ To be added ]
+.SH "Description"
+When processed by a renderer, \fIXpexSetLightState\fP will modify the 
+renderer's light_state attribute.  The current light_state is modified 
+by activating ("turning on") each light whose index is specified in the 
+enable list, and deactivating ("turning off") each light source whose
+index is specified in the disable list.
+.SH "Structures"
+typedef struct {
+.br
+	int psc_type;
+.br
+	XpexPscDataRecord rec;
+.br
+} XpexParaSurfChar;
+.sp
+typedef union {
+.br
+	XpexPscDataRec3 type3;
+.br
+	XpexPscDataRec4 type4;
+.br
+	XpexPscDataRec5 type5;
+.br
+} XpexPscDataRecord;
+.sp
+typedef struct {
+.br
+	int placement_type;
+.br
+	int num_curves_in_u_dir;
+.br
+	int num_curves_in_v_dir;
+.br
+} XpexPscDataRec3;
+.sp
+typedef struct {
+.br
+	XpexCoord3D mc_origin;
+.br
+	XpexVector3D mc_dir_vec;
+.br
+	XpexListOfCoord3D intersections;
+.br
+} XpexPscDataRec4;
+.sp
+typedef struct {
+.br
+	XpexCoord3D wc_origin;
+.br
+	XpexVector3D wc_dir_vec;
+.br
+	XpexListOfCoord3D intersections;
+.br
+} XpexPscDataRec5;
+.sp
+typedef struct {
+.br
+	XpexFloat x;
+.br
+	XpexFloat y;
+.br
+	XpexFloat z;
+.br
+} XpexCoord3D;
+.sp			
+typedef struct {
+.br
+	XpexFloat x;
+.br
+	XpexFloat y;
+.br
+	XpexFloat z;
+.br
+} XpexVector3D;
+.SH "Errors"
+Structure, Renderer, FloatingPointFormat, OutputCommand, Value
+.SH "Related Commands"
+To be added

@@ -1,0 +1,53 @@
+JL_DIC_SAVE( )
+
+名称
+
+	jl_dic_save()		指定された辞書をセーブする。
+	jl_dic_save_e()		指定された辞書をセーブする。
+
+	jl_dic_save_all		全ての辞書をセーブする。
+	jl_dic_save_all_e	全ての辞書をセーブする。
+
+形式
+
+	#include "jllib.h"
+
+	int
+	jl_dic_save(buf,dic_no)
+	struct wnn_buf *buf;		/* バッファ */
+	int     dic_no;			/* 辞書番号 */
+
+	int
+	jl_dic_save_e(env,dic_no)
+	struct wnn_env *env;		/* 環境 */
+	int     dic_no;			/* 辞書番号 */
+
+	int
+	jl_dic_save_all(buf)
+	struct wnn_buf *buf;		/* バッファ */
+
+	int
+	jl_dic_save_all_e(env)
+	struct wnn_env *env;		/* 環境 */
+
+機能
+
+	jl_dic_save、jl_dic_save_e は、辞書番号 dic_no で指定された辞書、および
+	付随する頻度ファイルをセーブする。
+
+	jl_dic_save_all は、バッファ buf 内のすべての辞書、及び付随する頻度ファ
+	イルをセーブする。
+	jl_dic_save_all_e は、環境 env 内のすべての辞書、及び付随する頻度ファイ
+	ルをセーブする。
+
+	辞書がローカルファイルの場合はサーバ側へセーブする。
+	ローカルファイルでない場合はクライアント側へファイルをダウンロードする。
+
+	頻度ファイルがあれば、ローカルファイルの場合はサーバ側へセーブする。
+	ローカルファイルの場合はクライアント側へファイルをダウンロードする。
+
+リターンバリュー
+
+	正常終了時には、0を返す。
+	異常終了時には、-1 を返す。
+

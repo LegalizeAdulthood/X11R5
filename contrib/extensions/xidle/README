@@ -1,0 +1,59 @@
+The Xidle server extension returns the time since last input event.
+This extension determines whether someone is doing work at the X display.
+The CONDOR(*) system uses xidle as an indicator of whether the workstation
+is actively being used.
+
+I implemented this extension primarily for CONDOR, but it potentially
+has other uses.  For example, it could be used to automatically lock
+the display if a user inadvertently left himself logged in.
+
+INSTALLATION
+
+  1. Install the xidle code in the extensions subdirectory.
+     tar cf - extensions | (cd /src/X11/mit; tar xvpf -)
+
+  2. Install the additional components into the Imakefiles
+     cd to the /src/X11/mit directory.
+     Patch the Imakefiles with "patch -p < Imake.patch"
+
+  3. Edit the site.def file to add -DXIDLE to the BaseExtensionDefines.
+     Make sure that your mit/config/site.def has a line such as the
+     one below.
+
+#define BaseExtensionDefines -DSHAPE -DMULTIBUFFER -DMITMISC -DXIDLE PexDefines ShmDefines XInputDefines
+
+  4. Rebuild the extensions.
+     cd /src/X11/mit/extensions
+     make Makefiles
+     make depend
+     make
+
+  4. Rebuild the server.
+     cd /src/X11/mit/server/ddx/mi
+     rm miinitext.o   (These steps are necessary since -DXIDLE is
+     make Makefile     required when compiling server/ddx/mi/miinitext.c)
+     make depend
+     cd /src/X11/mit/server
+     make
+
+EXAMPLE
+    Look at extensions/test/xidletest.c for an example of how to use xidle.
+
+CAVEATS
+    Generally xdm grabs the server during the login process for security
+    reasons.  If Xidle is used during this time, the connection will start
+    but will soon block because the server is grabbed.  If used often
+    enough, the server will exhaust its file descriptors and future
+    connection attempts will fail.  Once the server grab is released, the
+    server will recover gracefully.  You must either account for grabbed
+    servers in your application, or find some way to have a secure xdm
+    session without grabbing the server.
+
+(*) CONDOR is a system that schedules batch jobs on idle workstations.
+
+AUTHOR
+          Tim Theisen           Systems Programmer
+Internet: tim@cs.wisc.edu       Department of Computer Sciences
+    UUCP: uwvax!tim             University of Wisconsin-Madison
+   Phone: (608)262-0438         1210 West Dayton Street
+     FAX: (608)262-9777         Madison, WI   53706

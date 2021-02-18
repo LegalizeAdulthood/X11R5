@@ -1,0 +1,53 @@
+#WLDL
+3
+
+6 XcuWlm
+18
+6 shadow 5 (False) 6 Global
+16 brightFacetColor 14 (LightSteelBlue) 6 Global
+13 dimFacetColor 9 (SteelBlue) 6 Global
+16 Label.background 5 (wheat) 6 Global
+20 Label.internalHeight 2 (10) 6 Global
+19 Label.internalWidth 2 (10) 6 Global
+18 Button.borderColor 5 (white) 6 Global
+17 Button.background 5 (wheat) 6 Global
+21 Button.internalHeight 2 (10) 6 Global
+20 Button.internalWidth 2 (10) 6 Global
+19 Command.borderColor 5 (white) 6 Global
+18 Command.background 5 (wheat) 6 Global
+22 Command.internalHeight 2 (10) 6 Global
+21 Command.internalWidth 2 (10) 6 Global
+15 Tbl.interHeight 2 (10) 6 Global
+18 Tbl.internalHeight 2 (10) 6 Global
+14 Tbl.interWidth 2 (10) 6 Global
+17 Tbl.internalWidth 2 (10) 6 Global
+0
+0
+1
+
+  6 XcuTbl
+  0
+  0
+  0
+  3
+
+    10 XcuCommand
+    1
+    4 name 4 (Set2) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    1
+    4 name 4 (Set1) 5 Local
+    0
+    0
+    0
+
+    7 Command
+    1
+    4 name 4 (Exit) 5 Local
+    0
+    0
+    0

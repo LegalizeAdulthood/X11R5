@@ -1,0 +1,141 @@
+#
+# $Id: xj.msg.ja_JP,v 1.2 1991/09/16 21:35:33 ohm Exp $
+#
+#
+# Copyright 1989, 1990, 1991 by OMRON Corporation
+# Copyright 1991 by Massachusetts Institute of Technology
+#
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the names of OMRON and MIT not be used in
+# advertising or publicity pertaining to distribution of the software without
+# specific, written prior permission.  OMRON and MIT make no representations
+# about the suitability of this software for any purpose.  It is provided
+# "as is" without express or implied warranty.
+#
+# Wnn consortium is one of distributors of the official Wnn source code
+# release.  Wnn consortium also makes no representations about the
+# suitability of this software for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+# OMRON, MIT AND WNN CONSORTIUM DISCLAIM ALL WARRANTIES WITH REGARD TO
+# THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+# FITNESS, IN NO EVENT SHALL OMRON, MIT OR WNN CONSORTIUM BE LIABLE FOR ANY
+# SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+# RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+# CONTRACT, NEGLIGENCE OR OTHER TORTUOUS ACTION, ARISING OUT OF OR IN
+# CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+00	前に戻る
+01	品詞選択
+02	キャンセル
+03	次ページ
+04	前ページ
+05	 はい 
+06	いいえ
+07	ＯＫ？
+08	実行
+09	パラメータ変更
+10	解析文節数
+11	小文節の最大数
+12	頻度重み
+13	小文節長重み
+14	自立語長重み
+15	最近使用状況重み
+16	辞書優先度重み
+17	小文節の評価値重み
+18	大文節長重み
+19	小文節数重み
+20	数字の頻度
+21	カナの頻度
+22	英数の頻度
+23	記号の頻度
+24	閉括弧の頻度
+25	付属語の頻度
+26	開括弧の頻度
+27	現在
+28	文節解析法を用いています。
+29	何文節解析法を用いますか ?
+30	現在の
+31	は
+32	です、
+33	幾つにしますか ? 
+34	数字を入力してください。
+35	正の数字を入力してください。
+36	辞書検索
+37	辞書削除
+38	使用/不使用
+39	コメント
+40	残念、辞書が多すぎます。
+41	辞書一覧
+42	辞書が一つも有りません。
+43	使用中
+44	中断中
+45	付属語ファイル
+46	付属語ファイル名を入力して下さい
+47	辞書追加
+48	次へ
+49	新しい辞書名を入力して下さい
+50	頻度ファイル名を入力して下さい
+51	辞書の優先度の数字を指定して下さい
+52	辞書を更新するモードで使いますか?
+53	頻度を更新するモードで使いますか?
+54	No.
+55	Type
+56	こめんと
+57	ファイル名
+58	頻度ファイル名
+59	語彙数
+60	優先度
+61	登録可能
+62	頻度更新可能
+63	使用中か
+64	登録パスワード
+65	頻度更新パスワード
+66	 はありません。
+67	削除
+68	使用/不使用
+69	検索
+70	読み
+71	そのような語はありません。
+72	デフォルトのuumkeyが異常です。
+73	を展開できません。
+74	のキーが二重定義です。
+75	初期化でmalloc不能。
+76	環境変数「HOME」が異常です。
+77	辞書
+78	を削除します。
+79	の使用を中止します。
+80	の使用を再開します。
+81	コメントを入力してください。
+82	固定形式の辞書のエントリは削除出来ません。
+83	リードオンリーの辞書のエントリは削除出来ません。
+84	「
+85	」を削除します。
+86	リードオンリーの頻度で変更出来ません。
+87	」の使用を再開します。
+88	」の使用を中止します。
+89	固定形式辞書のエントリのコメントは変更出来ません。
+90	リードオンリー辞書のエントリのコメントは変更出来ません。
+91	コメントを入力してください。
+92	辞書登録
+93	登録はじめ:
+94	登録おわり:
+95	読み:
+96	品詞:
+97	辞書:
+98	    辞書    
+99	登録可能形式の辞書が一つもありません。
+100	登録範囲が長過ぎます。
+101	デフォルトのuumrcがありません。
+102	辞書ファイル
+103	が無いよ。
+104	作る?(Y/N)
+105	頻度ファイル
+106	辞書と頻度
+107	の整合性が無いよ。作り直す?(Y/N)
+108	password_file
+109	を作りました。
+110	directry

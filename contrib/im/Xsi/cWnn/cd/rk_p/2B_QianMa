@@ -1,0 +1,23 @@
+;
+; $Id: 2B_QianMa,v 1.1 1991/09/11 02:30:50 ohm Exp $
+;
+(defvar str (list 	0 1 2 3 4 5 6 7 8 9 [ ] ; ? \
+		a b c d e f g h i j k l m n o p q r s t u v w x y z))
+
+(if strk0)(str)  (str)	'A'
+'A'	(off strk0)(on strk1)
+(if strk1)(str)  (str)	'B'
+'B' 	(off strk1)(on strk2)
+(if strk2)(str)  (str)	'C'
+'C'		'\x9E'	'T'
+'T'	(off strk1)(off strk2)(on strk0)
+
+(if strk1)'R'  '\x08''\x08'	  'S'	; 'R': BS_key
+(if strk2)'R'  '\x08'	  'S'
+(if strk0)'R'  '\x08'	
+(unless strk0)'\x20'	'\x9E'	'T'	; 0x89: Transfer
+						; 0x20: space key
+'\x9f'	'\x9f'		'T'			; 0x9f: Certification
+
+(if strk2)'S'	(off strk2)(on strk1)
+(if strk1)'S'	(off strk1)(on strk0)

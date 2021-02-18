@@ -1,0 +1,8 @@
+       INCLUDES = $(XCUINCFLAG)
+           SRCS = xtbl.c
+LOCAL_LIBRARIES = $(XCULIB) $(XAWLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+AllTarget(xtbl)
+SingleProgramTarget(xtbl,xtbl.o,$(LOCAL_LIBRARIES),)
+
+DependTarget()

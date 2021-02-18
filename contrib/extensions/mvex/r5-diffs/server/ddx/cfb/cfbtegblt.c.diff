@@ -1,0 +1,53 @@
+Mklinks subprocess -- rcsdiff -c -rR5-Vanilla -rR5-Mvex-r1 server/ddx/cfb/RCS/cfbtegblt.c,v 
+*** 1.5	1991/09/24 03:38:49
+--- 1.6	1991/09/24 03:39:37
+***************
+*** 145,156 ****
+  
+  	    while (hTmp--)
+  	    {
+! 		x = xpos;
+  		width = wtmp;
+-  	        xtemp = 0;
+  
+  		while (width > 0)
+  		{
+  		    tmpx = x & PIM;
+  		    w = min(width, PPW - tmpx);
+  		    w = min(w, (32 - xtemp));
+--- 145,169 ----
+  
+  	    while (hTmp--)
+  	    {
+! 		register unsigned int *dst = pdst + xpos,
+! 				      glyphbits = *(unsigned int *)pglyph;
+  		width = wtmp;
+  
++ #if (PPW == 1)
+  		while (width > 0)
+  		{
++ #if BITMAP_BIT_ORDER == MSBFirst
++ 		    *dst++ = (glyphbits & 0x80000000) ? fgfill : bgfill;
++ 		    glyphbits <<= 1;
++ #else BITMAP_BIT_ORDER == LSBFirst
++ 		    *dst++ = (glyphbits & 1) ? fgfill : bgfill;
++ 		    glyphbits >>= 1;
++ #endif BITMAP_BIT_ORDER
++ 		    width--;
++ 		}
++ #else (PPW != 1)
++ 		while (width > 0)
++ 		{
+  		    tmpx = x & PIM;
+  		    w = min(width, PPW - tmpx);
+  		    w = min(w, (32 - xtemp));
+***************
+*** 168,173 ****
+--- 181,187 ----
+  		    xtemp += w;
+  		    width -= w;
+  		}
++ #endif PPW
+  		pglyph += widthGlyph;
+                  pdst += widthDst;
+  	    }

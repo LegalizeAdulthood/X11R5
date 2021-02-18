@@ -1,0 +1,51 @@
+#define DoNormalLib YES
+#include <Library.tmpl>
+
+      INCLUDES = -I../include -I.
+      CCOPTIONS = PexCCOptions -DMPEX
+
+HEADERS = pex_features.h pex_macros.h h \
+	  pl_ref_data.h pl_ref_data.h \
+	  pex_color_size.h floatdef.h  \
+	  MPEX.h MPEXprotostr.h MPEXlib.h \
+	  MPEXproto.h  PEXocbuf.h PEXoc.h PEXprotost.h \
+	  PEXlibint.h
+
+SRCS =  pl_font.c pl_free.c pl_mpex.c pl_lut.c pl_nameset.c \
+        pl_oc_attr.c pl_oc_buff.c pl_oc_prim.c pl_oc_struct.c  \
+        pl_rdr.c pl_startup.c pl_struct.c pl_utl.c 
+	
+
+OBJS =  pl_font.o pl_free.o pl_mpex.o pl_lut.o pl_nameset.o pl_oc_attr.o \
+        pl_oc_buff.o pl_oc_prim.o pl_oc_struct.o pl_pc.o pl_rdr.o \
+        pl_startup.o pl_struct.o pl_utl.o 
+
+
+LibraryObjectRule()
+
+#if DoNormalLib
+NormalLibraryTarget(PEX,$(OBJS))
+InstallLibrary(PEX,$(USRLIBDIR))
+#endif
+#if DoProfileLib
+ProfiledLibraryTarget(PEX,$(OBJS))
+InstallLibrary(PEX_p,$(USRLIBDIR))
+#endif
+#if DoDebugLib
+DebuggedLibraryTarget(PEX,$(OBJS))
+InstallLibrary(PEX_d,$(USRLIBDIR))
+#endif
+
+LintLibraryTarget(PEX,$(SRCS))
+InstallLintLibrary(PEX,$(LINTLIBDIR))
+
+InstallMultiple($(HEADERS),$(INCDIR))
+
+#ifdef HasSaberC
+saber_src:
+	XCOMM load $(CFLAGS) $(SRCS)
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

@@ -1,0 +1,231 @@
+#include <Library.tmpl>
+
+#ifdef NormalLibraryObjectRule
+#undef NormalLibraryObjectRule
+#endif /* NormalLibraryObjectRule */
+#ifdef nec_ews_risc
+#define NormalLibraryObjectRule()					@@\
+.c.o:									@@\
+	$(RM) $@							@@\
+	$(CC) -c -S $(CFLAGS) $*.c					@@\
+	$(CC) -c -O -nocpp $*.s						@@\
+	$(RM) $*.s
+#else
+#define NormalLibraryObjectRule()					@@\
+.c.o:									@@\
+	$(RM) $@							@@\
+	$(CC) -c $(CFLAGS) $*.c
+#endif
+
+#if BuildXnwBC
+   XAWBCDEFINES = -DXAW_BC
+#endif
+        DEFINES = -DSHAPE -DXT_BC $(XAWBCDEFINES)
+      IROHAROOT = ../..
+       INCLUDES = -I. -I$(IROHAROOT) -I$(IROHAROOT)/include
+#      INCLUDES = -I. -I$(TOOLKITSRC) -I$(TOP) -I$(TOP)/X11
+   INSTALLFLAGS = $(INSTINCFLAGS)
+       LINTLIBS = $(LINTXLIB) $(LINTXTOOL)
+
+      USRLIBDIR = $(DESTDIR_BASE)/usr/lib
+         INCDIR = $(DESTDIR_BASE)/usr/include/X11
+
+HEADERS = \
+	AsciiSink.h \
+	AsciiSinkP.h \
+	AsciiSrc.h \
+	AsciiSrcP.h \
+	AsciiText.h \
+	AsciiTextP.h \
+	Box.h \
+	BoxP.h \
+	Cardinals.h \
+	Clock.h \
+	ClockP.h \
+	Command.h \
+	CommandP.h \
+	Dialog.h \
+	DialogP.h \
+	Form.h \
+	FormP.h \
+	Grip.h \
+	GripP.h \
+	Label.h \
+	LabelP.h \
+	List.h \
+	ListP.h \
+	Logo.h \
+	LogoP.h \
+	Mailbox.h \
+	MailboxP.h \
+	MenuButton.h \
+	MenuButtoP.h \
+	Paned.h \
+	PanedP.h \
+	Scroll.h \
+	Scrollbar.h \
+	ScrollbarP.h \
+	Simple.h \
+	SimpleP.h \
+	SimpleMenu.h \
+	SimpleMenP.h \
+	Sme.h \
+	SmeP.h \
+	SmeBSB.h \
+	SmeBSBP.h \
+	SmeLine.h \
+	SmeLineP.h \
+	StripChart.h \
+	StripCharP.h \
+	Template.h \
+	TemplateP.h \
+	Text.h \
+	TextP.h \
+	TextSink.h \
+	TextSinkP.h \
+	TextSrc.h \
+	TextSrcP.h \
+	Toggle.h \
+	ToggleP.h \
+	Viewport.h \
+	ViewportP.h \
+	VPaned.h \
+	XawInit.h \
+	Xnw.h
+
+SRCS = \
+	AsciiSink.c \
+	AsciiSrc.c \
+	AsciiText.c \
+	Box.c \
+	Clock.c \
+	Command.c \
+        Convert.c \
+	Dialog.c \
+        DrawStr.c \
+	Form.c \
+	Grip.c \
+        Henkan.c \
+	Label.c \
+	List.c \
+	Logo.c \
+	Mailbox.c \
+	MenuButton.c \
+	Paned.c \
+	Scrollbar.c \
+	Simple.c \
+	SimpleMenu.c \
+	Sme.c \
+	SmeBSB.c \
+	SmeLine.c \
+	StripChart.c \
+	Text.c \
+	TextSink.c \
+	TextSrc.c \
+        TextAction.c \
+        TextPop.c \
+	TextTr.c \
+	Toggle.c \
+	Vendor.c \
+	Viewport.c \
+	XawInit.c \
+        Xnw.c
+
+OBJS = \
+	AsciiSink.o \
+	AsciiSrc.o \
+	AsciiText.o \
+	Box.o \
+	Clock.o \
+	Command.o \
+        Convert.o \
+	Dialog.o \
+        DrawStr.o \
+	Form.o \
+	Grip.o \
+        Henkan.o \
+	Label.o \
+	List.o \
+	Logo.o \
+	Mailbox.o \
+	MenuButton.o \
+	Paned.o \
+	Scrollbar.o \
+	Simple.o \
+	SimpleMenu.o \
+	Sme.o \
+	SmeBSB.o \
+	SmeLine.o \
+	StripChart.o \
+	Text.o \
+	TextSink.o \
+	TextSrc.o \
+        TextAction.o \
+	TextPop.o \
+	TextTr.o \
+	Toggle.o \
+	Vendor.o \
+	Viewport.o \
+	XawInit.o \
+        Xnw.o
+
+#if SharedLibXnw
+# if DebugLibXnw
+SharedAndDebuggedLibraryObjectRule()
+# else
+SharedLibraryObjectRule()
+# endif
+#else
+# if DebugLibXnw && ProfileLibXnw
+DebuggedAndProfiledLibraryObjectRule()
+# else
+# if DebugLibXnw
+DebuggedLibraryObjectRule()
+#  else
+#   if ProfileLibXnw
+ProfiledLibraryObjectRule()
+#   else
+NormalLibraryObjectRule()
+#   endif
+#  endif
+# endif
+#endif
+
+#if SharedLibXnw
+NormalSharedLibraryTarget(Xnw,$(SOXAWREV),$(OBJS))
+InstallSharedLibrary(Xnw,$(SOXAWREV),$(USRLIBDIR)/X11)
+#endif
+
+NormalLibraryTarget(Xnw,$(OBJS))
+LintLibraryTarget(Xnw,$(SRCS))
+InstallLibrary(Xnw,$(USRLIBDIR)/X11)
+InstallLintLibrary(Xnw,$(LINTLIBDIR))
+
+#if ProfileLibXnw
+ProfiledLibraryTarget(Xnw,$(OBJS))
+InstallLibrary(Xnw_p,$(USRLIBDIR)/X11)
+#endif
+
+#if DebugLibXnw
+DebuggedLibraryTarget(Xnw,$(OBJS))
+#endif
+
+#if defined(CrayArchitecture) && defined(CrayUsingSCC)
+/**/# Cray SCC optimizer is broken
+SpecialObjectRule(Paned.o,  ,-hnoopt)
+#endif
+
+/*
+BuildIncludes($(HEADERS),Xaw,..)
+MakeDirectories(install,$(INCDIR)/Xaw)
+InstallMultiple($(HEADERS),$(INCDIR)/Xaw)
+*/
+
+#if InstallOldHeaderFiles 
+/* Make links for old programs that need to be converted. */ 
+LinkFileList(install,$(HEADERS),$(INCDIR),Xaw)
+#endif
+
+DependTarget()
+
+NormalLintTarget($(SRCS))

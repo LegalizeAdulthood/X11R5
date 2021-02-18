@@ -1,0 +1,79 @@
+Copyright (c) 1991 by Carnegie Mellon University, Pittsburgh, PA.  The
+Software Engineering Institute (SEI) is a federally funded research and
+development center established and operated by Carnegie Mellon University
+(CMU).  Sponsored by the U.S.  Department of Defense under contract
+F19628-90-C-0003, the SEI is supported by the services and defense agencies,
+with the U.S. Air Force as the executive contracting agent.
+
+Permission to use, copy, modify, distribute, or sell this software and its
+documentation for any purpose and without fee is hereby granted, provided that
+the above copyright notice appear in all copies and that both that copyright
+notice and this permission notice appear in supporting documentation.
+Further, the names Software Engineering Institute or Carnegie Mellon
+University may not be used in advertising or publicity pertaining to
+distribution of the software without specific, written prior permission.  CMU
+makes no claims or representations about the suitability of this software for
+any purpose.  This software is provided "as is" and no warranty, express or
+implied, is made by the SEI or CMU, as to the accuracy and functioning of the
+program and related program material, nor shall the fact of distribution
+constitute any such warranty.  No responsibility is assumed by the SEI or CMU
+in connection herewith.
+
+All C source changes are controlled by compilation switches. The modified
+Imakefile has all switches turned on. Imakefile, xmh.man and Xmh.ad are also
+modified.
+
+xmh-mods-R5-1.0 is context diffs that can applied to the xmh sources with
+patch.
+
+	patch < xmh-mods-R5-1.0
+
+Xmh has been tested and used at the SEI with all compilation switches on.
+There has been very limited testing of a version built by applying only a
+subset of the changes.
+
+Comments and problems with these modifications can be mailed to
+xmh-bugs@sei.cmu.edu. 
+
+All modifications are controlled by the compilation switches list below.
+
+------------------------------------------------------------------------------
+
+EDITOR:
+
+Permit the use of an external editor. The syntax is like xrn's
+
+Xmh.editorCommand:      	gnu -i -w 80x35+100+20 %s
+Xmh.editorCommand:      	xterm -e vi %s
+
+If the external editor is GNU there is a "xmh.el" file (adapted from mh.el)
+supplied that supports inserting any message or if the composition is a reply
+inserting the current message.
+
+------------------------------------------------------------------------------
+
+ANNOTATE:  
+
+Support MH annotations.
+
+------------------------------------------------------------------------------
+
+APPEND:
+
+Append a message to a file.  The code was adapted from xrn.
+
+------------------------------------------------------------------------------
+
+FCC:
+
+Update the toc scan if the folder is a target of an fcc. This is
+primarily for those that do an Fcc +inbox as it avoids a rescan.  
+
+------------------------------------------------------------------------------
+
+FIX:
+
+Remove draft messages that generate errors on scan. Mail composition
+fails if a poorly formed draft is left in the +drafts folder.
+
+

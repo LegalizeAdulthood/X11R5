@@ -1,0 +1,40 @@
+JS_WORD_SEARCH( )
+
+名称
+
+	js_word_search		辞書から単語を検索する。
+	js_word_search_by_env	環境の内の全ての辞書から単語を検索する。
+
+形式
+
+	#include "jslib.h"
+
+	int
+	js_word_search(env,dic_no,yomi,ret)
+	struct wnn_env *env;		/* 環境 */
+	int     dic_no;			/* 辞書番号 */
+	w_char *yomi;			/* 読み */
+	struct wnn_ret_buf *ret;
+
+	int
+	js_word_search_by_env(env,yomi,ret)
+	struct wnn_env *env;		/* 環境 */
+	w_char *yomi;			/* 読み */
+	struct wnn_ret_buf *ret;
+
+機能
+
+	js_word_search は、辞書番号 dic の辞書から読み yomi で指定される項目を
+	検索する。
+
+	js_word_search_by_env は、環境 env の全ての辞書から読み yomi で指定され
+	る項目を検索する。
+
+	読みの長さは、256文字以下である。
+	検索結果は、ret->buf から struct wnn_jdata の配列が項目数だけ返される。
+
+リターンバリュー
+
+	正常終了時には、検索された項目数を返す。
+	異常終了時には、-1 を返す。
+

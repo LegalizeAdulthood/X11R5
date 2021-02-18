@@ -1,0 +1,42 @@
+/* -------------------------------------------------------------------- */
+/* definition part, better if moved to X11/config/... 			*/
+/* -------------------------------------------------------------------- */
+
+#ifndef	DictSrc
+#define DictSrc(basename) basename.tit
+#endif
+
+#ifndef	DictObj
+#define DictObj(basename) basename.cit
+#endif
+
+#ifndef	MakeDicts
+#define	MakeDicts()							@@\
+all::  $(OBJS)								@@\
+									@@\
+clean::									@@\
+	$(RM) *.cit
+#endif /* MakeDicts */
+
+#ifndef	DictTarget
+#define	DictTarget(basename)						@@\
+DictObj(basename): DictSrc(basename)					@@\
+	$(DICTC) $(DICTCFLAGS) $? > $@
+#endif /* DictTarget */
+
+#ifndef	DictCompilerFlags
+#define DictCompilerFlags
+#endif
+
+    DICTCFLAGS = DictCompilerFlags
+         DICTC = $(TITTOCITSRC)/tit2cit
+
+/* -------------------------------------------------------------------- */
+/* template part, better if moved to X11/config/... 			*/
+/* -------------------------------------------------------------------- */
+
+        CXTERMSRC = $(TOP)/cxterm
+          DICTSRC = $(TOP)/dict
+      TITTOCITSRC = $(DICTSRC)/tit2cit
+    IMAKE_DEFINES = -I$(TOP)/..
+

@@ -1,0 +1,10 @@
+1
+0
+Elvis Presley\nreturns from dead\nwith amazing new\nUFO\nsex diet
+
+# DATA GOES ABOVE THIS LINE
+
+First line contains number of widgets to modify, followed by
+For each widget to modify,
+	the number of the widget to modify (0 to n-1)
+	the new label

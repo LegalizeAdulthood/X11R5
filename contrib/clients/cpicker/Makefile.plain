@@ -1,0 +1,35 @@
+CFLAGS= -g
+CC= cc
+LIBS = -lXaw -lXt -lXmu -lX11 -lXext -lm
+
+all: cpicker pixedit
+
+clean:
+	rm -f cpicker pixedit *.o
+
+saber_src:
+	#load -Dvolatile= $(CFLAGS) cpicker.c color.c Slide.c Bargraph.c Cpick.c $(LIBS)
+
+cpicker: cpicker.o color.o Bargraph.o Slide.o Cpick.o
+	cc $(CFLAGS) -o cpicker cpicker.o color.o Slide.o Bargraph.o Cpick.o $(LIBS)
+
+pixedit: pixedit.o color.o Bargraph.o Slide.o Cpick.o
+	$(CC) $(CFLAGS) -o pixedit pixedit.o color.o Slide.o Bargraph.o Cpick.o $(LIBS)
+
+cpicker.o: Cpick.h
+	$(CC) $(CFLAGS) -c cpicker.c
+
+pixedit.o: Cpick.h
+	$(CC) $(CFLAGS) -c pixedit.c
+
+color.o: color.h
+	$(CC) $(CFLAGS) -c color.c
+
+Slide.o: Slide.h SlideP.h Bargraph.h BargraphP.h
+	$(CC) $(CFLAGS) -c Slide.c
+
+Bargraph.o: Bargraph.h BargraphP.h
+	$(CC) $(CFLAGS) -c Bargraph.c
+
+Cpick.o: Cpick.h CpickP.h Slide.h color.h Bargraph.h SlideP.h BargraphP.h CpickP.h Cpick.h
+	$(CC) $(CFLAGS) -c Cpick.c

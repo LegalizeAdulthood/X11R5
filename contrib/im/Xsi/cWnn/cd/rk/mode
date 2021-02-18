@@ -1,0 +1,25 @@
+;
+; $Id: mode,v 1.1 1991/09/11 02:30:27 ohm Exp $
+;
+(search /usr/local/lib/cwnn/rk)
+
+(defmode YIN  on) 
+	(defmode PY on) (defmode ZY)
+(defmode ASCII	)
+	(defmode ban_jiao on) (defmode quan_jiao)
+(defmode BX )	
+	(defmode WuBi on) (defmode CangJie ) 
+	(defmode strk0  on) (defmode strk1) (defmode strk2) (defmode strk3)
+2A_CTRL
+(if  YIN
+   (if PY    1B_TOUPPER   2P_QuanPin  2P_RongCuo   2Z_tail_pin   "È«Æ´:P")
+   (if ZY    1Z_ZhuYin  1B_TOUPPER  2Z_ZhuYin  2Z_tail "×¢Òô:Z")
+)
+(if  BX
+    (if WuBi   1B_BS  1B_TOLOWER  2B_WuBi   2Z_tail_ma  "Îå±Ê:W")
+    (if CangJie  "²Öò¡:Q")
+)
+(if  ASCII
+        (if ban_jiao            "°ë½Ç:")
+        (if quan_jiao           3B_quanjiao    "È«½Ç:")
+)

@@ -1,0 +1,5 @@
+Mri.wcChildren:		fsb
+Mri.title:		M11_FSB
+
+*fsb.wcConstructor:	XmCreateFileSelectionBox
+*fsb.dirMask:		Mri

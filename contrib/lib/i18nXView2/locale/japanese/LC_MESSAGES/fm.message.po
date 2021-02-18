@@ -1,0 +1,399 @@
+# @(#)fm.message.po 1.3 90/11/06; SMI
+#
+domain "fm.message"
+#
+# fm.cmd.c: line number: 275
+msgid "Printing File(s)..."
+msgstr "ファイルをプリント中..."
+#
+# fm.cmd.c: line number: 933
+msgid "Appended to %s"
+msgstr "%s に追加"
+#
+# fm.cmd.c: line number: 936
+msgid "Sorry, only %d commands allowed"
+msgstr " %d コマンドしか使えません。"
+#
+# fm.cmd.c: line number: 1068
+msgid "Unable to get clipboard"
+msgstr "クリップボードがゲットできません。"
+#
+# fm.drag.c: line number: 77
+msgid "Unable to open %s"
+msgstr " %s をオープンできません。"
+#
+# fm.drag.c: line number: 102
+msgid "Unable to open %s"
+msgstr " %s をオープンできません。"
+#
+# fm.drag.c: line number: 184
+msgid "Drop; but no filename"
+msgstr "終了。ただし、ファイル名がありません。"
+#
+# fm.drag.c: line number: 255
+msgid "Do you really wish to create a new mail file?"
+msgstr "本当に新しいメールファイルを作成しますか？"
+#
+# fm.drag.c: line number: 699
+msgid "Too many selections to transfer.  Select fewer and try again"
+msgstr "転送するには選択数が多すぎます。選択数を少なくしてもう一度試してください。"
+#
+# fm.file.c: line number: 1896
+msgid "Unable to open %s"
+msgstr " %s をオープンできません。"
+#
+# fm.file.c: line number: 1943
+msgid "Unable to rename %s"
+msgstr " %s をリネームできません。"
+#
+# fm.file.c: line number: 1965
+msgid "Unable to rename %s"
+msgstr " %s をリネームできません。"
+#
+# fm.file.c: line number: 2304
+msgid "Looking for machines on local network..."
+msgstr "ローカル・ネットワーク上でマシンを検索中..."
+#
+# fm.find.c: line number: 326
+msgid "After"
+msgstr "後ろに"
+#
+# fm.find.c: line number: 331
+msgid "Before"
+msgstr "前に"
+#
+# fm.font.c: line number: 245
+msgid "Can't create server image"
+msgstr "サーバ・イメージを作成できません。"
+#
+# fm.glob.c: line number: 308
+msgid "Sorry, can't create new window; try deleting some windows"
+msgstr "新しいウィンドウを作成できません。ウィンドウをいくつか削除してください。"
+#
+# fm.glob.c: line number: 309
+msgid "Out of memory"
+msgstr "メモリが不足"
+#
+# fm.glob.c: line number: 310
+msgid "Can't open folder '%s': %s"
+msgstr " '%s' フォルダをオープンできません。: %s"
+#
+# fm.glob.c: line number: 311
+msgid "Sent files to printer"
+msgstr "プリンタにファイルを送りました"。
+#
+# fm.glob.c: line number: 312
+msgid "Can't create '%s': %s"
+msgstr " '%s' を作成できません。: %s"
+#
+# fm.glob.c: line number: 313
+msgid "Can't remove '%s': %s"
+msgstr " '%s' を消去できません。: %s"
+#
+# fm.glob.c: line number: 314
+msgid "Deleting '%s' will move you to '%s', continue?"
+msgstr " '%s' を削除すると、'%s' に移ります。続けますか？"
+#
+# fm.glob.c: line number: 315
+msgid "You must select something first"
+msgstr "あらかじめ何かを選択しておかなければなりません。"
+#
+# fm.glob.c: line number: 316
+msgid "Link"
+msgstr "リンク"
+#
+# fm.glob.c: line number: 317
+msgid "%sing '%s' from clipboard..."
+msgstr "クリップボードから '%s' を %s 中..."
+#
+# fm.glob.c: line number: 318
+msgid "Please press Load button first"
+msgstr "最初にロード・ボタンを押してください。"
+#
+# fm.glob.c: line number: 319
+msgid "Mov"
+msgstr "移動"
+#
+# fm.glob.c: line number: 320
+msgid "%s to '%s' succeeded"
+msgstr " '%s' に対する %s が成功しました。"
+#
+# fm.glob.c: line number: 321
+msgid "Copy"
+msgstr "コピー"
+#
+# fm.glob.c: line number: 322
+msgid "Move"
+msgstr "移動"
+#
+# fm.glob.c: line number: 323
+msgid "Can't read '%s': %s"
+msgstr " '%s' を読み取れません。: %s"
+#
+# fm.glob.c: line number: 324
+msgid "Can't copy '%s'"
+msgstr " '%s' をコピーできません。"
+#
+# fm.glob.c: line number: 325
+msgid "Are you sure you want to remove these file(s)?"
+msgstr "本当にこの（これらの）ファイルを削除してもよいですか？"
+#
+# fm.glob.c: line number: 326
+msgid "Removing '%s' failed: %s"
+msgstr " '%s' を消去できませんでした。: %s"
+#
+# fm.glob.c: line number: 327
+msgid "Undeleting '%s' failed: %s"
+msgstr " '%s' を復活できませんでした。: %s"
+#
+# fm.glob.c: line number: 328
+msgid "Sorry, '%s' already exists"
+msgstr " '%s' はすでに存在します。"
+#
+# fm.glob.c: line number: 329
+msgid "Renaming '%s'..."
+msgstr " '%s' を消去中..."
+#
+# fm.glob.c: line number: 330
+msgid "You don't have permission to rename '%s' in this fol\der"
+msgstr "パーミッションがないのでこのフォルダ内の '%s' をリネームできません。"
+#
+# fm.glob.c: line number: 331
+msgid "Can't display more than %d files"
+msgstr " %d 以上のファイルは表示できません。"
+#
+# fm.glob.c: line number: 332
+msgid "Can't find '%s'"
+msgstr " '%s' が見つかりません。"
+#
+# fm.glob.c: line number: 333
+msgid "Can't rename '%s': %s"
+msgstr " '%s' リネームできません。: %s"
+#
+# fm.glob.c: line number: 334
+msgid "Invalid '%s' date; try month/day/year, eg 12/25/88"
+msgstr "'%s'が無効。月/日/年（例：12/25/88）の形式で指定してください。"
+#
+# fm.glob.c: line number: 335
+msgid "%s is not a valid owner name"
+msgstr "%s は有効なオーナー名ではありません。"
+#
+# fm.glob.c: line number: 336
+msgid "Will search from current folder: '%s'"
+msgstr "カレント・フォルダから検索します。: '%s'"
+#
+# fm.glob.c: line number: 337
+msgid "Ran out of pty's:  Find aborted"
+msgstr "ptyが足りなくなりました。:  Findを終了します。"
+#
+# fm.glob.c: line number: 338
+msgid "Illegal character '%c' in filename"
+msgstr "ファイル名に正しくない文字 '%c' があります。"
+#
+# fm.glob.c: line number: 339
+msgid "filemgr: seln_create() failed; Restart selection ser\vice\n"
+msgstr "ファイルマネージャ: seln_create() 失敗。セレクション・サービスを再開してください。\n"
+#
+# fm.glob.c: line number: 340
+msgid "%s these file(s) by opening the target folder and se\lecting 'Paste'"
+msgstr "ターゲット・フォルダをオープンし 'Paste' を選択してこれらのファイルを%sします。"
+#
+# fm.glob.c: line number: 341
+msgid "No selection on clipboard"
+msgstr "クリップボードには何も選択されていません。"
+#
+# fm.glob.c: line number: 342
+msgid "'%s' has been modified"
+msgstr "'%s' が修正されました。"
+#
+# fm.glob.c: line number: 343
+msgid "Please set Show Hidden Files"
+msgstr "隠しファイル表示を設定してください。"
+#
+# fm.glob.c: line number: 344
+msgid "Command failed; check console or cmdtool for errors"
+msgstr "コマンド失敗。console または cmdtool にエラーがないかチェックしてください。"
+#
+# fm.glob.c: line number: 345
+msgid "Can't run '%s': %s"
+msgstr "'%s'を実行できません。: %s"
+#
+# fm.glob.c: line number: 346
+msgid "Starting '%s'; errors may display on console or cmdtool"
+msgstr "'%s' を起動。console または cmdtool にエラーが表示されることがあります。"
+#
+# fm.glob.c: line number: 347
+msgid "This operation may take some time..."
+msgstr "この操作は若干時間がかかることがあります..."
+#
+# fm.glob.c: line number: 348
+msgid "Operation Stopped"
+msgstr "処理を停止します。"
+#
+# fm.glob.c: line number: 349
+msgid "Yes"
+msgstr "はい"
+#
+# fm.glob.c: line number: 350
+msgid "No"
+msgstr "いいえ"
+#
+# fm.glob.c: line number: 351
+msgid "%s linked to %s"
+msgstr "%s を %s にリンク。"
+#
+# fm.glob.c: line number: 352
+msgid "Searching..."
+msgstr "検索中..."
+#
+# fm.glob.c: line number: 353
+msgid "%d file(s) found"
+msgstr "%d 個のファイルが見つかりました。"
+#
+# fm.glob.c: line number: 354
+msgid "Nothing found"
+msgstr "なにも見つかりませんでした。"
+#
+# fm.glob.c: line number: 355
+msgid "Find stopped"
+msgstr "検索を停止しました。"
+#
+# fm.glob.c: line number: 356
+msgid "Illegal/obsolete syntax in %s"
+msgstr "%s に無効または古い構文が使用されています。"
+#
+# fm.glob.c: line number: 357
+msgid "Wastebasket Full"
+msgstr "くずかごがいっぱいです。"
+#
+# fm.glob.c: line number: 358
+msgid "Missing %c"
+msgstr "%c が抜けています。"
+#
+# fm.glob.c: line number: 359
+msgid "Appended to folder %s"
+msgstr "フォルダ %s に追加しました。"
+#
+# fm.glob.c: line number: 360
+msgid "Type checking %d files (%d documents)..."
+msgstr "%d 個のファイル(%d 個のドキュメント)のタイプをチェック中..."
+#
+# fm.glob.c: line number: 361
+msgid "Do you want to start this application in a shelltool?"
+msgstr "シェルツール内でこのアプリケーションを実行しますか？"
+#
+# fm.glob.c: line number: 362
+msgid "Save changes to %s?"
+msgstr "変更内容を %s にセーブしますか？"
+#
+# fm.glob.c: line number: 363
+msgid "You have unsaved edits, what do you want to do?"
+msgstr "編集内容がセーブされていません。どうしますか？"
+#
+# fm.glob.c: line number: 364
+msgid "Save edits"
+msgstr "セーブする"
+#
+# fm.glob.c: line number: 365
+msgid "Discard edits"
+msgstr "廃棄する"
+#
+# fm.glob.c: line number: 366
+msgid "Cancel"
+msgstr "キャンセル"
+#
+# fm.glob.c: line number: 367
+msgid "Multiple selections: click property to activate"
+msgstr "複数の選択: プロパティをクリックして起動"
+#
+# fm.glob.c: line number: 368
+msgid "Unknown owner"
+msgstr "未知のオーナー"
+#
+# fm.glob.c: line number: 369
+msgid "Unknown group"
+msgstr "未知のグループ"
+#
+# fm.glob.c: line number: 370
+msgid "Entry"
+msgstr "エントリ"
+#
+# fm.glob.c: line number: 371
+msgid "Delete all files in wastebasket?"
+msgstr "くずかごのファイルをすべて削除しますか？"
+#
+# fm.info.c: line number: 435
+msgid "Can't show properties on network machine"
+msgstr "ネットワーク・マシン上のプロパティは表示できません。"
+#
+# fm.main.c: line number: 242
+msgid "Warning: Could not change to new start directory %s"
+msgstr "警告: 新しい開始ディレクトリ %s に変更できませんでした。"
+#
+# fm.main.c: line number: 245
+msgid "Warning: Invalid new start directory"
+msgstr "警告: 新しい開始ディレクトリが正しくありません。"
+#
+# fm.main.c: line number: 256
+msgid "Warning: Invalid interval. Setting default"
+msgstr "警告: インターバルが無効。デフォルトに設定します。"
+#
+# fm.main.c: line number: 261
+msgid "Warning: No interval value given for -a option"
+msgstr "警告: -a オプションにインターバル値が指定されていません。"
+#
+# fm.main.c: line number: 353
+msgid "Do you want to delete files in the wastebasket?"
+msgstr "ごみ箱のファイルを削除しますか？"
+#
+# fm.main.c: line number: 361
+msgid "Invalid Terminate Request Received: %d"
+msgstr "正しくない終了要求を受け取りました。: %d"
+#
+# fm.regex.c: line number: 59
+msgid "Missing %c"
+msgstr "%cが抜けています。"
+#
+# fm.regex.c: line number: 131
+msgid "Missing %c"
+msgstr "%cが抜けています。"
+#
+# fm.seln.c: line number: 116
+msgid "Too many selections to transfer.  Select fewer and try again"
+msgstr "転送するには選択数が多すぎます。選択数を少なくしてもう一度試してください。"
+#
+# fm.tree.c: line number: 146
+msgid "Lucida font unavailable, using frame font"
+msgstr "Lucida フォントは使えません。フレーム・フォントを使用します。"
+#
+# fm.tree.c: line number: 921
+msgid "Out of memory. Changing to path view."
+msgstr "メモリが足りません。パス表示に変更します。"
+#
+# fm.tree.c: line number: 1856
+msgid "> 32 levels deep"
+msgstr "> 32 レベル"
+#
+# fm.waste.c: line number: 124
+msgid "Do you want to delete files in the wastebasket?"
+msgstr "ごみ箱のファイルを削除しますか？"
+#
+# fm.waste.c: line number: 131
+msgid "Invalid Terminate Request Received: %d"
+msgstr "無効な終了要求を受け取りました。: %d"
+#
+# fm.waste.c: line number: 206
+msgid " exists.  Overwrite?"
+msgstr " はすでにあります。重ね書きしますか？"
+#
+# fm.waste.c: line number: 228
+msgid "Cannot drop folder \"%s\" onto itself"
+msgstr "フォルダ \"%s\" をそれ自身に落とすことはできません。"
+#
+# fm.waste.c: line number: 260
+msgid "Can't move folders across filesystems; please copy them first and delete originals"
+msgstr "ファイル・システム間でフォルダを移動することはできません。まずコピーをしてから、オリジナルを削除してください。"
+#
+# fm.waste.c: line number: 442
+msgid "Reusing first folder popup"
+msgstr "最初のフォルダ・ポップアップを再利用します。"

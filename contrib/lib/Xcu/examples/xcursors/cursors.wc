@@ -1,0 +1,663 @@
+#WLDL
+3
+
+6 XcuWlm
+6
+16 brightFacetColor 9 (SlateBlue) 6 Global
+13 dimFacetColor 13 (DarkSlateBlue) 6 Global
+10 foreground 5 (Black) 6 Global
+18 Command.background 9 (Goldenrod) 6 Global
+22 Command.internalHeight 2 (10) 6 Global
+10 facetWidth 1 (5) 6 Global
+0
+0
+1
+
+  6 XcuTbl
+  3
+  10 background 5 (White) 5 Local
+  12 equalColumns 4 (True) 5 Local
+  12 formatString 21 (padding(5);c c c c c.) 5 Local
+  0
+  0
+  80
+
+    10 XcuCommand
+    2
+    6 cursor 5 (xterm) 5 Local
+    4 name 5 (xterm) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (watch) 5 Local
+    4 name 5 (watch) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (ur_angle) 5 Local
+    4 name 8 (ur_angle) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (umbrella) 5 Local
+    4 name 8 (umbrella) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (ul_angle) 5 Local
+    4 name 8 (ul_angle) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 4 (trek) 5 Local
+    4 name 4 (trek) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 7 (top_tee) 5 Local
+    4 name 7 (top_tee) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (top_side) 5 Local
+    4 name 8 (top_side) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 16 (top_right_corner) 5 Local
+    4 name 16 (top_right_corner) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 15 (top_left_corner) 5 Local
+    4 name 15 (top_left_corner) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 14 (top_left_arrow) 5 Local
+    4 name 14 (top_left_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (tcross) 5 Local
+    4 name 6 (tcross) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (target) 5 Local
+    4 name 6 (target) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 4 (star) 5 Local
+    4 name 4 (star) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (spraycan) 5 Local
+    4 name 8 (spraycan) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (spider) 5 Local
+    4 name 6 (spider) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (sizing) 5 Local
+    4 name 6 (sizing) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 7 (shuttle) 5 Local
+    4 name 7 (shuttle) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 17 (sb_v_double_arrow) 5 Local
+    4 name 17 (sb_v_double_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 11 (sb_up_arrow) 5 Local
+    4 name 11 (sb_up_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 14 (sb_right_arrow) 5 Local
+    4 name 14 (sb_right_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 13 (sb_left_arrow) 5 Local
+    4 name 13 (sb_left_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 17 (sb_h_double_arrow) 5 Local
+    4 name 17 (sb_h_double_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 13 (sb_down_arrow) 5 Local
+    4 name 13 (sb_down_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (sailboat) 5 Local
+    4 name 8 (sailboat) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (rtl_logo) 5 Local
+    4 name 8 (rtl_logo) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 11 (rightbutton) 5 Local
+    4 name 11 (rightbutton) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 9 (right_tee) 5 Local
+    4 name 9 (right_tee) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (right_side) 5 Local
+    4 name 10 (right_side) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 9 (right_ptr) 5 Local
+    4 name 9 (right_ptr) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 14 (question_arrow) 5 Local
+    4 name 14 (question_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 4 (plus) 5 Local
+    4 name 4 (plus) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (pirate) 5 Local
+    4 name 6 (pirate) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (pencil) 5 Local
+    4 name 6 (pencil) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (mouse) 5 Local
+    4 name 5 (mouse) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 12 (middlebutton) 5 Local
+    4 name 12 (middlebutton) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 3 (man) 5 Local
+    4 name 3 (man) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (lr_angle) 5 Local
+    4 name 8 (lr_angle) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (ll_angle) 5 Local
+    4 name 8 (ll_angle) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (leftbutton) 5 Local
+    4 name 10 (leftbutton) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (left_tee) 5 Local
+    4 name 8 (left_tee) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 9 (left_side) 5 Local
+    4 name 9 (left_side) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (left_ptr) 5 Local
+    4 name 8 (left_ptr) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (iron_cross) 5 Local
+    4 name 10 (iron_cross) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 4 (icon) 5 Local
+    4 name 4 (icon) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (heart) 5 Local
+    4 name 5 (heart) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (hand2) 5 Local
+    4 name 5 (hand2) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (hand1) 5 Local
+    4 name 5 (hand1) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (gumby) 5 Local
+    4 name 5 (gumby) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 7 (gobbler) 5 Local
+    4 name 7 (gobbler) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (fleur) 5 Local
+    4 name 5 (fleur) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (exchange) 5 Local
+    4 name 8 (exchange) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (draped_box) 5 Local
+    4 name 10 (draped_box) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 11 (draft_small) 5 Local
+    4 name 11 (draft_small) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 11 (draft_large) 5 Local
+    4 name 11 (draft_large) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 12 (double_arrow) 5 Local
+    4 name 12 (double_arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (dotbox) 5 Local
+    4 name 6 (dotbox) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 3 (dot) 5 Local
+    4 name 3 (dot) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 13 (diamond_cross) 5 Local
+    4 name 13 (diamond_cross) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 9 (crosshair) 5 Local
+    4 name 9 (crosshair) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 13 (cross_reverse) 5 Local
+    4 name 13 (cross_reverse) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (cross) 5 Local
+    4 name 5 (cross) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (coffee_mug) 5 Local
+    4 name 10 (coffee_mug) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (clock) 5 Local
+    4 name 5 (clock) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 6 (circle) 5 Local
+    4 name 6 (circle) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (center_ptr) 5 Local
+    4 name 10 (center_ptr) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (box_spiral) 5 Local
+    4 name 10 (box_spiral) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 10 (bottom_tee) 5 Local
+    4 name 10 (bottom_tee) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 11 (bottom_side) 5 Local
+    4 name 11 (bottom_side) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 19 (bottom_right_corner) 5 Local
+    4 name 19 (bottom_right_corner) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 18 (bottom_left_corner) 5 Local
+    4 name 18 (bottom_left_corner) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (bogosity) 5 Local
+    4 name 8 (bogosity) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 4 (boat) 5 Local
+    4 name 4 (boat) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 14 (based_arrow_up) 5 Local
+    4 name 14 (based_arrow_up) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 16 (based_arrow_down) 5 Local
+    4 name 16 (based_arrow_down) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 5 (arrow) 5 Local
+    4 name 5 (arrow) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (X_cursor) 5 Local
+    4 name 8 (X_cursor) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (X_cursor) 5 Local
+    4 name 8 (X_cursor) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (X_cursor) 5 Local
+    4 name 8 (X_cursor) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    2
+    6 cursor 8 (X_cursor) 5 Local
+    4 name 8 (X_cursor) 5 Local
+    0
+    0
+    0

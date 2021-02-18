@@ -1,0 +1,66 @@
+.TH XcuJustifyR 3X "\fBCornell University Widget Set\fR"
+.ad b
+.de}F    
+.ds)H Program of Computer Graphics
+.ev1
+.}E
+.if\\n()s 'sp |\\n(.pu-1v-1p
+.if\\n()t 'sp |\\n(.pu-3v
+.ifn 'sp |\\n(.pu-4v
+.tl\\*()H- % -\\*(]W
+'bp
+.ev
+..
+.SH NAME
+XcuJustifyR \- Justify Resource for XcuWidgets
+.sp
+.TS
+tab(;);
+|c s s s s|.
+_
+XcuJustify Resource
+.T&
+|lB |lB |lB |lB s|.
+_
+Name;Type;Converter Registration;Converts
+.T&
+|lB |lB |lB |lB cB|.
+ ; ; ;From;To
+=
+.T&
+|lB l l l l|.
+XtNjustify;XcuJustify;XcuAddStringToJustifyConverter();"left";XcuJUSTIFY_LEFT
+.T&
+|lB l l l l|.
+ ; ; ;"right";XcuJUSTIFY_RIGHT
+ ; ; ;"center";XcuJUSTIFY_CENTER
+_
+.TE
+.ne 4
+.SH DESCRIPTION
+\ 
+The XcuJustify resource is used by the XcuLabel widget to determine how
+to align multiple lines of text.
+.ne 4
+.SH NOTES
+\ 
+.br
+XcuAddStringToJustifyConverter() is
+automatically called by the class_initialize procedures of \fBXcuLabel\fR and
+\fBXcuTbl\fR.
+.sp
+Do not confuse this resource with XcuGravity.
+.ne 4
+.SH FUTURE ENHANCEMENTS
+\ 
+.br
+Accept a wider variety of strings.  E.g., in addition to "left", accept
+"Left", "XcuLeft", etc.
+.ne 4
+.SH AUTHOR
+\ 
+.br
+Gene Dykes, \fIgwd@freedom.graphics.cornell.edu\fR
+.br
+Program of Computer Graphics, Cornell University
+

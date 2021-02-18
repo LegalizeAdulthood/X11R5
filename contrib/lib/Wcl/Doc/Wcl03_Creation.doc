@@ -1,0 +1,271 @@
+Widget Creation Resources
+-------------------------
+
+The Widget Creation Library allows user interfaces to be completely
+defined within a resource file: the widget heirarchy, widget types, and
+bindings of widget callback lists and translations to application
+functions are specified in the resource file using Wc* resources.
+
+The following is the complete set of resources which are
+interpreted by the Widget Creation Library:
+
+     ...widget.wcResFile:      resourceFileName
+     ...widget.wcClass:        classPointerName
+     ...widget.wcClassName:    className
+     ...widget.wcConstructor:  constructorFunctionName
+     ...widget.wcTemplate:     template_resource_path
+     ...widget.wcTrace:        true/false (default = false)
+     ...widget.wcCallback:     callback1(args), callback2(args), ...
+     ...widget.wcPopups:       popupChildName1, popupChildName2, ...
+     ...widget.wcChildren:     childName1, childName2, ...
+     ...widget.wcManaged:      true/false (default = true)
+
+In all cases, the Widget Creation resource names can be specified as
+Wc<name> or wc<name>, with the capitalized form having looser binding
+(representing the resource class).
+
+Resources may be specified using either widget instance name, or
+widget class name. An exception are widget creation resources and
+wcResFile, where class name can not be used: the Widget Creation
+Library does not know the widget class name until the widget gets 
+created.
+
+WcResFile Resource
+------------------
+
+This resource allows you to put additional resource specifications
+related to a widget or its children in a separate file.  Like all
+widget creation resources, the WcResFile resource value is retrieved
+from the Xrm database at widget creation time.
+
+Before the widget is created, the specified resource file is loaded
+into the Xrm database, and then another query of the Xrm database is
+made to obtain the other Wc resources.  Therefore, all wc resources
+(except of course the WcResFile resource) and other widget resources
+may be specified in the new resource file.  
+
+WcClass, WcClassName, WcConstructor and WcTemplate Resources
+------------------------------------------------------------
+
+These resources allow you to specify the type of the widget.  Only one
+of these resources should be specified for each widget. If more than
+one of these resources is specified, they the first one according to
+the order above is used (and wcTrace issues a warning message).
+
+   WcClass           is the name of the widget class pointer
+   WcClassName       is the name of the widget class
+   WcConstructor     is the name of the convenience routine
+                     which creates a (hierarchy of) widget(s)
+
+   The names above must be presented to the Widget Creation Library
+   using appropriate registration function. The Wcl distribution
+   includes such registration for several widget sets.
+
+   WcTemplate        is the specification of the widget hierarchy
+                     in the Xrm database to instantiate.
+                     Specification must be a tightly bound name,
+                     such as "app.templates.dataform".
+
+   The details of template instantiation are described later in this
+   document.  
+
+WcTrace Resource
+----------------
+
+This resource is useful for debugging your user interface.  When `True'
+the full name and class name of the widget is printed to stderr right
+after the widget is created.
+
+WcCallback Resource
+-------------------
+
+This resource allows you to specify a list of callback functions
+which are invoked after the widget is created, and before it is
+managed.  The callback functions receive the newly created widget as
+their widget argument, and whatever is within the parenthesis following
+the callback function name as a string argument as client data.  For
+example:
+
+	*foo.wcCallback:	FooSpecialCB( Hi there )
+
+This specification will cause the function `FooSpecialCB' to be
+called.  The widget argument will be the newly created widget foo, and
+the client_data argument will be the null terminated character array "
+Hi there ".  The call_data is whatever was specified when the
+FooSpecialCB callback function was registered with
+WcRegisterCallback().
+
+This is generally how the interface can create related objects within
+the application.  For example, if your application has a storage
+object, each widget which provides storage related behaviors or
+attribute displays might register themselves with your application's
+storage object.
+
+WcPopups and WcChildren Resource
+--------------------------------
+
+After a widget is created, but before it is managed, all of its
+children are created: first the pop-up children, and then the normal
+children.  Only composite widgets can have normal children, but any
+widget can have pop-up children.   The names of children widgets are
+specified by the WcPopups and WcChildren resources.  The order of the
+names in the resource value indicate the left-to-right order of widget
+creation.  The names of the widgets in the example below imply the
+order of creation:
+
+	*foo.wcPopups:		ONE, TWO
+	*foo.wcChildren:	THREE, FOUR, FIVE
+
+Each widget creation is recursive, the widgets are created depth
+first.  I.e., the widget `ONE' and all of ONE's children will be
+created before widget `TWO' will be created.
+
+WcManaged Resource
+------------------
+
+This resource only applies to widgets specified in WcChildren resource
+specifications.  WcManaged allows you to specify that a child of a
+composite widget should not be managed following its creation.  By
+default, widgets specified with WcChildren are managed together with
+their siblings after all siblings are created.  Wc uses a single call
+to XtManageChildren when possible.
+
+
+How the Application Interacts with the Widget Creation Library 
+--------------------------------------------------------------
+
+The typical Wc client application (including Ari and Mri) will create
+an application shell and load the Xrm database by calling
+XtInitialize().  It will then register widgets, callbacks, and actions
+with the Wc library, and then pass the application shell to the
+WcWidgetCreation() function.  This function returns when the entire
+connected widget heirarchy specified in the Xrm database is created.
+The widget tree is realized, and then the XtMainLoop is entered.
+Briefly:
+
+	appShell = XtInitialize( ... );
+
+	/* Register widgets, callbacks, and actions */
+
+	WcWidgetCreation( appShell );
+	XtRealizeWidget( appShell );
+	XtMainLoop();
+
+When Resources are Loaded Into the Xrm Database
+-----------------------------------------------
+
+XtInitialize loads an initial set of resource files into the resource
+database before any widgets are created.  This initial database may
+contain references to other resource files by way of WcResFile resource
+specifications.  If a widget `Foo' has a resource specification like
+this:
+
+    *Foo.wcResFile:	FooResources
+
+then the resource file named FooResources will be merged into the
+resource database before the widget Foo is created.  In fact, several
+files named FooResources may be loaded, as the standard Xt resource
+file search and load is performed.  See section 2.2 and 11.11 of the
+X11R4 Xt Intrinsics - C Language Interface manual for more
+information.
+
+
+When Resources are Retrieved from the Xrm Database
+--------------------------------------------------
+
+Resources are retrieved from the Xrm resource database when widgets are
+created.  If the resource database changes after widget `Foo' is
+created, subsequent changes to the database will have absolutely no
+effect upon widget `Foo.'
+
+How Widgets Are Created from the Xrm Database
+---------------------------------------------
+
+The Widget Creation Library starts creating widgets when the
+WcWidgetCreation() function is called.  Here is the recursive
+scenario.  The initial widget is usually the application shell:
+
+    1.	Fetch the wcChildren resource from Xrm database for the
+	initial widget.  This will be a list of widget names.
+
+    2.	For each child: 
+
+    3.	Fetch the set of Wc resources.  
+
+    3a.	If wcResFile is specified, load that resource file and 
+	fetch the Wc resources again.
+
+    3b.	Using the wcClass, wcClassName, wcConstructor or wcTemplate
+        resource, create the new child widget.  Widget creation uses 
+        other resources defined in the Xrm database specific to the  
+	created widget instance, such as labelString for XmLabels.
+
+    3c. Re-fetch the Wc* resources to obtain resources which may
+	apply due to the class of the created widget.
+
+    3d.	If wcCallback resource is defined (specifying a list of
+	callback functions), invoke each callback in order.  
+
+    3e. If wcTrace is True, then dump the name of the just created
+	widget to stdout.
+
+    3f.	If wcManaged is True (the default), then this widget will be
+	managed along with all of its siblings, after they are all
+	created (a single call to XtManageChildren is invoked by Wc).
+
+    3f. If the newly created widget has wcPopups or wcChildren specified, 
+	then recursively invoke step (2.) above.  Note that this
+	implements a depth first creation policy, which is generally
+	optimal for widget trees with manager widget nodes.
+
+
+The resource files themselves have no explicit flow of control
+mechanisms.  However, the order of events during widget creation causes
+the resources to be evaluated in a deterministic and sometimes
+repetitive pattern.
+
+The most significant control over resource evaluation is the order that
+widgets are created.  Widget creation is ordered by the order of widget
+names in wcPopups and wcChildren resource lists.  The names of widgets in the
+example below reflects the order these widgets will be created.  The
+order of the resource specifications themselves are irrelevent to the
+order of creation:
+
+	Mri.wcChildren:			one, four
+	Mri.one.wcClassName:		XmRowColumn
+	Mri.one.wcChildren:		two, three
+	Mri.one.two.wcClassName:	XmLabel
+	Mri.one.three.wcClassName:	XmPushButton
+	Mri.four.wcConstructor:		XmCreateWorkingDialog
+
+Widgets can also be created after the initial widget tree.  For example,
+help dialogs may be dynamically created only when necessary, so an
+experienced user does not need to suffer the additional start-up time
+of creating a large number of widgets which are not needed, nor is
+memory or swap space consumed by the unnecessary widgets.
+
+Here are resources which demonstrate how a help dialog could be created
+due to a button press.  In this case, the newly created widget will
+become a child of the application shell (Mri if the resource file is
+being interpreted by Mri).  The resources for the help dialog are
+segregated into another set of resource files which are named
+`HelpDialogResources.'  The standard Xt resource file search path is
+used, so /usr/lib/X11/app-defaults/HelpDialogResources, ...,
+~/apps-defaults/HelpDialogResources, may be loaded into the Xrm
+database due to this one WcResFile specification:
+
+	/* in initial resource file: */
+	*helpButton.activateCallback:	WcCreatePopupsCB( Mri, helpDialog )
+	*helpDialog.wcResFile:		HelpDialogResources
+
+	/* in HelpDialogResources: */
+	*helpDialog.wcConstructor:	XmCreateMessageDialog
+	*helpDialog.messageLabel:	Some help message...
+	*helpDialog.okCallback:		WcDestroyCB( this )
+
+Frequently, you probably want such dialogs to remain once they are
+created.  See the M5.Dialogs resource file for one way to do this.
+
+In the above example, notice that the resources specified in the
+HelpDialogResources file are unknown to the Xrm database until an
+attempt is made to create the helpDialog widget.

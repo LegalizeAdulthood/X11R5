@@ -1,0 +1,147 @@
+Writing Callback Functions
+--------------------------
+
+Your application will consist of two fairly independent parts: the
+resource file which describes the look and alot of the feel of the
+application, and the callbacks which you write in C (of course,
+you can use languages other than C, but C is probably the easiest).
+
+In order to bind the widgets created due to resource specifications
+to your callbacks implemented in C, you need to write the callbacks
+so they adhere to the standard Xt callback proc typedef, and you
+need to register your callbacks with the Widget Creation Library's
+string-to-callback converter.
+
+XtCallbackProc
+--------------
+
+As defined by the XtIntrinsics, widget callback procedures must match
+this typedef:
+
+typedef void (*XtCallbackProc)(
+#if NeedFunctionPrototypes
+    Widget              /* widget */,
+    XtPointer           /* closure */,  /* data the application registered */
+    XtPointer           /* call_data */ /* callback specific data */
+#endif
+);
+
+Here is an example callback proc which does nothing with its
+arguments:
+
+void MyExitCB ( w, ignored, unused )
+    Widget      w;
+    caddr_t     ignored;
+    caddr_t     unused;
+{
+    exit();
+}
+
+You must register this function with the Widget Creation Library
+before creating any widgets which might want to bind to it.
+In general, register your callbacks after calling XtInitialize()
+and before calling WcCreateWidgets().  Here is an example of
+how you register a callback:
+
+#define RCALL( name, func ) WcRegisterCallback ( app, name, func, NULL )
+
+    RCALL( "MyExitCB", MyExitCB );
+
+All registered callbacks can be bound to widget callback resources
+within the resource database.  For example:
+
+    *foo.activateCallback: MyExitCB
+
+Most callbacks really want to do something with the data they
+get as arguments.  The closure data, often called client data,
+can be specified as a string within the resource database.
+The string is passed as the second argument.  For example:
+
+void WcSystemCB ( w, shellCmdString, unused )
+    Widget      w;
+    char*       shellCmdString;
+    caddr_t     unused;
+{
+    system( shellCmdString );
+}
+
+Note that leading and trailing whitespace is now filtered out before
+the callback gets it.  For example, the resource specification:
+
+    *foo.activateCallback: WcSystemCB( echo Howdy )
+
+passes the string "echo Howdy" to the callback.  The resource 
+specification:
+
+    *foo.activateCallback: WcSystemCB( echo Howdy \
+				and hello thar)
+
+passes the string "echo Howdy \t\t\t\tand hello thar" (where `\t' means
+the tab character) to the callback.  Since the callbacks usually need
+to parse these argument strings, several Widget Creation Library
+functions are provided in the hope of making your life easier:
+
+char* WcCleanName( char* src, char* clean )
+-------------------------------------------
+
+This takes two pointers to char as arguments.  The leading whitespace
+characters from src are skipped, and then all characters up to but
+not including a whitespace are copied into the buffer pointed to by
+clean.  Note the caller must provide storage for clean.  The function
+returns a pointer to the first whitespace following what got copied
+to clean, so this function may be used in a loop.
+
+Widget WcFullNameToWidget ( Widget ref, char* name )
+----------------------------------------------------
+
+This function uses the reference Widget for relative naming, and to
+determine the widget tree for converting full pathnames to a widget.
+For example, one may need to get the actual widget which is named by
+"*Foo*bar.glorp"  The ref widget is used to find the root of the widget
+tree, and start the name search from there.
+
+The last component MUST be a widget instance name, it cannot be a
+widget class name.
+
+Ambiguous names are resolved as done by XtNameToWidget() upon which
+WcFullNameToWidget() is derived.
+
+Very frequently, one gets a name from an argument list using
+WcCleanName() and then passes that name on to WcFullNameToWidget in
+order to manipulate that widget.  For example:
+
+void MyPopupCB( w, name, unused )
+    Widget  w;
+    char*   name;
+    caddr_t unused;
+{
+    Widget widget;
+    char   clean[MAX_XRMNAME];
+
+    (void)WcCleanName ( name, cleanName );
+    widget = WcFullNameToWidget ( w, cleanName );
+
+    if (XtIsShell(widget))
+	 XtPopup  ( widget, XtGrabNonexclusive );
+}
+
+Efficiency Considerations
+-------------------------
+
+I know parsing string arguments on every callback invocation is not so
+incredibly efficient.  When Motif runs on Xt release 4, then I will
+re-write the string-to-widget converter so it caches the results, and
+then callbacks can invoke the caching converter.
+
+Also, if you are very interested in performance for a real application
+(after you have fleshed out the interface using Ari or Mri), you
+should write additional callbacks which are more intelligent, and
+detect being called repeatedly from the same widget with the same
+argument.
+
+You may want to consider using the XrmQuark functions for keeping
+track of strings as well.  XrmQuarks are effectively indexes into
+a string symbol table kept by Xrm (part of Xlib).  Doing comparisions
+and assingments using Quarks is substantially faster at run-time than
+using character strings.  XrmQuarkToString() and XrmStringToQuark()
+are used to convert between Quarks and Strings.

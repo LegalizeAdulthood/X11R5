@@ -1,0 +1,26 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988, 1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+DOBJS = layoutv.do layout.do fillerv.do filler.do boxview.do box.do
+IHFILES = layoutv.ih layout.ih fillerv.ih filler.ih boxview.ih box.ih
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicObject(layoutv,,)
+DynamicObject(layout,,)
+DynamicObject(fillerv,,)
+DynamicObject(filler,,)
+DynamicObject(boxview,,)
+DynamicObject(box,,)
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+InstallLink(runapp, ${DESTDIR}/bin/layout)
+
+DependTarget()
+
+MkdirTarget(${DESTDIR}/doc/atk/layout)
+NormalHelpRule()
+InstallDocs(layout.help, ${DESTDIR}/help)

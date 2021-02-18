@@ -1,0 +1,367 @@
+.NH 2
+ToggleLocale Widget
+.XS
+	ToggleLocale Widget
+.XE
+.IN "ToggleLocale widget" "" "@DEF@"
+.Ds 0
+.TA 2.0i
+.ta 2.0i
+.sp
+Application Header file	<Xaw/ToggleLc.h>
+.IN "ToggleLc.h" ""
+Class Header file	<Xaw/ToggleLcP.h>
+.IN "ToggleLcP.h" ""
+Class		toggleLocaleWidgetClass
+.IN "toggleLocaleWidgetClass" ""
+Class Name	ToggleLocale
+.IN "ToggleLocale widget" "class name"
+Superclass 	CommandLocale
+.sp
+.De
+.LP
+The ToggleLocale widget is an area, often rectangular, containing a text label
+or bitmap image.  This widget maintains a Boolean state (e.g.
+True/False or On/Off) and changes state whenever it is selected.  When
+the pointer is on the button, the button may become highlighted by
+drawing a rectangle around its perimeter.  This highlighting indicates
+that the button is ready for selection.  When pointer button 1 is
+pressed and released, the ToggleLocale widget indicates that it has changed
+state by reversing its foreground and background colors, and its
+\fBnotify\fP action is invoked, calling all functions on its callback
+list.  If the pointer is moved out of the widget before the button is
+released, the widget reverts to its normal foreground and background
+colors, and releasing the button has no effect.  This behavior allows
+the user to cancel an action.
+.LP
+ToggleLocale buttons may also be part of a radio group.  A radio group is a
+.IN "Radio groups" ""
+.IN "Radio button" ""
+.IN "ToggleLocale widget" "used in radio groups"
+list of at least two ToggleLocale buttons in which no more than one ToggleLocale may 
+be set at
+any time.  A radio group is identified by the widget ID of any one of
+its members.  The convenience routine \fBXawToggleLocaleGetCurrent\fP will
+return information about the ToggleLocale button in the radio group.
+.LP
+ToggleLocale widget state is preserved across changes in sensitivity.
+.NH 3
+Resources
+.LP
+When creating a ToggleLocale widget instance, the following resources are
+retrieved from the argument list or from the resource database:
+.LP
+.IN "ToggleLocale widget" "resources"
+.ps 9
+.nr PS 9
+.vs 11
+.nr VS 11
+.TS H
+expand;
+lw(1i) lw(1i) lw(1i) lw(.5i) lw(2i).
+_
+.sp 3p
+.TB
+Name	Class	Type	Notes	Default Value
+.sp 3p
+_
+.TH
+.R
+.sp 3p
+accelerators	Accelerators	AcceleratorTable		NULL
+ancestorSensitive	AncestorSensitive	Boolean	D	True
+background	Background	Pixel		XtDefaultBackground
+backgroundPixmap	Pixmap	Pixmap		XtUnspecifiedPixmap
+bitmap	Bitmap	Pixmap		None
+borderColor	BorderColor	Pixel		XtDefaultForeground
+borderPixmap	Pixmap	Pixmap		XtUnspecifiedPixmap
+borderWidth	BorderWidth	Dimension		1
+callback	Callback	XtCallbackList		NULL
+colormap	Colormap	Colormap		Parent's Colormap
+cornerRoundPercent	CornerRoundPercent	Dimension		25
+cursor	Cursor	Cursor		None
+cursorName	Cursor	String		NULL
+depth	Depth	int	C	Parent's Depth
+destroyCallback	Callback	XtCallbackList		NULL
+encoding	Encoding	UnsignedChar		XawTextEncoding8bit
+fontSet	FontSet	XFontSet		XtDefaultFontSet
+foreground	Foreground	Pixel		XtDefaultForeground
+height	Height	Dimension	A	FontSet height + 2 * \fBinternalHeight\fP
+highlightThickness	Thickness	Dimension	A	2 (0 if Shaped)
+insensitiveBorder	Insensitive	Pixmap		GreyPixmap
+internalHeight	Height	Dimension		2
+internalWidth	Width	Dimension		4
+justify	Justify	Justify		XtJustifyCenter (center)
+label	Label	String		name of widget
+leftBitmap	LeftBitmap	Bitmap		None
+mappedWhenManaged	MappedWhenManaged	Boolean		True
+pointerColor	Foreground	Pixel		XtDefaultForeground
+pointerColorBackground	Background	Pixel		XtDefaultBackground
+radioData	RadioData	Pointer		Name of widget
+radioGroup	Widget	Widget		No radio group
+resize	Resize	Boolean		True
+screen	Screen	Screen	R	Parent's Screen
+sensitive	Sensitive	Boolean		True
+shapeStype	ShapeStyle	ShapeStyle		Rectangle
+state	State	Boolean		Off
+translations	Translations	TranslationTable		See below
+width	Width	Dimension	A	\fBlabel\fP width + 2 * \fBinternalWidth\fP
+x	Position	Position		0
+y	Position	Position		0
+.sp 3p
+_
+.TE
+.ps 11
+.nr PS 11
+.vs 13
+.nr VS 13
+.Ac
+.As
+.Bg
+.Gp
+.Bm
+.Bc
+.Bp
+.Bw
+.Cb
+.Cm
+.Cr
+.Cu
+.Pn
+.Dp
+.Dc
+.Le
+.Ls
+.Lg
+.Hw
+.Ht 
+.Ib
+.Ih
+.Ju
+.Lm
+.Ll
+.Mm
+.Pf
+.Pb
+.IP \fBradioData\fP 1.5i
+Specifies the data that will be returned by \fBXawToggleLocaleGetCurrent\fP
+when this is the currently \fIset\fP widget in the radio group.  This
+value is also used to identify the ToggleLocale that will be set by a call to
+\fBXawToggleLocaleSetCurrent\fP.  The value NULL will be returned by
+\fBXawToggleLocaleGetCurrent\fP if no widget in a radio group is currently
+set.  Programmers must not specify NULL (or Zero) as \fBradioData\fP.
+.IP \fBradioGroup\fP 1.5i
+Specifies another ToggleLocale widget that is in the radio group to which this
+ToggleLocale widget should be added.  A radio group is a group of at least two Toggle
+widgets, only one of which may be \fIset\fP at a time.  If this value is
+NULL (the default) then the ToggleLocale will not be part of any radio group
+and can change state without affecting any other ToggleLocale widgets.  If the
+widget specified in this resource is not already in a radio group then a
+new radio group will be created containing these two ToggleLocale widgets.  No
+ToggleLocale widget can be in multiple radio groups.  The behavior of a radio
+group of one toggle is undefined.  A converter is registered which will
+convert widget names to widgets without caching.
+.Re
+.Sc
+.Se
+.Ss 
+.IP \fBstate\fP
+Specifies whether the ToggleLocale widget is set (\fBTrue\fP) or unset
+(\fBFalse\fP).
+.Tr
+.Xy
+.NH 3
+ToggleLocale Actions
+.IN "ToggleLocale widget" "actions"
+.LP
+The ToggleLocale widget supports the following actions:
+.IP \(bu 5
+Switching the button between the foreground and background
+colors with \fBset\fP and \fBunset\fP and \fBtoggle\fP
+.IP \(bu 5
+Processing application callbacks with \fBnotify\fP
+.IP \(bu 5
+Switching the internal border between highlighted
+and unhighlighted states with \fBhighlight\fP and \fBunhighlight\fP
+.LE
+.LP
+The following are the default translation bindings used by the
+ToggleLocale widget:
+.IN "ToggleLocale widget" "default translation table"
+.LP
+.sp
+.Ds 0
+.TA .5i 2.25i
+.ta .5i 2.25i
+	<EnterWindow>:	highlight(Always)
+	<LeaveWindow>:	unhighlight(\|)
+	<Btn1Down>,<Btn1Up>:	toggle(\|) notify(\|)
+.De
+.NH 3
+ToggleLocale Actions
+.LP
+The full list of actions supported by ToggleLocale is:
+.IP \fBhighlight\fP(\fIcondition\fP) 1.5i
+Displays the internal highlight border in the color (\fBforeground\fP
+or \fBbackground\fP ) that contrasts with the interior color of the
+ToggleLocale widget.  The conditions \fBWhenUnset\fP and \fBAlways\fP are
+understood by this action procedure.  If no argument is passed then
+\fBWhenUnset\fP is assumed.
+.IP \fBunhighlight\fP(\|) 1.5i
+Displays the internal highlight border in the color (\fBforeground\fP
+or \fBbackground\fP ) that matches the interior color of the
+ToggleLocale widget.  
+.IP \fBset\fP(\|) 1.5i
+Enters the \fIset\fP state, in which \fBnotify\fP is possible.  This
+action causes the button to display its interior in the
+\fBforeground\fP color.  The label or bitmap is displayed in the
+\fBbackground\fP color. 
+.IP \fBunset\fP(\|) 1.5i
+Cancels the \fIset\fP state and displays the interior of the button in the
+\fBbackground\fP color.  The label or bitmap is displayed in the
+\fBforeground\fP color.
+.IP \fBtoggle\fP(\|) 1.5i
+Changes the current state of the ToggleLocale widget, causing to be set
+if it was previously unset, and unset if it was previously set.
+If the widget is to be set, and is in a radio group then this procedure may 
+unset another ToggleLocale widget causing all routines on its callback list
+to be invoked.  The callback routines for the ToggleLocale that
+is to be unset will be called before the one that is to be set.
+.IP \fBreset\fP(\|) 1.5i
+Cancels any \fBset\fP or \fBhighlight\fP and displays the interior of the
+button in the \fBbackground\fP color, with the label displayed in the 
+\fBforeground\fP color.
+.IP \fBnotify\fP(\|) 1.5i
+When the button is in the \fBset\fP state this action calls all functions in
+the callback list named by the \fBcallback\fP resource.  The value of
+the call_data argument in these callback functions is undefined. 
+.LP
+.NT
+When a bitmap of depth greater that one (1) is specified the
+\fIset\fP(), \fIunset\fP(), and \fIreset\fP() actions have no effect,
+since there are no foreground and background colors used in a 
+multi-plane pixmap.
+.NE
+.NH 3
+Radio Groups
+.IN "Radio groups"
+.LP
+There are typically two types of radio groups desired by applications.
+The default translations for the ToggleLocale widget implement a "zero or one
+.IN "Radio groups" "zero or one of many"
+of many" radio group.  This means that there may be no more than one
+button active, but there need not be any buttons active.
+.LP
+The other type of radio group is "one of many" and has the more strict
+.IN "Radio groups" "one of many"
+policy that there will always be exactly one radio button active.
+ToggleLocale widgets can be used to provide this interface with a slight
+modification to the translation table of each ToggleLocale in the group.
+.Ds 0
+.TA .5i 2.25i
+.ta .5i 2.25i
+.sp
+	<EnterWindow>:	highlight(Always)
+	<LeaveWindow>:	unhighlight(\|)
+	<Btn1Down>,<Btn1Up>:	set(\|) notify(\|)
+.sp
+.De
+This translation table will not allow any ToggleLocale to be \fIunset\fP
+except as a result of another ToggleLocale becoming \fIset\fP.  It is
+the application programmer's responsibility to choose an initial
+state for the radio group by setting the \fBstate\fP resource of one of
+its member widgets to \fBTrue\fP.
+.NH 3
+Convenience Routines
+.LP
+The following functions allow easy access to the ToggleLocale widget's radio
+group functionality.
+.NH 4
+Changing the Toggle's Radio Group.
+.LP
+To enable an application to change the Toggle's radio group, add
+the ToggleLocale to a radio group, or remove the ToggleLocale from a radio group, use 
+\fBXawToggleLocaleChangeRadioGroup\fP.
+.IN "XawToggleLocaleChangeRadioGroup" "" "@DEF@"
+.sp 6p
+void XawToggleLocaleChangeRadioGroup(\fIw\fP, \fIradio_group\fP)
+.br
+     Widget \fIw\fP, \fIradio_group\fP;
+.FN
+.IP \fIw\fP 1i
+Specifies the ToggleLocale widget.
+.IP \fIradio_group\fP 1i
+Specifies any ToggleLocale in the new radio group.  If NULL then the Toggle
+will be removed from any radio group of which it is a member.
+.LP
+If a ToggleLocale is already \fIset\fP in the new radio group,
+and the ToggleLocale to be added is also \fIset\fP then the previously
+\fIset\fP ToggleLocale in the radio group is \fIunset\fP and its callback
+procedures are invoked.
+.SH
+Finding the Currently selected ToggleLocale in a radio group of Toggles
+.LP
+To find the currently selected ToggleLocale in a radio group of ToggleLocale widgets
+use 
+\fBXawToggleLocaleGetCurrent\fP.
+.IN "XawToggleLocaleGetCurrent" "" "@DEF@"
+.sp 6p
+XtPointer XawToggleLocaleGetCurrent(\fIradio_group\fP);
+.br
+     Widget \fIradio_group\fP;
+.FN
+.IP \fIradio_group\fP 1i
+Specifies any ToggleLocale widget in the radio group.
+.LP
+The value returned by this function is the
+.PN radioData
+of the ToggleLocale in this radio group that is currently set.  The default
+value for
+.PN radioData 
+is the name of that ToggleLocale widget.  If no ToggleLocale is set in the radio
+group specified then NULL is returned.
+.SH
+Changing the ToggleLocale that is set in a radio group.
+.LP
+To change the ToggleLocale that is currently set in a radio group use 
+\fBXawToggleLocaleSetCurrent\fP.
+.IN "XawToggleLocaleSetCurrent" "" "@DEF@"
+.sp 6p
+void XawToggleLocaleSetCurrent(\fIradio_group\fP, \fIradio_data\fP);
+.br
+     Widget \fIradio_group\fP;
+     XtPointer \fIradio_data\fP;
+.FN
+.IP \fIradio_group\fP 1i
+Specifies any ToggleLocale widget in the radio group.
+.IP \fIradio_data\fP 1i
+Specifies the 
+.PN radioData
+identifying the ToggleLocale that should be set in the radio group specified
+by the \fIradio_group\fP argument.
+.LP
+\fBXawToggleLocaleSetCurrent\fP locates the ToggleLocale widget to be set by
+matching \fIradio_data\fP against the \fBradioData\fP for each ToggleLocale in
+the radio group.  If none match, \fBXawToggleLocaleSetCurrent\fP returns
+without making any changes.  If more than one ToggleLocale matches,
+\fBXawToggleLocaleSetCurrent\fP will choose a ToggleLocale to set arbitrarily.  If
+this causes any ToggleLocale widgets to change state, all routines in their
+callback lists will be invoked.  The callback routines for a ToggleLocale that
+is to be unset will be called before the one that is to be set.
+.SH
+Unsetting all Toggles in a radio group.
+.LP
+To unset all ToggleLocale widgets in a radio group use
+\fBXawToggleLocaleUnsetCurrent\fP.
+.IN "XawToggleLocaleUnsetCurrent" "" "@DEF@"
+.sp 6p
+void XawToggleLocaleUnsetCurrent(\fIradio_group\fP);
+.br
+     Widget \fIradio_group\fP;
+.FN
+.IP \fIradio_group\fP 1i
+Specifies any ToggleLocale widget in the radio group.
+.LP
+If this causes a ToggleLocale widget to change state, all routines on its
+callback list will be invoked.
+

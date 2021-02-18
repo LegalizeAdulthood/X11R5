@@ -1,0 +1,94 @@
+This directory holds the source code and documentation for the latest
+release of the Elk.
+
+
+The file RELEASE explains the purpose and release status of the software;
+the file COPYRIGHT contains its copyright status and acknowledgements.
+
+CHANGES lists the changes between this and earlier releases.
+
+The file INSTALL in this directory explains how to compile and install
+the interpreter and the extensions and how to port the sources to
+machines and operating systems not supported by the current release.
+
+Read MACHINES for a list of machines on which the software has been
+tested and for additional machine-specific installation advice.
+
+
+All filenames mentioned in this road-map and in the INSTALL file are
+relative to this directory.
+
+
+src/   holds the source files of the interpreter proper.
+
+src/stack.s.*
+       the part of the interpreter that has to be written in assembly;
+       one version of src/stack.s for each supported machine type.
+       Not needed for the portable version.
+
+src/alloca.s.*
+       the implementation of the alloca() function for the supported
+       types of machines (if a file for a type of machine is empty,
+       alloca() will be taken from the C library).  Not needed for the
+       portable version.
+
+scm/   holds Scheme files that can be loaded into the interpreter
+       (either explicitly by means of "load" or automatically, such as
+       "toplevel" which is loaded on startup).
+
+lib/   holds the C files that represent extensions to the interpreter.
+       The corresponding .o-files can be loaded into the interpreter
+       during runtime (or, when your operating system doesn't support
+       dynamic linking of object files, be linked together statically
+       with the core interpreter).
+
+lib/xlib/
+       holds the Elk/Xlib extension (the part written in C).  It can be
+       loaded by evaluating "(require 'xlib)".
+
+lib/xt/
+       holds the Elk/Xt extension (the part written in C).  It can be
+       loaded by evaluating "(require 'xt)" or "(require 'motif)" or
+       "(require 'xwidgets)" if you want to use OSF/Motif- or Athena-
+       widgets, respectively.
+
+lib/xaw/
+lib/xm/
+      these directories hold the interfaces to the Athena and Motif
+      widgets, respectively.  Look into the demonstration programs to
+      see how individual widgets are loaded.
+
+      There is a file with the extension .d for each widget class.
+      "make" creates a C file for each .d-file which is then compiled to
+      a loadable .o-file.
+
+lib/util/
+      holds utility functions and include files used by the extensions.
+
+doc/
+      here you find the documentation for Elk.  Most of the documents
+      must be formatted using nroff or troff with the "ms" macros.
+      Postscript versions of the documents are included.  If you want
+      to format the files yourself, look into the Makefiles and into
+      doc/tmac/tmac.scheme first.
+
+doc/stack.txt
+      describes how to write a new src/stack.s for a new type of processor.
+
+examples/xlib/
+       holds a number of simple Scheme demonstrations programs that make
+       use of the Xlib extension.
+
+examples/xaw
+examples/xm
+       here you find a number of simple Scheme programs that demonstrate
+       the interface to Xt and the Athena and Motif widgets.
+
+examples/scheme/
+      holds a number of trivial Scheme test programs and other small
+      programs that have been obtained through USENET newsgroups, the
+      Scheme mailing list, and other sources.
+
+stk/  holds two small test programs that can be used to verify that
+      alloca() and the assembly functions in src/stack.s are working
+      correctly.

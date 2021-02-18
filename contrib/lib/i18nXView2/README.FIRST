@@ -1,0 +1,4 @@
+The "include" subdirectory has been shipped as a compressed tar file,
+since it contains symbolic links, which are not supported on all systems.
+You will need to uncompress and untar this directory before building:
+	zcat include.tar | tar xf -

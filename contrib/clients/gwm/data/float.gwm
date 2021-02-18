@@ -1,0 +1,80 @@
+;; package to have some windows always float on top of others
+;; toi use, just include (load 'float) in your .profile.gwm
+;; rwhitby@adl.austek.oz.au (Rod Whitby)
+;; Rod Whitby
+;; Austek Microsystems Pty. Ltd.
+;; Technology Park 
+;; Adelaide, SA 5095 Australia
+;; 
+;; ACSnet:	rwhitby@austek.oz	ARPA:	rwhitby@austek.oz.au
+;; UUCP:	uunet.uu.net!munnari!austek.oz.au!rwhitby
+;; 
+;; modified & integrated by colas Dec 27 90.
+
+;; Changes to the standard behaviour to add auto-raise functionality.
+
+(defaults-to
+  float.menupos 2
+  float.iconmenupos 2
+  float.menufont (font-make "*-symbol-medium-r-normal--14-*")
+  float.up "\xad"
+  float.down "\xaf"
+  float.no "\xbb"
+  )
+
+(if (= float.menufont font) (progn
+    (setq float.menufont (font-make "cursor"))
+    (: float.up "\x72")
+    (: float.down "\x6a")
+    (: float.no "\x2a")
+))
+
+(setq standard-behavior
+  (state-make
+    standard-behavior
+    (on visibility-fully-obscured
+      (if (= (# 'float window) 'up)
+	(raise-window))
+    )
+    (on visibility-partially-obscured
+      (if (# 'float window)
+	(if (= (# 'float window) 'up)
+	  (raise-window)
+	  (= (# 'float window) 'down)
+	  (lower-window)))
+    )
+    (on visibility-unobscured
+      (if (= (# 'float window) 'down)
+	(lower-window)))
+))
+
+(reparse-standard-behaviors)
+
+;; Now add some routines to the window menu to toggle floating
+
+(defun float.toggle (dir)
+    (## 'float window dir)))
+
+;; add toggle float menu item to window menu
+
+(insert-at '(multi-item-make
+    "Float: "
+    ()
+    ("Up" (float.toggle 'up))
+    ("Down" (float.toggle 'down))
+    ("No" (float.toggle ()))
+  )
+  window-pop-items
+  float.menupos)
+
+;; same with smaller labels for icon menu
+
+(insert-at '(multi-item-make
+    "Float: "
+    ()
+    ((label-make float.up float.menufont) (float.toggle 'up))
+    ((label-make float.down float.menufont) (float.toggle 'down))
+    ((label-make float.no float.menufont) (float.toggle ()))
+  )
+  icon-pop-items
+  float.iconmenupos)

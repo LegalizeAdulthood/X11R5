@@ -1,0 +1,20 @@
+/*
+ * $Id: README,v 1.2 1991/09/18 06:35:03 proj Exp $
+ */
+
+
+		Internationalized Wnn
+
+To build i18n-Wnn you should use the following commands:
+
+	% cd Xsi
+	% make World -f Makefile.ini
+
+After building, It can be installed in your local bin using:
+
+	% make install
+
+	See Wnn/READ.ME for more detail.
+
+Seiji Kuwari		kuwa@nff.ncl.omron.co.jp
+Omron Corporation

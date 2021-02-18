@@ -1,0 +1,286 @@
+The following is the format of fig output for Protocol version 2.0:
+
+(1) The very first line is a comment line containing the name and version:
+	#FIG 2.0
+
+    The character # at the first column of a line indicates that the line
+    is a comment line which will be ignored.
+
+(2) The first non-comment line consists of two numbers :
+
+	int	fig_resolution		(pixels/inch)
+	int	coordinate_system	(1 : origin is at the lower left corner
+					 2 : Upper left)
+
+    Fig_resolution is the resolution fig is using for the current file.
+    It may not be the same as screen resolution (which can be higher or
+    lower).  I assume that a pixel is square, therefore this number
+    represents drawing resolution in both direction.  I've experimented
+    with fig automatically changing this number according to the resolution
+    of the monitor it is running on (The screen resolution, width and height
+    in pixels, not pixel/inch, can be done by doing a ioctl on the /dev/fb).
+    I've found that for monitors with higher resolution but same size
+    (19" diagonal), I preferred using the pixels for other things than
+    having fig occupying most of the screen.  Thus I opted for a fixed
+    pixel-per-inch number which make fig window smaller on higher resolution
+    monitor (than the standard sun monitor).  This however may change in
+    the future version.
+
+(3) The rest of the file contains various objects.  An object can be one
+    of six classes (or types).
+
+	  i)	Ellipse which is a generalization of circle.
+	 ii)	Polyline which includes polygon and box.
+	iii)	Spline which includes closed/open control/interpolated spline.
+	 iv)	Text.
+	  v)	Arc.
+	 vi)	Compound object which is composed of one or more objects.
+
+    In the following elaboration on object formats, every value of fig
+    output are separated by blank characters or new line ('\n').  The
+    value of the not-used parameters will be -1.
+
+    A number of values are described as unused or not applicable to some
+    object even though they are defined for those objects.  These value
+    will (hopefully) be used in the future version of fig.  The intention
+    of their uses are the following.
+
+	Value			Usage
+	-----			-----
+	area_fill	The gray color for filling object internals.
+			Non-TFX:(gray color; 0=no fill,1=white,21=black)
+			TFX:	(gray color; 0=no fill,1=black, 5=white)
+
+	pen		This will be a structure defining the shape of
+			pen used in drawing objects.  It also includes
+			the the stipple pattern for line filling.
+			The default pen is a circular pen with black
+			filling.
+
+	thickness	Every pen has the thickness of one.
+			Thickness scales the size of a pen. 
+
+	depth		This value adds a half dimension to fig.
+			It is useful when we have overlapping filled
+			objects and we want one to obliterate another.
+			An object can have only one depth (including
+			compound object).  An object that is in less
+			depth can obscure the one with greater depth
+			if they overlap.
+	
+	style		Three line styles are defined.
+
+				0 : SOLID_LINE
+				1 : DASH_LINE
+				2 : DOTTED_LINE
+
+	style_val	For dash style, it is the length of a dash.
+			For dotted line it indicates the approximated
+			gap of consecutive dots. 
+	
+	radius		For rounded-corner boxes, this is the radius of
+			the corners.
+
+    (3.1) ELLIPSE
+
+    First line :
+	type	name			(brief description)
+	----	----			-------------------
+	int	object_code		(always 1)
+	int	sub_type		(1 : ellipse defined by radiuses
+					 2 : ellipse defined by diameters
+					 3 : circle defined by radius
+					 4 : circle defined by diameter)
+	int	style			(See the end of this section)
+	int	thickness		(pixels, not used)
+	int	color			(not used)
+	int	depth			(not used)
+	int	pen			(not used)
+	int	area_fill		(gray color)
+	float	style_val		(pixels, not used)
+	int	direction		(always 1)
+	float	angle			(radian, the angle of the x-axis)
+	int	center_x, center_y	(pixels)
+	int	radius_x, radius_y	(pixels)
+	int	start_x, start_y	(pixels; the 1st point entered)
+	int	end_x, end_y		(pixels; the last point entered)
+
+    (3.2) POLYLINE
+
+    First line :
+	type	name			(brief description)
+	----	----			-------------------
+	int	object_code		(always 2)
+	int	sub_type		(1 : polyline, 2 : box, 
+					 3 : polygon, 4 : rounded-corner box)
+	int	style			(See the end of this section)
+	int	thickness		(pixels, not used)
+	int	color			(not used)
+	int	depth			(not used)
+	int	pen			(not used)
+	int	area_fill	*	(gray color)
+	float	style_val		(pixels)
+	int	radius		**	(pixels, radius of rounded-corner boxes)
+	int	forward_arrow		(0: off, 1: on)
+	int	backward_arrow		(0: off, 1: on)
+
+*  Fill only available for box, polygon and rounded-corner box, not polyline.
+** This component exists only in rounded-corner box object.
+
+    Forward arrow line : same as ARC object
+
+    Backward arrow line : same as ARC object
+
+    Points line :
+	type	name			(brief description)
+	----	----			-------------------
+	int	x1, y1			(pixels)
+	int	x2, y2			(pixels)
+	  .
+	  .
+	int	xn, yn			(this will be the same as the 1st
+					point for polygon and box)
+	int	x, y			(always 9999, 9999; marks the end of
+					point for polygon and box)
+
+    (3.3) SPLINE
+
+    First line :
+	type	name			(brief description)
+	----	----			-------------------
+	int	object_code		(always 3)
+	int	sub_type		(0 : open spline
+					 1 : closed spline
+					 2 : open interpolated spline
+					 3 : closed interpolated spline)
+	int	style			(See the end of this section)
+	int	thickness		(pixels, not used)
+	int	color			(not used)
+	int	depth			(not used)
+	int	pen			(not used)
+	int	area_fill		(gray color)
+	float	style_val		(pixels, not used)
+	int	forward_arrow		(0: off, 1: on)
+	int	backward_arrow		(0: off, 1: on)
+
+    Forward arrow line : same as ARC object
+
+    Backward arrow line : same as ARC object
+
+    Points line : same as POLYLINE object
+
+    Control points line (absent if sub_type is 1 or 2) :
+	Control points of interpolated spline.  There are two control
+	points for each knots.  A section i, of the spline is drawn
+	using Bezier cubic with the following four points:
+		(x ,y ), (rx ,ry ), (lx	  , ly   ), (x   , y   ).
+		  i  i	    i	i      i+1    i+1     i+1   i+1
+	For closed interpolated spline the last pair of control points,
+	(lxn,lyn) and (rxn,ryn) (which can be ignored), are the same as
+	(lx1,ly1) and (rx1,ry1) respectively.
+
+	type	name			(brief description)
+	----	----			-------------------
+	float	lx1, ly1		(pixels)
+	float	rx1, ry1		(pixels)
+	float	lx2, ly2		(pixels)
+	float	rx2, ry2		(pixels)
+	  .
+	  .
+	float	lxn, lyn		(pixels)
+	float	rxn, ryn		(pixels)
+
+    (3.4) TEXT
+	type	name			(brief description)
+	----	----			-------------------
+	int	object 			(always 4)
+	int	sub_type		(0 : Left justified
+					 1 : Center justified
+					 2 : Right justified)
+	int	font 			(font number 0-...)
+	int	font_size 		(point size)
+	int	pen			(not used)
+	int	color			(not used)
+	int	depth			(not used)
+	float	angle			(radian, not used, the angle of the
+					the base line of the string)
+	int	font_style		(not used)
+	int	height			(pixels)
+	int	length			(pixels)
+	int	x, y			(pixels, coordinate of the origin
+					 of the string.  If sub_type = 0, it is
+					 the lower left corner of the string.
+					 If sub_type = 1, it is the lower
+					 center.  Otherwise it is the lower
+					 right corner of the string.)
+	char	string[]		(ascii characters; starts after a blank
+					character following the last number and
+					ends before the character '\1'.  This
+					character is not part of the string.
+					Note that the string may contain '\n'.)
+    (3.5) ARC
+
+    First line :
+	type	name			(brief description)
+	----	----			-------------------
+	int	object_code		(always 5)
+	int	sub_type		(always	1)
+	int	style			(See the end of this section)
+	int	line_thickness		(pixels, not used)
+	int	color			(not used)
+	int	depth			(not used)
+	int	pen			(not used)
+	int	area_fill		(gray color)
+	float	style_val		(pixels, not used)
+	int	direction		(0 : clockwise, 1 : counterclockwise)
+	int	forward_arrow		(0: no forward arrow, 1: on)
+	int	backward_arrow		(0: no forward arrow, 1: on)
+	float	center_x, center_y	(center of the arc)
+	int	x1, y1			(pixels, the 1st point the user entered)
+	int	x2, y2			(pixels, the 2nd point)
+	int	x3, y3			(pixels, the last point)
+
+    Forward arrow line (Optional; absent if forward_arrow is 0) :
+	type	name			(brief description)
+	----	----			-------------------
+	int	arrow_type		(not used)
+	int	arrow_style		(not used)
+	float	arrow_thickness		(not used)
+	float	arrow_width		(pixels)
+	float	arrow_height		(pixels)
+
+    Backward arrow line (Optional; absent if backward_arrow is 0) :
+	type	name			(brief description)
+	----	----			-------------------
+	int	arrow_type		(not used)
+	int	arrow_style		(not used)
+	float	arrow_thickness		(not used)
+	float	arrow_width		(pixels)
+	float	arrow_height		(pixels)
+
+    (3.6) COMPOUND
+
+    A line with object code 6 signifies the start of a compound.
+    There are four more numbers on this line which indicate the
+    upper right corner and the lower left corner of the bounding
+    box of this compound.  A line with object code -6 signifies
+    the end of the compound.  Compound may be nested.
+
+    First line :
+	type	name			(brief description)
+	----	----			-------------------
+	int	object_code		(always 6)
+	int	upperright_corner_x	(pixels)
+	int	upperright_corner_y	(pixels)
+	int	lowerleft_corner_x	(pixels)
+	int	lowerleft_corner_y	(pixels)
+
+    Subsequent lines :
+	objects
+	.
+	.
+
+    Last line :
+	-6
+
+

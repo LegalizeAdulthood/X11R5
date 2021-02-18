@@ -1,0 +1,272 @@
+XFEOAK(1)
+
+NAME
+    xfeoak - X window input server (kana-kanji covertion front end)
+
+SYNOPSIS
+    xfeoak [-display displayname] [-geometry geom] [-none] [-jis]
+    [-oyayubi] [-fg color] [-bg color] [-bd color] [-bw number]
+    [-bp bitmapfile] [-fn fontname] [-fk kanjifontname] [-verbose]
+
+DESCRIPTION
+
+    Xfeoak is Japanese input server for X Window System, which comunicates 
+    with Input method library (XIM) by XIMP protocol.
+    See XIMP protocol document  for detail specification.
+
+    The feature of xfeoak is as follows:
+    - Xfeoak deals with multi-dictionary to support popular conversion
+      engins and dictionaries. 
+    - With Fujitsu's extension of X window and the dictionary, xfeoak 
+      emulates OAK operations.
+      
+OPTION
+
+    -display display
+	Specify the display to be used.
+
+    -geometry geometry
+	Specify the size and position of the window.
+
+    -none
+	Specify to use general X server
+	This is the default value if -jis and -oyayubi option are ommited.
+
+    -jis
+	Specify to use JIS KeyBoard (it is valid only the case of Fujitsu's 
+	X server.)
+
+    -oya[yubi]
+	Specify to use OYAYUBI KeyBoard (it is valid only the case of 
+	Fujitsu's X server.)
+
+    -fg color
+	Specify the foreground color. The default is white.
+
+    -bg color
+	Specify the background color. The default is black.
+
+    -bd color
+	Specify the border color. The default is white.
+
+    -bw number
+	Specify the width of border in pixel.
+
+    -bp bitmap file name
+	Specify the pixmap for the window's background.
+	If you specify the file name ".", the same background as  
+	"X11/bitmaps/1x1".
+
+    -fn font
+	Specify the font for eisuu-kana. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-*".
+
+    -fk font
+	Specify the font for kanji. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0208.1983-*".
+
+    -nobeep
+	Specify not to beep. The default is "beep".
+
+    -v[erbose]
+	Specify to display the error messages of XLIB. The default is
+	"don't display".
+
+    See README about other options which depends on the conversion engine
+    and the dictionary.
+
+RESOURCE
+
+    xfeoak accepts the standard resources and the followings.
+
+    keyBord (KeyBord class)
+	Specify the kind of using KeyBoard. The default is none.
+    	none    : Specify to use with the general X server.
+    	jis     : Specify to use JIS KeyBoard (Fujitsu's X server only).
+    	oyayubi : Specify to use with OYAYUBI KeyBoard (Fujitsu's X server 
+    	          only).
+    
+    backgroundPixmap (BackgroundPixmap class)
+	Specify the background pixmap of the window.
+	If "." is specified, the same background as "X11/bitmaps/1x1" is
+	displayed.
+
+    font (Font class)
+	Specify the font for eisuu-kana. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0201.1976-*".
+
+    kanjiFont (KanjiFont class)
+	Specify the font for kanji. The default is 
+	"-*-fixed-medium-r-normal--14-*-*-*-*-*-jisx0208.1983-*".
+
+    maxClient (MaxClient class)
+	Specify the number of the alient that can connect.
+	The default is 32.
+
+    workSize (WorkSize class)
+	Specify the size of working area that is secured when xfeoak is 
+	initialized. The default is 4096.
+
+    beep (Beep class)
+	Specify whether the bell ring with on/off. The default is on(ring).
+
+ENVIRONMENT
+
+    DISPLAY  : Get the host name and the number of the default X server.
+
+OPERATION
+
+  1) The general operation
+
+      The operation xfeoak the general X server is the same as the 
+    operation to use it with JIS KeyBoard.
+    The physical mode switch between kana key and eiji key takes priority 
+    over the logical mode switch.
+
+    The basic operation is as follows:
+       1. Starting
+             $ xfeoak &
+             The window is displayed below the display.
+       2. Starting for Japanese input
+            Press Control + space key to start.
+            The indication below the display is changed to
+            "NIHONGO     R KANA".
+       3. The sample of input
+            Press 'a' and 'i' key, and "AI"(in HIRAGANA) are displayed in 
+            Preedit window.
+            After Press Control + h key, the characters in Preedit window are
+            converted to kanji and "AI"(in KANJI) is displayed.
+            Press Control + H again, and the next candidate of conversion
+            is displayed.
+            Press Control + l, and the conversion is completed. The string 
+            is sent to the application.
+       4. Ending for Japanese input
+            Press Control + space key to end.
+
+    For more informations:
+       
+     - Refer to Table 1 for the input mode (status).
+     - Refer to Table 2 for switching of input mode.
+     - Refer to Table 3 for every operations for conversion.
+
+  2) OAK style input operation
+
+      The operation to use JIS KeyBoard or OYAYUBI KeyBoard with the Fujitsu's
+    X server is the same as the operation for OAK Japanese input.
+    However, some functions are not supported.
+
+NOTE
+   Xfeoak works if kana-kanji conversion engine is not available, at this 
+   time you can operate roma-ji-henkan, kana-henkan and katakana-henkan.
+
+RELATED INFORMATION
+
+    ximpterm(1)
+
+
+APPENDIX
+
+  Table 1  The input mode
+
+    -----------------------------+------------------------------------------
+    displayed string in          |input status
+    status area                  |
+    (displayed in Japanese)      |
+    -----------------------------+------------------------------------------
+    	              ANK        | not connect to input server
+    -----------------------------+------------------------------------------
+    NIHONGO           R HIRAGANA | zenkaku romaji-hiragana conversion input
+    NIHONGO           R KATAKANA | zenkaku romaji-katakana conversion input
+    NIHONGO           HIRAGANA   | zenkaku hiragana conversion input
+    NIHONGO           KATAKANA   | zenkaku katakana conversion input
+    NIHONGO           SMALL      | zenkaku small letter input
+    NIHONGO           CAPITAL    | zenkaku capital letter input
+    NIHONGO  Hankaku  R HIRAGANA | hankaku romaji-hiragana conversion input
+    NIHONGO  Hankaku  R KATAKANA | hankaku romaji-katakana conversion input
+    NIHONGO  Hankaku  HIRAGANA   | hankaku hiragana conversion input
+    NIHONGO  Hankaku  KATAKANA   | hankaku katakana conversion input
+    NIHONGO  Hankaku  SMALL      | hankaku small letter input
+    NIHONGO  Hankaku  CAPITAL    | hankaku capital letter input
+    -----------------------------+------------------------------------------
+
+
+  Table 2  The switching of input mode
+
+     ANK input(not connected to frontend)
+         A
+         |
+      Control + Space
+         |
+         V
+    +------------------ Japanese input mode ------------------------+
+    | +------------------- zenkaku input -------------------------+ |
+    | | +-------------------------------------------------------+ | |
+    | | | +-- romaji input ---+          +-- hiragana input --+ | | |
+    | | | |                   |          |                    | | | |
+    | | | |hiragana conversion|          |   hiragana input   | | | |
+    | | | |     |             |          |      |             | | | |
+    | | | |     F1            | <- F3 -> |      F1            | | | |
+    | | | |     |             |          |      |             | | | |
+    | | | |katakana conversion|          |   katakana input   | | | |
+    | | | +-------------------+          +--------------------+ | | |
+    | | +-------------------------------------------------------+ | |
+    | |                        F4   |                             | |
+    | |                        |   F1                             | |
+    | | +------------------------------------------------------+  | |
+    | | | +------------------+          +--------------------+ |  | |
+    | | | |small letter input| <- F4 -> |capital letter input| |  | |
+    | | | +------------------+          +--------------------+ |  | |
+    | | +------------------------------------------------------+  | |
+    | +-----------------------------------------------------------+ |
+    |                            |                                  |
+    |                            F2 				    |
+    |                            |                                  |
+    | +-----------------------------------------------------------+ |
+    | |                     hankaku input                         | |
+    | +-----------------------------------------------------------+ |
+    +---------------------------------------------------------------+
+
+
+ Table 3  Tabke of key assign for conversion operation 
+ 
+    --------------------+---------------------------------------
+     keysim		|function
+    --------------------+---------------------------------------
+     Control + "h"	| convert/convert again
+     Control + "p"	| back to previous candidate
+     Control + "m"	| undo conversion
+     Control + "l"	| completion of convert
+     Control + "w"	| candidates select
+     Control + "u"	| cancel
+     Control + "d"	| delete one character
+     Control + "i"	| insert one character
+     Control + "b"	| move the cursol to the left
+     Control + "f"	| move the cursol to the right
+     Control + "a"	| move the cursol to the beginnig of 
+  			| the sentence
+     Control + "e"	|  move the cursol to the end of the
+  			| sentence
+    --------------------+---------------------------------------
+     Kanji		| convert/convert again
+     Muhenkan		| undo conversion
+     Control + Kanji	| candidates select
+     Control + Muhenkan	| back to previous candidate
+     Cancel		| cancel
+     Escape		| cancel
+     Delete		| delete one character
+     F28		| delete one character
+     Insert		| insert one character
+     Execute		| completion of convert
+     Linefeed		| completion of convert and linefeed
+     Return		| completion of convert and return
+     BackSpace		| move the cursol to the left
+     Left		| move the cursol to the left
+     Right		| move the cursol to the right
+     Up			| move the cursol to the beginnig of 
+  			| the sentence
+     Down		| move the cursol to the end of the 
+     			| sentence
+     Tab		| move the cursol to the end of the
+  			| sentence
+    --------------------+----------------------------------------
+

@@ -1,0 +1,84 @@
+
+        FUJITSU input server for Japanese language
+
+Xfeoak is input server for Japanese language based on the frontend/backend
+technology. This has been developed by FUJITSU LIMITED.
+This supports multi-protocol between a client and input server and 
+multi-dictionary.
+
+Supporting protocols
+ - XIMP protocol for XIM (X Window System, Version 11 Input Method
+   Spaecification)
+ - XJp protocol (not supported at this release)
+
+Supporting conversion engins and dictionaries
+ - OAK dictionary (FUJITSU propertry)
+ - SJ3 dictionary (provided by SONY)
+
+This distribution has been tested on the following systems.
+
+        FUJITSU S Family S-3,  SunOS4.0
+        FUJITSU FM-G,          SX/G E14
+        AT&T    6386E/33       SVR4
+        SONY    NEWS
+        
+*Installation
+
+  You can make it by Makefile. At compiling, you have to define one of the
+ following definitions.
+ 
+   - DFUJITSU_OAK    : To use OAK dictionary made by FUJITSU
+   - DSJ3_DICTIONARY : To use SJ3 conversion engin (libsj3.a)
+
+  If the above difinitions are ommited, the frontend which supports only
+  HIRAGANA/KATAKANA conversion is made. If both difinitions are defined,
+  the frontend can switch multi-dictionary at run time.
+  
+*Directories
+
+ This distribution contains the following directories.
+
+   ./sxc           : This directory contains source code for the convertion 
+                     of romaji-henkan.
+   ./oak           : This directory contains source code for the connection 
+                     part of OAK dictionary (not supported at this release). 
+   ./sj3	   : This directoty contains source code for the connection 
+                     of SJ3 dictionary.
+
+*Note
+
+ With SJ3 dictionary, you can specify the options as follows:
+ 
+   - uname user name
+   	Specify the user name. 
+   	The default is "xfeoak".
+
+/******************************************************************
+
+              Copyright 1991, by FUJITSU LIMITED
+
+Permission to use, copy, modify, distribute, and sell this software
+and its documentation for any purpose is hereby granted without fee,
+provided that the above copyright notice appear in all copies and
+that both that copyright notice and this permission notice appear
+in supporting documentation, and that the name of FUJITSU LIMITED
+not be used in advertising or publicity pertaining to distribution
+of the software without specific, written prior permission.
+FUJITSU LIMITED makes no representations about the suitability of
+this software for any purpose.  It is provided "as is" without
+express or implied warranty.
+
+FUJITSU LIMITED DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
+IN NO EVENT SHALL FUJITSU LIMITED BE LIABLE FOR ANY SPECIAL, INDIRECT
+OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE
+OR PERFORMANCE OF THIS SOFTWARE.
+
+  Author: Takashi Fujiwara     FUJITSU LIMITED 
+                               fujiwara@a80.tech.yk.fujitsu.co.jp
+          Kiyoaki oya          FUJITSU LIMITED
+
+******************************************************************/
+

@@ -1,0 +1,4076 @@
+%exemple begin at col 9, ==> at col 41
+\chapter{WOOL Reference manual}
+\sloppy
+
+\ITEMa{;}{{\WOOL} comment}
+
+{\usagefont\begin{verbatim}
+; any text up to the end of line
+\end{verbatim}}\usageupspace
+
+Comments in {\WOOL} begin with a semicolon and end at the end
+of the line.
+
+\ITEMa{!}{executes a shell command}
+
+{\usagefont\begin{verbatim} 
+(! command arguments...)
+\end{verbatim}}\usageupspace 
+
+Executes (forks) the  command given in string with its given arguments, and
+does not wait for termination (So you don't need to add a  final ``\&''). For
+instance, to open a new ``xterm'' window on the machine where {\GWM} is
+running, execute \verb|(! "xterm")|. This is an interface to the
+\verb"execvp" call: the command is searched for in the \verb"PATH" variable,
+and executed via \verb"/bin/sh" if it is a command file, directly executed
+otherwise.
+
+{Examples:\exemplefont\upspace\begin{verbatim}
+        (! "xterm")                       ; machine-executable code
+        (! "rxterm" "foobar")             ; or shell script
+        (! "xterm" "-display" "bar:0.1")  ; with arguments
+        (! "/bin/sh" "-c" "for i in a b c;do xclock -display $i:0;done")
+                                          ; needs a shell for commands
+\end{verbatim}}
+
+\ITEMbi{\#}{nth}{accesses an element of a list}
+
+{\usagefont\begin{verbatim}
+(# n list [object])
+(# atom list [object])
+\end{verbatim}}\usageupspace
+
+Gets (or sets to \verb"object" if present) the n-th element of the list
+\verb"list" (starting with 0). Increases the list size if needed (with
+nils).  When    the first argument is an atom, this references the element
+just after the atom in the list, thus providing the ability to maintain
+classical Lisp ``property lists''.
+
+Note that this function does not do a physical replacement, and constructs a
+new list with the \verb"list" argument. \seesnp{replace-nth}
+
+{Examples:\exemplefont\upspace\begin{verbatim}
+        (# 2 '(a b c d))                ==>     c
+        (# 2 '(a b c d) 'foo)           ==>     (a b foo d)
+        (# 'x '(x 4 y 6))               ==>     4
+        (# 'y '(x 4 y 6) 8)             ==>     (x 4 y 8)
+        (# 'z '(x 4 y 6) 10)            ==>     (x 4 y 6 z 10)
+        (# 6 '(a b c d) 'foo)           ==>     (a b c d () () foo)
+\end{verbatim}}
+
+In fact the index can be any Lisp object, but as the list is scanned to find
+the {\bf same} object (EQ predicate), using atoms is the safest way.
+
+{\exemplefont\begin{verbatim} 
+        (# "foo" '("foo" 1))            ==>     ()
+        (progn (setq name "foo")
+                (# name (list name 1))) ==>     1
+\end{verbatim}}
+
+{\bf Note:} The second argument can also be a:
+\begin{description}
+\item[wob] in which case the contents of the \verb"wob-property" is taken
+as the list.
+\item[symbol] which must evaluate to a list, which is then used by the
+function.
+\end{description}
+
+\ITEMbi{\#\#}{replace-nth}{physically replaces an element of a list\hfill{\bf EXPERT}}
+
+{\usagefont\begin{verbatim}
+(## n list object)
+(## atom list object)
+\end{verbatim}}\usageupspace
+
+This function physically replaces an element of the list, which is located
+as with the \verb"#" function. It returns the modified list. 
+
+This provides a way to implement variable-sized lists, such as linked lists,
+which are the real lists in the Lisp world, but should be used with care, as
+you are able to create circular references with it. To allow the {\WOOL}
+garbage collector to handle correctly circular lists, you should always
+explicitly set to () the fields of a circular cell before disposing of it.
+
+Example: a circular list with cells of the form \verb"(car cdr)"
+{\exemplefont\begin{verbatim}
+        (setq elt2 '(b ()))             ; second cell of list
+        (setq elt1 (list a elt2))       ; first one pointing to second
+        (## 1 elt2 elt1)                ; we make a circular list
+\end{verbatim}}
+Now, if we set elt1 and elt2 to \verb"()", their storage will not
+be freed!, we must do
+{\exemplefont\begin{verbatim}
+        (## 1 elt2 ())
+\end{verbatim}}
+before setting them to \verb"()".
+
+{\bf Note:} The second argument can also be a:
+\begin{description}
+\item[wob] in which case the contents of the \verb"wob-property" is taken
+as the list.
+\item[symbol] which must evaluate to a list, which is then used by the
+function.
+\end{description}
+This is the {\bf only} case where lists can be extended, by specifiyng 
+an atom which do not exist in the list. In this case, if the list is pointed
+to by many objects, the list is duplicated, and only the copy pointed to by
+the wob or atom argument is modified, e.g.:
+
+{\exemplefont\begin{verbatim}
+        (setq l '(a 1))
+        (setq l-bis l)                  ; l and l-bis points to the same list
+        (## 'b 'l 2)                    ; only l is modified in place
+        l                               ==> (a 1 b 2)
+        l-bis                           ==> (a 1)
+\end{verbatim}}
+
+\ITEMa{(}{list notation}
+
+{\usagefont\begin{verbatim}
+(elt1 elt2 ... eltN)
+\end{verbatim}}\usageupspace
+
+This notation is used to describe a {\bf list} of {\tt N} elements, as in
+other Lisp languages. Note that {\WOOL} is not a true Lisp dialect since lists
+are represented internally as arrays, allowing for a greater speed and a
+smaller memory usage in the kind of programs used in a window manager. If
+you are a die-hard Lisp addict, you can still use CONS, CAR and CDR
+if you want by defining them as:
+
+{\exemplefont\begin{verbatim}
+        (defun cons (e l) (+ (list e) l))
+        (defun car (l) (# 0 l))
+        (defun cdr (l) (sublist 1 (length l) l))
+\end{verbatim}}
+
+{\bf Note:} The {\WOOL} parser ignores extraneous closing parentheses,
+allowing you to close top-level expressions in a file by a handful of
+closing parentheses, such as:
+
+{\exemplefont\begin{verbatim}
+        (defun cons (e l) (+ (list e) l)))))))))))))
+        (setq x 1))))))))
+\end{verbatim}}
+
+\ITEMb{()}{nil}{the nil value}
+
+{\usagefont\begin{verbatim}
+()
+\end{verbatim}}\usageupspace
+
+The nil value, backbone of every Lisp implementation. In Lisp an object is
+said to be true if it is not nil.
+
+\ITEMa{""}{string notation}
+
+{\usagefont\begin{verbatim}
+"string"
+\end{verbatim}}\usageupspace
+
+Strings are surrounded by double quotes. C-style escape sequences are
+allowed, that is: 
+
+\begin{center}\begin{tabular}{ll}
+{\bf Sequence} & {\bf stands for} \\ \hline
+\verb|\n| & newline (control-J)\\
+\verb|\r| & carriage return (control-M)\\
+\verb|\t| & tab (control-I)\\
+\verb|\e| & escape (control-[)\\
+\verb|\\| & the backslash character itself \verb|\|\\
+\verb|\"| & double quote\\
+\verb|\xNN| & the character of ascii code NN in hexadecimal\\ 
+\verb|\nnn| & the character of ascii code nnn in octal\\
+\verb|\c| & c if c is any other character.\\
+\end{tabular} \end{center} 
+
+Moreover, you can ignore end of lines in strings by prefixing them with
+\verb"\", as in:
+
+{\exemplefont\begin{verbatim}
+        (print "This is a very \
+        long string")            ==> This is a very long string
+\end{verbatim}}
+
+\ITEMb{'}{quote}{prevents evaluation}
+        
+{\usagefont\begin{verbatim}
+'object
+(quote object)
+\end{verbatim}}\usageupspace
+
+Returns the object {\bf without evaluating} it. The form \verb"'foo" is
+not expanded into \verb"(quote foo)" during parsing, but in a
+``quoted-expression'' {\WOOL} type for efficiency.
+
+\ITEMci{\%}{*}{/}{arithmetic operators}
+        
+{\usagefont\begin{verbatim}
+(% n1 n2)
+(* n1 n2)
+(/ n1 n2)
+\end{verbatim}}\usageupspace
+
+Returns respectively the modulo, product, and quotient of the integer
+arguments as a integer.
+
+\ITEMa{+}{adds or concatenates}
+        
+{\usagefont\begin{verbatim}
+(+ n1 n2 ... nN)
+(+ string1 string2 ... stringN)
+(+ list1 list2 ... listN)
+\end{verbatim}}\usageupspace
+
+Numerically add numbers, concatenate strings or, concatenate lists.
+Determines the type of the result as being the type of the first argument
+(\verb"()" is a list, \verb|""| is a string, \verb|0| is a number).
+
+\ITEMa{-}{arithmetic difference}
+        
+{\usagefont\begin{verbatim}
+(- n)
+(- n1 n2 ...)
+\end{verbatim}}\usageupspace
+
+Returns the arithmetic opposition or difference of numbers. 
+\verb"(- n1 n2 n3 n4)" is equivalent to \verb"(- n1 (+ n2 n3 n4))".
+
+\ITEMb{=}{equal}{tests equality of any two objects}
+        
+{\usagefont\begin{verbatim}
+(= obj1 obj2)
+(equal obj1 obj2)
+\end{verbatim}}\usageupspace
+
+Returns obj1 if obj1 is the same as obj2, nil otherwise. This is the
+traditional {\bf equal} predicate of Lisp.
+
+Equality of lists is tested by testing the equality of all their elements.
+
+\ITEMa{<}{tests for strict inferiority}
+        
+{\usagefont\begin{verbatim}
+(< n1 n2)
+(< string1 string2)
+\end{verbatim}}\usageupspace
+
+Compares two numbers or two strings and returns \verb"t" if argument 1 is
+inferior and not equal to argument 2 and \verb"nil" otherwise. Strings are
+compared alphabetically.
+
+\ITEMa{>}{tests for strict superiority}
+        
+{\usagefont\begin{verbatim}
+(> n1 n2)
+(> string1 string2)
+\end{verbatim}}\usageupspace
+
+Compares two numbers or two strings and returns \verb"t" if argument 1 is
+superior and not equal to argument 2 and \verb"nil" otherwise. Strings are
+compared alphabetically.
+
+\ITEMb{?}{print}{prints {\WOOL} objects}
+        
+{\usagefont\begin{verbatim}
+(? obj1 obj2 ... objN)
+\end{verbatim}}\usageupspace
+
+Prints the objects, without adding spaces or newlines. Output is flushed at
+the end of every call to this function. For now, output goes to the stdout
+stream.
+
+\ITEMa{active-label-make}{makes a label (text in a given font)}
+        
+{\usagefont\begin{verbatim}
+(active-label-make label [font])
+\end{verbatim}}\usageupspace
+
+Creates a label with string \verb|label| drawn
+in the font \verb"font". The text will be redrawn on each expose (The
+active label can also be used to paint a string on a pixmap, see
+\seep{pixmap-make}).
+
+\context{
+foreground &    color of the text string\\
+font &          font of the string if not given\\
+}
+
+\ITEMa{allow-event-processing}{un-freezes the server after catching a
+replayable event}
+
+{\usagefont\begin{verbatim}
+(allow-event-processing)
+\end{verbatim}}\usageupspace
+
+When you set passive grabs on ``replayable'' events \seesnp{replayable-event},
+when such event is caught in a fsm, the grab is activated and the server is
+frozen, in such a way that pointer motions or button states is not tracked
+anymore. To be able to use a function such as \seensp{current-mouse-position}
+you must then allow the processing of events by calling this function.
+
+After the call, you will not be able to use
+\seensp{ungrab-server-and-replay-event} for the event.
+
+\ITEMa{alone}{specifies that no modifier key is used}
+        
+\usagetype{Constant}
+
+Specifies that no modifier is pressed for a button or key event for use in
+event descriptions.
+
+\ITEMa{and}{logical AND of expressions}
+        
+{\usagefont\begin{verbatim}
+(and obj1 obj2 ... objN)
+\end{verbatim}}\usageupspace
+
+Returns \verb"()" as soon as an argument is false (\verb"nil"),
+\verb"t" otherwise.
+
+\ITEMa{any}{matches any modifier or button}
+        
+\usagetype{Constant}
+
+Matches any modifier or button or key in events. It can be also used in many
+other functions with appropraite semantics.
+
+\ITEMa{atoi}{ascii string to integer conversion}
+        
+{\usagefont\begin{verbatim}
+(atoi string)
+\end{verbatim}}\usageupspace
+
+Returns the integer described by string (in base 10).
+
+{Example:\exemplefont\upspace\begin{verbatim}
+        (atoi "123")                    ==>     123
+\end{verbatim}}
+
+\ITEMa{atom}{makes an atom from a string}
+        
+{\usagefont\begin{verbatim}
+(atom string)
+\end{verbatim}}\usageupspace
+
+Returns the atom of name string. Useful to create atoms with special
+imbedded characters, such as \verb"'" or blanks. The inverse function is not
+necessary since every {\WOOL} function expecting strings in arguments can
+accept atoms instead, and will take the string of their name.  
+
+This should be used when accessing property lists via the \verb|#| function.
+For instance if you store properties on machine names (which are strings),
+you would use the following call to retrieve the color of a xterm for a
+machine:
+
+{Examples:\exemplefont\upspace\begin{verbatim}
+        (# (atom machine-name) '(Maalea "Green" Honolua "Blue"))
+\end{verbatim}}
+
+\ITEMa{background}{color of the background}
+        
+\usagetyped{Numeric variable --- screen-relative}{color}
+
+The value of this global variable is used by many functions as the color of
+the background. It is a pixel value, such as returned by \verb"color-make",
+and is initially set to the pixel of the color \verb"White".  Note that
+a non-nil \verb"tile" context value overrides the background value.
+
+\ITEMa{bar-make}{makes a bar descriptor}
+        
+{\usagefont\begin{verbatim}
+(bar-make plug1 plug2 ... plugN)
+\end{verbatim}}\usageupspace
+
+Creates a bar of transversal width\footnote{Bars have their own width and a
+length which is adjusted to fit around the client window. For an horizontal
+bar, the width is their physical height and the length their physical width,
+and for a vertical one, it is the opposite} bounded by the current value
+of \verb"bar-min-width" and \verb"bar-max-width", and containing the {\tt N}
+plugs, which are centered in the bar.  If a plug is \verb"()", it is
+considered extensible space, which is expanded when the bar stretches to its
+actual dimensions.  The plugs are clipped on the right if necessary.
+
+\context{
+fsm & the finite state machine of the bar \\
+borderwidth & the width of the bar's border in pixels \\
+borderpixel &  the color of the border \\
+bordertile & the pixmap used as the border pattern \\
+background & the color of the background \\
+plug-separator & the number of pixels between consecutive plugs \\
+tile & the pattern of its background (may be ()) \\
+menu & the default pop-up associated with it \\
+cursor & the cursor's shape when the cursor is in it \\
+property & the {\WOOL} property associated with the bar \\
+bar-min-width & the minimum width in pixels of the bar \\
+bar-max-width & the maximun width in pixels of the bar (width for vertical 
+bars, height for horizontal bars)\\
+}
+
+Note that the plugs are evaluated a second time when the bar is physically
+created, allowing you to give expressions for plugs (quoted to evade the
+first evaluation of arguments of the \verb"bar-make" function itself)
+will evaluate to a plug on the realisation of the wob.  
+
+For instance, to have the window name in a plug, the bar can be made by:
+{\exemplefont\begin{verbatim}
+        (bar-make '(plug-make (label-make window-name)))
+\end{verbatim}}
+If you don't quote the plug, all the bars will have the same name on the
+realisation of the bar, the value of \verb"window-name" at the time of the
+call to bar-make.
+
+\ITEMb{bar-min-width}{bar-max-width}{limits to the transversal width of a bar}
+
+\usagetyped{Numeric variable}{number}
+
+The values of these global variables are used by the constructors of bars to
+limit their transversal width, clipping the plugs if necessary.
+\verb"bar-min-width" defaults to 1 and \verb"bar-max-width" defaults to 100.
+
+\ITEMa{bar-separator}{number of pixels between consecutive bars in menus}
+        
+\usagetyped{Numeric variable}{number}
+
+The value of this global variable is used by the constructors of menus to
+yield the number of pixels separating two contiguous bars.  Default is 4
+pixels. Used in  \verb"menu-make" function.
+
+\ITEMa{bell}{rings the keyboard bell}
+
+{\usagefont\begin{verbatim}
+(bell [percent])
+\end{verbatim}}\usageupspace
+
+Rings the bell on the keyboard, with volume set by the \verb"percent"
+numeric argument, which can take values ranging from -100 to 100 (defaults
+to 0). -100 means lowest volume, 0 means base volume, 100 means full volume.
+
+\ITEMc{bitwise-and}{bitwise-or}{bitwise-xor}{bitwise operators}
+        
+{\usagefont\begin{verbatim}
+(bitwise-op n1 n2 ... nN)
+\end{verbatim}}\usageupspace
+
+Returns the result of the bitwise operator on the N arguments.
+
+{Examples:\exemplefont\upspace\begin{verbatim}
+        (bitwise-or 1 4)                ==>     5
+        (bitwise-and 3 5)               ==>     1
+        (bitwise-xor 3 5)               ==>     6
+\end{verbatim}}
+
+\ITEMa{borderpixel}{color of the border of a wob}
+        
+\usagetyped{Numeric variable --- screen relative}{color}
+
+The value of this global variable is used by the constructors of all wobs as
+the color of their border. It is a pixel value, such as returned by
+\verb"color-make", and is initially set to the pixel of the color
+\verb"Black". It is always overridden by the value of \verb"bordertile" if
+not nil.
+
+\ITEMa{bordertile}{pixmap to tile the border of a wob}
+        
+\usagetyped{Variable}{pixmap}
+
+The value of this global variable is used by the constructors of all wobs as
+the pixmap to display in their border. It is a pixmap object, such as
+returned by \verb"pixmap-make". If set to (), the borderpixel value is used.
+
+\ITEMa{borderwidth}{width in pixels of the border of a wob}
+        
+\usagetyped{Numeric variable}{number}
+
+The value of this global variable is used by the constructors of all wobs to
+set their border width in pixels. A value of 0 means no border.
+
+\ITEMa{boundp}{tests if an atom has already been defined}
+        
+{\usagefont\begin{verbatim}
+(boundp atom)
+\end{verbatim}}\usageupspace
+
+Returns the (evaluated) atom if it has been defined, () otherwise.
+
+{Examples:\exemplefont\upspace\begin{verbatim}
+        (setq foo 1)
+        (boundp 'foo)                   ==>     foo
+        (boundp 'bar)                   ==>     ()
+\end{verbatim}}
+
+\ITEMa{button}{makes a button event}
+        
+{\usagefont\begin{verbatim}
+(button number modifier)
+\end{verbatim}}\usageupspace
+
+Returns a button event matching the X event {\bf ButtonPress} of button
+number \verb"number", and will verify that
+the modifier argument was depressed during the click. This event will wait
+for the corresponding {\bf ButtonRelease} event before returning.  
+
+Number or modifier can take the value \verb"any", thus matching any of the
+values of the corresponding argument.  These button events can then be used
+in the matching part of the transitions of fsms or in the \verb"grabs"
+field of a window-make description.
+
+\exemples{Examples:}{
+(button 1 with-alt) & matches clicking left button of the mouse
+                                while keeping the alt key depressed.\\
+(button any with-control) & matches control-clicking with any button\\
+}
+
+\ITEMa{buttonpress}{makes a buttonpress event}
+        
+{\usagefont\begin{verbatim}
+(buttonpress number modifier)
+\end{verbatim}}\usageupspace
+
+Same as button, but does not wait for the buttonrelease, meaning that the
+buttonrelease is available for another transition.
+This can be used to trigger \verb"move-window", since this function waits for
+a button release to terminate.
+
+\ITEMa{buttonrelease}{makes a buttonrelease event}
+        
+{\usagefont\begin{verbatim}
+(buttonrelease number modifier)
+\end{verbatim}}\usageupspace
+
+Same as button, but only matches a button release. Useful when you cannot
+wait for a button event, for instance when iconifying a window, because if
+the window is iconified on a button press, the correponding release event
+will be lost (in fact will go to the window underneath)
+
+\ITEMa{check-input-focus-flag}{follow input hint for setting focus}
+        
+\usagetyped{Numeric variable}{number}
+
+If this flag is set to {\bf 1}, which is the default, {\GWM} will refuse to
+set the keyboard focus via the \verb"set-focus" call to windows having
+declared that they didn't need the focus. This flag is provided so that you
+can use clients which set their input hint the wrong way.
+
+\ITEMb{circulate-windows-down}{circulate-windows-up}{circulates mapped windows}
+        
+{\usagefont\begin{verbatim}
+(circulate-windows-up)
+(circulate-windows-down)
+\end{verbatim}}\usageupspace
+
+Put the topmost window down, or the lowest window up respectively.
+
+\ITEMa{color-components}{gives RGB color decomposition of a pixel}
+        
+{\usagefont\begin{verbatim}
+(color-components pixel)
+\end{verbatim}}\usageupspace
+
+Given a pixel (integer, normally returned by \verb|color-make|), returns a
+list of 3 integers, the Red, Green, Blue components of the color. Each of this
+integer can take values between 0 and 65535.
+
+\ITEMa{color-free}{de-allocates a pixel}
+        
+{\usagefont\begin{verbatim}
+(color-free pixel)
+\end{verbatim}}\usageupspace
+
+Frees the entry \verb|pixel| in the default colormap. \verb|pixel| must have
+been the result of a previous \verb|color-make| call. This is a very dangerous
+function, since colors returned by \verb|color-make| can be shared with
+multiple applications.
+
+\ITEMa{color-make}{allocates a pixel color by name}
+        
+{\usagefont\begin{verbatim}
+(color-make color-name)
+\end{verbatim}}\usageupspace
+
+Takes a string \verb"color-name" describing the color by its english name (as
+found in the \verb"rgb.txt" system file), and allocates a new entry in the
+default colormap with a pixel of this color, and returns it if it wasn't
+allocated before, otherwise just returns the previously allocated pixel if an
+entry in the colormap already existed. Two consecutive calls with the same
+argument should then return the same value. A pixel is a number which is the
+index of the color in the colormap.
+
+This pixel can later be used as values for foreground and
+background, or in the \verb"pixmap-make" function.  If color is not found,
+prints a warning, and returns the pixel used for the black color.
+
+Colors can also be specified directly by their {\bf RGB}\footnote{Red,
+Green, Blue.} values, with the {\bf\#}-convention: if the \verb"color-name"
+string begins with a sharp sign, the following characters are taken as
+hexadecimal digits specifying the most significant part of the Red, Green
+and, Blue values, with the following syntax: (each letter stands for a digit)
+
+\begin{verbatim}
+#RGB
+#RRGGBB
+#RRRGGGBBB
+#RRRRGGGGBBBB
+\end{verbatim}
+
+Example:{\exemplefont\upspace\begin{verbatim}
+        (color-make "DarkSlateBlue")
+        (color-make "light grey")
+        (color-make "#f00")             ; pixel for red
+        (color-make "#300000a076be")
+\end{verbatim}}
+
+\ITEMa{color-make-rgb}{creates a color from RGB values}
+
+{\usagefont\begin{verbatim}
+(color-make-rgb red green blue)
+\end{verbatim}}\usageupspace
+
+This function takes three numeric arguments giving the values of the red,
+green and blue components of the color which will be returned. Components are
+scaled between 0 and 65535 (half brightness is 32767 and no light is 0).
+
+\ITEMa{compare}{ordering comparison}
+
+{\usagefont\begin{verbatim}
+(compare n1 n2)
+(compare string1 string2)
+\end{verbatim}}\usageupspace
+
+Compares two numbers or two strings and returns \verb"-1", \verb"0" or
+\verb"1" if its first argument is lesser than, equal to or, greater than the
+second.
+
+\ITEMa{cond}{conditional test}
+        
+{\usagefont\begin{verbatim}
+(cond (condition then) [(condition then) ...])
+\end{verbatim}}\usageupspace
+
+This is the classical ``cond'' Lisp function, returning the evaluation of the
+``then'' part of the first true condition.
+
+{\exemplefont\begin{verbatim}
+        (defun fib (n)
+            (cond
+                ((= n 0) 1)
+                ((= n 1) 1)
+                (t (+ (fib (- n 1)) 
+                        (fib (- n 2))))))
+\end{verbatim}}
+
+\ITEMa{confine-grabs}{cursor stays confined in grabbing wobs}
+
+\usagetyped{Numeric variable}{number}
+
+If set, during all grabs (either via \verb"pop-menu" or \verb"grab-server")
+will confine the pointer inside the grabbing wob during the duration of
+the grab.
+
+\ITEMa{confine-windows}{forces windows to stay on-screen}
+
+\usagetyped{Numeric variable}{number}
+
+If set, during all interactive moves or resizes, gwm will ensure that windows
+stay entirely within screen bounds.
+
+\ITEMb{context-save}{context-restore}{context management}
+        
+{\usagefont\begin{verbatim}
+(context-save context)
+(context-restore context)
+\end{verbatim}}\usageupspace
+
+A context is a kind of property list, it is an even-sized list whose even
+elements are atoms and whose odd ones are their values (see the \see{with}
+function), of the form {\tt (var{\it 1} val{\it 1} var{\it 2} val{\it 2} ...
+var{\it N} val{\it N})}. \verb"context-save" creates a new context
+where the {\tt val{\it i}} are the result of the evaluation of the
+{\tt var{\it i}} in the argument context, whereas context-restore does
+a {\tt (setq var{\it i} val{\it i})} for each of its variable/value pairs.
+
+{\bf Note:} the provided {\tt val{\it i}} serves as default for
+\verb"context-save" in the case where the corresponding {\tt var{\it i}} is
+undefined:
+
+{\exemplefont\begin{verbatim}
+        (setq my-context (list 'a 1 'b 2))
+        (setq a "foo")                     ; b is undefined
+        (print (context-save my-context))
+                                        ==>  (a foo b 2)
+\end{verbatim}}
+
+\ITEMa{copy}{copies a wool object\hfill{\bf EXPERT}}
+
+{\usagefont\begin{verbatim}
+(copy object)
+\end{verbatim}}\usageupspace
+
+Returns a copy of the \verb"object" argument, which can only be a list for
+now. This function is flagged as ``{\em Expert}\,'' because it is of use
+to people doing physical replacement functions, which are reserved to
+experts.
+
+\ITEMa{current-event-code}{code of the last event}
+        
+{\usagefont\begin{verbatim}
+(current-event-code)
+\end{verbatim}}\usageupspace
+
+Returns the code (button or keycode) of the {\bf last} event received (The
+one which triggered the transition you are in).
+
+\ITEMa{current-event-from-grab}{tests if last event was generated by a grab}
+        
+{\usagefont\begin{verbatim}
+(current-event-from-grab)
+\end{verbatim}}\usageupspace
+
+If the last event was a crossing or focus event consecutive to a grab set or
+removed, returns \verb"t".
+
+\ITEMa{current-event-modifier}{modifier of the last event}
+        
+{\usagefont\begin{verbatim}
+(current-event-modifier)
+\end{verbatim}}\usageupspace
+
+Returns the modifier (state of shift, control, alternate,...) keys that were
+depressed when the {\bf last} event occurred (The one which triggered the
+transition you are in).  Note that the combination of two modifiers is
+expressed by bitwise-{\bf or}ing the modifiers.
+
+\ITEMa{current-event-time}{time in milliseconds of the last event}
+
+{\usagefont\begin{verbatim}
+(current-event-time)
+\end{verbatim}}\usageupspace
+
+Returns the time at which occured the last button, key, crossing, or focus 
+event. Time is expressed as a number of milliseconds.
+
+\ITEMa{current-event-window-coords}{relative position of the last event}
+        
+{\usagefont\begin{verbatim}
+(current-event-window-coords)
+\end{verbatim}}\usageupspace
+
+Returns the list of coordinates of the last event, if it was a
+pointer or a key event, relative to the current client window.
+
+This list has six elements:
+\desctable{Element}{Meaning}{
+0       & x position in size increments \\
+1 & y position in size increments \\
+\ & \multicolumn{1}{r}{\small\it (character positions for xterm)} \\
+2 & same x position in pixels\\
+3 & same y position in pixels\\
+4 & x position in pixels relative to the decorating window\\
+5 & y position in pixels relative to the decorating window\\
+}
+
+{\bf WARNING:} The position in size increments do not work in the general
+case, but only for windows having the text widget flush to the bottom right
+corner of their main windows, like Xterm. There is no fix for it, but this
+function is a kind of a hack anyways.
+
+\ITEMd{current-event-x}{current-event-y}{current-event-relative-x}{current-event-relative-y}{position of the last event }
+        
+{\usagefont\begin{verbatim}
+(current-event-x)
+(current-event-y)
+(current-event-relative-x)
+(current-event-relative-y)
+\end{verbatim}}\usageupspace
+
+Returns the x or y coordinate (number)  of the mouse during the {\bf last}
+event, if it was a key or button event (The one which triggered the
+transition you are in).
+
+The first coordinates are relative to the root, whereas the last ones are
+relative to the wob where they occurred.
+
+\ITEMa{current-mouse-position}{queries server for mouse position}
+        
+{\usagefont\begin{verbatim}
+(current-mouse-position)
+\end{verbatim}}\usageupspace
+
+Queries the server for the mouse state and returns it as a list of
+four element where the first element is x, second is y, third is
+state of modifiers and buttons bitwise-{\bf or}ed, and fourth
+is the number of the screen where the pointer is.
+
+\ITEMa{current-user-event}{name of the last user event}
+
+{\usagefont\begin{verbatim}
+(current-user-event)
+\end{verbatim}}\usageupspace
+
+If the last event was an user event, returns the label of the event (the
+atom that was given as argument to the \verb"send-user-event" call).
+Triggers an error if the last event was not a user event.
+
+\ITEMa{cursor}{shape of the cursor in a wob}
+        
+\usagetyped{Variable}{cursor}
+
+The value of this global variable, which must be a cursor returned by a call
+to \verb"cursor-make", is used by the constructors of all wobs to set the
+appearance of the mouse cursor when the pointer is in the wob. If set to (),
+the cursor will not change when entering the wob.
+
+This is also used by functions like \verb"grab-server", \verb"move-window",
+and \verb"resize-window" to change the shape of the cursor during a function.
+
+\ITEMa{cursor-NW}{cursor shapes for the 8 directions}
+
+\usagetyped{Variables}{cursor}
+
+These values ({\tt cursor-NW, cursor-NE, cursor-N, cursor-SW, cursor-SE,
+cursor-S, cursor-E, cursor-W}) defines cursors to be used on the eight
+directions by some functions, such as resize-window with the mwm-like style
+(\seep{resize-style}). The eigth corners are respectively: NorthWest,
+NorthEast, North, SouthWest, SouthEast, South, East and West.
+
+\ITEMa{cursor-make}{makes a cursor with a bitmap and a mask}
+        
+{\usagefont\begin{verbatim}
+(cursor-make foreground-bitmap-filename 
+             mask-bitmap-filename)
+(cursor-make cursor-name)
+(cursor-make number)
+\end{verbatim}}\usageupspace
+
+Constructs a mouse cursor with two bitmaps (strings containing the file
+names). This cursor can then be used in the cursor variable. The bitmaps are
+files searched for in the same path as in the \see{pixmap-make} function.
+
+\sloppy The convention in use for naming a cursor \verb"foo" is to name the
+foreground bitmap as \verb"foo-f.xbm" and the mask bitmap as
+\verb"foo-m.xbm". This convention is used in the calling of
+\verb"cursor-make" with one argument, so that \verb|(cursor-make "foo")| is
+equivalent to \verb|(cursor-make "foo-f" "foo-m")|.
+
+You can also define the cursor as one of the predfined ones in the server
+cursor font by giving its index in the font as the \verb"number" argument to
+cursor-make. See the Appendix B of the {\bf Xlib} manual for the list of
+available cursors. For instance, ``star trek'' cursor can be made by the
+call \verb"(cursor-make 142)".
+The symbolic names of these cursors are defined in the \verb"cursor-names.gwm"
+file. Once this file is loaded, you can for instance use the ``star trek''
+cursor by a \verb"(cursor-make XC_trek)".
+
+\ITEMa{cut-buffer}{contents of cut buffer 0}
+        
+\usagetyped{Active value}{string}
+
+Its value is the content of the X cut buffer 0, returned as a string.  When
+set, it takes the string argument and stores it in the same cut buffer. This
+can be used to communicate with clients still using this obsolete way to
+perform cut-and-paste operations, such as xterm. 
+
+\ITEMf{defun}{defunq}{lambda}{lambdaq}{de}{df}{defines a {\WOOL} function}
+        
+{\usagefont\begin{verbatim}
+(defun function-name (arg1 ... argn) instructions ...)
+(defunq function-name (arg1 ... argn) instructions ...)
+(lambda (arg1 arg2 ... argn) instructions ...)
+(lambdaq (arg1 arg2 ... argn) instructions ...)
+\end{verbatim}}\usageupspace
+
+Defines a Lisp function and returns the atom pointing to the function. The
+list of arguments must be present, even if ().  If defined by \verb"defun",
+the function will evaluate its arguments before executing, and will not
+evaluate them if defined by \verb"defunq". The return value of an execution
+of the function is the value returned by the last instruction of its body.
+\verb"de" and \verb"df" are just synonyms for \verb"defun" and
+\verb"defunq". The \verb"lambda" call, which evaluates its arguments,
+defines a function (without binding it to a name) while \verb"lambdaq"
+creates a function which does not evaluates its arguments. The two following
+expressions are equivalent:
+
+{\exemplefont\begin{verbatim} 
+        (defun foo(x) (+ x 1))
+        (setq foo (lambda (x) (+ x 1)))
+\end{verbatim}}
+
+When lists are evaluated, {\WOOL} applies the result of the evaluation of
+the CAR of the list to its CDR, like in the {\bf Scheme} language. Thus to
+apply a lambda function to its arguments, just eval the list constructed
+with the lambda construct and its arguments. The classic Lisp {\tt apply}
+function could thus be defined by:
+
+{\exemplefont\begin{verbatim}
+        (defun apply (function list-of-arguments)
+            (eval (+ (list function) list-of-arguments)))
+\end{verbatim}}
+
+Since functions are Lisp objects, to define a synonym of a function, you must
+use \verb"setq". Thus, you can change the meaning of a function easily, for
+instance to make \verb"move-window" always raise the window, you would say
+in your profile:
+
+{\exemplefont\begin{verbatim}
+        (setq original-move-window move-window)
+        (defun move-window () 
+                (raise-window)
+                (original-move-window))
+\end{verbatim}}
+
+This means also that an atom can only have one value, and {\tt (setq
+move-window 1)} will erase the definition of move-window if you didn't save
+it in another atom.
+
+Example:{\exemplefont\upspace\begin{verbatim}
+        (defunq incr (value delta)
+                (set value (+ (eval value) (eval delta))))
+
+        (setq x 4)
+        (incr x 2)
+        (print x)                       ==>     6
+\end{verbatim}}
+
+Functions taking a variable number of arguments can be defined by
+providing a parameter name instead of a list of parameters. In the
+body of the function during its execution, this parameter will be set
+to the list of the parameters given to the function.
+
+{\exemplefont\begin{verbatim}
+        (defun max l
+            (with (max-val 0) 
+                (for obj l (if (> obj max-val)
+                                  (setq max-val obj)))
+                max-val))
+        (max)                           ==>     0
+        (max 34 65 34 12)               ==>    65
+\end{verbatim}}
+
+{\bf Note:} You are not allowed to redefine active values (such as
+\verb"window") or numeric variables (such as \verb"foreground"), or use
+them as names for the parameters to the function.
+
+{\exemplefont\begin{verbatim}
+        (defun window (a b) (+ a b))    ==>     ERROR!
+        (defun my-window (wob) 
+            (window wob))               ==>     ERROR!
+\end{verbatim}}
+
+\ITEMa{defname}{declares a name in a namespace}
+
+{\usagefont\begin{verbatim}
+(defname name namespace [value])
+\end{verbatim}}\usageupspace
+
+Defines the atom \verb"name" to be a name in the namespace. If the value is
+given, for each state of the namestate, a \verb"(set name (eval value))" is
+done, otherwise the value of name is left undefined in all the states.
+
+Suppose you want to have a variable \verb"dpi" giving the density of the
+screen in dots per inches for each screen:
+
+{\exemplefont\begin{verbatim}
+        (defname 'dpi screen.
+            (/ (* screen-width 254) 
+                (* screen-widthMM 10)))
+\end{verbatim}}
+
+\ITEMa{delete-nth}{physically removes an element of a list\hfill{\bf EXPERT}}
+
+{\usagefont\begin{verbatim}
+(delete-nth index list)
+(delete-nth key list)
+\end{verbatim}}\usageupspace
+
+This function physically removes an element of a list and returns the list. 
+Elements are specified as for the \verb"#" function. 
+For property lists, the key and the value are deleted.
+
+{\exemplefont\begin{verbatim}
+        (setq l '(a 1 b 2 c 3 d 4))
+        (delete-nth 5 l)
+        l                               ==>     (a 1 b 2 c d 4)
+        (delete-nth 'b l)
+        l                               ==>     (a 1 c d 4)
+\end{verbatim}}
+
+\ITEMa{delete-read-properties}{flags to delete X properties after reading them}
+
+\usagetyped{Numeric variable}{number}
+
+If non-zero, all calls to \verb|get-x-property| deletes the X property after
+reading it.
+
+\ITEMa{delete-window}{asks client to delete one of its windows}
+
+{\usagefont\begin{verbatim}
+(delete-window [window])
+\end{verbatim}}\usageupspace
+
+This function will ask the client owning the argument \verb"window" (or the
+current window if none is given) to delete it. This is only possible if the
+client participates in the \verb"WM_DELETE_WINDOW" ICCC protocol, in which
+case the function returns \verb"t", otherwise \verb"()".
+
+This is different from the \verb"kill-window" call, which destroys the
+client and every top-level window owned by it, in that other windows should
+survive the call.
+
+\ITEMc{dimensions}{width}{height}{dimensions of a {\WOOL} object}
+
+{\usagefont\begin{verbatim}
+(dimensions object)
+(width object)
+(height object)
+\end{verbatim}}\usageupspace
+
+These functions return the width and height in pixels of any {\bf wob}, {\bf
+pixmap}, {\bf active label}, {\bf cursor}, or {\bf string}.  For wobs, the
+returned dimensions {\bf include} the borderwidth. For strings, these are the
+dimensions that such a string would take on the screen, if printed in the
+current {\tt font}, thus including the \verb"label-horizontal-margin" and
+\verb"label-vertical-margin".
+
+The \verb"dimensions" function returns a list of {\bf four} values: x, y,
+width, heigth. x and y being non-null only for wobs in which case they are
+the coordinates of the upper-left corner of the wob relative to the parent
+wob.
+
+\ITEMa{direction}{direction of menus}
+
+\usagetyped{Numeric variable}{number}
+
+This variable controls the main direction of menus created by the
+\see{menu-make} constructor. Possible values are \verb"horizontal"
+or \verb"vertical".
+
+\ITEMa{describe-screen}{user function called to describe a screen}
+        
+{\usagefont\begin{verbatim}
+(describe-screen)
+\end{verbatim}}\usageupspace
+
+This function {\bf must} be provided by the user. 
+It must return the description of the screen (cursor, fsm, ...), made with a
+window-make call. Of the window-make parameters, only the \verb"opening"
+(expression evaluated when all windows are decorated, just before entering
+the main loop of {\GWM}) and \verb"closing" (expression evaluated just before
+ending) parameters are used. 
+
+\context{
+  fsm  &  for the fsm of the root window \\
+  menu &  for the default menu of the root window \\
+  cursor &  for the shape of the cursor when in root \\
+  property &  for the initial value of the property field \\
+  tile &  for the pixmap to be tiled on the screen
+    (() means do not touch the exixting screen) \\
+}
+
+This function is called by {\GWM} for each managed screen once. In the
+current version, only one screen is managed. Before each invocation of this
+function, the screen characteristics (visual, depth, ...) are updated to
+reflect the characteristics of the corresponding screen.
+
+\ITEMa{describe-window}{user function called to decorate a new window}
+        
+{\usagefont\begin{verbatim}
+(describe-window)
+\end{verbatim}}\usageupspace
+
+When a new window must be decorated by {\GWM}, it calls this user-defined
+function with \verb"window" and \verb"wob" set to the new window. It must
+return a list of two window descriptors made with \see{window-make}
+describing respectively the window and the icon of the new client window.
+
+A recommended way to use \verb"describe-window"  is to store in advance all
+the window descriptions in the resource manager by \see{resource-put} calls
+and use a \see{resource-get} call in your \verb"describe-window" function to
+retrieve the appropriate description. But this is not mandatory and you are
+free to design the way to describe a window freely.  For instance with the
+following describe-window function:
+
+{\exemplefont\begin{verbatim}
+        (defun describe-window ()
+            (resource-get (+ window-client-class "." window-client-name)
+                    "any-client.any-client"))
+
+        (resource-put "any-client.any-client" any-window)
+        (resource-put "XTerm.xterm" xterm-window)
+\end{verbatim}}
+
+{\GWM} will decorate xterm windows by the description held in
+\verb"xterm-window", and will decorate the windows of any other client by
+the \verb"any-window" description.
+
+\ITEMa{display-name}{name of the X server}
+        
+\usagetyped{Variable}{string}
+
+This variable holds the name of the display on which {\GWM} is running.
+
+\ITEMb{double-button}{double-buttonpress}{makes a double-click button event}
+        
+{\usagefont\begin{verbatim}
+(double-button number modifier)
+(double-buttonpress number modifier)
+\end{verbatim}}\usageupspace
+
+These events look for an incoming X {\bf ButtonPress} event and matches it
+if the {\bf last} key or button event was on the same button, in the same
+wob, and not a key event, and happened less than \verb"double-click-delay"
+milliseconds before it.
+
+The button to be pressed is specified by the number \verb"number", and these
+events verify that the modifier argument was depressed during the click.
+\verb"double-button" waits for the corresponding {\bf ButtonRelease}
+event before returning, while \verb"double-buttonpress" returns
+immediately.  Number or modifier can take the value \verb"any", thus
+matching any of the values of the corresponding argument.  
+
+Note that handling double-click events this way implies that the action that
+is done on a simple click event is executed even for a double click event,
+just before the action associated with it. The recommended way to use
+double-clicks is to place the \verb"double-button" event {\bf before} the
+\verb"button" in the state of the fsm as in:
+
+{\exemplefont\begin{verbatim}
+        (on (double-button 1 any) (do-double-action))
+        (on (button 1 any) (do-simple-action))
+\end{verbatim}}
+
+{\bf Note:} The ``last'' event can be a {\bf ButtonRelease} event only if it
+is waited for explicitly by a {\GWM} \verb"buttonrelease" event, in which
+case the \verb"double-click-delay" is measured between the release of the
+first click and the press of the second. Otherwise (if the first click is
+awaited by a \verb"button" event) the delay is taken between the two
+``presses'' of the button.
+
+\ITEMa{double-click-delay}{maximum time between double clicks}
+
+\usagetype{Numeric variable}
+
+If two buttonpress events are closer in time than \verb"double-click-delay"
+milliseconds then the second one can be matched by the \verb"double-button"
+and \verb"double-buttonpress" events.
+
+\ITEMa{draw-line}{draws a line in a pixmap}
+        
+{\usagefont\begin{verbatim}
+(draw-line pixmap x1 y1 x2 y2)
+\end{verbatim}}\usageupspace
+
+Draws a line (via the {\bf XDrawLine} X call) in a pixmap from point
+\verb"x1", \verb"y1" to point \verb"x2", \verb"y2" in the pixmap
+coordinates. 
+
+\contextdim{-2cm}{
+foreground & color of the line \\
+}
+
+\ITEMa{draw-rectangle}{draws a (filled) rectangle in a pixmap}
+        
+{\usagefont\begin{verbatim}
+(draw-rectangle pixmap x1 y1 width height border style)
+\end{verbatim}}\usageupspace
+
+Draws a rectangle in the pixmap. upper corner is placed at \verb|x1|,
+\verb|y1| coordinates in the pixmap, with the rectangle dimensions being
+\verb|width| and \verb|height|. \verb|border| is the border width. Note that a
+value of \verb|0| for \verb|border| does not means ``no border'' but a border
+drawn with 0-width lines, which in X means the default line width, usually 1.
+In the X tradition, the upper-left corner is taken inside the border, and the
+dimension do not include the border.
+
+\verb|style| tells which kind of rectangle to draw, namely:
+\desctabledim{1cm}{Value}{Style of rectangle}{
+0 & nothing drawn\\
+1 & only border is drawn\\
+2 & only filled rectangle without border\\
+3 & filled rectangle + border\\
+}
+
+\contextdim{-2cm}{
+foreground & color of the border, if any \\
+background & color of the inside, if any \\
+}
+
+\ITEMa{draw-text}{draws a string of characters in a pixmap}
+        
+{\usagefont\begin{verbatim}
+(draw-text pixmap x1 y1 font text)
+\end{verbatim}}\usageupspace
+
+Draws a string of characters \verb|text| on font \verb|font| into the pixmap
+\verb|pixmap|. Baseline of the string will start at coordinates \verb|x1|,
+\verb|y1| in the pixmap.
+
+\contextdim{-2cm}{
+foreground & pen color \\
+}
+
+\ITEMa{elapsed-time}{gets running time of {\GWM}}
+
+{\usagefont\begin{verbatim}
+(elapsed-time)
+\end{verbatim}}\usageupspace
+
+Returns the time in milliseconds for which {\GWM} has been running.
+
+\ITEMa{end}{terminates {\GWM}}
+        
+{\usagefont\begin{verbatim}
+(end)
+\end{verbatim}}\usageupspace
+
+Terminates {\GWM}, de-iconifying all the windows, un-decorating them,
+restoring their orignal borderwidth, and closing the display.
+
+\ITEMb{enter-window}{leave-window}{events generated when the pointer crosses the border of a wob}
+        
+\usagetyped{Constant}{event}
+
+This event is sent to the wob when the pointer crosses its border.
+Note that no leave event is generated if the pointer goes over a child window
+inside it.
+
+\ITEMb{enter-window-not-from-grab}{leave-window-not-from-grab}{pointer
+actually crosses the border of a wob}
+        
+\usagetyped{Constant}{event}
+
+When the server is grabbed (for instance by {\GWM} when popping a menu or
+moving/resizing a window), the cursor appears to leave the current window it
+is in, and thus a \verb|leave-window| is sent to this window. These events
+allow you to wait only for real crossing events, and not these grab-provoked
+ones. This distinguo is needed to code some tricky menu actions.
+
+\ITEMa{eq}{tests strict equality of any two objects\hfill{\bf EXPERT}}
+
+{\usagefont\begin{verbatim}
+(eq object1 object2)
+\end{verbatim}}\usageupspace
+
+Returns true only if the two object are the same, i.e., if they are at the
+same memory location.
+
+Example:{\exemplefont\upspace\begin{verbatim}
+        (setq l '(a b c))
+        (setq lc '(a b c))
+        (= l lc)                        ==>        t
+        (eq l lc)                       ==>        ()
+        (eq (# 1 l) (# 1 lc))           ==>        t
+\end{verbatim}}
+
+\ITEMa{error-occurred}{traps errors occurring in expressions}
+
+{\usagefont\begin{verbatim}
+(error-occurred expressions ...)
+\end{verbatim}}\usageupspace
+
+Executes the given expressions and returns \verb"()" if everything went
+fine, but returns \verb"t" as soon as a {\WOOL} error occurred and does not
+print the resulting error message.
+
+\ITEMa{eval}{evaluates a {\WOOL} expression}
+        
+{\usagefont\begin{verbatim}
+(eval wool-expression)
+\end{verbatim}}\usageupspace
+
+This function evaluates its argument. Note that there is a double evaluation,
+since the argument is evaluated by Lisp before being evaluated by eval.
+
+Example:{\exemplefont\upspace\begin{verbatim}
+        (? (eval (+ '( + ) '(1 2))))     ==>     prints "3"
+\end{verbatim}}
+
+\ITEMa{execute-string}{executes a {\WOOL} string}
+        
+{\usagefont\begin{verbatim}
+(execute-string string)
+\end{verbatim}}\usageupspace
+
+Parses the string argument as a {\WOOL} program text and evaluates the read
+expressions. Returns \verb"()" if an error occurred in the evaluation,
+\verb"t" otherwise. Very useful in conjunction with \see{cut-buffer},
+to evaluate the current selection with:
+
+{\exemplefont\begin{verbatim}
+        (execute-string cut-buffer)
+\end{verbatim}}
+
+\ITEMb{focus-in}{focus-out}{events received when input focus changes on the client window}
+        
+\usagetyped{Constant}{event}
+
+These events are sent to a wob when a child receives or loses the keyboard
+focus, i.e., the fact that all input from the keyboard goes to that child
+regardless of the pointer position. Only window wobs receive these events
+when their client window gets the focus,
+they must redispatch them to their sons (bar wobs) if they are expected to
+respond to such events (a title bar might want to invert itself for instance)
+by using the \verb"send-user-event" function.
+
+\ITEMa{font}{default font}
+        
+\usagetyped{Numeric variable}{number}
+
+This is the font ID used by default for the
+constructors \verb"label-make" and \verb"active-label-make". Initialized to
+``fixed'' or your local implementor's choice.
+It is also the font returned by \verb"font-make" when it fails to find a font.
+
+\ITEMa{font-make}{loads a font}
+        
+{\usagefont\begin{verbatim}
+(font-make font-name)
+\end{verbatim}}\usageupspace
+
+This function loads a font in memory, from the ones available on the server.
+You can list the available fonts by the XLSFONTS(1) UNIX command. The function
+returns the descriptor (number) of the loaded font. If it fails to find it,
+it will issue a warning and return the default font found in the \verb"font"
+global variable.
+
+\ITEMb{for}{mapfor}{iterates through a list of values}
+        
+{\usagefont\begin{verbatim}
+(for variable list-of-values inst1 inst2 ... instN)
+(mapfor variable list-of-values inst1 inst2 ... instN)
+\end{verbatim}}\usageupspace
+
+This Lisp control structure affects successively the variable (not
+evaluated) to each of the elements  of the evaluated list-of-values, and
+executes the n instructions of the body of the for.  The variable is local
+to the for body and will be reset to its previous value on exit.
+
+\verb"for"  returns the value of the evaluation on \verb"instN" in
+the last iteration, whereas \verb"mapfor" builds a list having for
+values the successive values of \verb"instN" for the iterations.
+
+Examples:{\exemplefont\upspace\begin{verbatim}
+        (for window (list-of-windows)           ; will replace all windows
+            (move-window 0 0))                  ; in the upper-left corner
+
+        (for i '(a b 2 (1 2)) 
+            (print i ","))              ==>     a,b,2,(1 2),
+        (mapfor i '(a b 2 (1 2))
+            (list i))                   ==>     ((a) (b) (2) ((1 2)))
+\end{verbatim}}
+
+\ITEMa{foreground}{color of the foreground}
+        
+\usagetyped{Numeric variable --- screen relative}{color}
+
+The value of this global variable is used by the constructors of graphics
+(labels and pixmaps) to paint the graphic. It is a pixel value, such as
+returned by \verb"color-make", and is initially set to the pixel of the color
+\verb"Black".
+
+\ITEMa{freeze-server}{stops processing other clients during grabs}
+        
+\usagetyped{Numeric variable}{number}
+
+If set to \verb"t" or 1, the X server is {\bf frozen}, i.e. it doesn't
+process the requests for other clients during the \verb"move-window",
+\verb"resize-window" and \verb"grab-server" operations, so that you cannot
+have your pop-up menu masked by a newly mapped window, or you display
+mangled when moving or resizing a window.
+
+If set to () or 0, the processing of other clients requests are allowed so
+that you can print in an xterm while popping a menu, for instance. (If the
+server is frozen, {\GWM} tries to write on an xterm whose X output is blocked
+and {\GWM} is deadlocked, forcing you to log on another system to kill it!).
+This should happen only when debugging, though, so that the default for this
+variable is \verb"t" (Menus are normally coded so that user actions are
+triggered {\bf after} de-popping).
+
+\ITEMa{fsm}{Finite State Machine of the wob}
+        
+\usagetyped{Variable}{fsm}
+
+This global variable is used by all wob constructors to determine their future
+behavior. Holds a fsm made with \verb"fsm-make", or \verb"()" (no behaviour).
+
+\ITEMa{fsm-make}{compiles an automaton}
+        
+{\usagefont\begin{verbatim}
+(fsm-make state1 state2 ... stateN)
+\end{verbatim}}\usageupspace
+
+This function creates a finite state machine with {\tt N} states. Each wob
+has an associated fsm, and a current state, which is the first state at
+creation time. Each time a wob receives an event, its current state of its
+fsm is searched for a transition which matches the event. If found, the
+corresponding action is executed and the current state of the fsm becomes
+the destination state of the transition. If no destination state was
+specified for the transition (see the \verb"on" function), the current state
+of the fsm does not change. See \verb"on" and \verb"state-make" functions.
+
+\ITEMa{geometry-change}{event generated when window changes size}
+        
+\usagetyped{Constant}{event}
+
+This event is sent to the window when its geometry changes by a resize
+operation either from the client or from {\GWM}.
+
+\ITEMa{get-wm-command}{gets the WM\_COMMAND property}
+
+{\usagefont\begin{verbatim}
+(get-wm-command)
+\end{verbatim}}\usageupspace
+
+Returns the command line that can be used to restart the application
+which created the current window in its current state as a list of
+strings.  (For instance, \verb|("xterm" "-bg" "Blue")|). See {\tt
+save-yourself}, p~\pageref{save-yourself}.
+
+\ITEMa{get-x-default}{gets a server default}
+
+{\usagefont\begin{verbatim}
+(get-x-default program-name option-name)
+\end{verbatim}}\usageupspace
+
+Calls the ``{\tt XGetDefault}'' Xlib function to
+query the server defaults about an option for a program. This function
+should be used to retrieve defaults set either by the obsolete {\tt
+.Xdefaults} files or the XRDB client. It returns \verb"()" if no such
+option was defined, or the option as a {\WOOL} string.
+
+\ITEMa{get-x-property}{gets an X property on the client}
+        
+{\usagefont\begin{verbatim}
+(get-x-property property-name)
+\end{verbatim}}\usageupspace
+
+Returns the value of the X11 property of name \verb"property-name" of
+the current client window. It only knows how to handle the types STRING
+and INTEGER. For instance, {\tt (window-name)} is equivalent to {\tt
+(get-x-property "WM\_NAME")}.
+
+The value of the global variable \verb|delete-read-properties| determines
+whether the read property is deleted afterwards.
+
+\ITEMa{getenv}{gets the value of a shell variable}
+        
+{\usagefont\begin{verbatim}
+(getenv variable-name)
+\end{verbatim}}\usageupspace
+
+If variable-name (string) is the name of an exported shell variable, getenv
+returns its value as a string, otherwise returns the nil string.
+
+\ITEMa{grab-keyboard-also}{grab-server grabs also keyboard events}
+
+\usagetyped{Numeric variable}{number}
+
+If set, all grabs will also grab the keyboard, i.e. all keyboard events will
+also be redirected to the grabbing wob, whereas if unset only the pointer
+events get redirected.
+
+\ITEMa{grab-server}{grabs the server}
+        
+{\usagefont\begin{verbatim}
+(grab-server wob ['nochild])
+\end{verbatim}}\usageupspace
+
+Grab-server freezes the server, so that only requests from {\GWM} are
+processed, and every event received by {\GWM} is sent to the wob (called the
+``grabbing'' wob) passed as argument, or to a child of it. Re-grabbing the
+server afterwards just change the grabbing wob to the new one if it is not a
+child of the wob currently grabbing the server, in which case the function
+has no effect. Grabbing the server by a wob is a way to say that all events
+happening for wobs which are not sons of the grabbing wob are to be
+processed by it.
+
+For instance, the pop-menu function uses \verb"grab-server" with the menu as
+argument in order for the sons to be able to receive enter and leave window
+events and to catch the release of the button even outside the pop-up.
+
+Grabbing the server sets the mouse cursor to the value of \verb"cursor" if not
+().
+
+If the atom \verb"nochild" is given as optional argument, if an event
+was sent to a child of the grabbing wob, it is redirected to the grabbing
+wob as well (default not to redirect it).
+
+\ITEMa{grid-color}{color to draw (xor) the grids with}
+        
+\usagetyped{Numeric variable --- screen relative}{color}
+
+This is the color (as returned by color-make) that will be used to draw the
+grid with (in XOR mode) on the display. Initially set to the
+``Black'' color.
+
+\ITEMa{grabs}{passive grabs on a window}
+
+\usagetyped{Variable}{list}
+
+The events specified in this list are used by the \see{window-make}
+constructor to specify on which events {\GWM} establishes passive
+grabs on its window to which the client window gets reparented. Passive
+grabbing means redirecting some events from a window (bars, plugs, client)
+to the main window, ``stealing'' them from the application.
+
+\ITEMa{gwm-quiet}{silent startup}
+        
+\usagetyped{Numeric variable}{0/1}
+
+This variable evals to 1 if the users specified (by the \verb"-q" option) a
+quiet startup. Your code should check for this variable before printing
+information messages.
+
+\ITEMa{hack}{raw access to {\GWM} internal structures\hfill{\bf EXPERT}}
+        
+{\usagefont\begin{verbatim}
+(hack type memory-location)
+\end{verbatim}}\usageupspace
+
+{\bf WARNING:} Internal debug function: returns the {\WOOL} object constructed
+from C data supposed present at memory-location (number). The type of the
+type argument is used to know what to find: 
+
+\begin{center}\begin{tabular}{lll}
+{\bf type of type}&{\bf interpretation of pointer}&{\bf returns}\\ \hline
+ number & pointer on integer & number \\
+ string & C string & string \\
+ () & object & object \\
+ atom & pointer to an {\WOOL} object & number \\
+\end{tabular}\end{center}
+
+This function is {\bf not} intended for the normal user, it should be used
+only as a temporary way to implement missing functionalities or for
+debugging purposes.
+
+\ITEMa{hashinfo}{statistics on atom storage}
+        
+{\usagefont\begin{verbatim}
+(hashinfo)
+\end{verbatim}}\usageupspace
+
+Prints statistics on atom storage.
+
+\ITEMb{horizontal}{vertical}{directions of menus}
+        
+\usagetyped{Constant}{number}
+
+Used to specify orientation of menus in menu-make.
+
+\ITEMa{hostname}{name of the machine on which GWM is running}
+
+\usagetyped{Active value}{string --- not settable}
+
+This string holds the name of the host {\GWM} is currently running on.
+
+\ITEMa{iconify-window}{iconifies or de-iconifies a window}
+        
+{\usagefont\begin{verbatim}
+(iconify-window)
+\end{verbatim}}\usageupspace
+
+Iconify the current window (or de-iconify it if it is already an icon). The
+current window is then set to the new window. 
+
+{\bf WARNING:} Never trigger this function with a \verb"button" event, but
+with a \verb"buttonpress" or \verb"buttonrelease" event. If you trigger it
+with a button event, the window being unmapped cannot receive the
+corresponding release event and {\GWM} acts weird!
+
+{\bf WARNING:} Due to the grab management of X, an unmapped window cannot
+receive events, so a grab on this window is automatically lost.
+
+\ITEMa{if}{conditional test}
+        
+{\usagefont\begin{verbatim}
+(if condition then [condition then] ... [condition then]
+              [else])
+\end{verbatim}}\usageupspace
+
+This is similar to \verb"cond" but with a level of parentheses suppressed.  It
+executes the ``then'' part of the first true condition, or the else condition
+(if present) if no previous condition is true.
+
+{\exemplefont\begin{verbatim}
+        (defun fib (n)
+            (if (= n 0)
+                    1
+                (= n 1) 
+                    1
+                    (+ (fib (- n 1) (- n 2)))))
+\end{verbatim}}
+
+\ITEMa{inner-borderwidth}{borderwidth of the client window}
+        
+\usagetyped{Numeric variable}{number}
+
+When {\GWM} decorates a new window, it sets the width of the border of the
+client window to the value of the \verb"inner-borderwidth" variable at the
+time of the evaluation of the \verb"window-make" call.
+
+If \verb"inner-borderwidth" has the value \verb"any", which is the default
+value, the client window borderwidth is not changed.
+
+\ITEMa{invert-color}{color to invert (xor) the wobs with}
+        
+\usagetyped{Numeric variable --- screen relative}{color}
+
+This is the color (as returned by color-make) that will be used by 
+\seeref{wob-invert} to quickly XOR the wob surface.
+Initially set to the bitwise-xoring of Black and White colors for each
+screen.
+
+\ITEMa{invert-cursors}{inverts the bitmaps used for making cursors}
+        
+\usagetyped{Numeric variable}{number}
+
+Due to many problems on different servers, you might try to set to 1 this
+numerical global variable if your loaded cursors appear to be video
+inverted. Defaults to 0 (no inversion).
+
+\ITEMa{itoa}{integer to ascii string conversion}
+        
+{\usagefont\begin{verbatim}
+(itoa number)
+\end{verbatim}}\usageupspace
+
+Integer to ASCII yields the base 10 representation of a number in a {\WOOL}
+string.
+
+{\exemplefont\begin{verbatim}
+        (itoa 10)                       ==>     "10"
+\end{verbatim}}
+
+\ITEMc{key}{keypress}{keyrelease}{keyboard events}
+        
+{\usagefont\begin{verbatim}
+(key keysym modifier)
+(keypress keysym modifier)
+(keyrelease keysym modifier)
+\end{verbatim}}\usageupspace
+
+Returns an event matching the press on a key of keysym code
+\verb"keysym"\footnote{A keysym is a number representing the symbolic
+meaning of a key. This can be a letter such as ``A'', or function keys, or
+``Backspace'', ... The list of keysyms can be found in the {\bf keysymdef.h}
+file in the {\tt /usr/include/X11} directory.}, with the
+modifier\footnote{See the list of modifiers at the \verb"with-alt" entry,
+page~\pageref{with-alt}} key {\tt modifier} depressed. The \verb"key" event
+will wait for the corresponding keyrelease event before returning, while the
+\verb"keypress" event will return immediately. Number or modifier can take
+the value \verb"any", thus matching any of the values of the corresponding
+argument.
+
+Keysyms can be given as numbers or as symbolic names.
+
+Examples:{\exemplefont\upspace\begin{verbatim}
+        (key 0xff08 with-alt)   ; matches typing Alternate-Backspace
+        (key "BackSpace" with-alt)       ; same effect
+\end{verbatim}}
+
+{\bf Note:} These functions convert the keysym to the appropriate keycode
+for the keyboard, so you should do any re-mapping of keys via the
+\seeref{set-key-binding} function {\bf before} using any of them.
+
+\ITEMa{key-make}{makes a key symbol out of a descriptive name}
+
+{\usagefont\begin{verbatim}
+(key-make keyname)
+\end{verbatim}}\usageupspace
+
+Returns a {\bf keysym} (number) associated with the symbolic name
+\verb"keyname" (string), to be used with the \verb"key", \verb"keypress",
+\verb"keyrelease" and \verb"send-key-to-window" functions. The list of
+symbolic names for keys can be found in the include file
+``\verb"/usr/include/X11/keysymdef.h"''.
+
+For instance, the backspace key is listed in \verb"keysymdef.h" as:
+{\exemplefont\begin{verbatim}
+        #define XK_BackSpace            0xFF08  /* back space, back char */
+\end{verbatim}}
+and you can specify the keysym for backspace with:
+{\exemplefont\begin{verbatim}
+        (key-make "BackSpace")          ==> 65288 (0xFF08)
+\end{verbatim}}
+
+\ITEMa{keycode-to-keysym}{converts a key code to its symbolic code}
+
+{\usagefont\begin{verbatim}
+(keycode-to-keysym code modifier)
+\end{verbatim}}\usageupspace
+
+This function returns the server-independent numeric code (the KeySym)
+used to describe the key whose keyboard code is \verb"code" while the
+modifier \verb"modifier" is down. 
+
+{\bf Note:} Only know the \verb"alone" and \verb"with-shift" modifiers 
+are meaningful in this {\bf X} function.
+
+\ITEMa{keysym-to-keycode}{converts a symbolic code to a key code}
+
+{\usagefont\begin{verbatim}
+(keysym-to-keycode keysym)
+\end{verbatim}}\usageupspace
+
+This function returns the key code, i.e., the raw code sent by the displays
+keyboard when the user depresses the key whose server-independent numeric
+code is listed in the ``\verb"/usr/include/X11/keysymdef.h"'' include file
+and given as a number as the \verb"keysym" argument.
+
+\ITEMa{kill-window}{destroys a client}
+        
+{\usagefont\begin{verbatim}
+(kill-window [window])
+\end{verbatim}}\usageupspace
+
+Calls XKillClient on the current window or \verb"window" if specified. This is
+really a forceful way to kill a client, since all X resources opened by the
+client owning the window are freed by the X server. If only you want to
+remove a window of a client, use \seep{delete-window}.
+
+\ITEMb{label-horizontal-margin}{label-vertical-margin}{margins around labels}
+        
+\usagetyped{Numeric variables}{number}
+
+The value of these global variables are used by the \verb"label-make"
+functions to add margins (given in pixels) around the string displayed.
+\verb"label-horizontal-margin" defaults to 4 and
+\verb"label-vertical-margin" to 2.
+
+\ITEMa{label-make}{makes a pixmap by drawing a string}
+        
+{\usagefont\begin{verbatim}
+(label-make label [font])
+\end{verbatim}}\usageupspace
+
+Creates a label with string \verb"label" drawn with \verb"foreground" color
+in the font \verb"font" on a \verb"background" background. This function
+builds a pixmap which is returned. 
+
+Note that when used in a plug, the resulting pixmap is directly painted on
+the background pixmap of the wob, speeding up the redisplay  since
+re-exposure of the wob will be done directly by the server, but consuming a
+small chunk of server memory to store the pixmap.
+
+\contextdim{-2cm}{
+foreground & color of the text string \\
+background & color of the background \\
+font & font of the string if not given \\
+label-horizontal-margin &  \\
+label-vertical-margin & margins around the string \\
+}
+
+\ITEMa{last-key}{last key pressed}
+        
+{\usagefont\begin{verbatim}
+(last-key)
+\end{verbatim}}\usageupspace
+
+If the last event processed by a fsm was a key event, returns the string
+generated by it. (Pressing on A yields the string \verb|"A"|). It uses 
+{\bf XLookupString} to do the translation.
+
+\ITEMa{length}{length of list or string}
+        
+{\usagefont\begin{verbatim}
+(length list)
+(length string)
+\end{verbatim}}\usageupspace
+
+Returns the number of elements of the list or the number of
+characters of the string.
+
+\ITEMa{list}{makes a list}
+        
+{\usagefont\begin{verbatim}
+(list elt1 elt2 ... eltN)
+\end{verbatim}}\usageupspace
+
+Returns the list of its N evaluated arguments.
+
+{\exemplefont\begin{verbatim}
+        (list (+ 1 2) (+ "foo" "bar"))  ==>     (3 "foobar")
+\end{verbatim}}
+
+\ITEMa{list-make}{makes a list of a given size}
+
+{\usagefont\begin{verbatim}
+(list-make size elt1 elt2 ... eltN)
+\end{verbatim}}\usageupspace
+
+Returns the list of size \verb"size" (number) elements. The element of rank
+\verb"i" is initialized to \verb"elt"$j$, where $j = i$ modulo $N$, if
+elements are provided, \verb"()" otherwise.
+
+{\exemplefont\begin{verbatim}
+        (list-make 8 'a 'b 'c)          ==>     (a b c a b c a b)
+        (list-make 3)                   ==>     (() () ())
+\end{verbatim}}
+
+\ITEMa{list-of-screens}{list of managed screens}
+
+{\usagefont\begin{verbatim}
+(list-of-screens)
+\end{verbatim}}\usageupspace
+
+Returns the list of screens actually managed by {\GWM}.
+
+\ITEMa{list-of-windows}{returns the list of managed windows}
+        
+{\usagefont\begin{verbatim}
+(list-of-windows ['window] ['icon] ['mapped]
+    ['stacking-order])
+\end{verbatim}}\usageupspace
+
+Returns the list of all windows and icons managed by {\GWM}, mapped or not.
+Called without arguments, this function returns the list of all windows (not
+icons), mapped or not. It can take the following atoms as optional
+arguments:
+
+\begin{description}
+\item[window] lists only main windows
+\item[icon] lists only realized icons
+\item[mapped] lists only currently mapped (visible) windows or icons
+\item[stacking-order] lists windows in stacking order, from bottommost
+(first) to topmost (last). This option is slower than the default which is
+to list them by the order in which they were managed by {\GWM}, from the
+the newest to the oldest.
+\end{description}
+
+The \verb"window" and \verb"icon" arguments are mutually exclusive.
+
+{\bf Note:} The two following expressions do not return the same list:
+{\exemplefont\begin{verbatim}
+        (list-of-windows 'icon)
+        (mapfor w (list-of-windows) window-icon)
+\end{verbatim}}
+The first one will return the list of all realized icons, that is only the
+icons of windows that have already been iconified at least once, but the
+second one will trigger the realization of the icons of {\bf all} the
+managed windows, by the evaluation of \verb"window-icon", on all the
+windows.
+
+{\bf Note:} The main window of an application is always realized, even if
+the application started as iconic.
+
+\ITEMa{load}{loads and executes a {\WOOL} file}
+        
+{\usagefont\begin{verbatim}
+(load filename)
+\end{verbatim}}\usageupspace
+
+Loads and executes the {\WOOL} file given in the filename string argument,
+searching through the  path specified by the {\bf GWMPATH} variable or the
+{\bf -p} command line switch. Defaults to \verb".:$HOME:$HOME/gwm:INSTDIR",
+where \verb"INSTDIR" is your local {\GWM} library directory, which is normally
+\verb"/usr/local/X11/gwm", but can be changed by your local installer.
+
+On startup, {\GWM} does a \verb|(load ".gwmrc")|.
+
+Returns the complete pathname of the file as a string if it was found, ()
+otherwise but does not generate an error, only a warning message.
+
+Searches first for \verb"filename.gwm" then \verb"filename" in each
+directory in the path. If the filename includes a \verb"/" character, the
+file is not searched through the path. If any error occurs while the file is
+being read, {\WOOL} displays the error message and aborts the reading of
+this file. This implies that you can't expect {\GWM} to run normally if
+there has been an error in the .gwmrc. (You can turn off this behavior and
+make {\GWM} continue reading a file after an error at your own risk, with
+the {\bf -D} command line option).
+
+\ITEMa{lower-window}{lowers window below another window}
+        
+{\usagefont\begin{verbatim}
+(lower-window [window])
+\end{verbatim}}\usageupspace
+
+Lowers  the current window below all other top-level windows or, if the
+\verb"window" argument is present, just below the window given as argument.
+
+\ITEMa{make-string-usable-for-resource-key}{strips string from dots
+and stars}
+
+{\usagefont\begin{verbatim}
+(make-string-usable-for-resource-key string)
+\end{verbatim}}\usageupspace
+
+Replaces all characters \verb*|.*& | (dots, stars, ampersand and spaces) in
+the string
+\verb"string" by underscores \verb"'_'". This function should be used
+before using names for keys in the resource manager functions, as X
+can go weird if you do not handle the good number of classes and names
+to the resource manager \seesnp{resource-get}.
+
+The string argument is not modified; if remplacement is done, a new
+string is returned.
+
+\ITEMa{map-notify}{event sent when window is mapped}
+
+\usagetyped{Constant}{event}
+
+This event is sent to a window or icon just afterwards being actually mapped.
+
+\ITEMa{map-window}{maps window}
+        
+{\usagefont\begin{verbatim}
+(map-window [window])
+\end{verbatim}}\usageupspace
+
+Maps (makes visible) the window (or current window). Does not raise it.
+
+\ITEMa{match}{general regular expression matching package}
+        
+{\usagefont\begin{verbatim}
+(match regular-expression string [number] ...)
+\end{verbatim}}\usageupspace
+
+This is the general function to match and extract substrings out of a {\WOOL}
+string. This string is matched against the pattern in regular expression,
+and returns () if the pattern could not be found in the string, and the
+string otherwise.
+
+If \verb"number" is given, match returns the sub-string 
+matching the part of the
+regular-expression enclosed in between the number-th open parenthesis and
+the matching closing  parenthesis (first parenthesis is numbered 1). Do not
+forget to escape twice the parentheses, once for {\GWM} parsing of strings, and
+once for the regular expression, e.g., to extract ``bar'' from ``foo:bar'' you
+must use: \verb|(match ":\\(.*\\)" "foo:bar" 1)|. If a match cannot be found,
+returns the nil string \verb|""|.
+
+If more than one \verb"number" argument is given, returns a list made of
+of all the specified sub-strings in the same way as for a single \verb"number"
+argument. If a sub-string wasn't matched, it is the null string.
+For instance, to parse a X geometry such as \verb"80x24+100+150"
+into a list \verb"(x y width height)", you can define the following function:
+
+{\exemplefont\begin{verbatim}
+        (defun parse-x-geometry (string)
+          (mapfor dim                   
+            (match "=*\\([0-9]*\\)x\\([0-9]*\\)\\([-+][0-9]*\\)\\([-+][0-9]*\\)" 
+                   string 3 4 1 2)
+            (atoi dim))
+        
+        (parse-x-geometry "80x24+100+150")  ==>  (100 150 80 24)
+\end{verbatim}}
+
+Note that this function returns an error if there is a syntax error in
+the given regular expression.
+
+The accepted regular-expressions are the same as for ED or GREP, viz:
+
+\begin{enumerate}
+
+\item  Any character except a special character matches itself.  Special
+characters are the regular expression delimiter plus \verb|\ [ .| and
+sometimes \verb|^ * $|.
+
+\item  A \verb"." matches any character.
+
+\item  A \verb|\| followed by any character except a digit or \verb|( )|
+matches that character.
+
+\item  A nonempty string \verb|s| bracketed \verb|[s]| (or \verb|[^s]|)
+matches any character in (or not in) \verb|s|. In \verb|s|, \verb|\| has no
+special meaning, and \verb|]| may only appear as the first letter. A
+substring \verb|a-b|, with \verb|a| and \verb|b| in ascending ASCII order,
+stands for the inclusive range of ASCII characters.
+
+\item  A regular expression of form {\bf 1-4} followed by \verb|*| matches a
+sequence of 0 or more matches of the regular expression.
+
+\item  A regular expression, \verb"x", of form {\bf 1-8}, bracketed
+\verb"\(x\)" matches what \verb"x" matches.
+
+\item  A \verb"\" followed by a digit \verb|n| matches a copy of the string
+that the bracketed regular expression beginning with the \verb|n|th
+\verb|\(| matched.
+
+\item  A regular expression of form {\bf 1-8}, \verb"x", followed by a
+regular expression of form \verb"1-7", \verb"y" matches a match for \verb"x"
+followed by a match for \verb"y", with the \verb"x" match being as long as
+possible while still permitting a \verb"y" match.
+
+\item  A regular expression of form {\bf 1-8} preceded by \verb"^" (or
+followed by \verb"$"), is constrained to matches that begin at the left (or
+end at the right) end of a line.
+
+\item  A regular expression of form {\bf 1-9} picks out the longest among
+the leftmost matches in a line.
+
+\item  An empty regular expression stands for a copy of the last regular
+expression encountered.
+
+\end{enumerate}
+
+\ITEMa{member}{position of element in list or in string}
+
+{\usagefont\begin{verbatim}
+(member element list)
+(member substring string)
+\end{verbatim}}\usageupspace
+
+In the first form, scans the list (with the \verb"equal" predicate) to find
+the object \verb"element". If found, returns its index in the list (starting
+at 0), \verb"()" otherwise.
+
+In the second form, looks for the first occurrence of the string
+\verb"substring" in the string \verb"string", and returns the character
+position at which it starts, or \verb"()" if not found.
+
+\ITEMa{meminfo}{prints memory used}
+        
+{\usagefont\begin{verbatim}
+(meminfo)
+\end{verbatim}}\usageupspace
+
+Prints the state of the malloc allocator of all dynamic memory used, by
+{\WOOL} or by the Xlib. You will note that reloading your profile consumes
+memory.  This is unavoidable.
+
+\ITEMa{menu}{menu associated with wob}
+        
+\usagetyped{Variable}{menu}
+
+The value of this global variable is used by the constructors of all wobs to
+set the associated menu of the wob.  It should be set to a menu constructed
+with \verb"menu-make" or ().  This menu is the default one used by the
+\verb"pop-menu" and \verb"unpop-menu" functions.
+
+\ITEMa{menu-make}{makes a menu}
+        
+{\usagefont\begin{verbatim}
+(menu-make bar1 bar2 ... barN)
+\end{verbatim}}\usageupspace
+
+Creates a menu, vertical or horizontal depending on the value of the context
+variable \verb"direction" ({\tt horizontal} or {\tt vertical}). This
+function returns a menu descriptor and at the same time realize the
+corresponding menu wob (to get the
+wob, use the \verb"menu-wob" function below). Unlike the plug-make or
+bar-make functions that return the {\WOOL} description to be used to create
+different wob instances, this is the only {\WOOL} function which really
+creates a wob (as an unmapped X window) on execution.
+
+A vertical menu is composed of horizontal bars stacked on top of each other.
+A horizontal menu is composed of vertical bars aligned from left to right.
+The menu takes the width (or height) of the largest bar, then adjusts the
+others accordingly in the limits defined by the values of 
+\verb"menu-max-width" and \verb"menu-min-width".
+\label{menu-max-width}\label{menu-min-width}
+
+If a bar argument is \verb|()|, it is just skipped.
+
+\context{
+fsm & its finite state machine \\
+direction & for the direction of the menu \\
+borderwidth & the width of the menu's border in pixels \\
+borderpixel & its color \\
+bordertile & if it has a pixmap as border pattern \\
+background & the color of the background \\
+bar-separator & the number of pixels between consecutive bars \\
+tile &  the pattern of its background (may be ()) \\
+cursor & the cursor's shape when in it \\
+property & the property associated with the menu \\
+menu-min-width & minimum width of the menu, its bars are stretched to 
+	fit in it\\
+menu-max-width & maximum width of the menu, clipping its bars\\
+}
+
+\ITEMa{menu-wob}{returns wob associated with menu}
+
+{\usagefont\begin{verbatim}
+(menu-wob menu-descriptor)
+\end{verbatim}}\usageupspace
+
+Returns the wob representing the menu as given by the descriptor returned by
+\verb"menu-make" and used in the context variable \verb"menu".
+
+\ITEMa{meter}{sets meter attributes}
+
+{\usagefont\begin{verbatim}
+(meter [key value]...)
+(meter list)
+\end{verbatim}}\usageupspace
+
+Sets the attributes of the current screen meter. The key must be an atom, and
+the corresponding attribute is set to the value. If a \verb"list" is given,
+it must be a list of keys and values.
+
+\desc{horizontal-margin}{Key}{Value}{
+ font & the font of the text displayed in the meter\\
+ background & the background color of the meter, defaults to black\\
+ foreground & the color the text will be drawn with, defaults to white\\
+ horizontal-margin & in pixels between text and sides of meter\\
+ vertical-margin & in pixels between text and top and bottom of meter\\
+ x & x position of ``anchor''\\
+ y & y position of ``anchor''\\
+ gravity & which corner of the meter is put at the ``anchor''. Gravity is
+a number from 1 to 9, default being 1 (NorthWest)\\
+ borderwidth & the width in pixels of the border, defaults to 0 (no border)\\
+ borderpixel & the color of the border, defaults to white\\
+}
+
+\verb"meter" returns a list of keys and values describing the previous values
+of attributes that has been changed. This list can then be given as
+argument to meter to restore the previous values.
+
+Gravity is expressed as in X11 calls, i.e. by the numbers:
+\centerline{\texpsfig{gravity.id}{78}{49}}
+For instance, to set temporarily the meter on the lower right corner
+of the screen:
+
+{\exemplefont\begin{verbatim}
+	(setq previous-meter-config
+              (meter 'x screen-width 'y screen-height
+                     'gravity 9))
+                                         ; ==> (x 0 y 0 gravity 1)
+        (my-code...)
+        (meter previous-meter-config)
+\end{verbatim}}
+
+\ITEMa{meter-close}{unmaps the meter}
+        
+{\usagefont\begin{verbatim}
+(meter-close)
+\end{verbatim}}\usageupspace
+
+Closes the meter (makes it disappear).
+
+\ITEMa{meter-open}{displays the meter}
+        
+{\usagefont\begin{verbatim}
+(meter-open x y string)
+\end{verbatim}}\usageupspace
+
+Displays the meter at location x,y. The string argument is only used to set
+the minimum width of the meter, call meter-update to display a string in it.
+
+\ITEMa{meter-update}{writes a string in the meter}
+        
+{\usagefont\begin{verbatim}
+(meter-update string)
+\end{verbatim}}\usageupspace
+
+Change the string displayed in the meter to \verb"string". Updates the width
+of the meter accordingly. Since the meter is generally used in a context
+where speed is important, it is never shrunk, only expanded.
+
+\ITEMb{move-grid-style}{resize-grid-style}{style of grid for move and resize}
+        
+\usagetyped{Numeric variables}{number}
+
+These variables control the kind of grid which is displayed on move or
+resize operations. Currently available grids are:
+
+\desctabledim{1cm}{Value}{Style of grid}{
+0 &     outer rectangle of the window (default) \\
+1 &     outer rectangle divided in 9 (uwm-style) \\
+2 &     outer rectangle with center cross (X) inside \\
+3 &     outer rectangle + inner (client) outline \\
+4 &     styles 1 and 3 combined \\
+5 &     2 pixel wide outer rectangle\\
+}
+
+\ITEMb{move-meter}{resize-meter}{shows meter for move and resize}
+
+\usagetyped{Numeric variables}{number}
+
+If set to 1, the meter is shown during an interactive move,
+displaying the coordinates of the moved window.
+
+\ITEMa{move-window}{moves window interactively or not}
+        
+{\usagefont\begin{verbatim}
+(move-window)
+(move-window window)
+(move-window x y)
+(move-window window x y)
+\end{verbatim}}\usageupspace
+
+Moves the window. If coordinates are specified, moves directly the current
+window (or \verb"window" argument if specified) to \verb"x,y" (upper-left
+corner coordinates in pixels). If coordinates are not specified, moves the
+window interactively, i.e., display the grid specified with the current
+value of \verb"move-grid-style", and track the grid, waiting for a
+buttonrelease for confirmation or a buttonpress for abort. If confirmed, the
+window is moved to the latest grid position. The cursor will take the shape
+defined by the variable \verb"cursor" if not ().  When move-window is called
+on another event than buttonpress, there is no way to abort the move.
+
+If you have a strange behavior on move or resize window, check if you
+didn't trigger them with a \verb"button" event instead of a
+\verb"buttonpress", since {\GWM} will wait for a release already eaten by
+move-window!
+
+When used interactively (first two forms), the return value can be one of:
+
+\desctabledim{1cm}{Return}{Case}{
+()&     Ok\\
+0 &     X problem (window disappeared suddenly, other client 
+        grabbing display, etc.)\\
+1 &     pointer was not in the window screen\\
+2 &     user aborted by pressing another button\\
+3 &     user released button before the function started\\
+}
+
+Also, when used interactively, if the context variable \verb|confine-windows|
+is set, the window will stay confined to the screen.
+
+\ITEMa{name-change}{event generated when window changes its name}
+        
+\usagetyped{Constant}{event}
+
+This event is sent to the window when the client changes its name.  The
+window should then warn the appropriate wobs, by a \see{send-user-event} if
+needed. It is equivalent to the event made by the call 
+\verb|(property-change "WM_NAME")|.
+
+\ITEMa{namespace}{sets current state of a namespace}
+
+{\usagefont\begin{verbatim}
+(namespace namespace current-state-index)
+\end{verbatim}}\usageupspace
+
+Sets the current state of the namespace argument to the index returned
+from the
+\verb"namespace-add" function at the creation of the state. If the index is
+out of bounds (like ``-1''), returns the current index.
+
+\ITEMa{namespace-add}{adds a state to a namespace}
+
+{\usagefont\begin{verbatim}
+(namespace-add namespace)
+\end{verbatim}}\usageupspace
+
+Adds a new state to the argument namespace and returns the index (numeric
+offset starting at 0) of the newly created state. This index should then be
+used to set the current state of the namespace by the \verb"namespace"
+function.
+
+\ITEMa{namespace-make}{creates a namespace}
+
+{\usagefont\begin{verbatim}
+(namespace-make)
+\end{verbatim}}\usageupspace
+
+Creates a new {\bf namespace} and returns it. A namespace is a set of
+variable names, called {\bf names}, that have different values for each
+state in which the namespace can be. 
+
+The special namespace \verb"screen." has as many spaces as there are
+screens, and its current state is always updated to match the current screen
+by {\GWM}. Other namespaces must switch states by the \verb"namespace"
+function.
+
+For instance, to define a namespace \verb"application." with a name
+\verb"application.border" which will depend on the current application:
+
+{\exemplefont\begin{verbatim}
+        (setq application. (namespace-make))
+        (setq application.clock (namespace-add application.))
+        (setq application.load (namespace-add application.))
+        (defname 'application.border application.)
+        (namespace application. application.clock)
+        (setq application.border 1)
+        (namespace application. application.load)
+        (setq application.border 2)
+
+        (namespace application. application.clock)
+        application.border                                ==>  1
+        (namespace application. application.load)
+        application.border                                ==>  2
+\end{verbatim}}
+
+\ITEMa{namespace-of}{returns namespace of the name}
+
+{\usagefont\begin{verbatim}
+(namespace-of name)
+\end{verbatim}}\usageupspace
+
+Returns the namespace where the name \verb"name" is declared in, otherwise
+(if it is a plain atom or an active value) returns \verb"()".
+
+\ITEMa{namespace-remove}{removes a state from a namespace}
+
+{\usagefont\begin{verbatim}
+(namespace-remove namespace state-index)
+\end{verbatim}}\usageupspace
+
+Destroys a state (made with \verb"namespace-add" of a namespace. The number
+\verb"state-index" is the index returned by namespace-add at the creation of
+the state.
+
+\ITEMa{namespace-size}{number of states in the namespace}
+
+{\usagefont\begin{verbatim}
+(namespace-size namespace)
+\end{verbatim}}\usageupspace
+
+Returns the number of the states of the namespace, i.e., the number of
+possible values for each name in this namespace. The legal values for the
+index to be given to the \verb"namespace" function are in the range
+from 0 to the return value - 1.
+
+\ITEMa{not}{logical negation}
+        
+{\usagefont\begin{verbatim}
+(not object)
+\end{verbatim}}\usageupspace
+
+Logical negation. Returns \verb"t" if \verb"object" is \verb"()",
+\verb"()" otherwise.
+
+\ITEMa{oblist}{prints all defined objects}
+        
+{\usagefont\begin{verbatim}
+(oblist)
+\end{verbatim}}\usageupspace
+
+Prints the name and value of all currently defined {\WOOL} atoms.
+
+\ITEMb{on}{on-eval}{triggers a transition on an event in a state of a fsm}
+        
+{\usagefont\begin{verbatim}
+(on event [action [state]])
+(on-eval event [action [state]])
+\end{verbatim}}\usageupspace
+
+This is the function used to build transitions in the states of the fsms.
+The \verb"on" evaluates only its \verb"event" argument, so that it is not
+necessary to quote the \verb"action" or \verb"state" arguments, whereas
+\verb"on-eval" evaluates all its arguments.
+
+When an event is handled by an fsm, it checks sequentially all the
+transitions of the current state for one whose \verb"event" field matches
+the incoming event. If found, it calls the {\WOOL} function found in the
+\verb"action" field, which must be a function call, and makes the
+state argument the current state of the fsm. If no  state is given, it is
+taken as the same state of the fsm. If no action is given, no action is
+performed.
+
+The destination state is an atom which should have a state value defined in
+the current fsm (i.e., set by setq of an atom 
+with the result of a \verb"state-make") at
+the time when the fsm is evaluated, which means that you can make forward
+references to states, as in the following example.
+
+Example: To define a behavior of a wob cycling through 3 states on the
+click of any button, use this fsm:
+
+{\exemplefont\begin{verbatim}
+        (fsm-make 
+                (setq state1 (state-make
+                        (on (button any any) (? 1) state2))
+                (setq state2 (state-make
+                        (on (button any any) (? 2) state3)))
+                (setq state3 (state-make
+                        (on (button any any) (? "3.\n") state1))))
+\end{verbatim}}
+
+\ITEMb{opening}{closing}{{\WOOL} hooks on creation and deletion of windows}
+
+\usagetyped{Variables}{Wool}
+
+The values of these global variables are used by the \see{window-make}
+constructor to define {\WOOL} expressions which are evaluated just before
+creating or just after destroying a window or an icon. 
+
+{\bf Note:} The \verb"opening" field of a window is always evaluated on the
+creation of this window, thus the \verb"opening" of an icon is only
+executed on the first iconification of the icon.
+
+\ITEMa{or}{logical OR of expressions}
+        
+{\usagefont\begin{verbatim}
+(or object1 object2 ... objectN)
+\end{verbatim}}\usageupspace
+
+Logical OR. Returns the first non-() object or ().
+
+\ITEMa{pixmap-load}{loads an XPM X pixmap from an ascii file}
+        
+{\usagefont\begin{verbatim}
+(pixmap-load filename [symbolic-color-name color-value]...)
+\end{verbatim}}\usageupspace
+
+This function builds a pixmap by reading its description in the file
+\verb"filename.xpm" or \verb"filename", searched in the directory path held
+by the {\bf GWMPATH} shell variable \seesnp{GWMPATH}. 
+In case of
+error the default pixmap returned is the same as the one returned by the
+\verb"pixmap-make" function.
+
+The pixmap is expected to be described in the {\bf XPM} (for X PixMap)
+format. XPM is a de-facto standard X pixmap format which can be found on
+export or avahi, and whose full distribution (including docs) is included in
+the \verb|xpm| subdirectory of the {\GWM} distribution
+
+XPM allows you to associate symbolic color names to pixels in the file, which
+may be overrided by actual color to be used at load time. For instance, to use
+an icon \verb|undo| defining the symbolic colors \verb|lit| \verb|dark|
+\verb|pen| in a ``blue'' context, you may want to load it by a
+
+{\exemplefont\begin{verbatim}
+        (pixmap-load 'undo 'lit (color-make "LightBlue")
+                           'dark (color-make "SteelBlue")
+                           'pen black)
+\end{verbatim}}
+
+Whereas if you want to give it a pinkish look:
+
+{\exemplefont\begin{verbatim}
+        (pixmap-load 'undo 'lit (color-make "pink1")
+                           'dark (color-make "pink4")
+                           'pen (color-make "DeepPink4"))
+\end{verbatim}}
+
+
+{\bf Note:} In the current implementation, the 3.0a version of the XPM library
+is used, which is able to  read xpm v2 (but only in C syntax) and xpm v3
+formats. Converters to/from other formats are to be found in directory
+\verb|xpm/converters|.
+
+\ITEMa{pixmap-make}{builds a pixmap (color image)}
+        
+{\usagefont\begin{verbatim}
+(pixmap-make filename)
+(pixmap-make width height)
+(pixmap-make background-color file1 color1 
+             file2 color2 ... )
+\end{verbatim}}\usageupspace
+
+With a single argument, loads the bitmap file given in the filename string
+argument, searching through the bitmap path specified by the {\bf GWMPATH}
+variable or the {\bf -p} command line switch \seesnp{GWMPATH}. 
+Searches first for
+\verb"filename.xbm" then \verb"filename" in each directory in the path. If
+the filename includes a \verb"/" character, the file is not searched through
+the path.
+The pixmap is built by drawing the ``unset'' bits of the bitmap with the 
+color held by the \verb"background" variable and  the ``set'' bits with
+the color held by the \verb"foreground" variable.
+
+When used with two arguments, \verb"pixmap-make" returns a newly
+created pixmap of width \verb"width" and height \verb"height" filled with
+the current \verb"foreground" color.
+
+When used with three or more arguments,
+returns the pixmap constructed by using the bitmaps given as arguments to
+paint only the ``set'' bits of bitmap in file file{\it i}
+(searched along the same rules as for the first form) to the color{\it
+i}.  The ``unset'' bits remain untouched. The pixmap is first painted with the
+color given in the \verb"background-color" argument.
+
+If the specified bitmap cannot be loaded, either because the file cannot be
+found or does not contain a bitmap, a default built-in bitmap is used and a
+warning is issued. The default is the MIT X Consortium logo as a 20x15 bitmap.
+Bitmaps can be of any size, they will be centered in the resulting pixmap
+which will be of the maximum size of its components.
+
+The filename arguments can also be replaced by:
+
+\begin{description} 
+
+\item[active-labels] The string is centered on the bitmap, drawn in the
+following color.
+
+\item[pixmaps]      The pixmap is painted in the center, with its own
+background color (note that \verb"label-make" returns a pixmap!). The
+following color is then ignored, but {\bf must} be specified for consistency
+purposes.
+
+\end{description}
+
+
+\ITEMa{place-menu}{maps a menu as a normal client window}
+        
+{\usagefont\begin{verbatim}
+(place-menu name menu [x y])
+\end{verbatim}}\usageupspace
+
+Places a menu (made with \verb"menu-make") on the screen. This window is
+then managed like any other client window. Its client class and,
+client name are given by the context variables \verb"class-name" and
+\verb"client-name", by default \verb"Gwm" and \verb"menu", and its 
+window name is given by the parameter \verb"name".  The window is
+placed at position {\tt x, y} if specified and at 0,0 otherwise (NB: It is
+placed at last popped position if it was a popped menu). Returns the created
+wob.
+
+{\bf WARNING:} Be careful not to mix popup menus and placed ones, calling
+\verb"pop-menu" on an already ``placed-menu'' will result in unpredictable
+behavior. 
+\context{
+\label{class-name}   class-name & the client class of the window. Default 
+\verb"Gwm".\\
+\label{client-name}   client-name & the client name of the window. Default 
+\verb"menu".\\
+\label{icon-name}   icon-name & the name of the icon for the window. 
+If () (default), uses {\tt name}.\\
+\label{starts-iconic}   starts-iconic & if the menu will first appear as 
+an icon\\
+}
+
+\ITEMa{plug-make}{makes a plug}
+        
+{\usagefont\begin{verbatim}
+(plug-make pixmap)
+(plug-make active-label)
+\end{verbatim}}\usageupspace
+
+This function builds a plug, the atomic wob object. It is composed of a
+graphic object (either a pixmap, created with pixmap-make or label-make, or
+another type of object such as an ``active-label''). The size of the
+graphic object determines the size of the plug.  Thus if you change the
+pixmap of the plug via \verb"wob-tile", the plug is resized
+accordingly.
+
+\context{
+            fsm       &     its finite state machine \\
+            borderwidth  &  the width of the plug's border in pixels \\
+            borderpixel  &  its color \\
+            bordertile   &  the pixmap to paint the border with \\
+            background   &  the color of the background \\
+            menu         &  the pop-up associated with it  \\
+            cursor       &      the cursor's shape when in it \\
+            property     &  the property associated with the plug \\
+}
+
+\ITEMa{plug-separator}{inter-plug space in bars}
+        
+\usagetyped{Numeric variable}{number}
+
+The value of this global variable is used by the \verb"bar-make" function to
+give the space in pixels between 2 consecutive plugs not separated by
+extensible space.
+
+\ITEMa{pop-menu}{pops a menu}
+        
+{\usagefont\begin{verbatim}
+(pop-menu [menu] [position] ['here])
+\end{verbatim}}\usageupspace
+
+This function grabs the server (using the \see{grab-server} function), thus
+preventing other client requests to be processed by the server, and maps the
+given menu (or the menu associated with the current wob if menu
+is not given or is set to ()). The menu is guaranteed to be on the screen
+when this function returns.
+The behavior of the menu is then determined by
+the menu's fsm. The cursor will take the shape defined by the variable
+\verb"cursor" if it is  non-nil.
+
+The \verb"position" number is the item in which you want the cursor to appear
+(centered), the first item is numbered 0.
+
+If the atom \verb"fixed" is given, the menu is not moved under the current
+position of the pointer, it stays at the last position it was. So to pop a
+menu \verb"menu" at (67, 48), do:
+
+{\exemplefont\begin{verbatim}
+        (move-window (menu-wob menu) 67 48)
+        (pop-menu menu 'here)
+\end{verbatim}}
+
+The current wob at the time of the call to \verb"pop-menu" becomes the
+parent of the menu.
+
+{\bf Note:} A menu is not a {\GWM} window, so when a menu is popped, 
+the current
+window becomes the window parent of the wob which has popped the menu.
+
+{\bf Note:} The arguments to \verb"pop-menu" can be given in any order and
+are all optional.
+
+\ITEMa{print-errors-flag}{controls printing of error messages}
+
+\usagetyped{Numeric variable}{number}
+
+If nonzero, {\WOOL} error messages are printed on {\GWM} output device,
+which is the default. \verb"error-occurred" sets this variable to 0 to
+prevent printing errors.
+
+\ITEMa{print-level}{controls printing depth of lists}
+
+\usagetyped{Numeric variable}{number}
+
+This variable controls the maximum depth at which the lists will be printed.
+
+{\exemplefont\begin{verbatim}
+        (setq print-level 2)
+        '(1 (2 (3 (4 rest))))           ==>      (1 (2 (...)))
+\end{verbatim}}
+
+
+\ITEMa{process-events}{recursively process all pending events\hfill{\bf EXPERT}}
+
+{\usagefont\begin{verbatim}
+(process-events [sync])
+\end{verbatim}}\usageupspace
+
+This function reads the event queue and recursivly processes all pending
+events by re-entering the main {\GWM} loop. It returns when there are no
+more pending events on the X event queue.
+
+This functions allows a pseudo-multitasking capability for {\GWM}.
+You can thus implement ``background jobs'' such as a general desktop space
+cleaning routine, to be called after each move, opening, or closing function
+that pauses by calling \verb"process-events" at regular intervals to let
+{\GWM} do its other tasks. You should then take into account the fact that
+the current function could be recursively called by another move operation
+triggered by an event processed by \verb"process-events", however and thus
+be re-entrant.
+
+If a non-nil argument \verb"sync" is given, {\GWM} does a ``Sync'',
+i.e. requests the server to send all its pending events, before
+processing the events on the queue.
+
+\ITEMa{process-exposes}{treats all pending expose events}
+        
+{\usagefont\begin{verbatim}
+(process-exposes)
+\end{verbatim}}\usageupspace
+
+This function reads the event queue and processes all expose events it finds
+for {\GWM} objects on the screen. It is used by pop-menu to be sure that the
+menu is completely drawn before letting it react to user events.
+
+\ITEMa{rotate-cut-buffers}{rotate server cut buffers}
+
+{\usagefont\begin{verbatim}
+(rotate-cut-buffers number)
+\end{verbatim}}\usageupspace
+
+Exchange the contents of the {\bf 8} cut buffers on the X server so that
+buffer $n$ becomes buffer $n + $ \verb"number" modulo 8.
+
+\ITEMa{send-current-event}{re-sends X event to the client of a window}
+
+{\usagefont\begin{verbatim}
+(send-current-event window)
+\end{verbatim}}\usageupspace
+
+Re-sends the last key or button event to the client of the \verb"window"
+argument. If \verb"window" is \verb"()", it is taken as the current window.
+
+\ITEMbi{\{\}}{progn}{sequence of instructions}
+        
+{\usagefont\begin{verbatim}
+(progn inst1 inst2 ... instN)
+{inst1 inst2 ... instN}
+\end{verbatim}}\usageupspace
+
+The classical Lisp \verb"progn" function, evaluating all its arguments and
+returning the result of the last evaluation. Useful in places where
+more then one Lisp instruction is expected, for instance in
+\verb"then" fields of the \verb"if" instruction, or in the
+\verb"action" field of the \verb"on" function. The brace notation is
+just a shortcut for writing \verb"progn" sequences.
+
+\ITEMa{property-change}{event generated when a client window changes a property}
+        
+{\usagefont\begin{verbatim}
+(property-change property-name)
+\end{verbatim}}\usageupspace
+
+This event is sent when the property of name \verb"property-name" is changed
+on the client window.
+
+\ITEMa{raise-window}{raises window on top of other windows}
+        
+{\usagefont\begin{verbatim}
+(raise-window [window])
+\end{verbatim}}\usageupspace
+
+Raises  the current window on top of all other top-level windows or, if the
+\verb"window" argument if present, above the window given as argument.
+
+\ITEMa{re-decorate-window}{re-decorates the client window by {\GWM}}
+        
+{\usagefont\begin{verbatim}
+(re-decorate-window [window])
+\end{verbatim}}\usageupspace
+
+Un-decorate the client window and re-decorate it as if it had appeared on
+the screen. Useful after a \verb|(load ".gwmrc")| to test quickly any
+modifications to your profile.
+
+\ITEMa{reenter-on-opening}{process events on the queue just before mapping a new window}
+        
+\usagetyped{Numeric variable}{number}
+
+If nonzero (default), {\GWM} will process all events in the queue before
+mapping a new window. This may pose re-entrancy problems ({\WOOL} code
+may be called during a call to \verb"place-menu" for instance), and
+thus can be turned off.
+
+\ITEMa{refresh}{refreshes the screen}
+        
+{\usagefont\begin{verbatim}
+(refresh [window])
+\end{verbatim}}\usageupspace
+
+If a window argument is provided, refreshes only this window, otherwise 
+forces a redraw of the screen like XREFRESH(1). Refresing is done by mapping
+and unmapping a new window over the aera to refresh.
+
+\ITEMa{replayable-event}{makes a replayable event from a normal event}
+
+{\usagefont\begin{verbatim}
+(replayable-event event)
+\end{verbatim}}\usageupspace
+
+Makes the given button or key event replayable
+\seesnp{ungrab-server-and-replay-event}. This is not the default for events
+because replayable events freeze the server state for {\GWM} when a passive
+grab is activated with them, which might not be desirable.
+
+{\exemplefont\begin{verbatim}
+        (set-grabs (replayable-event (button 1 alone)))
+\end{verbatim}}
+
+{\bf WARNING:} It is recommended to un-freeze the server if you are to do some
+processing before the button or key is released, either by replaying the event
+by {\tt ungrab-server-and-replay-event} or \seensp{allow-event-processing}.
+
+\ITEMa{resize-style}{style of interactive resize}
+
+\usagetyped{Numeric variable}{number}
+
+This variable controls the way the interaction with the user is handled
+during resizes, and can take the numeric values:
+
+\desctabledim{1cm}{Value}{Style of Resize}{
+0 & is a {\tt Uwm}-like resize, i.e. the window is divided
+in nine regions, and you are allowed to drag which side or corner of the
+window you were in when the resize began.\\
+1 & \sloppy is a {\bf Mwm}-like resize, i.e. ou resize the window by its
+side or corner, the width of the corners being determined (in pixels) by the
+value of the global variable 
+\verb"mwm-resize-style-corner-size"\label{mwm-resize-style-corner-size}. 
+If you are dragging the side of the window and you go at less than
+\verb"mwm-resize-style-corner-size" of a corner, you then drag this corner,
+if the global variable
+\verb"mwm-resize-style-catch-corners"
+\label{mwm-resize-style-catch-corners} is nonzero.
+
+The corner or side dragged is reflected by the shape of the cursor you have
+put in the global variables cursor-NW, cursor-NE, cursor-N, cursor-SW,
+cursor-SE, cursor-S, cursor-E, cursor-W (see p~\pageref{cursor-NW}). While
+you are not dragging anything, the cursor is still determined by the value
+of {\tt cursor}
+\\
+}
+
+\ITEMa{resize-window}{resizes the window interactively or not}
+        
+{\usagefont\begin{verbatim}
+(resize-window)
+(resize-window window)
+(resize-window width height)
+(resize-window window width height)
+\end{verbatim}}\usageupspace
+
+Resizes the window. If the dimensions are specified, resizes directly the
+current window (or the given \verb"window" argument) to the given size,
+specified in pixels, rounded down to the allowed size increments (if you
+want to resize by increments, use the \verb"window-size" active value). If
+the dimensions are not specified, resizes the window interactively, i.e.,
+display the grid specified with the current value of \verb"resize-grid-style",
+and track the grid, waiting for a buttonrelease for confirmation or a
+buttonpress for abort. If confirmed, the window is resized to the latest
+grid position. The cursor will take the shape defined by the variable
+\verb"cursor", if it is non-nil.
+
+{\bf NOTE:} The dimensions given to resize-window are those of the outer
+window, in pixels, including the {\GWM} decoration. Use the 
+\verb"window-size" active value if you want to specify the client dimensions.
+
+{\bf WARNING:} When resize-window is called on an event other than
+buttonpress, there is no way to abort the resize.
+
+The interactive resize interaction is set by the value of the global variable
+\verb"resize-style"
+
+When used interactively (first two forms), the return value can be one of:
+
+\desctabledim{1cm}{Returns}{Case}{
+()&     Ok\\
+0 &     X problem (window disappeared suddenly, other client
+        grabbing display, etc.)\\
+1 &     pointer was not in the window screen\\
+2 &     user aborted by pressing another button\\
+3 &     user released button before the function started\\
+}
+
+Also, when used interactively, if the context variable \verb|confine-windows|
+is set, the window will stay confined to the screen.
+
+\ITEMa{resource-get}{searches {\GWM} database for a resource}
+        
+{\usagefont\begin{verbatim}
+(resource-get name class)
+\end{verbatim}}\usageupspace
+
+Calls the X11 resource manager for an object of name \verb"name" and
+class \verb"class" (strings of dot-separated names) previously stored
+by a call to \verb"resource-put" matching the description (See the
+X11 documentation for precise description of the rule-matching
+algorithm of the resource manager).
+
+This is the recommended way to retrieve the window descriptions associated
+with a client in the \verb"describe-window" function.
+
+{\bf WARNING:} The \verb"name" and \verb"class" {\bf must} have the
+same number of dots in them! \seesnp{make-string-usable-for-resource-key}.
+
+\ITEMa{resource-put}{puts a resource in {\GWM} database}
+        
+{\usagefont\begin{verbatim}
+(resource-put name value)
+\end{verbatim}}\usageupspace
+
+Puts the value in the {\GWM} resource database so that it can be retrieved by a
+future call to resource-get. Names can use the same conventions as in the
+.Xdefaults file for normal X11 clients.
+
+This is the recommended way to store the window descriptions associated with a
+client so that they can be retrieved later in the \verb"describe-window"
+function.
+
+\ITEMa{restart}{restarts {\GWM}}
+        
+{\usagefont\begin{verbatim}
+(restart)
+(restart "prog" "arg1" "arg2" ... "argn")
+\end{verbatim}}\usageupspace
+
+Without arguments, restarts {\GWM}, more precisely, it does an EXEC(2) of
+{\GWM} with the same arguments that were given on startup.
+
+With arguments, terminates {\GWM} and starts a new process with the given
+command-line arguments. This useful to restart {\GWM} with another profile,
+as in:
+
+{\exemplefont\begin{verbatim}
+        (restart "gwm" "-f" "another-profile")
+\end{verbatim}}
+
+\ITEMa{root-window}{the root window}
+        
+\usagetyped{Active value}{window id}
+
+Holds the wob describing the root window of the current screen. 
+For instance, to set the background
+pixmap of the screen to the bitmap in file ``ingrid'', say:
+
+{\exemplefont\begin{verbatim}
+        (with (wob root-window) (setq wob-tile (pixmap-make "ingrid")))
+\end{verbatim}}
+
+When set to a root window wob, sets the current wob and window to it,
+and screen to the screen it belongs to.
+ 
+\ITEMa{save-yourself}{asks client to update its WM\_COMMAND property}
+
+{\usagefont\begin{verbatim}
+(save-yourself [window])
+\end{verbatim}}\usageupspace
+
+Sends to the current window's (or to given window's) client window 
+the ICCC message \verb"WM_SAVE_YOURSELF", telling the
+application to update its \verb"WM_COMMAND" X property to a command line
+which should restart it in its current state.
+
+This function returns \verb"t" if the window supported this protocol, and
+hence is supposed to update its \verb"WM_COMMAND" property; \verb"()"
+otherwise \seesp{get-wm-command}.
+
+\ITEMa{screen}{current screen}
+
+\usagetyped{Active value}{screen number}
+
+Returns or sets the current screen as the screen number (the same number as
+\verb"X" in \verb"DISPLAY=unix:0.X"). Setting the screen also sets the
+active values \verb"wob" and \verb"window" to the root window of the screen.
+See the warning about using {\tt screen} in {\tt with} constructs under the
+{\tt window} entry, p~\pageref{window}.
+
+\ITEMa{screen-count}{number of screens attached to the display}
+
+\usagetyped{Constant}{number}
+
+\sloppy The number of screens attached to the display. Not equal to
+\verb"(length (list-of-screens))" if you excluded screens by the \verb"-x"
+command line option.
+
+\ITEMc{screen-depth}{screen-height}{screen-width}{screen dimensions}
+        
+\usagetyped{Constants}{number}
+
+These numerical variables hold the size of the current screen in bitplanes
+(\verb"screen-depth") and pixels (\verb"screen-width" and
+\verb"screen-height"). A screen-depth of 1 means that you are on a
+monochrome screen.
+
+\ITEMb{screen-heightMM}{screen-widthMM}{actual screen size in millimeters}
+
+\usagetyped{Constants}{number}
+
+Hold the dimensions of the screen in millimeters.
+
+\ITEMa{screen-type}{visual type of screen}
+
+\usagetyped{Active value}{atom --- not settable}
+
+Returns the screen visual type as an atom, which can be either \verb"color",
+\verb"gray", or \verb"mono", if the screen is a color, gray scale, or
+monochrome device.
+
+\ITEMa{send-button-to-window}{sends button event to a client}
+        
+{\usagefont\begin{verbatim}
+(send-button-to-window button modifier x y)
+\end{verbatim}}\usageupspace
+
+Sends a buttonpress and a buttonrelease X event to the client
+application of the window. The event is generated as if the user
+pressed on the button number {\tt button}, with the \verb"modifier"
+keys down and at location {\tt x,y} in the client window coordinates
+(in pixels). In particular, this means that the event is sent to the
+smallest subwindow of the application containing {\tt x,y} and having
+selected to receive button events.
+
+\ITEMb{send-key-to-window}{send-keycode-to-window}{sends key event to a client}
+        
+{\usagefont\begin{verbatim}
+(send-key-to-window keysym modifier)
+(send-key-to-window string modifier)
+(send-keycode-to-window keycode modifier)
+\end{verbatim}}\usageupspace
+
+These three functions are used to send key events to the client of the
+current window, to define function keys in {\GWM}, or to implement mouse
+positioning of the cursor in Emacs for instance. The third form sends the
+keycode (as returned by current-event-code), the first the keysym as defined in
+the include file ``keysymdef.h''. Both keysyms and keycodes must be {\bf
+numbers}, not names. You can however specify the symbolic name of the key
+with the \verb"key-make" function. The \verb"modifier" parameter indicates 
+which
+modifier keys or which buttons were supposed to be down for the event.
+
+The second form sends each character of the string (this works for
+ASCII characters only) with the modifier \verb"modifier" to the window. A
+Shift modifier is automatically added to all uppercase characters.
+
+\ITEMa{send-user-event}{sends a {\GWM} ``user'' event}
+        
+{\usagefont\begin{verbatim}
+(send-user-event atom [wob [do-not-propagate?]])
+\end{verbatim}}\usageupspace
+
+This function sends a ``user'' event, to the current window, if no argument
+is present, or to the wob specified as argument. A user event is a {\GWM}
+concept and is {\bf NOT} an X event, i.e., it is not seen by the server and is
+immediately processed before \verb"send-user-event" terminates. The
+peculiarity of an user-event is that it recursively propagates downwards in
+the wob tree from the destination wob, the event being sent first to the
+child, then to the wob itself. That is, if you send an user-event to the window, all
+its decorations will receive it. The atom, which is evaluated by the
+function, and thus needs to be quoted, is used merely as a kind of label for
+the event.
+
+If you provide a non-nil third argument, the event is sent to the given wob,
+but is not propagated to its sons.
+
+Example: 
+{\exemplefont\upspace\begin{verbatim}
+        (send-user-event 'get-focus)
+\end{verbatim}}
+
+{\bf Note:} \verb"send-user-event" saves and restores the current wob,
+window, screen, and event. Thus if a piece of code triggered in another fsm sets the
+current wob to another one, it will be restored to its previous value on
+exit of the calling \verb"send-user-event".
+
+\ITEMa{set-acceleration}{sets mouse speed}
+        
+{\usagefont\begin{verbatim}
+(set-acceleration numerator denominator)
+\end{verbatim}}\usageupspace
+
+Accelerates the mouse cursor movement by a ratio of numerator/denominator
+(two numbers).
+
+\ITEMa{set-colormap-focus}{sets the window whose colormap is installed}
+
+{\usagefont\begin{verbatim}
+(set-colormap-focus [window])
+\end{verbatim}}\usageupspace
+
+Installs the colormap of the current window (or the given \verb"window").
+Once a window has the {\em colormap focus}, if the
+client changes its colormap, the new colormap is automatically installed by
+{\GWM}.
+
+If the window has no declared colormap, the default colormap (the colormap
+of the root window) is installed instead.
+
+If the argument is \verb"()", the default colormap for the screen is
+re-installed.
+
+\ITEMa{set-focus}{sets input focus on a window}
+        
+{\usagefont\begin{verbatim}
+(set-focus [window])
+\end{verbatim}}\usageupspace
+
+Sets the focus to the current window, or to the given \verb"window". The
+keyboard input will then go to the client of this window, regardless of the
+pointer position. If window is (), the focus is reset to {\bf PointerRoot}
+mode, i.e., the focus is always on the window under the pointer.
+
+If the client of the current window follows the ICCC
+\verb"WM_TAKE_FOCUS" protocol, {\GWM} does not try to set the focus to the
+window, it just sends the \verb"WM_TAKE_FOCUS" message to the client
+which should then set the focus itself.
+
+{\bf NOTE:} \verb"set-focus" will not set the focus on a client window that
+does not need it, so that \verb"set-focus" on XCLOCK for instance has no
+effect. This is the only case where \verb"set-focus" will return \verb"()";
+it returns \verb"t" otherwise.
+
+\ITEMb{set-grabs}{unset-grabs}{grabs events occurring in the window}
+
+{\usagefont\begin{verbatim}
+(set-grabs event1 event2 ... eventN)
+(unset-grabs event1 event2 ... eventN)
+\end{verbatim}}\usageupspace
+
+{\tt set-grabs} establishes what is called a {\bf passive grab} on a button
+or a key on the current window, i.e.; all events matching the given events
+will be transmitted to the window itself, even if they have occurred on a
+bar, plug, or client window of the window.
+
+{\tt unset-grabs} removes events from the list of grabbed events. They do
+not exit an existing active grab.
+
+The {\tt set-grabs} call is used when decorating a window on the
+\see{grabs} list.
+
+Example:{\exemplefont\upspace\begin{verbatim}
+        (set-grabs (button 3 alone) 
+                   (buttonpress any with-alt)
+                   (key (key-make "Delete") any))
+        (unset-grabs (key any any))
+\end{verbatim}}
+
+
+\ITEMa{set-icon-sizes}{sets desired icon sizes}
+        
+{\usagefont\begin{verbatim}
+(set-icon-sizes min-width min-height
+                max-width max-height
+                width-inc height-inc)
+\end{verbatim}}\usageupspace
+
+This function sets a property of name \verb"WM_ICON_SIZE" on the root window
+which tells the clients which are the desirable size for their icon pixmaps
+or icon windows, if they define any, as returned by 
+\see{window-icon-pixmap} and \see{window-icon-window}.
+
+\ITEMa{set-key-binding}{redefines keyboard for all applications}
+        
+{\usagefont\begin{verbatim}
+(set-key-binding keycode keysym 
+                 [keysym1 [keysym2 ... [keysymN]]])
+\end{verbatim}}\usageupspace
+
+This rebinds the keys on the server's keyboard. When the key of keycode
+\verb"keycode" is pressed, it will be decoded as the keysym
+\verb"keysym" if pressed alone, \verb"keysym1" if pressed with
+\verb"modifier1",...  \verb"keysymN" if pressed with modifier {\tt N}
+(Modifiers are shift, control, lock, meta, etc.)
+
+{\bf WARNING:} The storage used by this function is never released.
+
+{\bf Note:} To obtain the list of current bindings of your server, use the
+{\bf xprkbd} X11 utility.
+
+\ITEMa{set-screen-saver}{sets screen-saver parameters}
+        
+{\usagefont\begin{verbatim}
+(set-screen-saver timeout interval 
+                  prefer-blanking allow-exposures)
+\end{verbatim}}\usageupspace
+
+Sets the way the screen-saver operates:
+
+\begin{description}
+
+\item[Timeout] is the time in seconds of no input after which the screen blanks
+                (0 means no screen saver, -1 = restore default)
+\item[Interval] is the interval in seconds between random motion of the background
+                pattern (0 disables motion)
+\item[Prefer-blanking] makes the screen go blank if 1
+\item[Allow-exposures] if 0 means that the screen saver operation should not
+                generate exposures, even if this implies it cannot operate.
+\end{description}
+
+\ITEMa{set-subwindow-colormap-focus}{installs the colormap of a subwindow}
+
+{\usagefont\begin{verbatim}
+(set-subwindow-colormap-focus [number])
+\end{verbatim}}\usageupspace
+
+If the current window currently has the colormap focus, as set
+by the \see{set-colormap-focus} function, and the client has set a
+\verb"WM_COLORMAP_WINDOWS" property on its window which tells 
+{\GWM} to install
+the colormaps of its subwindows, calling \verb"set-subwindow-colormap-focus"
+without an argument installs the next different colormap in the list of
+subwindows whose colormaps must be installed.
+
+If a numeric argument is given, it is taken as an offset in the list of
+subwindows (modulo the size of the list), and the corresponding window's
+colormap is installed. The main window is always at offset zero.
+
+Calling \see{set-colormap-focus} on the window resets the current offset
+to zero, for susequent calls to \verb"set-subwindow-colormap-focus".
+
+
+\ITEMa{set-threshold}{sets mouse acceleration threshold}
+        
+{\usagefont\begin{verbatim}
+(set-threshold number)
+\end{verbatim}}\usageupspace
+
+Sets the minimum pointer movement in pixels before acceleration takes place
+(See \see{mouse-acceleration}). The \verb"number" argument must not be 0.
+
+\ITEMc{set}{setq}{:}{variable assignement}
+        
+{\usagefont\begin{verbatim}
+(setq atom value)
+(set object value)
+\end{verbatim}}\usageupspace
+
+This is the assignment function of all Lisp dialects. In the first form,
+the first argument is not evaluated, in the second it is.
+(Thus allowing non-standard atom names to be set via the atom constructor
+\verb"atom", as in \verb|(set (atom "foo bar") 1)| ). Both forms evaluate 
+their second
+argument and sets the value of the first argument to the resulting
+value. Setting active values
+doesn't modify their value, but calls a predefined function on the value.
+
+\verb":" is just a synonym for \verb"setq".
+
+Example:{\exemplefont\upspace\begin{verbatim}
+        (setq b 'c)
+        (setq a (+ 1 2))
+        (set  b 4)
+\end{verbatim}}
+yields a = 3 and c = 4.
+
+\ITEMa{set-x-property}{sets an X property on a client window}
+        
+{\usagefont\begin{verbatim}
+(set-x-property property-name value)
+\end{verbatim}}\usageupspace
+
+Sets the X11 property of name \verb"property-name" on  the current client
+window.  The value currently must be a STRING (or atom) or an INTEGER.  For
+instance, \verb|(window-name "foo")| is equivalent to 
+\verb|(set-x-property "WM_NAME" "foo")|
+
+This is the recommended way for communicating between {\GWM} and an X 
+application.
+
+\ITEMa{sort}{sorts a list in place\hfill{\bf EXPERT}}
+
+{\usagefont\begin{verbatim}
+(sort list comparison-function)
+\end{verbatim}}\usageupspace
+
+This function sorts (puts in ascending order)
+in place the \verb"list" argument using the ``quicksort''
+algorithm with the user-provided comparison function.
+This function is called on pairs of elements and should return
+\verb"-1", \verb"0" or \verb"1" if its first argument is lower than, equal
+to, or greater than the second.
+
+This function is flagged as ``{\em Expert}\,'' as it physically modifies the
+list. For instance, to obtain a list of windows sorted by names, do:
+
+{\exemplefont\begin{verbatim}
+        (sort (list-of-windows) (lambda (w1 w2)
+                (compare (with (window w1) window-name)
+                         (with (window w2) window-name))))
+\end{verbatim}}
+
+\ITEMa{stack-print-level}{number of stack frames printed on error}
+
+\usagetyped{Numeric variable}{number}
+
+On error, {\WOOL} prints a stack dump. The number of stack frames printed
+is given by the value of this variable. Setting it to a negative number 
+puts no limits on the depth of the dump.
+
+
+\ITEMa{state-make}{makes a state of a fsm}
+        
+{\usagefont\begin{verbatim}
+(state-make transition1 transition2 ... transitionN)
+\end{verbatim}}\usageupspace
+
+Makes a state of a fsm (see \verb"fsm-make" and \verb"on" functions) 
+composed of the
+transitions given in arguments. Returns the constructed state which can be
+affected to a name via \verb"setq" to be used as the destination state in
+transitions.
+
+If an argument is itself a state, the new state will {\bf include} all the
+transitions in the argument state.
+
+\ITEMa{sublist}{extracts a sub-list out of a list}
+        
+{\usagefont\begin{verbatim}
+(sublist from to list)
+\end{verbatim}}\usageupspace
+
+Returns the sublist starting at the from-th element and ending at the to-th
+element of list \verb"list" (both from and to are numbers). \verb"from" is
+inclusive and \verb"to" is exclusive, and if they are greater than the size
+of the list, the elements are set to (). Elements are numbered starting at
+0.
+
+\exemples{Examples:\upspace}{
+                (sublist 2 4 '(1 2 3 4))&                =={\tt >}  (3 4) \\
+                (sublist 5 9 ())        &       =={\tt >}       (() () () ()) \\
+                (sublist 10 -8 '(1 2)) &        =={\tt >} ()\\
+}
+
+\ITEMa{t}{the logical ``true'' value}
+        
+{\usagefont\begin{verbatim}
+t
+\end{verbatim}}\usageupspace
+
+The ``true'' value, evaluates to itself.
+
+\ITEMb{tag}{exit}{non-local goto}
+        
+{\usagefont\begin{verbatim}
+(tag tag-name inst1 inst2 ... instN)
+(exit tag-name inst1 inst2 ... instN)
+\end{verbatim}}\usageupspace
+
+The pair of functions tag/exit implements a non-local goto.  When \verb"tag"
+is called, the non-evaluated tag-name becomes the label of the goto. The
+instructions are then evaluated in \verb"progn" fashion. If a call to exit
+with the same tag-name (non-evaluated) is made during these instructions, the
+evaluation of the tag instructions is aborted and tag returns the
+evaluation of the instructions of the exit call, evaluated like progn.
+
+If \verb"exit" makes the flow of control exit from a
+\verb"with" local variable declarations construct, the previous variable
+values are restored.
+
+{\bf WARNING:} Do not, when in a file being loaded by \see{load} do an
+\verb"exit" with a \verb"tag" set outside the load call --- This breaks
+{\GWM} in the current version.
+
+\ITEMa{tile}{background pixmap}
+        
+\usagetyped{Variable}{pixmap}
+
+The value (pixmap) of this global variable is used by the constructors of all
+wobs to set their background pixmap. For now, it is only used in bars and
+screens.
+
+\ITEMa{together}{combines keyboard modifiers}
+        
+{\usagefont\begin{verbatim}
+(together modifier1 modifier2 ... modifierN)
+\end{verbatim}}\usageupspace
+
+Used to indicate that the modifiers must be pressed simultaneously, 
+
+{\exemplefont\begin{verbatim}
+        (button 1 (together with-shift with-alt))
+\end{verbatim}}
+
+\ITEMb{trace}{trace-level}{traces {\WOOL} function calls}
+        
+\usagetyped{Active values}{\ }
+
+This is a primitive debugging tool. When the trace value is set to a non-null
+number (or \verb"t") every call to any {\WOOL} function is printed,
+with the arguments and return value.  If set to an expression, this expression
+will be evaluated before and after each list evaluation (Setting
+\verb"trace" to \verb"1" instead of \verb"t" re-enables the evaluation of
+the previous expression).
+
+The trace level variable holds the
+current indentation (stack depth) of the calls.  You might reset it to 0 if
+you re-enable the tracing after disabling it at a non-0 level.
+
+{\bf NOTE:} This is a primitive debugging tool, others will be added
+in the future.
+
+\ITEMa{trigger-error}{triggers a {\WOOL} error}
+        
+{\usagefont\begin{verbatim}
+(trigger-error exprs...)
+\end{verbatim}}\usageupspace
+
+This will trigger an error, returning instantly to the toplevel (unless trapped
+by a \seeref{error-occurred}). It will issue an error message, 
+print all the given arguments \verb"exprs...", and append a newline.
+
+\ITEMa{type}{type of a {\WOOL} object}
+        
+{\usagefont\begin{verbatim}
+(type object)
+\end{verbatim}}\usageupspace
+
+Returns the {\WOOL} type of the object as an atom. Current types are:
+
+\desctable{Atom}{Description}{
+active & {\WOOL} active value atom \\
+atom & {\WOOL} normal atom \\
+bar & bar descriptor \\
+client & window descriptor \\
+collection & syntax tree node \\
+cursor & X cursor \\
+event & X event \\
+fsm & finite state machine \\
+fsm-state & state of a fsm \\
+subr & built-in function \\
+fsubr & non-evaluating built-in function \\
+expr & user-made function (defun) \\
+fexpr & non-evaluating user function (defunq) \\
+label & active-label \\
+list & {\WOOL} list \\
+menu & menu used in pop-ups \\
+number & number (used for fonts, wobs, colors,...) \\
+pixmap & X pixmap \\
+plug & plug descriptor \\
+pointer & atom pointing to a memory location \\
+quoted-expr & quoted expression \\
+state-arc & transition arc of a fsm state \\
+string & character strings \\
+}
+
+\ITEMa{unbind}{undefines a symbol}
+        
+{\usagefont\begin{verbatim}
+(unbind atom)
+\end{verbatim}}\usageupspace
+
+Undefine the (evaluated) atom in argument, so that a \verb"boundp" on it will
+return nil.
+
+\ITEMa{ungrab-server}{releases grab on the X server}
+        
+{\usagefont\begin{verbatim}
+(ungrab-server [wob])
+\end{verbatim}}\usageupspace
+
+Ungrabs the server, allowing other client requests to be processed.
+If an argument is given, ungrabs the server only if the argument was the
+last wob to grab the server, otherwise does nothing. With no argument, 
+unconditionally ungrab the server (keyboard and pointer).
+
+\ITEMa{ungrab-server-and-replay-event}{releases grab on the X server and
+replay grabbing event}
+
+{\usagefont\begin{verbatim}
+(ungrab-server-and-replay-event flag)
+\end{verbatim}}\usageupspace
+
+When the X server has been grabbed by a passive grab (a grab set on a
+window by the \verb"grabs" context variable or by the \verb"set-grabs"
+function), you can release the grab and make the X server replay the event
+as if the grab didn't occur by calling this function.
+
+You must set the \verb"flag" parameter to \verb"()" if the grab was on a
+mouse button, and to a non-nil object if the grab was on a key.
+
+This call is useful in {\em click to type} window managers, to re-send the
+event which changed the current active window to the client window.
+
+{\bf Note:} An event can only be replayed if it has been grabbed on a
+{\bf replayable} event \seesnp{replayable-event}.
+
+\ITEMa{unmap-window}{unmaps (make invisible) a window}
+        
+{\usagefont\begin{verbatim}
+(unmap-window [window])
+\end{verbatim}}\usageupspace
+
+Unmaps (makes invisible) the window (or the current one).
+
+\ITEMa{unpop-menu}{makes a popped menu disappear}
+        
+{\usagefont\begin{verbatim}
+(unpop-menu [menu])
+\end{verbatim}}\usageupspace
+
+Removes the grab set by the menu (or menu affected to the current wob if no
+argument is given) and unmaps it. The {\tt menu} argument can be either a
+menu (as returned by the \verb"menu-make" function) or a wob (as provided by
+the \verb"wob" active-value). This function synchronize {\GWM} with the
+server, so the menu is guaranteed to be unmapped when it returns.
+
+{\bf Warning:} The current-wob is not changed by this function. The wob
+which triggered the menu can be accessed as the parent of the menu.
+
+\ITEMa{user-event}{events internal to {\GWM}}
+        
+{\usagefont\begin{verbatim}
+(user-event atom)
+\end{verbatim}}\usageupspace
+
+This function is used in transitions to match user-events of the given
+(evaluated) atom (see \verb"send-user-event").
+
+Example:
+{\exemplefont\upspace\begin{verbatim}
+        (on (user-event 'get-focus) (set-pixmap focus-pattern))
+\end{verbatim}}
+
+\ITEMc{visibility-fully-obscured}{visibility-partially-obscured}{visibility-unobscured}{events sent when window visibility changes}
+
+\usagetyped{Constants}{event}
+
+This events are sent to a window when its visibility changes, e.g.
+when it gets obscured by moving another window on top of it.
+
+\ITEMa{warp-pointer}{warps the mouse pointer to a location\hfill{\bf EXPERT}}
+
+{\usagefont\begin{verbatim}
+(warp-pointer x y [window-relative-to])
+\end{verbatim}}\usageupspace
+
+Warps (sets) the mouse pointer to the position \verb"(x,y)", relative to
+its current position if no third argument is given, or in the
+coordinates of the given \verb"window-relative-to" if given.
+For instance, to warp the pointer to the next screen at the same relative
+location say:
+
+{\exemplefont\begin{verbatim}
+        (setq coordinates (current-mouse-position))
+        (setq screen (% (+ (# 3 coordinates) 1) screen-count))
+        (warp-pointer (# 0 coordinates) (# 1 coordinates) root-window)
+\end{verbatim}}
+
+{\bf WARNING:} Use this function just like you would use ``goto'' in
+normal programming: never. \verb"warp-pointer" will ruin a window management policy
+just as easily as  ``goto''s will ruin a program.
+
+\ITEMa{while}{while loop}
+        
+{\usagefont\begin{verbatim}
+(while condition inst1 inst2 ... instN)
+\end{verbatim}}\usageupspace
+
+Executes the N instructions in sequence until condition becomes ().  Returns
+always ().      
+
+\ITEMa{window}{current window id}
+        
+\usagetyped{Active value}{window id}
+
+Returns or sets the descriptor of the current window as a {\WOOL} number. The
+current window is the default for all window functions. Setting window
+to a value sets also the current wob to this window.
+
+{\bf WARNING:} A \verb"(with (window w)...)" call will modify the value of
+the current wob:
+{\exemplefont\begin{verbatim}
+                                         ; window is A, wob is B
+        (with (window C) (foo))          ; in foo, window is C, wob is C
+                                         ; window is A, wob is A
+\end{verbatim}}
+So, if you want the previous call not to modify \verb"wob", do a 
+\verb"(with (wob w)...)" call instead. The same remark holds for the 
+\verb"screen" active value: a \verb"(with (screen s)...)" will set the value
+of {\tt window} and {\tt wob} to the value of {\tt screen} before the 
+{\tt with} call.
+
+
+\ITEMa{window-client-class}{client application class}
+        
+\usagetyped{Active value}{string}
+
+Returns a string containing the class of the client owning the window,
+e.g., {\bf XTerm} for an xterm window.
+
+\ITEMd{window-client-height}{window-client-width}{window-client-x}{window-client-y}{inner window geometry in pixels}
+        
+\usagetyped{Active value}{number}
+
+Returns the dimensions in pixels of the client window and its position
+inside the {\GWM} window frame.
+
+\ITEMa{window-client-name}{client application name}
+        
+\usagetyped{Active value}{string}
+
+Returns a string containing the name of the client owning the window, e.g.,
+{\bf xterm} for an xterm window.
+
+\ITEMa{window-group}{manages groups of windows}
+        
+\usagetyped{Active value}{window id}
+
+In X11, windows can be grouped with each window in the group bearing a
+reference to a distinguished window, the {\em group leader}. {\GWM}
+maintains such groups as a list of windows, the group leader being the first
+one in the list. This active value returns () if the window does not belong
+to a group, otherwise it returns 
+the list of windows in the group.
+
+The user can himself define groups of windows by setting the
+\verb"window-group" active value to a window id, which is the group leader
+to which the window should be grouped. The entire group (list) can also be
+passed as argument, in which case the first element is taken as
+the window to be grouped to.
+
+To remove a window from a group, just assign \verb"()" to
+\verb"window-group" for this window, it is removed from the group it
+was in. If the window was a group leader, the group is broken and all
+the windows in it are ungrouped.
+
+{\bf Note:}  A window can only belong to one group.
+
+\ITEMa{window-icon}{icon associated to window}
+        
+\usagetyped{Active value}{window id --- not settable}
+
+Returns the icon associated with the current window. If the current window
+is already an icon, returns the current window itself.
+
+{\bf Note:} When {\GWM} decorates a window, it caches the {\WOOL}
+description given for the icon, but does not create it. The icon is
+physically created, (and its \verb"opening" field evaluated) on the first
+access to the \verb"window-icon" active value or the first call to the
+\see{iconify-window} function. To just check that the window has an associated
+icon, without creating it if it didn't exist, use \verb|window-icon?|.
+
+\ITEMa{window-icon?}{tests if icon has already been created}
+
+{\usagefont\begin{verbatim}
+(window-icon? [window])
+\end{verbatim}}\usageupspace
+
+Returns \verb|t| if the icon has already been created, \verb|()| if not,
+without creating it.
+
+\ITEMa{window-icon-name}{name of the icon}
+        
+\usagetyped{Active value}{string --- not settable}
+
+Returns the name that the client of the current window has given to its icon.
+
+\ITEMa{window-icon-pixmap}{pixmap to be used in icon}
+        
+\usagetyped{Active value}{pixmap --- not settable}
+
+Returns the pixmap given as a hint by the current client to be used in its
+icon, or () if no pixmap was specified. The bitmap specified by the
+application is used to construct the returned pixmap by painting the unset
+pixels with the \verb"background" color and the set pixels with the
+\verb"foreground" color on the invocation of this function for each window.
+Thus each time it is called a new pixmap is created. It is highly
+recommended that you store the returned value instead of re-calling the
+function another time.
+
+Use it as the \verb"plug" argument of the \verb"window-make" function after
+making a plug via \verb"plug-make".
+
+\ITEMa{window-icon-pixmap-change}{pixmap to be used in icon has changed}
+        
+\usagetyped{Constant}{event}
+
+When an application changes its pixmap to be used as its icon, this event is
+generated. You should then use the \verb"window-icon-pixmap" function to
+retrieve it if your icon style supports it.
+
+\ITEMa{window-icon-pixmap-id}{X id of pixmap to be used in icon}
+        
+\usagetyped{Active value}{number --- not settable}
+
+This id is used to know which bitmap the client provided, and if it has
+changed since last time.
+
+\ITEMa{window-icon-window}{window to be used as icon}
+        
+\usagetyped{Active value}{window id --- not settable}
+
+Returns a descriptor (number) of the window provided by the current client
+to be used as its icon, or () otherwise. Should {\em only} be used as the
+\verb"plug" argument of the \verb"window-make" function.
+
+\ITEMa{window-is-mapped}{tells if window is visible}
+        
+\usagetyped{Active value}{boolean --- not settable}
+
+If the current window is mapped (visible) returns it, () otherwise.
+
+\ITEMa{window-is-shaped}{tells if window has a non-rectangular shape}
+        
+\usagetyped{Active value}{boolean --- not settable}
+
+If the current client window has a non-rectangular outline (on servers
+supporting the {\bf shape} X11 extension), returns \verb"t", \verb"()"
+otherwise.
+
+\ITEMa{window-is-transient-for}{tells if window is transient}
+        
+\usagetyped{Active value}{window --- not settable}
+
+If not (), the window is transient for another window, and thus you might
+decide not to decorate it too much. (The window it is transient for is
+returned.)
+
+\ITEMb{window-is-valid}{wob-is-valid}{tests if gwm window ID is still valid}
+
+{\usagefont\begin{verbatim}
+(window-is-valid window)
+(wob-is-valid wob)
+\end{verbatim}}\usageupspace
+
+Since in {\GWM}, windows and wobs are represented by reference, i.e. by
+numbers meaning a pointer to some data, there is the risk of ``dangling
+pointers'', i.e. acessing a memory containing a no longer valid window. To
+test for these cases, two functions are provided. \verb|wob-is-valid| will
+test if \verb|wob| is any valid (non closed) plug, bar, menu , window, icon,
+or root window, whereas \verb|window-is-valid| will verify that \verb|window|
+is actually only a window or icon. These functions are not strictly necessary,
+but are useful for debugging purposes.
+
+\ITEMa{window-machine-name}{name of host on which the client is running}
+        
+\usagetyped{Active value}{string --- not settable}
+
+Returns the string containing the name of the machine on which the client
+owning the window executes (Defaults to \verb|"machine"| if not set.)
+
+\ITEMa{window-make}{makes a template to decorate a window with}
+        
+{\usagefont\begin{verbatim}
+(window-make titlebar leftbar rightbar basebar plug)
+\end{verbatim}}\usageupspace
+
+\centerline{\texpsfig{window.id}{211}{154}}
+
+Returns a description of a {\GWM} window to decorate a newly created X
+window. This is also used to describe the associated icon and the screen.
+The four bars are the ones that frame the client and are evaluated
+another time when the window is physically created. This allows you to give
+expressions for bars (quoted to evade the first evaluation of arguments of
+the \verb"window-make" function itself) which evaluates to a bar on the
+realisation of the wob.  Any bar can be set to (), indicating that that no
+corresponding bar should be created.
+
+The fifth argument \verb"plug" is only used when describing an icon, 
+to be used as the central window
+around which the bars will be framed. You can give a plug (or an expression
+which when evaluated gives a plug) or the value of
+\verb"window-icon-window" for the window. 
+If set to (), the icon has
+the dimension of the longest side bar, or if they are also set to (), the
+dimension of the longest top or base bar.
+
+\centerline{\texpsfig{icons.id}{236}{91}}
+
+\context{
+     fsm &  the fsm of the window \\
+     borderwidth & the width of its border \\
+     borderpixel & the color of its border \\
+     bordertile &  the pixmap tiling its border \\
+     inner-borderwidth & the border width of the client window \\
+     menu &  the default menu associated to the window \\
+     cursor & the shape of the cursor when in the window 
+ (in fact in the border, which is the only visible part) \\
+     property &  the initial value of the property field \\
+     grabs & events grabbed from all sons of the window\\
+     opening & {\WOOL} code evaluated on the creation of the window\\
+     closing & {\WOOL} code evaluated on the destruction of the window\\
+}
+
+\verb"grabs" is a list of \verb"button", \verb"buttonpress", \verb"key" or
+\verb"keypress"  events which will be ``grabbed'' from the client window to
+be sent to the {\GWM} window. This means that the event will be sent
+directly to the {\GWM} window and {\bf not} to the client window.  For
+instance, to implement a ``uwm'' move style (moving a window on
+Alternate/right button anywhere in the window), the grab list should include
+a \verb"(buttonpress 3 with-alt)", and the fsm of the window should have a
+\verb"(on (buttonpress 3 with-alt) (move-window))" transition.
+
+Events declared in the \verb"grabs" list are trapped on the whole surface of
+the window, including the bars and the client window, and redirected to the
+main window's fsm.
+
+\verb"opening" and \verb"closing" are two Lisp expressions that are
+evaluated when the window (or icon) is created and destroyed respectively,
+just before being mapped or unmapped. This is the right place to position or
+resize the window before it appears. For the screen, opening is evaluated
+once all windows already on screen have been framed and closing is evaluated
+when leaving {\GWM}.
+
+When used for screen description, no arguments are used, only the context
+values for grabs, opening, closing, fsm, menu, cursor, and property context
+variables, with the additional context value:
+
+\context{
+            tile        & tiling the screen with a pixmap (if set
+                                to a pixmap) or defining the screen color
+                                (if set to a color). () means do not change
+                                the screen background. \\
+}
+
+\ITEMa{window-name}{name of the window}
+        
+\usagetyped{Active value}{string}
+
+Returns the string containing the name of the window, as set by the client
+owning it. Note that it is a transient property, and the event
+\verb"name-change" is issued when it is changed by the client.  
+
+When \verb"window-name" is set, the \verb|WM_NAME| X property on the
+client window is updated accordingly, resulting in the X \verb"name-change"
+event to be sent to the window by the X server.
+
+{\bf Note:} All dots in the name are converted to underscores, so that you
+can use the value of \verb"window-name" safely as an name for the X resource
+manager.
+
+\ITEMb{window-property}{wob-property}{{\WOOL} property associated to a wob}
+        
+\usagetype{Active value}
+
+To each wob is associated a property, which is any Lisp object given by the
+user. These active values return or set the stored property for the
+current wob or window. When
+creating a wob, the property is taken as the current value of the global
+variable \verb"property".
+
+\ITEMa{window-size}{client window size specified in resize increments}
+        
+\usagetyped{Active value}{list of two numbers}
+
+Returns the size of the window expressed as a list of two numbers,
+multiples of the minimal size (e.g. character positions for xterm).  When
+set, the window is resized accordingly. This is the size of the inner
+client window, to specify the outer dimensions, use \verb"resize-window".
+
+\ITEMa{window-starts-iconic}{state in which window must first appear}
+        
+\usagetyped{Active value}{boolean}
+
+If not (), the window appears as an icon on its first mapping or the
+first time it is decorated by {\GWM}. This ``hint'' can thus be set either
+by the application or the window manager.
+
+\ITEMb{window-status}{wob-status}{state of the window}
+        
+\usagetyped{Active value}{atom --- not settable}
+
+Returns the type of the current wob or window as an ATOM. Possible types
+are:
+
+\desctable{Atom}{type of wob}{
+window & main window around a client \\
+icon & icon of a window \\
+menu    &       menu created with \verb"menu-make" \\
+root            &the root window \\
+bar     &       a bar \\
+plug &          a plug \\
+}
+
+Thus, to check if the current window is an icon, just say:
+{\exemplefont\begin{verbatim} 
+        (if (= window-status 'icon) ...)
+\end{verbatim}}
+
+\ITEMb{window-user-set-position}{window-user-set-size}{tells if user
+explicitly specified the geometry}
+        
+\usagetyped{Active value}{boolean --- not settable}
+
+Return \verb"t" if the position or size of the current window was set
+explicitly by the user at creation time via command line switches, ()
+otherwise. If called on an icon, tells if the user defined the initial icon
+position.
+
+\ITEMb{window-program-set-position}{window-program-set-size}{tells if program
+explicitly specified the geometry}
+        
+\usagetyped{Active value}{boolean --- not settable}
+
+Return \verb"t" if the position or size of the current window was set
+by default by the program.
+
+\ITEMb{window-to-client}{client-to-window}{client window Xid to Gwm wob
+conversions}
+
+{\usagefont\begin{verbatim}
+(window-to-client gwm-window)
+(client-to-window X-window-id)
+\end{verbatim}}\usageupspace
+
+Converts {\GWM} windows \verb|gwm-window| to and from actual decorated client
+window Ids \verb|X-window-id| (numbers used by ``\verb|xwininfo|'' for
+instance).
+
+\ITEMa{window-was-on-screen}{tells if window was already on screen}
+        
+\usagetyped{Active value}{boolean --- not settable}
+
+Returns \verb"t" if the window was already on the screen before {\GWM}.  You may test
+its value to do certain actions only on newly created windows (if ()), such
+as interactive placement.
+
+\ITEMd{window-width}{window-height}{wob-height}{wob-width}{window dimensions in pixels}
+        
+\usagetyped{Active value}{number --- not settable}
+
+These functions return the size of the current window (with decoration) or
+wob in pixels.  These do not include the width of the border, following the
+X11 conventions.
+
+\ITEMa{window-window}{main window associated with an icon}
+        
+\usagetyped{Active value}{window id --- not settable}
+
+Returns the window associated with the current window if it is an icon. If
+the current window is not an icon, returns the current window itself.
+
+
+\ITEMa{window-wm-state-icon}{declares user icon for WM\_STATE}
+        
+\usagetyped{Active value}{window id}
+
+{\GWM} manages automatically the \verb"WM_STATE" property on client windows.
+However, if you implement in a {\WOOL} package your own icons which are not
+the {\GWM} ones, which are managed by the 
+\verb"window-icon" and \verb"iconify-window"
+primitives, for instance by creating a window via the \verb"place-menu"
+primitive, you need to declare which window must logically be
+considered as the icon for your window. This is done by setting the
+\verb"window-wm-state-icon" on the window to the icon.
+
+Once you have declared that a window has a user-managed icon, {\GWM} no
+longer updates the \verb"WM_STATE" property, so you should call
+\verb"window-wm-state-update" each time you change the state of the window
+
+The state of the window can be:
+
+\begin{tabular}{|l|c|c|}
+\hline
+\vbox{\hbox{window}\hbox{icon}} & mapped & unmapped \\
+\hline
+mapped & {\bf normal} & {\bf iconic} \\
+\hline
+unmapped & {\bf normal} & {\bf withdrawn} \\
+\hline
+\end{tabular}
+
+This state information is used by session managers and other window
+managers, for instance {\GWM} itself will re-iconify the windows that were
+previouly iconified on a restart.
+
+\ITEMa{window-wm-state-update}{updates WM\_STATE property for windows with user icon}
+
+{\usagefont\begin{verbatim}
+(window-wm-state-update)
+\end{verbatim}}\usageupspace
+
+Once you have declared that a window has a user-managed icon, you should
+update the \verb"WM_STATE" property by calling this function with the
+\verb"window" global variable set to the managed window each time the state
+of the window changes.
+
+\ITEMb{window-x}{window-y}{position of upper-left corner of window in root coordinates}
+        
+\usagetyped{Active value}{number --- not settable}
+
+These functions return the coordinates of the upper-left corner of the
+current window, including its decoration, in the root window. 
+
+\ITEMb{with}{with-eval}{local variable declaration}
+        
+{\usagefont\begin{verbatim}
+(with (var1 value1 ... varN valueN) instructions ...)
+(with context instructions ...)
+(with-eval expression instructions ...)
+\end{verbatim}}\usageupspace
+
+This is the construct used to declare and initialize variables local to a
+group of instructions. Active-values and functions are handled as expected,
+resetting their initial value after the execution of the body of the with.
+The values are evaluated sequentially.
+
+A context is a list of variables and associated values that can be re-used
+in many \verb"with" functions (see \verb"context-save").
+
+\verb"with-eval" first evaluates the expression and then uses it as a
+context, so that the two following calls are equivalent:
+
+{\exemplefont\begin{verbatim}
+        (with (a 1 b 2) c)
+        (with (+ '(a 1) '(b 2)) c)
+\end{verbatim}}
+
+Due to the structure of the {\WOOL} interpreter, \verb"with" works also with
+\verb"active-values" and functions. 
+For example the following call can be made to
+move the window ``my-window'' in the upper left corner of the screen.
+
+{\exemplefont\begin{verbatim}
+        (with (window my-window move-ul (lambda () (move-window 0 0)))
+                (move-ul))
+\end{verbatim}} 
+
+Example: {\exemplefont\upspace\begin{verbatim}
+        (setq bluegreen '(foreground green background blue))
+        (with bluegreen (pixmap-make "Bull"))
+        (with (a 2 b (+ a 1)) (print b))        ==>     3
+\end{verbatim}}
+
+\ITEMf{with-shift}
+        {with-control}
+        {with-alt}
+        {with-lock}
+        {with-modifier-N}
+        {with-button-N}{modifier states}
+        
+\usagetyped{Constants}{number}
+
+These numerical values describe what was in a ``down'' state (i.e., pressed)
+when a key or button event was sent. You can combine them with the
+\verb"together" function, for instance if you want shift {\bf and} control 
+pressed.
+
+{\bf N} can takes values 2 to 5 for modifiers and 1 to 5 for buttons, e.g.,
+the \verb"with-modifier-5" and \verb"with-button-1" variables are defined.
+
+\ITEMa{wob}{current wob}
+        
+\usagetyped{Active value}{wob id}
+
+Returns the descriptor of the current wob (i.e., the wob which received the
+event being processed) as a {\WOOL} number.  The current wob is the default for
+all wob functions.  When set, the current wob is now the wob argument.
+
+\ITEMa{wob-at-coords}{wob containing coordinates}
+
+{\usagefont\begin{verbatim}
+(wob-at-coords x y)
+\end{verbatim}}\usageupspace
+
+Returns the wob including the coordinates relative to the root. Returns () if
+coordinates were off-screen.
+
+\ITEMa{wob-background}{(solid) background color of wob}
+        
+\usagetyped{Active value}{color}
+
+Returns or sets the (solid) background color of the wob. If set, discards the
+tile of the wob (if there was one) to paint its background with a solid color.
+Works only with bars and screens.
+
+\ITEMa{wob-borderpixel}{color of border}
+        
+\usagetyped{Active value}{color or pixmap}
+
+Get or set the solid color or pixmap of the border of the current wob.
+
+\ITEMa{wob-borderwidth}{width of the border of a wob}
+        
+\usagetyped{Active value}{number}
+
+Gets or sets the width in pixels of the border of the current wob.  If it is in
+a composite wob, the father is then resized.
+
+\ITEMa{wob-cursor}{cursor displayed when pointer is in a wob}
+
+\usagetyped{Active value}{cursor}
+
+This active value allows the user to get or modify the mouse cursor which
+is displayed when the pointer is in the current wob.
+
+\ITEMa{wob-fsm}{gets or sets the fsm associated with current wob}
+        
+\usagetyped{Active value}{fsm}
+
+This active value allows the user to get or  modify the fsm associated with
+a wob.  If you set the fsm of a wob, it is placed in the initial state.
+This function is intended for debugging purposes, and its use should be
+avoided in normal operation. Try using multiple-state fsms instead of
+changing the fsm.
+
+\ITEMa{wob-invert}{quick and dirty inversion of a wob}
+        
+{\usagefont\begin{verbatim}
+(wob-invert)
+\end{verbatim}}\usageupspace
+
+Inverts the colors over the surface of the
+current wob. This is just drawn on top of everything
+else, and does not affect permanently the wob. This should only be used after
+calling \verb"grab-server" and then \verb"process-exposes"
+(Note that \verb"pop-menu" does that for you).
+This is a ``lightweight'' function to be used on transient objects.
+To invert a wob in a cleaner way, use \see{wob-tile}.
+
+The wob is inverted by using the \verb"invert-color" color (screen relative).
+This color should be choosen to be the {\bf bitwise-xor}ing of two colors
+that will be inverted by this functions, the other colors being affected
+in an unpredictable way.
+
+\ITEMa{wob-menu}{gets or sets the menu associated with current wob}
+        
+\usagetyped{Active value}{menu}
+
+This active value allows the user to get or 
+modify the menu associated with a wob.
+
+\ITEMa{wob-parent}{finds the parent of a wob}
+        
+\usagetyped{Active value}{wob id --- not settable}
+
+Returns the parent of the current wob.  Note that the parent of a pop-up is
+the wob which called the \verb"pop-menu" function. The parent of windows and
+icons is the root window itself, and the parent of a root window is {\bf nil}.
+
+\ITEMb{wob-tile}{wob-pixmap}{graphic displayed in a wob}
+        
+\usagetyped{Active value}{pixmap}
+
+Returns or sets what is the current wob's pixmap background. For the screen
+itself or a bar, this is its background tile; for a plug this is
+the pixmap around which the plug is built. If you change the size of the
+\verb"wob-tile" for a plug, it is automatically resized (but not a bar
+or a screen). \verb"wob-pixmap" is just a synonym for \verb"wob-tile"
+for backward compatibilty purposes.
+
+\ITEMb{wob-x}{wob-y}{absolute screen position in pixels of current wob}
+
+\usagetyped{Active values}{wob id --- not settable}
+
+Returns the position of the top left corner of the wob, including its border
+as absolute pixel coordinates in its screen.
+
+\ITEMa{xid-to-wob}{translates X ID to wob object}
+        
+{\usagefont\begin{verbatim}
+(xid-to-wob id)
+\end{verbatim}}\usageupspace
+
+Returns the wob whose associated X window has the X ID \verb|id|. If no wob if
+found, returns \verb|()|. The X ID is the identification of windows used by
+all standard X tools such as {\sc xwininfo}.

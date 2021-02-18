@@ -1,0 +1,39 @@
+*** /usr/proj/xtrap/xtrapcode/ext_lib.imake_r5	Mon Jul 15 07:50:34 1991
+--- /usr/proj/xtrap/X11R5/mit/extensions/lib/Imakefile	Fri May  3 15:36:10 1991
+***************
+*** 8,14 ****
+  REQUIREDLIBS = $(XLIBSRC)/libX11.a
+  #endif
+  
+! #if BuildXInputLib || BuildPexClients || BuildXTrapExt
+  #define IHaveSubdirs
+  #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+  #if BuildXInputLib
+--- 8,14 ----
+  REQUIREDLIBS = $(XLIBSRC)/libX11.a
+  #endif
+  
+! #if BuildXInputLib || BuildPexClients
+  #define IHaveSubdirs
+  #define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+  #if BuildXInputLib
+***************
+*** 17,26 ****
+  #if BuildPexClients
+        PEXDIRS = PEX
+  #endif
+! #if BuildXTrapExt
+!   XTRAPDIRS = xtrap
+! #endif
+!       SUBDIRS = $(XINPUTDIRS) $(PEXDIRS) $(XTRAPDIRS)
+  #endif
+  
+  #if HasShm
+--- 17,23 ----
+  #if BuildPexClients
+        PEXDIRS = PEX
+  #endif
+!       SUBDIRS = $(XINPUTDIRS) $(PEXDIRS)
+  #endif
+  
+  #if HasShm

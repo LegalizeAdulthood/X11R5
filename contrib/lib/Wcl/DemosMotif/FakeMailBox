@@ -1,0 +1,442 @@
+>From x-mailer@expo.lcs.mit.edu Fri Jan  4 18:16 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA20156; Fri, 4 Jan 91 18:16:20 -0800
+Received: from EXPO.LCS.MIT.EDU by mips.com (5.61.15/2.7) id AA13363; 
+	Fri, 4 Jan 91 18:15:58 -0800 
+Received: by expo.lcs.mit.edu; Fri, 4 Jan 91 21:11:13 EST
+Received: from decwrl.dec.com by expo.lcs.mit.edu; Fri, 4 Jan 91 21:11:05 EST
+Received: by decwrl.dec.com; id AA10278; Fri, 4 Jan 91 18:13:39 -0800
+Received: from baskerville.adobe.com by adobe.com (4.0/SMI-4.0)
+	id AA00804; Fri, 4 Jan 91 18:10:33 PST
+Received: by baskerville.adobe.com (5.57/Ultrix3.0-C)
+	id AA27047; Fri, 4 Jan 91 18:09:42 -0800
+Message-Id: <9101050209.AA27047@baskerville.adobe.com>
+To: fontwork@expo.lcs.mit.edu
+Cc: Paul Asente <asente@adobe.com>
+Subject: Re: How to request bitmap/outline characters
+Date: Fri, 04 Jan 91 18:09:41 PST
+From: asente@adobe.com
+Status: O
+
+From: Bob Scheifler <rws@expo.lcs.mit.edu>
+
+>    From: asente@adobe.com
+>    Essentially this is adding a new, optional "pragma set" field to the
+>    beginning of XLFD.
+>
+>The XLFD (section 3.1) says:
+>
+[Reasons you can't add a new pragma set field to the beginning of XLFD]
+
+Ok, don't think of it as part of XLFD.  It's not part of the font name
+under any circumstances; it will never be returned by ListFonts, it
+never shows up in a font name property.  It's a directive to OpenFonts,
+useful in conjunction with XLFD.
+
+This whole issue sort of sputtered out.  I'd like to get some more
+discussion going on it before the meeting at the conference.
+
+	-paul
+
+
+>From motif-talk-request@osf.org Fri Jan  4 22:52 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA22405; Fri, 4 Jan 91 22:52:06 -0800
+Received: from osf.osf.org by mips.com (5.61.15/2.7) id AA03236; 
+	Fri, 4 Jan 91 22:51:49 -0800 
+Received: by osf.osf.org (5.61/OSF 0.9)
+	id AA00623; Sat, 5 Jan 91 01:37:01 -0500
+Received: from BU-PUB.BU.EDU by osf.osf.org (5.61/OSF 0.9)
+	id AA00608; Sat, 5 Jan 91 01:36:53 -0500
+Received: by bu-pub.bu.edu (5.61+++/SMI-4.0.3)
+	id AA25240; Sat, 5 Jan 91 01:36:49 -0500
+Date: Sat, 5 Jan 91 01:36:49 -0500
+From: eap@bu-pub.bu.edu (Eric A Pearce)
+Message-Id: <9101050636.AA25240@bu-pub.bu.edu>
+To: kung32!kung@uunet.UU.NET
+Cc: motif-talk@osf.org
+In-Reply-To: Michael Kung's message of Fri, 4 Jan 91 14:43:35 CST <9101041443.AA00252@kung32.UUCP>
+Subject: Motif Contrib
+Status: O
+
+
+Actually, I think this is a real problem.
+As I understand it, we are responsible for controlling access to the
+Motif source.  This means we can't have it sitting around publicly 
+readable on all our machines.    I fully expect anything unprotected
+will be copied to non-BU machines, even though this violates our
+"ethics policy" on BU machines.  Yet, people read the documentation
+and justifiably come asking about source to the demo programs.
+I can't make everyone who is interested in learning Motif sign a
+license agreement.   I don't want to have a special Motif machine
+that only a privileged few can sign onto and I'd rather not maintain
+a list of authorized people.   It would be nice to have some public domain
+example source that I can put on each system when I install the 
+Motif libraries and header files.   We do this for other packages,
+people can just look in /usr/local/examples for programming examples.
+
+-e
+
+ Eric Pearce eap@bu-pub.bu.edu                             "Get Some!"
+ Boston University Information Technology                  - Dispatches
+
+>From motif-request@alphalpha.com Sat Jan  5 02:34 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA03072; Sat, 5 Jan 91 02:34:30 -0800
+Received: from BU.EDU by mips.com (5.61.15/2.7) id AA16890; 
+	Sat, 5 Jan 91 02:34:24 -0800 
+Received: by BU.EDU (1.99) Sat, 5 Jan 91 05:29:22 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15466; Sat, 5 Jan 91 05:04:11 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15463; Sat, 5 Jan 91 05:04:06 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA09974; Sat, 5 Jan 91 04:29:22 EST
+Received: from hplms2.hpl.hp.com by BU.EDU (1.99) Sat, 5 Jan 91 01:04:01 EST
+Received: from hplnpm.hpl.hp.com by hplms2.hpl.hp.com with SMTP
+	(16.5/15.5+IOS 3.20) id AA29496; Fri, 4 Jan 91 22:04:00 -0800
+Received: from localhost by hplnpm.hpl.hp.com with SMTP
+	(15.11/15.5+IOS 3.14) id AA04630; Fri, 4 Jan 91 22:03:58 pst
+Message-Id: <9101050603.AA04630@hplnpm.hpl.hp.com>
+To: motif@alphalpha.com
+Subject: WINTERP B.O.F. at 5th Annual Tech. Conf. on the X Window System
+Organization: Hewlett-Packard Labs, Software & Systems Lab, Palo Alto, CA.
+X-Mailer: mh6.7
+Date: Fri, 04 Jan 91 22:03:57 PST
+From: Niels P. Mayer <mayer@hplnpm.hpl.hp.com>
+Status: O
+
+
+<NOTE: Hopefully, this note hasn't appeared twice on comp.windows.x.motif.
+I sent this message to xpert@expo and motif@alphalpha.com on 12/20/90 but
+it never made it to comp.windows.x.motif (verified on an HP and non-HP
+site)>
+
+I'm posting this note to announce that there will be an informal "birds of
+a feather" session on the WINTERP OSF/Motif Widget INTERPreter at the
+upcoming 5th Annual Tech. Conf. on the X Window System.  The conference is
+happening at the Boston Marriott Copley Place in Boston, Massachusetts,
+14-16 January 1991. I figured that since I'm attending this conference, I
+might as well get together with any current or prospective WINTERP users.
+
+The BOF will be held on Tuesday, January 15 8:00 PM to 9:30 PM. For
+details, see the schedules posted at the conference.
+
+I'd like to use this session as an informal information exchange:
+	* For interested folks to find out more about WINTERP.
+	* To get input on desired features and improvements.
+	* Discuss upcoming plans for WINTERP (e.g. the real soon now
+	  WINTERP 1.1 // Motif 1.1 release)
+	* Exchange ideas on how people are using WINTERP for application 
+	  prototyping.
+	* Find out how people are using WINTERP as a platform for building
+	  customizable/extensible applications.
+	* Discuss issues: WINTERP vs. UIL, WCL, Tcl, Builders, UIMSs, etc.
+	* etc.
+
+If you are planning on attending, please reply by e-mail to
+mayer@hplabs.hp.com (or {decwrl,sun,etc}hplabs!mayer). If you want, you may
+also suggest further topics for discussion.
+
+PS: for further info on WINTERP, see the proceedings of Xhibition '90 (pls
+ignore formatting and spelling errors introduced by ICS), or see the
+proceedings of the EXUG First European X Conference (Sept 1990). 
+
+PPS: The following is a blurb introducing WINTERP and telling you how to
+get this software:
+			--------------------
+WINTERP: An object-oriented rapid prototyping, development and delivery
+environment for building user-customizable applications with the OSF/Motif
+UI Toolkit.
+------------------------------------------------------------------------------
+WINTERP is a Widget INTERPreter, an application development environment
+enabling rapid prototyping of graphical user-interfaces (GUI) through the
+interactive programmatic manipulation of user interface objects and their
+attached actions. The interpreter, based on David Betz's XLISP, provides an
+interface to the X11 toolkit Intrinsics (Xtk), the OSF/Motif widget set,
+primitives for collecting data from UN*X processes, and facilities for
+interacting with other UN*X processes. WINTERP thus supports rapid
+prototyping of GUI-based applications by allowing the user to interactively
+change both the UI appearance and application functionality. These features
+make WINTERP a good tool for learning and experimenting with the
+capabilities of the OSF/Motif UI toolkit, allowing UI designers to more
+easily play "what if" games with different interface styles.
+
+WINTERP is also an excellent platform for delivering extensible or
+customizable applications. By embedding a small, efficient language
+interpreter with UI primitives within the delivered application, users and
+system integrators can tailor the static and dynamic layout of the UI,
+UI-to-application dialogue, and application functionality. WINTERP's use of
+a real programming language for customization allows WINTERP-based
+applications to be much more flexible than applications using customization
+schemes provided by the X resource database or OSF/Motif's UIL (user
+interface language).
+
+An environment similar to WINTERP's already exists in the Gnu-Emacs text
+editor -- WINTERP was strongly influenced by Gnu-Emacs' successful design.
+In Gnu-Emacs, a mini-Lisp interpreter is used to extend the editor to
+provide text-browser style interfaces to a number of UN*X applications
+(e.g. e-mail user agents, directory browsers, debuggers, etc). Whereas
+Emacs-Lisp enables the creation of new applications by tying together
+C-implemented primitives operating on text-buffer UI objects, WINTERP-Lisp
+ties together operations on graphical UI objects implemented by the Motif
+widgets. Both achieve a high degree of customizability that is common for
+systems implemented in Lisp, while still attaining the speed of execution
+and (relatively) small size associated with C-implemented applications.
+
+Other features:
+	* WINTERP is free software -- available via anonymous ftp from
+	  expo.lcs.mit.edu:contrib/winterp/winterp-1.01.tar.Z
+	* Portable -- runs without porting on many Unix systems.	
+	* Interface to gnuemacs' lisp-mode allows code to be developed
+	  and tested without leaving the editor;
+	* Built-in RPC mechanism for inter-application communications;
+	* XLISP provides a simple Smalltalk-like object system.
+	* OSF/Motif widgets are real XLISP objects -- widgets can be
+	  specialized via subclassing, methods added or altered, etc.
+	* Automatic storage management of Motif/Xt/X data.
+	* Contains facilities for "direct manipulation" of UI components;
+
+You may obtain the current source, documentation, and examples via
+anonymous ftp from host expo.lcs.mit.edu: in directory contrib/winterp you
+will find the compress(1)'d tar(1) file winterp-1.01.tar.Z. Slides, papers
+and further documentation can be found in directory contrib/winterp/papers.
+
+There is also a mailing list for WINTERP-related announcements and
+discussions. To get added to the list, send mail to
+winterp-request%hplnpm@hplabs.hp.com or hplabs!hplnpm!winterp-request.
+
+-------------------------------------------------------------------------------
+	    Niels Mayer -- hplabs!mayer -- mayer@hplabs.hp.com
+		  Human-Computer Interaction Department
+		       Hewlett-Packard Laboratories
+			      Palo Alto, CA.
+				   *
+
+>From motif-request@alphalpha.com Sat Jan  5 02:53 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA03191; Sat, 5 Jan 91 02:53:13 -0800
+Received: from BU.EDU by mips.com (5.61.15/2.7) id AA17762; 
+	Sat, 5 Jan 91 02:53:10 -0800 
+Received: by BU.EDU (1.99) Sat, 5 Jan 91 05:26:25 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15369; Sat, 5 Jan 91 05:00:09 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15366; Sat, 5 Jan 91 05:00:04 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA09991; Sat, 5 Jan 91 04:29:45 EST
+Received: from ucbvax.Berkeley.EDU by BU.EDU (1.99) Sat, 5 Jan 91 02:24:07 EST
+Received: by ucbvax.Berkeley.EDU (5.63/1.42)
+	id AA06929; Fri, 4 Jan 91 23:16:51 -0800
+Received: from USENET by ucbvax.Berkeley.EDU with netnews
+	for motif@alphalpha.com (motif@alphalpha.com)
+	(contact usenet@ucbvax.Berkeley.EDU if you have questions)
+Date: 5 Jan 91 06:08:11 GMT
+From: shlump.nac.dec.com!riscy.enet.dec.com!fuel.dec.com!graham@decuac.dec.com  (kris graham)
+Organization: Mind Terroists
+Subject: Re: Determining children widget IDs (Summary)
+Message-Id: <1859@riscy.enet.dec.com>
+References: <1991Jan2.185621.20296@sctc.com>, <20.277b089c@idicl1.idi.battelle.org>, <21.277e1314@idicl1.idi.battelle.org>
+Sender: motif-request@alphalpha.com
+To: motif@alphalpha.com
+Status: O
+
+
+> One of the OSF/Motif 1.0 manuals had a demo program which did include
+> both, and this lead to much frustration later on when  I found out
+> that some fucntion protocols (e.g. XtScreen, XtDisplay,..) in Intrinsic.h 
+> were being redefined by
+> macro defines in IntrinsicP.h by #include-ing the former followed by the
+> latter, and this resulted in core dumps when I tried using the functions.
+
+The  XtDisplay ..etc function causing core dumps is a  behaviour ;-) 
+that was introduced with the advent of X11R4/Motif 1.1.  There are 
+some talks about incompatible specs between R3 and R4.
+  
+I noticed this  too when moving some applications from Motif 1.0.x to 1.1.
+
+Use  XtDisplayOfObject()  to get around this problem.
+
+ XtDisplayOfObject(object)  
+
+Widget object ;   /*  object whose display is to be returned */
+
+
+Christopher Graham          
+Digital Equipment Corp            
+Ultrix Resource Center                                             
+New York City
+
+Internet: graham@fuel.enet.dec.com 
+UUCP:     ...!decwrl!fuel.enet.dec.com!graham
+
+>From motif-request@alphalpha.com Sat Jan  5 03:30 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA03442; Sat, 5 Jan 91 03:30:29 -0800
+Received: from BU.EDU by mips.com (5.61.15/2.7) id AA20160; 
+	Sat, 5 Jan 91 03:30:25 -0800 
+Received: by BU.EDU (1.99) Sat, 5 Jan 91 06:28:07 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15556; Sat, 5 Jan 91 06:00:15 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15553; Sat, 5 Jan 91 06:00:10 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA10143; Sat, 5 Jan 91 05:29:06 EST
+Received: from mcsun.EU.net by BU.EDU (1.99) Sat, 5 Jan 91 04:39:51 EST
+Received: by mcsun.EU.net with SMTP; Sat, 5 Jan 91 10:39:55 +0100
+Received: from cl.cam.ac.uk by kestrel.Ukc.AC.UK   via Janet (UKC CAMEL FTP)
+           id aa08671; 5 Jan 91 9:35 GMT
+Received: from westhawk.uucp by swan.cl.cam.ac.uk via UUCP channel (PP) 
+          id <3995-0@swan.cl.cam.ac.uk>; Sat, 5 Jan 1991 09:34:44 +0000
+Received: by westhawk.uucp (4.0/SMI-3.2) id AA06851; Sat, 5 Jan 91 09:16:54 GMT
+Date: Sat, 5 Jan 91 09:16:54 GMT
+From: "Timothy H Panton." <westhawk!thp@relay.EU.net>
+Message-Id: <"swan.cl.ca.001:05.00.91.09.34.48"@cl.cam.ac.uk>
+Sender: westhawk!thp@relay.EU.net
+Apparently-To: <motif@alphalpha.com>
+Status: O
+
+
+Message-Id: <9101050916.AA06851@westhawk.uucp>
+To: motif%alphalpha.com%ukc.ac.uk@cl.cam.ac.uk
+Subject: Re:  Trying to create a widget with a 'double' or 'float' resource.
+Cc: thp@westhawk
+
+Doug Selph <cae780!digger> on the difficulty of using doubles as resources
+> And don't come responding to me that you have to pass the 
+> 'address of a double or...'
+
+Ok I won't, but many resources are passed by reference, strings, structures
+etc. It is a weakness of Xt, but there you go.
+ 
+> define my own 'DblArg' and 'AxisSetDblValues'
+
+This won't help you with the (many) other ways resources get values.
+You might as well dispense with the pretence and write a function, say
+SetAxis(widget,axis,value) .
+
+Tim.
++----------------------------------------------------------------------------+
+|Tim Panton, Westhawk Ltd.    "Do not meddle in the affairs of Wizards, for  |
+|Phone: +44 928722574         	   they are subtle and quick to anger."      |
+|Email: thp%westhawk.uucp@ukc.ac.uk       The Lord of the Rings.             |
+|Paper: Westhawk Ltd. 26 Rydal Grove, Helsby, Cheshire, WA6 OET. UK.         |
++----------------------------------------------------------------------------+
+
+>From x-mailer@expo.lcs.mit.edu Sat Jan  5 06:38 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA04589; Sat, 5 Jan 91 06:38:56 -0800
+Received: from EXPO.LCS.MIT.EDU by mips.com (5.61.15/2.7) id AA25582; 
+	Sat, 5 Jan 91 06:38:51 -0800 
+Received: by expo.lcs.mit.edu; Sat, 5 Jan 91 09:31:46 EST
+Received: from expire.lcs.mit.edu by expo.lcs.mit.edu; Sat, 5 Jan 91 09:31:42 EST
+Received: by expire.lcs.mit.edu; Sat, 5 Jan 91 09:31:40 EST
+Message-Id: <9101051431.AA15569@expire.lcs.mit.edu>
+To: fontwork@expo.lcs.mit.edu
+Subject: Re: How to request bitmap/outline characters 
+In-Reply-To: Your message of "Fri, 04 Jan 91 18:09:41 PST."
+             <9101050209.AA27047@baskerville.adobe.com> 
+Date: Sat, 05 Jan 91 09:31:37 EST
+From: Bob Scheifler <rws@expo.lcs.mit.edu>
+Status: O
+
+    To: asente@adobe.com
+    Ok, don't think of it as part of XLFD.  It's not part of the font name
+    under any circumstances; it will never be returned by ListFonts, it
+    never shows up in a font name property.  It's a directive to OpenFonts,
+    useful in conjunction with XLFD.
+
+Hmm, OK, I understand better now what the intention is.  But I think I like
+it even less.  Essentially you are introducing a loophole mechanism for making
+arbitrary semantic changes to OpenFont without going through any kind of
+real change to the X protocol.  (Of course, introducing scalable font matching
+does this too, although [I think] in a less severe way.)  It seems to me that
+if there is both an outline and a bitmap, and you really want to distinguish
+them, then they *should* have distinct names.  E.g., you really do want both
+of them to show up in a ListFonts, right?  Otherwise how do you know that
+the server supports this magic?
+
+    This whole issue sort of sputtered out.  I'd like to get some more
+    discussion going on it before the meeting at the conference.
+
+Agreed.  Jim Fulton, are you putting together an agenda for the meeting?
+
+>From motif-request@alphalpha.com Sat Jan  5 10:29 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA06221; Sat, 5 Jan 91 10:29:28 -0800
+Received: from BU.EDU by mips.com (5.61.15/2.7) id AA02393; 
+	Sat, 5 Jan 91 10:29:26 -0800 
+Received: by BU.EDU (1.99) Sat, 5 Jan 91 13:27:02 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15714; Sat, 5 Jan 91 11:59:58 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15711; Sat, 5 Jan 91 11:59:48 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA11397; Sat, 5 Jan 91 11:23:33 EST
+Received: from ucbvax.Berkeley.EDU by BU.EDU (1.99) Sat, 5 Jan 91 09:39:20 EST
+Received: by ucbvax.Berkeley.EDU (5.63/1.42)
+	id AA13431; Sat, 5 Jan 91 06:35:07 -0800
+Received: from USENET by ucbvax.Berkeley.EDU with netnews
+	for motif@alphalpha.com (motif@alphalpha.com)
+	(contact usenet@ucbvax.Berkeley.EDU if you have questions)
+Date: 4 Jan 91 19:37:14 GMT
+From: pmafire!uudell!bigtex!texsun!smunews!ti-csl!m2.csc.ti.com!jmellby@uunet.uu.net  (John Mellby)
+Organization: TI Computer Science Center, Dallas
+Subject: Restricting or "greying out" menu items
+Message-Id: <1991Jan4.193714.19947@csc.ti.com>
+Sender: motif-request@alphalpha.com
+To: motif@alphalpha.com
+Status: O
+
+
+	We want to build a menu application in X11R4/Motif 1.0.3 (soon
+to be Motif 1.1) that has the 'grey out' functionality in the menus.
+I.E. We want to build a menu, and depending upon the state of the application,
+prevent the user from selecting some of the menu items.
+	Some of this could feasibly be done through mwm, but generally
+we  can't use the f.nop of Mwm because these temporary windows aren't 
+controlled by Mwm.
+	I know how to do this through creating the menus using pushbuttons 
+when selectable and labels (in a different font) when not.  However, I don't
+want to create a new menu with different widgets each time the selectivity of
+a command changes. Could I use the same menu widget switching sub-widgets
+between displays?  How?
+	Could I work within the pushbuttons, ie change the font of the label 
+and change the callback function, then re-realize the menu on demand? This 
+seems the best solution to me at present.
+	Is there some easy way to do this I don't know about?
+
+Dave Beck
+beck@flopn2.ti.com
+ or
+John R. Mellby                       Texas Instruments
+jmellby@skvax1.ti.com                P.O.Box 869305, MS 8513
+                                     Plano,  Texas, 75086
+(214)517-5370                       (214)575-6774 (work)
+
+>From motif-request@alphalpha.com Sat Jan  5 10:30 PST 1991
+Received: from mips.com by wildcat.mips.com (5.61/Relay-2.9) 
+	id AA06233; Sat, 5 Jan 91 10:30:11 -0800
+Received: from BU.EDU by mips.com (5.61.15/2.7) id AA02406; 
+	Sat, 5 Jan 91 10:30:09 -0800 
+Received: by BU.EDU (1.99) Sat, 5 Jan 91 13:27:55 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15820; Sat, 5 Jan 91 13:00:07 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA15817; Sat, 5 Jan 91 13:00:02 EST
+Received: by alphalpha.com ( 5.52 (84)/test)
+	id AA11479; Sat, 5 Jan 91 12:20:58 EST
+From: nazgul@alphalpha.com (Kee Hinckley)
+To: jmellby@skvax1.ti.com, motif@alphalpha.com (The Motif Discussion List)
+Subject: Re: Restricting or "greying out" menu items
+In-Reply-To: <1991Jan4.193714.19947@csc.ti.com>
+References: <1991Jan4.193714.19947@csc.ti.com>
+X-Mailer: Poste
+Date: Sat, 5 Jan 91 12:20:54 -0500
+Message-Id: <910105122054.9225@alphalpha>
+Status: O
+
+> 	Is there some easy way to do this I don't know about?
+
+XtSetSensitive(widget, False);
+

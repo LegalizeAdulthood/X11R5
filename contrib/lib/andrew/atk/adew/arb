@@ -1,0 +1,6 @@
+#! /bin/csh -f
+if ($?ANDREWDIR) then
+	exec ez $1  $ANDREWDIR/lib/arbiters/Arb 
+else
+	exec ez $1  /usr/andrew/lib/arbiters/Arb 
+endif

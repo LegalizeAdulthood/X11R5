@@ -1,0 +1,90 @@
+Xmailbox is a unique way of looking at end user applications.  It is an
+instance of what I call an `application kit'.  Through the Wcl resource
+language, the end user builds what he or she considers the *coolest*
+interface for the application.
+
+(what did he say?!)
+
+Xmailbox is a very generic application, with a small set of actions built
+into it, accessable as Wcl callback functions.  It was designed to scan
+your unix mailbox file and show you sender/subject lines as they come in.
+Then when a person of interest (your boss?) sends you something, you can
+immediately go read his mail (xmailbox is not a mail reader, just a mailbox
+monitor), but if its from someone of little or no interest (comp.windows.ol)
+you can keep on doing what you were doing.
+
+But the user interface to xmailbox is not predefined for you.  You can build
+up the worlds most complex and fancy Motif widget hierarchy to represent
+the interface.  The only (!) requirement is that there is at least one
+XmText widget (can be scrolled or not) registered to xmailbox as the place
+to put lines scanned out of the mailbox file.
+
+There are four built in callbacks (they are also accessible as actions):
+
+	ClearText	- erases all text lines
+	HideMail	- unmaps the window.  new mail maps it again
+	ReScan		- rescan the mailbox file
+	AutoRaise	- toggle function, puts xmailbox into raise/lower
+			  operation instead of the default popup/popdown
+			  behavior
+
+And of course you can add more w/ the WcSystemCB callback (like running
+an xterm -e mailx command).
+
+These callbacks or actions can be bound to popup menus, push buttons,
+key sequences, choices in a list, whatever!
+
+Xmailbox can also be configured through its resources to scan other files,
+not just your mail box.  The commands used to grep through the mail box
+file are also resources, so other uses might be developed:
+
+	monitor /etc/passwd for detecting new users, print thier name and
+	home dir in the xmailbox window.
+
+	monitor /etc/hosts for identifing new machines added to the net
+	(when that Mips ECL machine comes in, you'll be the first on it!)
+
+Can you just imagine all that power?  Makes me shiver.
+
+So thats the idea behind an application kit.  Supply some base functionaility
+but allow the user to bind it to thier own interface objects.  Make input
+and output as flexible as possible, as users will find other uses for the
+functionality provided that you might not anticipate.  Through some UIL
+(in this case Wcl) let the user build an interface and bind the provided
+functions in thier own style.
+
+***** To see xmailbox in action *******
+
+This directory contains three different xmailbox interfaces that all perform
+in slightly different ways.  They were all done here at Mips:
+
+	Mike Dove	(mdove)
+	Gardner Cohen	(beldar)
+	Andrew Peebles	(peeb)
+
+To see Mr. Dove's work of art:
+
+	setenv XENVIRONMENT XMailbox.main.mdove
+	xmailbox -resources XMailbox.mdove
+
+The *main* resources are non-Wcl, xmailbox specific resources and would
+under normal circumstance go into $XAPPLRESDIR, while the XMailbox.mdove
+is the interface definition, where you might have a number of these placed
+in some special xmailbox/lib directory.
+
+You can try the other two by replacing `mdove' in the above example with
+`peeb' or `beldar'.
+
+All three examples point to a fake mail box file in this directory called
+"FakeMailBox".  To see one of the interfaces on your own mail box, use
+the -mailbox command line option to xmailbox:
+
+	xmailbox -mailbox /usr/mail/YOU -resources XMailbox.mdove
+
+The small script called UnixMB in this directory is a script I use to monitor
+a simulation log file using xmailbox.  Its an example of a use with a "mailbox"
+file other than for mail.
+
+See the xmailbox man page for more details.
+
+

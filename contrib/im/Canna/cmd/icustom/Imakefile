@@ -1,0 +1,29 @@
+#include "../../config.sh"
+
+#ifdef sun
+CC = /usr/5bin/cc
+#endif
+
+#ifdef SYSV386
+CC = cc
+#endif
+
+SYS_LIBRARIES = -lmalloc -lcurses
+
+OBJS = icustom.o  parse.o lex.o gram.o set.o wiroha.o
+SRCS = keydef.h gram.h icustom.h iroha.h mfdef.h set.h  \
+	gram.c icustom.c parse.c wiroha.c set.c lex.l gram.y
+
+all:: icustom
+
+depend:: gram.h gram.c lex.c
+gram.h gram.c:  gram.y iroha.h mfdef.h
+        yacc -d gram.y
+        mv y.tab.h gram.h
+        mv y.tab.c gram.c
+
+clean::
+        $(RM) y.tab.h y.tab.c lex.yy.c gram.h gram.c lex.c
+
+ComplexProgramTarget(icustom)
+

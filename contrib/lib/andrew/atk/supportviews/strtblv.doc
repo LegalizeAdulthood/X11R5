@@ -1,0 +1,92 @@
+\begindata{text,272811320}
+\textdsversion{12}
+\template{default}
+\define{bold
+menu:[Font~1,Bold~10]
+attr:[FontFace Bold Int Set]}
+\define{section
+menu:[Title~3,Section~21]
+attr:[Justification LeftJustified Point 0]
+attr:[Flags KeepPriorNL Int Set]
+attr:[Flags KeepNextNL Int Set]
+attr:[FontFace Bold Int Set]
+attr:[FontFamily AndySans Int 0]
+attr:[FontSize ConstantFontSize Point 14]}
+\define{fixedtext
+menu:[Region~4,Fixedtext]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{fixedindent
+menu:[Region~4,Fixedindent]
+attr:[LeftMargin LeftMargin Cm 83230]
+attr:[Justification LeftJustified Point 0]
+attr:[FontFace FixedFace Int Set]
+attr:[FontFamily AndyType Int 0]
+attr:[FontSize ConstantFontSize Point 10]}
+\define{paramname
+menu:[Font~1,Paramname]
+attr:[FontFace Italic Int Set]}
+\chapter{Stringtableview}
+
+
+
+\section{Quick reference list for Strtblview}
+
+
+
+\fixedtext{void \bold{strtblview_}Clear }\fixedindent{(struct strtblview 
+*\paramname{strtblview});} 
+
+\fixedtext{enum view_DSattributes \bold{strtblview_}DesiredSize 
+}\fixedindent{(struct strtblview *\paramname{strtblview}, long 
+\paramname{width}, long \paramname{height}, enum view_DSpass \paramname{pass}, 
+long *\paramname{desiredWidth}, long *\paramname{desiredHeight});} 
+
+\fixedtext{void \bold{strtblview_}FinalizeObject }\fixedindent{(struct 
+strtblview *\paramname{self});} 
+
+\fixedtext{void \bold{strtblview_}FullUpdate }\fixedindent{(struct strtblview 
+*\paramname{strtblview}, enum view_UpdateType \paramname{type}, long 
+\paramname{left}, long \paramname{top}, long \paramname{width}, long 
+\paramname{height});} 
+
+\fixedtext{\bold{strtblview_}GetItemHitProc }\fixedindent{(struct strtblview 
+*\paramname{strtblview});} 
+
+\fixedtext{\bold{strtblview_}GetItemHitRock }\fixedindent{(struct strtblview 
+*\paramname{strtblview});} 
+
+\fixedtext{struct view *\bold{strtblview_}Hit }\fixedindent{(struct strtblview 
+*\paramname{strtblview}, enum view_MouseAction \paramname{action}, long 
+\paramname{x}, long \paramname{y}, long \paramname{n});} 
+
+\fixedtext{boolean \bold{strtblview_}InitializeObject }\fixedindent{(struct 
+strtblview *\paramname{self});} 
+
+\fixedtext{void \bold{strtblview_}ObservedChanged }\fixedindent{(struct 
+strtblview *\paramname{strtblview}, struct stringtbl *\paramname{dobj}, long 
+\paramname{status});} 
+
+\fixedtext{void \bold{strtblview_}OneOnly }\fixedindent{(struct stringtbl 
+*\paramname{st}, struct strtblview *\paramname{stv}, char *\paramname{item});} 
+
+
+\fixedtext{void \bold{strtblview_}Print }\fixedindent{(struct strtblview 
+*\paramname{strtblview}, FILE *\paramname{file}, char *\paramname{processor}, 
+char *\paramname{finalFormat}, boolean \paramname{topLevel});} 
+
+\fixedtext{\bold{strtblview_}SetItemHitProc }\fixedindent{(struct strtblview 
+*\paramname{strtblview}, \paramname{proc}, \paramname{rock});} 
+
+\fixedtext{void \bold{strtblview_}Update }\fixedindent{(struct strtblview 
+*\paramname{strtblview});} 
+
+\fixedtext{void \bold{strtblview_}ZeroOrMany }\fixedindent{(struct stringtbl 
+*\paramname{st}, struct strtblview *\paramname{stv}, char *\paramname{item});} 
+
+
+\fixedtext{void \bold{strtblview_}ZeroOrOne }\fixedindent{(struct stringtbl 
+*\paramname{st}, struct strtblview *\paramname{stv}, char *\paramname{item});} 
+\enddata{text,272811320}

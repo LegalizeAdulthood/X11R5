@@ -1,0 +1,4 @@
+#define icon_right_bar_tile_tSC_width 5
+#define icon_right_bar_tile_tSC_height 1
+static char icon_right_bar_tile_tSC_bits[] = {
+   0x01};

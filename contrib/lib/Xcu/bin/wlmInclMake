@@ -1,0 +1,160 @@
+#!/bin/sh
+#
+# Copyright 1991 Cornell University
+#
+# Permission to use, copy, modify, and distribute this software and its
+# documentation for any purpose and without fee is hereby granted, provided
+# that the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation, and that the name of Cornell U. not be used in advertising
+# or publicity pertaining to distribution of the software without specific,
+# written prior permission.  Cornell U. makes no representations about the
+# suitability of this software for any purpose.  It is provided "as is"
+# without express or implied warranty.
+#
+# CORNELL UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+# INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+# EVENT SHALL CORNELL UNIVERSITY BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+# CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+# USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+# Author:  Gene W. Dykes, Program of Computer Graphics
+#          580 Theory Center, Cornell University, Ithaca, NY 14853
+#          (607) 255-6713   gwd@graphics.cornell.edu
+#
+
+
+# This script works for inputs of the form XidWidgetClass, where Xid
+# is the directory of the appropriate include files. (id is the prefix
+# used by the widgets of a toolkit). This is the convention for Motif
+# style widgets.
+#
+# Note that HP widgets violate intrinsics naming conventions, so
+# a special test is needed for these.  The special test is also needed
+# to include the special "Xw/Xw.h".
+#
+# Also, Athena widgets are treated specially.  They have elected not to
+# retrofit their widgets to a rational nomenclature.  All widget classes
+# that don't start with "Xid" are assumed to be Athena widgets.
+#
+# Undoubtedly, there will be other widgets that will need special treatment.
+# elif's can be added as appropriate.
+
+# if you switch to X11R4, then change the 3 to a 4 in the next line...
+
+X11R=3
+hp_present=0
+
+echo "#include <X11/Xcu/WlmP.h>"
+for i in $* ; do
+
+    # Grab the first letter.
+
+    trail=`echo $i | sed 's/.//'`
+    x=`basename $i $trail`
+
+    # Find out if it is a widget that follows toolkit nomenclature.
+    # For now, this decision is based solely on whether the class name
+    # starts with an "X".  If it doesn't, we have to assume it is an
+    # Athena widget.
+
+    if [ "$x" = "X" ] ; then
+	i=$trail
+	trail=`echo $i | sed 's/[a-z]*//'`
+	id=`basename $i $trail`
+    else
+	x=""
+
+	# YUCKO!!!
+	if [ "$i" = "AsciiString" -o "$i" = "AsciiDisk" ] ; then
+	    i=AsciiText
+	fi
+	#
+
+	trail=$i
+	if [ $X11R -eq 3 ] ; then
+	    id="11"
+	else
+	    id="aw"
+	fi
+    fi
+
+    if [ "$id" = "w" ] ; then		# test for HP widgets
+	if [ $hp_present -eq 0 ] ; then # only include this once if needed
+	    echo "#include <Xw/Xw.h>"
+	    hp_present=1
+	fi
+    # elif [ "$x" = "otherId" ] ; then	# future test for other special widgets
+    fi
+
+    # We now have the include file basename in $trail, BUT
+    # if it is longer than 9 characters we have to truncate it down.
+    # The algorithm for this is to strip off the lower case letters,
+    # a word at a time, starting with the trailing words, until the basename
+    # is 9 characters or fewer.  Example:
+    #	VeryLongWidgetName.h (too long)
+    #   VeryLongWidgetN.h (still too long)
+    #   VeryLongWN.h (still too long)
+    #   VeryLWN.h (okay now)
+    # But, when down to the last word, only strip just enough letters.
+    # Examples:
+    #   AtrociouslyLongWidgetName.h -> AtrociLWN.h
+    #   Supercallifragilistic.h -> Supercall.h
+    #
+    # Athena widgets, however, just strip down to 9 letters.
+    #
+    # I'm sure truncation could be done in the shell, too, but somehow
+    # I think it'll be quicker to do this part with a small C program.
+
+    trail=`incl_trunc $trail`
+
+    echo "#include <X11/X${id}/${trail}.h>"
+done
+
+echo ""
+echo "void"
+echo "make_tag_class_list (ww)"
+echo "    XcuWlmWidget ww ;"
+echo "{"
+echo "XcuWlmTagClassList *list = NULL ;"
+echo "XcuWlmTagClassList *save ;"
+echo ""
+
+for i in $* ; do
+    echo "save = list ;"
+    echo 'list = (XcuWlmTagClassList *) XtMalloc(sizeof (XcuWlmTagClassList)) ;'
+    echo "list->quark = XrmStringToQuark (\"$i\") ;"
+
+    trail=`echo $i | sed 's/.//'`
+    x=`basename $i $trail`
+
+    if [ "$x" = "X" ] ; then
+	x="x"
+	i=$trail
+	trail=`echo $i | sed 's/[a-z]*//'`
+	id=`basename $i $trail`
+    else
+	x=""
+	trail=`echo $i | sed 's/.//'`
+	first=`basename $i $trail`
+	first=`echo $first | tr "[A-Z]" "[a-z]"`
+	id="$first"	# Athena widgets don't prepend the ID
+			# instead, use the lowercase of the first letter
+    fi
+
+    if [ "$id" = "w" ] ; then	# test for HP violations
+	x="X"
+    fi
+
+    echo "list->class = ${x}${id}${trail}WidgetClass ;"
+    echo "list->next = save ;"
+    echo ""
+done
+
+echo "ww->wlm.tag_class_list = list ;"
+echo "return ;"
+echo "}"
+echo ""
+

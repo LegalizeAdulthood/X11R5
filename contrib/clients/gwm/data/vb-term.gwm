@@ -1,0 +1,431 @@
+; ======================================================================
+; 			XTERM WINDOW PACKAGE
+; ======================================================================
+
+(require 'vb-bar 'vb-button 'simple-ed-win)
+
+; ================================
+; Function to execute applications
+; ================================
+
+(de exec.sh (command)
+    (! "/bin/sh" "-c" command))
+
+; Context:
+;       exec.machine
+;
+(de exec.xload ()
+    (if (boundp 'exec.machine)
+	(exec.sh (+ "rx " exec.machine " xload "))
+	(? "\nexec.xload: ERROR no described exec.machine\n")))
+
+
+; Context:
+;   exec.machine
+;   exec.font-name
+; 
+(de exec.xterm ()
+    (if (boundp 'exec.machine)
+	(with (
+	       font-arg (if (boundp 'exec.font-name)
+			    (+ " -fn " exec.font-name)
+			    "")
+	      )
+	      (exec.sh (+ "rx " exec.machine " xterm -ls" font-arg)))
+	(? "\nexec.xterm: ERROR no described exec.machine\n")))
+
+; Logo plug
+; ---------
+
+(: vbterm.logo-plug
+  (with (vbterm.logo-pixmap
+      (if (boundp 'logo-pixmap) logo-pixmap
+	(boundp 'icon-pixmap) icon-pixmap
+    ))
+    (if vbterm.logo-pixmap
+	(with (
+	       background white
+	       borderwidth 1
+	       borderpixel white
+	       fsm ()
+	      )
+	      (plug-make vbterm.logo-pixmap))))
+)
+
+; plug with label dynamically changed
+; -----------------------------------
+
+(de vbterm.dynamic-plug-make ()
+    (with (
+	   context (list
+			'foreground foreground
+			'background background
+			'font font
+			'label-horizontal-margin label-horizontal-margin
+			'label-vertical-margin label-vertical-margin
+		   )
+	   property (list 'context context)
+	  )
+	  (plug-make vbterm.dynamic-default-pixmap)))
+
+(de vbterm.dynamic-plug-update (text)
+    (with-eval (# 'context wob-property)
+	(wob-tile (active-label-make text))))
+
+(setq vbterm.dynamic-default-pixmap (label-make ""))
+
+
+
+; Name plug
+; ---------
+
+(: vbterm.current-machine-fsm 
+    (fsm-make
+	(state-make
+	    (on (user-event 'machine-change)
+		(progn
+		      (vbterm.dynamic-plug-update vbterm.current-machine)
+		))
+	)))  
+
+; Context: 	(just as label-make)
+; 
+(de vbterm.current-machine-plug-make ()
+    (with (
+	   fsm vbterm.current-machine-fsm
+	  )
+	  (vbterm.dynamic-plug-make)))
+
+(setq vbterm.current-machine-small-plug
+    (with (
+	   borderwidth 1
+	   borderpixel black
+	   font small-font
+	  )
+	  (vbterm.current-machine-plug-make)))
+
+(setq vbterm.current-machine-big-plug
+    (with (
+	   borderwidth 1
+	   borderpixel black
+	   foreground black
+	   background white
+	   font name-font
+	  )
+	  (vbterm.current-machine-plug-make)))
+
+
+; Directory plug
+; --------------
+
+(: vbterm.current-directory-fsm 
+    (fsm-make
+	(state-make
+	    (on (user-event 'directory-change)
+		(progn
+		      (vbterm.dynamic-plug-update vbterm.current-directory)
+		))
+	)))  
+
+(: vbterm.current-directory-plug 
+    (with (
+	   borderwidth 1
+	   borderpixel black
+	   font small-font
+	   fsm vbterm.current-directory-fsm
+	  )
+	  (vbterm.dynamic-plug-make)))
+
+
+
+; Editable plug
+; -------------
+
+(: vbterm.edit-fsm  
+  (fsm-make 
+    (state-make
+      (on (keypress 0xff08 any)
+	(progn
+	  (wob-property 
+	    (: s (match "\\(.*\\)."
+		(wob-property) 1)))
+	  (if (= s "")
+	    (wob-property (: s " ")))
+	  (wob-tile (active-label-make s name-font))
+	  (send-user-event 'get-s (window-icon))
+      ))
+      (on (keypress 0xffff any)
+	(progn
+	  (wob-property (: s "  "))
+	  (wob-tile (active-label-make s name-font))
+	  (send-user-event 'get-s (window-icon))
+      ))
+      (on (keypress any any)
+	(progn
+	  (wob-property 
+	    (: s (+ (wob-property) (last-key))))
+	  (wob-tile (active-label-make s name-font))
+	  (send-user-event 'get-s (window-icon))
+      ))
+      (on (user-event 'initialize) 
+	(progn
+	  (wob-property (: s window-name))
+	  (wob-tile (active-label-make s name-font))
+	  (send-user-event 'get-s (window-icon))
+      ))
+      (on (user-event 'name-change) 
+	(progn
+	  (wob-property (: s window-name))
+	  (wob-tile (active-label-make s name-font))
+	  (send-user-event 'get-s (window-icon))
+      ))
+      (on enter-window (set-focus ()))
+      (on leave-window (set-focus))
+      standard-title-behavior
+      standard-behavior
+)))
+
+
+;(: vbterm.editable-plug2
+;    ''(with (
+;	     borderwidth 1 
+;	     background white 
+;	     font name-font
+;	     property window-name 
+;	     fsm vbterm.edit-fsm)
+;	    (plug-make (label-make window-name))))
+
+(: vbterm.editable-plug2
+    (with (
+	   borderwidth 1 
+	   background white 
+	   font name-font
+	   property "foo" ;window-name 
+	   fsm vbterm.edit-fsm)
+	  (plug-make (label-make ""))))
+
+
+
+; Window fsm
+; ----------
+
+(de vbterm.get-current-directory ()
+    (with (name window-name)
+	  (if (match ".*:.*" name)
+	      (with (res (match "\\([^:]*:\\)\\(.*\\)" name 2))
+		    (if res res " "))
+	      " ")))
+
+(de vbterm.get-current-machine ()
+    (match "\\([^:]*\\)" window-name 1))
+
+
+(de vbterm.notify-name-change ()
+    (setq vbterm.current-directory (vbterm.get-current-directory))
+    (send-user-event 'directory-change)
+    
+    (setq vbterm.current-machine (vbterm.get-current-machine))
+    (send-user-event 'machine-change)
+    
+    ;  (set-x-property "WM_ICON_NAME" (vbterm.get-current-machine))
+    (setq xterm.icon-name (vbterm.get-current-machine))
+    (send-user-event 'icon-name-change (window-icon))
+)  
+
+(setq xterm-behavior
+    (state-make
+	(on (user-event 'name-change) (vbterm.notify-name-change))
+	(on (user-event 'initialize)  (vbterm.notify-name-change))
+    ))
+
+
+
+(if (and (boundp 'emacs-mouse-loaded) emacs-mouse-loaded)
+  (progn 
+    (: vbterm.sed-window-fsm 
+      (fsm-make 
+	(state-make
+	  (on focus-in 
+	    (progn
+	      (if autoraise (raise-window))
+	      (send-user-event 'focus-in)
+	      (wob-borderpixel black)))
+	  (on focus-out 
+	    (progn (send-user-event 'focus-out)
+	      (wob-borderpixel white)))
+	  (on (button 1 with-shift) (emacs-click 1))
+	  (on (button 2 with-shift) (emacs-click 2))
+	  (on (buttonpress 3 with-shift) (pop-menu emacs-pop))
+	  xterm-behavior
+	  window-behavior
+	  standard-behavior
+    )))
+    (: vbterm.inner-grabs (list (button any with-shift)))
+  )
+  (progn
+    (: vbterm.sed-window-fsm 
+      (fsm-make 
+	(state-make 
+	  (on focus-in 
+	    (progn
+	      (if autoraise (raise-window))
+	      (send-user-event 'focus-in)
+	      (wob-borderpixel black)))
+	  (on focus-out 
+	    (progn (send-user-event 'focus-out)
+	      (wob-borderpixel white)))
+	  xterm-behavior
+	  window-behavior
+	  standard-behavior
+    )))
+    (: vbterm.inner-grabs ())))
+
+
+
+
+; Some examples of bar context variable:
+; -------------------------------------
+; 
+;	   bar-min-width 20
+;	   bar-max-width 20
+;	   bar.focus-sensitive ()
+;	   bar.borderwidth 5
+;	   borderpixel black
+;	   bar.thickness 24
+;	   bar.thickness 30
+;	   bar.size-adjust-on 'pixmap
+;	   bar.appearance-make bar.color-appearance-make
+;	   bar.normal-color foreground
+;	   bar.active-color background
+;	  font (font-make "screen.r.7")
+;	  normal-pixmap0 (label-make "1")
+;	  normal-pixmap1 (label-make "gwm")
+;	  normal-pixmap2 (label-make "2")
+;	  active-pixmap0 ()
+;	  active-pixmap1 ()
+;	  active-pixmap2 ()
+;	  dummy (with (
+;		       tmp foreground
+;		       foreground background
+;		       background tmp
+;		      )
+;		  (setq active-pixmap0 (label-make "1"))
+;		  (setq active-pixmap1 (label-make "gwm"))
+;		  (setq active-pixmap2 (label-make "2")))
+;	  bar.normal-pixmap-list (list 
+;				   normal-pixmap0 
+;				   normal-pixmap1
+;				   normal-pixmap2)
+;	  bar.active-pixmap-list (list 
+;				   active-pixmap0 
+;				   active-pixmap1
+;				   active-pixmap2)
+;	  bar.appearance-make bar.pixmap-appearance-make
+;	  bar.appearance-make bar.3-pixmaps-appearance-make
+;	  bar.appearance-make bar.3-pixmap-files-appearance-make
+;	  bar.active-pixmap-file-name "barA"
+;	  bar.plugs (+ my-buttons (list vbterm.editable-plug2)); OK
+; 	  property '(a 3)
+;	  bar.normal-pixmap-file-name "barN"
+;	  bar.active-pixmap-file-name "barGWM"
+;	  bar.normal-pixmap-file-name "closeStore"
+;	  bar.active-pixmap-file-name "barN"
+;	   borderwidth 1 
+;	   fsm vbterm.titlebar-fsm
+;	   borderpixel black
+;	   bar-min-width 16 bar-max-width 26
+;          bar.normal-pixmap-file-name "barN"
+;          bar.active-pixmap-file-name "barA2"
+
+
+
+; Bars definition
+; ---------------
+
+(de resize-0 ()
+    (with (
+	   button.action '(window-size '(80 66))
+	   button.stencil-label "66"
+	  )
+          (button.make)))
+
+(de resize-1 ()
+    (with (
+	   button.action '(window-size '(80 58))
+	   button.stencil-label "58"
+	  )
+          (button.make)))
+
+(de resize-2 ()
+    (with (
+	   button.action '(window-size '(80 30))
+	   button.stencil-label "30"
+	  )
+          (button.make)))
+
+(de vbterm.title-bar-make ()
+  (with (
+      bar.appearance-make bar.3-paxmap-files-appearance-make
+      bar.normal-pixmap-file-name "barA2"
+      bar.focus-sensitive ()
+      plug-separator 10
+      button.minimum-width 24
+      button.minimum-height 24
+      background grey
+      bar.plugs (list 
+	vbterm.logo-plug
+	(button.iconify)
+	(button.kill)
+	(button.lower)
+	(button.raise)
+	(button.xload)
+	(with (button.mode 'english) (button.xterm))
+	(resize-0)
+	(resize-1)
+	(resize-2)
+	()
+	(with (background white) vbterm.current-machine-big-plug)
+      )
+    )
+    (bar.make)))
+
+(de vbterm.bottom-bar-make ()    
+    (with (
+	   bar.appearance-make bar.3-paxmap-files-appearance-make
+	   bar.normal-pixmap-file-name "barA2"
+	   bar.focus-sensitive ()
+	   bar.plugs (list
+			  vbterm.current-machine-small-plug
+			  vbterm.current-directory-plug
+		     )
+	  )
+	  (bar.make)))))))
+	 
+(setq vbterm.colored-bar
+    (with (
+	   bar.borderwidth 1
+	   bar-min-width 4
+	   bar.normal-color background
+	   bar.active-color foreground
+	  )
+	  (bar.make)))
+	 
+    
+
+(de vb-term ()
+    (with (
+           opening (+ opening '((send-user-event 'initialize)))
+	   inner-borderwidth (default vbterm.borderwidth 0)
+	   fsm vbterm.sed-window-fsm 
+	   borderwidth (default vbterm.borderwidth 0)
+	   borderpixel white
+	   grabs (+ grabs vbterm.inner-grabs)
+	   my-deco (window-make 
+		   (vbterm.title-bar-make)
+		   vbterm.colored-bar 
+		   vbterm.colored-bar
+		   (vbterm.bottom-bar-make)
+		   ()))
+      my-deco))
+
+	

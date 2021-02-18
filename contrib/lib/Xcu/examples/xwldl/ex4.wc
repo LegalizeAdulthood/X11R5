@@ -1,0 +1,44 @@
+#WLDL
+3
+
+6 XcuWlm
+10
+6 shadow 5 (False) 6 Global
+16 brightFacetColor 14 (LightSteelBlue) 6 Global
+13 dimFacetColor 9 (SteelBlue) 6 Global
+16 Label.background 5 (wheat) 6 Global
+20 Label.internalHeight 2 (10) 6 Global
+19 Label.internalWidth 2 (10) 6 Global
+18 Command.background 5 (wheat) 6 Global
+22 Command.internalHeight 2 (10) 6 Global
+21 Command.internalWidth 2 (10) 6 Global
+6 shadow 5 (False) 6 Global
+0
+0
+1
+
+  6 XcuTbl
+  0
+  0
+  0
+  2
+
+    8 XcuLabel
+    1
+    4 name 6 (Target) 5 Local
+    0
+    0
+    0
+
+    10 XcuCommand
+    1
+    4 name 3 (Xcu) 5 Local
+    2
+    8 callback 8 XcuLabel 6 Target 1 11 XtSetValues
+     3 Int 1 (0) 0 2 == 0 :
+    8 XcuLabel 6 (Target) 5 label 4 (Pink)
+    8 callback 8 XcuLabel 6 Target 1 11 XtSetValues
+     3 Int 1 (0) 0 2 == 0 :
+    8 XcuLabel 6 (Target) 10 background 4 (Pink)
+    0
+    0

@@ -1,0 +1,45 @@
+XCOMM $XConsortium: Imakefile,v 2.22 91/07/22 13:56:17 converse Exp $
+      DEPXAWLIB = $(CONTRIBSRC)/lib/Xaw/libXaw.a
+         XAWLIB = $(DEPXAWLIB)
+   DEPXWCHARLIB = $(CONTRIBSRC)/lib/Xwchar/libXwchar.a
+      XWCHARLIB = $(DEPXWCHARLIB)
+        DEFINES = -DXI18N
+
+LINKS = Xmh.ad Xmh.sample actions.h bbox.c bbox.h bboxint.h command.c \
+	compfuncs.c externs.h folder.c globals.h init.c \
+	menu.c miscfuncs.c mlist.c mlist.h msg.h \
+	pick.c popup.c screen.c toc.h tocfuncs.c \
+	tocutil.h tsource.h tsourceP.h util.c viewfuncs.c \
+	xmh.man black6 box6
+	
+        DEPLIBS = $(DEPXAWLIB) $(DEPXWCHARLIB) $(DEPXMULIB) $(DEPXTOOLLIB) \
+		$(DEPXLIB)
+LOCAL_LIBRARIES = $(XAWLIB) $(XWCHARLIB) $(XMULIB) $(XTOOLLIB) $(XLIB)
+
+    XMH_BITMAPS = black6 box6
+           SRCS = bbox.c command.c compfuncs.c folder.c init.c main.c \
+		  menu.c mlist.c msg.c pick.c popup.c screen.c toc.c \
+		  tocfuncs.c tocutil.c tsource.c util.c viewfuncs.c \
+                  miscfuncs.c
+           OBJS = bbox.o command.o compfuncs.o folder.o init.o main.o \
+		  menu.o mlist.o msg.o pick.o popup.o screen.o toc.o \
+		  tocfuncs.o tocutil.o tsource.o util.o viewfuncs.o \
+                  miscfuncs.o
+
+
+ComplexProgramTarget(xmh)
+BuildIncludes($(XMH_BITMAPS),bitmaps,..)
+InstallAppDefaults(Xmh)
+INSTALLFLAGS = $(INSTINCFLAGS)
+InstallMultiple($(XMH_BITMAPS),$(INCDIR)/bitmaps)
+
+install::
+	MakeDir($(LIBDIR)/ja_JP.ujis/app-defaults)
+	$(INSTALL) -c $(INSTAPPFLAGS) Xmh-uj.ad $(LIBDIR)/ja_JP.ujis/app-defaults/Xmh
+
+includes::
+	$(RM) $(LINKS)
+	for i in $(LINKS); do (set -x; $(LN) $(CLIENTSRC)/xmh/$$i .); done
+
+clean::
+	$(RM) $(LINKS)

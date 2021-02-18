@@ -1,0 +1,60 @@
+.TH HELLO_XCMS 1 "Release 5" "X Version 11"
+.SH NAME
+hello_xcms - The client to display "Hello Xcms"
+.SH SYNOPSIS
+.B "hello_xcms"
+[\fI-toolkitoption\fP...]
+.SH DESCRIPTION
+The \fIhello_xcms\fP program merely displays the numbers 1 and 2 and
+Hello Xcms each in their own window within its display window.  The
+program demonstrates some of the functionality of a cooperating 
+client.  The windows displaying the numbers and the Hello Xcms will
+change their foreground and background colors when a color change
+request is initiated by another client, such as the TekColor (TM) Editor
+(xtici).
+.SH OPTIONS
+The program accepts all the standard X Toolkit command line options,
+of which the following are used most often:
+.TP 8
+.B \-display \fR[\fIhostname:number.screen_number\fP]
+This option specifies the display to use; see \fIX(1)\fP.
+.TP 8
+.B \-bg \fIcolor\fP
+This option specifies the color to use for the default background of the
+window.  The default background is \fIwhite\fP.  The background color
+of each window within the main window can be set either with
+the X Defaults or with the -xrm option.
+.TP 8
+.B \-bd \fIcolor\fP
+This option specifies the color to use for the border of the window.  The
+default is \fIblack\fP.
+.TP 8
+.B \-fg \fIcolor\fP
+This option specifies the color to use for the default foreground of the
+window.  The default foreground is \fIblack\fP.  The foreground color
+of each window within the main window can be set either with
+the X Defaults or with the -xrm option.
+.TP 8
+.B \-rv
+This option specifies that reverse video should be simulated by reversing
+the foreground and background colors.
+.TP 8
+.B \-geometry \fIgeometry\fP
+This option specifies the preferred size and position for the main window.
+.TP 8
+.B \-xrm \fIresourcestring\fP
+This option specifies a resource string to be used.  This is especially
+useful for setting the resources that do not have their own command
+line options.
+.SH X DEFAULTS
+This program uses the Form and Label widgets from the Athena Widget Set.
+It should understand all the core resource names and classes for the X Toolkit
+along with the resource names and classes of these two widgets.  
+.SH ENVIRONMENT
+.TP 8
+.B DISPLAY
+To get the default host and display number.
+.SH "SEE ALSO"
+\fIX(1x11), xrdb(1x11), xtici(1x11)\fP InterClient Communication Convention Manual
+.SH AUTHOR
+Chuck Adams (Tektronix, Inc)

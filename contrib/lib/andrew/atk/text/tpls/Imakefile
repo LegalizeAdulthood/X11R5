@@ -1,0 +1,22 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+CMUTEMPLATES = iletter.tpl \
+	vdoc.tpl
+
+TEMPLATEFILES = scribe.tpl \
+	default.tpl \
+	help.tpl \
+	hlp.tpl \
+	letter.tpl \
+	man.tpl \
+	memo.tpl \
+	template.tpl \
+	be2guide.tpl
+
+InstallMultiple(${TEMPLATEFILES}, ${INSTINCFLAGS}, ${DESTDIR}/lib/tpls)
+
+#ifdef CMU_ENV
+InstallMultiple(${CMUTEMPLATES}, ${INSTINCFLAGS}, ${DESTDIR}/lib/tpls)
+#endif /* CMU_ENV */

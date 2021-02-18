@@ -1,0 +1,9 @@
+MANLIST = Bmgr.man BmgrR.man Button.man Command.man Deck.man Entry.man \
+	  FloatR.man GravityR.man JustifyR.man Label.man Rc.man Simple.man \
+	  Tbl.man Wlm.man
+
+AllTarget()
+
+InstallMultipleMan($(MANLIST),$(LIBMANDIR))
+
+DependTarget()

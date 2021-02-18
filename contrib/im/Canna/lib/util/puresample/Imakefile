@@ -1,0 +1,8 @@
+       IROHAROOT = ../../..
+            SRCS = puresample.c
+            OBJS = puresample.o
+
+        LIBIROHA = $(IROHAROOT)/lib/iroha/libiroha.a
+ LOCAL_LIBRARIES = $(LIBIROHA)
+
+ComplexProgramTarget(puresample)

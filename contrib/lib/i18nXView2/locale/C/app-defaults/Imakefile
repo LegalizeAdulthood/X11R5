@@ -1,0 +1,14 @@
+INSTALLFLAGS = $(INSTDATFLAGS)
+
+LCFILES = olwm
+
+all::
+
+depend::
+
+install::
+	LibMkdir($(LIBDIR)/lib)
+	LibMkdir($(LIBDIR)/lib/locale)
+	LibMkdir($(LIBDIR)/lib/locale/C)
+
+InstallMultiple($(LCFILES),$(LIBDIR)/lib/locale/C/app-defaults)

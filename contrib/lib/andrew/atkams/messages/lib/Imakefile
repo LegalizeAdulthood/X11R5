@@ -1,0 +1,81 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif
+
+LOCALINCLUDES	= -I${BASEDIR}/include/ams
+
+#ifdef SNAP_ENV
+    S_DOBJS	=	amss.do
+    S_IHFILES	=	amss.ih
+#endif /* SNAP_ENV */
+
+OBJS = 		stubs.o capaux.o foldaux.o sendaux.o messaux.o
+
+DOBJS = 		text822.do amsutil.do ams.do amsn.do ${S_DOBJS} \
+			fldtreev.do messages.do captions.do msgsa.do  \
+			sendmsg.do folders.do text822v.do options.do \
+			messwind.do nbutterv.do
+
+IHFILES =		captions.ih \
+			folders.ih \
+			fldtreev.ih \
+			messages.ih \
+			msgsa.ih \
+			sendmsg.ih \
+			text822.ih \
+			text822v.ih \
+			amsutil.ih \
+			ams.ih \
+			options.ih \
+			messwind.ih \
+			nbutterv.ih \
+			amsn.ih ${S_IHFILES}
+
+LIBS = 		${BASEDIR}/lib/libmsshr.a \
+			${BASEDIR}/lib/libmail.a ${BASEDIR}/lib/liberrors.a \
+			${UTILLIB}
+
+
+SLIBS	=		${BASEDIR}/lib/libcui.a ${BASEDIR}/lib/libcuis.a \
+			${BASEDIR}/lib/libsnap.a ${BASEDIR}/lib/librxp.a ${LIBS}
+
+NLIBS =		${BASEDIR}/lib/libcui.a ${BASEDIR}/lib/libcuin.a \
+			${BASEDIR}/lib/libmssrv.a \
+			${BASEDIR}/lib/libeli.a ${BASEDIR}/lib/librxp.a \
+			${LIBS} ${PRSLIB}
+
+NormalObjectRule()
+NormalATKRule()
+DynamicObject(msgsa,,)
+DynamicMultiObject(captions.do, captions.o capaux.o,,${SUPLIBS} ${NETLIBS})
+DynamicMultiObject(folders.do, folders.o foldaux.o,,${SUPLIBS})
+DynamicMultiObject(sendmsg.do, sendmsg.o sendaux.o,,${SUPLIBS})
+DynamicMultiObject(messages.do, messages.o messaux.o,,)
+DynamicObject(text822,,)
+DynamicObject(text822v,,)
+DynamicObject(amsutil, ${LIBS},${NETLIBS} ${BSDLIB})
+DynamicObject(ams, ${UTILLIB},)
+DynamicObject(options,,)
+DynamicObject(messwind,,)
+#if defined(USE_MMDF_ENV) || defined(USE_MLD_ENV)
+DynamicMultiObject(amsn.do, amsn.o stubs.o, ${NLIBS},${NETLIBS} ${SUPLIBS} ${MMDFLIBS})
+#else
+DynamicMultiObject(amsn.do, amsn.o stubs.o, ${NLIBS},${SUPLIBS} ${NETLIBS} ${BSDLIB})
+#endif
+
+#ifdef SNAP_ENV
+#if defined(USE_MMDF_ENV) || defined(USE_MLD_ENV)
+DynamicMultiObject(amss.do, amss.o stubs.o, ${SLIBS},${NETLIBS} ${SUPLIBS} ${MMDFLIBS} ${BSDLIB})
+#else
+DynamicMultiObject(amss.do, amss.o stubs.o, ${SLIBS},${NETLIBS} ${SUPLIBS} ${BSDLIB})
+#endif
+#endif /* SNAP_ENV */
+
+DependTarget()
+
+InstallClassFiles($(DOBJS),$(IHFILES))
+

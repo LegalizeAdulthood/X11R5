@@ -1,0 +1,7 @@
+.MAKE_VERSION:	VERSION-1.0
+install_bins:	0@install_bins 
+install_subdir_info:	0@install_subdir_info 
+lint:	0@lint 1@lint 
+gprof:	0@gprof 
+clean:	0@clean 
+all:	0@all 

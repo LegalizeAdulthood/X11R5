@@ -1,0 +1,44 @@
+/* ********************************************************************** *\
+ *         Copyright IBM Corporation 1988,1991 - All Rights Reserved      *
+ *        For full copyright information see:'andrew/config/COPYRITE'     *
+\* ********************************************************************** */
+#ifdef _IBMR2
+BSDLIB = -lbsd
+#endif 
+
+DOBJS = frame.do \
+	framecmd.do \
+	framemsg.do \
+	framev.do \
+	helptxtv.do 
+
+IHFILES = frame.ih \
+	framecmd.ih \
+	framemsg.ih \
+	framev.ih \
+	helptxtv.ih
+
+OBJS =  frame.o \
+	framecmd.o \
+	framemsg.o \
+	framev.o \
+	helptxtv.o 
+
+
+NormalObjectRule()
+NormalATKRule()
+
+DynamicObject(framecmd, ${UTILLIB}, ${BSDLIB})
+InstallClassFiles($(DOBJS),$(IHFILES))
+
+LibraryTarget(libframe.a, $(OBJS))
+InstallLibrary(libframe.a, ${DESTDIR}/lib/atk)
+
+DependTarget()
+
+NormalHelpRule()
+InstallDocs(frmproc.help, ${DESTDIR}/help)
+InstallHelpAlias(frmproc,  frameproc frameprocs)
+
+MkdirTarget(${DESTDIR}/doc/atk/frame)
+InstallDocs(frame.doc framemsg.doc framev.doc framecmd.doc helptxtv.doc,${DESTDIR}/doc/atk/frame)

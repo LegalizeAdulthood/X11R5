@@ -1,0 +1,89 @@
+;
+; $Id: uumkey,v 1.1 1991/09/09 22:38:54 ohm Exp $
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+; uum 用 キーバインド表 :
+;	key bind table  :
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;	Version 4.0
+;
+;
+
+; Commands			Codes
+
+forward_char			^F 0x90
+backward_char			^B 0x91
+goto_top_of_line		^A 0x9A
+goto_end_of_line		^E 0x9B
+delete_char_at_cursor		^D 0x8B
+kaijo				^K 0x99
+henkan				^W 0x9E
+kana_henkan			^C
+;romaji_henkan			^R
+nobi_henkan_dai			^W 0x9E
+;romaji_nobi_henkan		^R
+select_jikouho_dai		^W 0x9C 0x9E
+select_jikouho			^Z
+nobi_henkan			^Z
+tan_henkan			^Z
+jikouho_dai			^N 0x92 
+zenkouho_dai			^P 0x93
+
+kill				^K 0x99
+yank				^Y
+bunsetu_nobasi			^O 0x94
+bunsetu_chijime			^I 0x8D
+jisho_utility			^^
+jisho_utility_e			0x84 0x96 
+kakutei				^L 0x9F
+sainyuuryoku			^U
+sainyuuryoku_e			0x8C
+kuten				^]
+kuten_e				0x97
+jis				^_
+jis_e				0x98
+redraw_line			^R
+touroku				^T
+touroku_e			0x95
+touroku_mark_set		32 ^J ^M 0x9E 0x9F
+touroku_return			^J ^M
+touroku_jump_forward		^N 0x92
+touroku_jump_backward		^P 0x93
+quit				^G 0x9C
+;henkan_on			^@
+henkan_on			^\
+quote				^V
+previous_history		^P
+previous_history_e		0x93
+next_history			^N
+next_history_e			0x92
+send_string			^M ^J ^[
+change_to_insert_mode		^C
+
+; only for test
+;send_ascii_char		^Z
+;not_send_ascii_char		^\
+;toggle_send_ascii_char		^Q
+;pop_send_ascii_char		^S
+
+select_select			32 ^J ^M 0x9E 0x9F
+lineend_select			^E 0x9B
+linestart_select		^A 0x9A
+previous_select			^P 0x93
+next_select			^N 0x92
+backward_select			^B 0x91
+forward_select			^F 0x90
+
+inspect				^V
+del_entry			^D
+use_entry			^U
+com_entry			^C
+;reconnect_jserver		0x85
+
+;
+; Local Variables:
+; kanji-flag: t
+; kanji-fileio-code: 0
+; End:
+;
